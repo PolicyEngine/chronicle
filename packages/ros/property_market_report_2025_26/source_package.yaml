@@ -1,0 +1,2573 @@
+# Registers of Scotland, Property Market Report 2025-26 data tables (last updated 9 June
+# 2026,
+# https://www.ros.gov.uk/data-and-statistics/property-market-statistics/property-market-report),
+# tables 9 and 10, for PolicyEngine/chronicle#420 item 13
+# (PolicyEngine/uk-scottish-budget-2027-28#5; PolicyEngine/microcosm#1112), asked in
+# PolicyEngine/chronicle#435. Written by scripts/build_uk_ros_high_value_sales_package.py
+# from the pinned workbook. The RoS site answers scripted requests with HTTP 403; María
+# downloaded the workbook in a browser on 10 November 2026, and the manifest keeps the
+# link it recorded.
+#
+# Ported: the volume (table 9) and value (table 10, '£million', scaled to pounds) of
+# residential property sales of more than £1 million, for Scotland and each local
+# authority the tables list, in each financial year 2023-24, 2024-25 and 2025-26.
+# Scotland's volumes are 403, 391 and 392. The price band is the filter house_price_band
+# over_1m with the constraint sale_price > £1,000,000, on concepts
+# ros.residential_property_sales and ros.residential_property_sales_value. These are
+# sales, a flow over the year, not the stock of homes worth more than £1 million; 'Only
+# true market residential sales are included' (Metadata sheet).
+#
+# The tables list 27 of the 32 council areas, with the publisher's own codes; they print
+# no row for Na h-Eileanan Siar, North Lanarkshire, Orkney Islands, Shetland Islands or
+# West Dunbartonshire. The 27 add to Scotland in every ported year (the generator asserts
+# it), so those five had no such sales in these years. Table 9's Scotland row equals table
+# 8's price band 'J - over £1,000,000' in every ported year; that J is RoS's own price
+# band letter, not a council tax band.
+#
+# Not ported: the years before 2023-24, not asked in PolicyEngine/chronicle#420; table
+# 11's top postal districts; and the rest of the report. RoS publishes no split above £2
+# million, which PolicyEngine/chronicle#420 also asks for: that needs an ad hoc table from
+# RoS. 168 facts.
+schema_version: ledger.source_package.v1
+package_id: ros-property-market-report-2025-26
+label: 'Registers of Scotland Property Market Report 2025-26: residential sales of more than £1 million
+  by local authority, volume and value, 2023-24 to 2025-26'
+dimension_labels:
+  geography: Geography
+  house_price_band: House price band
+dimension_value_labels:
+  house_price_band:
+    over_1m: More than £1 million
+artifact:
+  source_name: ros
+  source_table: Property Market Report 2025-26 data tables 9 and 10
+  resource_package: db
+  resource_directory: data/ros/property_market_report_2025_26
+  manifest: manifest.yaml
+  vintage: property_market_report_2025_26_2026_06_09
+  extracted_at: '2026-11-10'
+  extraction_method: xlsx used-range cell parse (Online-data-tables-Property-Market-Report-2025-2026.xlsx)
+  parser: xlsx_used_range
+  sheets:
+  - '9'
+  - '10'
+  sheet_name: '9'
+  artifact_year: 2026
+record_sets:
+- record_set_id: ros.pmr_2025_26.residential_property_sales_over_1m.fy2023
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: ros.pmr.residential_property_sales_over_1m.v1
+  source_record_id_prefix: ros.pmr_2025_26.residential_property_sales_over_1m.fy2023
+  sheet_name: '9'
+  period_type: fiscal_year
+  period: 2023
+  period_coverage:
+    start_date: '2023-04-01'
+    end_date: '2024-03-31'
+    basis: fiscal
+    source_period_label: 2023-24
+    notes: Sales in the financial year, a flow of transactions, not the stock of homes worth more than
+      £1 million; period.value stores the opening year.
+  geography_id: S92000003
+  geography_level: country
+  geography_name: Scotland
+  geography_vintage: current
+  entity: dwelling
+  entity_role: residential_property_sale
+  domain: residential_property_transactions
+  groupby_dimension: geography
+  shared_filters:
+    house_price_band: over_1m
+  shared_constraints:
+  - {variable: house_price_band, operator: ==, value: over_1m, label: House price band}
+  - {variable: sale_price, operator: '>', value: 1000000, unit: gbp, label: Sale price}
+  rows:
+  - value_id: s12000033
+    label: Aberdeen City
+    ordinal: 0
+    row_number: 7
+    expected_row_header_column: B
+    expected_row_header: Aberdeen City
+    geography_id: S12000033
+    geography_level: local_authority
+    geography_name: Aberdeen City
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000033, label: local authority code}
+    - {column: B, row: 5, expected_value: 'Table 9 - Volume of residential property sales more than £1
+        million, by local authority, 2003-04 to 2025-26', label: table title}
+  - value_id: s12000034
+    label: Aberdeenshire
+    ordinal: 1
+    row_number: 8
+    expected_row_header_column: B
+    expected_row_header: Aberdeenshire
+    geography_id: S12000034
+    geography_level: local_authority
+    geography_name: Aberdeenshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000034, label: local authority code}
+  - value_id: s12000041
+    label: Angus
+    ordinal: 2
+    row_number: 9
+    expected_row_header_column: B
+    expected_row_header: Angus
+    geography_id: S12000041
+    geography_level: local_authority
+    geography_name: Angus
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000041, label: local authority code}
+  - value_id: s12000035
+    label: Argyll and Bute
+    ordinal: 3
+    row_number: 10
+    expected_row_header_column: B
+    expected_row_header: Argyll and Bute
+    geography_id: S12000035
+    geography_level: local_authority
+    geography_name: Argyll and Bute
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000035, label: local authority code}
+  - value_id: s12000036
+    label: City of Edinburgh
+    ordinal: 4
+    row_number: 11
+    expected_row_header_column: B
+    expected_row_header: City of Edinburgh
+    geography_id: S12000036
+    geography_level: local_authority
+    geography_name: City of Edinburgh
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000036, label: local authority code}
+  - value_id: s12000005
+    label: Clackmannanshire
+    ordinal: 5
+    row_number: 12
+    expected_row_header_column: B
+    expected_row_header: Clackmannanshire
+    geography_id: S12000005
+    geography_level: local_authority
+    geography_name: Clackmannanshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000005, label: local authority code}
+  - value_id: s12000006
+    label: Dumfries and Galloway
+    ordinal: 6
+    row_number: 13
+    expected_row_header_column: B
+    expected_row_header: Dumfries and Galloway
+    geography_id: S12000006
+    geography_level: local_authority
+    geography_name: Dumfries and Galloway
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000006, label: local authority code}
+  - value_id: s12000042
+    label: Dundee City
+    ordinal: 7
+    row_number: 14
+    expected_row_header_column: B
+    expected_row_header: Dundee City
+    geography_id: S12000042
+    geography_level: local_authority
+    geography_name: Dundee City
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000042, label: local authority code}
+  - value_id: s12000008
+    label: East Ayrshire
+    ordinal: 8
+    row_number: 15
+    expected_row_header_column: B
+    expected_row_header: East Ayrshire
+    geography_id: S12000008
+    geography_level: local_authority
+    geography_name: East Ayrshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000008, label: local authority code}
+  - value_id: s12000045
+    label: East Dunbartonshire
+    ordinal: 9
+    row_number: 16
+    expected_row_header_column: B
+    expected_row_header: East Dunbartonshire
+    geography_id: S12000045
+    geography_level: local_authority
+    geography_name: East Dunbartonshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000045, label: local authority code}
+  - value_id: s12000010
+    label: East Lothian
+    ordinal: 10
+    row_number: 17
+    expected_row_header_column: B
+    expected_row_header: East Lothian
+    geography_id: S12000010
+    geography_level: local_authority
+    geography_name: East Lothian
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000010, label: local authority code}
+  - value_id: s12000011
+    label: East Renfrewshire
+    ordinal: 11
+    row_number: 18
+    expected_row_header_column: B
+    expected_row_header: East Renfrewshire
+    geography_id: S12000011
+    geography_level: local_authority
+    geography_name: East Renfrewshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000011, label: local authority code}
+  - value_id: s12000014
+    label: Falkirk
+    ordinal: 12
+    row_number: 19
+    expected_row_header_column: B
+    expected_row_header: Falkirk
+    geography_id: S12000014
+    geography_level: local_authority
+    geography_name: Falkirk
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000014, label: local authority code}
+  - value_id: s12000047
+    label: Fife
+    ordinal: 13
+    row_number: 20
+    expected_row_header_column: B
+    expected_row_header: Fife
+    geography_id: S12000047
+    geography_level: local_authority
+    geography_name: Fife
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000047, label: local authority code}
+  - value_id: s12000049
+    label: Glasgow City
+    ordinal: 14
+    row_number: 21
+    expected_row_header_column: B
+    expected_row_header: Glasgow City
+    geography_id: S12000049
+    geography_level: local_authority
+    geography_name: Glasgow City
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000049, label: local authority code}
+  - value_id: s12000017
+    label: Highland
+    ordinal: 15
+    row_number: 22
+    expected_row_header_column: B
+    expected_row_header: Highland
+    geography_id: S12000017
+    geography_level: local_authority
+    geography_name: Highland
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000017, label: local authority code}
+  - value_id: s12000018
+    label: Inverclyde
+    ordinal: 16
+    row_number: 23
+    expected_row_header_column: B
+    expected_row_header: Inverclyde
+    geography_id: S12000018
+    geography_level: local_authority
+    geography_name: Inverclyde
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000018, label: local authority code}
+  - value_id: s12000019
+    label: Midlothian
+    ordinal: 17
+    row_number: 24
+    expected_row_header_column: B
+    expected_row_header: Midlothian
+    geography_id: S12000019
+    geography_level: local_authority
+    geography_name: Midlothian
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000019, label: local authority code}
+  - value_id: s12000020
+    label: Moray
+    ordinal: 18
+    row_number: 25
+    expected_row_header_column: B
+    expected_row_header: Moray
+    geography_id: S12000020
+    geography_level: local_authority
+    geography_name: Moray
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000020, label: local authority code}
+  - value_id: s12000021
+    label: North Ayrshire
+    ordinal: 19
+    row_number: 26
+    expected_row_header_column: B
+    expected_row_header: North Ayrshire
+    geography_id: S12000021
+    geography_level: local_authority
+    geography_name: North Ayrshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000021, label: local authority code}
+  - value_id: s12000048
+    label: Perth and Kinross
+    ordinal: 20
+    row_number: 27
+    expected_row_header_column: B
+    expected_row_header: Perth and Kinross
+    geography_id: S12000048
+    geography_level: local_authority
+    geography_name: Perth and Kinross
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000048, label: local authority code}
+  - value_id: s12000038
+    label: Renfrewshire
+    ordinal: 21
+    row_number: 28
+    expected_row_header_column: B
+    expected_row_header: Renfrewshire
+    geography_id: S12000038
+    geography_level: local_authority
+    geography_name: Renfrewshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000038, label: local authority code}
+  - value_id: s12000026
+    label: Scottish Borders
+    ordinal: 22
+    row_number: 29
+    expected_row_header_column: B
+    expected_row_header: Scottish Borders
+    geography_id: S12000026
+    geography_level: local_authority
+    geography_name: Scottish Borders
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000026, label: local authority code}
+  - value_id: s12000028
+    label: South Ayrshire
+    ordinal: 23
+    row_number: 30
+    expected_row_header_column: B
+    expected_row_header: South Ayrshire
+    geography_id: S12000028
+    geography_level: local_authority
+    geography_name: South Ayrshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000028, label: local authority code}
+  - value_id: s12000029
+    label: South Lanarkshire
+    ordinal: 24
+    row_number: 31
+    expected_row_header_column: B
+    expected_row_header: South Lanarkshire
+    geography_id: S12000029
+    geography_level: local_authority
+    geography_name: South Lanarkshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000029, label: local authority code}
+  - value_id: s12000030
+    label: Stirling
+    ordinal: 25
+    row_number: 32
+    expected_row_header_column: B
+    expected_row_header: Stirling
+    geography_id: S12000030
+    geography_level: local_authority
+    geography_name: Stirling
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000030, label: local authority code}
+  - value_id: s12000040
+    label: West Lothian
+    ordinal: 26
+    row_number: 33
+    expected_row_header_column: B
+    expected_row_header: West Lothian
+    geography_id: S12000040
+    geography_level: local_authority
+    geography_name: West Lothian
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000040, label: local authority code}
+  - value_id: s92000003
+    label: Scotland
+    ordinal: 27
+    row_number: 34
+    expected_row_header_column: B
+    expected_row_header: Scotland
+    geography_id: S92000003
+    geography_level: country
+    geography_name: Scotland
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - {column: C, expected_value: S92000003, label: local authority code}
+  measures:
+  - measure_id: residential_property_sales
+    label: Volume of residential property sales more than £1 million
+    ordinal: 0
+    column: X
+    source_column_id: 2023-24
+    expected_column_header_row: 6
+    expected_column_header: 2023-24
+    concept: ros.residential_property_sales
+    source_concept: ros.residential_property_sales
+    concept_relation: source_label
+    concept_authority: ros
+    concept_evidence_url: https://www.ros.gov.uk/data-and-statistics/property-market-statistics/property-market-report
+    concept_evidence_notes: Property Market Report 2025-26 data tables, Table 9 - Volume of residential
+      property sales more than £1 million, by local authority, 2003-04 to 2025-26, column '2023-24'. Only
+      true market residential sales are included in these figures. For example, sales of a share of a
+      residential property which may occur when one of the joint owners of a shared property buys out
+      the share of the other owner are excluded as they might not reflect the true market value and could
+      therefore have an impact on the house price statistics. Non-residential sales where the sale price
+      is a token amount or is a non-monetary amount are also not included. The data in this publication
+      is extracted from Registers of Scotland's Land Register.
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+- record_set_id: ros.pmr_2025_26.residential_property_sales_over_1m.fy2024
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: ros.pmr.residential_property_sales_over_1m.v1
+  source_record_id_prefix: ros.pmr_2025_26.residential_property_sales_over_1m.fy2024
+  sheet_name: '9'
+  period_type: fiscal_year
+  period: 2024
+  period_coverage:
+    start_date: '2024-04-01'
+    end_date: '2025-03-31'
+    basis: fiscal
+    source_period_label: 2024-25
+    notes: Sales in the financial year, a flow of transactions, not the stock of homes worth more than
+      £1 million; period.value stores the opening year.
+  geography_id: S92000003
+  geography_level: country
+  geography_name: Scotland
+  geography_vintage: current
+  entity: dwelling
+  entity_role: residential_property_sale
+  domain: residential_property_transactions
+  groupby_dimension: geography
+  shared_filters:
+    house_price_band: over_1m
+  shared_constraints:
+  - {variable: house_price_band, operator: ==, value: over_1m, label: House price band}
+  - {variable: sale_price, operator: '>', value: 1000000, unit: gbp, label: Sale price}
+  rows:
+  - value_id: s12000033
+    label: Aberdeen City
+    ordinal: 0
+    row_number: 7
+    expected_row_header_column: B
+    expected_row_header: Aberdeen City
+    geography_id: S12000033
+    geography_level: local_authority
+    geography_name: Aberdeen City
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000033, label: local authority code}
+    - {column: B, row: 5, expected_value: 'Table 9 - Volume of residential property sales more than £1
+        million, by local authority, 2003-04 to 2025-26', label: table title}
+  - value_id: s12000034
+    label: Aberdeenshire
+    ordinal: 1
+    row_number: 8
+    expected_row_header_column: B
+    expected_row_header: Aberdeenshire
+    geography_id: S12000034
+    geography_level: local_authority
+    geography_name: Aberdeenshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000034, label: local authority code}
+  - value_id: s12000041
+    label: Angus
+    ordinal: 2
+    row_number: 9
+    expected_row_header_column: B
+    expected_row_header: Angus
+    geography_id: S12000041
+    geography_level: local_authority
+    geography_name: Angus
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000041, label: local authority code}
+  - value_id: s12000035
+    label: Argyll and Bute
+    ordinal: 3
+    row_number: 10
+    expected_row_header_column: B
+    expected_row_header: Argyll and Bute
+    geography_id: S12000035
+    geography_level: local_authority
+    geography_name: Argyll and Bute
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000035, label: local authority code}
+  - value_id: s12000036
+    label: City of Edinburgh
+    ordinal: 4
+    row_number: 11
+    expected_row_header_column: B
+    expected_row_header: City of Edinburgh
+    geography_id: S12000036
+    geography_level: local_authority
+    geography_name: City of Edinburgh
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000036, label: local authority code}
+  - value_id: s12000005
+    label: Clackmannanshire
+    ordinal: 5
+    row_number: 12
+    expected_row_header_column: B
+    expected_row_header: Clackmannanshire
+    geography_id: S12000005
+    geography_level: local_authority
+    geography_name: Clackmannanshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000005, label: local authority code}
+  - value_id: s12000006
+    label: Dumfries and Galloway
+    ordinal: 6
+    row_number: 13
+    expected_row_header_column: B
+    expected_row_header: Dumfries and Galloway
+    geography_id: S12000006
+    geography_level: local_authority
+    geography_name: Dumfries and Galloway
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000006, label: local authority code}
+  - value_id: s12000042
+    label: Dundee City
+    ordinal: 7
+    row_number: 14
+    expected_row_header_column: B
+    expected_row_header: Dundee City
+    geography_id: S12000042
+    geography_level: local_authority
+    geography_name: Dundee City
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000042, label: local authority code}
+  - value_id: s12000008
+    label: East Ayrshire
+    ordinal: 8
+    row_number: 15
+    expected_row_header_column: B
+    expected_row_header: East Ayrshire
+    geography_id: S12000008
+    geography_level: local_authority
+    geography_name: East Ayrshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000008, label: local authority code}
+  - value_id: s12000045
+    label: East Dunbartonshire
+    ordinal: 9
+    row_number: 16
+    expected_row_header_column: B
+    expected_row_header: East Dunbartonshire
+    geography_id: S12000045
+    geography_level: local_authority
+    geography_name: East Dunbartonshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000045, label: local authority code}
+  - value_id: s12000010
+    label: East Lothian
+    ordinal: 10
+    row_number: 17
+    expected_row_header_column: B
+    expected_row_header: East Lothian
+    geography_id: S12000010
+    geography_level: local_authority
+    geography_name: East Lothian
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000010, label: local authority code}
+  - value_id: s12000011
+    label: East Renfrewshire
+    ordinal: 11
+    row_number: 18
+    expected_row_header_column: B
+    expected_row_header: East Renfrewshire
+    geography_id: S12000011
+    geography_level: local_authority
+    geography_name: East Renfrewshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000011, label: local authority code}
+  - value_id: s12000014
+    label: Falkirk
+    ordinal: 12
+    row_number: 19
+    expected_row_header_column: B
+    expected_row_header: Falkirk
+    geography_id: S12000014
+    geography_level: local_authority
+    geography_name: Falkirk
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000014, label: local authority code}
+  - value_id: s12000047
+    label: Fife
+    ordinal: 13
+    row_number: 20
+    expected_row_header_column: B
+    expected_row_header: Fife
+    geography_id: S12000047
+    geography_level: local_authority
+    geography_name: Fife
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000047, label: local authority code}
+  - value_id: s12000049
+    label: Glasgow City
+    ordinal: 14
+    row_number: 21
+    expected_row_header_column: B
+    expected_row_header: Glasgow City
+    geography_id: S12000049
+    geography_level: local_authority
+    geography_name: Glasgow City
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000049, label: local authority code}
+  - value_id: s12000017
+    label: Highland
+    ordinal: 15
+    row_number: 22
+    expected_row_header_column: B
+    expected_row_header: Highland
+    geography_id: S12000017
+    geography_level: local_authority
+    geography_name: Highland
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000017, label: local authority code}
+  - value_id: s12000018
+    label: Inverclyde
+    ordinal: 16
+    row_number: 23
+    expected_row_header_column: B
+    expected_row_header: Inverclyde
+    geography_id: S12000018
+    geography_level: local_authority
+    geography_name: Inverclyde
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000018, label: local authority code}
+  - value_id: s12000019
+    label: Midlothian
+    ordinal: 17
+    row_number: 24
+    expected_row_header_column: B
+    expected_row_header: Midlothian
+    geography_id: S12000019
+    geography_level: local_authority
+    geography_name: Midlothian
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000019, label: local authority code}
+  - value_id: s12000020
+    label: Moray
+    ordinal: 18
+    row_number: 25
+    expected_row_header_column: B
+    expected_row_header: Moray
+    geography_id: S12000020
+    geography_level: local_authority
+    geography_name: Moray
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000020, label: local authority code}
+  - value_id: s12000021
+    label: North Ayrshire
+    ordinal: 19
+    row_number: 26
+    expected_row_header_column: B
+    expected_row_header: North Ayrshire
+    geography_id: S12000021
+    geography_level: local_authority
+    geography_name: North Ayrshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000021, label: local authority code}
+  - value_id: s12000048
+    label: Perth and Kinross
+    ordinal: 20
+    row_number: 27
+    expected_row_header_column: B
+    expected_row_header: Perth and Kinross
+    geography_id: S12000048
+    geography_level: local_authority
+    geography_name: Perth and Kinross
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000048, label: local authority code}
+  - value_id: s12000038
+    label: Renfrewshire
+    ordinal: 21
+    row_number: 28
+    expected_row_header_column: B
+    expected_row_header: Renfrewshire
+    geography_id: S12000038
+    geography_level: local_authority
+    geography_name: Renfrewshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000038, label: local authority code}
+  - value_id: s12000026
+    label: Scottish Borders
+    ordinal: 22
+    row_number: 29
+    expected_row_header_column: B
+    expected_row_header: Scottish Borders
+    geography_id: S12000026
+    geography_level: local_authority
+    geography_name: Scottish Borders
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000026, label: local authority code}
+  - value_id: s12000028
+    label: South Ayrshire
+    ordinal: 23
+    row_number: 30
+    expected_row_header_column: B
+    expected_row_header: South Ayrshire
+    geography_id: S12000028
+    geography_level: local_authority
+    geography_name: South Ayrshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000028, label: local authority code}
+  - value_id: s12000029
+    label: South Lanarkshire
+    ordinal: 24
+    row_number: 31
+    expected_row_header_column: B
+    expected_row_header: South Lanarkshire
+    geography_id: S12000029
+    geography_level: local_authority
+    geography_name: South Lanarkshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000029, label: local authority code}
+  - value_id: s12000030
+    label: Stirling
+    ordinal: 25
+    row_number: 32
+    expected_row_header_column: B
+    expected_row_header: Stirling
+    geography_id: S12000030
+    geography_level: local_authority
+    geography_name: Stirling
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000030, label: local authority code}
+  - value_id: s12000040
+    label: West Lothian
+    ordinal: 26
+    row_number: 33
+    expected_row_header_column: B
+    expected_row_header: West Lothian
+    geography_id: S12000040
+    geography_level: local_authority
+    geography_name: West Lothian
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000040, label: local authority code}
+  - value_id: s92000003
+    label: Scotland
+    ordinal: 27
+    row_number: 34
+    expected_row_header_column: B
+    expected_row_header: Scotland
+    geography_id: S92000003
+    geography_level: country
+    geography_name: Scotland
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - {column: C, expected_value: S92000003, label: local authority code}
+  measures:
+  - measure_id: residential_property_sales
+    label: Volume of residential property sales more than £1 million
+    ordinal: 0
+    column: Y
+    source_column_id: 2024-25
+    expected_column_header_row: 6
+    expected_column_header: 2024-25
+    concept: ros.residential_property_sales
+    source_concept: ros.residential_property_sales
+    concept_relation: source_label
+    concept_authority: ros
+    concept_evidence_url: https://www.ros.gov.uk/data-and-statistics/property-market-statistics/property-market-report
+    concept_evidence_notes: Property Market Report 2025-26 data tables, Table 9 - Volume of residential
+      property sales more than £1 million, by local authority, 2003-04 to 2025-26, column '2024-25'. Only
+      true market residential sales are included in these figures. For example, sales of a share of a
+      residential property which may occur when one of the joint owners of a shared property buys out
+      the share of the other owner are excluded as they might not reflect the true market value and could
+      therefore have an impact on the house price statistics. Non-residential sales where the sale price
+      is a token amount or is a non-monetary amount are also not included. The data in this publication
+      is extracted from Registers of Scotland's Land Register.
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+- record_set_id: ros.pmr_2025_26.residential_property_sales_over_1m.fy2025
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: ros.pmr.residential_property_sales_over_1m.v1
+  source_record_id_prefix: ros.pmr_2025_26.residential_property_sales_over_1m.fy2025
+  sheet_name: '9'
+  period_type: fiscal_year
+  period: 2025
+  period_coverage:
+    start_date: '2025-04-01'
+    end_date: '2026-03-31'
+    basis: fiscal
+    source_period_label: 2025-26
+    notes: Sales in the financial year, a flow of transactions, not the stock of homes worth more than
+      £1 million; period.value stores the opening year.
+  geography_id: S92000003
+  geography_level: country
+  geography_name: Scotland
+  geography_vintage: current
+  entity: dwelling
+  entity_role: residential_property_sale
+  domain: residential_property_transactions
+  groupby_dimension: geography
+  shared_filters:
+    house_price_band: over_1m
+  shared_constraints:
+  - {variable: house_price_band, operator: ==, value: over_1m, label: House price band}
+  - {variable: sale_price, operator: '>', value: 1000000, unit: gbp, label: Sale price}
+  rows:
+  - value_id: s12000033
+    label: Aberdeen City
+    ordinal: 0
+    row_number: 7
+    expected_row_header_column: B
+    expected_row_header: Aberdeen City
+    geography_id: S12000033
+    geography_level: local_authority
+    geography_name: Aberdeen City
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000033, label: local authority code}
+    - {column: B, row: 5, expected_value: 'Table 9 - Volume of residential property sales more than £1
+        million, by local authority, 2003-04 to 2025-26', label: table title}
+  - value_id: s12000034
+    label: Aberdeenshire
+    ordinal: 1
+    row_number: 8
+    expected_row_header_column: B
+    expected_row_header: Aberdeenshire
+    geography_id: S12000034
+    geography_level: local_authority
+    geography_name: Aberdeenshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000034, label: local authority code}
+  - value_id: s12000041
+    label: Angus
+    ordinal: 2
+    row_number: 9
+    expected_row_header_column: B
+    expected_row_header: Angus
+    geography_id: S12000041
+    geography_level: local_authority
+    geography_name: Angus
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000041, label: local authority code}
+  - value_id: s12000035
+    label: Argyll and Bute
+    ordinal: 3
+    row_number: 10
+    expected_row_header_column: B
+    expected_row_header: Argyll and Bute
+    geography_id: S12000035
+    geography_level: local_authority
+    geography_name: Argyll and Bute
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000035, label: local authority code}
+  - value_id: s12000036
+    label: City of Edinburgh
+    ordinal: 4
+    row_number: 11
+    expected_row_header_column: B
+    expected_row_header: City of Edinburgh
+    geography_id: S12000036
+    geography_level: local_authority
+    geography_name: City of Edinburgh
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000036, label: local authority code}
+  - value_id: s12000005
+    label: Clackmannanshire
+    ordinal: 5
+    row_number: 12
+    expected_row_header_column: B
+    expected_row_header: Clackmannanshire
+    geography_id: S12000005
+    geography_level: local_authority
+    geography_name: Clackmannanshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000005, label: local authority code}
+  - value_id: s12000006
+    label: Dumfries and Galloway
+    ordinal: 6
+    row_number: 13
+    expected_row_header_column: B
+    expected_row_header: Dumfries and Galloway
+    geography_id: S12000006
+    geography_level: local_authority
+    geography_name: Dumfries and Galloway
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000006, label: local authority code}
+  - value_id: s12000042
+    label: Dundee City
+    ordinal: 7
+    row_number: 14
+    expected_row_header_column: B
+    expected_row_header: Dundee City
+    geography_id: S12000042
+    geography_level: local_authority
+    geography_name: Dundee City
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000042, label: local authority code}
+  - value_id: s12000008
+    label: East Ayrshire
+    ordinal: 8
+    row_number: 15
+    expected_row_header_column: B
+    expected_row_header: East Ayrshire
+    geography_id: S12000008
+    geography_level: local_authority
+    geography_name: East Ayrshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000008, label: local authority code}
+  - value_id: s12000045
+    label: East Dunbartonshire
+    ordinal: 9
+    row_number: 16
+    expected_row_header_column: B
+    expected_row_header: East Dunbartonshire
+    geography_id: S12000045
+    geography_level: local_authority
+    geography_name: East Dunbartonshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000045, label: local authority code}
+  - value_id: s12000010
+    label: East Lothian
+    ordinal: 10
+    row_number: 17
+    expected_row_header_column: B
+    expected_row_header: East Lothian
+    geography_id: S12000010
+    geography_level: local_authority
+    geography_name: East Lothian
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000010, label: local authority code}
+  - value_id: s12000011
+    label: East Renfrewshire
+    ordinal: 11
+    row_number: 18
+    expected_row_header_column: B
+    expected_row_header: East Renfrewshire
+    geography_id: S12000011
+    geography_level: local_authority
+    geography_name: East Renfrewshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000011, label: local authority code}
+  - value_id: s12000014
+    label: Falkirk
+    ordinal: 12
+    row_number: 19
+    expected_row_header_column: B
+    expected_row_header: Falkirk
+    geography_id: S12000014
+    geography_level: local_authority
+    geography_name: Falkirk
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000014, label: local authority code}
+  - value_id: s12000047
+    label: Fife
+    ordinal: 13
+    row_number: 20
+    expected_row_header_column: B
+    expected_row_header: Fife
+    geography_id: S12000047
+    geography_level: local_authority
+    geography_name: Fife
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000047, label: local authority code}
+  - value_id: s12000049
+    label: Glasgow City
+    ordinal: 14
+    row_number: 21
+    expected_row_header_column: B
+    expected_row_header: Glasgow City
+    geography_id: S12000049
+    geography_level: local_authority
+    geography_name: Glasgow City
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000049, label: local authority code}
+  - value_id: s12000017
+    label: Highland
+    ordinal: 15
+    row_number: 22
+    expected_row_header_column: B
+    expected_row_header: Highland
+    geography_id: S12000017
+    geography_level: local_authority
+    geography_name: Highland
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000017, label: local authority code}
+  - value_id: s12000018
+    label: Inverclyde
+    ordinal: 16
+    row_number: 23
+    expected_row_header_column: B
+    expected_row_header: Inverclyde
+    geography_id: S12000018
+    geography_level: local_authority
+    geography_name: Inverclyde
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000018, label: local authority code}
+  - value_id: s12000019
+    label: Midlothian
+    ordinal: 17
+    row_number: 24
+    expected_row_header_column: B
+    expected_row_header: Midlothian
+    geography_id: S12000019
+    geography_level: local_authority
+    geography_name: Midlothian
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000019, label: local authority code}
+  - value_id: s12000020
+    label: Moray
+    ordinal: 18
+    row_number: 25
+    expected_row_header_column: B
+    expected_row_header: Moray
+    geography_id: S12000020
+    geography_level: local_authority
+    geography_name: Moray
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000020, label: local authority code}
+  - value_id: s12000021
+    label: North Ayrshire
+    ordinal: 19
+    row_number: 26
+    expected_row_header_column: B
+    expected_row_header: North Ayrshire
+    geography_id: S12000021
+    geography_level: local_authority
+    geography_name: North Ayrshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000021, label: local authority code}
+  - value_id: s12000048
+    label: Perth and Kinross
+    ordinal: 20
+    row_number: 27
+    expected_row_header_column: B
+    expected_row_header: Perth and Kinross
+    geography_id: S12000048
+    geography_level: local_authority
+    geography_name: Perth and Kinross
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000048, label: local authority code}
+  - value_id: s12000038
+    label: Renfrewshire
+    ordinal: 21
+    row_number: 28
+    expected_row_header_column: B
+    expected_row_header: Renfrewshire
+    geography_id: S12000038
+    geography_level: local_authority
+    geography_name: Renfrewshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000038, label: local authority code}
+  - value_id: s12000026
+    label: Scottish Borders
+    ordinal: 22
+    row_number: 29
+    expected_row_header_column: B
+    expected_row_header: Scottish Borders
+    geography_id: S12000026
+    geography_level: local_authority
+    geography_name: Scottish Borders
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000026, label: local authority code}
+  - value_id: s12000028
+    label: South Ayrshire
+    ordinal: 23
+    row_number: 30
+    expected_row_header_column: B
+    expected_row_header: South Ayrshire
+    geography_id: S12000028
+    geography_level: local_authority
+    geography_name: South Ayrshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000028, label: local authority code}
+  - value_id: s12000029
+    label: South Lanarkshire
+    ordinal: 24
+    row_number: 31
+    expected_row_header_column: B
+    expected_row_header: South Lanarkshire
+    geography_id: S12000029
+    geography_level: local_authority
+    geography_name: South Lanarkshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000029, label: local authority code}
+  - value_id: s12000030
+    label: Stirling
+    ordinal: 25
+    row_number: 32
+    expected_row_header_column: B
+    expected_row_header: Stirling
+    geography_id: S12000030
+    geography_level: local_authority
+    geography_name: Stirling
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000030, label: local authority code}
+  - value_id: s12000040
+    label: West Lothian
+    ordinal: 26
+    row_number: 33
+    expected_row_header_column: B
+    expected_row_header: West Lothian
+    geography_id: S12000040
+    geography_level: local_authority
+    geography_name: West Lothian
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000040, label: local authority code}
+  - value_id: s92000003
+    label: Scotland
+    ordinal: 27
+    row_number: 34
+    expected_row_header_column: B
+    expected_row_header: Scotland
+    geography_id: S92000003
+    geography_level: country
+    geography_name: Scotland
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - {column: C, expected_value: S92000003, label: local authority code}
+  measures:
+  - measure_id: residential_property_sales
+    label: Volume of residential property sales more than £1 million
+    ordinal: 0
+    column: Z
+    source_column_id: 2025-26
+    expected_column_header_row: 6
+    expected_column_header: 2025-26
+    concept: ros.residential_property_sales
+    source_concept: ros.residential_property_sales
+    concept_relation: source_label
+    concept_authority: ros
+    concept_evidence_url: https://www.ros.gov.uk/data-and-statistics/property-market-statistics/property-market-report
+    concept_evidence_notes: Property Market Report 2025-26 data tables, Table 9 - Volume of residential
+      property sales more than £1 million, by local authority, 2003-04 to 2025-26, column '2025-26'. Only
+      true market residential sales are included in these figures. For example, sales of a share of a
+      residential property which may occur when one of the joint owners of a shared property buys out
+      the share of the other owner are excluded as they might not reflect the true market value and could
+      therefore have an impact on the house price statistics. Non-residential sales where the sale price
+      is a token amount or is a non-monetary amount are also not included. The data in this publication
+      is extracted from Registers of Scotland's Land Register.
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+- record_set_id: ros.pmr_2025_26.residential_property_sales_value_over_1m.fy2023
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: ros.pmr.residential_property_sales_value_over_1m.v1
+  source_record_id_prefix: ros.pmr_2025_26.residential_property_sales_value_over_1m.fy2023
+  sheet_name: '10'
+  period_type: fiscal_year
+  period: 2023
+  period_coverage:
+    start_date: '2023-04-01'
+    end_date: '2024-03-31'
+    basis: fiscal
+    source_period_label: 2023-24
+    notes: Sales in the financial year, a flow of transactions, not the stock of homes worth more than
+      £1 million; period.value stores the opening year.
+  geography_id: S92000003
+  geography_level: country
+  geography_name: Scotland
+  geography_vintage: current
+  entity: dwelling
+  entity_role: residential_property_sale
+  domain: residential_property_transactions
+  groupby_dimension: geography
+  shared_filters:
+    house_price_band: over_1m
+  shared_constraints:
+  - {variable: house_price_band, operator: ==, value: over_1m, label: House price band}
+  - {variable: sale_price, operator: '>', value: 1000000, unit: gbp, label: Sale price}
+  rows:
+  - value_id: s12000033
+    label: Aberdeen City
+    ordinal: 0
+    row_number: 7
+    expected_row_header_column: B
+    expected_row_header: Aberdeen City
+    geography_id: S12000033
+    geography_level: local_authority
+    geography_name: Aberdeen City
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000033, label: local authority code}
+    - {column: B, row: 5, expected_value: 'Table 10 - Value of residential property sales more than £1
+        million (£million), by local authority, 2003-04 to 2025-26', label: table title}
+  - value_id: s12000034
+    label: Aberdeenshire
+    ordinal: 1
+    row_number: 8
+    expected_row_header_column: B
+    expected_row_header: Aberdeenshire
+    geography_id: S12000034
+    geography_level: local_authority
+    geography_name: Aberdeenshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000034, label: local authority code}
+  - value_id: s12000041
+    label: Angus
+    ordinal: 2
+    row_number: 9
+    expected_row_header_column: B
+    expected_row_header: Angus
+    geography_id: S12000041
+    geography_level: local_authority
+    geography_name: Angus
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000041, label: local authority code}
+  - value_id: s12000035
+    label: Argyll and Bute
+    ordinal: 3
+    row_number: 10
+    expected_row_header_column: B
+    expected_row_header: Argyll and Bute
+    geography_id: S12000035
+    geography_level: local_authority
+    geography_name: Argyll and Bute
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000035, label: local authority code}
+  - value_id: s12000036
+    label: City of Edinburgh
+    ordinal: 4
+    row_number: 11
+    expected_row_header_column: B
+    expected_row_header: City of Edinburgh
+    geography_id: S12000036
+    geography_level: local_authority
+    geography_name: City of Edinburgh
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000036, label: local authority code}
+  - value_id: s12000005
+    label: Clackmannanshire
+    ordinal: 5
+    row_number: 12
+    expected_row_header_column: B
+    expected_row_header: Clackmannanshire
+    geography_id: S12000005
+    geography_level: local_authority
+    geography_name: Clackmannanshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000005, label: local authority code}
+  - value_id: s12000006
+    label: Dumfries and Galloway
+    ordinal: 6
+    row_number: 13
+    expected_row_header_column: B
+    expected_row_header: Dumfries and Galloway
+    geography_id: S12000006
+    geography_level: local_authority
+    geography_name: Dumfries and Galloway
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000006, label: local authority code}
+  - value_id: s12000042
+    label: Dundee City
+    ordinal: 7
+    row_number: 14
+    expected_row_header_column: B
+    expected_row_header: Dundee City
+    geography_id: S12000042
+    geography_level: local_authority
+    geography_name: Dundee City
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000042, label: local authority code}
+  - value_id: s12000008
+    label: East Ayrshire
+    ordinal: 8
+    row_number: 15
+    expected_row_header_column: B
+    expected_row_header: East Ayrshire
+    geography_id: S12000008
+    geography_level: local_authority
+    geography_name: East Ayrshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000008, label: local authority code}
+  - value_id: s12000045
+    label: East Dunbartonshire
+    ordinal: 9
+    row_number: 16
+    expected_row_header_column: B
+    expected_row_header: East Dunbartonshire
+    geography_id: S12000045
+    geography_level: local_authority
+    geography_name: East Dunbartonshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000045, label: local authority code}
+  - value_id: s12000010
+    label: East Lothian
+    ordinal: 10
+    row_number: 17
+    expected_row_header_column: B
+    expected_row_header: East Lothian
+    geography_id: S12000010
+    geography_level: local_authority
+    geography_name: East Lothian
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000010, label: local authority code}
+  - value_id: s12000011
+    label: East Renfrewshire
+    ordinal: 11
+    row_number: 18
+    expected_row_header_column: B
+    expected_row_header: East Renfrewshire
+    geography_id: S12000011
+    geography_level: local_authority
+    geography_name: East Renfrewshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000011, label: local authority code}
+  - value_id: s12000014
+    label: Falkirk
+    ordinal: 12
+    row_number: 19
+    expected_row_header_column: B
+    expected_row_header: Falkirk
+    geography_id: S12000014
+    geography_level: local_authority
+    geography_name: Falkirk
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000014, label: local authority code}
+  - value_id: s12000047
+    label: Fife
+    ordinal: 13
+    row_number: 20
+    expected_row_header_column: B
+    expected_row_header: Fife
+    geography_id: S12000047
+    geography_level: local_authority
+    geography_name: Fife
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000047, label: local authority code}
+  - value_id: s12000049
+    label: Glasgow City
+    ordinal: 14
+    row_number: 21
+    expected_row_header_column: B
+    expected_row_header: Glasgow City
+    geography_id: S12000049
+    geography_level: local_authority
+    geography_name: Glasgow City
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000049, label: local authority code}
+  - value_id: s12000017
+    label: Highland
+    ordinal: 15
+    row_number: 22
+    expected_row_header_column: B
+    expected_row_header: Highland
+    geography_id: S12000017
+    geography_level: local_authority
+    geography_name: Highland
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000017, label: local authority code}
+  - value_id: s12000018
+    label: Inverclyde
+    ordinal: 16
+    row_number: 23
+    expected_row_header_column: B
+    expected_row_header: Inverclyde
+    geography_id: S12000018
+    geography_level: local_authority
+    geography_name: Inverclyde
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000018, label: local authority code}
+  - value_id: s12000019
+    label: Midlothian
+    ordinal: 17
+    row_number: 24
+    expected_row_header_column: B
+    expected_row_header: Midlothian
+    geography_id: S12000019
+    geography_level: local_authority
+    geography_name: Midlothian
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000019, label: local authority code}
+  - value_id: s12000020
+    label: Moray
+    ordinal: 18
+    row_number: 25
+    expected_row_header_column: B
+    expected_row_header: Moray
+    geography_id: S12000020
+    geography_level: local_authority
+    geography_name: Moray
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000020, label: local authority code}
+  - value_id: s12000021
+    label: North Ayrshire
+    ordinal: 19
+    row_number: 26
+    expected_row_header_column: B
+    expected_row_header: North Ayrshire
+    geography_id: S12000021
+    geography_level: local_authority
+    geography_name: North Ayrshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000021, label: local authority code}
+  - value_id: s12000048
+    label: Perth and Kinross
+    ordinal: 20
+    row_number: 27
+    expected_row_header_column: B
+    expected_row_header: Perth and Kinross
+    geography_id: S12000048
+    geography_level: local_authority
+    geography_name: Perth and Kinross
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000048, label: local authority code}
+  - value_id: s12000038
+    label: Renfrewshire
+    ordinal: 21
+    row_number: 28
+    expected_row_header_column: B
+    expected_row_header: Renfrewshire
+    geography_id: S12000038
+    geography_level: local_authority
+    geography_name: Renfrewshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000038, label: local authority code}
+  - value_id: s12000026
+    label: Scottish Borders
+    ordinal: 22
+    row_number: 29
+    expected_row_header_column: B
+    expected_row_header: Scottish Borders
+    geography_id: S12000026
+    geography_level: local_authority
+    geography_name: Scottish Borders
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000026, label: local authority code}
+  - value_id: s12000028
+    label: South Ayrshire
+    ordinal: 23
+    row_number: 30
+    expected_row_header_column: B
+    expected_row_header: South Ayrshire
+    geography_id: S12000028
+    geography_level: local_authority
+    geography_name: South Ayrshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000028, label: local authority code}
+  - value_id: s12000029
+    label: South Lanarkshire
+    ordinal: 24
+    row_number: 31
+    expected_row_header_column: B
+    expected_row_header: South Lanarkshire
+    geography_id: S12000029
+    geography_level: local_authority
+    geography_name: South Lanarkshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000029, label: local authority code}
+  - value_id: s12000030
+    label: Stirling
+    ordinal: 25
+    row_number: 32
+    expected_row_header_column: B
+    expected_row_header: Stirling
+    geography_id: S12000030
+    geography_level: local_authority
+    geography_name: Stirling
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000030, label: local authority code}
+  - value_id: s12000040
+    label: West Lothian
+    ordinal: 26
+    row_number: 33
+    expected_row_header_column: B
+    expected_row_header: West Lothian
+    geography_id: S12000040
+    geography_level: local_authority
+    geography_name: West Lothian
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000040, label: local authority code}
+  - value_id: s92000003
+    label: Scotland
+    ordinal: 27
+    row_number: 34
+    expected_row_header_column: B
+    expected_row_header: Scotland
+    geography_id: S92000003
+    geography_level: country
+    geography_name: Scotland
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - {column: C, expected_value: S92000003, label: local authority code}
+  measures:
+  - measure_id: residential_property_sales_value
+    label: Value of residential property sales more than £1 million
+    ordinal: 0
+    column: X
+    source_column_id: 2023-24
+    expected_column_header_row: 6
+    expected_column_header: 2023-24
+    concept: ros.residential_property_sales_value
+    source_concept: ros.residential_property_sales_value
+    concept_relation: source_label
+    concept_authority: ros
+    concept_evidence_url: https://www.ros.gov.uk/data-and-statistics/property-market-statistics/property-market-report
+    concept_evidence_notes: Property Market Report 2025-26 data tables, Table 10 - Value of residential
+      property sales more than £1 million (£million), by local authority, 2003-04 to 2025-26, column '2023-24'.
+      Only true market residential sales are included in these figures. For example, sales of a share
+      of a residential property which may occur when one of the joint owners of a shared property buys
+      out the share of the other owner are excluded as they might not reflect the true market value and
+      could therefore have an impact on the house price statistics. Non-residential sales where the sale
+      price is a token amount or is a non-monetary amount are also not included. The data in this publication
+      is extracted from Registers of Scotland's Land Register.
+    unit: gbp
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000000
+- record_set_id: ros.pmr_2025_26.residential_property_sales_value_over_1m.fy2024
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: ros.pmr.residential_property_sales_value_over_1m.v1
+  source_record_id_prefix: ros.pmr_2025_26.residential_property_sales_value_over_1m.fy2024
+  sheet_name: '10'
+  period_type: fiscal_year
+  period: 2024
+  period_coverage:
+    start_date: '2024-04-01'
+    end_date: '2025-03-31'
+    basis: fiscal
+    source_period_label: 2024-25
+    notes: Sales in the financial year, a flow of transactions, not the stock of homes worth more than
+      £1 million; period.value stores the opening year.
+  geography_id: S92000003
+  geography_level: country
+  geography_name: Scotland
+  geography_vintage: current
+  entity: dwelling
+  entity_role: residential_property_sale
+  domain: residential_property_transactions
+  groupby_dimension: geography
+  shared_filters:
+    house_price_band: over_1m
+  shared_constraints:
+  - {variable: house_price_band, operator: ==, value: over_1m, label: House price band}
+  - {variable: sale_price, operator: '>', value: 1000000, unit: gbp, label: Sale price}
+  rows:
+  - value_id: s12000033
+    label: Aberdeen City
+    ordinal: 0
+    row_number: 7
+    expected_row_header_column: B
+    expected_row_header: Aberdeen City
+    geography_id: S12000033
+    geography_level: local_authority
+    geography_name: Aberdeen City
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000033, label: local authority code}
+    - {column: B, row: 5, expected_value: 'Table 10 - Value of residential property sales more than £1
+        million (£million), by local authority, 2003-04 to 2025-26', label: table title}
+  - value_id: s12000034
+    label: Aberdeenshire
+    ordinal: 1
+    row_number: 8
+    expected_row_header_column: B
+    expected_row_header: Aberdeenshire
+    geography_id: S12000034
+    geography_level: local_authority
+    geography_name: Aberdeenshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000034, label: local authority code}
+  - value_id: s12000041
+    label: Angus
+    ordinal: 2
+    row_number: 9
+    expected_row_header_column: B
+    expected_row_header: Angus
+    geography_id: S12000041
+    geography_level: local_authority
+    geography_name: Angus
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000041, label: local authority code}
+  - value_id: s12000035
+    label: Argyll and Bute
+    ordinal: 3
+    row_number: 10
+    expected_row_header_column: B
+    expected_row_header: Argyll and Bute
+    geography_id: S12000035
+    geography_level: local_authority
+    geography_name: Argyll and Bute
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000035, label: local authority code}
+  - value_id: s12000036
+    label: City of Edinburgh
+    ordinal: 4
+    row_number: 11
+    expected_row_header_column: B
+    expected_row_header: City of Edinburgh
+    geography_id: S12000036
+    geography_level: local_authority
+    geography_name: City of Edinburgh
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000036, label: local authority code}
+  - value_id: s12000005
+    label: Clackmannanshire
+    ordinal: 5
+    row_number: 12
+    expected_row_header_column: B
+    expected_row_header: Clackmannanshire
+    geography_id: S12000005
+    geography_level: local_authority
+    geography_name: Clackmannanshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000005, label: local authority code}
+  - value_id: s12000006
+    label: Dumfries and Galloway
+    ordinal: 6
+    row_number: 13
+    expected_row_header_column: B
+    expected_row_header: Dumfries and Galloway
+    geography_id: S12000006
+    geography_level: local_authority
+    geography_name: Dumfries and Galloway
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000006, label: local authority code}
+  - value_id: s12000042
+    label: Dundee City
+    ordinal: 7
+    row_number: 14
+    expected_row_header_column: B
+    expected_row_header: Dundee City
+    geography_id: S12000042
+    geography_level: local_authority
+    geography_name: Dundee City
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000042, label: local authority code}
+  - value_id: s12000008
+    label: East Ayrshire
+    ordinal: 8
+    row_number: 15
+    expected_row_header_column: B
+    expected_row_header: East Ayrshire
+    geography_id: S12000008
+    geography_level: local_authority
+    geography_name: East Ayrshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000008, label: local authority code}
+  - value_id: s12000045
+    label: East Dunbartonshire
+    ordinal: 9
+    row_number: 16
+    expected_row_header_column: B
+    expected_row_header: East Dunbartonshire
+    geography_id: S12000045
+    geography_level: local_authority
+    geography_name: East Dunbartonshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000045, label: local authority code}
+  - value_id: s12000010
+    label: East Lothian
+    ordinal: 10
+    row_number: 17
+    expected_row_header_column: B
+    expected_row_header: East Lothian
+    geography_id: S12000010
+    geography_level: local_authority
+    geography_name: East Lothian
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000010, label: local authority code}
+  - value_id: s12000011
+    label: East Renfrewshire
+    ordinal: 11
+    row_number: 18
+    expected_row_header_column: B
+    expected_row_header: East Renfrewshire
+    geography_id: S12000011
+    geography_level: local_authority
+    geography_name: East Renfrewshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000011, label: local authority code}
+  - value_id: s12000014
+    label: Falkirk
+    ordinal: 12
+    row_number: 19
+    expected_row_header_column: B
+    expected_row_header: Falkirk
+    geography_id: S12000014
+    geography_level: local_authority
+    geography_name: Falkirk
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000014, label: local authority code}
+  - value_id: s12000047
+    label: Fife
+    ordinal: 13
+    row_number: 20
+    expected_row_header_column: B
+    expected_row_header: Fife
+    geography_id: S12000047
+    geography_level: local_authority
+    geography_name: Fife
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000047, label: local authority code}
+  - value_id: s12000049
+    label: Glasgow City
+    ordinal: 14
+    row_number: 21
+    expected_row_header_column: B
+    expected_row_header: Glasgow City
+    geography_id: S12000049
+    geography_level: local_authority
+    geography_name: Glasgow City
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000049, label: local authority code}
+  - value_id: s12000017
+    label: Highland
+    ordinal: 15
+    row_number: 22
+    expected_row_header_column: B
+    expected_row_header: Highland
+    geography_id: S12000017
+    geography_level: local_authority
+    geography_name: Highland
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000017, label: local authority code}
+  - value_id: s12000018
+    label: Inverclyde
+    ordinal: 16
+    row_number: 23
+    expected_row_header_column: B
+    expected_row_header: Inverclyde
+    geography_id: S12000018
+    geography_level: local_authority
+    geography_name: Inverclyde
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000018, label: local authority code}
+  - value_id: s12000019
+    label: Midlothian
+    ordinal: 17
+    row_number: 24
+    expected_row_header_column: B
+    expected_row_header: Midlothian
+    geography_id: S12000019
+    geography_level: local_authority
+    geography_name: Midlothian
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000019, label: local authority code}
+  - value_id: s12000020
+    label: Moray
+    ordinal: 18
+    row_number: 25
+    expected_row_header_column: B
+    expected_row_header: Moray
+    geography_id: S12000020
+    geography_level: local_authority
+    geography_name: Moray
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000020, label: local authority code}
+  - value_id: s12000021
+    label: North Ayrshire
+    ordinal: 19
+    row_number: 26
+    expected_row_header_column: B
+    expected_row_header: North Ayrshire
+    geography_id: S12000021
+    geography_level: local_authority
+    geography_name: North Ayrshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000021, label: local authority code}
+  - value_id: s12000048
+    label: Perth and Kinross
+    ordinal: 20
+    row_number: 27
+    expected_row_header_column: B
+    expected_row_header: Perth and Kinross
+    geography_id: S12000048
+    geography_level: local_authority
+    geography_name: Perth and Kinross
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000048, label: local authority code}
+  - value_id: s12000038
+    label: Renfrewshire
+    ordinal: 21
+    row_number: 28
+    expected_row_header_column: B
+    expected_row_header: Renfrewshire
+    geography_id: S12000038
+    geography_level: local_authority
+    geography_name: Renfrewshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000038, label: local authority code}
+  - value_id: s12000026
+    label: Scottish Borders
+    ordinal: 22
+    row_number: 29
+    expected_row_header_column: B
+    expected_row_header: Scottish Borders
+    geography_id: S12000026
+    geography_level: local_authority
+    geography_name: Scottish Borders
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000026, label: local authority code}
+  - value_id: s12000028
+    label: South Ayrshire
+    ordinal: 23
+    row_number: 30
+    expected_row_header_column: B
+    expected_row_header: South Ayrshire
+    geography_id: S12000028
+    geography_level: local_authority
+    geography_name: South Ayrshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000028, label: local authority code}
+  - value_id: s12000029
+    label: South Lanarkshire
+    ordinal: 24
+    row_number: 31
+    expected_row_header_column: B
+    expected_row_header: South Lanarkshire
+    geography_id: S12000029
+    geography_level: local_authority
+    geography_name: South Lanarkshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000029, label: local authority code}
+  - value_id: s12000030
+    label: Stirling
+    ordinal: 25
+    row_number: 32
+    expected_row_header_column: B
+    expected_row_header: Stirling
+    geography_id: S12000030
+    geography_level: local_authority
+    geography_name: Stirling
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000030, label: local authority code}
+  - value_id: s12000040
+    label: West Lothian
+    ordinal: 26
+    row_number: 33
+    expected_row_header_column: B
+    expected_row_header: West Lothian
+    geography_id: S12000040
+    geography_level: local_authority
+    geography_name: West Lothian
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000040, label: local authority code}
+  - value_id: s92000003
+    label: Scotland
+    ordinal: 27
+    row_number: 34
+    expected_row_header_column: B
+    expected_row_header: Scotland
+    geography_id: S92000003
+    geography_level: country
+    geography_name: Scotland
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - {column: C, expected_value: S92000003, label: local authority code}
+  measures:
+  - measure_id: residential_property_sales_value
+    label: Value of residential property sales more than £1 million
+    ordinal: 0
+    column: Y
+    source_column_id: 2024-25
+    expected_column_header_row: 6
+    expected_column_header: 2024-25
+    concept: ros.residential_property_sales_value
+    source_concept: ros.residential_property_sales_value
+    concept_relation: source_label
+    concept_authority: ros
+    concept_evidence_url: https://www.ros.gov.uk/data-and-statistics/property-market-statistics/property-market-report
+    concept_evidence_notes: Property Market Report 2025-26 data tables, Table 10 - Value of residential
+      property sales more than £1 million (£million), by local authority, 2003-04 to 2025-26, column '2024-25'.
+      Only true market residential sales are included in these figures. For example, sales of a share
+      of a residential property which may occur when one of the joint owners of a shared property buys
+      out the share of the other owner are excluded as they might not reflect the true market value and
+      could therefore have an impact on the house price statistics. Non-residential sales where the sale
+      price is a token amount or is a non-monetary amount are also not included. The data in this publication
+      is extracted from Registers of Scotland's Land Register.
+    unit: gbp
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000000
+- record_set_id: ros.pmr_2025_26.residential_property_sales_value_over_1m.fy2025
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: ros.pmr.residential_property_sales_value_over_1m.v1
+  source_record_id_prefix: ros.pmr_2025_26.residential_property_sales_value_over_1m.fy2025
+  sheet_name: '10'
+  period_type: fiscal_year
+  period: 2025
+  period_coverage:
+    start_date: '2025-04-01'
+    end_date: '2026-03-31'
+    basis: fiscal
+    source_period_label: 2025-26
+    notes: Sales in the financial year, a flow of transactions, not the stock of homes worth more than
+      £1 million; period.value stores the opening year.
+  geography_id: S92000003
+  geography_level: country
+  geography_name: Scotland
+  geography_vintage: current
+  entity: dwelling
+  entity_role: residential_property_sale
+  domain: residential_property_transactions
+  groupby_dimension: geography
+  shared_filters:
+    house_price_band: over_1m
+  shared_constraints:
+  - {variable: house_price_band, operator: ==, value: over_1m, label: House price band}
+  - {variable: sale_price, operator: '>', value: 1000000, unit: gbp, label: Sale price}
+  rows:
+  - value_id: s12000033
+    label: Aberdeen City
+    ordinal: 0
+    row_number: 7
+    expected_row_header_column: B
+    expected_row_header: Aberdeen City
+    geography_id: S12000033
+    geography_level: local_authority
+    geography_name: Aberdeen City
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000033, label: local authority code}
+    - {column: B, row: 5, expected_value: 'Table 10 - Value of residential property sales more than £1
+        million (£million), by local authority, 2003-04 to 2025-26', label: table title}
+  - value_id: s12000034
+    label: Aberdeenshire
+    ordinal: 1
+    row_number: 8
+    expected_row_header_column: B
+    expected_row_header: Aberdeenshire
+    geography_id: S12000034
+    geography_level: local_authority
+    geography_name: Aberdeenshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000034, label: local authority code}
+  - value_id: s12000041
+    label: Angus
+    ordinal: 2
+    row_number: 9
+    expected_row_header_column: B
+    expected_row_header: Angus
+    geography_id: S12000041
+    geography_level: local_authority
+    geography_name: Angus
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000041, label: local authority code}
+  - value_id: s12000035
+    label: Argyll and Bute
+    ordinal: 3
+    row_number: 10
+    expected_row_header_column: B
+    expected_row_header: Argyll and Bute
+    geography_id: S12000035
+    geography_level: local_authority
+    geography_name: Argyll and Bute
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000035, label: local authority code}
+  - value_id: s12000036
+    label: City of Edinburgh
+    ordinal: 4
+    row_number: 11
+    expected_row_header_column: B
+    expected_row_header: City of Edinburgh
+    geography_id: S12000036
+    geography_level: local_authority
+    geography_name: City of Edinburgh
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000036, label: local authority code}
+  - value_id: s12000005
+    label: Clackmannanshire
+    ordinal: 5
+    row_number: 12
+    expected_row_header_column: B
+    expected_row_header: Clackmannanshire
+    geography_id: S12000005
+    geography_level: local_authority
+    geography_name: Clackmannanshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000005, label: local authority code}
+  - value_id: s12000006
+    label: Dumfries and Galloway
+    ordinal: 6
+    row_number: 13
+    expected_row_header_column: B
+    expected_row_header: Dumfries and Galloway
+    geography_id: S12000006
+    geography_level: local_authority
+    geography_name: Dumfries and Galloway
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000006, label: local authority code}
+  - value_id: s12000042
+    label: Dundee City
+    ordinal: 7
+    row_number: 14
+    expected_row_header_column: B
+    expected_row_header: Dundee City
+    geography_id: S12000042
+    geography_level: local_authority
+    geography_name: Dundee City
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000042, label: local authority code}
+  - value_id: s12000008
+    label: East Ayrshire
+    ordinal: 8
+    row_number: 15
+    expected_row_header_column: B
+    expected_row_header: East Ayrshire
+    geography_id: S12000008
+    geography_level: local_authority
+    geography_name: East Ayrshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000008, label: local authority code}
+  - value_id: s12000045
+    label: East Dunbartonshire
+    ordinal: 9
+    row_number: 16
+    expected_row_header_column: B
+    expected_row_header: East Dunbartonshire
+    geography_id: S12000045
+    geography_level: local_authority
+    geography_name: East Dunbartonshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000045, label: local authority code}
+  - value_id: s12000010
+    label: East Lothian
+    ordinal: 10
+    row_number: 17
+    expected_row_header_column: B
+    expected_row_header: East Lothian
+    geography_id: S12000010
+    geography_level: local_authority
+    geography_name: East Lothian
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000010, label: local authority code}
+  - value_id: s12000011
+    label: East Renfrewshire
+    ordinal: 11
+    row_number: 18
+    expected_row_header_column: B
+    expected_row_header: East Renfrewshire
+    geography_id: S12000011
+    geography_level: local_authority
+    geography_name: East Renfrewshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000011, label: local authority code}
+  - value_id: s12000014
+    label: Falkirk
+    ordinal: 12
+    row_number: 19
+    expected_row_header_column: B
+    expected_row_header: Falkirk
+    geography_id: S12000014
+    geography_level: local_authority
+    geography_name: Falkirk
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000014, label: local authority code}
+  - value_id: s12000047
+    label: Fife
+    ordinal: 13
+    row_number: 20
+    expected_row_header_column: B
+    expected_row_header: Fife
+    geography_id: S12000047
+    geography_level: local_authority
+    geography_name: Fife
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000047, label: local authority code}
+  - value_id: s12000049
+    label: Glasgow City
+    ordinal: 14
+    row_number: 21
+    expected_row_header_column: B
+    expected_row_header: Glasgow City
+    geography_id: S12000049
+    geography_level: local_authority
+    geography_name: Glasgow City
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000049, label: local authority code}
+  - value_id: s12000017
+    label: Highland
+    ordinal: 15
+    row_number: 22
+    expected_row_header_column: B
+    expected_row_header: Highland
+    geography_id: S12000017
+    geography_level: local_authority
+    geography_name: Highland
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000017, label: local authority code}
+  - value_id: s12000018
+    label: Inverclyde
+    ordinal: 16
+    row_number: 23
+    expected_row_header_column: B
+    expected_row_header: Inverclyde
+    geography_id: S12000018
+    geography_level: local_authority
+    geography_name: Inverclyde
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000018, label: local authority code}
+  - value_id: s12000019
+    label: Midlothian
+    ordinal: 17
+    row_number: 24
+    expected_row_header_column: B
+    expected_row_header: Midlothian
+    geography_id: S12000019
+    geography_level: local_authority
+    geography_name: Midlothian
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000019, label: local authority code}
+  - value_id: s12000020
+    label: Moray
+    ordinal: 18
+    row_number: 25
+    expected_row_header_column: B
+    expected_row_header: Moray
+    geography_id: S12000020
+    geography_level: local_authority
+    geography_name: Moray
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000020, label: local authority code}
+  - value_id: s12000021
+    label: North Ayrshire
+    ordinal: 19
+    row_number: 26
+    expected_row_header_column: B
+    expected_row_header: North Ayrshire
+    geography_id: S12000021
+    geography_level: local_authority
+    geography_name: North Ayrshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000021, label: local authority code}
+  - value_id: s12000048
+    label: Perth and Kinross
+    ordinal: 20
+    row_number: 27
+    expected_row_header_column: B
+    expected_row_header: Perth and Kinross
+    geography_id: S12000048
+    geography_level: local_authority
+    geography_name: Perth and Kinross
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000048, label: local authority code}
+  - value_id: s12000038
+    label: Renfrewshire
+    ordinal: 21
+    row_number: 28
+    expected_row_header_column: B
+    expected_row_header: Renfrewshire
+    geography_id: S12000038
+    geography_level: local_authority
+    geography_name: Renfrewshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000038, label: local authority code}
+  - value_id: s12000026
+    label: Scottish Borders
+    ordinal: 22
+    row_number: 29
+    expected_row_header_column: B
+    expected_row_header: Scottish Borders
+    geography_id: S12000026
+    geography_level: local_authority
+    geography_name: Scottish Borders
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000026, label: local authority code}
+  - value_id: s12000028
+    label: South Ayrshire
+    ordinal: 23
+    row_number: 30
+    expected_row_header_column: B
+    expected_row_header: South Ayrshire
+    geography_id: S12000028
+    geography_level: local_authority
+    geography_name: South Ayrshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000028, label: local authority code}
+  - value_id: s12000029
+    label: South Lanarkshire
+    ordinal: 24
+    row_number: 31
+    expected_row_header_column: B
+    expected_row_header: South Lanarkshire
+    geography_id: S12000029
+    geography_level: local_authority
+    geography_name: South Lanarkshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000029, label: local authority code}
+  - value_id: s12000030
+    label: Stirling
+    ordinal: 25
+    row_number: 32
+    expected_row_header_column: B
+    expected_row_header: Stirling
+    geography_id: S12000030
+    geography_level: local_authority
+    geography_name: Stirling
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000030, label: local authority code}
+  - value_id: s12000040
+    label: West Lothian
+    ordinal: 26
+    row_number: 33
+    expected_row_header_column: B
+    expected_row_header: West Lothian
+    geography_id: S12000040
+    geography_level: local_authority
+    geography_name: West Lothian
+    geography_vintage: ca_2019
+    table_record_kind: detail
+    guard_cells:
+    - {column: C, expected_value: S12000040, label: local authority code}
+  - value_id: s92000003
+    label: Scotland
+    ordinal: 27
+    row_number: 34
+    expected_row_header_column: B
+    expected_row_header: Scotland
+    geography_id: S92000003
+    geography_level: country
+    geography_name: Scotland
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - {column: C, expected_value: S92000003, label: local authority code}
+  measures:
+  - measure_id: residential_property_sales_value
+    label: Value of residential property sales more than £1 million
+    ordinal: 0
+    column: Z
+    source_column_id: 2025-26
+    expected_column_header_row: 6
+    expected_column_header: 2025-26
+    concept: ros.residential_property_sales_value
+    source_concept: ros.residential_property_sales_value
+    concept_relation: source_label
+    concept_authority: ros
+    concept_evidence_url: https://www.ros.gov.uk/data-and-statistics/property-market-statistics/property-market-report
+    concept_evidence_notes: Property Market Report 2025-26 data tables, Table 10 - Value of residential
+      property sales more than £1 million (£million), by local authority, 2003-04 to 2025-26, column '2025-26'.
+      Only true market residential sales are included in these figures. For example, sales of a share
+      of a residential property which may occur when one of the joint owners of a shared property buys
+      out the share of the other owner are excluded as they might not reflect the true market value and
+      could therefore have an impact on the house price statistics. Non-residential sales where the sale
+      price is a token amount or is a non-monetary amount are also not included. The data in this publication
+      is extracted from Registers of Scotland's Land Register.
+    unit: gbp
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000000

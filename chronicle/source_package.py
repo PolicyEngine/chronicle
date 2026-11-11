@@ -738,6 +738,27 @@ SOURCE_PACKAGE_ALIASES = {
     ),
     "scotgov-padp-caseload-july-2026": Path("scotgov/padp_caseload_july_2026"),
     # end chronicle#420 (Scotland)
+    # chronicle#435: Scotland's second homes and empty dwellings by council area, for
+    # Microcosm's Scottish council tax level (PolicyEngine/microcosm#1095).
+    "scotgov-second-homes-empty-properties-2025": Path(
+        "scotgov/second_homes_empty_properties_2025"
+    ),
+    # and the chronicle#420 items Microcosm's same PR needs: item 12, DESNZ's payment
+    # methods by region (Quarterly Energy Prices tables 2.4.2, 2.4.3 and 2.5.2).
+    "desnz-qep-electricity-payment-methods-2026": Path(
+        "desnz/qep_electricity_payment_methods_2026"
+    ),
+    "desnz-qep-time-of-use-electricity-payment-methods-2026": Path(
+        "desnz/qep_time_of_use_electricity_payment_methods_2026"
+    ),
+    "desnz-qep-gas-payment-methods-2026": Path("desnz/qep_gas_payment_methods_2026"),
+    # Item 13, the Scottish Government's Band I and J estimates and Registers of
+    # Scotland's residential sales over £1 million.
+    "scotgov-council-tax-high-value-bands-consultation-2026": Path(
+        "scotgov/council_tax_high_value_bands_consultation_2026"
+    ),
+    "ros-property-market-report-2025-26": Path("ros/property_market_report_2025_26"),
+    # end chronicle#435
     "hmrc-cgt-age-2026": Path("hmrc/cgt_age_2026"),
     "hmrc-cgt-asset-type-2026": Path("hmrc/cgt_asset_type_2026"),
     "hmrc-cgt-badr-ir-2026": Path("hmrc/cgt_badr_ir_2026"),

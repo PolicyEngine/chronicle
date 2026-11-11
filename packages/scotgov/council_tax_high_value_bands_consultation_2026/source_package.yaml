@@ -1,0 +1,295 @@
+# Scottish Government, 'Council Tax High-Value Property Bands (Mansion Tax): consultation'
+# (published 6 July 2026, closed 24 August 2026,
+# https://www.gov.scot/publications/consultation-council-tax-high-value-property-bands-mansion-tax/),
+# Figures 2 and 3 on page 9 of the consultation paper, for PolicyEngine/chronicle#420 item
+# 13 (PolicyEngine/uk-scottish-budget-2027-28#5; PolicyEngine/microcosm#1112), asked in
+# PolicyEngine/chronicle#435. Written by
+# scripts/build_uk_scottish_high_value_bands_package.py from the pinned PDF.
+#
+# Ported, at Scotland, as the published low and high estimates: the number of properties
+# in the proposed Band I (more than £1 million and up to £2 million) and Band J (more than
+# £2 million) at 1 April 2026 values, 12,680 to 16,740 and 760 to 1,070 (Figure 3); and
+# the additional annual revenue, compared to the average Band H charge, at the paper's
+# illustrative multipliers on 2026-27 Band D charges, £9.13m to £12.05m and £2.74m to
+# £3.85m (Figure 2, '£ millions', scaled to pounds). Band is council_tax_band I or J and
+# the bound is statistic low_estimate or high_estimate, filters on the two estimate
+# concepts. The facts are model_output estimates: the paper calls its rates illustrative,
+# and the figures' source reads 'Source: Illustrative Scottish Government estimates based
+# on Records of Scotland data, CTAXBASE statistics and analysis by the Institute for
+# Fiscal Studies'.
+#
+# Reading the labels: the charts print their data labels series by series, the low
+# estimates for Band I and Band J and then the high estimates, as their legends order
+# them. The generator asserts that order against the paper's own text: each band's high
+# estimate exceeds its low, Band I exceeds Band J, the property ranges bracket
+# 'approximately 15,000 properties in total', and the revenue ranges sum to the 'between
+# £12 million and £16 million per year' the paper states.
+#
+# What the revenue is measured against: 'compared to the average Band H charge', Band I
+# properties 'would pay around £720 more per year' and Band J properties 'around £3,600
+# more per year'. Each revenue label is its property label times that increase, to the
+# £0.01m the chart prints (the generator asserts it), so the figures apply the full
+# increase over the average Band H charge to every estimated property.
+#
+# The item's other part, Registers of Scotland's residential sales over £1 million, is the
+# package ros-property-market-report-2025-26. RoS publishes no split above £2 million. 8
+# facts.
+schema_version: ledger.source_package.v1
+package_id: scotgov-council-tax-high-value-bands-consultation-2026
+label: 'Scottish Government council tax Bands I and J consultation: estimated properties and additional
+  revenue, low and high estimates'
+dimension_labels:
+  scotgov.high_value_band_estimate: Band I and J estimate
+  council_tax_band: Council tax band
+  statistic: Statistic
+dimension_value_labels:
+  council_tax_band:
+    I: Band I
+    J: Band J
+  statistic:
+    low_estimate: Low estimate
+    high_estimate: High estimate
+artifact:
+  source_name: scotgov
+  source_table: 'Council Tax High-Value Property Bands (Mansion Tax): consultation, Figures 2 and 3'
+  resource_package: db
+  resource_directory: data/scotgov/council_tax_high_value_bands_consultation_2026
+  manifest: manifest.yaml
+  vintage: high_value_bands_consultation_2026_07_06
+  extracted_at: '2026-11-10'
+  extraction_method: PDF text numbers (consultation-council-tax-high-value-property-bands-mansion-tax.pdf)
+  parser: pdf_text_numbers
+  artifact_year: 2026
+record_sets:
+- record_set_id: scotgov.high_value_bands_consultation_2026.properties
+  provenance_class: model_output
+  assertion: observation
+  record_set_spec_id: scotgov.high_value_bands_consultation_2026.properties.v1
+  source_record_id_prefix: scotgov.high_value_bands_consultation_2026.properties
+  sheet_name: document_numbers
+  period_type: month
+  period: 2026-04
+  period_coverage:
+    start_date: '2026-04-01'
+    end_date: '2026-04-01'
+    basis: calendar
+    source_period_label: as at 1 April 2026
+    notes: The bands are defined on estimated open market capital values as at 1 April 2026.
+  geography_id: S92000003
+  geography_level: country
+  geography_name: Scotland
+  geography_vintage: current
+  entity: dwelling
+  entity_role: banded_property
+  domain: council_tax_stock
+  groupby_dimension: scotgov.high_value_band_estimate
+  rows:
+  - value_id: band_i_low_estimate
+    label: Band I, low estimate
+    ordinal: 0
+    row_number: 197
+    expected_row_header_column: D
+    expected_row_header: 12,680
+    table_record_kind: detail
+    filters:
+      council_tax_band: I
+      statistic: low_estimate
+    constraints:
+    - {variable: council_tax_band, operator: ==, value: I, label: Council tax band}
+    - {variable: statistic, operator: ==, value: low_estimate, label: Statistic}
+    guard_cells:
+    - {column: A, expected_value: 9, label: PDF page number (Figure 3)}
+    - {column: C, expected_value: '12,680', label: PDF line text}
+  - value_id: band_j_low_estimate
+    label: Band J, low estimate
+    ordinal: 1
+    row_number: 198
+    expected_row_header_column: D
+    expected_row_header: '760'
+    table_record_kind: detail
+    filters:
+      council_tax_band: J
+      statistic: low_estimate
+    constraints:
+    - {variable: council_tax_band, operator: ==, value: J, label: Council tax band}
+    - {variable: statistic, operator: ==, value: low_estimate, label: Statistic}
+    guard_cells:
+    - {column: A, expected_value: 9, label: PDF page number (Figure 3)}
+    - {column: C, expected_value: '760', label: PDF line text}
+  - value_id: band_i_high_estimate
+    label: Band I, high estimate
+    ordinal: 2
+    row_number: 199
+    expected_row_header_column: D
+    expected_row_header: 16,740
+    table_record_kind: detail
+    filters:
+      council_tax_band: I
+      statistic: high_estimate
+    constraints:
+    - {variable: council_tax_band, operator: ==, value: I, label: Council tax band}
+    - {variable: statistic, operator: ==, value: high_estimate, label: Statistic}
+    guard_cells:
+    - {column: A, expected_value: 9, label: PDF page number (Figure 3)}
+    - {column: C, expected_value: '16,740', label: PDF line text}
+  - value_id: band_j_high_estimate
+    label: Band J, high estimate
+    ordinal: 3
+    row_number: 200
+    expected_row_header_column: D
+    expected_row_header: 1,070
+    table_record_kind: detail
+    filters:
+      council_tax_band: J
+      statistic: high_estimate
+    constraints:
+    - {variable: council_tax_band, operator: ==, value: J, label: Council tax band}
+    - {variable: statistic, operator: ==, value: high_estimate, label: Statistic}
+    guard_cells:
+    - {column: A, expected_value: 9, label: PDF page number (Figure 3)}
+    - {column: C, expected_value: '1,070 - 2,000 4,000 6,000 8,000 10,000 12,000 14,000 16,000 18,000',
+      label: PDF line text}
+  measures:
+  - measure_id: properties
+    label: Estimated number of properties
+    ordinal: 0
+    column: E
+    source_column_id: numeric_value
+    expected_column_header_row: 1
+    expected_column_header: numeric_value
+    concept: scotgov.council_tax.high_value_band_properties_estimate
+    source_concept: scotgov.council_tax.high_value_band_properties_estimate
+    concept_relation: source_label
+    concept_authority: scotgov
+    concept_evidence_url: https://www.gov.scot/publications/consultation-council-tax-high-value-property-bands-mansion-tax/
+    concept_evidence_notes: 'Figure 3: Estimates of number of properties in Bands I and J (page 9), the
+      chart''s data labels: ''Estimated Number of Properties'', low and high estimates. Council Tax High-Value
+      Property Bands (Mansion Tax): consultation (published 6 July 2026), section 4. ''Band I: for properties
+      with an estimated open market capital value of more than £1 million and up to £2 million as at 1
+      April 2026.'' ''Band J: for properties with an estimated open market capital value of more than
+      £2 million as at 1 April 2026.'' ''Source: Illustrative Scottish Government estimates based on Records
+      of Scotland data, CTAXBASE statistics and analysis by the Institute for Fiscal Studies.'' The paper
+      calls its rates and estimates illustrative: ''The rates below are illustrative.'''
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+- record_set_id: scotgov.high_value_bands_consultation_2026.revenue
+  provenance_class: model_output
+  assertion: source_projection
+  record_set_spec_id: scotgov.high_value_bands_consultation_2026.revenue.v1
+  source_record_id_prefix: scotgov.high_value_bands_consultation_2026.revenue
+  sheet_name: document_numbers
+  period_type: fiscal_year
+  period: 2026
+  period_coverage:
+    start_date: '2026-04-01'
+    end_date: '2027-03-31'
+    basis: fiscal
+    source_period_label: per year, based on 2026-27 Band D charges
+    notes: Additional revenue per year compared to the average Band H charge, at the paper's illustrative
+      multipliers (2.886 for Band I, 4.628 for Band J) on 2026-27 Band D charges; the period value stores
+      the opening year of 2026-27.
+  geography_id: S92000003
+  geography_level: country
+  geography_name: Scotland
+  geography_vintage: current
+  entity: government
+  entity_role: billing_authority
+  domain: council_tax
+  groupby_dimension: scotgov.high_value_band_estimate
+  rows:
+  - value_id: band_i_low_estimate
+    label: Band I, low estimate
+    ordinal: 0
+    row_number: 210
+    expected_row_header_column: D
+    expected_row_header: '9.13'
+    table_record_kind: detail
+    filters:
+      council_tax_band: I
+      statistic: low_estimate
+    constraints:
+    - {variable: council_tax_band, operator: ==, value: I, label: Council tax band}
+    - {variable: statistic, operator: ==, value: low_estimate, label: Statistic}
+    guard_cells:
+    - {column: A, expected_value: 9, label: PDF page number (Figure 2)}
+    - {column: C, expected_value: '9.13', label: PDF line text}
+  - value_id: band_j_low_estimate
+    label: Band J, low estimate
+    ordinal: 1
+    row_number: 211
+    expected_row_header_column: D
+    expected_row_header: '2.74'
+    table_record_kind: detail
+    filters:
+      council_tax_band: J
+      statistic: low_estimate
+    constraints:
+    - {variable: council_tax_band, operator: ==, value: J, label: Council tax band}
+    - {variable: statistic, operator: ==, value: low_estimate, label: Statistic}
+    guard_cells:
+    - {column: A, expected_value: 9, label: PDF page number (Figure 2)}
+    - {column: C, expected_value: '2.74', label: PDF line text}
+  - value_id: band_i_high_estimate
+    label: Band I, high estimate
+    ordinal: 2
+    row_number: 212
+    expected_row_header_column: D
+    expected_row_header: '12.05'
+    table_record_kind: detail
+    filters:
+      council_tax_band: I
+      statistic: high_estimate
+    constraints:
+    - {variable: council_tax_band, operator: ==, value: I, label: Council tax band}
+    - {variable: statistic, operator: ==, value: high_estimate, label: Statistic}
+    guard_cells:
+    - {column: A, expected_value: 9, label: PDF page number (Figure 2)}
+    - {column: C, expected_value: '12.05', label: PDF line text}
+  - value_id: band_j_high_estimate
+    label: Band J, high estimate
+    ordinal: 3
+    row_number: 213
+    expected_row_header_column: D
+    expected_row_header: '3.85'
+    table_record_kind: detail
+    filters:
+      council_tax_band: J
+      statistic: high_estimate
+    constraints:
+    - {variable: council_tax_band, operator: ==, value: J, label: Council tax band}
+    - {variable: statistic, operator: ==, value: high_estimate, label: Statistic}
+    guard_cells:
+    - {column: A, expected_value: 9, label: PDF page number (Figure 2)}
+    - {column: C, expected_value: '3.85', label: PDF line text}
+  measures:
+  - measure_id: additional_revenue
+    label: Estimated additional revenue (£ millions)
+    ordinal: 0
+    column: E
+    source_column_id: numeric_value
+    expected_column_header_row: 1
+    expected_column_header: numeric_value
+    concept: scotgov.council_tax.high_value_band_additional_revenue_estimate
+    source_concept: scotgov.council_tax.high_value_band_additional_revenue_estimate
+    concept_relation: source_label
+    concept_authority: scotgov
+    concept_evidence_url: https://www.gov.scot/publications/consultation-council-tax-high-value-property-bands-mansion-tax/
+    concept_evidence_notes: 'Figure 2: Estimates of additional annual revenue from Bands I and J (page
+      9), the chart''s data labels in £ millions: ''Estimated Additional Revenue'', low and high estimates.
+      ''This means that, compared to the average Band H charge, it is estimated that:'' ''Band I properties
+      (valued between £1 million and £2 million) would pay around £720 more per year than the Band H.''
+      ''Band J properties (valued at over £2 million) would pay around £3,600 more per year than the Band
+      H.'' Each figure is the matching property estimate times £720 (Band I) or £3,600 (Band J), to the
+      £0.01m the chart prints, so it applies the full increase over the average Band H charge to every
+      estimated property. Council Tax High-Value Property Bands (Mansion Tax): consultation (published
+      6 July 2026), section 4. ''Band I: for properties with an estimated open market capital value of
+      more than £1 million and up to £2 million as at 1 April 2026.'' ''Band J: for properties with an
+      estimated open market capital value of more than £2 million as at 1 April 2026.'' ''Source: Illustrative
+      Scottish Government estimates based on Records of Scotland data, CTAXBASE statistics and analysis
+      by the Institute for Fiscal Studies.'' The paper calls its rates and estimates illustrative: ''The
+      rates below are illustrative.'''
+    unit: gbp
+    value_scale: 1000000
+    aggregation: sum
+    expected_cell_type: number

@@ -1,0 +1,29 @@
+source_id: desnz
+package_id: desnz-qep-time-of-use-electricity-payment-methods-2026
+dataset: desnz_desnz-qep-time-of-use-electricity-payment-methods-2026
+source_page: https://www.gov.uk/government/statistical-data-sets/quarterly-domestic-energy-price-statistics
+table: 'Quarterly Energy Prices table 2.4.3: regional variation of payment method
+  for Economy 7 and other time of use electricity (updated 29 September 2026)'
+publisher: Department for Energy Security and Net Zero
+license: Open Government Licence v3.0
+license_url: https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/
+attribution: 'Source: Department for Energy Security and Net Zero, Quarterly Energy
+  Prices, table 2.4.3 (updated 29 September 2026). Contains public sector information
+  licensed under the Open Government Licence v3.0.'
+license_evidence: 'The statistical data set page (https://www.gov.uk/government/statistical-data-sets/quarterly-domestic-energy-price-statistics)
+  states: ''All content is available under the Open Government Licence v3.0, except
+  where otherwise stated''; the workbook states no other terms.'
+license_verified_at: '2026-11-10'
+files:
+  2026:
+    filename: table_243.xlsx
+    source_url: https://assets.publishing.service.gov.uk/media/6ab54077fe72ed1e2b02f054/table_243.xlsx
+    sha256: 2fb7aa200c4d0ab512145266fc59f83ff2563e88fcb3252ceb42d20477f68bc1
+    size_bytes: 306693
+    fetched_at: '2026-11-10T16:49:22+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/desnz/desnz-qep-time-of-use-electricity-payment-methods-2026/2026/2fb7aa200c4d0ab512145266fc59f83ff2563e88fcb3252ceb42d20477f68bc1/table_243.xlsx
+        uri: r2://ledger-raw/raw/uk/desnz/desnz-qep-time-of-use-electricity-payment-methods-2026/2026/2fb7aa200c4d0ab512145266fc59f83ff2563e88fcb3252ceb42d20477f68bc1/table_243.xlsx
