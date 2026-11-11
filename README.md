@@ -326,8 +326,9 @@ The US off-year bundle behavior is unchanged and out of scope here.
 The New Zealand feed builds the same way from the curated NZ suite:
 
 ```bash
-uv run chronicle build-bundle --suite nz --out /tmp/chronicle-nz --replace
-uv run chronicle build-consumer-artifact --facts /tmp/chronicle-nz --out /tmp/chronicle-nz-artifact --replace
+RUN_DIR="$(mktemp -d)"
+uv run chronicle build-bundle --suite nz --out "$RUN_DIR/chronicle-nz" --slim
+uv run chronicle build-consumer-artifact --facts "$RUN_DIR/chronicle-nz" --out "$RUN_DIR/chronicle-nz-artifact"
 ```
 
 `NZ_BUNDLE_SOURCES` in `chronicle/bundle.py` lists every package under
@@ -344,8 +345,9 @@ cannot be combined with `--source`.
 The Belgian feed builds from the curated BE suite:
 
 ```bash
-uv run chronicle build-bundle --suite be --out /tmp/chronicle-be --replace
-uv run chronicle build-consumer-artifact --facts /tmp/chronicle-be --out /tmp/chronicle-be-artifact --replace
+RUN_DIR="$(mktemp -d)"
+uv run chronicle build-bundle --suite be --out "$RUN_DIR/chronicle-be" --slim
+uv run chronicle build-consumer-artifact --facts "$RUN_DIR/chronicle-be" --out "$RUN_DIR/chronicle-be-artifact"
 ```
 
 `BE_BUNDLE_SOURCES` in `chronicle/bundle.py` lists every package under the
