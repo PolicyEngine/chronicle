@@ -1,0 +1,19 @@
+source_id: dwp
+package_id: dwp-hbai-uncertainty-fye2025
+dataset: dwp_dwp-hbai-uncertainty-fye2025
+source_page: https://www.gov.uk/government/statistics/households-below-average-income-for-financial-years-ending-1995-to-2025
+table: 'Households Below Average Income, FYE 2025: HBAI data tables (ZIP), communicating
+  uncertainty tables'
+files:
+  2025:
+    filename: hbai-data_tables-2025.zip
+    source_url: https://assets.publishing.service.gov.uk/media/69c2902a7e02b81c0d1c7762/hbai-data_tables-2025.zip
+    sha256: bd015fc244b1bbb0b81a1fb4456f891e5ca9a89b1f70dad57bfa8e5c10e20cea
+    size_bytes: 10864142
+    fetched_at: '2026-10-15T09:09:54+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/dwp/dwp-hbai-uncertainty-fye2025/2025/bd015fc244b1bbb0b81a1fb4456f891e5ca9a89b1f70dad57bfa8e5c10e20cea/hbai-data_tables-2025.zip
+        uri: r2://ledger-raw/raw/uk/dwp/dwp-hbai-uncertainty-fye2025/2025/bd015fc244b1bbb0b81a1fb4456f891e5ca9a89b1f70dad57bfa8e5c10e20cea/hbai-data_tables-2025.zip

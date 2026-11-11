@@ -1,0 +1,26 @@
+source_id: lps
+package_id: lps-disabled-persons-allowance-ye-2024
+dataset: lps_lps-disabled-persons-allowance-ye-2024
+source_page: https://www.finance-ni.gov.uk/publications/lone-pensioner-and-disabled-person-allowance-statistics
+table: Disabled Person's Allowance (DPA) statistics to year end 2024
+license: Open Government Licence v3.0
+license_url: https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/
+attribution: 'Source: Land & Property Services, Disabled Person''s Allowance (DPA)
+  statistics to year end 2024 (Published: 29 May 2024). Contains public sector information
+  licensed under the Open Government Licence v3.0.'
+license_evidence: 'The workbook''s Cover Sheet states: ''Contains public sector information
+  licensed under the Open Government Licence v3.0.'''
+license_verified_at: '2026-10-30'
+files:
+  2024:
+    filename: lps-dpa-ye-2024.XLSX
+    source_url: https://www.finance-ni.gov.uk/sites/default/files/publications/dfp/lps-dpa-ye-2024.XLSX
+    sha256: 41b5aaa78d7ed3792a1761972e4be1196e8a6dee8d2be0a26d4d84a823860cfc
+    size_bytes: 153335
+    fetched_at: '2026-10-30T13:45:51+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/lps/lps-disabled-persons-allowance-ye-2024/2024/41b5aaa78d7ed3792a1761972e4be1196e8a6dee8d2be0a26d4d84a823860cfc/lps-dpa-ye-2024.XLSX
+        uri: r2://ledger-raw/raw/lps/lps-disabled-persons-allowance-ye-2024/2024/41b5aaa78d7ed3792a1761972e4be1196e8a6dee8d2be0a26d4d84a823860cfc/lps-dpa-ye-2024.XLSX

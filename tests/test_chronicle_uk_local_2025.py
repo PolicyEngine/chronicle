@@ -1,7 +1,11 @@
 """Publisher coverage and period regressions for chronicle#313."""
 
 import hashlib
+import json
+from collections import Counter, defaultdict
 from dataclasses import replace
+from datetime import datetime
+from functools import lru_cache
 from pathlib import Path
 
 import pytest
@@ -9,6 +13,20 @@ import yaml
 
 from chronicle.consumer_contract import validate_consumer_fact_contract
 from chronicle.source_package import SOURCE_PACKAGE_ALIASES, load_source_package
+
+# NRS dwellings by 2022 data zone: council tax bands A to H in columns G to N.
+DATA_ZONE_BAND_COLUMNS = dict(zip("ABCDEFGH", "GHIJKLMN", strict=True))
+
+
+@lru_cache
+def _data_zone_dwellings():
+    return load_source_package("nrs-dwellings-data-zone-2025")
+
+
+@lru_cache
+def _data_zone_dwelling_cells():
+    # Parsing the workbook takes over a minute; building facts from its cells, 8s.
+    return _data_zone_dwellings().build_source_cells(2025)
 
 
 def test_mid2025_local_authority_population_keeps_all_four_nations():
@@ -104,6 +122,49 @@ def test_household_controls_keep_private_households_projections_and_stock_distin
     }
 
 
+def test_scottish_data_zone_council_tax_bands_sum_to_each_zone_total():
+    """chronicle#419: columns G to N (bands A to H) add up to column E."""
+    facts = _data_zone_dwellings().build_facts(2025, cells=_data_zone_dwelling_cells())
+    bands = tuple(f"nrs.dwellings_band_{band}" for band in "abcdefgh")
+    zones = defaultdict(dict)
+    for fact in facts:
+        zones[fact.period.value, fact.geography.id][fact.measure.concept] = fact.value
+    assert len(facts) == 2 * 7_392 * 9
+    assert Counter(period for period, _ in zones) == {2024: 7_392, 2025: 7_392}
+    for key, values in zones.items():
+        assert set(values) == {"nrs.dwellings_total", *bands}, key
+        assert sum(values[band] for band in bands) == values["nrs.dwellings_total"], key
+    # Culter - 01 (S01013482, row 6), bands A to H as published.
+    published = {
+        2024: [21, 153, 45, 55, 100, 44, 85, 13],
+        2025: [21, 153, 45, 55, 99, 45, 85, 13],
+    }
+    for period, counts in published.items():
+        assert [zones[period, "S01013482"][band] for band in bands] == counts
+    assert all(f.source_cell_keys for f in facts)
+    assert validate_consumer_fact_contract(facts).valid
+
+
+@pytest.mark.parametrize("sheet", ["2024", "2025"])
+@pytest.mark.parametrize("band", list(DATA_ZONE_BAND_COLUMNS))
+def test_scottish_data_zone_band_header_guards_reject_drift(sheet, band):
+    """Each band's guard stops the build when its column holds the next band."""
+    address = f"{DATA_ZONE_BAND_COLUMNS[band]}5"
+    next_band = "BCDEFGHA"["ABCDEFGH".index(band)]
+    changed_cells = [
+        replace(cell, raw_value=f"Council Tax band:\n{next_band}")
+        if (cell.sheet_name, cell.address) == (sheet, address)
+        else cell
+        for cell in _data_zone_dwelling_cells()
+    ]
+    measure = f"nrs_dwellings_band_{band.lower()}"
+    with pytest.raises(
+        ValueError,
+        match=rf"\.{sheet}\.\w+\.{measure}\.selector' expected column header",
+    ):
+        _data_zone_dwellings().build_facts(2025, cells=changed_cells)
+
+
 def test_rm120_retains_age_sex_residence_and_2023_lad_boundaries():
     facts = load_source_package(
         "ons-census2021-rm120-pcon24-residence2-sex0"
@@ -167,62 +228,127 @@ def test_ni_communal_counts_preserve_positions_and_exclude_percentage_table():
     )
 
 
+UC_AREA_MONTHS = {f"2025-{month:02d}" for month in range(1, 13)} | {
+    f"2026-{month:02d}" for month in range(1, 6)
+}
+
+
+def _retired_all_claims_cells(stem):
+    """The 7 October 2026 all-claims cube, kept under db/data after chronicle#339."""
+    path = Path(__file__).parents[1] / "db" / "data" / "dwp" / stem / f"{stem}.json"
+    data = json.loads(path.read_bytes())
+    months = [
+        datetime.strptime(item["labels"][0], "%B %Y").strftime("%Y-%m")
+        for item in data["fields"][0]["items"]
+    ]
+    areas = [item["uris"][0].rsplit(":", 1)[1] for item in data["fields"][1]["items"]]
+    values = next(iter(data["cubes"].values()))["values"]
+    return {
+        (month, area): values[m][a]
+        for m, month in enumerate(months)
+        for a, area in enumerate(areas)
+    }
+
+
 @pytest.mark.parametrize(
-    "grain,areas", [("constituency", 632), ("local-authority", 350)]
+    "grain,areas,area,published",
+    [
+        # Bishop Auckland, Stat-Xplore extract of 15 October 2026.
+        (
+            "constituency",
+            632,
+            "E14001101",
+            {
+                ("2025-01", "No"): 845,
+                ("2025-01", "Yes"): 9_467,
+                ("2026-05", "No"): 674,
+                ("2026-05", "Yes"): 11_353,
+            },
+        ),
+        # Hartlepool.
+        (
+            "local-authority",
+            350,
+            "E06000001",
+            {
+                ("2025-01", "No"): 1_105,
+                ("2025-01", "Yes"): 13_271,
+                ("2026-05", "No"): 868,
+                ("2026-05", "Yes"): 15_158,
+            },
+        ),
+    ],
 )
-def test_uc_area_packages_preserve_all_months_and_extraction_vintage(grain, areas):
+def test_uc_area_packages_split_every_month_by_payment_indicator(
+    grain, areas, area, published
+):
+    """chronicle#339: Yes and No per area-month, so Microcosm can bind paid claims."""
     facts = load_source_package(
-        f"dwp-uc-households-by-{grain}-january-2025-may-2026"
+        f"dwp-uc-households-by-{grain}-payment-indicator-january-2025-may-2026"
     ).build_facts(2025)
-    months = {f"2025-{month:02d}" for month in range(1, 13)} | {
-        f"2026-{month:02d}" for month in range(1, 6)
-    }
-    assert len(facts) == areas * 17
-    assert {f.period.value for f in facts} == months
+    assert len(facts) == areas * 17 * 2
+    assert {f.period.value for f in facts} == UC_AREA_MONTHS
     assert all(f.period.type == "month" for f in facts)
-    assert {f.source.vintage for f in facts} == {"stat_xplore_extracted_2026_10_07"}
+    assert {f.filters["payment_indicator"] for f in facts} == {"Yes", "No"}
+    assert {f.source.vintage for f in facts} == {"stat_xplore_extracted_2026_10_15"}
     assert all(f.source_row_keys and f.source_cell_keys for f in facts)
-    legacy = "uk.local_geography.uc_households.by_" + grain.replace("-", "_") + ".v1"
-    compatible = [f for f in facts if f.layout.record_set_spec_id == legacy]
-    assert len(compatible) == areas
-    assert {f.period.value for f in compatible} == {"2025-05"}
-    assert all(
-        f.layout.record_set_spec_id.startswith("dwp.statx.")
+    # An indicator cell is not an all-claims cell, so no legacy selector family.
+    assert all(f.layout.record_set_spec_id.startswith("dwp.statx.") for f in facts)
+    assert {
+        (f.period.value, f.filters["payment_indicator"]): f.value
         for f in facts
-        if f.period.value != "2025-05"
+        if f.geography.id == area and f.period.value in {"2025-01", "2026-05"}
+    } == published
+
+    # Yes + No is the all-claims count of the retired package. DWP perturbs each
+    # cube's cells at source, so the two cubes agree to within a few households.
+    all_claims = defaultdict(int)
+    for fact in facts:
+        all_claims[(fact.period.value, fact.geography.id)] += fact.value
+    retired = _retired_all_claims_cells(
+        f"uc_households_by_{grain.replace('-', '_')}_january_2025_may_2026"
+    )
+    assert len(all_claims) == areas * 17
+    assert max(abs(total - retired[key]) for key, total in all_claims.items()) <= 15
+    assert f"dwp-uc-households-by-{grain}-january-2025-may-2026" not in (
+        SOURCE_PACKAGE_ALIASES
     )
 
 
-def test_uc_child_legacy_selectors_are_confined_to_equivalent_may_cells():
+def test_uc_child_package_crosses_every_band_with_payment_indicator():
     package = load_source_package(
-        "dwp-uc-households-by-constituency-children-january-2025-may-2026"
+        "dwp-uc-households-by-constituency-children-payment-indicator-january-2025-may-2026"
     )
-    may = [r.payload for r in package.record_sets if r.payload["period"] == "2025-05"]
-    expected = {
-        "0": "0",
-        "1": "1",
-        "2": "2",
-        "3": "3plus",
-        "4": "3plus",
-        "5 or more": "3plus",
-        "Unknown or missing": "unknown",
-    }
-    assert len(may) == 7
-    for record in may:
-        child = record["shared_filters"]["number_of_children"]
-        assert record["record_set_spec_id"] == (
-            "uk.local_geography.uc_households.children_" + expected[child] + ".v1"
+    bands = ["0", "1", "2", "3", "4", "5 or more", "Unknown or missing"]
+    record_sets = [r.payload for r in package.record_sets]
+    assert len(record_sets) == 17 * 2 * len(bands)
+    assert {
+        (
+            r["period"],
+            r["shared_filters"]["payment_indicator"],
+            str(r["shared_filters"]["number_of_children"]),
         )
+        for r in record_sets
+    } == {
+        (month, indicator, band)
+        for month in UC_AREA_MONTHS
+        for indicator in ("No", "Yes")
+        for band in bands
+    }
+    for record in record_sets:
         assert len(record["rows"]) == 632
-        assert record["record_set_id"].startswith("dwp.statx.")
-    assert all(
-        r.payload["record_set_spec_id"].startswith("dwp.statx.")
-        for r in package.record_sets
-        if r.payload["period"] != "2025-05"
-    )
+        assert record["record_set_spec_id"].startswith("dwp.statx.")
+        assert [c["variable"] for c in record["shared_constraints"]] == [
+            "number_of_children",
+            "payment_indicator",
+        ]
     assert not any(
-        "Not available prior to April 2019" in str(r.payload["shared_filters"])
-        for r in package.record_sets
+        "Not available prior to April 2019" in str(r["shared_filters"])
+        for r in record_sets
+    )
+    assert (
+        "dwp-uc-households-by-constituency-children-january-2025-may-2026"
+        not in SOURCE_PACKAGE_ALIASES
     )
 
 

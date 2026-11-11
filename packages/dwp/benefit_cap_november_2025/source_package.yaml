@@ -2,7 +2,7 @@
 # Total + 13 amount-capped bands). uk-data's 110,637 'benefit_capped_
 # households' is exactly this GB Total (UC-only, publisher-emitted); its
 # GBP 320.866m 'total reduction' is a computed annualization of these band
-# midpoints and is excluded per the facts-only ADR - populace can declare
+# midpoints and is excluded per the facts-only ADR - Microcosm can declare
 # its own annualization over the ported band distribution. Cumulative
 # (Table 5) and flows tables are backfill-lane candidates.
 schema_version: ledger.source_package.v1

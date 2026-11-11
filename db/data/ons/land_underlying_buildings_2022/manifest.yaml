@@ -1,0 +1,35 @@
+source_id: ons
+package_id: ons-land-underlying-buildings-2022
+dataset: ons_ons-land-underlying-buildings-2022
+source_page: https://www.ons.gov.uk/economy/nationalaccounts/uksectoraccounts/articles/improvingestimatesoflandunderlyingotherbuildingsandstructuresinthenationalbalancesheetuk/2022
+table: 'Improving estimates of land underlying other buildings and structures in the
+  national balance sheet, UK: 2022, Figure 1 (non-produced asset value in the UK,
+  current prices, 1995 to 2021)'
+license: Open Government Licence v3.0
+license_url: https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/
+attribution: 'Source: Office for National Statistics, ''Improving estimates of land
+  underlying other buildings and structures in the national balance sheet, UK: 2022''
+  (published 27 June 2022), Figure 1 data. Contains public sector information licensed
+  under the Open Government Licence v3.0.'
+license_evidence: 'ONS pages state: ''All content is available under the Open Government
+  Licence v3.0, except where otherwise stated.'' (article page)'
+license_verified_at: '2026-11-04'
+files:
+  2022:
+    filename: land_underlying_buildings_figure_1_2022.csv
+    source_url: https://www.ons.gov.uk/generator?uri=/economy/nationalaccounts/uksectoraccounts/articles/improvingestimatesoflandunderlyingotherbuildingsandstructuresinthenationalbalancesheetuk/2022/58c34c2c&format=csv
+    sha256: 1b99e4f94383d5aa39d4829454cfc12bc6f46dc58ad54c9bafcf9614cfc2fd0f
+    size_bytes: 1275
+    fetched_at: '2026-11-04T13:12:44+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/ons/ons-land-underlying-buildings-2022/2022/1b99e4f94383d5aa39d4829454cfc12bc6f46dc58ad54c9bafcf9614cfc2fd0f/land_underlying_buildings_figure_1_2022.csv
+        uri: r2://ledger-raw/raw/uk/ons/ons-land-underlying-buildings-2022/2022/1b99e4f94383d5aa39d4829454cfc12bc6f46dc58ad54c9bafcf9614cfc2fd0f/land_underlying_buildings_figure_1_2022.csv
+provenance_notes: ONS serves the CSV from its chart generator (the source_url), not
+  as a stored file; the download is named 'Figure_1:_Land_underlying_other_buildings_and_structures_is_the_second_most_valuable_type_of_land.csv'
+  and is registered here under a plain name. Three fetches on 4 November 2026, about
+  40 minutes apart, returned these bytes (sha256 1b99e4f9...fd0f); the generator's
+  response is cached for up to 900 seconds, so the first and last fetches were separate
+  generations.

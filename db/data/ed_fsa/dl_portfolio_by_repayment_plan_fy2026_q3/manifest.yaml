@@ -1,0 +1,21 @@
+source_id: ed_fsa
+package_id: ed-fsa-dl-portfolio-by-repayment-plan-fy2026-q3
+dataset: ed_fsa_dl_portfolio_by_repayment_plan_fy2026_q3
+source_page: https://studentaid.gov/data-center/student/portfolio
+table: Direct Loan Portfolio by Repayment Plan (DLPortfoliobyRepaymentPlan.xls), through FY2026 Q3
+files:
+  2026:
+    filename: DLPortfoliobyRepaymentPlan.xls
+    source_url: https://studentaid.gov/sites/default/files/fsawg/datacenter/library/DLPortfoliobyRepaymentPlan.xls
+    sha256: 5cea1958115574270c825ccc34dd656658d58bff6e439a21fb1f3aafe7bf3ca0
+    size_bytes: 165376
+    fetched_at: '2026-10-12T14:09:17Z'
+    source_table: Direct Loan Portfolio by Repayment Plan (DLPortfoliobyRepaymentPlan.xls), through FY2026
+      Q3
+    year: 2026
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/ed_fsa/ed-fsa-dl-portfolio-by-repayment-plan-fy2026-q3/2026/5cea1958115574270c825ccc34dd656658d58bff6e439a21fb1f3aafe7bf3ca0/DLPortfoliobyRepaymentPlan.xls
+        uri: r2://ledger-raw/raw/ed_fsa/ed-fsa-dl-portfolio-by-repayment-plan-fy2026-q3/2026/5cea1958115574270c825ccc34dd656658d58bff6e439a21fb1f3aafe7bf3ca0/DLPortfoliobyRepaymentPlan.xls

@@ -9,7 +9,7 @@
 # last wave-1 row of #132). ISC membership covers roughly half of UK
 # independent schools and around four-fifths of independent-school pupils;
 # mapping this membership count to the model's attends_private_school
-# variable is a populace-side declaration.
+# variable is a Microcosm-side declaration.
 schema_version: ledger.source_package.v1
 package_id: isc-annual-census-2024
 label: 'ISC annual Census 2024: pupils at ISC member schools'

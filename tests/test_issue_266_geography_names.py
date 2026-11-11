@@ -193,7 +193,8 @@ def test_unnamed_areas_are_reported_once_each_and_country_rows_are_not():
     ]
 
     errors = _geography_name_errors(
-        "dwp-uc-households-by-constituency-january-2025-may-2026", rows
+        "dwp-uc-households-by-constituency-payment-indicator-january-2025-may-2026",
+        rows,
     )
 
     assert [error.key for error in errors] == [
@@ -278,7 +279,8 @@ def test_one_package_naming_an_area_twice_is_an_error():
     ]
 
     errors = _geography_name_errors(
-        "dwp-uc-households-by-constituency-january-2025-may-2026", rows
+        "dwp-uc-households-by-constituency-payment-indicator-january-2025-may-2026",
+        rows,
     )
 
     assert [(error.code, error.key) for error in errors] == [

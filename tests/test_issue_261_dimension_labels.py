@@ -242,22 +242,24 @@ def test_constraint_labels_that_disagree_label_nothing():
 
 
 def test_the_groupby_row_label_labels_a_filter_on_the_same_axis():
+    # A value Chronicle's register does not list (chronicle#376), so the row
+    # label is its label.
     [labelled] = label_facts(
         [
             _fact(
                 {
-                    "household_income_band": "gbp15_000_gbp19_999",
-                    "region": "gbp15_000_gbp19_999",
+                    "household_income_band": "gbp15_000_gbp19_998",
+                    "region": "gbp15_000_gbp19_998",
                 },
                 groupby="desnz.need.household_income_band",
-                value_id="gbp15_000_gbp19_999",
-                value_label="£15,000 to £19,999 ",
+                value_id="gbp15_000_gbp19_998",
+                value_label="£15,000 to £19,998 ",
             )
         ]
     )
 
     assert labelled.dimension_value_labels["household_income_band"] == {
-        "gbp15_000_gbp19_999": "£15,000 to £19,999"
+        "gbp15_000_gbp19_998": "£15,000 to £19,998"
     }
     assert "region" not in labelled.dimension_value_labels
 
@@ -328,7 +330,7 @@ def test_labels_never_move_a_fact_key_or_value():
         **plain["layout"],
         "groupby_dimension_label": "Carer Entitlement",
     }
-    assert rich["schema_version"] == "chronicle.consumer_fact.v4"
+    assert rich["schema_version"] == "chronicle.consumer_fact.v5"
     validate_consumer_fact_row(rich, 1, "labelled.jsonl")
 
 
@@ -430,12 +432,15 @@ def test_bundle_requires_labels_for_uk_packages_only():
         UK_BUNDLE_SOURCES[0], [unlabelled, _row(), drifting]
     )
 
+    # Row labels that drift across one groupby value are refused too: a value
+    # carries one label (chronicle#376).
     assert {error.code for error in errors} == {
         "missing_dimension_label",
         "missing_dimension_value_label",
+        "conflicting_groupby_value_label",
     }
-    assert [warning.code for warning in warnings] == ["conflicting_groupby_value_label"]
-    assert all(issue.source == UK_BUNDLE_SOURCES[0] for issue in errors + warnings)
+    assert warnings == []
+    assert all(issue.source == UK_BUNDLE_SOURCES[0] for issue in errors)
 
 
 def test_one_uk_dimension_id_needs_one_label_across_packages():
@@ -531,9 +536,9 @@ def test_build_bundle_reports_an_unlabelled_uk_package(tmp_path, monkeypatch):
     )
 
     assert not report.valid
-    assert {issue.code for issue in report.errors} == {
-        "missing_dimension_label",
-        "missing_dimension_value_label",
-    }
+    # The package's values are ones other ISC packages emit too, so they take
+    # the labels Chronicle's register gives them (chronicle#376); its
+    # dimension ids still need the declarations this copy dropped.
+    assert {issue.code for issue in report.errors} == {"missing_dimension_label"}
     assert {issue.source for issue in report.errors} == {str(package_dir)}
     assert "isc.census_line" in {issue.key for issue in report.errors}

@@ -53,13 +53,15 @@ tests, and record a verified `raw/nz/...` R2 URI.
 
 | Package from #176 | Artifact pinned | Package valid | `raw/nz` verified | Notes |
 |---|---:|---:|---:|---|
-| `stats_nz/subnational_population_estimates_2025` | [x] | [ ] | [x] | **Partial:** 85 validated workbook counts (16 regions + published NZ total; all ages/four broad age bands). Five-year-age × sex coverage is missing; its ADE structure request returned HTTP 401. Package-completion box stays unchecked. [Evidence and access notes](pe-nz-population-source-notes.md). |
+| `stats_nz/subnational_population_estimates_2025` | [x] | [ ] | [x] | **Partial:** 102 workbook counts: 85 at 30 June 2025 (16 regions + published NZ total; all ages/four broad age bands), plus G8-d4's 17 all-age counts at 30 June 2023 from Table 1!B7:B22 and B25. The 2023 header has no P; Contents and workbook footnotes do not explicitly call 2023 final or revised. Same pinned workbook and REGC 2025 geographies; no new artifact, ratios or alignment. Five-year-age × sex coverage is missing; its ADE structure request returned HTTP 401. Package-completion box stays unchecked. [Evidence and access notes](pe-nz-population-source-notes.md). |
+| `stats_nz/subnational_population_ta_2025` | [x] | [x] | [x] | G8-d2: 67 provisional all-age estimated resident populations at 30 June 2025, one Table 2!E cell per territorial authority; `local_authority`, `nz-ta-NNN`, `ta_2025`. Same unchanged workbook; codes and names come from the pinned 68-feature Stats NZ TA 2025 classification. The hub published the classification to its `raw/nz/stats_nz/...` key and verified it by SHA-256 on 2026-10-13. Local boards, previous years, change/percent columns and the duplicate NZ row are preserved but not emitted; no sums or reconciliation. [Scope](../packages/stats_nz/subnational_population_ta_2025/README.md) and [evidence](pe-nz-population-source-notes.md). |
 | `stats_nz/national_population_estimates_2025` | [ ] | [ ] | [ ] | **Blocked:** no original-vintage single-year-age artifact acquired. The 19 August 2025 release points to Infoshare, not an XLSX. Landing-page evidence only is hash-pinned in `raw/nz`; it emits zero facts. [Evidence and access notes](pe-nz-population-source-notes.md). |
-| `stats_nz/census_2023_households_by_region` | [ ] | [ ] | [ ] | |
-| `stats_nz/census_2023_family_type` | [ ] | [ ] | [ ] | |
+| `stats_nz/census_2023_households_by_region` | [x] | [ ] | [x] | **Partial:** B5: 216 published 2023 Census counts, 12 per place (NZ, 16 regional councils and separate Area Outside Region): households, three tenure categories and eight usual-resident household sizes. Requested household composition and social-renting split are absent from this product. #176 named the S2 ArcGIS hub regional-council layer as the source; the published ArcGIS household and family layers are SA1/SA2 only, so regional household composition needs the Aotearoa Data Explorer (`CEN23_FHH_038`, API key or manual export) and stays open. Package-completion box stays unchecked until then. National root plus per-place members share the 18 unchanged receipt-pinned CSVs with the family package; the hub published the 18 objects to their `raw/nz/stats_nz/...` keys and verified each by SHA-256 on 2026-10-10. [Scope and evidence](../packages/stats_nz/census_2023_households_by_region/README.md). |
+| `stats_nz/census_2023_family_type` | [x] | [x] | [x] | B5: 72 published 2023 Census counts, four per place for the same 18 places: families and the three exact family-type labels. Two requested package IDs retained as family roots with per-place members; shared artifacts committed once. Other years, percentages and Māori sections preserved but not emitted; the hub published the 18 objects to their `raw/nz/stats_nz/...` keys and verified each by SHA-256 on 2026-10-10. [Scope](../packages/stats_nz/census_2023_family_type/README.md) and [evidence](../packages/stats_nz/census_2023_households_by_region/evidence.md). |
+| `stats_nz/census_2023_weekly_rent` | [x] | [x] | [x] [18 existing objects](../packages/stats_nz/census_2023_weekly_rent/evidence.md#existing-published-objects) | G8-d1: 162 published 2023 Census facts, nine per place for NZ, 16 regional councils and separate Area Outside Region: eight exact household weekly-rent bands and one directly published median in NZD per week. National root and 17 per-place members reuse the same unchanged CSVs and manifests as B5; table median selected by row identity, duplicate quick statistic excluded. Other years, percentages and Māori sections preserved but not emitted; rent population definition and regional boundary vintage unstated. The hub published and SHA-256 verified these existing objects on 2026-10-10. [Scope and evidence](../packages/stats_nz/census_2023_weekly_rent/README.md). |
 | `stats_nz/census_2023_ethnicity_age_region` | [ ] | [ ] | [ ] | |
 | `ird/taxable_income_distribution_2025` | [x] | [x] | [x] | I1, TY2024 (September 2025 release): 3,522 administrative facts; full national income bands, age marginals, and Tab 4 age × band counts. Raw workbook published to its `raw/nz/ird/...` key and verified by SHA-256 on 2026-10-07. |
-| `ird/wage_salary_distribution_2025` | [ ] | [ ] | [ ] | I2 deferred: revised wage/salary workbook is not staged; its direct publisher file URL remains unresolved. |
+| `ird/wage_salary_distribution_2026` | [x] | [x] | [x] | I2, TY2026 (2026 release): 510 administrative facts; national wage/salary bands and decile/percentile income and upper-boundary cut-points. Raw workbook published to its `raw/nz/ird/...` key and verified by SHA-256 on 2026-10-10. [Cell evidence](../packages/ird/wage_salary_distribution_2026/evidence.md). |
 | `ird/working_for_families_statistics_sept_2025` | [x] | [x] | [x] | TY2024: 330 administrative facts; count/entitlement, children, family size, and full published income table. |
 | `ird/student_loan_statistics_march_2026` | [ ] | [ ] | [ ] | |
 | `msd/benefit_fact_sheets_national_june_2026` | [x] | [x] | [x] | Row 10: June 2026 supersedes March; 46 administrative count facts, benefit × age, published benefit-status cuts, and separate national supplementary totals. Raw artifact published to its `raw/nz/msd/...` key and verified by SHA-256 on 2026-10-07. |
@@ -67,7 +69,9 @@ tests, and record a verified `raw/nz/...` R2 URI.
 | `msd/nzs_vp_fact_sheet_june_2026` | [x] | [x] | [x] | Row 12: 46 June 2026 NZS/VP recipient count facts, including published additional-support and demographic cuts. Raw artifact published to its `raw/nz/msd/...` key and verified by SHA-256 on 2026-10-07. |
 | `msd/annual_report_benefit_expenses_2025` | [x] | [x] | [x] | Row 13: 11 actual FY2024/25 expense facts, fiscal_year 2024, published $000 × 1000. Accommodation Assistance 2,232,026; total 38,267,536 in source $000. Payment-definition evidence absent from staged annual-report PDF; the [Budget 2026 Estimates package](../packages/treasury/estimates_of_appropriations_2026_27/evidence.md) identifies Accommodation Supplement and Away from Home Allowance in the 2026/27 appropriation, without asserting unchanged FY2024/25 conditions. Raw artifact published to its `raw/nz/msd/...` key and verified by SHA-256 on 2026-10-07. |
 | `mbie/tenancy_bond_rents_tla_2026` | [x] | [x] | [x] | 5,663 administrative facts, August 2025–July 2026, the latest 12 months of MBIE's September 2026 TLA file (published 10 September 2026; MBIE calls the data provisional and subject to revision); 66 TA IDs plus ALL/NA. Raw CSV published to its `raw/nz/mbie/...` key and verified by SHA-256 on 2026-10-09. Source scope and TA-register caveats below. |
-| `stats_nz/qes_average_earnings_march_2026` | [ ] | [ ] | [ ] | |
+| `stats_nz/qes_average_weekly_earnings_june_2025` and `stats_nz/qes_average_weekly_earnings_june_2026` (supersede the planned March 2026 row) | [x] | [x] | [x] | G8-d3: actual, unadjusted all-sector average weekly earnings levels per FTE (QEMQ.SBSZ9A ordinary time and QEMQ.SBSZ9Z total), June 2023–June 2026. Two receipt-pinned workbook vintages, each quarter emitted once; ten overlap cells agree exactly. Since G8-x, the newer September 2026 vintage owns September 2024–June 2026, so these packages emit 10 facts: June 2025 8 (June 2023–March 2024), June 2026 2 (June 2024). Full workbooks preserved, excluded sectors/overtime/change blocks not emitted. CC BY 4.0; both raw workbooks published to their `raw/nz/stats_nz/...` keys and verified by SHA-256 on 2026-10-23. [Cell and period evidence](../packages/stats_nz/qes_average_weekly_earnings_june_2026/evidence.md). |
+| `stats_nz/qes_average_weekly_earnings_september_2026` | [x] | [x] | [x] | G8-x: 18 actual, unadjusted all-sector average weekly earnings levels per FTE (QEMQ.SBSZ9A and QEMQ.SBSZ9Z), September 2024–September 2026, Table 7 rows 13–21. The newest vintage emits each quarter; all 16 values shared with June 2026 and all 8 shared with June 2025 agree exactly. NZ's QES facts total 28. Full workbook preserved; CC BY 4.0. The hub published the raw workbook to its `raw/nz/stats_nz/...` key and verified it by SHA-256 on 2026-11-03. [Cell and vintage evidence](../packages/stats_nz/qes_average_weekly_earnings_september_2026/evidence.md). |
+| `treasury/prefu26_economic_assumptions` | [x] | [x] | [x] | G8-d3: seven published annual percentage changes in ordinary-time weekly earnings, years ending 30 June 2025–2031, Table 4.1!C17:I17. Footnote 4 qualifies 2026 Forecast4 earnings as actual; 2027–2031 are source projections. CC BY 4.0; receipt-pinned unchanged workbook, published to its `raw/nz/treasury/...` key and verified by SHA-256 on 2026-10-23. [Footnotes and exact cells](../packages/treasury/prefu26_economic_assumptions/evidence.md). |
 
 ### WFF source semantics
 
@@ -214,8 +218,62 @@ The manifest pins receipt SHA-256
 294,932 bytes, fetched `2026-10-07T19:23:14Z`. Its `raw/nz/ird/...` location
 was constructed with Chronicle's key builder. The hub published the workbook
 with `chronicle publish-raw` and verified the object by streaming it back
-(SHA-256 matches) on 2026-10-07. I2 is not implemented: no revised wage/salary workbook was
-staged and the hub must resolve and stage its exact publisher file URL first.
+(SHA-256 matches) on 2026-10-07. The separate I2 wage/salary package is described
+below; its income universe and bands remain distinct from I1.
+
+### Wage and salary source semantics (I2)
+
+The staged `wage-and-salary-distributions-for-individuals.xlsx` is the 2026
+release, extracted from IRD systems on 17 August 2026. Its latest published
+March year is **2026**, labelled `New` in `Tables - wage and salary!BC2`.
+Every emitted fact refers to 1 April 2025 to 31 March 2026, using the tax year's
+ending-year label. The title identifies the March-year basis but does not give
+a release month. The complete workbook bytes and 20,631 source cells are
+preserved, including historical 2001–2025 columns; those columns emit no facts.
+
+The explanatory notes in `xl/drawings/drawing1.xml` define wage and salary
+income as gross employer earnings reported through PAYE, including shares,
+share options and Paid Parental Leave. They exclude New Zealand Superannuation,
+taxable welfare benefits, student allowances, earnings-related ACC payments
+and shareholder-employee salaries. Children with PAYE earnings and individuals
+with part-time or part-year PAYE incomes are included. Individuals with no
+wage or salary income and entities other than natural persons are excluded.
+The data use the full population from the 2016 March year onward.
+
+The package reads all 236 band rows (`AM7:AM242`) into 472 facts: counts from
+`BB` and wage/salary income from `BC`. The publisher's total at row 242 is read
+separately, never calculated from bands. A further 19 decile and 19 percentile
+facts retain all ten income values and nine published upper boundaries in each
+table. The top decile (`BB264`) and percentile 100 (`BB279`) have no upper
+boundary; both remain absent. Upper boundaries use `aggregation: quantile` and
+NZD amounts, not income shares. The footnotes at `AM280:AM281` state that each
+decile contains one tenth of the wage and salary earning population and each
+top-ten-percent percentile contains one hundredth. Income values retain the
+exact cached publisher precision in $M with `value_scale: 1000000`, without
+rounding. Publisher band labels remain intact, including `Over $1 million`;
+no closed endpoints, means, shares, uprated values or merged I1 bands are built.
+
+The drawing notes say verbatim, "Data for the 2022 to 2025 tax years has been
+revised". Row 2 instead flags `R` in `AW`, `AY` and `BA`, the 2023–2025 columns.
+Both assertions are preserved without reconciliation; no revised-year facts
+are emitted. The [cell evidence](../packages/ird/wage_salary_distribution_2026/evidence.md)
+records the selected rows, blank cut-points and source footnotes.
+
+The manifest pins the stable publisher URL without its `?modified=` query,
+receipt SHA-256
+`d0526b2092f9fa2bec44e11984c0ef17fda788a742c1c7054d416f6a0cd9e750`,
+198,542 bytes, fetched `2026-10-10T08:31:07Z`. It records `license: CC BY 4.0`,
+which the hub verified on 2026-10-10 from IRD's
+[copyright conditions](https://www.ird.govt.nz/about-this-site/conditions-of-use/copyright).
+Its `raw/nz/ird/...` key uses Chronicle's key builder. The hub published the
+workbook with `chronicle publish-raw` and verified the object by streaming it
+back (SHA-256 matches) on 2026-10-10.
+
+## Additional household wealth source
+
+| Package | Artifact pinned | Package valid | `raw/nz` verified | Notes |
+|---|---:|---:|---:|---|
+| `stats_nz/household_net_worth_2024` | [x] | [x] | [x] | added for microcosm#592; outside #176's 15. September 2025 HES release: 1,413 published estimates for July 2023–June 2024 (opening-year `fiscal_year:2023`), retained in $000s or household/people 000s. Complete XLSX bytes; Contents and all 14 scoped worksheet ranges preserved. Non-zero-holder and all-household populations remain distinct; seven suppressed estimates stay source cells. Relative sampling errors and percentage changes are omitted from facts and preserved as source cells. CC BY 4.0, Stats NZ attribution; raw workbook published to its `raw/nz/stats_nz/...` key and verified by SHA-256 on 2026-10-10. [Package scope and evidence](../packages/stats_nz/household_net_worth_2024/README.md). |
 
 ## Wave-2 fiscal comparators (#177 subset)
 

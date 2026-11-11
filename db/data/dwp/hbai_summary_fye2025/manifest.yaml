@@ -1,0 +1,18 @@
+source_id: dwp
+package_id: dwp-hbai-summary-fye2025
+dataset: dwp_dwp-hbai-summary-fye2025
+source_page: https://www.gov.uk/government/statistics/households-below-average-income-for-financial-years-ending-1995-to-2025
+table: 'Households Below Average Income, FYE 1995 to FYE 2025: HBAI summary results'
+files:
+  2025:
+    filename: summary-hbai-1994-95-2024-25-tables.ods
+    source_url: https://assets.publishing.service.gov.uk/media/69c28ffcb920af63be1c7767/summary-hbai-1994-95-2024-25-tables.ods
+    sha256: 38586ace5e06ca0029f9b5345a6047c54143ee03c644a2c0553d77813ca27a21
+    size_bytes: 414500
+    fetched_at: '2026-10-15T09:09:47+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/dwp/dwp-hbai-summary-fye2025/2025/38586ace5e06ca0029f9b5345a6047c54143ee03c644a2c0553d77813ca27a21/summary-hbai-1994-95-2024-25-tables.ods
+        uri: r2://ledger-raw/raw/uk/dwp/dwp-hbai-summary-fye2025/2025/38586ace5e06ca0029f9b5345a6047c54143ee03c644a2c0553d77813ca27a21/summary-hbai-1994-95-2024-25-tables.ods

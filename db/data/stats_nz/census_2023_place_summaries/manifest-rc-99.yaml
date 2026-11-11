@@ -1,0 +1,25 @@
+source_id: stats_nz
+package_id: census_2023_place_summaries
+dataset: census_2023_place_summaries
+source_page: https://tools.summaries.stats.govt.nz/places/RC/area-outside-region
+table: '2023 Census Place summaries: families and households'
+license: CC BY 4.0
+attribution: Stats NZ
+files:
+  2023:
+    filename: place-summaries-rc-99.csv
+    source_url: https://tools.summaries.stats.govt.nz/api/export-csv/rkTah6u2O2VYyP4Y/99/
+    final_url: https://tools.summaries.stats.govt.nz/api/export-csv/rkTah6u2O2VYyP4Y/99/
+    http_status: 200
+    sha256: 6ee21b3170d89e29fb7ea3ee3986c9ff14860e99be1b230e64432a6c024c9369
+    size_bytes: 417115
+    fetched_at: '2026-10-10T20:12:12Z'
+    content_disposition_filename: place-summaries-area-outside-region-20261011-091211.csv
+    place_code: '99'
+    place: Area Outside Region
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/nz/stats_nz/census_2023_place_summaries/2023/6ee21b3170d89e29fb7ea3ee3986c9ff14860e99be1b230e64432a6c024c9369/place-summaries-rc-99.csv
+        uri: r2://ledger-raw/raw/nz/stats_nz/census_2023_place_summaries/2023/6ee21b3170d89e29fb7ea3ee3986c9ff14860e99be1b230e64432a6c024c9369/place-summaries-rc-99.csv
