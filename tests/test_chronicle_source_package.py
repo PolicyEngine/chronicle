@@ -26,6 +26,7 @@ from chronicle.source_package import (
     SOURCE_PACKAGE_SCHEMA_VERSION,
     DeclarativeRecordSet,
     SourceArtifactSpec,
+    _mapping_applies_to_year,
     _read_source_artifact_content,
     _render_string,
     _source_artifact_cache_path,
@@ -218,6 +219,103 @@ def test_source_package_rejects_unknown_schema_and_names_both_epochs(tmp_path):
     message = str(error.value)
     assert schema_pair.ledger in message
     assert schema_pair.chronicle in message
+
+
+def test_record_set_measure_year_scope_preserves_legacy_layout():
+    package_path = REPO_ROOT / "packages" / "irs_soi" / "table_1_4"
+    package = load_source_package(package_path)
+    legacy_set = package.build_source_record_set_specs(2020)[0]
+    current_set = package.build_source_record_set_specs(2023)[0]
+    legacy_record = package.build_source_record_specs(2020)[0]
+
+    assert len(legacy_set.measures) == 29
+    assert len(current_set.measures) == 37
+    assert legacy_record.layout is not None
+    assert legacy_record.layout.record_set_spec_hash == "22ed3e367531f2331f744623"
+    assert "partnership_net_income_amount" not in {
+        measure.measure_id for measure in legacy_set.measures
+    }
+    assert "partnership_net_income_amount" in {
+        measure.measure_id for measure in current_set.measures
+    }
+
+
+@pytest.mark.parametrize(
+    ("years", "message"),
+    [
+        ([], "non-empty list"),
+        ("2023", "non-empty list"),
+        ([2023, "2024"], "must be integers"),
+        ([True, 2023], "must be integers"),
+        ([2023, 2023], "must be unique"),
+    ],
+)
+def test_record_set_measure_year_scope_rejects_malformed_values(years, message):
+    source_path = REPO_ROOT / "packages" / "irs_soi" / "table_1_4"
+    payload = yaml.safe_load((source_path / "source_package.yaml").read_text())
+    record_set = payload["record_sets"][0]
+    record_set["measures"][-1]["years"] = years
+
+    with pytest.raises(ValueError, match=message):
+        DeclarativeRecordSet(record_set).to_record_set_spec(2020)
+
+
+def test_record_set_measure_year_scope_requires_every_column_mapping():
+    source_path = REPO_ROOT / "packages" / "irs_soi" / "table_1_4"
+    payload = yaml.safe_load((source_path / "source_package.yaml").read_text())
+    record_set = payload["record_sets"][0]
+    record_set["measures"][-1]["years"].append(2024)
+
+    with pytest.raises(ValueError, match="no entry for declared year 2024"):
+        DeclarativeRecordSet(record_set).to_record_set_spec(2020)
+
+
+def test_record_set_measure_year_scope_is_membership_for_every_small_year_set():
+    """For every non-empty set of 2020-2024 and every year 2019-2025, a measure
+    with ``years`` applies exactly when the year is in the set, and a measure
+    without ``years`` applies to every year."""
+    domain = (2020, 2021, 2022, 2023, 2024)
+    for mask in range(1, 2 ** len(domain)):
+        years = [year for bit, year in enumerate(domain) if mask >> bit & 1]
+        payload = {
+            "measure_id": "m",
+            "years": years,
+            "column_by_year": {year: "A" for year in years},
+        }
+        for year in range(2019, 2026):
+            assert _mapping_applies_to_year(payload, year=year, context="measure") == (
+                year in years
+            )
+    for year in range(2019, 2026):
+        assert _mapping_applies_to_year(
+            {"measure_id": "m"}, year=year, context="measure"
+        )
+
+
+@pytest.mark.parametrize("year", [2021, 2022, 2023])
+def test_table_1_4_entity_legs_sum_over_income_ranges_to_all_returns(year):
+    """Each partnership and S corporation leg's 19 AGI ranges add up to its
+    all-returns row within SOI's rounding: amounts publish in thousands of
+    dollars (at most $500 per row) and return counts as whole numbers."""
+    package = load_source_package(REPO_ROOT / "packages" / "irs_soi" / "table_1_4")
+    facts = package.build_facts(year, cells=package.build_source_cells(year))
+    legs = (
+        "partnership_net_income",
+        "partnership_net_loss",
+        "s_corporation_net_income",
+        "s_corporation_net_loss",
+    )
+    by_measure = {}
+    for fact in facts:
+        *_, income_range, measure = fact.source_record_id.split(".")
+        if measure.startswith(legs):
+            by_measure.setdefault(measure, {})[income_range] = fact.value
+    assert len(by_measure) == 8
+    for measure, by_range in by_measure.items():
+        assert len(by_range) == 20, measure
+        total = by_range.pop("all")
+        tolerance = 10_000 if measure.endswith("_amount") else 10
+        assert abs(sum(by_range.values()) - total) <= tolerance, measure
 
 
 def test_hmrc_packages_preserve_provenance_and_definition_year_metadata():
@@ -1236,9 +1334,14 @@ def test_source_package_path_builds_valid_soi_table_1_4_facts():
 
     assert package.package_id == "soi-table-1-4"
     assert len(cells) == 8109
-    assert len(facts) == 580
+    assert len(facts) == 740
     assert validate_facts(facts).valid
     assert facts[0].source.source_table == "Publication 1304 Table 1.4"
+    assert facts[0].source.url == "https://www.irs.gov/pub/irs-soi/23in14ar.xls"
+    assert (
+        facts[0].source.source_sha256
+        == "b6c1f87fbb5533417e195f6938538e5de09b6a0825a6a54346bf9363a18d96af"
+    )
     assert (
         values_by_record["irs_soi.ty2023.table_1_4.all.alimony_received_amount"].value
         == 6_686_429_000
@@ -1246,6 +1349,54 @@ def test_source_package_path_builds_valid_soi_table_1_4_facts():
     assert (
         values_by_record["irs_soi.ty2023.table_1_4.all.alimony_paid_amount"].value
         == 7_497_135_000
+    )
+    assert (
+        values_by_record[
+            "irs_soi.ty2023.table_1_4.all.partnership_net_income_returns"
+        ].value
+        == 3_266_345
+    )
+    assert (
+        values_by_record[
+            "irs_soi.ty2023.table_1_4.all.partnership_net_income_amount"
+        ].value
+        == 452_077_038_000
+    )
+    assert (
+        values_by_record[
+            "irs_soi.ty2023.table_1_4.all.partnership_net_loss_returns"
+        ].value
+        == 2_103_634
+    )
+    assert (
+        values_by_record[
+            "irs_soi.ty2023.table_1_4.all.partnership_net_loss_amount"
+        ].value
+        == 168_884_100_000
+    )
+    assert (
+        values_by_record[
+            "irs_soi.ty2023.table_1_4.all.s_corporation_net_income_returns"
+        ].value
+        == 4_138_040
+    )
+    assert (
+        values_by_record[
+            "irs_soi.ty2023.table_1_4.all.s_corporation_net_income_amount"
+        ].value
+        == 797_450_861_000
+    )
+    assert (
+        values_by_record[
+            "irs_soi.ty2023.table_1_4.all.s_corporation_net_loss_returns"
+        ].value
+        == 1_415_974
+    )
+    assert (
+        values_by_record[
+            "irs_soi.ty2023.table_1_4.all.s_corporation_net_loss_amount"
+        ].value
+        == 89_543_715_000
     )
 
 

@@ -2015,6 +2015,7 @@ class DeclarativeRecordSet:
         measures = tuple(
             _measure_from_mapping(measure, year=year)
             for measure in _required(self.payload, "measures", "record_set")
+            if _mapping_applies_to_year(measure, year=year, context="measure")
         )
         return SourceRecordSetSpec(
             record_set_id=_render_required_string(
@@ -3838,6 +3839,35 @@ def _required(payload: dict[str, Any], key: str, context: str) -> Any:
     if key not in payload:
         raise ValueError(f"Missing required {context} field: {key}")
     return payload[key]
+
+
+def _mapping_applies_to_year(
+    payload: dict[str, Any],
+    *,
+    year: int,
+    context: str,
+) -> bool:
+    """Return whether a declarative mapping applies to the requested year."""
+    years = payload.get("years")
+    if years is None:
+        return True
+    identifier = payload.get(f"{context}_id")
+    context_label = f"{context} {identifier!r}" if identifier else context
+    if not isinstance(years, list) or not years:
+        raise ValueError(f"{context_label} years must be a non-empty list")
+    if any(isinstance(item, bool) or not isinstance(item, int) for item in years):
+        raise ValueError(f"{context_label} years entries must be integers")
+    if len(set(years)) != len(years):
+        raise ValueError(f"{context_label} years entries must be unique")
+    if "column_by_year" in payload:
+        columns = payload["column_by_year"]
+        for declared_year in years:
+            if declared_year not in columns and str(declared_year) not in columns:
+                raise ValueError(
+                    f"{context_label} column_by_year has no entry for "
+                    f"declared year {declared_year}"
+                )
+    return year in years
 
 
 def _year_mapping(files_by_year: dict[Any, Any], year: int) -> dict[str, str]:
