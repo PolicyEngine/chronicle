@@ -467,6 +467,13 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     # year 2023: no new geography, period or entity keys, duplicate keys or
     # warnings. Its SALT and PTC column fixes, its line 8a relabel and the
     # Historic Table 2 QBI column fix change no count.
+    # Historic Table 2's state package adds Schedule 1 line 1 and Schedule A
+    # lines 7, 8a and 14: 408 TY2022 tax-unit facts (eight measures at 51
+    # states), eight at each state geography. The district file's state-total
+    # rows publish lines 8a and 14 under the same concepts, so 51 states x four
+    # measures add 204 semantic duplicate keys. Measured with the 20 IRS SOI
+    # packages at bundle year 2023, with and without these measures: no new
+    # geography, period or entity keys and no new warnings.
     # G8-d2: one-source build at year 2023 measured 67 CY2025 person facts,
     # one package/table and 67 TA geography keys; only nz-ta-067 is new to
     # the default bundle. Publisher, period and entity keys already exist.
@@ -593,9 +600,11 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # Disability Payment (1,885), Carer Support Payment (282), Child Disability
         # Payment (81) and Pension Age Disability Payment (66).
         # SSA's Supplement Tables 7.B3 and 7.B7 add 193 (128 and 65).
+        # Historic Table 2's state Schedule 1 line 1 and Schedule A lines 7, 8a
+        # and 14 add 408 (see above).
         # IRS SOI Table 1.4's partnership and S corporation net income and loss legs
         # add 160 (eight measures in 20 AGI ranges, TY2023).
-        "fact_count": 2243428,
+        "fact_count": 2243836,
         # The same change adds 82,064 geography keys: 46,363 Scottish 2022
         # output areas (UV404), 35,673 LSOA-level keys from the DESNZ LSOA
         # workbooks (Scotland's data zones already exist), the 26 Northern
@@ -661,7 +670,8 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # SSA's Table 7.B3 adds one: its national federal SSI recipient count for
         # December 2024 is SSI Monthly Statistics Table 1's all-ages figure, and
         # Chronicle keeps both as published.
-        "semantic_duplicate_key_count": 3931,
+        # Historic Table 2's state lines 8a and 14 add 204 (see above).
+        "semantic_duplicate_key_count": 4135,
         # chronicle#310's six FSA portfolio packages (FY2026 files) and the
         # ACS 2024 S1501 state package have no 2023 artifact, so the 2023
         # bundle skips them (10 -> 17); no fact or key count moves.
@@ -740,7 +750,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         if row_count == 1:
             assert row["aggregate_fact_key"].startswith("ledger.aggregate_fact.v2:")
             assert row["semantic_fact_key"].startswith("ledger.semantic_fact.v2:")
-    assert row_count == 2243428
+    assert row_count == 2243836
     assert provenance_classes <= {
         "administrative",
         "census",
@@ -775,7 +785,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "jct-obbba-revenue-estimates-2025",
         "jct-tax-expenditures-2024",
     ]
-    assert coverage["fact_count"] == 2243428
+    assert coverage["fact_count"] == 2243836
     assert coverage["counts"]["by_source"] == {
         "bea": 446,
         "bfp_economic_outlook": 5,
@@ -802,7 +812,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "hmrc": 40025,
         "ici": 12,
         "ird": 4362,
-        "irs_soi": 44123,
+        "irs_soi": 44531,
         "isc": 4,
         "jrc_euromod_be": 90,
         "kff": 52,
@@ -2224,6 +2234,9 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     # The congressional-district file's Schedule A line 8b, 8c and 9 columns:
     # six measures at its 480 rows.
     expected_period_counts["tax_year:2022"] += 2880
+    # Historic Table 2's state Schedule 1 line 1 and Schedule A lines 7, 8a
+    # and 14: eight measures at 51 states.
+    expected_period_counts["tax_year:2022"] += 408
     # BEA NIPA Table 7.8 line 17 (B4923C): the bundle year's own column.
     expected_period_counts["calendar_year:2023"] += 1
     # chronicle#343: ONS constituency sales and medians for the years ending
@@ -2874,8 +2887,9 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     assert coverage["counts"]["by_geography"]["country:0100000US"] == 2280
     # 255, less Vintage 2024's state total (chronicle#397), + 16 Census Vintage
     # 2025 age groups (15 groups and the total), + 6 from SSA's Supplement
-    # Tables 7.B3 (four California cells) and 7.B7 (two).
-    assert coverage["counts"]["by_geography"]["state:0400000US06"] == 276
+    # Tables 7.B3 (four California cells) and 7.B7 (two), + 8 Historic Table 2
+    # state measures (Schedule 1 line 1 and Schedule A lines 7, 8a and 14).
+    assert coverage["counts"]["by_geography"]["state:0400000US06"] == 284
     assert (
         coverage["counts"]["by_geography"]["congressional_district:5001700US0601"] == 62
     )
@@ -2996,10 +3010,10 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "person": 734519,
         "return": 16087,
         "social_protection_scheme": 36,
-        "tax_unit": 45428,
+        "tax_unit": 45836,
     }
     assert not coverage["duplicates"]["aggregate_fact_keys"]
-    assert len(coverage["duplicates"]["semantic_fact_keys"]) == 3931
+    assert len(coverage["duplicates"]["semantic_fact_keys"]) == 4135
     assert Counter(warning["code"] for warning in summary["warnings"]) == {
         "conflicting_geography_name_across_packages": 91,
         "duplicate_semantic_fact_key": 1,
