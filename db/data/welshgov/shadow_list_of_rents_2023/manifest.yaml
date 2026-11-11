@@ -1,0 +1,22 @@
+source_id: welshgov
+package_id: welshgov-shadow-list-of-rents-2023
+dataset: welshgov_welshgov-shadow-list-of-rents-2023
+source_page: https://www.gov.wales/node/71335
+table: shadow_list_of_rents_2023
+files:
+  2023:
+    filename: atisn25142doc1.xls
+    source_url: https://www.gov.wales/sites/default/files/publications/2025-10/atisn25142doc1.xls
+    sha256: 8ab047dba4b8a6808cadbeb33f81e076a527930d68cb9cb4830be9d25c61c9c2
+    size_bytes: 3352576
+    fetched_at: '2026-10-07T13:35:01+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/welshgov/welshgov-shadow-list-of-rents-2023/2023/8ab047dba4b8a6808cadbeb33f81e076a527930d68cb9cb4830be9d25c61c9c2/atisn25142doc1.xls
+        uri: r2://ledger-raw/raw/uk/welshgov/welshgov-shadow-list-of-rents-2023/2023/8ab047dba4b8a6808cadbeb33f81e076a527930d68cb9cb4830be9d25c61c9c2/atisn25142doc1.xls
+registration_kind: raw_only
+provenance_notes: Welsh Government ATISN 25142, released 6 October 2025. Rent collection
+  window 1 October 2022 to 30 September 2023; original workbook, no uprating or payment-period
+  normalization.

@@ -1,0 +1,19 @@
+source_id: ons
+package_id: ons-census2021-rm120-pcon24-residence2-sex2
+dataset: ons_ons-census2021-rm120-pcon24-residence2-sex2
+source_page: https://www.nomisweb.co.uk/datasets/c2021rm120
+table: Census 2021 RM120 residence type by sex by age
+files:
+  2021:
+    filename: census2021_rm120_pcon24_residence2_sex2.csv
+    source_url: https://www.nomisweb.co.uk/api/v01/dataset/NM_2220_1.data.csv?geography=TYPE172&c2021_restype_3=2&c2021_age_24=0...23&c_sex=2&measures=20100&select=geography_code,geography_name,c2021_restype_3_name,c2021_age_24_name,c_sex_name,obs_value
+    sha256: 4aa1e548f836ea3492576fcdf5f5954804dadbeb940836db20e7794696033bc1
+    size_bytes: 1357594
+    fetched_at: '2026-10-07T13:49:55+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/ons/ons-census2021-rm120-pcon24-residence2-sex2/2021/4aa1e548f836ea3492576fcdf5f5954804dadbeb940836db20e7794696033bc1/census2021_rm120_pcon24_residence2_sex2.csv
+        uri: r2://ledger-raw/raw/uk/ons/ons-census2021-rm120-pcon24-residence2-sex2/2021/4aa1e548f836ea3492576fcdf5f5954804dadbeb940836db20e7794696033bc1/census2021_rm120_pcon24_residence2_sex2.csv
+registration_kind: source_facts

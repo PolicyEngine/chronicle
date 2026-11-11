@@ -284,7 +284,13 @@ def _geography_key_payload(row: dict[str, Any]) -> Any:
 
 
 def _recompute_aggregate_fact_key(row: dict[str, Any]) -> str:
-    """Recompute the aggregate fact key from the row's content."""
+    """Recompute the aggregate fact key from the row's content.
+
+    Labels are display metadata and never enter the payload:
+    ``dimension_labels``, ``dimension_value_labels``, ``layout`` and the v5
+    ``package_dimension_value_labels`` (chronicle#376) are not read here, and
+    the geography's display names are dropped by :func:`_geography_key_payload`.
+    """
     declared_key = row.get("aggregate_fact_key")
     epoch = HASH_DOMAINS["aggregate_fact"].infer_key_epoch(declared_key)
     assertion = row.get("assertion")

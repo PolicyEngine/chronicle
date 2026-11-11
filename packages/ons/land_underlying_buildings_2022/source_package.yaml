@@ -1,0 +1,2979 @@
+# ONS, 'Improving estimates of land underlying other buildings and structures in the
+# national balance sheet, UK: 2022' (published 27 June 2022), Figure 1's data as the
+# article's CSV download, for PolicyEngine/chronicle#408 item 8. Written by
+# scripts/build_uk_408_packages.py.
+#
+# Total non-produced assets, land underlying dwellings, land underlying other buildings
+# and structures, and other non-produced assets, UK, current prices, 1995 to 2021, in GBP
+# trillion to one decimal place (value_scale 1e12). The CSV's notes say the components may
+# not add to the total because of rounding, so nothing is derived. It is the 2022 vintage,
+# from before later balance-sheet revisions, and model_output as the balance sheet's land
+# is.
+#
+# The CSV has six lines of preamble (title, subtitle, notes, unit) before its header line,
+# which the parser skips (header_row 7); the unit line, 'Unit,£ trillion', is asserted by
+# the generator and the tests. ONS serves the file from its chart generator; three fetches
+# on 4 November 2026, about 40 minutes apart, returned the same bytes.
+schema_version: ledger.source_package.v1
+package_id: ons-land-underlying-buildings-2022
+label: 'ONS 2022 article: land underlying dwellings and other buildings and structures, and other non-produced
+  assets, UK, 1995 to 2021'
+dimension_labels:
+  ons.nbs_asset_category: Balance sheet year
+artifact:
+  source_name: ons
+  source_table: 'Improving estimates of land underlying other buildings and structures in the national
+    balance sheet, UK: 2022, Figure 1'
+  resource_package: db
+  resource_directory: data/ons/land_underlying_buildings_2022
+  manifest: manifest.yaml
+  vintage: ons_land_article_2022_06_27
+  extracted_at: '2026-11-04'
+  extraction_method: delimited text full-row parse of the article's Figure 1 CSV, header on line 7
+  parser: delimited_text_full_rows
+  artifact_year: 2022
+  header_row: 7
+record_sets:
+- record_set_id: ons.land_article_2022.figure_1.cy1995
+  provenance_class: model_output
+  assertion: observation
+  record_set_spec_id: ons.land_article_2022.figure_1.cy1995.v1
+  source_record_id_prefix: ons.land_article_2022.figure_1.cy1995
+  sheet_name: land_underlying_buildings_figure_1_2022
+  period_type: calendar_year
+  period: 1995
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: institutional_sector
+  entity_role: total_economy
+  domain: national_balance_sheet
+  groupby_dimension: ons.nbs_asset_category
+  rows:
+  - value_id: cy1995
+    label: '1995'
+    ordinal: 0
+    row_number: 2
+    expected_row_header_column: A
+    expected_row_header: 1995
+    table_record_kind: total
+  measures:
+  - measure_id: total_non_produced_assets
+    label: Total non-produced assets, 1995 (GBP trillion as printed)
+    ordinal: 0
+    column: B
+    source_column_id: total_non_produced_assets
+    expected_column_header_row: 1
+    expected_column_header: Total non-produced assets
+    concept: ons.non_produced_assets_value
+    source_concept: ons.land_article_2022.total_non_produced_assets
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/nationalaccounts/uksectoraccounts/articles/improvingestimatesoflandunderlyingotherbuildingsandstructuresinthenationalbalancesheetuk/2022
+    concept_evidence_notes: 'ONS, ''Improving estimates of land underlying other buildings and structures
+      in the national balance sheet, UK: 2022'' (27 June 2022), Figure 1: ''Non-produced asset value in
+      the UK, current prices, 1995 to 2021'', in GBP trillion to one decimal place. ''The components of
+      land may not always add to the total because of rounding.'' A 2022 vintage, from before later revisions
+      of the national balance sheet; the article''s series, not a current land-under-dwellings series.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000000000
+    expected_cell_type: number
+  - measure_id: land_underlying_dwellings
+    label: Land underlying dwellings, 1995 (GBP trillion as printed)
+    ordinal: 1
+    column: C
+    source_column_id: land_underlying_dwellings
+    expected_column_header_row: 1
+    expected_column_header: Land underlying dwellings
+    concept: ons.land_underlying_dwellings_value
+    source_concept: ons.land_article_2022.land_underlying_dwellings
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/nationalaccounts/uksectoraccounts/articles/improvingestimatesoflandunderlyingotherbuildingsandstructuresinthenationalbalancesheetuk/2022
+    concept_evidence_notes: 'ONS, ''Improving estimates of land underlying other buildings and structures
+      in the national balance sheet, UK: 2022'' (27 June 2022), Figure 1: ''Non-produced asset value in
+      the UK, current prices, 1995 to 2021'', in GBP trillion to one decimal place. ''The components of
+      land may not always add to the total because of rounding.'' A 2022 vintage, from before later revisions
+      of the national balance sheet; the article''s series, not a current land-under-dwellings series.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000000000
+    expected_cell_type: number
+  - measure_id: land_underlying_other_buildings_and_structures
+    label: Land underlying other buildings and structures, 1995 (GBP trillion as printed)
+    ordinal: 2
+    column: D
+    source_column_id: land_underlying_other_buildings_and_structures
+    expected_column_header_row: 1
+    expected_column_header: Land underlying other buildings and structures
+    concept: ons.land_underlying_other_buildings_and_structures_value
+    source_concept: ons.land_article_2022.land_underlying_other_buildings_and_structures
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/nationalaccounts/uksectoraccounts/articles/improvingestimatesoflandunderlyingotherbuildingsandstructuresinthenationalbalancesheetuk/2022
+    concept_evidence_notes: 'ONS, ''Improving estimates of land underlying other buildings and structures
+      in the national balance sheet, UK: 2022'' (27 June 2022), Figure 1: ''Non-produced asset value in
+      the UK, current prices, 1995 to 2021'', in GBP trillion to one decimal place. ''The components of
+      land may not always add to the total because of rounding.'' A 2022 vintage, from before later revisions
+      of the national balance sheet; the article''s series, not a current land-under-dwellings series.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000000000
+    expected_cell_type: number
+  - measure_id: other_non_produced_assets
+    label: Other non-produced assets, 1995 (GBP trillion as printed)
+    ordinal: 3
+    column: E
+    source_column_id: other_non_produced_assets
+    expected_column_header_row: 1
+    expected_column_header: Other non-produced assets
+    concept: ons.other_non_produced_assets_value
+    source_concept: ons.land_article_2022.other_non_produced_assets
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/nationalaccounts/uksectoraccounts/articles/improvingestimatesoflandunderlyingotherbuildingsandstructuresinthenationalbalancesheetuk/2022
+    concept_evidence_notes: 'ONS, ''Improving estimates of land underlying other buildings and structures
+      in the national balance sheet, UK: 2022'' (27 June 2022), Figure 1: ''Non-produced asset value in
+      the UK, current prices, 1995 to 2021'', in GBP trillion to one decimal place. ''The components of
+      land may not always add to the total because of rounding.'' A 2022 vintage, from before later revisions
+      of the national balance sheet; the article''s series, not a current land-under-dwellings series.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000000000
+    expected_cell_type: number
+- record_set_id: ons.land_article_2022.figure_1.cy1996
+  provenance_class: model_output
+  assertion: observation
+  record_set_spec_id: ons.land_article_2022.figure_1.cy1996.v1
+  source_record_id_prefix: ons.land_article_2022.figure_1.cy1996
+  sheet_name: land_underlying_buildings_figure_1_2022
+  period_type: calendar_year
+  period: 1996
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: institutional_sector
+  entity_role: total_economy
+  domain: national_balance_sheet
+  groupby_dimension: ons.nbs_asset_category
+  rows:
+  - value_id: cy1996
+    label: '1996'
+    ordinal: 0
+    row_number: 3
+    expected_row_header_column: A
+    expected_row_header: 1996
+    table_record_kind: total
+  measures:
+  - measure_id: total_non_produced_assets
+    label: Total non-produced assets, 1996 (GBP trillion as printed)
+    ordinal: 0
+    column: B
+    source_column_id: total_non_produced_assets
+    expected_column_header_row: 1
+    expected_column_header: Total non-produced assets
+    concept: ons.non_produced_assets_value
+    source_concept: ons.land_article_2022.total_non_produced_assets
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/nationalaccounts/uksectoraccounts/articles/improvingestimatesoflandunderlyingotherbuildingsandstructuresinthenationalbalancesheetuk/2022
+    concept_evidence_notes: 'ONS, ''Improving estimates of land underlying other buildings and structures
+      in the national balance sheet, UK: 2022'' (27 June 2022), Figure 1: ''Non-produced asset value in
+      the UK, current prices, 1995 to 2021'', in GBP trillion to one decimal place. ''The components of
+      land may not always add to the total because of rounding.'' A 2022 vintage, from before later revisions
+      of the national balance sheet; the article''s series, not a current land-under-dwellings series.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000000000
+    expected_cell_type: number
+  - measure_id: land_underlying_dwellings
+    label: Land underlying dwellings, 1996 (GBP trillion as printed)
+    ordinal: 1
+    column: C
+    source_column_id: land_underlying_dwellings
+    expected_column_header_row: 1
+    expected_column_header: Land underlying dwellings
+    concept: ons.land_underlying_dwellings_value
+    source_concept: ons.land_article_2022.land_underlying_dwellings
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/nationalaccounts/uksectoraccounts/articles/improvingestimatesoflandunderlyingotherbuildingsandstructuresinthenationalbalancesheetuk/2022
+    concept_evidence_notes: 'ONS, ''Improving estimates of land underlying other buildings and structures
+      in the national balance sheet, UK: 2022'' (27 June 2022), Figure 1: ''Non-produced asset value in
+      the UK, current prices, 1995 to 2021'', in GBP trillion to one decimal place. ''The components of
+      land may not always add to the total because of rounding.'' A 2022 vintage, from before later revisions
+      of the national balance sheet; the article''s series, not a current land-under-dwellings series.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000000000
+    expected_cell_type: number
+  - measure_id: land_underlying_other_buildings_and_structures
+    label: Land underlying other buildings and structures, 1996 (GBP trillion as printed)
+    ordinal: 2
+    column: D
+    source_column_id: land_underlying_other_buildings_and_structures
+    expected_column_header_row: 1
+    expected_column_header: Land underlying other buildings and structures
+    concept: ons.land_underlying_other_buildings_and_structures_value
+    source_concept: ons.land_article_2022.land_underlying_other_buildings_and_structures
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/nationalaccounts/uksectoraccounts/articles/improvingestimatesoflandunderlyingotherbuildingsandstructuresinthenationalbalancesheetuk/2022
+    concept_evidence_notes: 'ONS, ''Improving estimates of land underlying other buildings and structures
+      in the national balance sheet, UK: 2022'' (27 June 2022), Figure 1: ''Non-produced asset value in
+      the UK, current prices, 1995 to 2021'', in GBP trillion to one decimal place. ''The components of
+      land may not always add to the total because of rounding.'' A 2022 vintage, from before later revisions
+      of the national balance sheet; the article''s series, not a current land-under-dwellings series.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000000000
+    expected_cell_type: number
+  - measure_id: other_non_produced_assets
+    label: Other non-produced assets, 1996 (GBP trillion as printed)
+    ordinal: 3
+    column: E
+    source_column_id: other_non_produced_assets
+    expected_column_header_row: 1
+    expected_column_header: Other non-produced assets
+    concept: ons.other_non_produced_assets_value
+    source_concept: ons.land_article_2022.other_non_produced_assets
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/nationalaccounts/uksectoraccounts/articles/improvingestimatesoflandunderlyingotherbuildingsandstructuresinthenationalbalancesheetuk/2022
+    concept_evidence_notes: 'ONS, ''Improving estimates of land underlying other buildings and structures
+      in the national balance sheet, UK: 2022'' (27 June 2022), Figure 1: ''Non-produced asset value in
+      the UK, current prices, 1995 to 2021'', in GBP trillion to one decimal place. ''The components of
+      land may not always add to the total because of rounding.'' A 2022 vintage, from before later revisions
+      of the national balance sheet; the article''s series, not a current land-under-dwellings series.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000000000
+    expected_cell_type: number
+- record_set_id: ons.land_article_2022.figure_1.cy1997
+  provenance_class: model_output
+  assertion: observation
+  record_set_spec_id: ons.land_article_2022.figure_1.cy1997.v1
+  source_record_id_prefix: ons.land_article_2022.figure_1.cy1997
+  sheet_name: land_underlying_buildings_figure_1_2022
+  period_type: calendar_year
+  period: 1997
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: institutional_sector
+  entity_role: total_economy
+  domain: national_balance_sheet
+  groupby_dimension: ons.nbs_asset_category
+  rows:
+  - value_id: cy1997
+    label: '1997'
+    ordinal: 0
+    row_number: 4
+    expected_row_header_column: A
+    expected_row_header: 1997
+    table_record_kind: total
+  measures:
+  - measure_id: total_non_produced_assets
+    label: Total non-produced assets, 1997 (GBP trillion as printed)
+    ordinal: 0
+    column: B
+    source_column_id: total_non_produced_assets
+    expected_column_header_row: 1
+    expected_column_header: Total non-produced assets
+    concept: ons.non_produced_assets_value
+    source_concept: ons.land_article_2022.total_non_produced_assets
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/nationalaccounts/uksectoraccounts/articles/improvingestimatesoflandunderlyingotherbuildingsandstructuresinthenationalbalancesheetuk/2022
+    concept_evidence_notes: 'ONS, ''Improving estimates of land underlying other buildings and structures
+      in the national balance sheet, UK: 2022'' (27 June 2022), Figure 1: ''Non-produced asset value in
+      the UK, current prices, 1995 to 2021'', in GBP trillion to one decimal place. ''The components of
+      land may not always add to the total because of rounding.'' A 2022 vintage, from before later revisions
+      of the national balance sheet; the article''s series, not a current land-under-dwellings series.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000000000
+    expected_cell_type: number
+  - measure_id: land_underlying_dwellings
+    label: Land underlying dwellings, 1997 (GBP trillion as printed)
+    ordinal: 1
+    column: C
+    source_column_id: land_underlying_dwellings
+    expected_column_header_row: 1
+    expected_column_header: Land underlying dwellings
+    concept: ons.land_underlying_dwellings_value
+    source_concept: ons.land_article_2022.land_underlying_dwellings
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/nationalaccounts/uksectoraccounts/articles/improvingestimatesoflandunderlyingotherbuildingsandstructuresinthenationalbalancesheetuk/2022
+    concept_evidence_notes: 'ONS, ''Improving estimates of land underlying other buildings and structures
+      in the national balance sheet, UK: 2022'' (27 June 2022), Figure 1: ''Non-produced asset value in
+      the UK, current prices, 1995 to 2021'', in GBP trillion to one decimal place. ''The components of
+      land may not always add to the total because of rounding.'' A 2022 vintage, from before later revisions
+      of the national balance sheet; the article''s series, not a current land-under-dwellings series.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000000000
+    expected_cell_type: number
+  - measure_id: land_underlying_other_buildings_and_structures
+    label: Land underlying other buildings and structures, 1997 (GBP trillion as printed)
+    ordinal: 2
+    column: D
+    source_column_id: land_underlying_other_buildings_and_structures
+    expected_column_header_row: 1
+    expected_column_header: Land underlying other buildings and structures
+    concept: ons.land_underlying_other_buildings_and_structures_value
+    source_concept: ons.land_article_2022.land_underlying_other_buildings_and_structures
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/nationalaccounts/uksectoraccounts/articles/improvingestimatesoflandunderlyingotherbuildingsandstructuresinthenationalbalancesheetuk/2022
+    concept_evidence_notes: 'ONS, ''Improving estimates of land underlying other buildings and structures
+      in the national balance sheet, UK: 2022'' (27 June 2022), Figure 1: ''Non-produced asset value in
+      the UK, current prices, 1995 to 2021'', in GBP trillion to one decimal place. ''The components of
+      land may not always add to the total because of rounding.'' A 2022 vintage, from before later revisions
+      of the national balance sheet; the article''s series, not a current land-under-dwellings series.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000000000
+    expected_cell_type: number
+  - measure_id: other_non_produced_assets
+    label: Other non-produced assets, 1997 (GBP trillion as printed)
+    ordinal: 3
+    column: E
+    source_column_id: other_non_produced_assets
+    expected_column_header_row: 1
+    expected_column_header: Other non-produced assets
+    concept: ons.other_non_produced_assets_value
+    source_concept: ons.land_article_2022.other_non_produced_assets
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/nationalaccounts/uksectoraccounts/articles/improvingestimatesoflandunderlyingotherbuildingsandstructuresinthenationalbalancesheetuk/2022
+    concept_evidence_notes: 'ONS, ''Improving estimates of land underlying other buildings and structures
+      in the national balance sheet, UK: 2022'' (27 June 2022), Figure 1: ''Non-produced asset value in
+      the UK, current prices, 1995 to 2021'', in GBP trillion to one decimal place. ''The components of
+      land may not always add to the total because of rounding.'' A 2022 vintage, from before later revisions
+      of the national balance sheet; the article''s series, not a current land-under-dwellings series.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000000000
+    expected_cell_type: number
+- record_set_id: ons.land_article_2022.figure_1.cy1998
+  provenance_class: model_output
+  assertion: observation
+  record_set_spec_id: ons.land_article_2022.figure_1.cy1998.v1
+  source_record_id_prefix: ons.land_article_2022.figure_1.cy1998
+  sheet_name: land_underlying_buildings_figure_1_2022
+  period_type: calendar_year
+  period: 1998
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: institutional_sector
+  entity_role: total_economy
+  domain: national_balance_sheet
+  groupby_dimension: ons.nbs_asset_category
+  rows:
+  - value_id: cy1998
+    label: '1998'
+    ordinal: 0
+    row_number: 5
+    expected_row_header_column: A
+    expected_row_header: 1998
+    table_record_kind: total
+  measures:
+  - measure_id: total_non_produced_assets
+    label: Total non-produced assets, 1998 (GBP trillion as printed)
+    ordinal: 0
+    column: B
+    source_column_id: total_non_produced_assets
+    expected_column_header_row: 1
+    expected_column_header: Total non-produced assets
+    concept: ons.non_produced_assets_value
+    source_concept: ons.land_article_2022.total_non_produced_assets
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/nationalaccounts/uksectoraccounts/articles/improvingestimatesoflandunderlyingotherbuildingsandstructuresinthenationalbalancesheetuk/2022
+    concept_evidence_notes: 'ONS, ''Improving estimates of land underlying other buildings and structures
+      in the national balance sheet, UK: 2022'' (27 June 2022), Figure 1: ''Non-produced asset value in
+      the UK, current prices, 1995 to 2021'', in GBP trillion to one decimal place. ''The components of
+      land may not always add to the total because of rounding.'' A 2022 vintage, from before later revisions
+      of the national balance sheet; the article''s series, not a current land-under-dwellings series.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000000000
+    expected_cell_type: number
+  - measure_id: land_underlying_dwellings
+    label: Land underlying dwellings, 1998 (GBP trillion as printed)
+    ordinal: 1
+    column: C
+    source_column_id: land_underlying_dwellings
+    expected_column_header_row: 1
+    expected_column_header: Land underlying dwellings
+    concept: ons.land_underlying_dwellings_value
+    source_concept: ons.land_article_2022.land_underlying_dwellings
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/nationalaccounts/uksectoraccounts/articles/improvingestimatesoflandunderlyingotherbuildingsandstructuresinthenationalbalancesheetuk/2022
+    concept_evidence_notes: 'ONS, ''Improving estimates of land underlying other buildings and structures
+      in the national balance sheet, UK: 2022'' (27 June 2022), Figure 1: ''Non-produced asset value in
+      the UK, current prices, 1995 to 2021'', in GBP trillion to one decimal place. ''The components of
+      land may not always add to the total because of rounding.'' A 2022 vintage, from before later revisions
+      of the national balance sheet; the article''s series, not a current land-under-dwellings series.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000000000
+    expected_cell_type: number
+  - measure_id: land_underlying_other_buildings_and_structures
+    label: Land underlying other buildings and structures, 1998 (GBP trillion as printed)
+    ordinal: 2
+    column: D
+    source_column_id: land_underlying_other_buildings_and_structures
+    expected_column_header_row: 1
+    expected_column_header: Land underlying other buildings and structures
+    concept: ons.land_underlying_other_buildings_and_structures_value
+    source_concept: ons.land_article_2022.land_underlying_other_buildings_and_structures
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/nationalaccounts/uksectoraccounts/articles/improvingestimatesoflandunderlyingotherbuildingsandstructuresinthenationalbalancesheetuk/2022
+    concept_evidence_notes: 'ONS, ''Improving estimates of land underlying other buildings and structures
+      in the national balance sheet, UK: 2022'' (27 June 2022), Figure 1: ''Non-produced asset value in
+      the UK, current prices, 1995 to 2021'', in GBP trillion to one decimal place. ''The components of
+      land may not always add to the total because of rounding.'' A 2022 vintage, from before later revisions
+      of the national balance sheet; the article''s series, not a current land-under-dwellings series.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000000000
+    expected_cell_type: number
+  - measure_id: other_non_produced_assets
+    label: Other non-produced assets, 1998 (GBP trillion as printed)
+    ordinal: 3
+    column: E
+    source_column_id: other_non_produced_assets
+    expected_column_header_row: 1
+    expected_column_header: Other non-produced assets
+    concept: ons.other_non_produced_assets_value
+    source_concept: ons.land_article_2022.other_non_produced_assets
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/nationalaccounts/uksectoraccounts/articles/improvingestimatesoflandunderlyingotherbuildingsandstructuresinthenationalbalancesheetuk/2022
+    concept_evidence_notes: 'ONS, ''Improving estimates of land underlying other buildings and structures
+      in the national balance sheet, UK: 2022'' (27 June 2022), Figure 1: ''Non-produced asset value in
+      the UK, current prices, 1995 to 2021'', in GBP trillion to one decimal place. ''The components of
+      land may not always add to the total because of rounding.'' A 2022 vintage, from before later revisions
+      of the national balance sheet; the article''s series, not a current land-under-dwellings series.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000000000
+    expected_cell_type: number
+- record_set_id: ons.land_article_2022.figure_1.cy1999
+  provenance_class: model_output
+  assertion: observation
+  record_set_spec_id: ons.land_article_2022.figure_1.cy1999.v1
+  source_record_id_prefix: ons.land_article_2022.figure_1.cy1999
+  sheet_name: land_underlying_buildings_figure_1_2022
+  period_type: calendar_year
+  period: 1999
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: institutional_sector
+  entity_role: total_economy
+  domain: national_balance_sheet
+  groupby_dimension: ons.nbs_asset_category
+  rows:
+  - value_id: cy1999
+    label: '1999'
+    ordinal: 0
+    row_number: 6
+    expected_row_header_column: A
+    expected_row_header: 1999
+    table_record_kind: total
+  measures:
+  - measure_id: total_non_produced_assets
+    label: Total non-produced assets, 1999 (GBP trillion as printed)
+    ordinal: 0
+    column: B
+    source_column_id: total_non_produced_assets
+    expected_column_header_row: 1
+    expected_column_header: Total non-produced assets
+    concept: ons.non_produced_assets_value
+    source_concept: ons.land_article_2022.total_non_produced_assets
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/nationalaccounts/uksectoraccounts/articles/improvingestimatesoflandunderlyingotherbuildingsandstructuresinthenationalbalancesheetuk/2022
+    concept_evidence_notes: 'ONS, ''Improving estimates of land underlying other buildings and structures
+      in the national balance sheet, UK: 2022'' (27 June 2022), Figure 1: ''Non-produced asset value in
+      the UK, current prices, 1995 to 2021'', in GBP trillion to one decimal place. ''The components of
+      land may not always add to the total because of rounding.'' A 2022 vintage, from before later revisions
+      of the national balance sheet; the article''s series, not a current land-under-dwellings series.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000000000
+    expected_cell_type: number
+  - measure_id: land_underlying_dwellings
+    label: Land underlying dwellings, 1999 (GBP trillion as printed)
+    ordinal: 1
+    column: C
+    source_column_id: land_underlying_dwellings
+    expected_column_header_row: 1
+    expected_column_header: Land underlying dwellings
+    concept: ons.land_underlying_dwellings_value
+    source_concept: ons.land_article_2022.land_underlying_dwellings
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/nationalaccounts/uksectoraccounts/articles/improvingestimatesoflandunderlyingotherbuildingsandstructuresinthenationalbalancesheetuk/2022
+    concept_evidence_notes: 'ONS, ''Improving estimates of land underlying other buildings and structures
+      in the national balance sheet, UK: 2022'' (27 June 2022), Figure 1: ''Non-produced asset value in
+      the UK, current prices, 1995 to 2021'', in GBP trillion to one decimal place. ''The components of
+      land may not always add to the total because of rounding.'' A 2022 vintage, from before later revisions
+      of the national balance sheet; the article''s series, not a current land-under-dwellings series.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000000000
+    expected_cell_type: number
+  - measure_id: land_underlying_other_buildings_and_structures
+    label: Land underlying other buildings and structures, 1999 (GBP trillion as printed)
+    ordinal: 2
+    column: D
+    source_column_id: land_underlying_other_buildings_and_structures
+    expected_column_header_row: 1
+    expected_column_header: Land underlying other buildings and structures
+    concept: ons.land_underlying_other_buildings_and_structures_value
+    source_concept: ons.land_article_2022.land_underlying_other_buildings_and_structures
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/nationalaccounts/uksectoraccounts/articles/improvingestimatesoflandunderlyingotherbuildingsandstructuresinthenationalbalancesheetuk/2022
+    concept_evidence_notes: 'ONS, ''Improving estimates of land underlying other buildings and structures
+      in the national balance sheet, UK: 2022'' (27 June 2022), Figure 1: ''Non-produced asset value in
+      the UK, current prices, 1995 to 2021'', in GBP trillion to one decimal place. ''The components of
+      land may not always add to the total because of rounding.'' A 2022 vintage, from before later revisions
+      of the national balance sheet; the article''s series, not a current land-under-dwellings series.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000000000
+    expected_cell_type: number
+  - measure_id: other_non_produced_assets
+    label: Other non-produced assets, 1999 (GBP trillion as printed)
+    ordinal: 3
+    column: E
+    source_column_id: other_non_produced_assets
+    expected_column_header_row: 1
+    expected_column_header: Other non-produced assets
+    concept: ons.other_non_produced_assets_value
+    source_concept: ons.land_article_2022.other_non_produced_assets
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/nationalaccounts/uksectoraccounts/articles/improvingestimatesoflandunderlyingotherbuildingsandstructuresinthenationalbalancesheetuk/2022
+    concept_evidence_notes: 'ONS, ''Improving estimates of land underlying other buildings and structures
+      in the national balance sheet, UK: 2022'' (27 June 2022), Figure 1: ''Non-produced asset value in
+      the UK, current prices, 1995 to 2021'', in GBP trillion to one decimal place. ''The components of
+      land may not always add to the total because of rounding.'' A 2022 vintage, from before later revisions
+      of the national balance sheet; the article''s series, not a current land-under-dwellings series.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000000000
+    expected_cell_type: number
+- record_set_id: ons.land_article_2022.figure_1.cy2000
+  provenance_class: model_output
+  assertion: observation
+  record_set_spec_id: ons.land_article_2022.figure_1.cy2000.v1
+  source_record_id_prefix: ons.land_article_2022.figure_1.cy2000
+  sheet_name: land_underlying_buildings_figure_1_2022
+  period_type: calendar_year
+  period: 2000
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: institutional_sector
+  entity_role: total_economy
+  domain: national_balance_sheet
+  groupby_dimension: ons.nbs_asset_category
+  rows:
+  - value_id: cy2000
+    label: '2000'
+    ordinal: 0
+    row_number: 7
+    expected_row_header_column: A
+    expected_row_header: 2000
+    table_record_kind: total
+  measures:
+  - measure_id: total_non_produced_assets
+    label: Total non-produced assets, 2000 (GBP trillion as printed)
+    ordinal: 0
+    column: B
+    source_column_id: total_non_produced_assets
+    expected_column_header_row: 1
+    expected_column_header: Total non-produced assets
+    concept: ons.non_produced_assets_value
+    source_concept: ons.land_article_2022.total_non_produced_assets
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/nationalaccounts/uksectoraccounts/articles/improvingestimatesoflandunderlyingotherbuildingsandstructuresinthenationalbalancesheetuk/2022
+    concept_evidence_notes: 'ONS, ''Improving estimates of land underlying other buildings and structures
+      in the national balance sheet, UK: 2022'' (27 June 2022), Figure 1: ''Non-produced asset value in
+      the UK, current prices, 1995 to 2021'', in GBP trillion to one decimal place. ''The components of
+      land may not always add to the total because of rounding.'' A 2022 vintage, from before later revisions
+      of the national balance sheet; the article''s series, not a current land-under-dwellings series.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000000000
+    expected_cell_type: number
+  - measure_id: land_underlying_dwellings
+    label: Land underlying dwellings, 2000 (GBP trillion as printed)
+    ordinal: 1
+    column: C
+    source_column_id: land_underlying_dwellings
+    expected_column_header_row: 1
+    expected_column_header: Land underlying dwellings
+    concept: ons.land_underlying_dwellings_value
+    source_concept: ons.land_article_2022.land_underlying_dwellings
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/nationalaccounts/uksectoraccounts/articles/improvingestimatesoflandunderlyingotherbuildingsandstructuresinthenationalbalancesheetuk/2022
+    concept_evidence_notes: 'ONS, ''Improving estimates of land underlying other buildings and structures
+      in the national balance sheet, UK: 2022'' (27 June 2022), Figure 1: ''Non-produced asset value in
+      the UK, current prices, 1995 to 2021'', in GBP trillion to one decimal place. ''The components of
+      land may not always add to the total because of rounding.'' A 2022 vintage, from before later revisions
+      of the national balance sheet; the article''s series, not a current land-under-dwellings series.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000000000
+    expected_cell_type: number
+  - measure_id: land_underlying_other_buildings_and_structures
+    label: Land underlying other buildings and structures, 2000 (GBP trillion as printed)
+    ordinal: 2
+    column: D
+    source_column_id: land_underlying_other_buildings_and_structures
+    expected_column_header_row: 1
+    expected_column_header: Land underlying other buildings and structures
+    concept: ons.land_underlying_other_buildings_and_structures_value
+    source_concept: ons.land_article_2022.land_underlying_other_buildings_and_structures
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/nationalaccounts/uksectoraccounts/articles/improvingestimatesoflandunderlyingotherbuildingsandstructuresinthenationalbalancesheetuk/2022
+    concept_evidence_notes: 'ONS, ''Improving estimates of land underlying other buildings and structures
+      in the national balance sheet, UK: 2022'' (27 June 2022), Figure 1: ''Non-produced asset value in
+      the UK, current prices, 1995 to 2021'', in GBP trillion to one decimal place. ''The components of
+      land may not always add to the total because of rounding.'' A 2022 vintage, from before later revisions
+      of the national balance sheet; the article''s series, not a current land-under-dwellings series.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000000000
+    expected_cell_type: number
+  - measure_id: other_non_produced_assets
+    label: Other non-produced assets, 2000 (GBP trillion as printed)
+    ordinal: 3
+    column: E
+    source_column_id: other_non_produced_assets
+    expected_column_header_row: 1
+    expected_column_header: Other non-produced assets
+    concept: ons.other_non_produced_assets_value
+    source_concept: ons.land_article_2022.other_non_produced_assets
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/nationalaccounts/uksectoraccounts/articles/improvingestimatesoflandunderlyingotherbuildingsandstructuresinthenationalbalancesheetuk/2022
+    concept_evidence_notes: 'ONS, ''Improving estimates of land underlying other buildings and structures
+      in the national balance sheet, UK: 2022'' (27 June 2022), Figure 1: ''Non-produced asset value in
+      the UK, current prices, 1995 to 2021'', in GBP trillion to one decimal place. ''The components of
+      land may not always add to the total because of rounding.'' A 2022 vintage, from before later revisions
+      of the national balance sheet; the article''s series, not a current land-under-dwellings series.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000000000
+    expected_cell_type: number
+- record_set_id: ons.land_article_2022.figure_1.cy2001
+  provenance_class: model_output
+  assertion: observation
+  record_set_spec_id: ons.land_article_2022.figure_1.cy2001.v1
+  source_record_id_prefix: ons.land_article_2022.figure_1.cy2001
+  sheet_name: land_underlying_buildings_figure_1_2022
+  period_type: calendar_year
+  period: 2001
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: institutional_sector
+  entity_role: total_economy
+  domain: national_balance_sheet
+  groupby_dimension: ons.nbs_asset_category
+  rows:
+  - value_id: cy2001
+    label: '2001'
+    ordinal: 0
+    row_number: 8
+    expected_row_header_column: A
+    expected_row_header: 2001
+    table_record_kind: total
+  measures:
+  - measure_id: total_non_produced_assets
+    label: Total non-produced assets, 2001 (GBP trillion as printed)
+    ordinal: 0
+    column: B
+    source_column_id: total_non_produced_assets
+    expected_column_header_row: 1
+    expected_column_header: Total non-produced assets
+    concept: ons.non_produced_assets_value
+    source_concept: ons.land_article_2022.total_non_produced_assets
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/nationalaccounts/uksectoraccounts/articles/improvingestimatesoflandunderlyingotherbuildingsandstructuresinthenationalbalancesheetuk/2022
+    concept_evidence_notes: 'ONS, ''Improving estimates of land underlying other buildings and structures
+      in the national balance sheet, UK: 2022'' (27 June 2022), Figure 1: ''Non-produced asset value in
+      the UK, current prices, 1995 to 2021'', in GBP trillion to one decimal place. ''The components of
+      land may not always add to the total because of rounding.'' A 2022 vintage, from before later revisions
+      of the national balance sheet; the article''s series, not a current land-under-dwellings series.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000000000
+    expected_cell_type: number
+  - measure_id: land_underlying_dwellings
+    label: Land underlying dwellings, 2001 (GBP trillion as printed)
+    ordinal: 1
+    column: C
+    source_column_id: land_underlying_dwellings
+    expected_column_header_row: 1
+    expected_column_header: Land underlying dwellings
+    concept: ons.land_underlying_dwellings_value
+    source_concept: ons.land_article_2022.land_underlying_dwellings
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/nationalaccounts/uksectoraccounts/articles/improvingestimatesoflandunderlyingotherbuildingsandstructuresinthenationalbalancesheetuk/2022
+    concept_evidence_notes: 'ONS, ''Improving estimates of land underlying other buildings and structures
+      in the national balance sheet, UK: 2022'' (27 June 2022), Figure 1: ''Non-produced asset value in
+      the UK, current prices, 1995 to 2021'', in GBP trillion to one decimal place. ''The components of
+      land may not always add to the total because of rounding.'' A 2022 vintage, from before later revisions
+      of the national balance sheet; the article''s series, not a current land-under-dwellings series.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000000000
+    expected_cell_type: number
+  - measure_id: land_underlying_other_buildings_and_structures
+    label: Land underlying other buildings and structures, 2001 (GBP trillion as printed)
+    ordinal: 2
+    column: D
+    source_column_id: land_underlying_other_buildings_and_structures
+    expected_column_header_row: 1
+    expected_column_header: Land underlying other buildings and structures
+    concept: ons.land_underlying_other_buildings_and_structures_value
+    source_concept: ons.land_article_2022.land_underlying_other_buildings_and_structures
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/nationalaccounts/uksectoraccounts/articles/improvingestimatesoflandunderlyingotherbuildingsandstructuresinthenationalbalancesheetuk/2022
+    concept_evidence_notes: 'ONS, ''Improving estimates of land underlying other buildings and structures
+      in the national balance sheet, UK: 2022'' (27 June 2022), Figure 1: ''Non-produced asset value in
+      the UK, current prices, 1995 to 2021'', in GBP trillion to one decimal place. ''The components of
+      land may not always add to the total because of rounding.'' A 2022 vintage, from before later revisions
+      of the national balance sheet; the article''s series, not a current land-under-dwellings series.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000000000
+    expected_cell_type: number
+  - measure_id: other_non_produced_assets
+    label: Other non-produced assets, 2001 (GBP trillion as printed)
+    ordinal: 3
+    column: E
+    source_column_id: other_non_produced_assets
+    expected_column_header_row: 1
+    expected_column_header: Other non-produced assets
+    concept: ons.other_non_produced_assets_value
+    source_concept: ons.land_article_2022.other_non_produced_assets
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/nationalaccounts/uksectoraccounts/articles/improvingestimatesoflandunderlyingotherbuildingsandstructuresinthenationalbalancesheetuk/2022
+    concept_evidence_notes: 'ONS, ''Improving estimates of land underlying other buildings and structures
+      in the national balance sheet, UK: 2022'' (27 June 2022), Figure 1: ''Non-produced asset value in
+      the UK, current prices, 1995 to 2021'', in GBP trillion to one decimal place. ''The components of
+      land may not always add to the total because of rounding.'' A 2022 vintage, from before later revisions
+      of the national balance sheet; the article''s series, not a current land-under-dwellings series.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000000000
+    expected_cell_type: number
+- record_set_id: ons.land_article_2022.figure_1.cy2002
+  provenance_class: model_output
+  assertion: observation
+  record_set_spec_id: ons.land_article_2022.figure_1.cy2002.v1
+  source_record_id_prefix: ons.land_article_2022.figure_1.cy2002
+  sheet_name: land_underlying_buildings_figure_1_2022
+  period_type: calendar_year
+  period: 2002
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: institutional_sector
+  entity_role: total_economy
+  domain: national_balance_sheet
+  groupby_dimension: ons.nbs_asset_category
+  rows:
+  - value_id: cy2002
+    label: '2002'
+    ordinal: 0
+    row_number: 9
+    expected_row_header_column: A
+    expected_row_header: 2002
+    table_record_kind: total
+  measures:
+  - measure_id: total_non_produced_assets
+    label: Total non-produced assets, 2002 (GBP trillion as printed)
+    ordinal: 0
+    column: B
+    source_column_id: total_non_produced_assets
+    expected_column_header_row: 1
+    expected_column_header: Total non-produced assets
+    concept: ons.non_produced_assets_value
+    source_concept: ons.land_article_2022.total_non_produced_assets
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/nationalaccounts/uksectoraccounts/articles/improvingestimatesoflandunderlyingotherbuildingsandstructuresinthenationalbalancesheetuk/2022
+    concept_evidence_notes: 'ONS, ''Improving estimates of land underlying other buildings and structures
+      in the national balance sheet, UK: 2022'' (27 June 2022), Figure 1: ''Non-produced asset value in
+      the UK, current prices, 1995 to 2021'', in GBP trillion to one decimal place. ''The components of
+      land may not always add to the total because of rounding.'' A 2022 vintage, from before later revisions
+      of the national balance sheet; the article''s series, not a current land-under-dwellings series.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000000000
+    expected_cell_type: number
+  - measure_id: land_underlying_dwellings
+    label: Land underlying dwellings, 2002 (GBP trillion as printed)
+    ordinal: 1
+    column: C
+    source_column_id: land_underlying_dwellings
+    expected_column_header_row: 1
+    expected_column_header: Land underlying dwellings
+    concept: ons.land_underlying_dwellings_value
+    source_concept: ons.land_article_2022.land_underlying_dwellings
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/nationalaccounts/uksectoraccounts/articles/improvingestimatesoflandunderlyingotherbuildingsandstructuresinthenationalbalancesheetuk/2022
+    concept_evidence_notes: 'ONS, ''Improving estimates of land underlying other buildings and structures
+      in the national balance sheet, UK: 2022'' (27 June 2022), Figure 1: ''Non-produced asset value in
+      the UK, current prices, 1995 to 2021'', in GBP trillion to one decimal place. ''The components of
+      land may not always add to the total because of rounding.'' A 2022 vintage, from before later revisions
+      of the national balance sheet; the article''s series, not a current land-under-dwellings series.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000000000
+    expected_cell_type: number
+  - measure_id: land_underlying_other_buildings_and_structures
+    label: Land underlying other buildings and structures, 2002 (GBP trillion as printed)
+    ordinal: 2
+    column: D
+    source_column_id: land_underlying_other_buildings_and_structures
+    expected_column_header_row: 1
+    expected_column_header: Land underlying other buildings and structures
+    concept: ons.land_underlying_other_buildings_and_structures_value
+    source_concept: ons.land_article_2022.land_underlying_other_buildings_and_structures
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/nationalaccounts/uksectoraccounts/articles/improvingestimatesoflandunderlyingotherbuildingsandstructuresinthenationalbalancesheetuk/2022
+    concept_evidence_notes: 'ONS, ''Improving estimates of land underlying other buildings and structures
+      in the national balance sheet, UK: 2022'' (27 June 2022), Figure 1: ''Non-produced asset value in
+      the UK, current prices, 1995 to 2021'', in GBP trillion to one decimal place. ''The components of
+      land may not always add to the total because of rounding.'' A 2022 vintage, from before later revisions
+      of the national balance sheet; the article''s series, not a current land-under-dwellings series.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000000000
+    expected_cell_type: number
+  - measure_id: other_non_produced_assets
+    label: Other non-produced assets, 2002 (GBP trillion as printed)
+    ordinal: 3
+    column: E
+    source_column_id: other_non_produced_assets
+    expected_column_header_row: 1
+    expected_column_header: Other non-produced assets
+    concept: ons.other_non_produced_assets_value
+    source_concept: ons.land_article_2022.other_non_produced_assets
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/nationalaccounts/uksectoraccounts/articles/improvingestimatesoflandunderlyingotherbuildingsandstructuresinthenationalbalancesheetuk/2022
+    concept_evidence_notes: 'ONS, ''Improving estimates of land underlying other buildings and structures
+      in the national balance sheet, UK: 2022'' (27 June 2022), Figure 1: ''Non-produced asset value in
+      the UK, current prices, 1995 to 2021'', in GBP trillion to one decimal place. ''The components of
+      land may not always add to the total because of rounding.'' A 2022 vintage, from before later revisions
+      of the national balance sheet; the article''s series, not a current land-under-dwellings series.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000000000
+    expected_cell_type: number
+- record_set_id: ons.land_article_2022.figure_1.cy2003
+  provenance_class: model_output
+  assertion: observation
+  record_set_spec_id: ons.land_article_2022.figure_1.cy2003.v1
+  source_record_id_prefix: ons.land_article_2022.figure_1.cy2003
+  sheet_name: land_underlying_buildings_figure_1_2022
+  period_type: calendar_year
+  period: 2003
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: institutional_sector
+  entity_role: total_economy
+  domain: national_balance_sheet
+  groupby_dimension: ons.nbs_asset_category
+  rows:
+  - value_id: cy2003
+    label: '2003'
+    ordinal: 0
+    row_number: 10
+    expected_row_header_column: A
+    expected_row_header: 2003
+    table_record_kind: total
+  measures:
+  - measure_id: total_non_produced_assets
+    label: Total non-produced assets, 2003 (GBP trillion as printed)
+    ordinal: 0
+    column: B
+    source_column_id: total_non_produced_assets
+    expected_column_header_row: 1
+    expected_column_header: Total non-produced assets
+    concept: ons.non_produced_assets_value
+    source_concept: ons.land_article_2022.total_non_produced_assets
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/nationalaccounts/uksectoraccounts/articles/improvingestimatesoflandunderlyingotherbuildingsandstructuresinthenationalbalancesheetuk/2022
+    concept_evidence_notes: 'ONS, ''Improving estimates of land underlying other buildings and structures
+      in the national balance sheet, UK: 2022'' (27 June 2022), Figure 1: ''Non-produced asset value in
+      the UK, current prices, 1995 to 2021'', in GBP trillion to one decimal place. ''The components of
+      land may not always add to the total because of rounding.'' A 2022 vintage, from before later revisions
+      of the national balance sheet; the article''s series, not a current land-under-dwellings series.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000000000
+    expected_cell_type: number
+  - measure_id: land_underlying_dwellings
+    label: Land underlying dwellings, 2003 (GBP trillion as printed)
+    ordinal: 1
+    column: C
+    source_column_id: land_underlying_dwellings
+    expected_column_header_row: 1
+    expected_column_header: Land underlying dwellings
+    concept: ons.land_underlying_dwellings_value
+    source_concept: ons.land_article_2022.land_underlying_dwellings
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/nationalaccounts/uksectoraccounts/articles/improvingestimatesoflandunderlyingotherbuildingsandstructuresinthenationalbalancesheetuk/2022
+    concept_evidence_notes: 'ONS, ''Improving estimates of land underlying other buildings and structures
+      in the national balance sheet, UK: 2022'' (27 June 2022), Figure 1: ''Non-produced asset value in
+      the UK, current prices, 1995 to 2021'', in GBP trillion to one decimal place. ''The components of
+      land may not always add to the total because of rounding.'' A 2022 vintage, from before later revisions
+      of the national balance sheet; the article''s series, not a current land-under-dwellings series.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000000000
+    expected_cell_type: number
+  - measure_id: land_underlying_other_buildings_and_structures
+    label: Land underlying other buildings and structures, 2003 (GBP trillion as printed)
+    ordinal: 2
+    column: D
+    source_column_id: land_underlying_other_buildings_and_structures
+    expected_column_header_row: 1
+    expected_column_header: Land underlying other buildings and structures
+    concept: ons.land_underlying_other_buildings_and_structures_value
+    source_concept: ons.land_article_2022.land_underlying_other_buildings_and_structures
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/nationalaccounts/uksectoraccounts/articles/improvingestimatesoflandunderlyingotherbuildingsandstructuresinthenationalbalancesheetuk/2022
+    concept_evidence_notes: 'ONS, ''Improving estimates of land underlying other buildings and structures
+      in the national balance sheet, UK: 2022'' (27 June 2022), Figure 1: ''Non-produced asset value in
+      the UK, current prices, 1995 to 2021'', in GBP trillion to one decimal place. ''The components of
+      land may not always add to the total because of rounding.'' A 2022 vintage, from before later revisions
+      of the national balance sheet; the article''s series, not a current land-under-dwellings series.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000000000
+    expected_cell_type: number
+  - measure_id: other_non_produced_assets
+    label: Other non-produced assets, 2003 (GBP trillion as printed)
+    ordinal: 3
+    column: E
+    source_column_id: other_non_produced_assets
+    expected_column_header_row: 1
+    expected_column_header: Other non-produced assets
+    concept: ons.other_non_produced_assets_value
+    source_concept: ons.land_article_2022.other_non_produced_assets
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/nationalaccounts/uksectoraccounts/articles/improvingestimatesoflandunderlyingotherbuildingsandstructuresinthenationalbalancesheetuk/2022
+    concept_evidence_notes: 'ONS, ''Improving estimates of land underlying other buildings and structures
+      in the national balance sheet, UK: 2022'' (27 June 2022), Figure 1: ''Non-produced asset value in
+      the UK, current prices, 1995 to 2021'', in GBP trillion to one decimal place. ''The components of
+      land may not always add to the total because of rounding.'' A 2022 vintage, from before later revisions
+      of the national balance sheet; the article''s series, not a current land-under-dwellings series.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000000000
+    expected_cell_type: number
+- record_set_id: ons.land_article_2022.figure_1.cy2004
+  provenance_class: model_output
+  assertion: observation
+  record_set_spec_id: ons.land_article_2022.figure_1.cy2004.v1
+  source_record_id_prefix: ons.land_article_2022.figure_1.cy2004
+  sheet_name: land_underlying_buildings_figure_1_2022
+  period_type: calendar_year
+  period: 2004
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: institutional_sector
+  entity_role: total_economy
+  domain: national_balance_sheet
+  groupby_dimension: ons.nbs_asset_category
+  rows:
+  - value_id: cy2004
+    label: '2004'
+    ordinal: 0
+    row_number: 11
+    expected_row_header_column: A
+    expected_row_header: 2004
+    table_record_kind: total
+  measures:
+  - measure_id: total_non_produced_assets
+    label: Total non-produced assets, 2004 (GBP trillion as printed)
+    ordinal: 0
+    column: B
+    source_column_id: total_non_produced_assets
+    expected_column_header_row: 1
+    expected_column_header: Total non-produced assets
+    concept: ons.non_produced_assets_value
+    source_concept: ons.land_article_2022.total_non_produced_assets
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/nationalaccounts/uksectoraccounts/articles/improvingestimatesoflandunderlyingotherbuildingsandstructuresinthenationalbalancesheetuk/2022
+    concept_evidence_notes: 'ONS, ''Improving estimates of land underlying other buildings and structures
+      in the national balance sheet, UK: 2022'' (27 June 2022), Figure 1: ''Non-produced asset value in
+      the UK, current prices, 1995 to 2021'', in GBP trillion to one decimal place. ''The components of
+      land may not always add to the total because of rounding.'' A 2022 vintage, from before later revisions
+      of the national balance sheet; the article''s series, not a current land-under-dwellings series.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000000000
+    expected_cell_type: number
+  - measure_id: land_underlying_dwellings
+    label: Land underlying dwellings, 2004 (GBP trillion as printed)
+    ordinal: 1
+    column: C
+    source_column_id: land_underlying_dwellings
+    expected_column_header_row: 1
+    expected_column_header: Land underlying dwellings
+    concept: ons.land_underlying_dwellings_value
+    source_concept: ons.land_article_2022.land_underlying_dwellings
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/nationalaccounts/uksectoraccounts/articles/improvingestimatesoflandunderlyingotherbuildingsandstructuresinthenationalbalancesheetuk/2022
+    concept_evidence_notes: 'ONS, ''Improving estimates of land underlying other buildings and structures
+      in the national balance sheet, UK: 2022'' (27 June 2022), Figure 1: ''Non-produced asset value in
+      the UK, current prices, 1995 to 2021'', in GBP trillion to one decimal place. ''The components of
+      land may not always add to the total because of rounding.'' A 2022 vintage, from before later revisions
+      of the national balance sheet; the article''s series, not a current land-under-dwellings series.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000000000
+    expected_cell_type: number
+  - measure_id: land_underlying_other_buildings_and_structures
+    label: Land underlying other buildings and structures, 2004 (GBP trillion as printed)
+    ordinal: 2
+    column: D
+    source_column_id: land_underlying_other_buildings_and_structures
+    expected_column_header_row: 1
+    expected_column_header: Land underlying other buildings and structures
+    concept: ons.land_underlying_other_buildings_and_structures_value
+    source_concept: ons.land_article_2022.land_underlying_other_buildings_and_structures
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/nationalaccounts/uksectoraccounts/articles/improvingestimatesoflandunderlyingotherbuildingsandstructuresinthenationalbalancesheetuk/2022
+    concept_evidence_notes: 'ONS, ''Improving estimates of land underlying other buildings and structures
+      in the national balance sheet, UK: 2022'' (27 June 2022), Figure 1: ''Non-produced asset value in
+      the UK, current prices, 1995 to 2021'', in GBP trillion to one decimal place. ''The components of
+      land may not always add to the total because of rounding.'' A 2022 vintage, from before later revisions
+      of the national balance sheet; the article''s series, not a current land-under-dwellings series.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000000000
+    expected_cell_type: number
+  - measure_id: other_non_produced_assets
+    label: Other non-produced assets, 2004 (GBP trillion as printed)
+    ordinal: 3
+    column: E
+    source_column_id: other_non_produced_assets
+    expected_column_header_row: 1
+    expected_column_header: Other non-produced assets
+    concept: ons.other_non_produced_assets_value
+    source_concept: ons.land_article_2022.other_non_produced_assets
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/nationalaccounts/uksectoraccounts/articles/improvingestimatesoflandunderlyingotherbuildingsandstructuresinthenationalbalancesheetuk/2022
+    concept_evidence_notes: 'ONS, ''Improving estimates of land underlying other buildings and structures
+      in the national balance sheet, UK: 2022'' (27 June 2022), Figure 1: ''Non-produced asset value in
+      the UK, current prices, 1995 to 2021'', in GBP trillion to one decimal place. ''The components of
+      land may not always add to the total because of rounding.'' A 2022 vintage, from before later revisions
+      of the national balance sheet; the article''s series, not a current land-under-dwellings series.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000000000
+    expected_cell_type: number
+- record_set_id: ons.land_article_2022.figure_1.cy2005
+  provenance_class: model_output
+  assertion: observation
+  record_set_spec_id: ons.land_article_2022.figure_1.cy2005.v1
+  source_record_id_prefix: ons.land_article_2022.figure_1.cy2005
+  sheet_name: land_underlying_buildings_figure_1_2022
+  period_type: calendar_year
+  period: 2005
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: institutional_sector
+  entity_role: total_economy
+  domain: national_balance_sheet
+  groupby_dimension: ons.nbs_asset_category
+  rows:
+  - value_id: cy2005
+    label: '2005'
+    ordinal: 0
+    row_number: 12
+    expected_row_header_column: A
+    expected_row_header: 2005
+    table_record_kind: total
+  measures:
+  - measure_id: total_non_produced_assets
+    label: Total non-produced assets, 2005 (GBP trillion as printed)
+    ordinal: 0
+    column: B
+    source_column_id: total_non_produced_assets
+    expected_column_header_row: 1
+    expected_column_header: Total non-produced assets
+    concept: ons.non_produced_assets_value
+    source_concept: ons.land_article_2022.total_non_produced_assets
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/nationalaccounts/uksectoraccounts/articles/improvingestimatesoflandunderlyingotherbuildingsandstructuresinthenationalbalancesheetuk/2022
+    concept_evidence_notes: 'ONS, ''Improving estimates of land underlying other buildings and structures
+      in the national balance sheet, UK: 2022'' (27 June 2022), Figure 1: ''Non-produced asset value in
+      the UK, current prices, 1995 to 2021'', in GBP trillion to one decimal place. ''The components of
+      land may not always add to the total because of rounding.'' A 2022 vintage, from before later revisions
+      of the national balance sheet; the article''s series, not a current land-under-dwellings series.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000000000
+    expected_cell_type: number
+  - measure_id: land_underlying_dwellings
+    label: Land underlying dwellings, 2005 (GBP trillion as printed)
+    ordinal: 1
+    column: C
+    source_column_id: land_underlying_dwellings
+    expected_column_header_row: 1
+    expected_column_header: Land underlying dwellings
+    concept: ons.land_underlying_dwellings_value
+    source_concept: ons.land_article_2022.land_underlying_dwellings
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/nationalaccounts/uksectoraccounts/articles/improvingestimatesoflandunderlyingotherbuildingsandstructuresinthenationalbalancesheetuk/2022
+    concept_evidence_notes: 'ONS, ''Improving estimates of land underlying other buildings and structures
+      in the national balance sheet, UK: 2022'' (27 June 2022), Figure 1: ''Non-produced asset value in
+      the UK, current prices, 1995 to 2021'', in GBP trillion to one decimal place. ''The components of
+      land may not always add to the total because of rounding.'' A 2022 vintage, from before later revisions
+      of the national balance sheet; the article''s series, not a current land-under-dwellings series.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000000000
+    expected_cell_type: number
+  - measure_id: land_underlying_other_buildings_and_structures
+    label: Land underlying other buildings and structures, 2005 (GBP trillion as printed)
+    ordinal: 2
+    column: D
+    source_column_id: land_underlying_other_buildings_and_structures
+    expected_column_header_row: 1
+    expected_column_header: Land underlying other buildings and structures
+    concept: ons.land_underlying_other_buildings_and_structures_value
+    source_concept: ons.land_article_2022.land_underlying_other_buildings_and_structures
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/nationalaccounts/uksectoraccounts/articles/improvingestimatesoflandunderlyingotherbuildingsandstructuresinthenationalbalancesheetuk/2022
+    concept_evidence_notes: 'ONS, ''Improving estimates of land underlying other buildings and structures
+      in the national balance sheet, UK: 2022'' (27 June 2022), Figure 1: ''Non-produced asset value in
+      the UK, current prices, 1995 to 2021'', in GBP trillion to one decimal place. ''The components of
+      land may not always add to the total because of rounding.'' A 2022 vintage, from before later revisions
+      of the national balance sheet; the article''s series, not a current land-under-dwellings series.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000000000
+    expected_cell_type: number
+  - measure_id: other_non_produced_assets
+    label: Other non-produced assets, 2005 (GBP trillion as printed)
+    ordinal: 3
+    column: E
+    source_column_id: other_non_produced_assets
+    expected_column_header_row: 1
+    expected_column_header: Other non-produced assets
+    concept: ons.other_non_produced_assets_value
+    source_concept: ons.land_article_2022.other_non_produced_assets
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/nationalaccounts/uksectoraccounts/articles/improvingestimatesoflandunderlyingotherbuildingsandstructuresinthenationalbalancesheetuk/2022
+    concept_evidence_notes: 'ONS, ''Improving estimates of land underlying other buildings and structures
+      in the national balance sheet, UK: 2022'' (27 June 2022), Figure 1: ''Non-produced asset value in
+      the UK, current prices, 1995 to 2021'', in GBP trillion to one decimal place. ''The components of
+      land may not always add to the total because of rounding.'' A 2022 vintage, from before later revisions
+      of the national balance sheet; the article''s series, not a current land-under-dwellings series.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000000000
+    expected_cell_type: number
+- record_set_id: ons.land_article_2022.figure_1.cy2006
+  provenance_class: model_output
+  assertion: observation
+  record_set_spec_id: ons.land_article_2022.figure_1.cy2006.v1
+  source_record_id_prefix: ons.land_article_2022.figure_1.cy2006
+  sheet_name: land_underlying_buildings_figure_1_2022
+  period_type: calendar_year
+  period: 2006
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: institutional_sector
+  entity_role: total_economy
+  domain: national_balance_sheet
+  groupby_dimension: ons.nbs_asset_category
+  rows:
+  - value_id: cy2006
+    label: '2006'
+    ordinal: 0
+    row_number: 13
+    expected_row_header_column: A
+    expected_row_header: 2006
+    table_record_kind: total
+  measures:
+  - measure_id: total_non_produced_assets
+    label: Total non-produced assets, 2006 (GBP trillion as printed)
+    ordinal: 0
+    column: B
+    source_column_id: total_non_produced_assets
+    expected_column_header_row: 1
+    expected_column_header: Total non-produced assets
+    concept: ons.non_produced_assets_value
+    source_concept: ons.land_article_2022.total_non_produced_assets
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/nationalaccounts/uksectoraccounts/articles/improvingestimatesoflandunderlyingotherbuildingsandstructuresinthenationalbalancesheetuk/2022
+    concept_evidence_notes: 'ONS, ''Improving estimates of land underlying other buildings and structures
+      in the national balance sheet, UK: 2022'' (27 June 2022), Figure 1: ''Non-produced asset value in
+      the UK, current prices, 1995 to 2021'', in GBP trillion to one decimal place. ''The components of
+      land may not always add to the total because of rounding.'' A 2022 vintage, from before later revisions
+      of the national balance sheet; the article''s series, not a current land-under-dwellings series.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000000000
+    expected_cell_type: number
+  - measure_id: land_underlying_dwellings
+    label: Land underlying dwellings, 2006 (GBP trillion as printed)
+    ordinal: 1
+    column: C
+    source_column_id: land_underlying_dwellings
+    expected_column_header_row: 1
+    expected_column_header: Land underlying dwellings
+    concept: ons.land_underlying_dwellings_value
+    source_concept: ons.land_article_2022.land_underlying_dwellings
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/nationalaccounts/uksectoraccounts/articles/improvingestimatesoflandunderlyingotherbuildingsandstructuresinthenationalbalancesheetuk/2022
+    concept_evidence_notes: 'ONS, ''Improving estimates of land underlying other buildings and structures
+      in the national balance sheet, UK: 2022'' (27 June 2022), Figure 1: ''Non-produced asset value in
+      the UK, current prices, 1995 to 2021'', in GBP trillion to one decimal place. ''The components of
+      land may not always add to the total because of rounding.'' A 2022 vintage, from before later revisions
+      of the national balance sheet; the article''s series, not a current land-under-dwellings series.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000000000
+    expected_cell_type: number
+  - measure_id: land_underlying_other_buildings_and_structures
+    label: Land underlying other buildings and structures, 2006 (GBP trillion as printed)
+    ordinal: 2
+    column: D
+    source_column_id: land_underlying_other_buildings_and_structures
+    expected_column_header_row: 1
+    expected_column_header: Land underlying other buildings and structures
+    concept: ons.land_underlying_other_buildings_and_structures_value
+    source_concept: ons.land_article_2022.land_underlying_other_buildings_and_structures
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/nationalaccounts/uksectoraccounts/articles/improvingestimatesoflandunderlyingotherbuildingsandstructuresinthenationalbalancesheetuk/2022
+    concept_evidence_notes: 'ONS, ''Improving estimates of land underlying other buildings and structures
+      in the national balance sheet, UK: 2022'' (27 June 2022), Figure 1: ''Non-produced asset value in
+      the UK, current prices, 1995 to 2021'', in GBP trillion to one decimal place. ''The components of
+      land may not always add to the total because of rounding.'' A 2022 vintage, from before later revisions
+      of the national balance sheet; the article''s series, not a current land-under-dwellings series.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000000000
+    expected_cell_type: number
+  - measure_id: other_non_produced_assets
+    label: Other non-produced assets, 2006 (GBP trillion as printed)
+    ordinal: 3
+    column: E
+    source_column_id: other_non_produced_assets
+    expected_column_header_row: 1
+    expected_column_header: Other non-produced assets
+    concept: ons.other_non_produced_assets_value
+    source_concept: ons.land_article_2022.other_non_produced_assets
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/nationalaccounts/uksectoraccounts/articles/improvingestimatesoflandunderlyingotherbuildingsandstructuresinthenationalbalancesheetuk/2022
+    concept_evidence_notes: 'ONS, ''Improving estimates of land underlying other buildings and structures
+      in the national balance sheet, UK: 2022'' (27 June 2022), Figure 1: ''Non-produced asset value in
+      the UK, current prices, 1995 to 2021'', in GBP trillion to one decimal place. ''The components of
+      land may not always add to the total because of rounding.'' A 2022 vintage, from before later revisions
+      of the national balance sheet; the article''s series, not a current land-under-dwellings series.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000000000
+    expected_cell_type: number
+- record_set_id: ons.land_article_2022.figure_1.cy2007
+  provenance_class: model_output
+  assertion: observation
+  record_set_spec_id: ons.land_article_2022.figure_1.cy2007.v1
+  source_record_id_prefix: ons.land_article_2022.figure_1.cy2007
+  sheet_name: land_underlying_buildings_figure_1_2022
+  period_type: calendar_year
+  period: 2007
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: institutional_sector
+  entity_role: total_economy
+  domain: national_balance_sheet
+  groupby_dimension: ons.nbs_asset_category
+  rows:
+  - value_id: cy2007
+    label: '2007'
+    ordinal: 0
+    row_number: 14
+    expected_row_header_column: A
+    expected_row_header: 2007
+    table_record_kind: total
+  measures:
+  - measure_id: total_non_produced_assets
+    label: Total non-produced assets, 2007 (GBP trillion as printed)
+    ordinal: 0
+    column: B
+    source_column_id: total_non_produced_assets
+    expected_column_header_row: 1
+    expected_column_header: Total non-produced assets
+    concept: ons.non_produced_assets_value
+    source_concept: ons.land_article_2022.total_non_produced_assets
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/nationalaccounts/uksectoraccounts/articles/improvingestimatesoflandunderlyingotherbuildingsandstructuresinthenationalbalancesheetuk/2022
+    concept_evidence_notes: 'ONS, ''Improving estimates of land underlying other buildings and structures
+      in the national balance sheet, UK: 2022'' (27 June 2022), Figure 1: ''Non-produced asset value in
+      the UK, current prices, 1995 to 2021'', in GBP trillion to one decimal place. ''The components of
+      land may not always add to the total because of rounding.'' A 2022 vintage, from before later revisions
+      of the national balance sheet; the article''s series, not a current land-under-dwellings series.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000000000
+    expected_cell_type: number
+  - measure_id: land_underlying_dwellings
+    label: Land underlying dwellings, 2007 (GBP trillion as printed)
+    ordinal: 1
+    column: C
+    source_column_id: land_underlying_dwellings
+    expected_column_header_row: 1
+    expected_column_header: Land underlying dwellings
+    concept: ons.land_underlying_dwellings_value
+    source_concept: ons.land_article_2022.land_underlying_dwellings
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/nationalaccounts/uksectoraccounts/articles/improvingestimatesoflandunderlyingotherbuildingsandstructuresinthenationalbalancesheetuk/2022
+    concept_evidence_notes: 'ONS, ''Improving estimates of land underlying other buildings and structures
+      in the national balance sheet, UK: 2022'' (27 June 2022), Figure 1: ''Non-produced asset value in
+      the UK, current prices, 1995 to 2021'', in GBP trillion to one decimal place. ''The components of
+      land may not always add to the total because of rounding.'' A 2022 vintage, from before later revisions
+      of the national balance sheet; the article''s series, not a current land-under-dwellings series.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000000000
+    expected_cell_type: number
+  - measure_id: land_underlying_other_buildings_and_structures
+    label: Land underlying other buildings and structures, 2007 (GBP trillion as printed)
+    ordinal: 2
+    column: D
+    source_column_id: land_underlying_other_buildings_and_structures
+    expected_column_header_row: 1
+    expected_column_header: Land underlying other buildings and structures
+    concept: ons.land_underlying_other_buildings_and_structures_value
+    source_concept: ons.land_article_2022.land_underlying_other_buildings_and_structures
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/nationalaccounts/uksectoraccounts/articles/improvingestimatesoflandunderlyingotherbuildingsandstructuresinthenationalbalancesheetuk/2022
+    concept_evidence_notes: 'ONS, ''Improving estimates of land underlying other buildings and structures
+      in the national balance sheet, UK: 2022'' (27 June 2022), Figure 1: ''Non-produced asset value in
+      the UK, current prices, 1995 to 2021'', in GBP trillion to one decimal place. ''The components of
+      land may not always add to the total because of rounding.'' A 2022 vintage, from before later revisions
+      of the national balance sheet; the article''s series, not a current land-under-dwellings series.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000000000
+    expected_cell_type: number
+  - measure_id: other_non_produced_assets
+    label: Other non-produced assets, 2007 (GBP trillion as printed)
+    ordinal: 3
+    column: E
+    source_column_id: other_non_produced_assets
+    expected_column_header_row: 1
+    expected_column_header: Other non-produced assets
+    concept: ons.other_non_produced_assets_value
+    source_concept: ons.land_article_2022.other_non_produced_assets
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/nationalaccounts/uksectoraccounts/articles/improvingestimatesoflandunderlyingotherbuildingsandstructuresinthenationalbalancesheetuk/2022
+    concept_evidence_notes: 'ONS, ''Improving estimates of land underlying other buildings and structures
+      in the national balance sheet, UK: 2022'' (27 June 2022), Figure 1: ''Non-produced asset value in
+      the UK, current prices, 1995 to 2021'', in GBP trillion to one decimal place. ''The components of
+      land may not always add to the total because of rounding.'' A 2022 vintage, from before later revisions
+      of the national balance sheet; the article''s series, not a current land-under-dwellings series.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000000000
+    expected_cell_type: number
+- record_set_id: ons.land_article_2022.figure_1.cy2008
+  provenance_class: model_output
+  assertion: observation
+  record_set_spec_id: ons.land_article_2022.figure_1.cy2008.v1
+  source_record_id_prefix: ons.land_article_2022.figure_1.cy2008
+  sheet_name: land_underlying_buildings_figure_1_2022
+  period_type: calendar_year
+  period: 2008
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: institutional_sector
+  entity_role: total_economy
+  domain: national_balance_sheet
+  groupby_dimension: ons.nbs_asset_category
+  rows:
+  - value_id: cy2008
+    label: '2008'
+    ordinal: 0
+    row_number: 15
+    expected_row_header_column: A
+    expected_row_header: 2008
+    table_record_kind: total
+  measures:
+  - measure_id: total_non_produced_assets
+    label: Total non-produced assets, 2008 (GBP trillion as printed)
+    ordinal: 0
+    column: B
+    source_column_id: total_non_produced_assets
+    expected_column_header_row: 1
+    expected_column_header: Total non-produced assets
+    concept: ons.non_produced_assets_value
+    source_concept: ons.land_article_2022.total_non_produced_assets
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/nationalaccounts/uksectoraccounts/articles/improvingestimatesoflandunderlyingotherbuildingsandstructuresinthenationalbalancesheetuk/2022
+    concept_evidence_notes: 'ONS, ''Improving estimates of land underlying other buildings and structures
+      in the national balance sheet, UK: 2022'' (27 June 2022), Figure 1: ''Non-produced asset value in
+      the UK, current prices, 1995 to 2021'', in GBP trillion to one decimal place. ''The components of
+      land may not always add to the total because of rounding.'' A 2022 vintage, from before later revisions
+      of the national balance sheet; the article''s series, not a current land-under-dwellings series.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000000000
+    expected_cell_type: number
+  - measure_id: land_underlying_dwellings
+    label: Land underlying dwellings, 2008 (GBP trillion as printed)
+    ordinal: 1
+    column: C
+    source_column_id: land_underlying_dwellings
+    expected_column_header_row: 1
+    expected_column_header: Land underlying dwellings
+    concept: ons.land_underlying_dwellings_value
+    source_concept: ons.land_article_2022.land_underlying_dwellings
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/nationalaccounts/uksectoraccounts/articles/improvingestimatesoflandunderlyingotherbuildingsandstructuresinthenationalbalancesheetuk/2022
+    concept_evidence_notes: 'ONS, ''Improving estimates of land underlying other buildings and structures
+      in the national balance sheet, UK: 2022'' (27 June 2022), Figure 1: ''Non-produced asset value in
+      the UK, current prices, 1995 to 2021'', in GBP trillion to one decimal place. ''The components of
+      land may not always add to the total because of rounding.'' A 2022 vintage, from before later revisions
+      of the national balance sheet; the article''s series, not a current land-under-dwellings series.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000000000
+    expected_cell_type: number
+  - measure_id: land_underlying_other_buildings_and_structures
+    label: Land underlying other buildings and structures, 2008 (GBP trillion as printed)
+    ordinal: 2
+    column: D
+    source_column_id: land_underlying_other_buildings_and_structures
+    expected_column_header_row: 1
+    expected_column_header: Land underlying other buildings and structures
+    concept: ons.land_underlying_other_buildings_and_structures_value
+    source_concept: ons.land_article_2022.land_underlying_other_buildings_and_structures
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/nationalaccounts/uksectoraccounts/articles/improvingestimatesoflandunderlyingotherbuildingsandstructuresinthenationalbalancesheetuk/2022
+    concept_evidence_notes: 'ONS, ''Improving estimates of land underlying other buildings and structures
+      in the national balance sheet, UK: 2022'' (27 June 2022), Figure 1: ''Non-produced asset value in
+      the UK, current prices, 1995 to 2021'', in GBP trillion to one decimal place. ''The components of
+      land may not always add to the total because of rounding.'' A 2022 vintage, from before later revisions
+      of the national balance sheet; the article''s series, not a current land-under-dwellings series.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000000000
+    expected_cell_type: number
+  - measure_id: other_non_produced_assets
+    label: Other non-produced assets, 2008 (GBP trillion as printed)
+    ordinal: 3
+    column: E
+    source_column_id: other_non_produced_assets
+    expected_column_header_row: 1
+    expected_column_header: Other non-produced assets
+    concept: ons.other_non_produced_assets_value
+    source_concept: ons.land_article_2022.other_non_produced_assets
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/nationalaccounts/uksectoraccounts/articles/improvingestimatesoflandunderlyingotherbuildingsandstructuresinthenationalbalancesheetuk/2022
+    concept_evidence_notes: 'ONS, ''Improving estimates of land underlying other buildings and structures
+      in the national balance sheet, UK: 2022'' (27 June 2022), Figure 1: ''Non-produced asset value in
+      the UK, current prices, 1995 to 2021'', in GBP trillion to one decimal place. ''The components of
+      land may not always add to the total because of rounding.'' A 2022 vintage, from before later revisions
+      of the national balance sheet; the article''s series, not a current land-under-dwellings series.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000000000
+    expected_cell_type: number
+- record_set_id: ons.land_article_2022.figure_1.cy2009
+  provenance_class: model_output
+  assertion: observation
+  record_set_spec_id: ons.land_article_2022.figure_1.cy2009.v1
+  source_record_id_prefix: ons.land_article_2022.figure_1.cy2009
+  sheet_name: land_underlying_buildings_figure_1_2022
+  period_type: calendar_year
+  period: 2009
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: institutional_sector
+  entity_role: total_economy
+  domain: national_balance_sheet
+  groupby_dimension: ons.nbs_asset_category
+  rows:
+  - value_id: cy2009
+    label: '2009'
+    ordinal: 0
+    row_number: 16
+    expected_row_header_column: A
+    expected_row_header: 2009
+    table_record_kind: total
+  measures:
+  - measure_id: total_non_produced_assets
+    label: Total non-produced assets, 2009 (GBP trillion as printed)
+    ordinal: 0
+    column: B
+    source_column_id: total_non_produced_assets
+    expected_column_header_row: 1
+    expected_column_header: Total non-produced assets
+    concept: ons.non_produced_assets_value
+    source_concept: ons.land_article_2022.total_non_produced_assets
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/nationalaccounts/uksectoraccounts/articles/improvingestimatesoflandunderlyingotherbuildingsandstructuresinthenationalbalancesheetuk/2022
+    concept_evidence_notes: 'ONS, ''Improving estimates of land underlying other buildings and structures
+      in the national balance sheet, UK: 2022'' (27 June 2022), Figure 1: ''Non-produced asset value in
+      the UK, current prices, 1995 to 2021'', in GBP trillion to one decimal place. ''The components of
+      land may not always add to the total because of rounding.'' A 2022 vintage, from before later revisions
+      of the national balance sheet; the article''s series, not a current land-under-dwellings series.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000000000
+    expected_cell_type: number
+  - measure_id: land_underlying_dwellings
+    label: Land underlying dwellings, 2009 (GBP trillion as printed)
+    ordinal: 1
+    column: C
+    source_column_id: land_underlying_dwellings
+    expected_column_header_row: 1
+    expected_column_header: Land underlying dwellings
+    concept: ons.land_underlying_dwellings_value
+    source_concept: ons.land_article_2022.land_underlying_dwellings
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/nationalaccounts/uksectoraccounts/articles/improvingestimatesoflandunderlyingotherbuildingsandstructuresinthenationalbalancesheetuk/2022
+    concept_evidence_notes: 'ONS, ''Improving estimates of land underlying other buildings and structures
+      in the national balance sheet, UK: 2022'' (27 June 2022), Figure 1: ''Non-produced asset value in
+      the UK, current prices, 1995 to 2021'', in GBP trillion to one decimal place. ''The components of
+      land may not always add to the total because of rounding.'' A 2022 vintage, from before later revisions
+      of the national balance sheet; the article''s series, not a current land-under-dwellings series.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000000000
+    expected_cell_type: number
+  - measure_id: land_underlying_other_buildings_and_structures
+    label: Land underlying other buildings and structures, 2009 (GBP trillion as printed)
+    ordinal: 2
+    column: D
+    source_column_id: land_underlying_other_buildings_and_structures
+    expected_column_header_row: 1
+    expected_column_header: Land underlying other buildings and structures
+    concept: ons.land_underlying_other_buildings_and_structures_value
+    source_concept: ons.land_article_2022.land_underlying_other_buildings_and_structures
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/nationalaccounts/uksectoraccounts/articles/improvingestimatesoflandunderlyingotherbuildingsandstructuresinthenationalbalancesheetuk/2022
+    concept_evidence_notes: 'ONS, ''Improving estimates of land underlying other buildings and structures
+      in the national balance sheet, UK: 2022'' (27 June 2022), Figure 1: ''Non-produced asset value in
+      the UK, current prices, 1995 to 2021'', in GBP trillion to one decimal place. ''The components of
+      land may not always add to the total because of rounding.'' A 2022 vintage, from before later revisions
+      of the national balance sheet; the article''s series, not a current land-under-dwellings series.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000000000
+    expected_cell_type: number
+  - measure_id: other_non_produced_assets
+    label: Other non-produced assets, 2009 (GBP trillion as printed)
+    ordinal: 3
+    column: E
+    source_column_id: other_non_produced_assets
+    expected_column_header_row: 1
+    expected_column_header: Other non-produced assets
+    concept: ons.other_non_produced_assets_value
+    source_concept: ons.land_article_2022.other_non_produced_assets
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/nationalaccounts/uksectoraccounts/articles/improvingestimatesoflandunderlyingotherbuildingsandstructuresinthenationalbalancesheetuk/2022
+    concept_evidence_notes: 'ONS, ''Improving estimates of land underlying other buildings and structures
+      in the national balance sheet, UK: 2022'' (27 June 2022), Figure 1: ''Non-produced asset value in
+      the UK, current prices, 1995 to 2021'', in GBP trillion to one decimal place. ''The components of
+      land may not always add to the total because of rounding.'' A 2022 vintage, from before later revisions
+      of the national balance sheet; the article''s series, not a current land-under-dwellings series.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000000000
+    expected_cell_type: number
+- record_set_id: ons.land_article_2022.figure_1.cy2010
+  provenance_class: model_output
+  assertion: observation
+  record_set_spec_id: ons.land_article_2022.figure_1.cy2010.v1
+  source_record_id_prefix: ons.land_article_2022.figure_1.cy2010
+  sheet_name: land_underlying_buildings_figure_1_2022
+  period_type: calendar_year
+  period: 2010
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: institutional_sector
+  entity_role: total_economy
+  domain: national_balance_sheet
+  groupby_dimension: ons.nbs_asset_category
+  rows:
+  - value_id: cy2010
+    label: '2010'
+    ordinal: 0
+    row_number: 17
+    expected_row_header_column: A
+    expected_row_header: 2010
+    table_record_kind: total
+  measures:
+  - measure_id: total_non_produced_assets
+    label: Total non-produced assets, 2010 (GBP trillion as printed)
+    ordinal: 0
+    column: B
+    source_column_id: total_non_produced_assets
+    expected_column_header_row: 1
+    expected_column_header: Total non-produced assets
+    concept: ons.non_produced_assets_value
+    source_concept: ons.land_article_2022.total_non_produced_assets
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/nationalaccounts/uksectoraccounts/articles/improvingestimatesoflandunderlyingotherbuildingsandstructuresinthenationalbalancesheetuk/2022
+    concept_evidence_notes: 'ONS, ''Improving estimates of land underlying other buildings and structures
+      in the national balance sheet, UK: 2022'' (27 June 2022), Figure 1: ''Non-produced asset value in
+      the UK, current prices, 1995 to 2021'', in GBP trillion to one decimal place. ''The components of
+      land may not always add to the total because of rounding.'' A 2022 vintage, from before later revisions
+      of the national balance sheet; the article''s series, not a current land-under-dwellings series.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000000000
+    expected_cell_type: number
+  - measure_id: land_underlying_dwellings
+    label: Land underlying dwellings, 2010 (GBP trillion as printed)
+    ordinal: 1
+    column: C
+    source_column_id: land_underlying_dwellings
+    expected_column_header_row: 1
+    expected_column_header: Land underlying dwellings
+    concept: ons.land_underlying_dwellings_value
+    source_concept: ons.land_article_2022.land_underlying_dwellings
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/nationalaccounts/uksectoraccounts/articles/improvingestimatesoflandunderlyingotherbuildingsandstructuresinthenationalbalancesheetuk/2022
+    concept_evidence_notes: 'ONS, ''Improving estimates of land underlying other buildings and structures
+      in the national balance sheet, UK: 2022'' (27 June 2022), Figure 1: ''Non-produced asset value in
+      the UK, current prices, 1995 to 2021'', in GBP trillion to one decimal place. ''The components of
+      land may not always add to the total because of rounding.'' A 2022 vintage, from before later revisions
+      of the national balance sheet; the article''s series, not a current land-under-dwellings series.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000000000
+    expected_cell_type: number
+  - measure_id: land_underlying_other_buildings_and_structures
+    label: Land underlying other buildings and structures, 2010 (GBP trillion as printed)
+    ordinal: 2
+    column: D
+    source_column_id: land_underlying_other_buildings_and_structures
+    expected_column_header_row: 1
+    expected_column_header: Land underlying other buildings and structures
+    concept: ons.land_underlying_other_buildings_and_structures_value
+    source_concept: ons.land_article_2022.land_underlying_other_buildings_and_structures
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/nationalaccounts/uksectoraccounts/articles/improvingestimatesoflandunderlyingotherbuildingsandstructuresinthenationalbalancesheetuk/2022
+    concept_evidence_notes: 'ONS, ''Improving estimates of land underlying other buildings and structures
+      in the national balance sheet, UK: 2022'' (27 June 2022), Figure 1: ''Non-produced asset value in
+      the UK, current prices, 1995 to 2021'', in GBP trillion to one decimal place. ''The components of
+      land may not always add to the total because of rounding.'' A 2022 vintage, from before later revisions
+      of the national balance sheet; the article''s series, not a current land-under-dwellings series.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000000000
+    expected_cell_type: number
+  - measure_id: other_non_produced_assets
+    label: Other non-produced assets, 2010 (GBP trillion as printed)
+    ordinal: 3
+    column: E
+    source_column_id: other_non_produced_assets
+    expected_column_header_row: 1
+    expected_column_header: Other non-produced assets
+    concept: ons.other_non_produced_assets_value
+    source_concept: ons.land_article_2022.other_non_produced_assets
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/nationalaccounts/uksectoraccounts/articles/improvingestimatesoflandunderlyingotherbuildingsandstructuresinthenationalbalancesheetuk/2022
+    concept_evidence_notes: 'ONS, ''Improving estimates of land underlying other buildings and structures
+      in the national balance sheet, UK: 2022'' (27 June 2022), Figure 1: ''Non-produced asset value in
+      the UK, current prices, 1995 to 2021'', in GBP trillion to one decimal place. ''The components of
+      land may not always add to the total because of rounding.'' A 2022 vintage, from before later revisions
+      of the national balance sheet; the article''s series, not a current land-under-dwellings series.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000000000
+    expected_cell_type: number
+- record_set_id: ons.land_article_2022.figure_1.cy2011
+  provenance_class: model_output
+  assertion: observation
+  record_set_spec_id: ons.land_article_2022.figure_1.cy2011.v1
+  source_record_id_prefix: ons.land_article_2022.figure_1.cy2011
+  sheet_name: land_underlying_buildings_figure_1_2022
+  period_type: calendar_year
+  period: 2011
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: institutional_sector
+  entity_role: total_economy
+  domain: national_balance_sheet
+  groupby_dimension: ons.nbs_asset_category
+  rows:
+  - value_id: cy2011
+    label: '2011'
+    ordinal: 0
+    row_number: 18
+    expected_row_header_column: A
+    expected_row_header: 2011
+    table_record_kind: total
+  measures:
+  - measure_id: total_non_produced_assets
+    label: Total non-produced assets, 2011 (GBP trillion as printed)
+    ordinal: 0
+    column: B
+    source_column_id: total_non_produced_assets
+    expected_column_header_row: 1
+    expected_column_header: Total non-produced assets
+    concept: ons.non_produced_assets_value
+    source_concept: ons.land_article_2022.total_non_produced_assets
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/nationalaccounts/uksectoraccounts/articles/improvingestimatesoflandunderlyingotherbuildingsandstructuresinthenationalbalancesheetuk/2022
+    concept_evidence_notes: 'ONS, ''Improving estimates of land underlying other buildings and structures
+      in the national balance sheet, UK: 2022'' (27 June 2022), Figure 1: ''Non-produced asset value in
+      the UK, current prices, 1995 to 2021'', in GBP trillion to one decimal place. ''The components of
+      land may not always add to the total because of rounding.'' A 2022 vintage, from before later revisions
+      of the national balance sheet; the article''s series, not a current land-under-dwellings series.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000000000
+    expected_cell_type: number
+  - measure_id: land_underlying_dwellings
+    label: Land underlying dwellings, 2011 (GBP trillion as printed)
+    ordinal: 1
+    column: C
+    source_column_id: land_underlying_dwellings
+    expected_column_header_row: 1
+    expected_column_header: Land underlying dwellings
+    concept: ons.land_underlying_dwellings_value
+    source_concept: ons.land_article_2022.land_underlying_dwellings
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/nationalaccounts/uksectoraccounts/articles/improvingestimatesoflandunderlyingotherbuildingsandstructuresinthenationalbalancesheetuk/2022
+    concept_evidence_notes: 'ONS, ''Improving estimates of land underlying other buildings and structures
+      in the national balance sheet, UK: 2022'' (27 June 2022), Figure 1: ''Non-produced asset value in
+      the UK, current prices, 1995 to 2021'', in GBP trillion to one decimal place. ''The components of
+      land may not always add to the total because of rounding.'' A 2022 vintage, from before later revisions
+      of the national balance sheet; the article''s series, not a current land-under-dwellings series.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000000000
+    expected_cell_type: number
+  - measure_id: land_underlying_other_buildings_and_structures
+    label: Land underlying other buildings and structures, 2011 (GBP trillion as printed)
+    ordinal: 2
+    column: D
+    source_column_id: land_underlying_other_buildings_and_structures
+    expected_column_header_row: 1
+    expected_column_header: Land underlying other buildings and structures
+    concept: ons.land_underlying_other_buildings_and_structures_value
+    source_concept: ons.land_article_2022.land_underlying_other_buildings_and_structures
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/nationalaccounts/uksectoraccounts/articles/improvingestimatesoflandunderlyingotherbuildingsandstructuresinthenationalbalancesheetuk/2022
+    concept_evidence_notes: 'ONS, ''Improving estimates of land underlying other buildings and structures
+      in the national balance sheet, UK: 2022'' (27 June 2022), Figure 1: ''Non-produced asset value in
+      the UK, current prices, 1995 to 2021'', in GBP trillion to one decimal place. ''The components of
+      land may not always add to the total because of rounding.'' A 2022 vintage, from before later revisions
+      of the national balance sheet; the article''s series, not a current land-under-dwellings series.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000000000
+    expected_cell_type: number
+  - measure_id: other_non_produced_assets
+    label: Other non-produced assets, 2011 (GBP trillion as printed)
+    ordinal: 3
+    column: E
+    source_column_id: other_non_produced_assets
+    expected_column_header_row: 1
+    expected_column_header: Other non-produced assets
+    concept: ons.other_non_produced_assets_value
+    source_concept: ons.land_article_2022.other_non_produced_assets
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/nationalaccounts/uksectoraccounts/articles/improvingestimatesoflandunderlyingotherbuildingsandstructuresinthenationalbalancesheetuk/2022
+    concept_evidence_notes: 'ONS, ''Improving estimates of land underlying other buildings and structures
+      in the national balance sheet, UK: 2022'' (27 June 2022), Figure 1: ''Non-produced asset value in
+      the UK, current prices, 1995 to 2021'', in GBP trillion to one decimal place. ''The components of
+      land may not always add to the total because of rounding.'' A 2022 vintage, from before later revisions
+      of the national balance sheet; the article''s series, not a current land-under-dwellings series.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000000000
+    expected_cell_type: number
+- record_set_id: ons.land_article_2022.figure_1.cy2012
+  provenance_class: model_output
+  assertion: observation
+  record_set_spec_id: ons.land_article_2022.figure_1.cy2012.v1
+  source_record_id_prefix: ons.land_article_2022.figure_1.cy2012
+  sheet_name: land_underlying_buildings_figure_1_2022
+  period_type: calendar_year
+  period: 2012
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: institutional_sector
+  entity_role: total_economy
+  domain: national_balance_sheet
+  groupby_dimension: ons.nbs_asset_category
+  rows:
+  - value_id: cy2012
+    label: '2012'
+    ordinal: 0
+    row_number: 19
+    expected_row_header_column: A
+    expected_row_header: 2012
+    table_record_kind: total
+  measures:
+  - measure_id: total_non_produced_assets
+    label: Total non-produced assets, 2012 (GBP trillion as printed)
+    ordinal: 0
+    column: B
+    source_column_id: total_non_produced_assets
+    expected_column_header_row: 1
+    expected_column_header: Total non-produced assets
+    concept: ons.non_produced_assets_value
+    source_concept: ons.land_article_2022.total_non_produced_assets
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/nationalaccounts/uksectoraccounts/articles/improvingestimatesoflandunderlyingotherbuildingsandstructuresinthenationalbalancesheetuk/2022
+    concept_evidence_notes: 'ONS, ''Improving estimates of land underlying other buildings and structures
+      in the national balance sheet, UK: 2022'' (27 June 2022), Figure 1: ''Non-produced asset value in
+      the UK, current prices, 1995 to 2021'', in GBP trillion to one decimal place. ''The components of
+      land may not always add to the total because of rounding.'' A 2022 vintage, from before later revisions
+      of the national balance sheet; the article''s series, not a current land-under-dwellings series.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000000000
+    expected_cell_type: number
+  - measure_id: land_underlying_dwellings
+    label: Land underlying dwellings, 2012 (GBP trillion as printed)
+    ordinal: 1
+    column: C
+    source_column_id: land_underlying_dwellings
+    expected_column_header_row: 1
+    expected_column_header: Land underlying dwellings
+    concept: ons.land_underlying_dwellings_value
+    source_concept: ons.land_article_2022.land_underlying_dwellings
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/nationalaccounts/uksectoraccounts/articles/improvingestimatesoflandunderlyingotherbuildingsandstructuresinthenationalbalancesheetuk/2022
+    concept_evidence_notes: 'ONS, ''Improving estimates of land underlying other buildings and structures
+      in the national balance sheet, UK: 2022'' (27 June 2022), Figure 1: ''Non-produced asset value in
+      the UK, current prices, 1995 to 2021'', in GBP trillion to one decimal place. ''The components of
+      land may not always add to the total because of rounding.'' A 2022 vintage, from before later revisions
+      of the national balance sheet; the article''s series, not a current land-under-dwellings series.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000000000
+    expected_cell_type: number
+  - measure_id: land_underlying_other_buildings_and_structures
+    label: Land underlying other buildings and structures, 2012 (GBP trillion as printed)
+    ordinal: 2
+    column: D
+    source_column_id: land_underlying_other_buildings_and_structures
+    expected_column_header_row: 1
+    expected_column_header: Land underlying other buildings and structures
+    concept: ons.land_underlying_other_buildings_and_structures_value
+    source_concept: ons.land_article_2022.land_underlying_other_buildings_and_structures
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/nationalaccounts/uksectoraccounts/articles/improvingestimatesoflandunderlyingotherbuildingsandstructuresinthenationalbalancesheetuk/2022
+    concept_evidence_notes: 'ONS, ''Improving estimates of land underlying other buildings and structures
+      in the national balance sheet, UK: 2022'' (27 June 2022), Figure 1: ''Non-produced asset value in
+      the UK, current prices, 1995 to 2021'', in GBP trillion to one decimal place. ''The components of
+      land may not always add to the total because of rounding.'' A 2022 vintage, from before later revisions
+      of the national balance sheet; the article''s series, not a current land-under-dwellings series.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000000000
+    expected_cell_type: number
+  - measure_id: other_non_produced_assets
+    label: Other non-produced assets, 2012 (GBP trillion as printed)
+    ordinal: 3
+    column: E
+    source_column_id: other_non_produced_assets
+    expected_column_header_row: 1
+    expected_column_header: Other non-produced assets
+    concept: ons.other_non_produced_assets_value
+    source_concept: ons.land_article_2022.other_non_produced_assets
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/nationalaccounts/uksectoraccounts/articles/improvingestimatesoflandunderlyingotherbuildingsandstructuresinthenationalbalancesheetuk/2022
+    concept_evidence_notes: 'ONS, ''Improving estimates of land underlying other buildings and structures
+      in the national balance sheet, UK: 2022'' (27 June 2022), Figure 1: ''Non-produced asset value in
+      the UK, current prices, 1995 to 2021'', in GBP trillion to one decimal place. ''The components of
+      land may not always add to the total because of rounding.'' A 2022 vintage, from before later revisions
+      of the national balance sheet; the article''s series, not a current land-under-dwellings series.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000000000
+    expected_cell_type: number
+- record_set_id: ons.land_article_2022.figure_1.cy2013
+  provenance_class: model_output
+  assertion: observation
+  record_set_spec_id: ons.land_article_2022.figure_1.cy2013.v1
+  source_record_id_prefix: ons.land_article_2022.figure_1.cy2013
+  sheet_name: land_underlying_buildings_figure_1_2022
+  period_type: calendar_year
+  period: 2013
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: institutional_sector
+  entity_role: total_economy
+  domain: national_balance_sheet
+  groupby_dimension: ons.nbs_asset_category
+  rows:
+  - value_id: cy2013
+    label: '2013'
+    ordinal: 0
+    row_number: 20
+    expected_row_header_column: A
+    expected_row_header: 2013
+    table_record_kind: total
+  measures:
+  - measure_id: total_non_produced_assets
+    label: Total non-produced assets, 2013 (GBP trillion as printed)
+    ordinal: 0
+    column: B
+    source_column_id: total_non_produced_assets
+    expected_column_header_row: 1
+    expected_column_header: Total non-produced assets
+    concept: ons.non_produced_assets_value
+    source_concept: ons.land_article_2022.total_non_produced_assets
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/nationalaccounts/uksectoraccounts/articles/improvingestimatesoflandunderlyingotherbuildingsandstructuresinthenationalbalancesheetuk/2022
+    concept_evidence_notes: 'ONS, ''Improving estimates of land underlying other buildings and structures
+      in the national balance sheet, UK: 2022'' (27 June 2022), Figure 1: ''Non-produced asset value in
+      the UK, current prices, 1995 to 2021'', in GBP trillion to one decimal place. ''The components of
+      land may not always add to the total because of rounding.'' A 2022 vintage, from before later revisions
+      of the national balance sheet; the article''s series, not a current land-under-dwellings series.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000000000
+    expected_cell_type: number
+  - measure_id: land_underlying_dwellings
+    label: Land underlying dwellings, 2013 (GBP trillion as printed)
+    ordinal: 1
+    column: C
+    source_column_id: land_underlying_dwellings
+    expected_column_header_row: 1
+    expected_column_header: Land underlying dwellings
+    concept: ons.land_underlying_dwellings_value
+    source_concept: ons.land_article_2022.land_underlying_dwellings
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/nationalaccounts/uksectoraccounts/articles/improvingestimatesoflandunderlyingotherbuildingsandstructuresinthenationalbalancesheetuk/2022
+    concept_evidence_notes: 'ONS, ''Improving estimates of land underlying other buildings and structures
+      in the national balance sheet, UK: 2022'' (27 June 2022), Figure 1: ''Non-produced asset value in
+      the UK, current prices, 1995 to 2021'', in GBP trillion to one decimal place. ''The components of
+      land may not always add to the total because of rounding.'' A 2022 vintage, from before later revisions
+      of the national balance sheet; the article''s series, not a current land-under-dwellings series.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000000000
+    expected_cell_type: number
+  - measure_id: land_underlying_other_buildings_and_structures
+    label: Land underlying other buildings and structures, 2013 (GBP trillion as printed)
+    ordinal: 2
+    column: D
+    source_column_id: land_underlying_other_buildings_and_structures
+    expected_column_header_row: 1
+    expected_column_header: Land underlying other buildings and structures
+    concept: ons.land_underlying_other_buildings_and_structures_value
+    source_concept: ons.land_article_2022.land_underlying_other_buildings_and_structures
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/nationalaccounts/uksectoraccounts/articles/improvingestimatesoflandunderlyingotherbuildingsandstructuresinthenationalbalancesheetuk/2022
+    concept_evidence_notes: 'ONS, ''Improving estimates of land underlying other buildings and structures
+      in the national balance sheet, UK: 2022'' (27 June 2022), Figure 1: ''Non-produced asset value in
+      the UK, current prices, 1995 to 2021'', in GBP trillion to one decimal place. ''The components of
+      land may not always add to the total because of rounding.'' A 2022 vintage, from before later revisions
+      of the national balance sheet; the article''s series, not a current land-under-dwellings series.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000000000
+    expected_cell_type: number
+  - measure_id: other_non_produced_assets
+    label: Other non-produced assets, 2013 (GBP trillion as printed)
+    ordinal: 3
+    column: E
+    source_column_id: other_non_produced_assets
+    expected_column_header_row: 1
+    expected_column_header: Other non-produced assets
+    concept: ons.other_non_produced_assets_value
+    source_concept: ons.land_article_2022.other_non_produced_assets
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/nationalaccounts/uksectoraccounts/articles/improvingestimatesoflandunderlyingotherbuildingsandstructuresinthenationalbalancesheetuk/2022
+    concept_evidence_notes: 'ONS, ''Improving estimates of land underlying other buildings and structures
+      in the national balance sheet, UK: 2022'' (27 June 2022), Figure 1: ''Non-produced asset value in
+      the UK, current prices, 1995 to 2021'', in GBP trillion to one decimal place. ''The components of
+      land may not always add to the total because of rounding.'' A 2022 vintage, from before later revisions
+      of the national balance sheet; the article''s series, not a current land-under-dwellings series.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000000000
+    expected_cell_type: number
+- record_set_id: ons.land_article_2022.figure_1.cy2014
+  provenance_class: model_output
+  assertion: observation
+  record_set_spec_id: ons.land_article_2022.figure_1.cy2014.v1
+  source_record_id_prefix: ons.land_article_2022.figure_1.cy2014
+  sheet_name: land_underlying_buildings_figure_1_2022
+  period_type: calendar_year
+  period: 2014
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: institutional_sector
+  entity_role: total_economy
+  domain: national_balance_sheet
+  groupby_dimension: ons.nbs_asset_category
+  rows:
+  - value_id: cy2014
+    label: '2014'
+    ordinal: 0
+    row_number: 21
+    expected_row_header_column: A
+    expected_row_header: 2014
+    table_record_kind: total
+  measures:
+  - measure_id: total_non_produced_assets
+    label: Total non-produced assets, 2014 (GBP trillion as printed)
+    ordinal: 0
+    column: B
+    source_column_id: total_non_produced_assets
+    expected_column_header_row: 1
+    expected_column_header: Total non-produced assets
+    concept: ons.non_produced_assets_value
+    source_concept: ons.land_article_2022.total_non_produced_assets
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/nationalaccounts/uksectoraccounts/articles/improvingestimatesoflandunderlyingotherbuildingsandstructuresinthenationalbalancesheetuk/2022
+    concept_evidence_notes: 'ONS, ''Improving estimates of land underlying other buildings and structures
+      in the national balance sheet, UK: 2022'' (27 June 2022), Figure 1: ''Non-produced asset value in
+      the UK, current prices, 1995 to 2021'', in GBP trillion to one decimal place. ''The components of
+      land may not always add to the total because of rounding.'' A 2022 vintage, from before later revisions
+      of the national balance sheet; the article''s series, not a current land-under-dwellings series.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000000000
+    expected_cell_type: number
+  - measure_id: land_underlying_dwellings
+    label: Land underlying dwellings, 2014 (GBP trillion as printed)
+    ordinal: 1
+    column: C
+    source_column_id: land_underlying_dwellings
+    expected_column_header_row: 1
+    expected_column_header: Land underlying dwellings
+    concept: ons.land_underlying_dwellings_value
+    source_concept: ons.land_article_2022.land_underlying_dwellings
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/nationalaccounts/uksectoraccounts/articles/improvingestimatesoflandunderlyingotherbuildingsandstructuresinthenationalbalancesheetuk/2022
+    concept_evidence_notes: 'ONS, ''Improving estimates of land underlying other buildings and structures
+      in the national balance sheet, UK: 2022'' (27 June 2022), Figure 1: ''Non-produced asset value in
+      the UK, current prices, 1995 to 2021'', in GBP trillion to one decimal place. ''The components of
+      land may not always add to the total because of rounding.'' A 2022 vintage, from before later revisions
+      of the national balance sheet; the article''s series, not a current land-under-dwellings series.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000000000
+    expected_cell_type: number
+  - measure_id: land_underlying_other_buildings_and_structures
+    label: Land underlying other buildings and structures, 2014 (GBP trillion as printed)
+    ordinal: 2
+    column: D
+    source_column_id: land_underlying_other_buildings_and_structures
+    expected_column_header_row: 1
+    expected_column_header: Land underlying other buildings and structures
+    concept: ons.land_underlying_other_buildings_and_structures_value
+    source_concept: ons.land_article_2022.land_underlying_other_buildings_and_structures
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/nationalaccounts/uksectoraccounts/articles/improvingestimatesoflandunderlyingotherbuildingsandstructuresinthenationalbalancesheetuk/2022
+    concept_evidence_notes: 'ONS, ''Improving estimates of land underlying other buildings and structures
+      in the national balance sheet, UK: 2022'' (27 June 2022), Figure 1: ''Non-produced asset value in
+      the UK, current prices, 1995 to 2021'', in GBP trillion to one decimal place. ''The components of
+      land may not always add to the total because of rounding.'' A 2022 vintage, from before later revisions
+      of the national balance sheet; the article''s series, not a current land-under-dwellings series.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000000000
+    expected_cell_type: number
+  - measure_id: other_non_produced_assets
+    label: Other non-produced assets, 2014 (GBP trillion as printed)
+    ordinal: 3
+    column: E
+    source_column_id: other_non_produced_assets
+    expected_column_header_row: 1
+    expected_column_header: Other non-produced assets
+    concept: ons.other_non_produced_assets_value
+    source_concept: ons.land_article_2022.other_non_produced_assets
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/nationalaccounts/uksectoraccounts/articles/improvingestimatesoflandunderlyingotherbuildingsandstructuresinthenationalbalancesheetuk/2022
+    concept_evidence_notes: 'ONS, ''Improving estimates of land underlying other buildings and structures
+      in the national balance sheet, UK: 2022'' (27 June 2022), Figure 1: ''Non-produced asset value in
+      the UK, current prices, 1995 to 2021'', in GBP trillion to one decimal place. ''The components of
+      land may not always add to the total because of rounding.'' A 2022 vintage, from before later revisions
+      of the national balance sheet; the article''s series, not a current land-under-dwellings series.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000000000
+    expected_cell_type: number
+- record_set_id: ons.land_article_2022.figure_1.cy2015
+  provenance_class: model_output
+  assertion: observation
+  record_set_spec_id: ons.land_article_2022.figure_1.cy2015.v1
+  source_record_id_prefix: ons.land_article_2022.figure_1.cy2015
+  sheet_name: land_underlying_buildings_figure_1_2022
+  period_type: calendar_year
+  period: 2015
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: institutional_sector
+  entity_role: total_economy
+  domain: national_balance_sheet
+  groupby_dimension: ons.nbs_asset_category
+  rows:
+  - value_id: cy2015
+    label: '2015'
+    ordinal: 0
+    row_number: 22
+    expected_row_header_column: A
+    expected_row_header: 2015
+    table_record_kind: total
+  measures:
+  - measure_id: total_non_produced_assets
+    label: Total non-produced assets, 2015 (GBP trillion as printed)
+    ordinal: 0
+    column: B
+    source_column_id: total_non_produced_assets
+    expected_column_header_row: 1
+    expected_column_header: Total non-produced assets
+    concept: ons.non_produced_assets_value
+    source_concept: ons.land_article_2022.total_non_produced_assets
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/nationalaccounts/uksectoraccounts/articles/improvingestimatesoflandunderlyingotherbuildingsandstructuresinthenationalbalancesheetuk/2022
+    concept_evidence_notes: 'ONS, ''Improving estimates of land underlying other buildings and structures
+      in the national balance sheet, UK: 2022'' (27 June 2022), Figure 1: ''Non-produced asset value in
+      the UK, current prices, 1995 to 2021'', in GBP trillion to one decimal place. ''The components of
+      land may not always add to the total because of rounding.'' A 2022 vintage, from before later revisions
+      of the national balance sheet; the article''s series, not a current land-under-dwellings series.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000000000
+    expected_cell_type: number
+  - measure_id: land_underlying_dwellings
+    label: Land underlying dwellings, 2015 (GBP trillion as printed)
+    ordinal: 1
+    column: C
+    source_column_id: land_underlying_dwellings
+    expected_column_header_row: 1
+    expected_column_header: Land underlying dwellings
+    concept: ons.land_underlying_dwellings_value
+    source_concept: ons.land_article_2022.land_underlying_dwellings
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/nationalaccounts/uksectoraccounts/articles/improvingestimatesoflandunderlyingotherbuildingsandstructuresinthenationalbalancesheetuk/2022
+    concept_evidence_notes: 'ONS, ''Improving estimates of land underlying other buildings and structures
+      in the national balance sheet, UK: 2022'' (27 June 2022), Figure 1: ''Non-produced asset value in
+      the UK, current prices, 1995 to 2021'', in GBP trillion to one decimal place. ''The components of
+      land may not always add to the total because of rounding.'' A 2022 vintage, from before later revisions
+      of the national balance sheet; the article''s series, not a current land-under-dwellings series.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000000000
+    expected_cell_type: number
+  - measure_id: land_underlying_other_buildings_and_structures
+    label: Land underlying other buildings and structures, 2015 (GBP trillion as printed)
+    ordinal: 2
+    column: D
+    source_column_id: land_underlying_other_buildings_and_structures
+    expected_column_header_row: 1
+    expected_column_header: Land underlying other buildings and structures
+    concept: ons.land_underlying_other_buildings_and_structures_value
+    source_concept: ons.land_article_2022.land_underlying_other_buildings_and_structures
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/nationalaccounts/uksectoraccounts/articles/improvingestimatesoflandunderlyingotherbuildingsandstructuresinthenationalbalancesheetuk/2022
+    concept_evidence_notes: 'ONS, ''Improving estimates of land underlying other buildings and structures
+      in the national balance sheet, UK: 2022'' (27 June 2022), Figure 1: ''Non-produced asset value in
+      the UK, current prices, 1995 to 2021'', in GBP trillion to one decimal place. ''The components of
+      land may not always add to the total because of rounding.'' A 2022 vintage, from before later revisions
+      of the national balance sheet; the article''s series, not a current land-under-dwellings series.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000000000
+    expected_cell_type: number
+  - measure_id: other_non_produced_assets
+    label: Other non-produced assets, 2015 (GBP trillion as printed)
+    ordinal: 3
+    column: E
+    source_column_id: other_non_produced_assets
+    expected_column_header_row: 1
+    expected_column_header: Other non-produced assets
+    concept: ons.other_non_produced_assets_value
+    source_concept: ons.land_article_2022.other_non_produced_assets
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/nationalaccounts/uksectoraccounts/articles/improvingestimatesoflandunderlyingotherbuildingsandstructuresinthenationalbalancesheetuk/2022
+    concept_evidence_notes: 'ONS, ''Improving estimates of land underlying other buildings and structures
+      in the national balance sheet, UK: 2022'' (27 June 2022), Figure 1: ''Non-produced asset value in
+      the UK, current prices, 1995 to 2021'', in GBP trillion to one decimal place. ''The components of
+      land may not always add to the total because of rounding.'' A 2022 vintage, from before later revisions
+      of the national balance sheet; the article''s series, not a current land-under-dwellings series.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000000000
+    expected_cell_type: number
+- record_set_id: ons.land_article_2022.figure_1.cy2016
+  provenance_class: model_output
+  assertion: observation
+  record_set_spec_id: ons.land_article_2022.figure_1.cy2016.v1
+  source_record_id_prefix: ons.land_article_2022.figure_1.cy2016
+  sheet_name: land_underlying_buildings_figure_1_2022
+  period_type: calendar_year
+  period: 2016
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: institutional_sector
+  entity_role: total_economy
+  domain: national_balance_sheet
+  groupby_dimension: ons.nbs_asset_category
+  rows:
+  - value_id: cy2016
+    label: '2016'
+    ordinal: 0
+    row_number: 23
+    expected_row_header_column: A
+    expected_row_header: 2016
+    table_record_kind: total
+  measures:
+  - measure_id: total_non_produced_assets
+    label: Total non-produced assets, 2016 (GBP trillion as printed)
+    ordinal: 0
+    column: B
+    source_column_id: total_non_produced_assets
+    expected_column_header_row: 1
+    expected_column_header: Total non-produced assets
+    concept: ons.non_produced_assets_value
+    source_concept: ons.land_article_2022.total_non_produced_assets
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/nationalaccounts/uksectoraccounts/articles/improvingestimatesoflandunderlyingotherbuildingsandstructuresinthenationalbalancesheetuk/2022
+    concept_evidence_notes: 'ONS, ''Improving estimates of land underlying other buildings and structures
+      in the national balance sheet, UK: 2022'' (27 June 2022), Figure 1: ''Non-produced asset value in
+      the UK, current prices, 1995 to 2021'', in GBP trillion to one decimal place. ''The components of
+      land may not always add to the total because of rounding.'' A 2022 vintage, from before later revisions
+      of the national balance sheet; the article''s series, not a current land-under-dwellings series.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000000000
+    expected_cell_type: number
+  - measure_id: land_underlying_dwellings
+    label: Land underlying dwellings, 2016 (GBP trillion as printed)
+    ordinal: 1
+    column: C
+    source_column_id: land_underlying_dwellings
+    expected_column_header_row: 1
+    expected_column_header: Land underlying dwellings
+    concept: ons.land_underlying_dwellings_value
+    source_concept: ons.land_article_2022.land_underlying_dwellings
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/nationalaccounts/uksectoraccounts/articles/improvingestimatesoflandunderlyingotherbuildingsandstructuresinthenationalbalancesheetuk/2022
+    concept_evidence_notes: 'ONS, ''Improving estimates of land underlying other buildings and structures
+      in the national balance sheet, UK: 2022'' (27 June 2022), Figure 1: ''Non-produced asset value in
+      the UK, current prices, 1995 to 2021'', in GBP trillion to one decimal place. ''The components of
+      land may not always add to the total because of rounding.'' A 2022 vintage, from before later revisions
+      of the national balance sheet; the article''s series, not a current land-under-dwellings series.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000000000
+    expected_cell_type: number
+  - measure_id: land_underlying_other_buildings_and_structures
+    label: Land underlying other buildings and structures, 2016 (GBP trillion as printed)
+    ordinal: 2
+    column: D
+    source_column_id: land_underlying_other_buildings_and_structures
+    expected_column_header_row: 1
+    expected_column_header: Land underlying other buildings and structures
+    concept: ons.land_underlying_other_buildings_and_structures_value
+    source_concept: ons.land_article_2022.land_underlying_other_buildings_and_structures
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/nationalaccounts/uksectoraccounts/articles/improvingestimatesoflandunderlyingotherbuildingsandstructuresinthenationalbalancesheetuk/2022
+    concept_evidence_notes: 'ONS, ''Improving estimates of land underlying other buildings and structures
+      in the national balance sheet, UK: 2022'' (27 June 2022), Figure 1: ''Non-produced asset value in
+      the UK, current prices, 1995 to 2021'', in GBP trillion to one decimal place. ''The components of
+      land may not always add to the total because of rounding.'' A 2022 vintage, from before later revisions
+      of the national balance sheet; the article''s series, not a current land-under-dwellings series.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000000000
+    expected_cell_type: number
+  - measure_id: other_non_produced_assets
+    label: Other non-produced assets, 2016 (GBP trillion as printed)
+    ordinal: 3
+    column: E
+    source_column_id: other_non_produced_assets
+    expected_column_header_row: 1
+    expected_column_header: Other non-produced assets
+    concept: ons.other_non_produced_assets_value
+    source_concept: ons.land_article_2022.other_non_produced_assets
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/nationalaccounts/uksectoraccounts/articles/improvingestimatesoflandunderlyingotherbuildingsandstructuresinthenationalbalancesheetuk/2022
+    concept_evidence_notes: 'ONS, ''Improving estimates of land underlying other buildings and structures
+      in the national balance sheet, UK: 2022'' (27 June 2022), Figure 1: ''Non-produced asset value in
+      the UK, current prices, 1995 to 2021'', in GBP trillion to one decimal place. ''The components of
+      land may not always add to the total because of rounding.'' A 2022 vintage, from before later revisions
+      of the national balance sheet; the article''s series, not a current land-under-dwellings series.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000000000
+    expected_cell_type: number
+- record_set_id: ons.land_article_2022.figure_1.cy2017
+  provenance_class: model_output
+  assertion: observation
+  record_set_spec_id: ons.land_article_2022.figure_1.cy2017.v1
+  source_record_id_prefix: ons.land_article_2022.figure_1.cy2017
+  sheet_name: land_underlying_buildings_figure_1_2022
+  period_type: calendar_year
+  period: 2017
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: institutional_sector
+  entity_role: total_economy
+  domain: national_balance_sheet
+  groupby_dimension: ons.nbs_asset_category
+  rows:
+  - value_id: cy2017
+    label: '2017'
+    ordinal: 0
+    row_number: 24
+    expected_row_header_column: A
+    expected_row_header: 2017
+    table_record_kind: total
+  measures:
+  - measure_id: total_non_produced_assets
+    label: Total non-produced assets, 2017 (GBP trillion as printed)
+    ordinal: 0
+    column: B
+    source_column_id: total_non_produced_assets
+    expected_column_header_row: 1
+    expected_column_header: Total non-produced assets
+    concept: ons.non_produced_assets_value
+    source_concept: ons.land_article_2022.total_non_produced_assets
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/nationalaccounts/uksectoraccounts/articles/improvingestimatesoflandunderlyingotherbuildingsandstructuresinthenationalbalancesheetuk/2022
+    concept_evidence_notes: 'ONS, ''Improving estimates of land underlying other buildings and structures
+      in the national balance sheet, UK: 2022'' (27 June 2022), Figure 1: ''Non-produced asset value in
+      the UK, current prices, 1995 to 2021'', in GBP trillion to one decimal place. ''The components of
+      land may not always add to the total because of rounding.'' A 2022 vintage, from before later revisions
+      of the national balance sheet; the article''s series, not a current land-under-dwellings series.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000000000
+    expected_cell_type: number
+  - measure_id: land_underlying_dwellings
+    label: Land underlying dwellings, 2017 (GBP trillion as printed)
+    ordinal: 1
+    column: C
+    source_column_id: land_underlying_dwellings
+    expected_column_header_row: 1
+    expected_column_header: Land underlying dwellings
+    concept: ons.land_underlying_dwellings_value
+    source_concept: ons.land_article_2022.land_underlying_dwellings
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/nationalaccounts/uksectoraccounts/articles/improvingestimatesoflandunderlyingotherbuildingsandstructuresinthenationalbalancesheetuk/2022
+    concept_evidence_notes: 'ONS, ''Improving estimates of land underlying other buildings and structures
+      in the national balance sheet, UK: 2022'' (27 June 2022), Figure 1: ''Non-produced asset value in
+      the UK, current prices, 1995 to 2021'', in GBP trillion to one decimal place. ''The components of
+      land may not always add to the total because of rounding.'' A 2022 vintage, from before later revisions
+      of the national balance sheet; the article''s series, not a current land-under-dwellings series.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000000000
+    expected_cell_type: number
+  - measure_id: land_underlying_other_buildings_and_structures
+    label: Land underlying other buildings and structures, 2017 (GBP trillion as printed)
+    ordinal: 2
+    column: D
+    source_column_id: land_underlying_other_buildings_and_structures
+    expected_column_header_row: 1
+    expected_column_header: Land underlying other buildings and structures
+    concept: ons.land_underlying_other_buildings_and_structures_value
+    source_concept: ons.land_article_2022.land_underlying_other_buildings_and_structures
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/nationalaccounts/uksectoraccounts/articles/improvingestimatesoflandunderlyingotherbuildingsandstructuresinthenationalbalancesheetuk/2022
+    concept_evidence_notes: 'ONS, ''Improving estimates of land underlying other buildings and structures
+      in the national balance sheet, UK: 2022'' (27 June 2022), Figure 1: ''Non-produced asset value in
+      the UK, current prices, 1995 to 2021'', in GBP trillion to one decimal place. ''The components of
+      land may not always add to the total because of rounding.'' A 2022 vintage, from before later revisions
+      of the national balance sheet; the article''s series, not a current land-under-dwellings series.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000000000
+    expected_cell_type: number
+  - measure_id: other_non_produced_assets
+    label: Other non-produced assets, 2017 (GBP trillion as printed)
+    ordinal: 3
+    column: E
+    source_column_id: other_non_produced_assets
+    expected_column_header_row: 1
+    expected_column_header: Other non-produced assets
+    concept: ons.other_non_produced_assets_value
+    source_concept: ons.land_article_2022.other_non_produced_assets
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/nationalaccounts/uksectoraccounts/articles/improvingestimatesoflandunderlyingotherbuildingsandstructuresinthenationalbalancesheetuk/2022
+    concept_evidence_notes: 'ONS, ''Improving estimates of land underlying other buildings and structures
+      in the national balance sheet, UK: 2022'' (27 June 2022), Figure 1: ''Non-produced asset value in
+      the UK, current prices, 1995 to 2021'', in GBP trillion to one decimal place. ''The components of
+      land may not always add to the total because of rounding.'' A 2022 vintage, from before later revisions
+      of the national balance sheet; the article''s series, not a current land-under-dwellings series.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000000000
+    expected_cell_type: number
+- record_set_id: ons.land_article_2022.figure_1.cy2018
+  provenance_class: model_output
+  assertion: observation
+  record_set_spec_id: ons.land_article_2022.figure_1.cy2018.v1
+  source_record_id_prefix: ons.land_article_2022.figure_1.cy2018
+  sheet_name: land_underlying_buildings_figure_1_2022
+  period_type: calendar_year
+  period: 2018
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: institutional_sector
+  entity_role: total_economy
+  domain: national_balance_sheet
+  groupby_dimension: ons.nbs_asset_category
+  rows:
+  - value_id: cy2018
+    label: '2018'
+    ordinal: 0
+    row_number: 25
+    expected_row_header_column: A
+    expected_row_header: 2018
+    table_record_kind: total
+  measures:
+  - measure_id: total_non_produced_assets
+    label: Total non-produced assets, 2018 (GBP trillion as printed)
+    ordinal: 0
+    column: B
+    source_column_id: total_non_produced_assets
+    expected_column_header_row: 1
+    expected_column_header: Total non-produced assets
+    concept: ons.non_produced_assets_value
+    source_concept: ons.land_article_2022.total_non_produced_assets
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/nationalaccounts/uksectoraccounts/articles/improvingestimatesoflandunderlyingotherbuildingsandstructuresinthenationalbalancesheetuk/2022
+    concept_evidence_notes: 'ONS, ''Improving estimates of land underlying other buildings and structures
+      in the national balance sheet, UK: 2022'' (27 June 2022), Figure 1: ''Non-produced asset value in
+      the UK, current prices, 1995 to 2021'', in GBP trillion to one decimal place. ''The components of
+      land may not always add to the total because of rounding.'' A 2022 vintage, from before later revisions
+      of the national balance sheet; the article''s series, not a current land-under-dwellings series.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000000000
+    expected_cell_type: number
+  - measure_id: land_underlying_dwellings
+    label: Land underlying dwellings, 2018 (GBP trillion as printed)
+    ordinal: 1
+    column: C
+    source_column_id: land_underlying_dwellings
+    expected_column_header_row: 1
+    expected_column_header: Land underlying dwellings
+    concept: ons.land_underlying_dwellings_value
+    source_concept: ons.land_article_2022.land_underlying_dwellings
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/nationalaccounts/uksectoraccounts/articles/improvingestimatesoflandunderlyingotherbuildingsandstructuresinthenationalbalancesheetuk/2022
+    concept_evidence_notes: 'ONS, ''Improving estimates of land underlying other buildings and structures
+      in the national balance sheet, UK: 2022'' (27 June 2022), Figure 1: ''Non-produced asset value in
+      the UK, current prices, 1995 to 2021'', in GBP trillion to one decimal place. ''The components of
+      land may not always add to the total because of rounding.'' A 2022 vintage, from before later revisions
+      of the national balance sheet; the article''s series, not a current land-under-dwellings series.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000000000
+    expected_cell_type: number
+  - measure_id: land_underlying_other_buildings_and_structures
+    label: Land underlying other buildings and structures, 2018 (GBP trillion as printed)
+    ordinal: 2
+    column: D
+    source_column_id: land_underlying_other_buildings_and_structures
+    expected_column_header_row: 1
+    expected_column_header: Land underlying other buildings and structures
+    concept: ons.land_underlying_other_buildings_and_structures_value
+    source_concept: ons.land_article_2022.land_underlying_other_buildings_and_structures
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/nationalaccounts/uksectoraccounts/articles/improvingestimatesoflandunderlyingotherbuildingsandstructuresinthenationalbalancesheetuk/2022
+    concept_evidence_notes: 'ONS, ''Improving estimates of land underlying other buildings and structures
+      in the national balance sheet, UK: 2022'' (27 June 2022), Figure 1: ''Non-produced asset value in
+      the UK, current prices, 1995 to 2021'', in GBP trillion to one decimal place. ''The components of
+      land may not always add to the total because of rounding.'' A 2022 vintage, from before later revisions
+      of the national balance sheet; the article''s series, not a current land-under-dwellings series.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000000000
+    expected_cell_type: number
+  - measure_id: other_non_produced_assets
+    label: Other non-produced assets, 2018 (GBP trillion as printed)
+    ordinal: 3
+    column: E
+    source_column_id: other_non_produced_assets
+    expected_column_header_row: 1
+    expected_column_header: Other non-produced assets
+    concept: ons.other_non_produced_assets_value
+    source_concept: ons.land_article_2022.other_non_produced_assets
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/nationalaccounts/uksectoraccounts/articles/improvingestimatesoflandunderlyingotherbuildingsandstructuresinthenationalbalancesheetuk/2022
+    concept_evidence_notes: 'ONS, ''Improving estimates of land underlying other buildings and structures
+      in the national balance sheet, UK: 2022'' (27 June 2022), Figure 1: ''Non-produced asset value in
+      the UK, current prices, 1995 to 2021'', in GBP trillion to one decimal place. ''The components of
+      land may not always add to the total because of rounding.'' A 2022 vintage, from before later revisions
+      of the national balance sheet; the article''s series, not a current land-under-dwellings series.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000000000
+    expected_cell_type: number
+- record_set_id: ons.land_article_2022.figure_1.cy2019
+  provenance_class: model_output
+  assertion: observation
+  record_set_spec_id: ons.land_article_2022.figure_1.cy2019.v1
+  source_record_id_prefix: ons.land_article_2022.figure_1.cy2019
+  sheet_name: land_underlying_buildings_figure_1_2022
+  period_type: calendar_year
+  period: 2019
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: institutional_sector
+  entity_role: total_economy
+  domain: national_balance_sheet
+  groupby_dimension: ons.nbs_asset_category
+  rows:
+  - value_id: cy2019
+    label: '2019'
+    ordinal: 0
+    row_number: 26
+    expected_row_header_column: A
+    expected_row_header: 2019
+    table_record_kind: total
+  measures:
+  - measure_id: total_non_produced_assets
+    label: Total non-produced assets, 2019 (GBP trillion as printed)
+    ordinal: 0
+    column: B
+    source_column_id: total_non_produced_assets
+    expected_column_header_row: 1
+    expected_column_header: Total non-produced assets
+    concept: ons.non_produced_assets_value
+    source_concept: ons.land_article_2022.total_non_produced_assets
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/nationalaccounts/uksectoraccounts/articles/improvingestimatesoflandunderlyingotherbuildingsandstructuresinthenationalbalancesheetuk/2022
+    concept_evidence_notes: 'ONS, ''Improving estimates of land underlying other buildings and structures
+      in the national balance sheet, UK: 2022'' (27 June 2022), Figure 1: ''Non-produced asset value in
+      the UK, current prices, 1995 to 2021'', in GBP trillion to one decimal place. ''The components of
+      land may not always add to the total because of rounding.'' A 2022 vintage, from before later revisions
+      of the national balance sheet; the article''s series, not a current land-under-dwellings series.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000000000
+    expected_cell_type: number
+  - measure_id: land_underlying_dwellings
+    label: Land underlying dwellings, 2019 (GBP trillion as printed)
+    ordinal: 1
+    column: C
+    source_column_id: land_underlying_dwellings
+    expected_column_header_row: 1
+    expected_column_header: Land underlying dwellings
+    concept: ons.land_underlying_dwellings_value
+    source_concept: ons.land_article_2022.land_underlying_dwellings
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/nationalaccounts/uksectoraccounts/articles/improvingestimatesoflandunderlyingotherbuildingsandstructuresinthenationalbalancesheetuk/2022
+    concept_evidence_notes: 'ONS, ''Improving estimates of land underlying other buildings and structures
+      in the national balance sheet, UK: 2022'' (27 June 2022), Figure 1: ''Non-produced asset value in
+      the UK, current prices, 1995 to 2021'', in GBP trillion to one decimal place. ''The components of
+      land may not always add to the total because of rounding.'' A 2022 vintage, from before later revisions
+      of the national balance sheet; the article''s series, not a current land-under-dwellings series.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000000000
+    expected_cell_type: number
+  - measure_id: land_underlying_other_buildings_and_structures
+    label: Land underlying other buildings and structures, 2019 (GBP trillion as printed)
+    ordinal: 2
+    column: D
+    source_column_id: land_underlying_other_buildings_and_structures
+    expected_column_header_row: 1
+    expected_column_header: Land underlying other buildings and structures
+    concept: ons.land_underlying_other_buildings_and_structures_value
+    source_concept: ons.land_article_2022.land_underlying_other_buildings_and_structures
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/nationalaccounts/uksectoraccounts/articles/improvingestimatesoflandunderlyingotherbuildingsandstructuresinthenationalbalancesheetuk/2022
+    concept_evidence_notes: 'ONS, ''Improving estimates of land underlying other buildings and structures
+      in the national balance sheet, UK: 2022'' (27 June 2022), Figure 1: ''Non-produced asset value in
+      the UK, current prices, 1995 to 2021'', in GBP trillion to one decimal place. ''The components of
+      land may not always add to the total because of rounding.'' A 2022 vintage, from before later revisions
+      of the national balance sheet; the article''s series, not a current land-under-dwellings series.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000000000
+    expected_cell_type: number
+  - measure_id: other_non_produced_assets
+    label: Other non-produced assets, 2019 (GBP trillion as printed)
+    ordinal: 3
+    column: E
+    source_column_id: other_non_produced_assets
+    expected_column_header_row: 1
+    expected_column_header: Other non-produced assets
+    concept: ons.other_non_produced_assets_value
+    source_concept: ons.land_article_2022.other_non_produced_assets
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/nationalaccounts/uksectoraccounts/articles/improvingestimatesoflandunderlyingotherbuildingsandstructuresinthenationalbalancesheetuk/2022
+    concept_evidence_notes: 'ONS, ''Improving estimates of land underlying other buildings and structures
+      in the national balance sheet, UK: 2022'' (27 June 2022), Figure 1: ''Non-produced asset value in
+      the UK, current prices, 1995 to 2021'', in GBP trillion to one decimal place. ''The components of
+      land may not always add to the total because of rounding.'' A 2022 vintage, from before later revisions
+      of the national balance sheet; the article''s series, not a current land-under-dwellings series.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000000000
+    expected_cell_type: number
+- record_set_id: ons.land_article_2022.figure_1.cy2020
+  provenance_class: model_output
+  assertion: observation
+  record_set_spec_id: ons.land_article_2022.figure_1.cy2020.v1
+  source_record_id_prefix: ons.land_article_2022.figure_1.cy2020
+  sheet_name: land_underlying_buildings_figure_1_2022
+  period_type: calendar_year
+  period: 2020
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: institutional_sector
+  entity_role: total_economy
+  domain: national_balance_sheet
+  groupby_dimension: ons.nbs_asset_category
+  rows:
+  - value_id: cy2020
+    label: '2020'
+    ordinal: 0
+    row_number: 27
+    expected_row_header_column: A
+    expected_row_header: 2020
+    table_record_kind: total
+  measures:
+  - measure_id: total_non_produced_assets
+    label: Total non-produced assets, 2020 (GBP trillion as printed)
+    ordinal: 0
+    column: B
+    source_column_id: total_non_produced_assets
+    expected_column_header_row: 1
+    expected_column_header: Total non-produced assets
+    concept: ons.non_produced_assets_value
+    source_concept: ons.land_article_2022.total_non_produced_assets
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/nationalaccounts/uksectoraccounts/articles/improvingestimatesoflandunderlyingotherbuildingsandstructuresinthenationalbalancesheetuk/2022
+    concept_evidence_notes: 'ONS, ''Improving estimates of land underlying other buildings and structures
+      in the national balance sheet, UK: 2022'' (27 June 2022), Figure 1: ''Non-produced asset value in
+      the UK, current prices, 1995 to 2021'', in GBP trillion to one decimal place. ''The components of
+      land may not always add to the total because of rounding.'' A 2022 vintage, from before later revisions
+      of the national balance sheet; the article''s series, not a current land-under-dwellings series.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000000000
+    expected_cell_type: number
+  - measure_id: land_underlying_dwellings
+    label: Land underlying dwellings, 2020 (GBP trillion as printed)
+    ordinal: 1
+    column: C
+    source_column_id: land_underlying_dwellings
+    expected_column_header_row: 1
+    expected_column_header: Land underlying dwellings
+    concept: ons.land_underlying_dwellings_value
+    source_concept: ons.land_article_2022.land_underlying_dwellings
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/nationalaccounts/uksectoraccounts/articles/improvingestimatesoflandunderlyingotherbuildingsandstructuresinthenationalbalancesheetuk/2022
+    concept_evidence_notes: 'ONS, ''Improving estimates of land underlying other buildings and structures
+      in the national balance sheet, UK: 2022'' (27 June 2022), Figure 1: ''Non-produced asset value in
+      the UK, current prices, 1995 to 2021'', in GBP trillion to one decimal place. ''The components of
+      land may not always add to the total because of rounding.'' A 2022 vintage, from before later revisions
+      of the national balance sheet; the article''s series, not a current land-under-dwellings series.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000000000
+    expected_cell_type: number
+  - measure_id: land_underlying_other_buildings_and_structures
+    label: Land underlying other buildings and structures, 2020 (GBP trillion as printed)
+    ordinal: 2
+    column: D
+    source_column_id: land_underlying_other_buildings_and_structures
+    expected_column_header_row: 1
+    expected_column_header: Land underlying other buildings and structures
+    concept: ons.land_underlying_other_buildings_and_structures_value
+    source_concept: ons.land_article_2022.land_underlying_other_buildings_and_structures
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/nationalaccounts/uksectoraccounts/articles/improvingestimatesoflandunderlyingotherbuildingsandstructuresinthenationalbalancesheetuk/2022
+    concept_evidence_notes: 'ONS, ''Improving estimates of land underlying other buildings and structures
+      in the national balance sheet, UK: 2022'' (27 June 2022), Figure 1: ''Non-produced asset value in
+      the UK, current prices, 1995 to 2021'', in GBP trillion to one decimal place. ''The components of
+      land may not always add to the total because of rounding.'' A 2022 vintage, from before later revisions
+      of the national balance sheet; the article''s series, not a current land-under-dwellings series.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000000000
+    expected_cell_type: number
+  - measure_id: other_non_produced_assets
+    label: Other non-produced assets, 2020 (GBP trillion as printed)
+    ordinal: 3
+    column: E
+    source_column_id: other_non_produced_assets
+    expected_column_header_row: 1
+    expected_column_header: Other non-produced assets
+    concept: ons.other_non_produced_assets_value
+    source_concept: ons.land_article_2022.other_non_produced_assets
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/nationalaccounts/uksectoraccounts/articles/improvingestimatesoflandunderlyingotherbuildingsandstructuresinthenationalbalancesheetuk/2022
+    concept_evidence_notes: 'ONS, ''Improving estimates of land underlying other buildings and structures
+      in the national balance sheet, UK: 2022'' (27 June 2022), Figure 1: ''Non-produced asset value in
+      the UK, current prices, 1995 to 2021'', in GBP trillion to one decimal place. ''The components of
+      land may not always add to the total because of rounding.'' A 2022 vintage, from before later revisions
+      of the national balance sheet; the article''s series, not a current land-under-dwellings series.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000000000
+    expected_cell_type: number
+- record_set_id: ons.land_article_2022.figure_1.cy2021
+  provenance_class: model_output
+  assertion: observation
+  record_set_spec_id: ons.land_article_2022.figure_1.cy2021.v1
+  source_record_id_prefix: ons.land_article_2022.figure_1.cy2021
+  sheet_name: land_underlying_buildings_figure_1_2022
+  period_type: calendar_year
+  period: 2021
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: institutional_sector
+  entity_role: total_economy
+  domain: national_balance_sheet
+  groupby_dimension: ons.nbs_asset_category
+  rows:
+  - value_id: cy2021
+    label: '2021'
+    ordinal: 0
+    row_number: 28
+    expected_row_header_column: A
+    expected_row_header: 2021
+    table_record_kind: total
+  measures:
+  - measure_id: total_non_produced_assets
+    label: Total non-produced assets, 2021 (GBP trillion as printed)
+    ordinal: 0
+    column: B
+    source_column_id: total_non_produced_assets
+    expected_column_header_row: 1
+    expected_column_header: Total non-produced assets
+    concept: ons.non_produced_assets_value
+    source_concept: ons.land_article_2022.total_non_produced_assets
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/nationalaccounts/uksectoraccounts/articles/improvingestimatesoflandunderlyingotherbuildingsandstructuresinthenationalbalancesheetuk/2022
+    concept_evidence_notes: 'ONS, ''Improving estimates of land underlying other buildings and structures
+      in the national balance sheet, UK: 2022'' (27 June 2022), Figure 1: ''Non-produced asset value in
+      the UK, current prices, 1995 to 2021'', in GBP trillion to one decimal place. ''The components of
+      land may not always add to the total because of rounding.'' A 2022 vintage, from before later revisions
+      of the national balance sheet; the article''s series, not a current land-under-dwellings series.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000000000
+    expected_cell_type: number
+  - measure_id: land_underlying_dwellings
+    label: Land underlying dwellings, 2021 (GBP trillion as printed)
+    ordinal: 1
+    column: C
+    source_column_id: land_underlying_dwellings
+    expected_column_header_row: 1
+    expected_column_header: Land underlying dwellings
+    concept: ons.land_underlying_dwellings_value
+    source_concept: ons.land_article_2022.land_underlying_dwellings
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/nationalaccounts/uksectoraccounts/articles/improvingestimatesoflandunderlyingotherbuildingsandstructuresinthenationalbalancesheetuk/2022
+    concept_evidence_notes: 'ONS, ''Improving estimates of land underlying other buildings and structures
+      in the national balance sheet, UK: 2022'' (27 June 2022), Figure 1: ''Non-produced asset value in
+      the UK, current prices, 1995 to 2021'', in GBP trillion to one decimal place. ''The components of
+      land may not always add to the total because of rounding.'' A 2022 vintage, from before later revisions
+      of the national balance sheet; the article''s series, not a current land-under-dwellings series.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000000000
+    expected_cell_type: number
+  - measure_id: land_underlying_other_buildings_and_structures
+    label: Land underlying other buildings and structures, 2021 (GBP trillion as printed)
+    ordinal: 2
+    column: D
+    source_column_id: land_underlying_other_buildings_and_structures
+    expected_column_header_row: 1
+    expected_column_header: Land underlying other buildings and structures
+    concept: ons.land_underlying_other_buildings_and_structures_value
+    source_concept: ons.land_article_2022.land_underlying_other_buildings_and_structures
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/nationalaccounts/uksectoraccounts/articles/improvingestimatesoflandunderlyingotherbuildingsandstructuresinthenationalbalancesheetuk/2022
+    concept_evidence_notes: 'ONS, ''Improving estimates of land underlying other buildings and structures
+      in the national balance sheet, UK: 2022'' (27 June 2022), Figure 1: ''Non-produced asset value in
+      the UK, current prices, 1995 to 2021'', in GBP trillion to one decimal place. ''The components of
+      land may not always add to the total because of rounding.'' A 2022 vintage, from before later revisions
+      of the national balance sheet; the article''s series, not a current land-under-dwellings series.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000000000
+    expected_cell_type: number
+  - measure_id: other_non_produced_assets
+    label: Other non-produced assets, 2021 (GBP trillion as printed)
+    ordinal: 3
+    column: E
+    source_column_id: other_non_produced_assets
+    expected_column_header_row: 1
+    expected_column_header: Other non-produced assets
+    concept: ons.other_non_produced_assets_value
+    source_concept: ons.land_article_2022.other_non_produced_assets
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/nationalaccounts/uksectoraccounts/articles/improvingestimatesoflandunderlyingotherbuildingsandstructuresinthenationalbalancesheetuk/2022
+    concept_evidence_notes: 'ONS, ''Improving estimates of land underlying other buildings and structures
+      in the national balance sheet, UK: 2022'' (27 June 2022), Figure 1: ''Non-produced asset value in
+      the UK, current prices, 1995 to 2021'', in GBP trillion to one decimal place. ''The components of
+      land may not always add to the total because of rounding.'' A 2022 vintage, from before later revisions
+      of the national balance sheet; the article''s series, not a current land-under-dwellings series.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000000000
+    expected_cell_type: number

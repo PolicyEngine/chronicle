@@ -31,7 +31,7 @@ artifact:
     - {freq: A, statinfo: MED_EI, unit: PC, rskpovth: B_60, sex: T, age: TOTAL, geo: BE, time: "2024"}
     - {freq: A, statinfo: MED_EI, unit: PC, rskpovth: B_60, sex: T, age: TOTAL, geo: DE, time: "2024"}
     - {freq: A, statinfo: MED_EI, unit: PC, rskpovth: B_60, sex: T, age: TOTAL, geo: FR, time: "2024"}
-# EVALUATION-ONLY by class: Ledger ingests everything; the Populace gate decides use.
+# EVALUATION-ONLY by class: Ledger ingests everything; the Microcosm gate decides use.
 record_sets:
   - record_set_id: eurostat.ilc_li02.cy2024.at_risk_of_poverty_rate.country
     provenance_class: survey_aggregate

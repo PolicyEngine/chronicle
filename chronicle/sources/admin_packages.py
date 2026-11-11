@@ -24,6 +24,7 @@ import yaml
 
 from chronicle.epoch import schema_id
 from chronicle.sources.cells import decode_delimited_text
+from chronicle.yaml_io import safe_load as safe_load_yaml
 
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
@@ -631,7 +632,7 @@ def write_packages(
 
 def _load_yaml(path: Path) -> dict[str, Any]:
     with path.open(encoding="utf-8") as file:
-        payload = yaml.safe_load(file)
+        payload = safe_load_yaml(file)
     if not isinstance(payload, dict):
         raise TypeError(f"Expected a YAML mapping in {path}")
     return payload

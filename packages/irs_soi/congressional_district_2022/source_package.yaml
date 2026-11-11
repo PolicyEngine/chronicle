@@ -14322,10 +14322,10 @@ record_sets:
   - measure_id: limited_state_local_taxes_returns
     label: Returns with limited state and local taxes
     ordinal: 30
-    column: BX
-    source_column_id: N18425
+    column: CF
+    source_column_id: N18460
     expected_column_header_row: 1
-    expected_column_header: N18425
+    expected_column_header: N18460
     concept: irs_soi.returns_with_limited_state_local_taxes
     unit: count
     aggregation: sum
@@ -14333,10 +14333,10 @@ record_sets:
   - measure_id: limited_state_local_taxes_amount
     label: Limited state and local taxes
     ordinal: 31
-    column: BY
-    source_column_id: A18425
+    column: CG
+    source_column_id: A18460
     expected_column_header_row: 1
-    expected_column_header: A18425
+    expected_column_header: A18460
     concept: irs_soi.limited_state_local_taxes
     unit: usd
     aggregation: sum
@@ -14388,25 +14388,25 @@ record_sets:
     aggregation: sum
     value_scale: 1000
     expected_cell_type: number
-  - measure_id: interest_paid_deduction_returns
-    label: Returns with deductible interest paid
+  - measure_id: mortgage_interest_paid_returns
+    label: Returns with home mortgage interest paid to financial institutions
     ordinal: 36
     column: CJ
     source_column_id: N19300
     expected_column_header_row: 1
     expected_column_header: N19300
-    concept: irs_soi.returns_with_interest_paid_deduction
+    concept: irs_soi.returns_with_home_mortgage_interest_paid_to_financial_institutions
     unit: count
     aggregation: sum
     expected_cell_type: number
-  - measure_id: interest_paid_deduction_amount
-    label: Deductible interest paid
+  - measure_id: mortgage_interest_paid_amount
+    label: Home mortgage interest paid to financial institutions amount
     ordinal: 37
     column: CK
     source_column_id: A19300
     expected_column_header_row: 1
     expected_column_header: A19300
-    concept: irs_soi.interest_paid_deduction
+    concept: irs_soi.home_mortgage_interest_paid_to_financial_institutions
     unit: usd
     aggregation: sum
     value_scale: 1000
@@ -14662,10 +14662,10 @@ record_sets:
   - measure_id: premium_tax_credit_returns
     label: Returns with premium tax credit
     ordinal: 54
-    column: EX
-    source_column_id: N85530
+    column: DV
+    source_column_id: N85770
     expected_column_header_row: 1
-    expected_column_header: N85530
+    expected_column_header: N85770
     concept: irs_soi.returns_with_premium_tax_credit
     unit: count
     aggregation: sum
@@ -14673,11 +14673,80 @@ record_sets:
   - measure_id: premium_tax_credit_amount
     label: Premium tax credit
     ordinal: 55
-    column: EY
-    source_column_id: A85530
+    column: DW
+    source_column_id: A85770
     expected_column_header_row: 1
-    expected_column_header: A85530
+    expected_column_header: A85770
     concept: irs_soi.premium_tax_credit
+    unit: usd
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+  - measure_id: home_mortgage_personal_seller_returns
+    label: Returns with home mortgage interest paid to individuals
+    ordinal: 56
+    column: CL
+    source_column_id: N19500
+    expected_column_header_row: 1
+    expected_column_header: N19500
+    concept: irs_soi.returns_with_home_mortgage_interest_paid_to_individuals
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+  - measure_id: home_mortgage_personal_seller_amount
+    label: Home mortgage interest paid to individuals amount
+    ordinal: 57
+    column: CM
+    source_column_id: A19500
+    expected_column_header_row: 1
+    expected_column_header: A19500
+    concept: irs_soi.home_mortgage_interest_paid_to_individuals
+    unit: usd
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+  - measure_id: deductible_points_returns
+    label: Returns with deductible points
+    ordinal: 58
+    column: CN
+    source_column_id: N19530
+    expected_column_header_row: 1
+    expected_column_header: N19530
+    concept: irs_soi.returns_with_deductible_points
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+  - measure_id: deductible_points_amount
+    label: Deductible points amount
+    ordinal: 59
+    column: CO
+    source_column_id: A19530
+    expected_column_header_row: 1
+    expected_column_header: A19530
+    concept: irs_soi.deductible_points
+    unit: usd
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+  - measure_id: investment_interest_paid_returns
+    label: Returns with investment interest expense deduction
+    ordinal: 60
+    column: CP
+    source_column_id: N19570
+    expected_column_header_row: 1
+    expected_column_header: N19570
+    concept: irs_soi.returns_with_investment_interest_expense_deduction
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+  - measure_id: investment_interest_paid_amount
+    label: Investment interest expense deduction amount
+    ordinal: 61
+    column: CQ
+    source_column_id: A19570
+    expected_column_header_row: 1
+    expected_column_header: A19570
+    concept: irs_soi.investment_interest_expense_deduction
     unit: usd
     aggregation: sum
     value_scale: 1000

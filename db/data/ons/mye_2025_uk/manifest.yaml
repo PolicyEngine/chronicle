@@ -1,0 +1,21 @@
+source_id: ons
+package_id: ons-mye-2025-uk
+dataset: ons_ons-mye-2025-uk
+source_page: https://www.ons.gov.uk/peoplepopulationandcommunity/populationandmigration/populationestimates/datasets/populationestimatesforukenglandandwalesscotlandandnorthernireland
+table: mye_2025_uk
+files:
+  2025:
+    filename: mye25tablesuk.xlsx
+    source_url: https://www.ons.gov.uk/file?uri=/peoplepopulationandcommunity/populationandmigration/populationestimates/datasets/populationestimatesforukenglandandwalesscotlandandnorthernireland/mid2025/mye25tablesuk.xlsx
+    sha256: 8ae244e3341257ecccaee55f4973fe12f46afe6656ead6c1a9ed3f4f8585e40f
+    size_bytes: 1026940
+    fetched_at: '2026-10-07T13:34:58+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/ons/ons-mye-2025-uk/2025/8ae244e3341257ecccaee55f4973fe12f46afe6656ead6c1a9ed3f4f8585e40f/mye25tablesuk.xlsx
+        uri: r2://ledger-raw/raw/uk/ons/ons-mye-2025-uk/2025/8ae244e3341257ecccaee55f4973fe12f46afe6656ead6c1a9ed3f4f8585e40f/mye25tablesuk.xlsx
+registration_kind: source_facts
+provenance_notes: UK mid-2025 usual-resident age/sex estimates and revised mid-2024
+  all-age controls, released 1 October 2026; includes communal establishments.

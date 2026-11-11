@@ -1,0 +1,29 @@
+source_id: welshgov
+package_id: welshgov-band-d-council-tax-composition-1993-94-to-2026-27
+dataset: welshgov_welshgov-band-d-council-tax-composition-1993-94-to-2026-27
+source_page: https://stats.gov.wales/en-GB/3ca971eb-7d9b-4b79-89fa-6d7f77431aad/start
+table: Composition of average band D council tax by billing authority (StatsWales)
+files:
+  2026:
+    filename: statswales_band_d_council_tax_composition_by_billing_authority.csv
+    source_url: https://api.stats.gov.wales/v1/3ca971eb-7d9b-4b79-89fa-6d7f77431aad/download/csv
+    sha256: b6ea9848bd0fdf4a6310b62a62d614fd4c325b8f8d2e83a4d89eb85886ce552e
+    size_bytes: 590478
+    fetched_at: '2026-11-04T18:18:00+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/welshgov/welshgov-band-d-council-tax-composition-1993-94-to-2026-27/2026/b6ea9848bd0fdf4a6310b62a62d614fd4c325b8f8d2e83a4d89eb85886ce552e/statswales_band_d_council_tax_composition_by_billing_authority.csv
+        uri: r2://ledger-raw/raw/uk/welshgov/welshgov-band-d-council-tax-composition-1993-94-to-2026-27/2026/b6ea9848bd0fdf4a6310b62a62d614fd4c325b8f8d2e83a4d89eb85886ce552e/statswales_band_d_council_tax_composition_by_billing_authority.csv
+registration_kind: raw_only
+provenance_notes: 'StatsWales ''Composition of average band D council tax by billing
+  authority'' (Welsh Government budget requirement returns), the whole dataset as
+  one CSV export, 1993-94 to 2026-27: GBP per band D and percentage change for the
+  total council tax of the billing authority area, the county council element with
+  and without community councils, the community council element and the police element,
+  for the 22 billing authorities and ''Total Unitary Authorities'', with a council
+  tax reduction scheme row for 1996-97 to 2000-01. The 2024-25 rows are the unrounded
+  values behind Table 1 of welshgov-council-tax-levels-2024-25. The API regenerates
+  the export, so this registration pins the bytes of one fetch. Licence: Open Government
+  Licence v3.0. Raw-only for chronicle#412 item 2.'

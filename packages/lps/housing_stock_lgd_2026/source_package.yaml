@@ -1,0 +1,893 @@
+schema_version: ledger.source_package.v1
+package_id: lps-housing-stock-lgd-2026
+label: LPS NI dwelling stock by local government district, 1 April 2021 to 2026
+dimension_labels:
+  geography: Geography
+artifact:
+  source_name: lps
+  source_table: LPS NI dwelling stock by local government district, April 2025 and April 2026
+  resource_package: db
+  resource_directory: data/lps/housing_stock_lgd_2026
+  manifest: manifest.yaml
+  vintage: lps_housing_stock_2026_06
+  extracted_at: '2026-10-07'
+  extraction_method: Publisher artifact parsed without modifying values
+  parser: xlsx_used_range
+  artifact_year: 2026
+  sheets:
+  - Table 1.20
+record_sets:
+- record_set_id: lps.housing_stock_lgd.2025
+  provenance_class: administrative
+  record_set_spec_id: lps.housing_stock_lgd.2025.v1
+  source_record_id_prefix: lps.housing_stock_lgd.2025
+  sheet_name: Table 1.20
+  period_type: calendar_year
+  period: 2025
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: dwelling
+  entity_role: domestic_or_mixed_rated_property
+  domain: dwelling_stock
+  groupby_dimension: geography
+  rows: &id001
+  - value_id: n09000001
+    label: Antrim and Newtownabbey
+    ordinal: 10
+    row_number: 11
+    expected_row_header_column: A
+    expected_row_header: N09000001
+    geography_id: N09000001
+    geography_level: local_authority
+    geography_name: Antrim and Newtownabbey
+    geography_vintage: lgd_2014
+    table_record_kind: total
+  - value_id: n09000011
+    label: Ards and North Down
+    ordinal: 11
+    row_number: 12
+    expected_row_header_column: A
+    expected_row_header: N09000011
+    geography_id: N09000011
+    geography_level: local_authority
+    geography_name: Ards and North Down
+    geography_vintage: lgd_2014
+    table_record_kind: total
+  - value_id: n09000002
+    label: Armagh City, Banbridge and Craigavon
+    ordinal: 12
+    row_number: 13
+    expected_row_header_column: A
+    expected_row_header: N09000002
+    geography_id: N09000002
+    geography_level: local_authority
+    geography_name: Armagh City, Banbridge and Craigavon
+    geography_vintage: lgd_2014
+    table_record_kind: total
+  - value_id: n09000003
+    label: Belfast
+    ordinal: 13
+    row_number: 14
+    expected_row_header_column: A
+    expected_row_header: N09000003
+    geography_id: N09000003
+    geography_level: local_authority
+    geography_name: Belfast
+    geography_vintage: lgd_2014
+    table_record_kind: total
+  - value_id: n09000004
+    label: Causeway Coast and Glens
+    ordinal: 14
+    row_number: 15
+    expected_row_header_column: A
+    expected_row_header: N09000004
+    geography_id: N09000004
+    geography_level: local_authority
+    geography_name: Causeway Coast and Glens
+    geography_vintage: lgd_2014
+    table_record_kind: total
+  - value_id: n09000005
+    label: Derry City and Strabane
+    ordinal: 15
+    row_number: 16
+    expected_row_header_column: A
+    expected_row_header: N09000005
+    geography_id: N09000005
+    geography_level: local_authority
+    geography_name: Derry City and Strabane
+    geography_vintage: lgd_2014
+    table_record_kind: total
+  - value_id: n09000006
+    label: Fermanagh and Omagh
+    ordinal: 16
+    row_number: 17
+    expected_row_header_column: A
+    expected_row_header: N09000006
+    geography_id: N09000006
+    geography_level: local_authority
+    geography_name: Fermanagh and Omagh
+    geography_vintage: lgd_2014
+    table_record_kind: total
+  - value_id: n09000007
+    label: Lisburn and Castlereagh
+    ordinal: 17
+    row_number: 18
+    expected_row_header_column: A
+    expected_row_header: N09000007
+    geography_id: N09000007
+    geography_level: local_authority
+    geography_name: Lisburn and Castlereagh
+    geography_vintage: lgd_2014
+    table_record_kind: total
+  - value_id: n09000008
+    label: Mid and East Antrim
+    ordinal: 18
+    row_number: 19
+    expected_row_header_column: A
+    expected_row_header: N09000008
+    geography_id: N09000008
+    geography_level: local_authority
+    geography_name: Mid and East Antrim
+    geography_vintage: lgd_2014
+    table_record_kind: total
+  - value_id: n09000009
+    label: Mid Ulster
+    ordinal: 19
+    row_number: 20
+    expected_row_header_column: A
+    expected_row_header: N09000009
+    geography_id: N09000009
+    geography_level: local_authority
+    geography_name: Mid Ulster
+    geography_vintage: lgd_2014
+    table_record_kind: total
+  - value_id: n09000010
+    label: Newry, Mourne and Down
+    ordinal: 20
+    row_number: 21
+    expected_row_header_column: A
+    expected_row_header: N09000010
+    geography_id: N09000010
+    geography_level: local_authority
+    geography_name: Newry, Mourne and Down
+    geography_vintage: lgd_2014
+    table_record_kind: total
+  - value_id: n92000002
+    label: Northern Ireland
+    ordinal: 21
+    row_number: 22
+    expected_row_header_column: A
+    expected_row_header: Northern Ireland
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: lgd_2014
+    table_record_kind: total
+  measures:
+  - measure_id: lps_housing_stock
+    label: Housing stock
+    ordinal: 0
+    column: T
+    source_column_id: 2025 Housing Stock
+    concept: lps.housing_stock
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 10
+    expected_column_header: 2025 Housing Stock
+  period_coverage:
+    start_date: '2025-04-01'
+    end_date: '2025-04-01'
+    basis: calendar
+    source_period_label: April 2025
+    notes: 'Administrative Valuation List: domestic or mixed-rated private self-contained dwellings; social
+      and private ownership. Dwellings, not households.'
+- record_set_id: lps.housing_stock_lgd.2026
+  provenance_class: administrative
+  record_set_spec_id: lps.housing_stock_lgd.2026.v1
+  source_record_id_prefix: lps.housing_stock_lgd.2026
+  sheet_name: Table 1.20
+  period_type: calendar_year
+  period: 2026
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: dwelling
+  entity_role: domestic_or_mixed_rated_property
+  domain: dwelling_stock
+  groupby_dimension: geography
+  rows: *id001
+  measures:
+  - measure_id: lps_housing_stock
+    label: Housing stock
+    ordinal: 0
+    column: U
+    source_column_id: 2026 Housing Stock
+    concept: lps.housing_stock
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 10
+    expected_column_header: 2026 Housing Stock
+  period_coverage:
+    start_date: '2026-04-01'
+    end_date: '2026-04-01'
+    basis: calendar
+    source_period_label: April 2026
+    notes: 'Administrative Valuation List: domestic or mixed-rated private self-contained dwellings; social
+      and private ownership. Dwellings, not households.'
+- record_set_id: lps.housing_stock_lgd.2021
+  provenance_class: administrative
+  record_set_spec_id: lps.housing_stock_lgd.2021.v1
+  source_record_id_prefix: lps.housing_stock_lgd.2021
+  sheet_name: Table 1.20
+  period_type: calendar_year
+  period: 2021
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: dwelling
+  entity_role: domestic_or_mixed_rated_property
+  domain: dwelling_stock
+  groupby_dimension: geography
+  rows:
+  - value_id: n09000001
+    label: Antrim and Newtownabbey
+    ordinal: 10
+    row_number: 11
+    expected_row_header_column: A
+    expected_row_header: N09000001
+    geography_id: N09000001
+    geography_level: local_authority
+    geography_name: Antrim and Newtownabbey
+    geography_vintage: lgd_2014
+    table_record_kind: total
+  - value_id: n09000011
+    label: Ards and North Down
+    ordinal: 11
+    row_number: 12
+    expected_row_header_column: A
+    expected_row_header: N09000011
+    geography_id: N09000011
+    geography_level: local_authority
+    geography_name: Ards and North Down
+    geography_vintage: lgd_2014
+    table_record_kind: total
+  - value_id: n09000002
+    label: Armagh City, Banbridge and Craigavon
+    ordinal: 12
+    row_number: 13
+    expected_row_header_column: A
+    expected_row_header: N09000002
+    geography_id: N09000002
+    geography_level: local_authority
+    geography_name: Armagh City, Banbridge and Craigavon
+    geography_vintage: lgd_2014
+    table_record_kind: total
+  - value_id: n09000003
+    label: Belfast
+    ordinal: 13
+    row_number: 14
+    expected_row_header_column: A
+    expected_row_header: N09000003
+    geography_id: N09000003
+    geography_level: local_authority
+    geography_name: Belfast
+    geography_vintage: lgd_2014
+    table_record_kind: total
+  - value_id: n09000004
+    label: Causeway Coast and Glens
+    ordinal: 14
+    row_number: 15
+    expected_row_header_column: A
+    expected_row_header: N09000004
+    geography_id: N09000004
+    geography_level: local_authority
+    geography_name: Causeway Coast and Glens
+    geography_vintage: lgd_2014
+    table_record_kind: total
+  - value_id: n09000005
+    label: Derry City and Strabane
+    ordinal: 15
+    row_number: 16
+    expected_row_header_column: A
+    expected_row_header: N09000005
+    geography_id: N09000005
+    geography_level: local_authority
+    geography_name: Derry City and Strabane
+    geography_vintage: lgd_2014
+    table_record_kind: total
+  - value_id: n09000006
+    label: Fermanagh and Omagh
+    ordinal: 16
+    row_number: 17
+    expected_row_header_column: A
+    expected_row_header: N09000006
+    geography_id: N09000006
+    geography_level: local_authority
+    geography_name: Fermanagh and Omagh
+    geography_vintage: lgd_2014
+    table_record_kind: total
+  - value_id: n09000007
+    label: Lisburn and Castlereagh
+    ordinal: 17
+    row_number: 18
+    expected_row_header_column: A
+    expected_row_header: N09000007
+    geography_id: N09000007
+    geography_level: local_authority
+    geography_name: Lisburn and Castlereagh
+    geography_vintage: lgd_2014
+    table_record_kind: total
+  - value_id: n09000008
+    label: Mid and East Antrim
+    ordinal: 18
+    row_number: 19
+    expected_row_header_column: A
+    expected_row_header: N09000008
+    geography_id: N09000008
+    geography_level: local_authority
+    geography_name: Mid and East Antrim
+    geography_vintage: lgd_2014
+    table_record_kind: total
+  - value_id: n09000009
+    label: Mid Ulster
+    ordinal: 19
+    row_number: 20
+    expected_row_header_column: A
+    expected_row_header: N09000009
+    geography_id: N09000009
+    geography_level: local_authority
+    geography_name: Mid Ulster
+    geography_vintage: lgd_2014
+    table_record_kind: total
+  - value_id: n09000010
+    label: Newry, Mourne and Down
+    ordinal: 20
+    row_number: 21
+    expected_row_header_column: A
+    expected_row_header: N09000010
+    geography_id: N09000010
+    geography_level: local_authority
+    geography_name: Newry, Mourne and Down
+    geography_vintage: lgd_2014
+    table_record_kind: total
+  - value_id: n92000002
+    label: Northern Ireland
+    ordinal: 21
+    row_number: 22
+    expected_row_header_column: A
+    expected_row_header: Northern Ireland
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: lgd_2014
+    table_record_kind: total
+  measures:
+  - measure_id: lps_housing_stock
+    label: Housing stock
+    ordinal: 0
+    column: P
+    source_column_id: 2021 Housing Stock
+    concept: lps.housing_stock
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 10
+    expected_column_header: 2021 Housing Stock
+    concept_evidence_notes: LPS NI Valuation List dwelling stock, 1 April. Includes domestic and mixed
+      rated properties; not a household count.
+  period_coverage:
+    start_date: '2021-04-01'
+    end_date: '2021-04-01'
+    basis: calendar
+    source_period_label: 1 April 2021
+    notes: Administrative dwelling stock; domestic and mixed rated properties, not private households.
+- record_set_id: lps.housing_stock_lgd.2022
+  provenance_class: administrative
+  record_set_spec_id: lps.housing_stock_lgd.2022.v1
+  source_record_id_prefix: lps.housing_stock_lgd.2022
+  sheet_name: Table 1.20
+  period_type: calendar_year
+  period: 2022
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: dwelling
+  entity_role: domestic_or_mixed_rated_property
+  domain: dwelling_stock
+  groupby_dimension: geography
+  rows:
+  - value_id: n09000001
+    label: Antrim and Newtownabbey
+    ordinal: 10
+    row_number: 11
+    expected_row_header_column: A
+    expected_row_header: N09000001
+    geography_id: N09000001
+    geography_level: local_authority
+    geography_name: Antrim and Newtownabbey
+    geography_vintage: lgd_2014
+    table_record_kind: total
+  - value_id: n09000011
+    label: Ards and North Down
+    ordinal: 11
+    row_number: 12
+    expected_row_header_column: A
+    expected_row_header: N09000011
+    geography_id: N09000011
+    geography_level: local_authority
+    geography_name: Ards and North Down
+    geography_vintage: lgd_2014
+    table_record_kind: total
+  - value_id: n09000002
+    label: Armagh City, Banbridge and Craigavon
+    ordinal: 12
+    row_number: 13
+    expected_row_header_column: A
+    expected_row_header: N09000002
+    geography_id: N09000002
+    geography_level: local_authority
+    geography_name: Armagh City, Banbridge and Craigavon
+    geography_vintage: lgd_2014
+    table_record_kind: total
+  - value_id: n09000003
+    label: Belfast
+    ordinal: 13
+    row_number: 14
+    expected_row_header_column: A
+    expected_row_header: N09000003
+    geography_id: N09000003
+    geography_level: local_authority
+    geography_name: Belfast
+    geography_vintage: lgd_2014
+    table_record_kind: total
+  - value_id: n09000004
+    label: Causeway Coast and Glens
+    ordinal: 14
+    row_number: 15
+    expected_row_header_column: A
+    expected_row_header: N09000004
+    geography_id: N09000004
+    geography_level: local_authority
+    geography_name: Causeway Coast and Glens
+    geography_vintage: lgd_2014
+    table_record_kind: total
+  - value_id: n09000005
+    label: Derry City and Strabane
+    ordinal: 15
+    row_number: 16
+    expected_row_header_column: A
+    expected_row_header: N09000005
+    geography_id: N09000005
+    geography_level: local_authority
+    geography_name: Derry City and Strabane
+    geography_vintage: lgd_2014
+    table_record_kind: total
+  - value_id: n09000006
+    label: Fermanagh and Omagh
+    ordinal: 16
+    row_number: 17
+    expected_row_header_column: A
+    expected_row_header: N09000006
+    geography_id: N09000006
+    geography_level: local_authority
+    geography_name: Fermanagh and Omagh
+    geography_vintage: lgd_2014
+    table_record_kind: total
+  - value_id: n09000007
+    label: Lisburn and Castlereagh
+    ordinal: 17
+    row_number: 18
+    expected_row_header_column: A
+    expected_row_header: N09000007
+    geography_id: N09000007
+    geography_level: local_authority
+    geography_name: Lisburn and Castlereagh
+    geography_vintage: lgd_2014
+    table_record_kind: total
+  - value_id: n09000008
+    label: Mid and East Antrim
+    ordinal: 18
+    row_number: 19
+    expected_row_header_column: A
+    expected_row_header: N09000008
+    geography_id: N09000008
+    geography_level: local_authority
+    geography_name: Mid and East Antrim
+    geography_vintage: lgd_2014
+    table_record_kind: total
+  - value_id: n09000009
+    label: Mid Ulster
+    ordinal: 19
+    row_number: 20
+    expected_row_header_column: A
+    expected_row_header: N09000009
+    geography_id: N09000009
+    geography_level: local_authority
+    geography_name: Mid Ulster
+    geography_vintage: lgd_2014
+    table_record_kind: total
+  - value_id: n09000010
+    label: Newry, Mourne and Down
+    ordinal: 20
+    row_number: 21
+    expected_row_header_column: A
+    expected_row_header: N09000010
+    geography_id: N09000010
+    geography_level: local_authority
+    geography_name: Newry, Mourne and Down
+    geography_vintage: lgd_2014
+    table_record_kind: total
+  - value_id: n92000002
+    label: Northern Ireland
+    ordinal: 21
+    row_number: 22
+    expected_row_header_column: A
+    expected_row_header: Northern Ireland
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: lgd_2014
+    table_record_kind: total
+  measures:
+  - measure_id: lps_housing_stock
+    label: Housing stock
+    ordinal: 0
+    column: Q
+    source_column_id: 2022 Housing Stock
+    concept: lps.housing_stock
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 10
+    expected_column_header: 2022 Housing Stock
+    concept_evidence_notes: LPS NI Valuation List dwelling stock, 1 April. Includes domestic and mixed
+      rated properties; not a household count.
+  period_coverage:
+    start_date: '2022-04-01'
+    end_date: '2022-04-01'
+    basis: calendar
+    source_period_label: 1 April 2022
+    notes: Administrative dwelling stock; domestic and mixed rated properties, not private households.
+- record_set_id: lps.housing_stock_lgd.2023
+  provenance_class: administrative
+  record_set_spec_id: lps.housing_stock_lgd.2023.v1
+  source_record_id_prefix: lps.housing_stock_lgd.2023
+  sheet_name: Table 1.20
+  period_type: calendar_year
+  period: 2023
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: dwelling
+  entity_role: domestic_or_mixed_rated_property
+  domain: dwelling_stock
+  groupby_dimension: geography
+  rows:
+  - value_id: n09000001
+    label: Antrim and Newtownabbey
+    ordinal: 10
+    row_number: 11
+    expected_row_header_column: A
+    expected_row_header: N09000001
+    geography_id: N09000001
+    geography_level: local_authority
+    geography_name: Antrim and Newtownabbey
+    geography_vintage: lgd_2014
+    table_record_kind: total
+  - value_id: n09000011
+    label: Ards and North Down
+    ordinal: 11
+    row_number: 12
+    expected_row_header_column: A
+    expected_row_header: N09000011
+    geography_id: N09000011
+    geography_level: local_authority
+    geography_name: Ards and North Down
+    geography_vintage: lgd_2014
+    table_record_kind: total
+  - value_id: n09000002
+    label: Armagh City, Banbridge and Craigavon
+    ordinal: 12
+    row_number: 13
+    expected_row_header_column: A
+    expected_row_header: N09000002
+    geography_id: N09000002
+    geography_level: local_authority
+    geography_name: Armagh City, Banbridge and Craigavon
+    geography_vintage: lgd_2014
+    table_record_kind: total
+  - value_id: n09000003
+    label: Belfast
+    ordinal: 13
+    row_number: 14
+    expected_row_header_column: A
+    expected_row_header: N09000003
+    geography_id: N09000003
+    geography_level: local_authority
+    geography_name: Belfast
+    geography_vintage: lgd_2014
+    table_record_kind: total
+  - value_id: n09000004
+    label: Causeway Coast and Glens
+    ordinal: 14
+    row_number: 15
+    expected_row_header_column: A
+    expected_row_header: N09000004
+    geography_id: N09000004
+    geography_level: local_authority
+    geography_name: Causeway Coast and Glens
+    geography_vintage: lgd_2014
+    table_record_kind: total
+  - value_id: n09000005
+    label: Derry City and Strabane
+    ordinal: 15
+    row_number: 16
+    expected_row_header_column: A
+    expected_row_header: N09000005
+    geography_id: N09000005
+    geography_level: local_authority
+    geography_name: Derry City and Strabane
+    geography_vintage: lgd_2014
+    table_record_kind: total
+  - value_id: n09000006
+    label: Fermanagh and Omagh
+    ordinal: 16
+    row_number: 17
+    expected_row_header_column: A
+    expected_row_header: N09000006
+    geography_id: N09000006
+    geography_level: local_authority
+    geography_name: Fermanagh and Omagh
+    geography_vintage: lgd_2014
+    table_record_kind: total
+  - value_id: n09000007
+    label: Lisburn and Castlereagh
+    ordinal: 17
+    row_number: 18
+    expected_row_header_column: A
+    expected_row_header: N09000007
+    geography_id: N09000007
+    geography_level: local_authority
+    geography_name: Lisburn and Castlereagh
+    geography_vintage: lgd_2014
+    table_record_kind: total
+  - value_id: n09000008
+    label: Mid and East Antrim
+    ordinal: 18
+    row_number: 19
+    expected_row_header_column: A
+    expected_row_header: N09000008
+    geography_id: N09000008
+    geography_level: local_authority
+    geography_name: Mid and East Antrim
+    geography_vintage: lgd_2014
+    table_record_kind: total
+  - value_id: n09000009
+    label: Mid Ulster
+    ordinal: 19
+    row_number: 20
+    expected_row_header_column: A
+    expected_row_header: N09000009
+    geography_id: N09000009
+    geography_level: local_authority
+    geography_name: Mid Ulster
+    geography_vintage: lgd_2014
+    table_record_kind: total
+  - value_id: n09000010
+    label: Newry, Mourne and Down
+    ordinal: 20
+    row_number: 21
+    expected_row_header_column: A
+    expected_row_header: N09000010
+    geography_id: N09000010
+    geography_level: local_authority
+    geography_name: Newry, Mourne and Down
+    geography_vintage: lgd_2014
+    table_record_kind: total
+  - value_id: n92000002
+    label: Northern Ireland
+    ordinal: 21
+    row_number: 22
+    expected_row_header_column: A
+    expected_row_header: Northern Ireland
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: lgd_2014
+    table_record_kind: total
+  measures:
+  - measure_id: lps_housing_stock
+    label: Housing stock
+    ordinal: 0
+    column: R
+    source_column_id: 2023 Housing Stock
+    concept: lps.housing_stock
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 10
+    expected_column_header: 2023 Housing Stock
+    concept_evidence_notes: LPS NI Valuation List dwelling stock, 1 April. Includes domestic and mixed
+      rated properties; not a household count.
+  period_coverage:
+    start_date: '2023-04-01'
+    end_date: '2023-04-01'
+    basis: calendar
+    source_period_label: 1 April 2023
+    notes: Administrative dwelling stock; domestic and mixed rated properties, not private households.
+- record_set_id: lps.housing_stock_lgd.2024
+  provenance_class: administrative
+  record_set_spec_id: lps.housing_stock_lgd.2024.v1
+  source_record_id_prefix: lps.housing_stock_lgd.2024
+  sheet_name: Table 1.20
+  period_type: calendar_year
+  period: 2024
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: dwelling
+  entity_role: domestic_or_mixed_rated_property
+  domain: dwelling_stock
+  groupby_dimension: geography
+  rows:
+  - value_id: n09000001
+    label: Antrim and Newtownabbey
+    ordinal: 10
+    row_number: 11
+    expected_row_header_column: A
+    expected_row_header: N09000001
+    geography_id: N09000001
+    geography_level: local_authority
+    geography_name: Antrim and Newtownabbey
+    geography_vintage: lgd_2014
+    table_record_kind: total
+  - value_id: n09000011
+    label: Ards and North Down
+    ordinal: 11
+    row_number: 12
+    expected_row_header_column: A
+    expected_row_header: N09000011
+    geography_id: N09000011
+    geography_level: local_authority
+    geography_name: Ards and North Down
+    geography_vintage: lgd_2014
+    table_record_kind: total
+  - value_id: n09000002
+    label: Armagh City, Banbridge and Craigavon
+    ordinal: 12
+    row_number: 13
+    expected_row_header_column: A
+    expected_row_header: N09000002
+    geography_id: N09000002
+    geography_level: local_authority
+    geography_name: Armagh City, Banbridge and Craigavon
+    geography_vintage: lgd_2014
+    table_record_kind: total
+  - value_id: n09000003
+    label: Belfast
+    ordinal: 13
+    row_number: 14
+    expected_row_header_column: A
+    expected_row_header: N09000003
+    geography_id: N09000003
+    geography_level: local_authority
+    geography_name: Belfast
+    geography_vintage: lgd_2014
+    table_record_kind: total
+  - value_id: n09000004
+    label: Causeway Coast and Glens
+    ordinal: 14
+    row_number: 15
+    expected_row_header_column: A
+    expected_row_header: N09000004
+    geography_id: N09000004
+    geography_level: local_authority
+    geography_name: Causeway Coast and Glens
+    geography_vintage: lgd_2014
+    table_record_kind: total
+  - value_id: n09000005
+    label: Derry City and Strabane
+    ordinal: 15
+    row_number: 16
+    expected_row_header_column: A
+    expected_row_header: N09000005
+    geography_id: N09000005
+    geography_level: local_authority
+    geography_name: Derry City and Strabane
+    geography_vintage: lgd_2014
+    table_record_kind: total
+  - value_id: n09000006
+    label: Fermanagh and Omagh
+    ordinal: 16
+    row_number: 17
+    expected_row_header_column: A
+    expected_row_header: N09000006
+    geography_id: N09000006
+    geography_level: local_authority
+    geography_name: Fermanagh and Omagh
+    geography_vintage: lgd_2014
+    table_record_kind: total
+  - value_id: n09000007
+    label: Lisburn and Castlereagh
+    ordinal: 17
+    row_number: 18
+    expected_row_header_column: A
+    expected_row_header: N09000007
+    geography_id: N09000007
+    geography_level: local_authority
+    geography_name: Lisburn and Castlereagh
+    geography_vintage: lgd_2014
+    table_record_kind: total
+  - value_id: n09000008
+    label: Mid and East Antrim
+    ordinal: 18
+    row_number: 19
+    expected_row_header_column: A
+    expected_row_header: N09000008
+    geography_id: N09000008
+    geography_level: local_authority
+    geography_name: Mid and East Antrim
+    geography_vintage: lgd_2014
+    table_record_kind: total
+  - value_id: n09000009
+    label: Mid Ulster
+    ordinal: 19
+    row_number: 20
+    expected_row_header_column: A
+    expected_row_header: N09000009
+    geography_id: N09000009
+    geography_level: local_authority
+    geography_name: Mid Ulster
+    geography_vintage: lgd_2014
+    table_record_kind: total
+  - value_id: n09000010
+    label: Newry, Mourne and Down
+    ordinal: 20
+    row_number: 21
+    expected_row_header_column: A
+    expected_row_header: N09000010
+    geography_id: N09000010
+    geography_level: local_authority
+    geography_name: Newry, Mourne and Down
+    geography_vintage: lgd_2014
+    table_record_kind: total
+  - value_id: n92000002
+    label: Northern Ireland
+    ordinal: 21
+    row_number: 22
+    expected_row_header_column: A
+    expected_row_header: Northern Ireland
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: lgd_2014
+    table_record_kind: total
+  measures:
+  - measure_id: lps_housing_stock
+    label: Housing stock
+    ordinal: 0
+    column: S
+    source_column_id: 2024 Housing Stock
+    concept: lps.housing_stock
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 10
+    expected_column_header: 2024 Housing Stock
+    concept_evidence_notes: LPS NI Valuation List dwelling stock, 1 April. Includes domestic and mixed
+      rated properties; not a household count.
+  period_coverage:
+    start_date: '2024-04-01'
+    end_date: '2024-04-01'
+    basis: calendar
+    source_period_label: 1 April 2024
+    notes: Administrative dwelling stock; domestic and mixed rated properties, not private households.

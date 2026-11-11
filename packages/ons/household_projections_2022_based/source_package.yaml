@@ -1,0 +1,4794 @@
+schema_version: ledger.source_package.v1
+package_id: ons-household-projections-2022-based
+label: ONS 2022-based household projections, Table 406, England and higher areas, 2022 to 2047
+dimension_labels:
+  geography: Geography
+artifact:
+  source_name: ons
+  source_table: ONS 2022-based household projections, Table 406, England and higher areas, 2022 to 2047
+  resource_package: db
+  resource_directory: data/ons/household_projections_2022_based
+  manifest: manifest.yaml
+  vintage: ons_household_projections_2022_based_2025_10_28
+  extracted_at: '2026-10-07'
+  extraction_method: Publisher artifact parsed without modifying values
+  parser: xlsx_used_range
+  artifact_year: 2025
+  sheets:
+  - Table 406
+record_sets:
+- record_set_id: ons.household_projections_2022_based.2022
+  provenance_class: model_output
+  record_set_spec_id: ons.household_projections_2022_based.2022.v1
+  source_record_id_prefix: ons.household_projections_2022_based.2022
+  sheet_name: Table 406
+  period_type: calendar_year
+  period: 2022
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: household
+  entity_role: private_household
+  domain: household_count
+  groupby_dimension: geography
+  rows: &id001
+  - value_id: e92000001
+    label: ENGLAND
+    ordinal: 4
+    row_number: 5
+    expected_row_header_column: A
+    expected_row_header: E92000001
+    geography_id: E92000001
+    geography_level: country
+    geography_name: ENGLAND
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e12000001
+    label: NORTH EAST
+    ordinal: 5
+    row_number: 6
+    expected_row_header_column: A
+    expected_row_header: E12000001
+    geography_id: E12000001
+    geography_level: region
+    geography_name: NORTH EAST
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e06000047
+    label: County Durham
+    ordinal: 6
+    row_number: 7
+    expected_row_header_column: A
+    expected_row_header: E06000047
+    geography_id: E06000047
+    geography_level: local_authority
+    geography_name: County Durham
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e06000005
+    label: Darlington
+    ordinal: 7
+    row_number: 8
+    expected_row_header_column: A
+    expected_row_header: E06000005
+    geography_id: E06000005
+    geography_level: local_authority
+    geography_name: Darlington
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e06000001
+    label: Hartlepool
+    ordinal: 8
+    row_number: 9
+    expected_row_header_column: A
+    expected_row_header: E06000001
+    geography_id: E06000001
+    geography_level: local_authority
+    geography_name: Hartlepool
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e06000002
+    label: Middlesbrough
+    ordinal: 9
+    row_number: 10
+    expected_row_header_column: A
+    expected_row_header: E06000002
+    geography_id: E06000002
+    geography_level: local_authority
+    geography_name: Middlesbrough
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e06000057
+    label: Northumberland
+    ordinal: 10
+    row_number: 11
+    expected_row_header_column: A
+    expected_row_header: E06000057
+    geography_id: E06000057
+    geography_level: local_authority
+    geography_name: Northumberland
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e06000003
+    label: Redcar and Cleveland
+    ordinal: 11
+    row_number: 12
+    expected_row_header_column: A
+    expected_row_header: E06000003
+    geography_id: E06000003
+    geography_level: local_authority
+    geography_name: Redcar and Cleveland
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e06000004
+    label: Stockton-on-Tees
+    ordinal: 12
+    row_number: 13
+    expected_row_header_column: A
+    expected_row_header: E06000004
+    geography_id: E06000004
+    geography_level: local_authority
+    geography_name: Stockton-on-Tees
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e11000007
+    label: Tyne and Wear (Met County)
+    ordinal: 13
+    row_number: 14
+    expected_row_header_column: A
+    expected_row_header: E11000007
+    geography_id: E11000007
+    geography_level: county
+    geography_name: Tyne and Wear (Met County)
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e08000037
+    label: Gateshead
+    ordinal: 14
+    row_number: 15
+    expected_row_header_column: A
+    expected_row_header: E08000037
+    geography_id: E08000037
+    geography_level: local_authority
+    geography_name: Gateshead
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e08000021
+    label: Newcastle upon Tyne
+    ordinal: 15
+    row_number: 16
+    expected_row_header_column: A
+    expected_row_header: E08000021
+    geography_id: E08000021
+    geography_level: local_authority
+    geography_name: Newcastle upon Tyne
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e08000022
+    label: North Tyneside
+    ordinal: 16
+    row_number: 17
+    expected_row_header_column: A
+    expected_row_header: E08000022
+    geography_id: E08000022
+    geography_level: local_authority
+    geography_name: North Tyneside
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e08000023
+    label: South Tyneside
+    ordinal: 17
+    row_number: 18
+    expected_row_header_column: A
+    expected_row_header: E08000023
+    geography_id: E08000023
+    geography_level: local_authority
+    geography_name: South Tyneside
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e08000024
+    label: Sunderland
+    ordinal: 18
+    row_number: 19
+    expected_row_header_column: A
+    expected_row_header: E08000024
+    geography_id: E08000024
+    geography_level: local_authority
+    geography_name: Sunderland
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e12000002
+    label: NORTH WEST
+    ordinal: 19
+    row_number: 20
+    expected_row_header_column: A
+    expected_row_header: E12000002
+    geography_id: E12000002
+    geography_level: region
+    geography_name: NORTH WEST
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e06000008
+    label: Blackburn with Darwen
+    ordinal: 20
+    row_number: 21
+    expected_row_header_column: A
+    expected_row_header: E06000008
+    geography_id: E06000008
+    geography_level: local_authority
+    geography_name: Blackburn with Darwen
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e06000009
+    label: Blackpool
+    ordinal: 21
+    row_number: 22
+    expected_row_header_column: A
+    expected_row_header: E06000009
+    geography_id: E06000009
+    geography_level: local_authority
+    geography_name: Blackpool
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e06000049
+    label: Cheshire East
+    ordinal: 22
+    row_number: 23
+    expected_row_header_column: A
+    expected_row_header: E06000049
+    geography_id: E06000049
+    geography_level: local_authority
+    geography_name: Cheshire East
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e06000050
+    label: Cheshire West and Chester
+    ordinal: 23
+    row_number: 24
+    expected_row_header_column: A
+    expected_row_header: E06000050
+    geography_id: E06000050
+    geography_level: local_authority
+    geography_name: Cheshire West and Chester
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e06000006
+    label: Halton
+    ordinal: 24
+    row_number: 25
+    expected_row_header_column: A
+    expected_row_header: E06000006
+    geography_id: E06000006
+    geography_level: local_authority
+    geography_name: Halton
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e06000007
+    label: Warrington
+    ordinal: 25
+    row_number: 26
+    expected_row_header_column: A
+    expected_row_header: E06000007
+    geography_id: E06000007
+    geography_level: local_authority
+    geography_name: Warrington
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e10000006
+    label: Cumbria
+    ordinal: 26
+    row_number: 27
+    expected_row_header_column: A
+    expected_row_header: E10000006
+    geography_id: E10000006
+    geography_level: county
+    geography_name: Cumbria
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000026
+    label: Allerdale
+    ordinal: 27
+    row_number: 28
+    expected_row_header_column: A
+    expected_row_header: E07000026
+    geography_id: E07000026
+    geography_level: local_authority
+    geography_name: Allerdale
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000027
+    label: Barrow-in-Furness
+    ordinal: 28
+    row_number: 29
+    expected_row_header_column: A
+    expected_row_header: E07000027
+    geography_id: E07000027
+    geography_level: local_authority
+    geography_name: Barrow-in-Furness
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000028
+    label: Carlisle
+    ordinal: 29
+    row_number: 30
+    expected_row_header_column: A
+    expected_row_header: E07000028
+    geography_id: E07000028
+    geography_level: local_authority
+    geography_name: Carlisle
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000029
+    label: Copeland
+    ordinal: 30
+    row_number: 31
+    expected_row_header_column: A
+    expected_row_header: E07000029
+    geography_id: E07000029
+    geography_level: local_authority
+    geography_name: Copeland
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000030
+    label: Eden
+    ordinal: 31
+    row_number: 32
+    expected_row_header_column: A
+    expected_row_header: E07000030
+    geography_id: E07000030
+    geography_level: local_authority
+    geography_name: Eden
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000031
+    label: South Lakeland
+    ordinal: 32
+    row_number: 33
+    expected_row_header_column: A
+    expected_row_header: E07000031
+    geography_id: E07000031
+    geography_level: local_authority
+    geography_name: South Lakeland
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e11000001
+    label: Greater Manchester (Met County)
+    ordinal: 33
+    row_number: 34
+    expected_row_header_column: A
+    expected_row_header: E11000001
+    geography_id: E11000001
+    geography_level: county
+    geography_name: Greater Manchester (Met County)
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e08000001
+    label: Bolton
+    ordinal: 34
+    row_number: 35
+    expected_row_header_column: A
+    expected_row_header: E08000001
+    geography_id: E08000001
+    geography_level: local_authority
+    geography_name: Bolton
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e08000002
+    label: Bury
+    ordinal: 35
+    row_number: 36
+    expected_row_header_column: A
+    expected_row_header: E08000002
+    geography_id: E08000002
+    geography_level: local_authority
+    geography_name: Bury
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e08000003
+    label: Manchester
+    ordinal: 36
+    row_number: 37
+    expected_row_header_column: A
+    expected_row_header: E08000003
+    geography_id: E08000003
+    geography_level: local_authority
+    geography_name: Manchester
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e08000004
+    label: Oldham
+    ordinal: 37
+    row_number: 38
+    expected_row_header_column: A
+    expected_row_header: E08000004
+    geography_id: E08000004
+    geography_level: local_authority
+    geography_name: Oldham
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e08000005
+    label: Rochdale
+    ordinal: 38
+    row_number: 39
+    expected_row_header_column: A
+    expected_row_header: E08000005
+    geography_id: E08000005
+    geography_level: local_authority
+    geography_name: Rochdale
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e08000006
+    label: Salford
+    ordinal: 39
+    row_number: 40
+    expected_row_header_column: A
+    expected_row_header: E08000006
+    geography_id: E08000006
+    geography_level: local_authority
+    geography_name: Salford
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e08000007
+    label: Stockport
+    ordinal: 40
+    row_number: 41
+    expected_row_header_column: A
+    expected_row_header: E08000007
+    geography_id: E08000007
+    geography_level: local_authority
+    geography_name: Stockport
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e08000008
+    label: Tameside
+    ordinal: 41
+    row_number: 42
+    expected_row_header_column: A
+    expected_row_header: E08000008
+    geography_id: E08000008
+    geography_level: local_authority
+    geography_name: Tameside
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e08000009
+    label: Trafford
+    ordinal: 42
+    row_number: 43
+    expected_row_header_column: A
+    expected_row_header: E08000009
+    geography_id: E08000009
+    geography_level: local_authority
+    geography_name: Trafford
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e08000010
+    label: Wigan
+    ordinal: 43
+    row_number: 44
+    expected_row_header_column: A
+    expected_row_header: E08000010
+    geography_id: E08000010
+    geography_level: local_authority
+    geography_name: Wigan
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e10000017
+    label: Lancashire
+    ordinal: 44
+    row_number: 45
+    expected_row_header_column: A
+    expected_row_header: E10000017
+    geography_id: E10000017
+    geography_level: county
+    geography_name: Lancashire
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000117
+    label: Burnley
+    ordinal: 45
+    row_number: 46
+    expected_row_header_column: A
+    expected_row_header: E07000117
+    geography_id: E07000117
+    geography_level: local_authority
+    geography_name: Burnley
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000118
+    label: Chorley
+    ordinal: 46
+    row_number: 47
+    expected_row_header_column: A
+    expected_row_header: E07000118
+    geography_id: E07000118
+    geography_level: local_authority
+    geography_name: Chorley
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000119
+    label: Fylde
+    ordinal: 47
+    row_number: 48
+    expected_row_header_column: A
+    expected_row_header: E07000119
+    geography_id: E07000119
+    geography_level: local_authority
+    geography_name: Fylde
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000120
+    label: Hyndburn
+    ordinal: 48
+    row_number: 49
+    expected_row_header_column: A
+    expected_row_header: E07000120
+    geography_id: E07000120
+    geography_level: local_authority
+    geography_name: Hyndburn
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000121
+    label: Lancaster
+    ordinal: 49
+    row_number: 50
+    expected_row_header_column: A
+    expected_row_header: E07000121
+    geography_id: E07000121
+    geography_level: local_authority
+    geography_name: Lancaster
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000122
+    label: Pendle
+    ordinal: 50
+    row_number: 51
+    expected_row_header_column: A
+    expected_row_header: E07000122
+    geography_id: E07000122
+    geography_level: local_authority
+    geography_name: Pendle
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000123
+    label: Preston
+    ordinal: 51
+    row_number: 52
+    expected_row_header_column: A
+    expected_row_header: E07000123
+    geography_id: E07000123
+    geography_level: local_authority
+    geography_name: Preston
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000124
+    label: Ribble Valley
+    ordinal: 52
+    row_number: 53
+    expected_row_header_column: A
+    expected_row_header: E07000124
+    geography_id: E07000124
+    geography_level: local_authority
+    geography_name: Ribble Valley
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000125
+    label: Rossendale
+    ordinal: 53
+    row_number: 54
+    expected_row_header_column: A
+    expected_row_header: E07000125
+    geography_id: E07000125
+    geography_level: local_authority
+    geography_name: Rossendale
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000126
+    label: South Ribble
+    ordinal: 54
+    row_number: 55
+    expected_row_header_column: A
+    expected_row_header: E07000126
+    geography_id: E07000126
+    geography_level: local_authority
+    geography_name: South Ribble
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000127
+    label: West Lancashire
+    ordinal: 55
+    row_number: 56
+    expected_row_header_column: A
+    expected_row_header: E07000127
+    geography_id: E07000127
+    geography_level: local_authority
+    geography_name: West Lancashire
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000128
+    label: Wyre
+    ordinal: 56
+    row_number: 57
+    expected_row_header_column: A
+    expected_row_header: E07000128
+    geography_id: E07000128
+    geography_level: local_authority
+    geography_name: Wyre
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e11000002
+    label: Merseyside (Met County)
+    ordinal: 57
+    row_number: 58
+    expected_row_header_column: A
+    expected_row_header: E11000002
+    geography_id: E11000002
+    geography_level: county
+    geography_name: Merseyside (Met County)
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e08000011
+    label: Knowsley
+    ordinal: 58
+    row_number: 59
+    expected_row_header_column: A
+    expected_row_header: E08000011
+    geography_id: E08000011
+    geography_level: local_authority
+    geography_name: Knowsley
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e08000012
+    label: Liverpool
+    ordinal: 59
+    row_number: 60
+    expected_row_header_column: A
+    expected_row_header: E08000012
+    geography_id: E08000012
+    geography_level: local_authority
+    geography_name: Liverpool
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e08000014
+    label: Sefton
+    ordinal: 60
+    row_number: 61
+    expected_row_header_column: A
+    expected_row_header: E08000014
+    geography_id: E08000014
+    geography_level: local_authority
+    geography_name: Sefton
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e08000013
+    label: St. Helens
+    ordinal: 61
+    row_number: 62
+    expected_row_header_column: A
+    expected_row_header: E08000013
+    geography_id: E08000013
+    geography_level: local_authority
+    geography_name: St. Helens
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e08000015
+    label: Wirral
+    ordinal: 62
+    row_number: 63
+    expected_row_header_column: A
+    expected_row_header: E08000015
+    geography_id: E08000015
+    geography_level: local_authority
+    geography_name: Wirral
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e12000003
+    label: YORKSHIRE AND THE HUMBER
+    ordinal: 63
+    row_number: 64
+    expected_row_header_column: A
+    expected_row_header: E12000003
+    geography_id: E12000003
+    geography_level: region
+    geography_name: YORKSHIRE AND THE HUMBER
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e06000011
+    label: East Riding of Yorkshire
+    ordinal: 64
+    row_number: 65
+    expected_row_header_column: A
+    expected_row_header: E06000011
+    geography_id: E06000011
+    geography_level: local_authority
+    geography_name: East Riding of Yorkshire
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e06000010
+    label: Kingston upon Hull, City of
+    ordinal: 65
+    row_number: 66
+    expected_row_header_column: A
+    expected_row_header: E06000010
+    geography_id: E06000010
+    geography_level: local_authority
+    geography_name: Kingston upon Hull, City of
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e06000012
+    label: North East Lincolnshire
+    ordinal: 66
+    row_number: 67
+    expected_row_header_column: A
+    expected_row_header: E06000012
+    geography_id: E06000012
+    geography_level: local_authority
+    geography_name: North East Lincolnshire
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e06000013
+    label: North Lincolnshire
+    ordinal: 67
+    row_number: 68
+    expected_row_header_column: A
+    expected_row_header: E06000013
+    geography_id: E06000013
+    geography_level: local_authority
+    geography_name: North Lincolnshire
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e06000014
+    label: York
+    ordinal: 68
+    row_number: 69
+    expected_row_header_column: A
+    expected_row_header: E06000014
+    geography_id: E06000014
+    geography_level: local_authority
+    geography_name: York
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e10000023
+    label: North Yorkshire
+    ordinal: 69
+    row_number: 70
+    expected_row_header_column: A
+    expected_row_header: E10000023
+    geography_id: E10000023
+    geography_level: county
+    geography_name: North Yorkshire
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000163
+    label: Craven
+    ordinal: 70
+    row_number: 71
+    expected_row_header_column: A
+    expected_row_header: E07000163
+    geography_id: E07000163
+    geography_level: local_authority
+    geography_name: Craven
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000164
+    label: Hambleton
+    ordinal: 71
+    row_number: 72
+    expected_row_header_column: A
+    expected_row_header: E07000164
+    geography_id: E07000164
+    geography_level: local_authority
+    geography_name: Hambleton
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000165
+    label: Harrogate
+    ordinal: 72
+    row_number: 73
+    expected_row_header_column: A
+    expected_row_header: E07000165
+    geography_id: E07000165
+    geography_level: local_authority
+    geography_name: Harrogate
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000166
+    label: Richmondshire
+    ordinal: 73
+    row_number: 74
+    expected_row_header_column: A
+    expected_row_header: E07000166
+    geography_id: E07000166
+    geography_level: local_authority
+    geography_name: Richmondshire
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000167
+    label: Ryedale
+    ordinal: 74
+    row_number: 75
+    expected_row_header_column: A
+    expected_row_header: E07000167
+    geography_id: E07000167
+    geography_level: local_authority
+    geography_name: Ryedale
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000168
+    label: Scarborough
+    ordinal: 75
+    row_number: 76
+    expected_row_header_column: A
+    expected_row_header: E07000168
+    geography_id: E07000168
+    geography_level: local_authority
+    geography_name: Scarborough
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000169
+    label: Selby
+    ordinal: 76
+    row_number: 77
+    expected_row_header_column: A
+    expected_row_header: E07000169
+    geography_id: E07000169
+    geography_level: local_authority
+    geography_name: Selby
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e11000003
+    label: South Yorkshire (Met County)
+    ordinal: 77
+    row_number: 78
+    expected_row_header_column: A
+    expected_row_header: E11000003
+    geography_id: E11000003
+    geography_level: county
+    geography_name: South Yorkshire (Met County)
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e08000016
+    label: Barnsley
+    ordinal: 78
+    row_number: 79
+    expected_row_header_column: A
+    expected_row_header: E08000016
+    geography_id: E08000016
+    geography_level: local_authority
+    geography_name: Barnsley
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e08000017
+    label: Doncaster
+    ordinal: 79
+    row_number: 80
+    expected_row_header_column: A
+    expected_row_header: E08000017
+    geography_id: E08000017
+    geography_level: local_authority
+    geography_name: Doncaster
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e08000018
+    label: Rotherham
+    ordinal: 80
+    row_number: 81
+    expected_row_header_column: A
+    expected_row_header: E08000018
+    geography_id: E08000018
+    geography_level: local_authority
+    geography_name: Rotherham
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e08000019
+    label: Sheffield
+    ordinal: 81
+    row_number: 82
+    expected_row_header_column: A
+    expected_row_header: E08000019
+    geography_id: E08000019
+    geography_level: local_authority
+    geography_name: Sheffield
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e11000006
+    label: West Yorkshire (Met County)
+    ordinal: 82
+    row_number: 83
+    expected_row_header_column: A
+    expected_row_header: E11000006
+    geography_id: E11000006
+    geography_level: county
+    geography_name: West Yorkshire (Met County)
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e08000032
+    label: Bradford
+    ordinal: 83
+    row_number: 84
+    expected_row_header_column: A
+    expected_row_header: E08000032
+    geography_id: E08000032
+    geography_level: local_authority
+    geography_name: Bradford
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e08000033
+    label: Calderdale
+    ordinal: 84
+    row_number: 85
+    expected_row_header_column: A
+    expected_row_header: E08000033
+    geography_id: E08000033
+    geography_level: local_authority
+    geography_name: Calderdale
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e08000034
+    label: Kirklees
+    ordinal: 85
+    row_number: 86
+    expected_row_header_column: A
+    expected_row_header: E08000034
+    geography_id: E08000034
+    geography_level: local_authority
+    geography_name: Kirklees
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e08000035
+    label: Leeds
+    ordinal: 86
+    row_number: 87
+    expected_row_header_column: A
+    expected_row_header: E08000035
+    geography_id: E08000035
+    geography_level: local_authority
+    geography_name: Leeds
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e08000036
+    label: Wakefield
+    ordinal: 87
+    row_number: 88
+    expected_row_header_column: A
+    expected_row_header: E08000036
+    geography_id: E08000036
+    geography_level: local_authority
+    geography_name: Wakefield
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e12000004
+    label: EAST MIDLANDS
+    ordinal: 88
+    row_number: 89
+    expected_row_header_column: A
+    expected_row_header: E12000004
+    geography_id: E12000004
+    geography_level: region
+    geography_name: EAST MIDLANDS
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e06000015
+    label: Derby
+    ordinal: 89
+    row_number: 90
+    expected_row_header_column: A
+    expected_row_header: E06000015
+    geography_id: E06000015
+    geography_level: local_authority
+    geography_name: Derby
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e06000016
+    label: Leicester
+    ordinal: 90
+    row_number: 91
+    expected_row_header_column: A
+    expected_row_header: E06000016
+    geography_id: E06000016
+    geography_level: local_authority
+    geography_name: Leicester
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e06000061
+    label: North Northamptonshire
+    ordinal: 91
+    row_number: 92
+    expected_row_header_column: A
+    expected_row_header: E06000061
+    geography_id: E06000061
+    geography_level: local_authority
+    geography_name: North Northamptonshire
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e06000018
+    label: Nottingham
+    ordinal: 92
+    row_number: 93
+    expected_row_header_column: A
+    expected_row_header: E06000018
+    geography_id: E06000018
+    geography_level: local_authority
+    geography_name: Nottingham
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e06000017
+    label: Rutland
+    ordinal: 93
+    row_number: 94
+    expected_row_header_column: A
+    expected_row_header: E06000017
+    geography_id: E06000017
+    geography_level: local_authority
+    geography_name: Rutland
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e06000062
+    label: West Northamptonshire
+    ordinal: 94
+    row_number: 95
+    expected_row_header_column: A
+    expected_row_header: E06000062
+    geography_id: E06000062
+    geography_level: local_authority
+    geography_name: West Northamptonshire
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e10000007
+    label: Derbyshire
+    ordinal: 95
+    row_number: 96
+    expected_row_header_column: A
+    expected_row_header: E10000007
+    geography_id: E10000007
+    geography_level: county
+    geography_name: Derbyshire
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000032
+    label: Amber Valley
+    ordinal: 96
+    row_number: 97
+    expected_row_header_column: A
+    expected_row_header: E07000032
+    geography_id: E07000032
+    geography_level: local_authority
+    geography_name: Amber Valley
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000033
+    label: Bolsover
+    ordinal: 97
+    row_number: 98
+    expected_row_header_column: A
+    expected_row_header: E07000033
+    geography_id: E07000033
+    geography_level: local_authority
+    geography_name: Bolsover
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000034
+    label: Chesterfield
+    ordinal: 98
+    row_number: 99
+    expected_row_header_column: A
+    expected_row_header: E07000034
+    geography_id: E07000034
+    geography_level: local_authority
+    geography_name: Chesterfield
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000035
+    label: Derbyshire Dales
+    ordinal: 99
+    row_number: 100
+    expected_row_header_column: A
+    expected_row_header: E07000035
+    geography_id: E07000035
+    geography_level: local_authority
+    geography_name: Derbyshire Dales
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000036
+    label: Erewash
+    ordinal: 100
+    row_number: 101
+    expected_row_header_column: A
+    expected_row_header: E07000036
+    geography_id: E07000036
+    geography_level: local_authority
+    geography_name: Erewash
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000037
+    label: High Peak
+    ordinal: 101
+    row_number: 102
+    expected_row_header_column: A
+    expected_row_header: E07000037
+    geography_id: E07000037
+    geography_level: local_authority
+    geography_name: High Peak
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000038
+    label: North East Derbyshire
+    ordinal: 102
+    row_number: 103
+    expected_row_header_column: A
+    expected_row_header: E07000038
+    geography_id: E07000038
+    geography_level: local_authority
+    geography_name: North East Derbyshire
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000039
+    label: South Derbyshire
+    ordinal: 103
+    row_number: 104
+    expected_row_header_column: A
+    expected_row_header: E07000039
+    geography_id: E07000039
+    geography_level: local_authority
+    geography_name: South Derbyshire
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e10000018
+    label: Leicestershire
+    ordinal: 104
+    row_number: 105
+    expected_row_header_column: A
+    expected_row_header: E10000018
+    geography_id: E10000018
+    geography_level: county
+    geography_name: Leicestershire
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000129
+    label: Blaby
+    ordinal: 105
+    row_number: 106
+    expected_row_header_column: A
+    expected_row_header: E07000129
+    geography_id: E07000129
+    geography_level: local_authority
+    geography_name: Blaby
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000130
+    label: Charnwood
+    ordinal: 106
+    row_number: 107
+    expected_row_header_column: A
+    expected_row_header: E07000130
+    geography_id: E07000130
+    geography_level: local_authority
+    geography_name: Charnwood
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000131
+    label: Harborough
+    ordinal: 107
+    row_number: 108
+    expected_row_header_column: A
+    expected_row_header: E07000131
+    geography_id: E07000131
+    geography_level: local_authority
+    geography_name: Harborough
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000132
+    label: Hinckley and Bosworth
+    ordinal: 108
+    row_number: 109
+    expected_row_header_column: A
+    expected_row_header: E07000132
+    geography_id: E07000132
+    geography_level: local_authority
+    geography_name: Hinckley and Bosworth
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000133
+    label: Melton
+    ordinal: 109
+    row_number: 110
+    expected_row_header_column: A
+    expected_row_header: E07000133
+    geography_id: E07000133
+    geography_level: local_authority
+    geography_name: Melton
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000134
+    label: North West Leicestershire
+    ordinal: 110
+    row_number: 111
+    expected_row_header_column: A
+    expected_row_header: E07000134
+    geography_id: E07000134
+    geography_level: local_authority
+    geography_name: North West Leicestershire
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000135
+    label: Oadby and Wigston
+    ordinal: 111
+    row_number: 112
+    expected_row_header_column: A
+    expected_row_header: E07000135
+    geography_id: E07000135
+    geography_level: local_authority
+    geography_name: Oadby and Wigston
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e10000019
+    label: Lincolnshire
+    ordinal: 112
+    row_number: 113
+    expected_row_header_column: A
+    expected_row_header: E10000019
+    geography_id: E10000019
+    geography_level: county
+    geography_name: Lincolnshire
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000136
+    label: Boston
+    ordinal: 113
+    row_number: 114
+    expected_row_header_column: A
+    expected_row_header: E07000136
+    geography_id: E07000136
+    geography_level: local_authority
+    geography_name: Boston
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000137
+    label: East Lindsey
+    ordinal: 114
+    row_number: 115
+    expected_row_header_column: A
+    expected_row_header: E07000137
+    geography_id: E07000137
+    geography_level: local_authority
+    geography_name: East Lindsey
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000138
+    label: Lincoln
+    ordinal: 115
+    row_number: 116
+    expected_row_header_column: A
+    expected_row_header: E07000138
+    geography_id: E07000138
+    geography_level: local_authority
+    geography_name: Lincoln
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000139
+    label: North Kesteven
+    ordinal: 116
+    row_number: 117
+    expected_row_header_column: A
+    expected_row_header: E07000139
+    geography_id: E07000139
+    geography_level: local_authority
+    geography_name: North Kesteven
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000140
+    label: South Holland
+    ordinal: 117
+    row_number: 118
+    expected_row_header_column: A
+    expected_row_header: E07000140
+    geography_id: E07000140
+    geography_level: local_authority
+    geography_name: South Holland
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000141
+    label: South Kesteven
+    ordinal: 118
+    row_number: 119
+    expected_row_header_column: A
+    expected_row_header: E07000141
+    geography_id: E07000141
+    geography_level: local_authority
+    geography_name: South Kesteven
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000142
+    label: West Lindsey
+    ordinal: 119
+    row_number: 120
+    expected_row_header_column: A
+    expected_row_header: E07000142
+    geography_id: E07000142
+    geography_level: local_authority
+    geography_name: West Lindsey
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e10000024
+    label: Nottinghamshire
+    ordinal: 120
+    row_number: 121
+    expected_row_header_column: A
+    expected_row_header: E10000024
+    geography_id: E10000024
+    geography_level: county
+    geography_name: Nottinghamshire
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000170
+    label: Ashfield
+    ordinal: 121
+    row_number: 122
+    expected_row_header_column: A
+    expected_row_header: E07000170
+    geography_id: E07000170
+    geography_level: local_authority
+    geography_name: Ashfield
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000171
+    label: Bassetlaw
+    ordinal: 122
+    row_number: 123
+    expected_row_header_column: A
+    expected_row_header: E07000171
+    geography_id: E07000171
+    geography_level: local_authority
+    geography_name: Bassetlaw
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000172
+    label: Broxtowe
+    ordinal: 123
+    row_number: 124
+    expected_row_header_column: A
+    expected_row_header: E07000172
+    geography_id: E07000172
+    geography_level: local_authority
+    geography_name: Broxtowe
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000173
+    label: Gedling
+    ordinal: 124
+    row_number: 125
+    expected_row_header_column: A
+    expected_row_header: E07000173
+    geography_id: E07000173
+    geography_level: local_authority
+    geography_name: Gedling
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000174
+    label: Mansfield
+    ordinal: 125
+    row_number: 126
+    expected_row_header_column: A
+    expected_row_header: E07000174
+    geography_id: E07000174
+    geography_level: local_authority
+    geography_name: Mansfield
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000175
+    label: Newark and Sherwood
+    ordinal: 126
+    row_number: 127
+    expected_row_header_column: A
+    expected_row_header: E07000175
+    geography_id: E07000175
+    geography_level: local_authority
+    geography_name: Newark and Sherwood
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000176
+    label: Rushcliffe
+    ordinal: 127
+    row_number: 128
+    expected_row_header_column: A
+    expected_row_header: E07000176
+    geography_id: E07000176
+    geography_level: local_authority
+    geography_name: Rushcliffe
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e12000005
+    label: WEST MIDLANDS
+    ordinal: 128
+    row_number: 129
+    expected_row_header_column: A
+    expected_row_header: E12000005
+    geography_id: E12000005
+    geography_level: region
+    geography_name: WEST MIDLANDS
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e06000019
+    label: Herefordshire, County of
+    ordinal: 129
+    row_number: 130
+    expected_row_header_column: A
+    expected_row_header: E06000019
+    geography_id: E06000019
+    geography_level: local_authority
+    geography_name: Herefordshire, County of
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e06000051
+    label: Shropshire
+    ordinal: 130
+    row_number: 131
+    expected_row_header_column: A
+    expected_row_header: E06000051
+    geography_id: E06000051
+    geography_level: local_authority
+    geography_name: Shropshire
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e06000021
+    label: Stoke-on-Trent
+    ordinal: 131
+    row_number: 132
+    expected_row_header_column: A
+    expected_row_header: E06000021
+    geography_id: E06000021
+    geography_level: local_authority
+    geography_name: Stoke-on-Trent
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e06000020
+    label: Telford and Wrekin
+    ordinal: 132
+    row_number: 133
+    expected_row_header_column: A
+    expected_row_header: E06000020
+    geography_id: E06000020
+    geography_level: local_authority
+    geography_name: Telford and Wrekin
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e10000028
+    label: Staffordshire
+    ordinal: 133
+    row_number: 134
+    expected_row_header_column: A
+    expected_row_header: E10000028
+    geography_id: E10000028
+    geography_level: county
+    geography_name: Staffordshire
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000192
+    label: Cannock Chase
+    ordinal: 134
+    row_number: 135
+    expected_row_header_column: A
+    expected_row_header: E07000192
+    geography_id: E07000192
+    geography_level: local_authority
+    geography_name: Cannock Chase
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000193
+    label: East Staffordshire
+    ordinal: 135
+    row_number: 136
+    expected_row_header_column: A
+    expected_row_header: E07000193
+    geography_id: E07000193
+    geography_level: local_authority
+    geography_name: East Staffordshire
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000194
+    label: Lichfield
+    ordinal: 136
+    row_number: 137
+    expected_row_header_column: A
+    expected_row_header: E07000194
+    geography_id: E07000194
+    geography_level: local_authority
+    geography_name: Lichfield
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000195
+    label: Newcastle-under-Lyme
+    ordinal: 137
+    row_number: 138
+    expected_row_header_column: A
+    expected_row_header: E07000195
+    geography_id: E07000195
+    geography_level: local_authority
+    geography_name: Newcastle-under-Lyme
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000196
+    label: South Staffordshire
+    ordinal: 138
+    row_number: 139
+    expected_row_header_column: A
+    expected_row_header: E07000196
+    geography_id: E07000196
+    geography_level: local_authority
+    geography_name: South Staffordshire
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000197
+    label: Stafford
+    ordinal: 139
+    row_number: 140
+    expected_row_header_column: A
+    expected_row_header: E07000197
+    geography_id: E07000197
+    geography_level: local_authority
+    geography_name: Stafford
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000198
+    label: Staffordshire Moorlands
+    ordinal: 140
+    row_number: 141
+    expected_row_header_column: A
+    expected_row_header: E07000198
+    geography_id: E07000198
+    geography_level: local_authority
+    geography_name: Staffordshire Moorlands
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000199
+    label: Tamworth
+    ordinal: 141
+    row_number: 142
+    expected_row_header_column: A
+    expected_row_header: E07000199
+    geography_id: E07000199
+    geography_level: local_authority
+    geography_name: Tamworth
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e10000031
+    label: Warwickshire
+    ordinal: 142
+    row_number: 143
+    expected_row_header_column: A
+    expected_row_header: E10000031
+    geography_id: E10000031
+    geography_level: county
+    geography_name: Warwickshire
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000218
+    label: North Warwickshire
+    ordinal: 143
+    row_number: 144
+    expected_row_header_column: A
+    expected_row_header: E07000218
+    geography_id: E07000218
+    geography_level: local_authority
+    geography_name: North Warwickshire
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000219
+    label: Nuneaton and Bedworth
+    ordinal: 144
+    row_number: 145
+    expected_row_header_column: A
+    expected_row_header: E07000219
+    geography_id: E07000219
+    geography_level: local_authority
+    geography_name: Nuneaton and Bedworth
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000220
+    label: Rugby
+    ordinal: 145
+    row_number: 146
+    expected_row_header_column: A
+    expected_row_header: E07000220
+    geography_id: E07000220
+    geography_level: local_authority
+    geography_name: Rugby
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000221
+    label: Stratford-on-Avon
+    ordinal: 146
+    row_number: 147
+    expected_row_header_column: A
+    expected_row_header: E07000221
+    geography_id: E07000221
+    geography_level: local_authority
+    geography_name: Stratford-on-Avon
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000222
+    label: Warwick
+    ordinal: 147
+    row_number: 148
+    expected_row_header_column: A
+    expected_row_header: E07000222
+    geography_id: E07000222
+    geography_level: local_authority
+    geography_name: Warwick
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e11000005
+    label: West Midlands (Met County)
+    ordinal: 148
+    row_number: 149
+    expected_row_header_column: A
+    expected_row_header: E11000005
+    geography_id: E11000005
+    geography_level: county
+    geography_name: West Midlands (Met County)
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e08000025
+    label: Birmingham
+    ordinal: 149
+    row_number: 150
+    expected_row_header_column: A
+    expected_row_header: E08000025
+    geography_id: E08000025
+    geography_level: local_authority
+    geography_name: Birmingham
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e08000026
+    label: Coventry
+    ordinal: 150
+    row_number: 151
+    expected_row_header_column: A
+    expected_row_header: E08000026
+    geography_id: E08000026
+    geography_level: local_authority
+    geography_name: Coventry
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e08000027
+    label: Dudley
+    ordinal: 151
+    row_number: 152
+    expected_row_header_column: A
+    expected_row_header: E08000027
+    geography_id: E08000027
+    geography_level: local_authority
+    geography_name: Dudley
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e08000028
+    label: Sandwell
+    ordinal: 152
+    row_number: 153
+    expected_row_header_column: A
+    expected_row_header: E08000028
+    geography_id: E08000028
+    geography_level: local_authority
+    geography_name: Sandwell
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e08000029
+    label: Solihull
+    ordinal: 153
+    row_number: 154
+    expected_row_header_column: A
+    expected_row_header: E08000029
+    geography_id: E08000029
+    geography_level: local_authority
+    geography_name: Solihull
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e08000030
+    label: Walsall
+    ordinal: 154
+    row_number: 155
+    expected_row_header_column: A
+    expected_row_header: E08000030
+    geography_id: E08000030
+    geography_level: local_authority
+    geography_name: Walsall
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e08000031
+    label: Wolverhampton
+    ordinal: 155
+    row_number: 156
+    expected_row_header_column: A
+    expected_row_header: E08000031
+    geography_id: E08000031
+    geography_level: local_authority
+    geography_name: Wolverhampton
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e10000034
+    label: Worcestershire
+    ordinal: 156
+    row_number: 157
+    expected_row_header_column: A
+    expected_row_header: E10000034
+    geography_id: E10000034
+    geography_level: county
+    geography_name: Worcestershire
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000234
+    label: Bromsgrove
+    ordinal: 157
+    row_number: 158
+    expected_row_header_column: A
+    expected_row_header: E07000234
+    geography_id: E07000234
+    geography_level: local_authority
+    geography_name: Bromsgrove
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000235
+    label: Malvern Hills
+    ordinal: 158
+    row_number: 159
+    expected_row_header_column: A
+    expected_row_header: E07000235
+    geography_id: E07000235
+    geography_level: local_authority
+    geography_name: Malvern Hills
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000236
+    label: Redditch
+    ordinal: 159
+    row_number: 160
+    expected_row_header_column: A
+    expected_row_header: E07000236
+    geography_id: E07000236
+    geography_level: local_authority
+    geography_name: Redditch
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000237
+    label: Worcester
+    ordinal: 160
+    row_number: 161
+    expected_row_header_column: A
+    expected_row_header: E07000237
+    geography_id: E07000237
+    geography_level: local_authority
+    geography_name: Worcester
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000238
+    label: Wychavon
+    ordinal: 161
+    row_number: 162
+    expected_row_header_column: A
+    expected_row_header: E07000238
+    geography_id: E07000238
+    geography_level: local_authority
+    geography_name: Wychavon
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000239
+    label: Wyre Forest
+    ordinal: 162
+    row_number: 163
+    expected_row_header_column: A
+    expected_row_header: E07000239
+    geography_id: E07000239
+    geography_level: local_authority
+    geography_name: Wyre Forest
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e12000006
+    label: EAST
+    ordinal: 163
+    row_number: 164
+    expected_row_header_column: A
+    expected_row_header: E12000006
+    geography_id: E12000006
+    geography_level: region
+    geography_name: EAST
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e06000055
+    label: Bedford
+    ordinal: 164
+    row_number: 165
+    expected_row_header_column: A
+    expected_row_header: E06000055
+    geography_id: E06000055
+    geography_level: local_authority
+    geography_name: Bedford
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e06000056
+    label: Central Bedfordshire
+    ordinal: 165
+    row_number: 166
+    expected_row_header_column: A
+    expected_row_header: E06000056
+    geography_id: E06000056
+    geography_level: local_authority
+    geography_name: Central Bedfordshire
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e06000032
+    label: Luton
+    ordinal: 166
+    row_number: 167
+    expected_row_header_column: A
+    expected_row_header: E06000032
+    geography_id: E06000032
+    geography_level: local_authority
+    geography_name: Luton
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e06000031
+    label: Peterborough
+    ordinal: 167
+    row_number: 168
+    expected_row_header_column: A
+    expected_row_header: E06000031
+    geography_id: E06000031
+    geography_level: local_authority
+    geography_name: Peterborough
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e06000033
+    label: Southend-on-Sea
+    ordinal: 168
+    row_number: 169
+    expected_row_header_column: A
+    expected_row_header: E06000033
+    geography_id: E06000033
+    geography_level: local_authority
+    geography_name: Southend-on-Sea
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e06000034
+    label: Thurrock
+    ordinal: 169
+    row_number: 170
+    expected_row_header_column: A
+    expected_row_header: E06000034
+    geography_id: E06000034
+    geography_level: local_authority
+    geography_name: Thurrock
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e10000003
+    label: Cambridgeshire
+    ordinal: 170
+    row_number: 171
+    expected_row_header_column: A
+    expected_row_header: E10000003
+    geography_id: E10000003
+    geography_level: county
+    geography_name: Cambridgeshire
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000008
+    label: Cambridge
+    ordinal: 171
+    row_number: 172
+    expected_row_header_column: A
+    expected_row_header: E07000008
+    geography_id: E07000008
+    geography_level: local_authority
+    geography_name: Cambridge
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000009
+    label: East Cambridgeshire
+    ordinal: 172
+    row_number: 173
+    expected_row_header_column: A
+    expected_row_header: E07000009
+    geography_id: E07000009
+    geography_level: local_authority
+    geography_name: East Cambridgeshire
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000010
+    label: Fenland
+    ordinal: 173
+    row_number: 174
+    expected_row_header_column: A
+    expected_row_header: E07000010
+    geography_id: E07000010
+    geography_level: local_authority
+    geography_name: Fenland
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000011
+    label: Huntingdonshire
+    ordinal: 174
+    row_number: 175
+    expected_row_header_column: A
+    expected_row_header: E07000011
+    geography_id: E07000011
+    geography_level: local_authority
+    geography_name: Huntingdonshire
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000012
+    label: South Cambridgeshire
+    ordinal: 175
+    row_number: 176
+    expected_row_header_column: A
+    expected_row_header: E07000012
+    geography_id: E07000012
+    geography_level: local_authority
+    geography_name: South Cambridgeshire
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e10000012
+    label: Essex
+    ordinal: 176
+    row_number: 177
+    expected_row_header_column: A
+    expected_row_header: E10000012
+    geography_id: E10000012
+    geography_level: county
+    geography_name: Essex
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000066
+    label: Basildon
+    ordinal: 177
+    row_number: 178
+    expected_row_header_column: A
+    expected_row_header: E07000066
+    geography_id: E07000066
+    geography_level: local_authority
+    geography_name: Basildon
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000067
+    label: Braintree
+    ordinal: 178
+    row_number: 179
+    expected_row_header_column: A
+    expected_row_header: E07000067
+    geography_id: E07000067
+    geography_level: local_authority
+    geography_name: Braintree
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000068
+    label: Brentwood
+    ordinal: 179
+    row_number: 180
+    expected_row_header_column: A
+    expected_row_header: E07000068
+    geography_id: E07000068
+    geography_level: local_authority
+    geography_name: Brentwood
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000069
+    label: Castle Point
+    ordinal: 180
+    row_number: 181
+    expected_row_header_column: A
+    expected_row_header: E07000069
+    geography_id: E07000069
+    geography_level: local_authority
+    geography_name: Castle Point
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000070
+    label: Chelmsford
+    ordinal: 181
+    row_number: 182
+    expected_row_header_column: A
+    expected_row_header: E07000070
+    geography_id: E07000070
+    geography_level: local_authority
+    geography_name: Chelmsford
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000071
+    label: Colchester
+    ordinal: 182
+    row_number: 183
+    expected_row_header_column: A
+    expected_row_header: E07000071
+    geography_id: E07000071
+    geography_level: local_authority
+    geography_name: Colchester
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000072
+    label: Epping Forest
+    ordinal: 183
+    row_number: 184
+    expected_row_header_column: A
+    expected_row_header: E07000072
+    geography_id: E07000072
+    geography_level: local_authority
+    geography_name: Epping Forest
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000073
+    label: Harlow
+    ordinal: 184
+    row_number: 185
+    expected_row_header_column: A
+    expected_row_header: E07000073
+    geography_id: E07000073
+    geography_level: local_authority
+    geography_name: Harlow
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000074
+    label: Maldon
+    ordinal: 185
+    row_number: 186
+    expected_row_header_column: A
+    expected_row_header: E07000074
+    geography_id: E07000074
+    geography_level: local_authority
+    geography_name: Maldon
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000075
+    label: Rochford
+    ordinal: 186
+    row_number: 187
+    expected_row_header_column: A
+    expected_row_header: E07000075
+    geography_id: E07000075
+    geography_level: local_authority
+    geography_name: Rochford
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000076
+    label: Tendring
+    ordinal: 187
+    row_number: 188
+    expected_row_header_column: A
+    expected_row_header: E07000076
+    geography_id: E07000076
+    geography_level: local_authority
+    geography_name: Tendring
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000077
+    label: Uttlesford
+    ordinal: 188
+    row_number: 189
+    expected_row_header_column: A
+    expected_row_header: E07000077
+    geography_id: E07000077
+    geography_level: local_authority
+    geography_name: Uttlesford
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e10000015
+    label: Hertfordshire
+    ordinal: 189
+    row_number: 190
+    expected_row_header_column: A
+    expected_row_header: E10000015
+    geography_id: E10000015
+    geography_level: county
+    geography_name: Hertfordshire
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000095
+    label: Broxbourne
+    ordinal: 190
+    row_number: 191
+    expected_row_header_column: A
+    expected_row_header: E07000095
+    geography_id: E07000095
+    geography_level: local_authority
+    geography_name: Broxbourne
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000096
+    label: Dacorum
+    ordinal: 191
+    row_number: 192
+    expected_row_header_column: A
+    expected_row_header: E07000096
+    geography_id: E07000096
+    geography_level: local_authority
+    geography_name: Dacorum
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000242
+    label: East Hertfordshire
+    ordinal: 192
+    row_number: 193
+    expected_row_header_column: A
+    expected_row_header: E07000242
+    geography_id: E07000242
+    geography_level: local_authority
+    geography_name: East Hertfordshire
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000098
+    label: Hertsmere
+    ordinal: 193
+    row_number: 194
+    expected_row_header_column: A
+    expected_row_header: E07000098
+    geography_id: E07000098
+    geography_level: local_authority
+    geography_name: Hertsmere
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000099
+    label: North Hertfordshire
+    ordinal: 194
+    row_number: 195
+    expected_row_header_column: A
+    expected_row_header: E07000099
+    geography_id: E07000099
+    geography_level: local_authority
+    geography_name: North Hertfordshire
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000240
+    label: St Albans
+    ordinal: 195
+    row_number: 196
+    expected_row_header_column: A
+    expected_row_header: E07000240
+    geography_id: E07000240
+    geography_level: local_authority
+    geography_name: St Albans
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000243
+    label: Stevenage
+    ordinal: 196
+    row_number: 197
+    expected_row_header_column: A
+    expected_row_header: E07000243
+    geography_id: E07000243
+    geography_level: local_authority
+    geography_name: Stevenage
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000102
+    label: Three Rivers
+    ordinal: 197
+    row_number: 198
+    expected_row_header_column: A
+    expected_row_header: E07000102
+    geography_id: E07000102
+    geography_level: local_authority
+    geography_name: Three Rivers
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000103
+    label: Watford
+    ordinal: 198
+    row_number: 199
+    expected_row_header_column: A
+    expected_row_header: E07000103
+    geography_id: E07000103
+    geography_level: local_authority
+    geography_name: Watford
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000241
+    label: Welwyn Hatfield
+    ordinal: 199
+    row_number: 200
+    expected_row_header_column: A
+    expected_row_header: E07000241
+    geography_id: E07000241
+    geography_level: local_authority
+    geography_name: Welwyn Hatfield
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e10000020
+    label: Norfolk
+    ordinal: 200
+    row_number: 201
+    expected_row_header_column: A
+    expected_row_header: E10000020
+    geography_id: E10000020
+    geography_level: county
+    geography_name: Norfolk
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000143
+    label: Breckland
+    ordinal: 201
+    row_number: 202
+    expected_row_header_column: A
+    expected_row_header: E07000143
+    geography_id: E07000143
+    geography_level: local_authority
+    geography_name: Breckland
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000144
+    label: Broadland
+    ordinal: 202
+    row_number: 203
+    expected_row_header_column: A
+    expected_row_header: E07000144
+    geography_id: E07000144
+    geography_level: local_authority
+    geography_name: Broadland
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000145
+    label: Great Yarmouth
+    ordinal: 203
+    row_number: 204
+    expected_row_header_column: A
+    expected_row_header: E07000145
+    geography_id: E07000145
+    geography_level: local_authority
+    geography_name: Great Yarmouth
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000146
+    label: King's Lynn and West Norfolk
+    ordinal: 204
+    row_number: 205
+    expected_row_header_column: A
+    expected_row_header: E07000146
+    geography_id: E07000146
+    geography_level: local_authority
+    geography_name: King's Lynn and West Norfolk
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000147
+    label: North Norfolk
+    ordinal: 205
+    row_number: 206
+    expected_row_header_column: A
+    expected_row_header: E07000147
+    geography_id: E07000147
+    geography_level: local_authority
+    geography_name: North Norfolk
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000148
+    label: Norwich
+    ordinal: 206
+    row_number: 207
+    expected_row_header_column: A
+    expected_row_header: E07000148
+    geography_id: E07000148
+    geography_level: local_authority
+    geography_name: Norwich
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000149
+    label: South Norfolk
+    ordinal: 207
+    row_number: 208
+    expected_row_header_column: A
+    expected_row_header: E07000149
+    geography_id: E07000149
+    geography_level: local_authority
+    geography_name: South Norfolk
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e10000029
+    label: Suffolk
+    ordinal: 208
+    row_number: 209
+    expected_row_header_column: A
+    expected_row_header: E10000029
+    geography_id: E10000029
+    geography_level: county
+    geography_name: Suffolk
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000200
+    label: Babergh
+    ordinal: 209
+    row_number: 210
+    expected_row_header_column: A
+    expected_row_header: E07000200
+    geography_id: E07000200
+    geography_level: local_authority
+    geography_name: Babergh
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000244
+    label: East Suffolk
+    ordinal: 210
+    row_number: 211
+    expected_row_header_column: A
+    expected_row_header: E07000244
+    geography_id: E07000244
+    geography_level: local_authority
+    geography_name: East Suffolk
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000202
+    label: Ipswich
+    ordinal: 211
+    row_number: 212
+    expected_row_header_column: A
+    expected_row_header: E07000202
+    geography_id: E07000202
+    geography_level: local_authority
+    geography_name: Ipswich
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000203
+    label: Mid Suffolk
+    ordinal: 212
+    row_number: 213
+    expected_row_header_column: A
+    expected_row_header: E07000203
+    geography_id: E07000203
+    geography_level: local_authority
+    geography_name: Mid Suffolk
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000245
+    label: West Suffolk
+    ordinal: 213
+    row_number: 214
+    expected_row_header_column: A
+    expected_row_header: E07000245
+    geography_id: E07000245
+    geography_level: local_authority
+    geography_name: West Suffolk
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e12000007
+    label: LONDON
+    ordinal: 214
+    row_number: 215
+    expected_row_header_column: A
+    expected_row_header: E12000007
+    geography_id: E12000007
+    geography_level: region
+    geography_name: LONDON
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e09000007
+    label: Camden
+    ordinal: 215
+    row_number: 216
+    expected_row_header_column: A
+    expected_row_header: E09000007
+    geography_id: E09000007
+    geography_level: local_authority
+    geography_name: Camden
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e09000001
+    label: City of London
+    ordinal: 216
+    row_number: 217
+    expected_row_header_column: A
+    expected_row_header: E09000001
+    geography_id: E09000001
+    geography_level: local_authority
+    geography_name: City of London
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e09000012
+    label: Hackney
+    ordinal: 217
+    row_number: 218
+    expected_row_header_column: A
+    expected_row_header: E09000012
+    geography_id: E09000012
+    geography_level: local_authority
+    geography_name: Hackney
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e09000013
+    label: Hammersmith and Fulham
+    ordinal: 218
+    row_number: 219
+    expected_row_header_column: A
+    expected_row_header: E09000013
+    geography_id: E09000013
+    geography_level: local_authority
+    geography_name: Hammersmith and Fulham
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e09000014
+    label: Haringey
+    ordinal: 219
+    row_number: 220
+    expected_row_header_column: A
+    expected_row_header: E09000014
+    geography_id: E09000014
+    geography_level: local_authority
+    geography_name: Haringey
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e09000019
+    label: Islington
+    ordinal: 220
+    row_number: 221
+    expected_row_header_column: A
+    expected_row_header: E09000019
+    geography_id: E09000019
+    geography_level: local_authority
+    geography_name: Islington
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e09000020
+    label: Kensington and Chelsea
+    ordinal: 221
+    row_number: 222
+    expected_row_header_column: A
+    expected_row_header: E09000020
+    geography_id: E09000020
+    geography_level: local_authority
+    geography_name: Kensington and Chelsea
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e09000022
+    label: Lambeth
+    ordinal: 222
+    row_number: 223
+    expected_row_header_column: A
+    expected_row_header: E09000022
+    geography_id: E09000022
+    geography_level: local_authority
+    geography_name: Lambeth
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e09000023
+    label: Lewisham
+    ordinal: 223
+    row_number: 224
+    expected_row_header_column: A
+    expected_row_header: E09000023
+    geography_id: E09000023
+    geography_level: local_authority
+    geography_name: Lewisham
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e09000025
+    label: Newham
+    ordinal: 224
+    row_number: 225
+    expected_row_header_column: A
+    expected_row_header: E09000025
+    geography_id: E09000025
+    geography_level: local_authority
+    geography_name: Newham
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e09000028
+    label: Southwark
+    ordinal: 225
+    row_number: 226
+    expected_row_header_column: A
+    expected_row_header: E09000028
+    geography_id: E09000028
+    geography_level: local_authority
+    geography_name: Southwark
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e09000030
+    label: Tower Hamlets
+    ordinal: 226
+    row_number: 227
+    expected_row_header_column: A
+    expected_row_header: E09000030
+    geography_id: E09000030
+    geography_level: local_authority
+    geography_name: Tower Hamlets
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e09000032
+    label: Wandsworth
+    ordinal: 227
+    row_number: 228
+    expected_row_header_column: A
+    expected_row_header: E09000032
+    geography_id: E09000032
+    geography_level: local_authority
+    geography_name: Wandsworth
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e09000033
+    label: Westminster
+    ordinal: 228
+    row_number: 229
+    expected_row_header_column: A
+    expected_row_header: E09000033
+    geography_id: E09000033
+    geography_level: local_authority
+    geography_name: Westminster
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e09000002
+    label: Barking and Dagenham
+    ordinal: 229
+    row_number: 230
+    expected_row_header_column: A
+    expected_row_header: E09000002
+    geography_id: E09000002
+    geography_level: local_authority
+    geography_name: Barking and Dagenham
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e09000003
+    label: Barnet
+    ordinal: 230
+    row_number: 231
+    expected_row_header_column: A
+    expected_row_header: E09000003
+    geography_id: E09000003
+    geography_level: local_authority
+    geography_name: Barnet
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e09000004
+    label: Bexley
+    ordinal: 231
+    row_number: 232
+    expected_row_header_column: A
+    expected_row_header: E09000004
+    geography_id: E09000004
+    geography_level: local_authority
+    geography_name: Bexley
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e09000005
+    label: Brent
+    ordinal: 232
+    row_number: 233
+    expected_row_header_column: A
+    expected_row_header: E09000005
+    geography_id: E09000005
+    geography_level: local_authority
+    geography_name: Brent
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e09000006
+    label: Bromley
+    ordinal: 233
+    row_number: 234
+    expected_row_header_column: A
+    expected_row_header: E09000006
+    geography_id: E09000006
+    geography_level: local_authority
+    geography_name: Bromley
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e09000008
+    label: Croydon
+    ordinal: 234
+    row_number: 235
+    expected_row_header_column: A
+    expected_row_header: E09000008
+    geography_id: E09000008
+    geography_level: local_authority
+    geography_name: Croydon
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e09000009
+    label: Ealing
+    ordinal: 235
+    row_number: 236
+    expected_row_header_column: A
+    expected_row_header: E09000009
+    geography_id: E09000009
+    geography_level: local_authority
+    geography_name: Ealing
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e09000010
+    label: Enfield
+    ordinal: 236
+    row_number: 237
+    expected_row_header_column: A
+    expected_row_header: E09000010
+    geography_id: E09000010
+    geography_level: local_authority
+    geography_name: Enfield
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e09000011
+    label: Greenwich
+    ordinal: 237
+    row_number: 238
+    expected_row_header_column: A
+    expected_row_header: E09000011
+    geography_id: E09000011
+    geography_level: local_authority
+    geography_name: Greenwich
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e09000015
+    label: Harrow
+    ordinal: 238
+    row_number: 239
+    expected_row_header_column: A
+    expected_row_header: E09000015
+    geography_id: E09000015
+    geography_level: local_authority
+    geography_name: Harrow
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e09000016
+    label: Havering
+    ordinal: 239
+    row_number: 240
+    expected_row_header_column: A
+    expected_row_header: E09000016
+    geography_id: E09000016
+    geography_level: local_authority
+    geography_name: Havering
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e09000017
+    label: Hillingdon
+    ordinal: 240
+    row_number: 241
+    expected_row_header_column: A
+    expected_row_header: E09000017
+    geography_id: E09000017
+    geography_level: local_authority
+    geography_name: Hillingdon
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e09000018
+    label: Hounslow
+    ordinal: 241
+    row_number: 242
+    expected_row_header_column: A
+    expected_row_header: E09000018
+    geography_id: E09000018
+    geography_level: local_authority
+    geography_name: Hounslow
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e09000021
+    label: Kingston upon Thames
+    ordinal: 242
+    row_number: 243
+    expected_row_header_column: A
+    expected_row_header: E09000021
+    geography_id: E09000021
+    geography_level: local_authority
+    geography_name: Kingston upon Thames
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e09000024
+    label: Merton
+    ordinal: 243
+    row_number: 244
+    expected_row_header_column: A
+    expected_row_header: E09000024
+    geography_id: E09000024
+    geography_level: local_authority
+    geography_name: Merton
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e09000026
+    label: Redbridge
+    ordinal: 244
+    row_number: 245
+    expected_row_header_column: A
+    expected_row_header: E09000026
+    geography_id: E09000026
+    geography_level: local_authority
+    geography_name: Redbridge
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e09000027
+    label: Richmond upon Thames
+    ordinal: 245
+    row_number: 246
+    expected_row_header_column: A
+    expected_row_header: E09000027
+    geography_id: E09000027
+    geography_level: local_authority
+    geography_name: Richmond upon Thames
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e09000029
+    label: Sutton
+    ordinal: 246
+    row_number: 247
+    expected_row_header_column: A
+    expected_row_header: E09000029
+    geography_id: E09000029
+    geography_level: local_authority
+    geography_name: Sutton
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e09000031
+    label: Waltham Forest
+    ordinal: 247
+    row_number: 248
+    expected_row_header_column: A
+    expected_row_header: E09000031
+    geography_id: E09000031
+    geography_level: local_authority
+    geography_name: Waltham Forest
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e12000008
+    label: SOUTH EAST
+    ordinal: 248
+    row_number: 249
+    expected_row_header_column: A
+    expected_row_header: E12000008
+    geography_id: E12000008
+    geography_level: region
+    geography_name: SOUTH EAST
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e06000036
+    label: Bracknell Forest
+    ordinal: 249
+    row_number: 250
+    expected_row_header_column: A
+    expected_row_header: E06000036
+    geography_id: E06000036
+    geography_level: local_authority
+    geography_name: Bracknell Forest
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e06000043
+    label: Brighton and Hove
+    ordinal: 250
+    row_number: 251
+    expected_row_header_column: A
+    expected_row_header: E06000043
+    geography_id: E06000043
+    geography_level: local_authority
+    geography_name: Brighton and Hove
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e06000046
+    label: Isle of Wight
+    ordinal: 251
+    row_number: 252
+    expected_row_header_column: A
+    expected_row_header: E06000046
+    geography_id: E06000046
+    geography_level: local_authority
+    geography_name: Isle of Wight
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e06000035
+    label: Medway
+    ordinal: 252
+    row_number: 253
+    expected_row_header_column: A
+    expected_row_header: E06000035
+    geography_id: E06000035
+    geography_level: local_authority
+    geography_name: Medway
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e06000042
+    label: Milton Keynes
+    ordinal: 253
+    row_number: 254
+    expected_row_header_column: A
+    expected_row_header: E06000042
+    geography_id: E06000042
+    geography_level: local_authority
+    geography_name: Milton Keynes
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e06000044
+    label: Portsmouth
+    ordinal: 254
+    row_number: 255
+    expected_row_header_column: A
+    expected_row_header: E06000044
+    geography_id: E06000044
+    geography_level: local_authority
+    geography_name: Portsmouth
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e06000038
+    label: Reading
+    ordinal: 255
+    row_number: 256
+    expected_row_header_column: A
+    expected_row_header: E06000038
+    geography_id: E06000038
+    geography_level: local_authority
+    geography_name: Reading
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e06000039
+    label: Slough
+    ordinal: 256
+    row_number: 257
+    expected_row_header_column: A
+    expected_row_header: E06000039
+    geography_id: E06000039
+    geography_level: local_authority
+    geography_name: Slough
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e06000045
+    label: Southampton
+    ordinal: 257
+    row_number: 258
+    expected_row_header_column: A
+    expected_row_header: E06000045
+    geography_id: E06000045
+    geography_level: local_authority
+    geography_name: Southampton
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e06000037
+    label: West Berkshire
+    ordinal: 258
+    row_number: 259
+    expected_row_header_column: A
+    expected_row_header: E06000037
+    geography_id: E06000037
+    geography_level: local_authority
+    geography_name: West Berkshire
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e06000040
+    label: Windsor and Maidenhead
+    ordinal: 259
+    row_number: 260
+    expected_row_header_column: A
+    expected_row_header: E06000040
+    geography_id: E06000040
+    geography_level: local_authority
+    geography_name: Windsor and Maidenhead
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e06000041
+    label: Wokingham
+    ordinal: 260
+    row_number: 261
+    expected_row_header_column: A
+    expected_row_header: E06000041
+    geography_id: E06000041
+    geography_level: local_authority
+    geography_name: Wokingham
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e06000060
+    label: Buckinghamshire
+    ordinal: 261
+    row_number: 262
+    expected_row_header_column: A
+    expected_row_header: E06000060
+    geography_id: E06000060
+    geography_level: local_authority
+    geography_name: Buckinghamshire
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e10000011
+    label: East Sussex
+    ordinal: 262
+    row_number: 263
+    expected_row_header_column: A
+    expected_row_header: E10000011
+    geography_id: E10000011
+    geography_level: county
+    geography_name: East Sussex
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000061
+    label: Eastbourne
+    ordinal: 263
+    row_number: 264
+    expected_row_header_column: A
+    expected_row_header: E07000061
+    geography_id: E07000061
+    geography_level: local_authority
+    geography_name: Eastbourne
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000062
+    label: Hastings
+    ordinal: 264
+    row_number: 265
+    expected_row_header_column: A
+    expected_row_header: E07000062
+    geography_id: E07000062
+    geography_level: local_authority
+    geography_name: Hastings
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000063
+    label: Lewes
+    ordinal: 265
+    row_number: 266
+    expected_row_header_column: A
+    expected_row_header: E07000063
+    geography_id: E07000063
+    geography_level: local_authority
+    geography_name: Lewes
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000064
+    label: Rother
+    ordinal: 266
+    row_number: 267
+    expected_row_header_column: A
+    expected_row_header: E07000064
+    geography_id: E07000064
+    geography_level: local_authority
+    geography_name: Rother
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000065
+    label: Wealden
+    ordinal: 267
+    row_number: 268
+    expected_row_header_column: A
+    expected_row_header: E07000065
+    geography_id: E07000065
+    geography_level: local_authority
+    geography_name: Wealden
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e10000014
+    label: Hampshire
+    ordinal: 268
+    row_number: 269
+    expected_row_header_column: A
+    expected_row_header: E10000014
+    geography_id: E10000014
+    geography_level: county
+    geography_name: Hampshire
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000084
+    label: Basingstoke and Deane
+    ordinal: 269
+    row_number: 270
+    expected_row_header_column: A
+    expected_row_header: E07000084
+    geography_id: E07000084
+    geography_level: local_authority
+    geography_name: Basingstoke and Deane
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000085
+    label: East Hampshire
+    ordinal: 270
+    row_number: 271
+    expected_row_header_column: A
+    expected_row_header: E07000085
+    geography_id: E07000085
+    geography_level: local_authority
+    geography_name: East Hampshire
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000086
+    label: Eastleigh
+    ordinal: 271
+    row_number: 272
+    expected_row_header_column: A
+    expected_row_header: E07000086
+    geography_id: E07000086
+    geography_level: local_authority
+    geography_name: Eastleigh
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000087
+    label: Fareham
+    ordinal: 272
+    row_number: 273
+    expected_row_header_column: A
+    expected_row_header: E07000087
+    geography_id: E07000087
+    geography_level: local_authority
+    geography_name: Fareham
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000088
+    label: Gosport
+    ordinal: 273
+    row_number: 274
+    expected_row_header_column: A
+    expected_row_header: E07000088
+    geography_id: E07000088
+    geography_level: local_authority
+    geography_name: Gosport
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000089
+    label: Hart
+    ordinal: 274
+    row_number: 275
+    expected_row_header_column: A
+    expected_row_header: E07000089
+    geography_id: E07000089
+    geography_level: local_authority
+    geography_name: Hart
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000090
+    label: Havant
+    ordinal: 275
+    row_number: 276
+    expected_row_header_column: A
+    expected_row_header: E07000090
+    geography_id: E07000090
+    geography_level: local_authority
+    geography_name: Havant
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000091
+    label: New Forest
+    ordinal: 276
+    row_number: 277
+    expected_row_header_column: A
+    expected_row_header: E07000091
+    geography_id: E07000091
+    geography_level: local_authority
+    geography_name: New Forest
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000092
+    label: Rushmoor
+    ordinal: 277
+    row_number: 278
+    expected_row_header_column: A
+    expected_row_header: E07000092
+    geography_id: E07000092
+    geography_level: local_authority
+    geography_name: Rushmoor
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000093
+    label: Test Valley
+    ordinal: 278
+    row_number: 279
+    expected_row_header_column: A
+    expected_row_header: E07000093
+    geography_id: E07000093
+    geography_level: local_authority
+    geography_name: Test Valley
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000094
+    label: Winchester
+    ordinal: 279
+    row_number: 280
+    expected_row_header_column: A
+    expected_row_header: E07000094
+    geography_id: E07000094
+    geography_level: local_authority
+    geography_name: Winchester
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e10000016
+    label: Kent
+    ordinal: 280
+    row_number: 281
+    expected_row_header_column: A
+    expected_row_header: E10000016
+    geography_id: E10000016
+    geography_level: county
+    geography_name: Kent
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000105
+    label: Ashford
+    ordinal: 281
+    row_number: 282
+    expected_row_header_column: A
+    expected_row_header: E07000105
+    geography_id: E07000105
+    geography_level: local_authority
+    geography_name: Ashford
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000106
+    label: Canterbury
+    ordinal: 282
+    row_number: 283
+    expected_row_header_column: A
+    expected_row_header: E07000106
+    geography_id: E07000106
+    geography_level: local_authority
+    geography_name: Canterbury
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000107
+    label: Dartford
+    ordinal: 283
+    row_number: 284
+    expected_row_header_column: A
+    expected_row_header: E07000107
+    geography_id: E07000107
+    geography_level: local_authority
+    geography_name: Dartford
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000108
+    label: Dover
+    ordinal: 284
+    row_number: 285
+    expected_row_header_column: A
+    expected_row_header: E07000108
+    geography_id: E07000108
+    geography_level: local_authority
+    geography_name: Dover
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000112
+    label: Folkestone and Hythe
+    ordinal: 285
+    row_number: 286
+    expected_row_header_column: A
+    expected_row_header: E07000112
+    geography_id: E07000112
+    geography_level: local_authority
+    geography_name: Folkestone and Hythe
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000109
+    label: Gravesham
+    ordinal: 286
+    row_number: 287
+    expected_row_header_column: A
+    expected_row_header: E07000109
+    geography_id: E07000109
+    geography_level: local_authority
+    geography_name: Gravesham
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000110
+    label: Maidstone
+    ordinal: 287
+    row_number: 288
+    expected_row_header_column: A
+    expected_row_header: E07000110
+    geography_id: E07000110
+    geography_level: local_authority
+    geography_name: Maidstone
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000111
+    label: Sevenoaks
+    ordinal: 288
+    row_number: 289
+    expected_row_header_column: A
+    expected_row_header: E07000111
+    geography_id: E07000111
+    geography_level: local_authority
+    geography_name: Sevenoaks
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000113
+    label: Swale
+    ordinal: 289
+    row_number: 290
+    expected_row_header_column: A
+    expected_row_header: E07000113
+    geography_id: E07000113
+    geography_level: local_authority
+    geography_name: Swale
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000114
+    label: Thanet
+    ordinal: 290
+    row_number: 291
+    expected_row_header_column: A
+    expected_row_header: E07000114
+    geography_id: E07000114
+    geography_level: local_authority
+    geography_name: Thanet
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000115
+    label: Tonbridge and Malling
+    ordinal: 291
+    row_number: 292
+    expected_row_header_column: A
+    expected_row_header: E07000115
+    geography_id: E07000115
+    geography_level: local_authority
+    geography_name: Tonbridge and Malling
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000116
+    label: Tunbridge Wells
+    ordinal: 292
+    row_number: 293
+    expected_row_header_column: A
+    expected_row_header: E07000116
+    geography_id: E07000116
+    geography_level: local_authority
+    geography_name: Tunbridge Wells
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e10000025
+    label: Oxfordshire
+    ordinal: 293
+    row_number: 294
+    expected_row_header_column: A
+    expected_row_header: E10000025
+    geography_id: E10000025
+    geography_level: county
+    geography_name: Oxfordshire
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000177
+    label: Cherwell
+    ordinal: 294
+    row_number: 295
+    expected_row_header_column: A
+    expected_row_header: E07000177
+    geography_id: E07000177
+    geography_level: local_authority
+    geography_name: Cherwell
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000178
+    label: Oxford
+    ordinal: 295
+    row_number: 296
+    expected_row_header_column: A
+    expected_row_header: E07000178
+    geography_id: E07000178
+    geography_level: local_authority
+    geography_name: Oxford
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000179
+    label: South Oxfordshire
+    ordinal: 296
+    row_number: 297
+    expected_row_header_column: A
+    expected_row_header: E07000179
+    geography_id: E07000179
+    geography_level: local_authority
+    geography_name: South Oxfordshire
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000180
+    label: Vale of White Horse
+    ordinal: 297
+    row_number: 298
+    expected_row_header_column: A
+    expected_row_header: E07000180
+    geography_id: E07000180
+    geography_level: local_authority
+    geography_name: Vale of White Horse
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000181
+    label: West Oxfordshire
+    ordinal: 298
+    row_number: 299
+    expected_row_header_column: A
+    expected_row_header: E07000181
+    geography_id: E07000181
+    geography_level: local_authority
+    geography_name: West Oxfordshire
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e10000030
+    label: Surrey
+    ordinal: 299
+    row_number: 300
+    expected_row_header_column: A
+    expected_row_header: E10000030
+    geography_id: E10000030
+    geography_level: county
+    geography_name: Surrey
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000207
+    label: Elmbridge
+    ordinal: 300
+    row_number: 301
+    expected_row_header_column: A
+    expected_row_header: E07000207
+    geography_id: E07000207
+    geography_level: local_authority
+    geography_name: Elmbridge
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000208
+    label: Epsom and Ewell
+    ordinal: 301
+    row_number: 302
+    expected_row_header_column: A
+    expected_row_header: E07000208
+    geography_id: E07000208
+    geography_level: local_authority
+    geography_name: Epsom and Ewell
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000209
+    label: Guildford
+    ordinal: 302
+    row_number: 303
+    expected_row_header_column: A
+    expected_row_header: E07000209
+    geography_id: E07000209
+    geography_level: local_authority
+    geography_name: Guildford
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000210
+    label: Mole Valley
+    ordinal: 303
+    row_number: 304
+    expected_row_header_column: A
+    expected_row_header: E07000210
+    geography_id: E07000210
+    geography_level: local_authority
+    geography_name: Mole Valley
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000211
+    label: Reigate and Banstead
+    ordinal: 304
+    row_number: 305
+    expected_row_header_column: A
+    expected_row_header: E07000211
+    geography_id: E07000211
+    geography_level: local_authority
+    geography_name: Reigate and Banstead
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000212
+    label: Runnymede
+    ordinal: 305
+    row_number: 306
+    expected_row_header_column: A
+    expected_row_header: E07000212
+    geography_id: E07000212
+    geography_level: local_authority
+    geography_name: Runnymede
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000213
+    label: Spelthorne
+    ordinal: 306
+    row_number: 307
+    expected_row_header_column: A
+    expected_row_header: E07000213
+    geography_id: E07000213
+    geography_level: local_authority
+    geography_name: Spelthorne
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000214
+    label: Surrey Heath
+    ordinal: 307
+    row_number: 308
+    expected_row_header_column: A
+    expected_row_header: E07000214
+    geography_id: E07000214
+    geography_level: local_authority
+    geography_name: Surrey Heath
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000215
+    label: Tandridge
+    ordinal: 308
+    row_number: 309
+    expected_row_header_column: A
+    expected_row_header: E07000215
+    geography_id: E07000215
+    geography_level: local_authority
+    geography_name: Tandridge
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000216
+    label: Waverley
+    ordinal: 309
+    row_number: 310
+    expected_row_header_column: A
+    expected_row_header: E07000216
+    geography_id: E07000216
+    geography_level: local_authority
+    geography_name: Waverley
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000217
+    label: Woking
+    ordinal: 310
+    row_number: 311
+    expected_row_header_column: A
+    expected_row_header: E07000217
+    geography_id: E07000217
+    geography_level: local_authority
+    geography_name: Woking
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e10000032
+    label: West Sussex
+    ordinal: 311
+    row_number: 312
+    expected_row_header_column: A
+    expected_row_header: E10000032
+    geography_id: E10000032
+    geography_level: county
+    geography_name: West Sussex
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000223
+    label: Adur
+    ordinal: 312
+    row_number: 313
+    expected_row_header_column: A
+    expected_row_header: E07000223
+    geography_id: E07000223
+    geography_level: local_authority
+    geography_name: Adur
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000224
+    label: Arun
+    ordinal: 313
+    row_number: 314
+    expected_row_header_column: A
+    expected_row_header: E07000224
+    geography_id: E07000224
+    geography_level: local_authority
+    geography_name: Arun
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000225
+    label: Chichester
+    ordinal: 314
+    row_number: 315
+    expected_row_header_column: A
+    expected_row_header: E07000225
+    geography_id: E07000225
+    geography_level: local_authority
+    geography_name: Chichester
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000226
+    label: Crawley
+    ordinal: 315
+    row_number: 316
+    expected_row_header_column: A
+    expected_row_header: E07000226
+    geography_id: E07000226
+    geography_level: local_authority
+    geography_name: Crawley
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000227
+    label: Horsham
+    ordinal: 316
+    row_number: 317
+    expected_row_header_column: A
+    expected_row_header: E07000227
+    geography_id: E07000227
+    geography_level: local_authority
+    geography_name: Horsham
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000228
+    label: Mid Sussex
+    ordinal: 317
+    row_number: 318
+    expected_row_header_column: A
+    expected_row_header: E07000228
+    geography_id: E07000228
+    geography_level: local_authority
+    geography_name: Mid Sussex
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000229
+    label: Worthing
+    ordinal: 318
+    row_number: 319
+    expected_row_header_column: A
+    expected_row_header: E07000229
+    geography_id: E07000229
+    geography_level: local_authority
+    geography_name: Worthing
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e12000009
+    label: SOUTH WEST
+    ordinal: 319
+    row_number: 320
+    expected_row_header_column: A
+    expected_row_header: E12000009
+    geography_id: E12000009
+    geography_level: region
+    geography_name: SOUTH WEST
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e06000022
+    label: Bath and North East Somerset
+    ordinal: 320
+    row_number: 321
+    expected_row_header_column: A
+    expected_row_header: E06000022
+    geography_id: E06000022
+    geography_level: local_authority
+    geography_name: Bath and North East Somerset
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e06000058
+    label: Bournemouth, Christchurch and Poole
+    ordinal: 321
+    row_number: 322
+    expected_row_header_column: A
+    expected_row_header: E06000058
+    geography_id: E06000058
+    geography_level: local_authority
+    geography_name: Bournemouth, Christchurch and Poole
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e06000023
+    label: Bristol, City of
+    ordinal: 322
+    row_number: 323
+    expected_row_header_column: A
+    expected_row_header: E06000023
+    geography_id: E06000023
+    geography_level: local_authority
+    geography_name: Bristol, City of
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e06000052
+    label: Cornwall
+    ordinal: 323
+    row_number: 324
+    expected_row_header_column: A
+    expected_row_header: E06000052
+    geography_id: E06000052
+    geography_level: local_authority
+    geography_name: Cornwall
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e06000059
+    label: Dorset
+    ordinal: 324
+    row_number: 325
+    expected_row_header_column: A
+    expected_row_header: E06000059
+    geography_id: E06000059
+    geography_level: local_authority
+    geography_name: Dorset
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e06000053
+    label: Isles of Scilly
+    ordinal: 325
+    row_number: 326
+    expected_row_header_column: A
+    expected_row_header: E06000053
+    geography_id: E06000053
+    geography_level: local_authority
+    geography_name: Isles of Scilly
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e06000024
+    label: North Somerset
+    ordinal: 326
+    row_number: 327
+    expected_row_header_column: A
+    expected_row_header: E06000024
+    geography_id: E06000024
+    geography_level: local_authority
+    geography_name: North Somerset
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e06000026
+    label: Plymouth
+    ordinal: 327
+    row_number: 328
+    expected_row_header_column: A
+    expected_row_header: E06000026
+    geography_id: E06000026
+    geography_level: local_authority
+    geography_name: Plymouth
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e06000025
+    label: South Gloucestershire
+    ordinal: 328
+    row_number: 329
+    expected_row_header_column: A
+    expected_row_header: E06000025
+    geography_id: E06000025
+    geography_level: local_authority
+    geography_name: South Gloucestershire
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e06000030
+    label: Swindon
+    ordinal: 329
+    row_number: 330
+    expected_row_header_column: A
+    expected_row_header: E06000030
+    geography_id: E06000030
+    geography_level: local_authority
+    geography_name: Swindon
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e06000027
+    label: Torbay
+    ordinal: 330
+    row_number: 331
+    expected_row_header_column: A
+    expected_row_header: E06000027
+    geography_id: E06000027
+    geography_level: local_authority
+    geography_name: Torbay
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e06000054
+    label: Wiltshire
+    ordinal: 331
+    row_number: 332
+    expected_row_header_column: A
+    expected_row_header: E06000054
+    geography_id: E06000054
+    geography_level: local_authority
+    geography_name: Wiltshire
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e10000008
+    label: Devon
+    ordinal: 332
+    row_number: 333
+    expected_row_header_column: A
+    expected_row_header: E10000008
+    geography_id: E10000008
+    geography_level: county
+    geography_name: Devon
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000040
+    label: East Devon
+    ordinal: 333
+    row_number: 334
+    expected_row_header_column: A
+    expected_row_header: E07000040
+    geography_id: E07000040
+    geography_level: local_authority
+    geography_name: East Devon
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000041
+    label: Exeter
+    ordinal: 334
+    row_number: 335
+    expected_row_header_column: A
+    expected_row_header: E07000041
+    geography_id: E07000041
+    geography_level: local_authority
+    geography_name: Exeter
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000042
+    label: Mid Devon
+    ordinal: 335
+    row_number: 336
+    expected_row_header_column: A
+    expected_row_header: E07000042
+    geography_id: E07000042
+    geography_level: local_authority
+    geography_name: Mid Devon
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000043
+    label: North Devon
+    ordinal: 336
+    row_number: 337
+    expected_row_header_column: A
+    expected_row_header: E07000043
+    geography_id: E07000043
+    geography_level: local_authority
+    geography_name: North Devon
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000044
+    label: South Hams
+    ordinal: 337
+    row_number: 338
+    expected_row_header_column: A
+    expected_row_header: E07000044
+    geography_id: E07000044
+    geography_level: local_authority
+    geography_name: South Hams
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000045
+    label: Teignbridge
+    ordinal: 338
+    row_number: 339
+    expected_row_header_column: A
+    expected_row_header: E07000045
+    geography_id: E07000045
+    geography_level: local_authority
+    geography_name: Teignbridge
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000046
+    label: Torridge
+    ordinal: 339
+    row_number: 340
+    expected_row_header_column: A
+    expected_row_header: E07000046
+    geography_id: E07000046
+    geography_level: local_authority
+    geography_name: Torridge
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000047
+    label: West Devon
+    ordinal: 340
+    row_number: 341
+    expected_row_header_column: A
+    expected_row_header: E07000047
+    geography_id: E07000047
+    geography_level: local_authority
+    geography_name: West Devon
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e10000013
+    label: Gloucestershire
+    ordinal: 341
+    row_number: 342
+    expected_row_header_column: A
+    expected_row_header: E10000013
+    geography_id: E10000013
+    geography_level: county
+    geography_name: Gloucestershire
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000078
+    label: Cheltenham
+    ordinal: 342
+    row_number: 343
+    expected_row_header_column: A
+    expected_row_header: E07000078
+    geography_id: E07000078
+    geography_level: local_authority
+    geography_name: Cheltenham
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000079
+    label: Cotswold
+    ordinal: 343
+    row_number: 344
+    expected_row_header_column: A
+    expected_row_header: E07000079
+    geography_id: E07000079
+    geography_level: local_authority
+    geography_name: Cotswold
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000080
+    label: Forest of Dean
+    ordinal: 344
+    row_number: 345
+    expected_row_header_column: A
+    expected_row_header: E07000080
+    geography_id: E07000080
+    geography_level: local_authority
+    geography_name: Forest of Dean
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000081
+    label: Gloucester
+    ordinal: 345
+    row_number: 346
+    expected_row_header_column: A
+    expected_row_header: E07000081
+    geography_id: E07000081
+    geography_level: local_authority
+    geography_name: Gloucester
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000082
+    label: Stroud
+    ordinal: 346
+    row_number: 347
+    expected_row_header_column: A
+    expected_row_header: E07000082
+    geography_id: E07000082
+    geography_level: local_authority
+    geography_name: Stroud
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000083
+    label: Tewkesbury
+    ordinal: 347
+    row_number: 348
+    expected_row_header_column: A
+    expected_row_header: E07000083
+    geography_id: E07000083
+    geography_level: local_authority
+    geography_name: Tewkesbury
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e10000027
+    label: Somerset
+    ordinal: 348
+    row_number: 349
+    expected_row_header_column: A
+    expected_row_header: E10000027
+    geography_id: E10000027
+    geography_level: county
+    geography_name: Somerset
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000187
+    label: Mendip
+    ordinal: 349
+    row_number: 350
+    expected_row_header_column: A
+    expected_row_header: E07000187
+    geography_id: E07000187
+    geography_level: local_authority
+    geography_name: Mendip
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000188
+    label: Sedgemoor
+    ordinal: 350
+    row_number: 351
+    expected_row_header_column: A
+    expected_row_header: E07000188
+    geography_id: E07000188
+    geography_level: local_authority
+    geography_name: Sedgemoor
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000246
+    label: Somerset West and Taunton
+    ordinal: 351
+    row_number: 352
+    expected_row_header_column: A
+    expected_row_header: E07000246
+    geography_id: E07000246
+    geography_level: local_authority
+    geography_name: Somerset West and Taunton
+    geography_vintage: lad_2022
+    table_record_kind: total
+  - value_id: e07000189
+    label: South Somerset
+    ordinal: 352
+    row_number: 353
+    expected_row_header_column: A
+    expected_row_header: E07000189
+    geography_id: E07000189
+    geography_level: local_authority
+    geography_name: South Somerset
+    geography_vintage: lad_2022
+    table_record_kind: total
+  measures:
+  - measure_id: ons_households_projected
+    label: Projected households
+    ordinal: 0
+    column: C
+    source_column_id: '2022'
+    concept: ons.households_projected
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 4
+    expected_column_header: 2022
+  assertion: source_projection
+  period_coverage:
+    start_date: '2022-06-30'
+    end_date: '2022-06-30'
+    basis: projection_horizon
+    source_period_label: mid-2022
+    notes: ONS migration-category variant, the headline 2022-based household projection; 2022 local-authority
+      boundaries.
+- record_set_id: ons.household_projections_2022_based.2023
+  provenance_class: model_output
+  record_set_spec_id: ons.household_projections_2022_based.2023.v1
+  source_record_id_prefix: ons.household_projections_2022_based.2023
+  sheet_name: Table 406
+  period_type: calendar_year
+  period: 2023
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: household
+  entity_role: private_household
+  domain: household_count
+  groupby_dimension: geography
+  rows: *id001
+  measures:
+  - measure_id: ons_households_projected
+    label: Projected households
+    ordinal: 0
+    column: D
+    source_column_id: '2023'
+    concept: ons.households_projected
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 4
+    expected_column_header: 2023
+  assertion: source_projection
+  period_coverage:
+    start_date: '2023-06-30'
+    end_date: '2023-06-30'
+    basis: projection_horizon
+    source_period_label: mid-2023
+    notes: ONS migration-category variant, the headline 2022-based household projection; 2022 local-authority
+      boundaries.
+- record_set_id: ons.household_projections_2022_based.2024
+  provenance_class: model_output
+  record_set_spec_id: ons.household_projections_2022_based.2024.v1
+  source_record_id_prefix: ons.household_projections_2022_based.2024
+  sheet_name: Table 406
+  period_type: calendar_year
+  period: 2024
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: household
+  entity_role: private_household
+  domain: household_count
+  groupby_dimension: geography
+  rows: *id001
+  measures:
+  - measure_id: ons_households_projected
+    label: Projected households
+    ordinal: 0
+    column: E
+    source_column_id: '2024'
+    concept: ons.households_projected
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 4
+    expected_column_header: 2024
+  assertion: source_projection
+  period_coverage:
+    start_date: '2024-06-30'
+    end_date: '2024-06-30'
+    basis: projection_horizon
+    source_period_label: mid-2024
+    notes: ONS migration-category variant, the headline 2022-based household projection; 2022 local-authority
+      boundaries.
+- record_set_id: ons.household_projections_2022_based.2025
+  provenance_class: model_output
+  record_set_spec_id: ons.household_projections_2022_based.2025.v1
+  source_record_id_prefix: ons.household_projections_2022_based.2025
+  sheet_name: Table 406
+  period_type: calendar_year
+  period: 2025
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: household
+  entity_role: private_household
+  domain: household_count
+  groupby_dimension: geography
+  rows: *id001
+  measures:
+  - measure_id: ons_households_projected
+    label: Projected households
+    ordinal: 0
+    column: F
+    source_column_id: '2025'
+    concept: ons.households_projected
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 4
+    expected_column_header: 2025
+  assertion: source_projection
+  period_coverage:
+    start_date: '2025-06-30'
+    end_date: '2025-06-30'
+    basis: projection_horizon
+    source_period_label: mid-2025
+    notes: ONS migration-category variant, the headline 2022-based household projection; 2022 local-authority
+      boundaries.
+- record_set_id: ons.household_projections_2022_based.2026
+  provenance_class: model_output
+  record_set_spec_id: ons.household_projections_2022_based.2026.v1
+  source_record_id_prefix: ons.household_projections_2022_based.2026
+  sheet_name: Table 406
+  period_type: calendar_year
+  period: 2026
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: household
+  entity_role: private_household
+  domain: household_count
+  groupby_dimension: geography
+  rows: *id001
+  measures:
+  - measure_id: ons_households_projected
+    label: Projected households
+    ordinal: 0
+    column: G
+    source_column_id: '2026'
+    concept: ons.households_projected
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 4
+    expected_column_header: 2026
+  assertion: source_projection
+  period_coverage:
+    start_date: '2026-06-30'
+    end_date: '2026-06-30'
+    basis: projection_horizon
+    source_period_label: mid-2026
+    notes: ONS migration-category variant, the headline 2022-based household projection; 2022 local-authority
+      boundaries.
+- record_set_id: ons.household_projections_2022_based.2027
+  provenance_class: model_output
+  record_set_spec_id: ons.household_projections_2022_based.2027.v1
+  source_record_id_prefix: ons.household_projections_2022_based.2027
+  sheet_name: Table 406
+  period_type: calendar_year
+  period: 2027
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: household
+  entity_role: private_household
+  domain: household_count
+  groupby_dimension: geography
+  rows: *id001
+  measures:
+  - measure_id: ons_households_projected
+    label: Projected households
+    ordinal: 0
+    column: H
+    source_column_id: '2027'
+    concept: ons.households_projected
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 4
+    expected_column_header: 2027
+  assertion: source_projection
+  period_coverage:
+    start_date: '2027-06-30'
+    end_date: '2027-06-30'
+    basis: projection_horizon
+    source_period_label: mid-2027
+    notes: ONS migration-category variant, the headline 2022-based household projection; 2022 local-authority
+      boundaries.
+- record_set_id: ons.household_projections_2022_based.2028
+  provenance_class: model_output
+  record_set_spec_id: ons.household_projections_2022_based.2028.v1
+  source_record_id_prefix: ons.household_projections_2022_based.2028
+  sheet_name: Table 406
+  period_type: calendar_year
+  period: 2028
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: household
+  entity_role: private_household
+  domain: household_count
+  groupby_dimension: geography
+  rows: *id001
+  measures:
+  - measure_id: ons_households_projected
+    label: Projected households
+    ordinal: 0
+    column: I
+    source_column_id: '2028'
+    concept: ons.households_projected
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 4
+    expected_column_header: 2028
+  assertion: source_projection
+  period_coverage:
+    start_date: '2028-06-30'
+    end_date: '2028-06-30'
+    basis: projection_horizon
+    source_period_label: mid-2028
+    notes: ONS migration-category variant, the headline 2022-based household projection; 2022 local-authority
+      boundaries.
+- record_set_id: ons.household_projections_2022_based.2029
+  provenance_class: model_output
+  record_set_spec_id: ons.household_projections_2022_based.2029.v1
+  source_record_id_prefix: ons.household_projections_2022_based.2029
+  sheet_name: Table 406
+  period_type: calendar_year
+  period: 2029
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: household
+  entity_role: private_household
+  domain: household_count
+  groupby_dimension: geography
+  rows: *id001
+  measures:
+  - measure_id: ons_households_projected
+    label: Projected households
+    ordinal: 0
+    column: J
+    source_column_id: '2029'
+    concept: ons.households_projected
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 4
+    expected_column_header: 2029
+  assertion: source_projection
+  period_coverage:
+    start_date: '2029-06-30'
+    end_date: '2029-06-30'
+    basis: projection_horizon
+    source_period_label: mid-2029
+    notes: ONS migration-category variant, the headline 2022-based household projection; 2022 local-authority
+      boundaries.
+- record_set_id: ons.household_projections_2022_based.2030
+  provenance_class: model_output
+  record_set_spec_id: ons.household_projections_2022_based.2030.v1
+  source_record_id_prefix: ons.household_projections_2022_based.2030
+  sheet_name: Table 406
+  period_type: calendar_year
+  period: 2030
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: household
+  entity_role: private_household
+  domain: household_count
+  groupby_dimension: geography
+  rows: *id001
+  measures:
+  - measure_id: ons_households_projected
+    label: Projected households
+    ordinal: 0
+    column: K
+    source_column_id: '2030'
+    concept: ons.households_projected
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 4
+    expected_column_header: 2030
+  assertion: source_projection
+  period_coverage:
+    start_date: '2030-06-30'
+    end_date: '2030-06-30'
+    basis: projection_horizon
+    source_period_label: mid-2030
+    notes: ONS migration-category variant, the headline 2022-based household projection; 2022 local-authority
+      boundaries.
+- record_set_id: ons.household_projections_2022_based.2031
+  provenance_class: model_output
+  record_set_spec_id: ons.household_projections_2022_based.2031.v1
+  source_record_id_prefix: ons.household_projections_2022_based.2031
+  sheet_name: Table 406
+  period_type: calendar_year
+  period: 2031
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: household
+  entity_role: private_household
+  domain: household_count
+  groupby_dimension: geography
+  rows: *id001
+  measures:
+  - measure_id: ons_households_projected
+    label: Projected households
+    ordinal: 0
+    column: L
+    source_column_id: '2031'
+    concept: ons.households_projected
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 4
+    expected_column_header: 2031
+  assertion: source_projection
+  period_coverage:
+    start_date: '2031-06-30'
+    end_date: '2031-06-30'
+    basis: projection_horizon
+    source_period_label: mid-2031
+    notes: ONS migration-category variant, the headline 2022-based household projection; 2022 local-authority
+      boundaries.
+- record_set_id: ons.household_projections_2022_based.2032
+  provenance_class: model_output
+  record_set_spec_id: ons.household_projections_2022_based.2032.v1
+  source_record_id_prefix: ons.household_projections_2022_based.2032
+  sheet_name: Table 406
+  period_type: calendar_year
+  period: 2032
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: household
+  entity_role: private_household
+  domain: household_count
+  groupby_dimension: geography
+  rows: *id001
+  measures:
+  - measure_id: ons_households_projected
+    label: Projected households
+    ordinal: 0
+    column: M
+    source_column_id: '2032'
+    concept: ons.households_projected
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 4
+    expected_column_header: 2032
+  assertion: source_projection
+  period_coverage:
+    start_date: '2032-06-30'
+    end_date: '2032-06-30'
+    basis: projection_horizon
+    source_period_label: mid-2032
+    notes: ONS migration-category variant, the headline 2022-based household projection; 2022 local-authority
+      boundaries.
+- record_set_id: ons.household_projections_2022_based.2033
+  provenance_class: model_output
+  record_set_spec_id: ons.household_projections_2022_based.2033.v1
+  source_record_id_prefix: ons.household_projections_2022_based.2033
+  sheet_name: Table 406
+  period_type: calendar_year
+  period: 2033
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: household
+  entity_role: private_household
+  domain: household_count
+  groupby_dimension: geography
+  rows: *id001
+  measures:
+  - measure_id: ons_households_projected
+    label: Projected households
+    ordinal: 0
+    column: N
+    source_column_id: '2033'
+    concept: ons.households_projected
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 4
+    expected_column_header: 2033
+  assertion: source_projection
+  period_coverage:
+    start_date: '2033-06-30'
+    end_date: '2033-06-30'
+    basis: projection_horizon
+    source_period_label: mid-2033
+    notes: ONS migration-category variant, the headline 2022-based household projection; 2022 local-authority
+      boundaries.
+- record_set_id: ons.household_projections_2022_based.2034
+  provenance_class: model_output
+  record_set_spec_id: ons.household_projections_2022_based.2034.v1
+  source_record_id_prefix: ons.household_projections_2022_based.2034
+  sheet_name: Table 406
+  period_type: calendar_year
+  period: 2034
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: household
+  entity_role: private_household
+  domain: household_count
+  groupby_dimension: geography
+  rows: *id001
+  measures:
+  - measure_id: ons_households_projected
+    label: Projected households
+    ordinal: 0
+    column: O
+    source_column_id: '2034'
+    concept: ons.households_projected
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 4
+    expected_column_header: 2034
+  assertion: source_projection
+  period_coverage:
+    start_date: '2034-06-30'
+    end_date: '2034-06-30'
+    basis: projection_horizon
+    source_period_label: mid-2034
+    notes: ONS migration-category variant, the headline 2022-based household projection; 2022 local-authority
+      boundaries.
+- record_set_id: ons.household_projections_2022_based.2035
+  provenance_class: model_output
+  record_set_spec_id: ons.household_projections_2022_based.2035.v1
+  source_record_id_prefix: ons.household_projections_2022_based.2035
+  sheet_name: Table 406
+  period_type: calendar_year
+  period: 2035
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: household
+  entity_role: private_household
+  domain: household_count
+  groupby_dimension: geography
+  rows: *id001
+  measures:
+  - measure_id: ons_households_projected
+    label: Projected households
+    ordinal: 0
+    column: P
+    source_column_id: '2035'
+    concept: ons.households_projected
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 4
+    expected_column_header: 2035
+  assertion: source_projection
+  period_coverage:
+    start_date: '2035-06-30'
+    end_date: '2035-06-30'
+    basis: projection_horizon
+    source_period_label: mid-2035
+    notes: ONS migration-category variant, the headline 2022-based household projection; 2022 local-authority
+      boundaries.
+- record_set_id: ons.household_projections_2022_based.2036
+  provenance_class: model_output
+  record_set_spec_id: ons.household_projections_2022_based.2036.v1
+  source_record_id_prefix: ons.household_projections_2022_based.2036
+  sheet_name: Table 406
+  period_type: calendar_year
+  period: 2036
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: household
+  entity_role: private_household
+  domain: household_count
+  groupby_dimension: geography
+  rows: *id001
+  measures:
+  - measure_id: ons_households_projected
+    label: Projected households
+    ordinal: 0
+    column: Q
+    source_column_id: '2036'
+    concept: ons.households_projected
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 4
+    expected_column_header: 2036
+  assertion: source_projection
+  period_coverage:
+    start_date: '2036-06-30'
+    end_date: '2036-06-30'
+    basis: projection_horizon
+    source_period_label: mid-2036
+    notes: ONS migration-category variant, the headline 2022-based household projection; 2022 local-authority
+      boundaries.
+- record_set_id: ons.household_projections_2022_based.2037
+  provenance_class: model_output
+  record_set_spec_id: ons.household_projections_2022_based.2037.v1
+  source_record_id_prefix: ons.household_projections_2022_based.2037
+  sheet_name: Table 406
+  period_type: calendar_year
+  period: 2037
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: household
+  entity_role: private_household
+  domain: household_count
+  groupby_dimension: geography
+  rows: *id001
+  measures:
+  - measure_id: ons_households_projected
+    label: Projected households
+    ordinal: 0
+    column: R
+    source_column_id: '2037'
+    concept: ons.households_projected
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 4
+    expected_column_header: 2037
+  assertion: source_projection
+  period_coverage:
+    start_date: '2037-06-30'
+    end_date: '2037-06-30'
+    basis: projection_horizon
+    source_period_label: mid-2037
+    notes: ONS migration-category variant, the headline 2022-based household projection; 2022 local-authority
+      boundaries.
+- record_set_id: ons.household_projections_2022_based.2038
+  provenance_class: model_output
+  record_set_spec_id: ons.household_projections_2022_based.2038.v1
+  source_record_id_prefix: ons.household_projections_2022_based.2038
+  sheet_name: Table 406
+  period_type: calendar_year
+  period: 2038
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: household
+  entity_role: private_household
+  domain: household_count
+  groupby_dimension: geography
+  rows: *id001
+  measures:
+  - measure_id: ons_households_projected
+    label: Projected households
+    ordinal: 0
+    column: S
+    source_column_id: '2038'
+    concept: ons.households_projected
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 4
+    expected_column_header: 2038
+  assertion: source_projection
+  period_coverage:
+    start_date: '2038-06-30'
+    end_date: '2038-06-30'
+    basis: projection_horizon
+    source_period_label: mid-2038
+    notes: ONS migration-category variant, the headline 2022-based household projection; 2022 local-authority
+      boundaries.
+- record_set_id: ons.household_projections_2022_based.2039
+  provenance_class: model_output
+  record_set_spec_id: ons.household_projections_2022_based.2039.v1
+  source_record_id_prefix: ons.household_projections_2022_based.2039
+  sheet_name: Table 406
+  period_type: calendar_year
+  period: 2039
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: household
+  entity_role: private_household
+  domain: household_count
+  groupby_dimension: geography
+  rows: *id001
+  measures:
+  - measure_id: ons_households_projected
+    label: Projected households
+    ordinal: 0
+    column: T
+    source_column_id: '2039'
+    concept: ons.households_projected
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 4
+    expected_column_header: 2039
+  assertion: source_projection
+  period_coverage:
+    start_date: '2039-06-30'
+    end_date: '2039-06-30'
+    basis: projection_horizon
+    source_period_label: mid-2039
+    notes: ONS migration-category variant, the headline 2022-based household projection; 2022 local-authority
+      boundaries.
+- record_set_id: ons.household_projections_2022_based.2040
+  provenance_class: model_output
+  record_set_spec_id: ons.household_projections_2022_based.2040.v1
+  source_record_id_prefix: ons.household_projections_2022_based.2040
+  sheet_name: Table 406
+  period_type: calendar_year
+  period: 2040
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: household
+  entity_role: private_household
+  domain: household_count
+  groupby_dimension: geography
+  rows: *id001
+  measures:
+  - measure_id: ons_households_projected
+    label: Projected households
+    ordinal: 0
+    column: U
+    source_column_id: '2040'
+    concept: ons.households_projected
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 4
+    expected_column_header: 2040
+  assertion: source_projection
+  period_coverage:
+    start_date: '2040-06-30'
+    end_date: '2040-06-30'
+    basis: projection_horizon
+    source_period_label: mid-2040
+    notes: ONS migration-category variant, the headline 2022-based household projection; 2022 local-authority
+      boundaries.
+- record_set_id: ons.household_projections_2022_based.2041
+  provenance_class: model_output
+  record_set_spec_id: ons.household_projections_2022_based.2041.v1
+  source_record_id_prefix: ons.household_projections_2022_based.2041
+  sheet_name: Table 406
+  period_type: calendar_year
+  period: 2041
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: household
+  entity_role: private_household
+  domain: household_count
+  groupby_dimension: geography
+  rows: *id001
+  measures:
+  - measure_id: ons_households_projected
+    label: Projected households
+    ordinal: 0
+    column: V
+    source_column_id: '2041'
+    concept: ons.households_projected
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 4
+    expected_column_header: 2041
+  assertion: source_projection
+  period_coverage:
+    start_date: '2041-06-30'
+    end_date: '2041-06-30'
+    basis: projection_horizon
+    source_period_label: mid-2041
+    notes: ONS migration-category variant, the headline 2022-based household projection; 2022 local-authority
+      boundaries.
+- record_set_id: ons.household_projections_2022_based.2042
+  provenance_class: model_output
+  record_set_spec_id: ons.household_projections_2022_based.2042.v1
+  source_record_id_prefix: ons.household_projections_2022_based.2042
+  sheet_name: Table 406
+  period_type: calendar_year
+  period: 2042
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: household
+  entity_role: private_household
+  domain: household_count
+  groupby_dimension: geography
+  rows: *id001
+  measures:
+  - measure_id: ons_households_projected
+    label: Projected households
+    ordinal: 0
+    column: W
+    source_column_id: '2042'
+    concept: ons.households_projected
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 4
+    expected_column_header: 2042
+  assertion: source_projection
+  period_coverage:
+    start_date: '2042-06-30'
+    end_date: '2042-06-30'
+    basis: projection_horizon
+    source_period_label: mid-2042
+    notes: ONS migration-category variant, the headline 2022-based household projection; 2022 local-authority
+      boundaries.
+- record_set_id: ons.household_projections_2022_based.2043
+  provenance_class: model_output
+  record_set_spec_id: ons.household_projections_2022_based.2043.v1
+  source_record_id_prefix: ons.household_projections_2022_based.2043
+  sheet_name: Table 406
+  period_type: calendar_year
+  period: 2043
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: household
+  entity_role: private_household
+  domain: household_count
+  groupby_dimension: geography
+  rows: *id001
+  measures:
+  - measure_id: ons_households_projected
+    label: Projected households
+    ordinal: 0
+    column: X
+    source_column_id: '2043'
+    concept: ons.households_projected
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 4
+    expected_column_header: 2043
+  assertion: source_projection
+  period_coverage:
+    start_date: '2043-06-30'
+    end_date: '2043-06-30'
+    basis: projection_horizon
+    source_period_label: mid-2043
+    notes: ONS migration-category variant, the headline 2022-based household projection; 2022 local-authority
+      boundaries.
+- record_set_id: ons.household_projections_2022_based.2044
+  provenance_class: model_output
+  record_set_spec_id: ons.household_projections_2022_based.2044.v1
+  source_record_id_prefix: ons.household_projections_2022_based.2044
+  sheet_name: Table 406
+  period_type: calendar_year
+  period: 2044
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: household
+  entity_role: private_household
+  domain: household_count
+  groupby_dimension: geography
+  rows: *id001
+  measures:
+  - measure_id: ons_households_projected
+    label: Projected households
+    ordinal: 0
+    column: Y
+    source_column_id: '2044'
+    concept: ons.households_projected
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 4
+    expected_column_header: 2044
+  assertion: source_projection
+  period_coverage:
+    start_date: '2044-06-30'
+    end_date: '2044-06-30'
+    basis: projection_horizon
+    source_period_label: mid-2044
+    notes: ONS migration-category variant, the headline 2022-based household projection; 2022 local-authority
+      boundaries.
+- record_set_id: ons.household_projections_2022_based.2045
+  provenance_class: model_output
+  record_set_spec_id: ons.household_projections_2022_based.2045.v1
+  source_record_id_prefix: ons.household_projections_2022_based.2045
+  sheet_name: Table 406
+  period_type: calendar_year
+  period: 2045
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: household
+  entity_role: private_household
+  domain: household_count
+  groupby_dimension: geography
+  rows: *id001
+  measures:
+  - measure_id: ons_households_projected
+    label: Projected households
+    ordinal: 0
+    column: Z
+    source_column_id: '2045'
+    concept: ons.households_projected
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 4
+    expected_column_header: 2045
+  assertion: source_projection
+  period_coverage:
+    start_date: '2045-06-30'
+    end_date: '2045-06-30'
+    basis: projection_horizon
+    source_period_label: mid-2045
+    notes: ONS migration-category variant, the headline 2022-based household projection; 2022 local-authority
+      boundaries.
+- record_set_id: ons.household_projections_2022_based.2046
+  provenance_class: model_output
+  record_set_spec_id: ons.household_projections_2022_based.2046.v1
+  source_record_id_prefix: ons.household_projections_2022_based.2046
+  sheet_name: Table 406
+  period_type: calendar_year
+  period: 2046
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: household
+  entity_role: private_household
+  domain: household_count
+  groupby_dimension: geography
+  rows: *id001
+  measures:
+  - measure_id: ons_households_projected
+    label: Projected households
+    ordinal: 0
+    column: AA
+    source_column_id: '2046'
+    concept: ons.households_projected
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 4
+    expected_column_header: 2046
+  assertion: source_projection
+  period_coverage:
+    start_date: '2046-06-30'
+    end_date: '2046-06-30'
+    basis: projection_horizon
+    source_period_label: mid-2046
+    notes: ONS migration-category variant, the headline 2022-based household projection; 2022 local-authority
+      boundaries.
+- record_set_id: ons.household_projections_2022_based.2047
+  provenance_class: model_output
+  record_set_spec_id: ons.household_projections_2022_based.2047.v1
+  source_record_id_prefix: ons.household_projections_2022_based.2047
+  sheet_name: Table 406
+  period_type: calendar_year
+  period: 2047
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: household
+  entity_role: private_household
+  domain: household_count
+  groupby_dimension: geography
+  rows: *id001
+  measures:
+  - measure_id: ons_households_projected
+    label: Projected households
+    ordinal: 0
+    column: AB
+    source_column_id: '2047'
+    concept: ons.households_projected
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 4
+    expected_column_header: 2047
+  assertion: source_projection
+  period_coverage:
+    start_date: '2047-06-30'
+    end_date: '2047-06-30'
+    basis: projection_horizon
+    source_period_label: mid-2047
+    notes: ONS migration-category variant, the headline 2022-based household projection; 2022 local-authority
+      boundaries.

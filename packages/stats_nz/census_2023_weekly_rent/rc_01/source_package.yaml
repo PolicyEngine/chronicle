@@ -1,0 +1,732 @@
+# One publisher CSV row per fact; no arithmetic or aligned periods.
+# Empty confidentiality/status fields are required by selected_rows.
+schema_version: ledger.source_package.v1
+package_id: stats-nz-census-2023-weekly-rent-rc-01
+label: 'Stats NZ 2023 Census weekly rent: Northland Region'
+artifact:
+  source_name: stats_nz
+  source_table: '2023 Census Place summaries: weekly rent paid by households'
+  resource_package: db
+  resource_directory: data/stats_nz/census_2023_place_summaries
+  manifest: manifest-rc-01.yaml
+  vintage: place_summaries_capture_2026_10_10
+  extracted_at: '2026-10-10'
+  extraction_method: Complete unchanged CSV source-row preservation; guarded 2023 Count and table Median
+    selections
+  parser: delimited_text_full_rows
+  artifact_year: 2023
+  sheet_name: place_summaries_rc_01_weekly_rent
+  selected_rows:
+  - section_title: Weekly rent paid by households
+    section_type: ''
+    classification_label: Regional council
+    code: '1'
+    descriptor: Northland Region
+    period: '2023'
+    duration: Census
+    variable1_label: Weekly rent paid by household
+    variable1_code: '1'
+    variable1_descriptor: Under $200
+    variable2_label: ''
+    variable2_code: ''
+    variable2_descriptor: ''
+    value_type_description: Count
+    value_label: ''
+    decimals: '0'
+    confidentiality_indicator: ''
+    confidentiality_label: ''
+    final_indicator: ''
+    final_label: ''
+  - section_title: Weekly rent paid by households
+    section_type: ''
+    classification_label: Regional council
+    code: '1'
+    descriptor: Northland Region
+    period: '2023'
+    duration: Census
+    variable1_label: Weekly rent paid by household
+    variable1_code: '2'
+    variable1_descriptor: $200 - $299
+    variable2_label: ''
+    variable2_code: ''
+    variable2_descriptor: ''
+    value_type_description: Count
+    value_label: ''
+    decimals: '0'
+    confidentiality_indicator: ''
+    confidentiality_label: ''
+    final_indicator: ''
+    final_label: ''
+  - section_title: Weekly rent paid by households
+    section_type: ''
+    classification_label: Regional council
+    code: '1'
+    descriptor: Northland Region
+    period: '2023'
+    duration: Census
+    variable1_label: Weekly rent paid by household
+    variable1_code: '3'
+    variable1_descriptor: $300 - $399
+    variable2_label: ''
+    variable2_code: ''
+    variable2_descriptor: ''
+    value_type_description: Count
+    value_label: ''
+    decimals: '0'
+    confidentiality_indicator: ''
+    confidentiality_label: ''
+    final_indicator: ''
+    final_label: ''
+  - section_title: Weekly rent paid by households
+    section_type: ''
+    classification_label: Regional council
+    code: '1'
+    descriptor: Northland Region
+    period: '2023'
+    duration: Census
+    variable1_label: Weekly rent paid by household
+    variable1_code: '4'
+    variable1_descriptor: $400 - $499
+    variable2_label: ''
+    variable2_code: ''
+    variable2_descriptor: ''
+    value_type_description: Count
+    value_label: ''
+    decimals: '0'
+    confidentiality_indicator: ''
+    confidentiality_label: ''
+    final_indicator: ''
+    final_label: ''
+  - section_title: Weekly rent paid by households
+    section_type: ''
+    classification_label: Regional council
+    code: '1'
+    descriptor: Northland Region
+    period: '2023'
+    duration: Census
+    variable1_label: Weekly rent paid by household
+    variable1_code: '5'
+    variable1_descriptor: $500 - $599
+    variable2_label: ''
+    variable2_code: ''
+    variable2_descriptor: ''
+    value_type_description: Count
+    value_label: ''
+    decimals: '0'
+    confidentiality_indicator: ''
+    confidentiality_label: ''
+    final_indicator: ''
+    final_label: ''
+  - section_title: Weekly rent paid by households
+    section_type: ''
+    classification_label: Regional council
+    code: '1'
+    descriptor: Northland Region
+    period: '2023'
+    duration: Census
+    variable1_label: Weekly rent paid by household
+    variable1_code: '6'
+    variable1_descriptor: $600 - $699
+    variable2_label: ''
+    variable2_code: ''
+    variable2_descriptor: ''
+    value_type_description: Count
+    value_label: ''
+    decimals: '0'
+    confidentiality_indicator: ''
+    confidentiality_label: ''
+    final_indicator: ''
+    final_label: ''
+  - section_title: Weekly rent paid by households
+    section_type: ''
+    classification_label: Regional council
+    code: '1'
+    descriptor: Northland Region
+    period: '2023'
+    duration: Census
+    variable1_label: Weekly rent paid by household
+    variable1_code: '7'
+    variable1_descriptor: $700 - $799
+    variable2_label: ''
+    variable2_code: ''
+    variable2_descriptor: ''
+    value_type_description: Count
+    value_label: ''
+    decimals: '0'
+    confidentiality_indicator: ''
+    confidentiality_label: ''
+    final_indicator: ''
+    final_label: ''
+  - section_title: Weekly rent paid by households
+    section_type: ''
+    classification_label: Regional council
+    code: '1'
+    descriptor: Northland Region
+    period: '2023'
+    duration: Census
+    variable1_label: Weekly rent paid by household
+    variable1_code: '8'
+    variable1_descriptor: $800 and over
+    variable2_label: ''
+    variable2_code: ''
+    variable2_descriptor: ''
+    value_type_description: Count
+    value_label: ''
+    decimals: '0'
+    confidentiality_indicator: ''
+    confidentiality_label: ''
+    final_indicator: ''
+    final_label: ''
+  - section_title: Median weekly rent paid by households
+    section_type: ''
+    classification_label: Regional council
+    code: '1'
+    descriptor: Northland Region
+    period: '2023'
+    duration: Census
+    variable1_label: ''
+    variable1_code: ''
+    variable1_descriptor: ''
+    variable2_label: ''
+    variable2_code: ''
+    variable2_descriptor: ''
+    value_type_description: Median
+    value_label: dollars
+    decimals: '0'
+    confidentiality_indicator: ''
+    confidentiality_label: ''
+    final_indicator: ''
+    final_label: ''
+dimension_labels:
+  nz_census_2023.weekly_rent_source_label: Weekly rent paid by household
+  nz_census_2023.weekly_rent_statistic: Published weekly rent statistic
+record_sets:
+- record_set_id: stats_nz.census_2023.rc_01.weekly_rent
+  record_set_spec_id: stats_nz.census_2023.rc_01.weekly_rent.v1
+  source_record_id_prefix: stats_nz.census_2023.rc_01.weekly_rent
+  provenance_class: census
+  assertion: observation
+  sheet_name: place_summaries_rc_01_weekly_rent
+  period_type: calendar_year
+  period: 2023
+  period_coverage:
+    start_date: '2023-03-07'
+    end_date: '2023-03-07'
+    basis: calendar
+    source_period_label: 2023 Census
+    notes: Census night, 7 March 2023, the 2023 Census reference night (coverage 2023-03-07, chronicle#176).
+      The CSV labels the reference period 2023 and duration Census; it does not print the exact date.
+  geography_id: '01'
+  geography_level: region
+  geography_name: Northland Region
+  geography_vintage: unstated
+  entity: household
+  entity_role: census_household
+  domain: census_2023_household
+  groupby_dimension: nz_census_2023.weekly_rent_source_label
+  measures:
+  - measure_id: count
+    label: Count
+    ordinal: 0
+    column: O
+    source_column_id: value
+    concept: stats_nz.census_2023.household_count
+    source_concept: stats_nz.census_2023.household_count
+    concept_relation: source_label
+    concept_authority: stats_nz
+    concept_evidence_url: https://tools.summaries.stats.govt.nz/places/RC/northland-region
+    concept_evidence_notes: 'Direct publisher 2023 Census rows: eight Count rent bands and one published
+      Median weekly rent in NZ dollars at census date per place, scale 1; one CSV row per fact. The table
+      population is not stated in the product. National rows read the national file, never sums of regions
+      or bands. Median is read directly, never derived. Percent rows, 2013/2018, Māori-ethnic-group sections
+      and the duplicate Quick stats median remain preserved but emit no facts. Regional boundary vintage
+      and rounding policy are unstated. No reconciliation, aging, imputation, shares, interpolation or
+      consumer target construction.'
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: value
+  rows:
+  - value_id: '1'
+    label: Under $200
+    ordinal: 0
+    row_number: 2
+    table_record_kind: detail
+    expected_row_header_column: J
+    expected_row_header: Under $200
+    guard_cells:
+    - column: A
+      expected_value: Weekly rent paid by households
+      label: Published section_title
+    - column: C
+      expected_value: Regional council
+      label: Published classification_label
+    - column: D
+      expected_value: '1'
+      label: Published code
+    - column: E
+      expected_value: Northland Region
+      label: Published descriptor
+    - column: F
+      expected_value: '2023'
+      label: Published period
+    - column: G
+      expected_value: Census
+      label: Published duration
+    - column: H
+      expected_value: Weekly rent paid by household
+      label: Published variable1_label
+    - column: I
+      expected_value: '1'
+      label: Published variable1_code
+    - column: J
+      expected_value: Under $200
+      label: Published variable1_descriptor
+    - column: N
+      expected_value: Count
+      label: Published value_type_description
+    - column: Q
+      expected_value: '0'
+      label: Published decimals
+    filters:
+      nz_census_2023.weekly_rent_source_label: '1'
+    constraints:
+    - variable: nz_census_2023.weekly_rent_source_label
+      operator: ==
+      value: '1'
+      label: Weekly rent paid by household
+    source_row_dimensions:
+      nz_census_2023.weekly_rent_source_label: '1'
+  - value_id: '2'
+    label: $200 - $299
+    ordinal: 1
+    row_number: 3
+    table_record_kind: detail
+    expected_row_header_column: J
+    expected_row_header: $200 - $299
+    guard_cells:
+    - column: A
+      expected_value: Weekly rent paid by households
+      label: Published section_title
+    - column: C
+      expected_value: Regional council
+      label: Published classification_label
+    - column: D
+      expected_value: '1'
+      label: Published code
+    - column: E
+      expected_value: Northland Region
+      label: Published descriptor
+    - column: F
+      expected_value: '2023'
+      label: Published period
+    - column: G
+      expected_value: Census
+      label: Published duration
+    - column: H
+      expected_value: Weekly rent paid by household
+      label: Published variable1_label
+    - column: I
+      expected_value: '2'
+      label: Published variable1_code
+    - column: J
+      expected_value: $200 - $299
+      label: Published variable1_descriptor
+    - column: N
+      expected_value: Count
+      label: Published value_type_description
+    - column: Q
+      expected_value: '0'
+      label: Published decimals
+    filters:
+      nz_census_2023.weekly_rent_source_label: '2'
+    constraints:
+    - variable: nz_census_2023.weekly_rent_source_label
+      operator: ==
+      value: '2'
+      label: Weekly rent paid by household
+    source_row_dimensions:
+      nz_census_2023.weekly_rent_source_label: '2'
+  - value_id: '3'
+    label: $300 - $399
+    ordinal: 2
+    row_number: 4
+    table_record_kind: detail
+    expected_row_header_column: J
+    expected_row_header: $300 - $399
+    guard_cells:
+    - column: A
+      expected_value: Weekly rent paid by households
+      label: Published section_title
+    - column: C
+      expected_value: Regional council
+      label: Published classification_label
+    - column: D
+      expected_value: '1'
+      label: Published code
+    - column: E
+      expected_value: Northland Region
+      label: Published descriptor
+    - column: F
+      expected_value: '2023'
+      label: Published period
+    - column: G
+      expected_value: Census
+      label: Published duration
+    - column: H
+      expected_value: Weekly rent paid by household
+      label: Published variable1_label
+    - column: I
+      expected_value: '3'
+      label: Published variable1_code
+    - column: J
+      expected_value: $300 - $399
+      label: Published variable1_descriptor
+    - column: N
+      expected_value: Count
+      label: Published value_type_description
+    - column: Q
+      expected_value: '0'
+      label: Published decimals
+    filters:
+      nz_census_2023.weekly_rent_source_label: '3'
+    constraints:
+    - variable: nz_census_2023.weekly_rent_source_label
+      operator: ==
+      value: '3'
+      label: Weekly rent paid by household
+    source_row_dimensions:
+      nz_census_2023.weekly_rent_source_label: '3'
+  - value_id: '4'
+    label: $400 - $499
+    ordinal: 3
+    row_number: 5
+    table_record_kind: detail
+    expected_row_header_column: J
+    expected_row_header: $400 - $499
+    guard_cells:
+    - column: A
+      expected_value: Weekly rent paid by households
+      label: Published section_title
+    - column: C
+      expected_value: Regional council
+      label: Published classification_label
+    - column: D
+      expected_value: '1'
+      label: Published code
+    - column: E
+      expected_value: Northland Region
+      label: Published descriptor
+    - column: F
+      expected_value: '2023'
+      label: Published period
+    - column: G
+      expected_value: Census
+      label: Published duration
+    - column: H
+      expected_value: Weekly rent paid by household
+      label: Published variable1_label
+    - column: I
+      expected_value: '4'
+      label: Published variable1_code
+    - column: J
+      expected_value: $400 - $499
+      label: Published variable1_descriptor
+    - column: N
+      expected_value: Count
+      label: Published value_type_description
+    - column: Q
+      expected_value: '0'
+      label: Published decimals
+    filters:
+      nz_census_2023.weekly_rent_source_label: '4'
+    constraints:
+    - variable: nz_census_2023.weekly_rent_source_label
+      operator: ==
+      value: '4'
+      label: Weekly rent paid by household
+    source_row_dimensions:
+      nz_census_2023.weekly_rent_source_label: '4'
+  - value_id: '5'
+    label: $500 - $599
+    ordinal: 4
+    row_number: 6
+    table_record_kind: detail
+    expected_row_header_column: J
+    expected_row_header: $500 - $599
+    guard_cells:
+    - column: A
+      expected_value: Weekly rent paid by households
+      label: Published section_title
+    - column: C
+      expected_value: Regional council
+      label: Published classification_label
+    - column: D
+      expected_value: '1'
+      label: Published code
+    - column: E
+      expected_value: Northland Region
+      label: Published descriptor
+    - column: F
+      expected_value: '2023'
+      label: Published period
+    - column: G
+      expected_value: Census
+      label: Published duration
+    - column: H
+      expected_value: Weekly rent paid by household
+      label: Published variable1_label
+    - column: I
+      expected_value: '5'
+      label: Published variable1_code
+    - column: J
+      expected_value: $500 - $599
+      label: Published variable1_descriptor
+    - column: N
+      expected_value: Count
+      label: Published value_type_description
+    - column: Q
+      expected_value: '0'
+      label: Published decimals
+    filters:
+      nz_census_2023.weekly_rent_source_label: '5'
+    constraints:
+    - variable: nz_census_2023.weekly_rent_source_label
+      operator: ==
+      value: '5'
+      label: Weekly rent paid by household
+    source_row_dimensions:
+      nz_census_2023.weekly_rent_source_label: '5'
+  - value_id: '6'
+    label: $600 - $699
+    ordinal: 5
+    row_number: 7
+    table_record_kind: detail
+    expected_row_header_column: J
+    expected_row_header: $600 - $699
+    guard_cells:
+    - column: A
+      expected_value: Weekly rent paid by households
+      label: Published section_title
+    - column: C
+      expected_value: Regional council
+      label: Published classification_label
+    - column: D
+      expected_value: '1'
+      label: Published code
+    - column: E
+      expected_value: Northland Region
+      label: Published descriptor
+    - column: F
+      expected_value: '2023'
+      label: Published period
+    - column: G
+      expected_value: Census
+      label: Published duration
+    - column: H
+      expected_value: Weekly rent paid by household
+      label: Published variable1_label
+    - column: I
+      expected_value: '6'
+      label: Published variable1_code
+    - column: J
+      expected_value: $600 - $699
+      label: Published variable1_descriptor
+    - column: N
+      expected_value: Count
+      label: Published value_type_description
+    - column: Q
+      expected_value: '0'
+      label: Published decimals
+    filters:
+      nz_census_2023.weekly_rent_source_label: '6'
+    constraints:
+    - variable: nz_census_2023.weekly_rent_source_label
+      operator: ==
+      value: '6'
+      label: Weekly rent paid by household
+    source_row_dimensions:
+      nz_census_2023.weekly_rent_source_label: '6'
+  - value_id: '7'
+    label: $700 - $799
+    ordinal: 6
+    row_number: 8
+    table_record_kind: detail
+    expected_row_header_column: J
+    expected_row_header: $700 - $799
+    guard_cells:
+    - column: A
+      expected_value: Weekly rent paid by households
+      label: Published section_title
+    - column: C
+      expected_value: Regional council
+      label: Published classification_label
+    - column: D
+      expected_value: '1'
+      label: Published code
+    - column: E
+      expected_value: Northland Region
+      label: Published descriptor
+    - column: F
+      expected_value: '2023'
+      label: Published period
+    - column: G
+      expected_value: Census
+      label: Published duration
+    - column: H
+      expected_value: Weekly rent paid by household
+      label: Published variable1_label
+    - column: I
+      expected_value: '7'
+      label: Published variable1_code
+    - column: J
+      expected_value: $700 - $799
+      label: Published variable1_descriptor
+    - column: N
+      expected_value: Count
+      label: Published value_type_description
+    - column: Q
+      expected_value: '0'
+      label: Published decimals
+    filters:
+      nz_census_2023.weekly_rent_source_label: '7'
+    constraints:
+    - variable: nz_census_2023.weekly_rent_source_label
+      operator: ==
+      value: '7'
+      label: Weekly rent paid by household
+    source_row_dimensions:
+      nz_census_2023.weekly_rent_source_label: '7'
+  - value_id: '8'
+    label: $800 and over
+    ordinal: 7
+    row_number: 9
+    table_record_kind: detail
+    expected_row_header_column: J
+    expected_row_header: $800 and over
+    guard_cells:
+    - column: A
+      expected_value: Weekly rent paid by households
+      label: Published section_title
+    - column: C
+      expected_value: Regional council
+      label: Published classification_label
+    - column: D
+      expected_value: '1'
+      label: Published code
+    - column: E
+      expected_value: Northland Region
+      label: Published descriptor
+    - column: F
+      expected_value: '2023'
+      label: Published period
+    - column: G
+      expected_value: Census
+      label: Published duration
+    - column: H
+      expected_value: Weekly rent paid by household
+      label: Published variable1_label
+    - column: I
+      expected_value: '8'
+      label: Published variable1_code
+    - column: J
+      expected_value: $800 and over
+      label: Published variable1_descriptor
+    - column: N
+      expected_value: Count
+      label: Published value_type_description
+    - column: Q
+      expected_value: '0'
+      label: Published decimals
+    filters:
+      nz_census_2023.weekly_rent_source_label: '8'
+    constraints:
+    - variable: nz_census_2023.weekly_rent_source_label
+      operator: ==
+      value: '8'
+      label: Weekly rent paid by household
+    source_row_dimensions:
+      nz_census_2023.weekly_rent_source_label: '8'
+- record_set_id: stats_nz.census_2023.rc_01.median_weekly_rent
+  record_set_spec_id: stats_nz.census_2023.rc_01.median_weekly_rent.v1
+  source_record_id_prefix: stats_nz.census_2023.rc_01.median_weekly_rent
+  provenance_class: census
+  assertion: observation
+  sheet_name: place_summaries_rc_01_weekly_rent
+  period_type: calendar_year
+  period: 2023
+  period_coverage:
+    start_date: '2023-03-07'
+    end_date: '2023-03-07'
+    basis: calendar
+    source_period_label: 2023 Census
+    notes: Census night, 7 March 2023, the 2023 Census reference night (coverage 2023-03-07, chronicle#176).
+      The CSV labels the reference period 2023 and duration Census; it does not print the exact date.
+  geography_id: '01'
+  geography_level: region
+  geography_name: Northland Region
+  geography_vintage: unstated
+  entity: household
+  entity_role: census_household
+  domain: census_2023_household
+  groupby_dimension: nz_census_2023.weekly_rent_statistic
+  measures:
+  - measure_id: median
+    label: Median
+    ordinal: 0
+    column: O
+    source_column_id: value
+    concept: stats_nz.census_2023.median_weekly_rent
+    source_concept: stats_nz.census_2023.median_weekly_rent
+    concept_relation: source_label
+    concept_authority: stats_nz
+    concept_evidence_url: https://tools.summaries.stats.govt.nz/places/RC/northland-region
+    concept_evidence_notes: 'Direct publisher 2023 Census rows: eight Count rent bands and one published
+      Median weekly rent in NZ dollars at census date per place, scale 1; one CSV row per fact. The table
+      population is not stated in the product. National rows read the national file, never sums of regions
+      or bands. Median is read directly, never derived. Percent rows, 2013/2018, Māori-ethnic-group sections
+      and the duplicate Quick stats median remain preserved but emit no facts. Regional boundary vintage
+      and rounding policy are unstated. No reconciliation, aging, imputation, shares, interpolation or
+      consumer target construction.'
+    unit: nzd_per_week
+    aggregation: median
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: value
+  rows:
+  - value_id: median
+    label: Median weekly rent paid by households
+    ordinal: 0
+    row_number: 10
+    table_record_kind: total
+    expected_row_header_column: A
+    expected_row_header: Median weekly rent paid by households
+    guard_cells:
+    - column: A
+      expected_value: Median weekly rent paid by households
+      label: Published section_title
+    - column: C
+      expected_value: Regional council
+      label: Published classification_label
+    - column: D
+      expected_value: '1'
+      label: Published code
+    - column: E
+      expected_value: Northland Region
+      label: Published descriptor
+    - column: F
+      expected_value: '2023'
+      label: Published period
+    - column: G
+      expected_value: Census
+      label: Published duration
+    - column: N
+      expected_value: Median
+      label: Published value_type_description
+    - column: P
+      expected_value: dollars
+      label: Published value_label
+    - column: Q
+      expected_value: '0'
+      label: Published decimals

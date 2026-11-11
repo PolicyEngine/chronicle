@@ -1,0 +1,22 @@
+source_id: voa
+package_id: voa-shadow-list-of-rents-april-2026
+dataset: voa_voa-shadow-list-of-rents-april-2026
+source_page: https://www.gov.uk/government/publications/shadow-list-of-rents-april-2026-collated-1st-october-2024-30th-september-2025
+table: shadow_list_of_rents_april_2026
+files:
+  2026:
+    filename: Shadow_List_of_Rents_April_2026.csv
+    source_url: https://assets.publishing.service.gov.uk/media/69c136e27e02b81c0d1c7652/Shadow_List_of_Rents_April_2026.csv
+    sha256: 4ed4e12b2307a339545271dea3f4d5805cf25cdcb6f757d2f9dfa3c3fe22edbc
+    size_bytes: 16325555
+    fetched_at: '2026-10-07T13:34:59+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/voa/voa-shadow-list-of-rents-april-2026/2026/4ed4e12b2307a339545271dea3f4d5805cf25cdcb6f757d2f9dfa3c3fe22edbc/Shadow_List_of_Rents_April_2026.csv
+        uri: r2://ledger-raw/raw/uk/voa/voa-shadow-list-of-rents-april-2026/2026/4ed4e12b2307a339545271dea3f4d5805cf25cdcb6f757d2f9dfa3c3fe22edbc/Shadow_List_of_Rents_April_2026.csv
+registration_kind: raw_only
+provenance_notes: VOA rent-officer evidence, 1 October 2024 to 30 September 2025.
+  Weekly net rents as published, 502,239 records, 152 BRMAs, LHA categories A-E. These
+  are new/renewal rents in payment, not LHA rates. PERIOD remains a source field.

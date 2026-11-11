@@ -1,0 +1,19 @@
+source_id: ons
+package_id: ons-census2021-ur-hh-age101-sex-ctry
+dataset: ons_ons-census2021-ur-hh-age101-sex-ctry
+source_page: https://www.ons.gov.uk/datasets/create
+table: 'ONS Census 2021 custom dataset: UR_HH by resident_age_101a,sex, area type
+  ctry (Census API census-observations)'
+files:
+  2021:
+    filename: census2021_ur_hh_ctry_resident_age_101a_sex.json
+    source_url: https://api.beta.ons.gov.uk/v1/population-types/UR_HH/census-observations?area-type=ctry&dimensions=resident_age_101a,sex
+    sha256: a62ae5ba666195352cfe7f0ffe8452fd5cf618f6fa8a97a2999d172f797d48f0
+    size_bytes: 133629
+    fetched_at: '2026-10-15T10:34:13+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/ons/ons-census2021-ur-hh-age101-sex-ctry/2021/a62ae5ba666195352cfe7f0ffe8452fd5cf618f6fa8a97a2999d172f797d48f0/census2021_ur_hh_ctry_resident_age_101a_sex.json
+        uri: r2://ledger-raw/raw/uk/ons/ons-census2021-ur-hh-age101-sex-ctry/2021/a62ae5ba666195352cfe7f0ffe8452fd5cf618f6fa8a97a2999d172f797d48f0/census2021_ur_hh_ctry_resident_age_101a_sex.json

@@ -1,0 +1,140 @@
+{
+  "objectIdFieldName" : "OBJECTID", 
+  "uniqueIdField" : 
+  {
+    "name" : "OBJECTID", 
+    "isSystemMaintained" : true
+  }, 
+  "globalIdFieldName" : "", 
+  "geometryType" : "esriGeometryPolygon", 
+  "spatialReference" : {
+    "wkid" : 2193, 
+    "latestWkid" : 2193
+  }, 
+  "fields" : [
+    {
+      "name" : "REGC2025_V1_00", 
+      "type" : "esriFieldTypeString", 
+      "alias" : "Regional Council Code", 
+      "sqlType" : "sqlTypeOther", 
+      "length" : 2, 
+      "domain" : null, 
+      "defaultValue" : null, 
+      "description" : "{\"value\":\"Regional Council unique identifier\",\"fieldValueType\":\"uniqueIdentifier\"}"
+    }, 
+    {
+      "name" : "REGC2025_V1_00_NAME", 
+      "type" : "esriFieldTypeString", 
+      "alias" : "Regional Council Name", 
+      "sqlType" : "sqlTypeOther", 
+      "length" : 254, 
+      "domain" : null, 
+      "defaultValue" : null, 
+      "description" : "{\"value\":\"Regional Council name (supports macrons)\",\"fieldValueType\":\"nameOrTitle\"}"
+    }
+  ], 
+  "features" : [
+    {
+      "attributes" : {
+        "REGC2025_V1_00" : "01", 
+        "REGC2025_V1_00_NAME" : "Northland Region"
+      }
+    }, 
+    {
+      "attributes" : {
+        "REGC2025_V1_00" : "02", 
+        "REGC2025_V1_00_NAME" : "Auckland"
+      }
+    }, 
+    {
+      "attributes" : {
+        "REGC2025_V1_00" : "03", 
+        "REGC2025_V1_00_NAME" : "Waikato Region"
+      }
+    }, 
+    {
+      "attributes" : {
+        "REGC2025_V1_00" : "04", 
+        "REGC2025_V1_00_NAME" : "Bay of Plenty Region"
+      }
+    }, 
+    {
+      "attributes" : {
+        "REGC2025_V1_00" : "05", 
+        "REGC2025_V1_00_NAME" : "Gisborne Region"
+      }
+    }, 
+    {
+      "attributes" : {
+        "REGC2025_V1_00" : "06", 
+        "REGC2025_V1_00_NAME" : "Hawke's Bay Region"
+      }
+    }, 
+    {
+      "attributes" : {
+        "REGC2025_V1_00" : "07", 
+        "REGC2025_V1_00_NAME" : "Taranaki Region"
+      }
+    }, 
+    {
+      "attributes" : {
+        "REGC2025_V1_00" : "08", 
+        "REGC2025_V1_00_NAME" : "Manawatū-Whanganui Region"
+      }
+    }, 
+    {
+      "attributes" : {
+        "REGC2025_V1_00" : "09", 
+        "REGC2025_V1_00_NAME" : "Wellington Region"
+      }
+    }, 
+    {
+      "attributes" : {
+        "REGC2025_V1_00" : "12", 
+        "REGC2025_V1_00_NAME" : "West Coast Region"
+      }
+    }, 
+    {
+      "attributes" : {
+        "REGC2025_V1_00" : "13", 
+        "REGC2025_V1_00_NAME" : "Canterbury Region"
+      }
+    }, 
+    {
+      "attributes" : {
+        "REGC2025_V1_00" : "14", 
+        "REGC2025_V1_00_NAME" : "Otago Region"
+      }
+    }, 
+    {
+      "attributes" : {
+        "REGC2025_V1_00" : "15", 
+        "REGC2025_V1_00_NAME" : "Southland Region"
+      }
+    }, 
+    {
+      "attributes" : {
+        "REGC2025_V1_00" : "16", 
+        "REGC2025_V1_00_NAME" : "Tasman Region"
+      }
+    }, 
+    {
+      "attributes" : {
+        "REGC2025_V1_00" : "17", 
+        "REGC2025_V1_00_NAME" : "Nelson Region"
+      }
+    }, 
+    {
+      "attributes" : {
+        "REGC2025_V1_00" : "18", 
+        "REGC2025_V1_00_NAME" : "Marlborough Region"
+      }
+    }, 
+    {
+      "attributes" : {
+        "REGC2025_V1_00" : "99", 
+        "REGC2025_V1_00_NAME" : "Area Outside Region"
+      }
+    }
+  ]
+}

@@ -1,0 +1,685 @@
+schema_version: ledger.source_package.v1
+package_id: stats-nz-qes-average-weekly-earnings-june-2025
+label: Stats NZ QES all-sector average weekly earnings per FTE, June 2025 vintage
+dimension_labels:
+  earnings_sector: QES sector
+  earnings_series_reference: QES series reference
+  earnings_component: Earnings component
+  earnings_denominator: QES earnings denominator
+  seasonal_adjustment: Seasonal adjustment
+dimension_value_labels:
+  earnings_sector:
+    all_sectors: All sectors
+  earnings_denominator:
+    fte: Full-time equivalent employees (FTEs)
+  seasonal_adjustment:
+    actual: Actual (not seasonally adjusted)
+  earnings_series_reference:
+    QEMQ.SBSZ9A: QEMQ.SBSZ9A — all-sector ordinary-time average weekly earnings per FTE, actual (not
+      seasonally adjusted)
+    QEMQ.SBSZ9Z: QEMQ.SBSZ9Z — all-sector total average weekly earnings per FTE, actual (not seasonally
+      adjusted)
+  earnings_component:
+    ordinary_time: Ordinary time
+    total: Total (ordinary time and overtime)
+artifact:
+  source_name: stats_nz
+  source_table: 'Quarterly Employment Survey June 2025 quarter, Table 7: Average weekly earnings for
+    FTEs, by sector'
+  resource_package: db
+  resource_directory: data/stats_nz/qes_average_weekly_earnings_june_2025
+  manifest: manifest.yaml
+  vintage: stats_nz_qes_june_2025
+  extracted_at: '2026-10-22'
+  extraction_method: Full XLSX used-range preservation; direct Table 7 published level cells only
+  parser: xlsx_used_range
+  artifact_year: 2025
+record_sets:
+- record_set_id: stats_nz.qes.awe.2023q2
+  provenance_class: survey_aggregate
+  survey_instrument: Quarterly Employment Survey (QES)
+  assertion: observation
+  record_set_spec_id: stats_nz.qes.awe.2023q2.v1
+  source_record_id_prefix: stats_nz.qes.awe.2023q2
+  sheet_name: Table 7
+  period_type: quarter
+  period: 2023-Q2
+  period_coverage:
+    start_date: '2023-04-01'
+    end_date: '2023-06-30'
+    basis: calendar
+    source_period_label: Jun 2023 quarter
+    notes: QES reference period is the pay week ending on or before the 20th of the quarter’s middle
+      month (hub-supplied source-period definition); the fact period is the published quarter, not
+      the pay week. Actual, not seasonally adjusted. No annual averaging or period alignment.
+  geography_id: NZ
+  geography_level: country
+  geography_name: New Zealand
+  geography_vintage: current
+  entity: person
+  entity_role: full_time_equivalent_employee
+  domain: employment_earnings
+  groupby_dimension: earnings_sector
+  shared_filters:
+    earnings_denominator: fte
+    seasonal_adjustment: actual
+    earnings_sector: all_sectors
+  rows:
+  - value_id: all_sectors
+    label: All sectors
+    ordinal: 0
+    row_number: 13
+    table_record_kind: detail
+    expected_row_header_column: C
+    expected_row_header: Jun
+    guard_cells:
+    - column: A
+      row: 1
+      expected_value: Table 7
+      label: Source table
+    - column: A
+      row: 3
+      expected_value: Average weekly earnings for FTEs(1)
+      label: FTE earnings measure
+    - column: A
+      row: 4
+      expected_value: By sector
+      label: Sector breakdown
+    - column: A
+      row: 8
+      expected_value: 'Series ref: QEMQ'
+      label: Series reference prefix
+    - column: A
+      row: 10
+      expected_value: ($)
+      label: Published dollar unit
+    - column: A
+      row: 12
+      expected_value: Quarter
+      label: Quarter level block
+    - column: P
+      row: 6
+      expected_value: Total
+      label: All-sector column group
+    - column: P
+      row: 7
+      expected_value: Ordinary time
+      label: Ordinary-time component
+    - column: T
+      row: 7
+      expected_value: Total
+      label: Total component
+    - column: B
+      row: 49
+      expected_value: Average weekly earnings are calculated by dividing earnings by the number of
+        FTEs.
+      label: FTE denominator footnote
+    - column: A
+      row: 13
+      expected_value: '2023'
+      label: Workbook vintage first level year
+  measures:
+  - measure_id: SBSZ9A
+    label: QEMQ.SBSZ9A — all-sector ordinary-time average weekly earnings per FTE, actual (not seasonally
+      adjusted)
+    ordinal: 0
+    column: P
+    source_column_id: SBSZ9A
+    concept: stats_nz.qes.average_weekly_earnings.ordinary_time
+    source_concept: stats_nz.qes.average_weekly_earnings.ordinary_time
+    concept_relation: source_label
+    concept_authority: stats_nz
+    concept_evidence_url: https://www.stats.govt.nz/information-releases/labour-market-statistics-june-2025-quarter/
+    concept_evidence_notes: 'Table 7 publishes all-sector ordinary time average weekly earnings for
+      FTEs, series QEMQ.SBSZ9A. Footnote 1: Average weekly earnings are calculated by dividing earnings
+      by the number of FTEs. Actual (not seasonally adjusted); one unchanged published level cell
+      per fact.'
+    unit: nzd_per_week
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 8
+    expected_column_header: SBSZ9A
+    filters:
+      earnings_series_reference: QEMQ.SBSZ9A
+      earnings_component: ordinary_time
+    constraints:
+    - variable: earnings_series_reference
+      operator: ==
+      value: QEMQ.SBSZ9A
+      label: QES series reference
+    - variable: earnings_component
+      operator: ==
+      value: ordinary_time
+      label: Earnings component
+  - measure_id: SBSZ9Z
+    label: QEMQ.SBSZ9Z — all-sector total average weekly earnings per FTE, actual (not seasonally
+      adjusted)
+    ordinal: 1
+    column: T
+    source_column_id: SBSZ9Z
+    concept: stats_nz.qes.average_weekly_earnings.total
+    source_concept: stats_nz.qes.average_weekly_earnings.total
+    concept_relation: source_label
+    concept_authority: stats_nz
+    concept_evidence_url: https://www.stats.govt.nz/information-releases/labour-market-statistics-june-2025-quarter/
+    concept_evidence_notes: 'Table 7 publishes all-sector total average weekly earnings for FTEs,
+      series QEMQ.SBSZ9Z. Footnote 1: Average weekly earnings are calculated by dividing earnings
+      by the number of FTEs. Actual (not seasonally adjusted); one unchanged published level cell
+      per fact.'
+    unit: nzd_per_week
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 8
+    expected_column_header: SBSZ9Z
+    filters:
+      earnings_series_reference: QEMQ.SBSZ9Z
+      earnings_component: total
+    constraints:
+    - variable: earnings_series_reference
+      operator: ==
+      value: QEMQ.SBSZ9Z
+      label: QES series reference
+    - variable: earnings_component
+      operator: ==
+      value: total
+      label: Earnings component
+  shared_constraints:
+  - variable: earnings_denominator
+    operator: ==
+    value: fte
+    label: QES earnings denominator
+  - variable: seasonal_adjustment
+    operator: ==
+    value: actual
+    label: QES adjustment status
+  - variable: earnings_sector
+    operator: ==
+    value: all_sectors
+    label: QES sector
+- record_set_id: stats_nz.qes.awe.2023q3
+  provenance_class: survey_aggregate
+  survey_instrument: Quarterly Employment Survey (QES)
+  assertion: observation
+  record_set_spec_id: stats_nz.qes.awe.2023q3.v1
+  source_record_id_prefix: stats_nz.qes.awe.2023q3
+  sheet_name: Table 7
+  period_type: quarter
+  period: 2023-Q3
+  period_coverage:
+    start_date: '2023-07-01'
+    end_date: '2023-09-30'
+    basis: calendar
+    source_period_label: Sep 2023 quarter
+    notes: QES reference period is the pay week ending on or before the 20th of the quarter’s middle
+      month (hub-supplied source-period definition); the fact period is the published quarter, not
+      the pay week. Actual, not seasonally adjusted. No annual averaging or period alignment.
+  geography_id: NZ
+  geography_level: country
+  geography_name: New Zealand
+  geography_vintage: current
+  entity: person
+  entity_role: full_time_equivalent_employee
+  domain: employment_earnings
+  groupby_dimension: earnings_sector
+  shared_filters:
+    earnings_denominator: fte
+    seasonal_adjustment: actual
+    earnings_sector: all_sectors
+  rows:
+  - value_id: all_sectors
+    label: All sectors
+    ordinal: 0
+    row_number: 14
+    table_record_kind: detail
+    expected_row_header_column: C
+    expected_row_header: Sep
+    guard_cells:
+    - column: A
+      row: 1
+      expected_value: Table 7
+      label: Source table
+    - column: A
+      row: 3
+      expected_value: Average weekly earnings for FTEs(1)
+      label: FTE earnings measure
+    - column: A
+      row: 4
+      expected_value: By sector
+      label: Sector breakdown
+    - column: A
+      row: 8
+      expected_value: 'Series ref: QEMQ'
+      label: Series reference prefix
+    - column: A
+      row: 10
+      expected_value: ($)
+      label: Published dollar unit
+    - column: A
+      row: 12
+      expected_value: Quarter
+      label: Quarter level block
+    - column: P
+      row: 6
+      expected_value: Total
+      label: All-sector column group
+    - column: P
+      row: 7
+      expected_value: Ordinary time
+      label: Ordinary-time component
+    - column: T
+      row: 7
+      expected_value: Total
+      label: Total component
+    - column: B
+      row: 49
+      expected_value: Average weekly earnings are calculated by dividing earnings by the number of
+        FTEs.
+      label: FTE denominator footnote
+    - column: A
+      row: 13
+      expected_value: '2023'
+      label: Workbook vintage first level year
+  measures:
+  - measure_id: SBSZ9A
+    label: QEMQ.SBSZ9A — all-sector ordinary-time average weekly earnings per FTE, actual (not seasonally
+      adjusted)
+    ordinal: 0
+    column: P
+    source_column_id: SBSZ9A
+    concept: stats_nz.qes.average_weekly_earnings.ordinary_time
+    source_concept: stats_nz.qes.average_weekly_earnings.ordinary_time
+    concept_relation: source_label
+    concept_authority: stats_nz
+    concept_evidence_url: https://www.stats.govt.nz/information-releases/labour-market-statistics-june-2025-quarter/
+    concept_evidence_notes: 'Table 7 publishes all-sector ordinary time average weekly earnings for
+      FTEs, series QEMQ.SBSZ9A. Footnote 1: Average weekly earnings are calculated by dividing earnings
+      by the number of FTEs. Actual (not seasonally adjusted); one unchanged published level cell
+      per fact.'
+    unit: nzd_per_week
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 8
+    expected_column_header: SBSZ9A
+    filters:
+      earnings_series_reference: QEMQ.SBSZ9A
+      earnings_component: ordinary_time
+    constraints:
+    - variable: earnings_series_reference
+      operator: ==
+      value: QEMQ.SBSZ9A
+      label: QES series reference
+    - variable: earnings_component
+      operator: ==
+      value: ordinary_time
+      label: Earnings component
+  - measure_id: SBSZ9Z
+    label: QEMQ.SBSZ9Z — all-sector total average weekly earnings per FTE, actual (not seasonally
+      adjusted)
+    ordinal: 1
+    column: T
+    source_column_id: SBSZ9Z
+    concept: stats_nz.qes.average_weekly_earnings.total
+    source_concept: stats_nz.qes.average_weekly_earnings.total
+    concept_relation: source_label
+    concept_authority: stats_nz
+    concept_evidence_url: https://www.stats.govt.nz/information-releases/labour-market-statistics-june-2025-quarter/
+    concept_evidence_notes: 'Table 7 publishes all-sector total average weekly earnings for FTEs,
+      series QEMQ.SBSZ9Z. Footnote 1: Average weekly earnings are calculated by dividing earnings
+      by the number of FTEs. Actual (not seasonally adjusted); one unchanged published level cell
+      per fact.'
+    unit: nzd_per_week
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 8
+    expected_column_header: SBSZ9Z
+    filters:
+      earnings_series_reference: QEMQ.SBSZ9Z
+      earnings_component: total
+    constraints:
+    - variable: earnings_series_reference
+      operator: ==
+      value: QEMQ.SBSZ9Z
+      label: QES series reference
+    - variable: earnings_component
+      operator: ==
+      value: total
+      label: Earnings component
+  shared_constraints:
+  - variable: earnings_denominator
+    operator: ==
+    value: fte
+    label: QES earnings denominator
+  - variable: seasonal_adjustment
+    operator: ==
+    value: actual
+    label: QES adjustment status
+  - variable: earnings_sector
+    operator: ==
+    value: all_sectors
+    label: QES sector
+- record_set_id: stats_nz.qes.awe.2023q4
+  provenance_class: survey_aggregate
+  survey_instrument: Quarterly Employment Survey (QES)
+  assertion: observation
+  record_set_spec_id: stats_nz.qes.awe.2023q4.v1
+  source_record_id_prefix: stats_nz.qes.awe.2023q4
+  sheet_name: Table 7
+  period_type: quarter
+  period: 2023-Q4
+  period_coverage:
+    start_date: '2023-10-01'
+    end_date: '2023-12-31'
+    basis: calendar
+    source_period_label: Dec 2023 quarter
+    notes: QES reference period is the pay week ending on or before the 20th of the quarter’s middle
+      month (hub-supplied source-period definition); the fact period is the published quarter, not
+      the pay week. Actual, not seasonally adjusted. No annual averaging or period alignment.
+  geography_id: NZ
+  geography_level: country
+  geography_name: New Zealand
+  geography_vintage: current
+  entity: person
+  entity_role: full_time_equivalent_employee
+  domain: employment_earnings
+  groupby_dimension: earnings_sector
+  shared_filters:
+    earnings_denominator: fte
+    seasonal_adjustment: actual
+    earnings_sector: all_sectors
+  rows:
+  - value_id: all_sectors
+    label: All sectors
+    ordinal: 0
+    row_number: 15
+    table_record_kind: detail
+    expected_row_header_column: C
+    expected_row_header: Dec
+    guard_cells:
+    - column: A
+      row: 1
+      expected_value: Table 7
+      label: Source table
+    - column: A
+      row: 3
+      expected_value: Average weekly earnings for FTEs(1)
+      label: FTE earnings measure
+    - column: A
+      row: 4
+      expected_value: By sector
+      label: Sector breakdown
+    - column: A
+      row: 8
+      expected_value: 'Series ref: QEMQ'
+      label: Series reference prefix
+    - column: A
+      row: 10
+      expected_value: ($)
+      label: Published dollar unit
+    - column: A
+      row: 12
+      expected_value: Quarter
+      label: Quarter level block
+    - column: P
+      row: 6
+      expected_value: Total
+      label: All-sector column group
+    - column: P
+      row: 7
+      expected_value: Ordinary time
+      label: Ordinary-time component
+    - column: T
+      row: 7
+      expected_value: Total
+      label: Total component
+    - column: B
+      row: 49
+      expected_value: Average weekly earnings are calculated by dividing earnings by the number of
+        FTEs.
+      label: FTE denominator footnote
+    - column: A
+      row: 13
+      expected_value: '2023'
+      label: Workbook vintage first level year
+  measures:
+  - measure_id: SBSZ9A
+    label: QEMQ.SBSZ9A — all-sector ordinary-time average weekly earnings per FTE, actual (not seasonally
+      adjusted)
+    ordinal: 0
+    column: P
+    source_column_id: SBSZ9A
+    concept: stats_nz.qes.average_weekly_earnings.ordinary_time
+    source_concept: stats_nz.qes.average_weekly_earnings.ordinary_time
+    concept_relation: source_label
+    concept_authority: stats_nz
+    concept_evidence_url: https://www.stats.govt.nz/information-releases/labour-market-statistics-june-2025-quarter/
+    concept_evidence_notes: 'Table 7 publishes all-sector ordinary time average weekly earnings for
+      FTEs, series QEMQ.SBSZ9A. Footnote 1: Average weekly earnings are calculated by dividing earnings
+      by the number of FTEs. Actual (not seasonally adjusted); one unchanged published level cell
+      per fact.'
+    unit: nzd_per_week
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 8
+    expected_column_header: SBSZ9A
+    filters:
+      earnings_series_reference: QEMQ.SBSZ9A
+      earnings_component: ordinary_time
+    constraints:
+    - variable: earnings_series_reference
+      operator: ==
+      value: QEMQ.SBSZ9A
+      label: QES series reference
+    - variable: earnings_component
+      operator: ==
+      value: ordinary_time
+      label: Earnings component
+  - measure_id: SBSZ9Z
+    label: QEMQ.SBSZ9Z — all-sector total average weekly earnings per FTE, actual (not seasonally
+      adjusted)
+    ordinal: 1
+    column: T
+    source_column_id: SBSZ9Z
+    concept: stats_nz.qes.average_weekly_earnings.total
+    source_concept: stats_nz.qes.average_weekly_earnings.total
+    concept_relation: source_label
+    concept_authority: stats_nz
+    concept_evidence_url: https://www.stats.govt.nz/information-releases/labour-market-statistics-june-2025-quarter/
+    concept_evidence_notes: 'Table 7 publishes all-sector total average weekly earnings for FTEs,
+      series QEMQ.SBSZ9Z. Footnote 1: Average weekly earnings are calculated by dividing earnings
+      by the number of FTEs. Actual (not seasonally adjusted); one unchanged published level cell
+      per fact.'
+    unit: nzd_per_week
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 8
+    expected_column_header: SBSZ9Z
+    filters:
+      earnings_series_reference: QEMQ.SBSZ9Z
+      earnings_component: total
+    constraints:
+    - variable: earnings_series_reference
+      operator: ==
+      value: QEMQ.SBSZ9Z
+      label: QES series reference
+    - variable: earnings_component
+      operator: ==
+      value: total
+      label: Earnings component
+  shared_constraints:
+  - variable: earnings_denominator
+    operator: ==
+    value: fte
+    label: QES earnings denominator
+  - variable: seasonal_adjustment
+    operator: ==
+    value: actual
+    label: QES adjustment status
+  - variable: earnings_sector
+    operator: ==
+    value: all_sectors
+    label: QES sector
+- record_set_id: stats_nz.qes.awe.2024q1
+  provenance_class: survey_aggregate
+  survey_instrument: Quarterly Employment Survey (QES)
+  assertion: observation
+  record_set_spec_id: stats_nz.qes.awe.2024q1.v1
+  source_record_id_prefix: stats_nz.qes.awe.2024q1
+  sheet_name: Table 7
+  period_type: quarter
+  period: 2024-Q1
+  period_coverage:
+    start_date: '2024-01-01'
+    end_date: '2024-03-31'
+    basis: calendar
+    source_period_label: Mar 2024 quarter
+    notes: QES reference period is the pay week ending on or before the 20th of the quarter’s middle
+      month (hub-supplied source-period definition); the fact period is the published quarter, not
+      the pay week. Actual, not seasonally adjusted. No annual averaging or period alignment.
+  geography_id: NZ
+  geography_level: country
+  geography_name: New Zealand
+  geography_vintage: current
+  entity: person
+  entity_role: full_time_equivalent_employee
+  domain: employment_earnings
+  groupby_dimension: earnings_sector
+  shared_filters:
+    earnings_denominator: fte
+    seasonal_adjustment: actual
+    earnings_sector: all_sectors
+  rows:
+  - value_id: all_sectors
+    label: All sectors
+    ordinal: 0
+    row_number: 16
+    table_record_kind: detail
+    expected_row_header_column: C
+    expected_row_header: Mar
+    guard_cells:
+    - column: A
+      row: 1
+      expected_value: Table 7
+      label: Source table
+    - column: A
+      row: 3
+      expected_value: Average weekly earnings for FTEs(1)
+      label: FTE earnings measure
+    - column: A
+      row: 4
+      expected_value: By sector
+      label: Sector breakdown
+    - column: A
+      row: 8
+      expected_value: 'Series ref: QEMQ'
+      label: Series reference prefix
+    - column: A
+      row: 10
+      expected_value: ($)
+      label: Published dollar unit
+    - column: A
+      row: 12
+      expected_value: Quarter
+      label: Quarter level block
+    - column: P
+      row: 6
+      expected_value: Total
+      label: All-sector column group
+    - column: P
+      row: 7
+      expected_value: Ordinary time
+      label: Ordinary-time component
+    - column: T
+      row: 7
+      expected_value: Total
+      label: Total component
+    - column: B
+      row: 49
+      expected_value: Average weekly earnings are calculated by dividing earnings by the number of
+        FTEs.
+      label: FTE denominator footnote
+    - column: A
+      row: 13
+      expected_value: '2023'
+      label: Workbook vintage first level year
+    - column: A
+      row: 16
+      expected_value: '2024'
+      label: Published year anchor
+  measures:
+  - measure_id: SBSZ9A
+    label: QEMQ.SBSZ9A — all-sector ordinary-time average weekly earnings per FTE, actual (not seasonally
+      adjusted)
+    ordinal: 0
+    column: P
+    source_column_id: SBSZ9A
+    concept: stats_nz.qes.average_weekly_earnings.ordinary_time
+    source_concept: stats_nz.qes.average_weekly_earnings.ordinary_time
+    concept_relation: source_label
+    concept_authority: stats_nz
+    concept_evidence_url: https://www.stats.govt.nz/information-releases/labour-market-statistics-june-2025-quarter/
+    concept_evidence_notes: 'Table 7 publishes all-sector ordinary time average weekly earnings for
+      FTEs, series QEMQ.SBSZ9A. Footnote 1: Average weekly earnings are calculated by dividing earnings
+      by the number of FTEs. Actual (not seasonally adjusted); one unchanged published level cell
+      per fact.'
+    unit: nzd_per_week
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 8
+    expected_column_header: SBSZ9A
+    filters:
+      earnings_series_reference: QEMQ.SBSZ9A
+      earnings_component: ordinary_time
+    constraints:
+    - variable: earnings_series_reference
+      operator: ==
+      value: QEMQ.SBSZ9A
+      label: QES series reference
+    - variable: earnings_component
+      operator: ==
+      value: ordinary_time
+      label: Earnings component
+  - measure_id: SBSZ9Z
+    label: QEMQ.SBSZ9Z — all-sector total average weekly earnings per FTE, actual (not seasonally
+      adjusted)
+    ordinal: 1
+    column: T
+    source_column_id: SBSZ9Z
+    concept: stats_nz.qes.average_weekly_earnings.total
+    source_concept: stats_nz.qes.average_weekly_earnings.total
+    concept_relation: source_label
+    concept_authority: stats_nz
+    concept_evidence_url: https://www.stats.govt.nz/information-releases/labour-market-statistics-june-2025-quarter/
+    concept_evidence_notes: 'Table 7 publishes all-sector total average weekly earnings for FTEs,
+      series QEMQ.SBSZ9Z. Footnote 1: Average weekly earnings are calculated by dividing earnings
+      by the number of FTEs. Actual (not seasonally adjusted); one unchanged published level cell
+      per fact.'
+    unit: nzd_per_week
+    aggregation: mean
+    expected_cell_type: number
+    expected_column_header_row: 8
+    expected_column_header: SBSZ9Z
+    filters:
+      earnings_series_reference: QEMQ.SBSZ9Z
+      earnings_component: total
+    constraints:
+    - variable: earnings_series_reference
+      operator: ==
+      value: QEMQ.SBSZ9Z
+      label: QES series reference
+    - variable: earnings_component
+      operator: ==
+      value: total
+      label: Earnings component
+  shared_constraints:
+  - variable: earnings_denominator
+    operator: ==
+    value: fte
+    label: QES earnings denominator
+  - variable: seasonal_adjustment
+    operator: ==
+    value: actual
+    label: QES adjustment status
+  - variable: earnings_sector
+    operator: ==
+    value: all_sectors
+    label: QES sector

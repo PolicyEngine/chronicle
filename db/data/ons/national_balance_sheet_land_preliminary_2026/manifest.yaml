@@ -1,0 +1,19 @@
+source_id: ons
+package_id: ons-national-balance-sheet-land-preliminary-2026
+dataset: ons_ons-national-balance-sheet-land-preliminary-2026
+source_page: https://www.ons.gov.uk/economy/nationalaccounts/uksectoraccounts/datasets/preliminaryuknationalbalancesheetestimates
+table: national_balance_sheet_land_preliminary_2026
+files:
+  2026:
+    filename: preliminarynbs2026referencetables.xlsx
+    source_url: https://www.ons.gov.uk/file?uri=/economy/nationalaccounts/uksectoraccounts/datasets/preliminaryuknationalbalancesheetestimates/current/preliminarynbs2026referencetables.xlsx
+    sha256: fdf049181fa29bdaa3029dcfb655b0f2096da8746310058142cbb385397eab90
+    size_bytes: 542783
+    fetched_at: '2026-10-07T16:07:14+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/ons/ons-national-balance-sheet-land-preliminary-2026/2026/fdf049181fa29bdaa3029dcfb655b0f2096da8746310058142cbb385397eab90/preliminarynbs2026referencetables.xlsx
+        uri: r2://ledger-raw/raw/uk/ons/ons-national-balance-sheet-land-preliminary-2026/2026/fdf049181fa29bdaa3029dcfb655b0f2096da8746310058142cbb385397eab90/preliminarynbs2026referencetables.xlsx
+registration_kind: source_facts

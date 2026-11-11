@@ -332,73 +332,25 @@ Microsoft Excel files; complete report as PDF
 
 ---
 
-## ETL Roadmap
+## Chronicle packages
 
-### Currently Implemented
+Chronicle reads these tables as source packages under `packages/irs_soi/`,
+which parse the IRS files with checksum-locked artifacts and source-cell
+lineage. The state-grain packages are:
 
-**`etl_soi_state.py`**: Basic state-level loader for Historic Table 2
+- `soi-historic-table-2-state-broad-2022`: returns, AGI, income sources,
+  itemized deductions, tax and credits by state for tax year 2022
+- `soi-historic-table-2-state-agi-2022` and `soi-historic-table-2-state-agi-2023`:
+  returns and AGI by state and AGI band
+- `soi-historic-table-2-state-eitc-2022`: EITC claims and amounts by state and
+  number of qualifying children
+- `soi-congressional-district-2022` and `soi-county-2022`: sub-state totals
 
-Variables loaded:
-- `tax_unit_count` (number of returns)
-- `adjusted_gross_income` (total AGI)
-- `income_tax_liability` (total tax)
-
-States covered: Top 5 by population (CA, TX, FL, NY, PA)
-
-Years: 2020-2021
-
-### Phase 1: Expand State Coverage (Priority: High)
-
-Extend to all 50 states + DC:
-- Download and parse CSV files from Historic Table 2
-- Add state FIPS mapping for all jurisdictions
-- Implement automated download from IRS
-
-### Phase 2: Add AGI Bracket Stratification (Priority: High)
-
-Create state x AGI bracket strata:
-- Parse bracket columns from Historic Table 2 CSV
-- Create hierarchical strata (national -> state -> bracket)
-- Enable calibration to income distribution by state
-
-### Phase 3: Income by Source (Priority: Medium)
-
-Add income component breakdowns:
-- Wages and salaries
-- Interest income
-- Dividend income
-- Capital gains (from AGI Percentile tables)
-- Business income
-- Partnership/S-Corp income
-
-Source: AGI Percentile Data by State (Table 2)
-
-### Phase 4: Credits and Deductions (Priority: Medium)
-
-Add refundable credit targets:
-- EITC by state (from EITC statistics)
-- Child Tax Credit by state
-- Additional Child Tax Credit by state
-
-Add deduction targets:
-- Itemized vs. standard deduction counts
-- Itemized deduction amounts by type
-
-Source: State Data FY tables, Publication 1304
-
-### Phase 5: Sub-State Geography (Priority: Low)
-
-Add ZIP code and county level data:
-- County-level income totals
-- ZIP code aggregates for metro areas
-- Migration flow data
-
-### Phase 6: Time Series (Priority: Low)
-
-Backfill historical data:
-- Extend to 1996-present
-- Handle format changes across years
-- Track methodology changes
+The legacy `db/etl_soi_state.py`, `db/etl_soi_credits.py`,
+`db/etl_soi_deductions.py` and `db/etl_soi_income_sources.py` loaders were
+retired because they wrote invented values under IRS source URLs. See
+[US legacy ETL cleanup](../us-legacy-etl-cleanup.md) for the evidence and for
+where each of their series is now published.
 
 ---
 
@@ -451,3 +403,4 @@ Cross-check against:
 ## Changelog
 
 - 2024-12-22: Initial documentation created
+- 2026-10-12: Replaced the ETL roadmap with the Chronicle package list; the legacy state SOI loaders were retired

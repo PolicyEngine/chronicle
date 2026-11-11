@@ -1,0 +1,23 @@
+source_id: obr
+package_id: obr-efo-policy-october-2026
+dataset: obr_obr-efo-policy-october-2026
+source_page: https://obr.uk/efo/economic-and-fiscal-outlook-october-2026/
+table: 'EFO October 2026 detailed forecast tables: policy'
+license: Open Government Licence v3.0
+license_url: https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/
+attribution: 'Source: Office for Budget Responsibility, Economic and fiscal outlook - October 2026, detailed forecast tables: policy. Contains public sector information licensed under the Open Government Licence v3.0.'
+license_evidence: 'The OBR copyright page (https://obr.uk/legal-pages/copyright/) states: ''You may use and re-use the information featured on this website (not including logos) free of charge in any format or medium, under the terms of the Open Government Licence.'''
+license_verified_at: '2026-10-29'
+files:
+  2026:
+    filename: efo_policy.xlsx
+    source_url: https://obr.uk/download/october-2026-economic-and-fiscal-outlook-detailed-forecast-tables-policy/
+    sha256: cdcc2a06b100241bf3010bd159a4e5d43daef2348a3850797b1e88a308fd45fd
+    size_bytes: 106602
+    fetched_at: '2026-10-29T01:43:17+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/obr/obr-efo-policy-october-2026/2026/cdcc2a06b100241bf3010bd159a4e5d43daef2348a3850797b1e88a308fd45fd/efo_policy.xlsx
+        uri: r2://ledger-raw/raw/uk/obr/obr-efo-policy-october-2026/2026/cdcc2a06b100241bf3010bd159a4e5d43daef2348a3850797b1e88a308fd45fd/efo_policy.xlsx

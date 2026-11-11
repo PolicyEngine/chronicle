@@ -1,0 +1,5220 @@
+schema_version: ledger.source_package.v1
+package_id: nisra-census2021-ct0105-communal-residents-lgd
+label: NISRA Census 2021 CT0105 communal establishment residents by sex, age and position, LGD
+dimension_labels:
+  geography: Geography
+  position_in_establishment: Position in establishment
+  Sex: Sex
+  Age: Age
+  residence_type: Residence type
+dimension_value_labels:
+  Age:
+    0-15 years: 0-15 years
+    16-24 years: 16-24 years
+    25-34 years: 25-34 years
+    35-44 years: 35-44 years
+    45-54 years: 45-54 years
+    55-64 years: 55-64 years
+    65+ years: 65+ years
+  Sex:
+    Female: Female
+    Male: Male
+  position_in_establishment:
+    Resident or staying temporarily (no usual UK address): Resident or staying temporarily (no usual UK address)
+    Staff or owner or family member or partner of staff or owner: Staff or owner or family member or partner of staff or owner
+  residence_type:
+    Lives in a communal establishment: Lives in a communal establishment
+artifact:
+  source_name: nisra
+  source_table: NISRA Census 2021 CT0105 communal establishment residents by sex, age and position, LGD
+  resource_package: db
+  resource_directory: data/nisra/census2021_ct0105_communal_residents_lgd
+  manifest: manifest.yaml
+  vintage: census_2021_ct0105
+  extracted_at: '2026-10-07'
+  extraction_method: Publisher artifact parsed without modifying values
+  parser: xlsx_used_range
+  artifact_year: 2021
+  sheets:
+  - CT0105
+record_sets:
+- record_set_id: nisra.census2021_ct0105_communal_residents_lgd.female.0_15_years
+  provenance_class: census
+  record_set_spec_id: nisra.census2021_ct0105_communal_residents_lgd.female.0_15_years.v1
+  source_record_id_prefix: nisra.census2021_ct0105_communal_residents_lgd.female.0_15_years
+  sheet_name: CT0105
+  period_type: calendar_year
+  period: 2021
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: communal_establishment_usual_resident
+  domain: population
+  groupby_dimension: geography
+  rows:
+  - value_id: n09000001
+    label: Antrim and Newtownabbey
+    ordinal: 6
+    row_number: 7
+    expected_row_header_column: A
+    expected_row_header: N09000001
+    geography_id: N09000001
+    geography_level: local_authority
+    geography_name: Antrim and Newtownabbey
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 7
+      expected_value: Female
+      label: Sex
+    - column: D
+      row: 7
+      expected_value: 0-15 years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  - value_id: n09000002
+    label: Armagh City, Banbridge and Craigavon
+    ordinal: 20
+    row_number: 21
+    expected_row_header_column: A
+    expected_row_header: N09000002
+    geography_id: N09000002
+    geography_level: local_authority
+    geography_name: Armagh City, Banbridge and Craigavon
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 21
+      expected_value: Female
+      label: Sex
+    - column: D
+      row: 21
+      expected_value: 0-15 years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  - value_id: n09000003
+    label: Belfast
+    ordinal: 34
+    row_number: 35
+    expected_row_header_column: A
+    expected_row_header: N09000003
+    geography_id: N09000003
+    geography_level: local_authority
+    geography_name: Belfast
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 35
+      expected_value: Female
+      label: Sex
+    - column: D
+      row: 35
+      expected_value: 0-15 years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  - value_id: n09000004
+    label: Causeway Coast and Glens
+    ordinal: 48
+    row_number: 49
+    expected_row_header_column: A
+    expected_row_header: N09000004
+    geography_id: N09000004
+    geography_level: local_authority
+    geography_name: Causeway Coast and Glens
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 49
+      expected_value: Female
+      label: Sex
+    - column: D
+      row: 49
+      expected_value: 0-15 years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  - value_id: n09000005
+    label: Derry City and Strabane
+    ordinal: 62
+    row_number: 63
+    expected_row_header_column: A
+    expected_row_header: N09000005
+    geography_id: N09000005
+    geography_level: local_authority
+    geography_name: Derry City and Strabane
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 63
+      expected_value: Female
+      label: Sex
+    - column: D
+      row: 63
+      expected_value: 0-15 years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  - value_id: n09000006
+    label: Fermanagh and Omagh
+    ordinal: 76
+    row_number: 77
+    expected_row_header_column: A
+    expected_row_header: N09000006
+    geography_id: N09000006
+    geography_level: local_authority
+    geography_name: Fermanagh and Omagh
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 77
+      expected_value: Female
+      label: Sex
+    - column: D
+      row: 77
+      expected_value: 0-15 years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  - value_id: n09000007
+    label: Lisburn and Castlereagh
+    ordinal: 90
+    row_number: 91
+    expected_row_header_column: A
+    expected_row_header: N09000007
+    geography_id: N09000007
+    geography_level: local_authority
+    geography_name: Lisburn and Castlereagh
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 91
+      expected_value: Female
+      label: Sex
+    - column: D
+      row: 91
+      expected_value: 0-15 years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  - value_id: n09000008
+    label: Mid and East Antrim
+    ordinal: 104
+    row_number: 105
+    expected_row_header_column: A
+    expected_row_header: N09000008
+    geography_id: N09000008
+    geography_level: local_authority
+    geography_name: Mid and East Antrim
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 105
+      expected_value: Female
+      label: Sex
+    - column: D
+      row: 105
+      expected_value: 0-15 years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  - value_id: n09000009
+    label: Mid Ulster
+    ordinal: 118
+    row_number: 119
+    expected_row_header_column: A
+    expected_row_header: N09000009
+    geography_id: N09000009
+    geography_level: local_authority
+    geography_name: Mid Ulster
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 119
+      expected_value: Female
+      label: Sex
+    - column: D
+      row: 119
+      expected_value: 0-15 years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  - value_id: n09000010
+    label: Newry, Mourne and Down
+    ordinal: 132
+    row_number: 133
+    expected_row_header_column: A
+    expected_row_header: N09000010
+    geography_id: N09000010
+    geography_level: local_authority
+    geography_name: Newry, Mourne and Down
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 133
+      expected_value: Female
+      label: Sex
+    - column: D
+      row: 133
+      expected_value: 0-15 years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  - value_id: n09000011
+    label: Ards and North Down
+    ordinal: 146
+    row_number: 147
+    expected_row_header_column: A
+    expected_row_header: N09000011
+    geography_id: N09000011
+    geography_level: local_authority
+    geography_name: Ards and North Down
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 147
+      expected_value: Female
+      label: Sex
+    - column: D
+      row: 147
+      expected_value: 0-15 years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  measures:
+  - measure_id: position_5
+    label: Resident or staying temporarily (no usual UK address)
+    ordinal: 0
+    column: E
+    source_column_id: Resident or staying temporarily (no usual UK address)
+    concept: nisra.census2021_communal_residents
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 6
+    expected_column_header: Resident or staying temporarily (no usual UK address)
+    concept_evidence_notes: CT0105 publisher column labels retained, including swapped Geography/Geography
+      code labels. Positions remain separate.
+    filters:
+      position_in_establishment: Resident or staying temporarily (no usual UK address)
+    constraints:
+    - variable: position_in_establishment
+      operator: ==
+      value: Resident or staying temporarily (no usual UK address)
+      label: Position in establishment
+    source_column_dimensions:
+      position_in_establishment: Resident or staying temporarily (no usual UK address)
+  - measure_id: position_6
+    label: Staff or owner or family member or partner of staff or owner
+    ordinal: 1
+    column: F
+    source_column_id: Staff or owner or family member or partner of staff or owner
+    concept: nisra.census2021_communal_residents
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 6
+    expected_column_header: Staff or owner or family member or partner of staff or owner
+    concept_evidence_notes: CT0105 publisher column labels retained, including swapped Geography/Geography
+      code labels. Positions remain separate.
+    filters:
+      position_in_establishment: Staff or owner or family member or partner of staff or owner
+    constraints:
+    - variable: position_in_establishment
+      operator: ==
+      value: Staff or owner or family member or partner of staff or owner
+      label: Position in establishment
+    source_column_dimensions:
+      position_in_establishment: Staff or owner or family member or partner of staff or owner
+  period_coverage:
+    start_date: '2021-03-21'
+    end_date: '2021-03-21'
+    basis: calendar
+    source_period_label: Census 2021
+    notes: Usual residents, including communal establishments; students at term-time address.
+  shared_filters:
+    Sex: Female
+    Age: 0-15 years
+    residence_type: Lives in a communal establishment
+  shared_constraints:
+  - variable: Sex
+    operator: ==
+    value: Female
+    label: Sex
+  - variable: Age
+    operator: ==
+    value: 0-15 years
+    label: Age
+  - variable: residence_type
+    operator: ==
+    value: Lives in a communal establishment
+    label: Residence type
+- record_set_id: nisra.census2021_ct0105_communal_residents_lgd.female.16_24_years
+  provenance_class: census
+  record_set_spec_id: nisra.census2021_ct0105_communal_residents_lgd.female.16_24_years.v1
+  source_record_id_prefix: nisra.census2021_ct0105_communal_residents_lgd.female.16_24_years
+  sheet_name: CT0105
+  period_type: calendar_year
+  period: 2021
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: communal_establishment_usual_resident
+  domain: population
+  groupby_dimension: geography
+  rows:
+  - value_id: n09000001
+    label: Antrim and Newtownabbey
+    ordinal: 7
+    row_number: 8
+    expected_row_header_column: A
+    expected_row_header: N09000001
+    geography_id: N09000001
+    geography_level: local_authority
+    geography_name: Antrim and Newtownabbey
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 8
+      expected_value: Female
+      label: Sex
+    - column: D
+      row: 8
+      expected_value: 16-24 years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  - value_id: n09000002
+    label: Armagh City, Banbridge and Craigavon
+    ordinal: 21
+    row_number: 22
+    expected_row_header_column: A
+    expected_row_header: N09000002
+    geography_id: N09000002
+    geography_level: local_authority
+    geography_name: Armagh City, Banbridge and Craigavon
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 22
+      expected_value: Female
+      label: Sex
+    - column: D
+      row: 22
+      expected_value: 16-24 years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  - value_id: n09000003
+    label: Belfast
+    ordinal: 35
+    row_number: 36
+    expected_row_header_column: A
+    expected_row_header: N09000003
+    geography_id: N09000003
+    geography_level: local_authority
+    geography_name: Belfast
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 36
+      expected_value: Female
+      label: Sex
+    - column: D
+      row: 36
+      expected_value: 16-24 years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  - value_id: n09000004
+    label: Causeway Coast and Glens
+    ordinal: 49
+    row_number: 50
+    expected_row_header_column: A
+    expected_row_header: N09000004
+    geography_id: N09000004
+    geography_level: local_authority
+    geography_name: Causeway Coast and Glens
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 50
+      expected_value: Female
+      label: Sex
+    - column: D
+      row: 50
+      expected_value: 16-24 years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  - value_id: n09000005
+    label: Derry City and Strabane
+    ordinal: 63
+    row_number: 64
+    expected_row_header_column: A
+    expected_row_header: N09000005
+    geography_id: N09000005
+    geography_level: local_authority
+    geography_name: Derry City and Strabane
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 64
+      expected_value: Female
+      label: Sex
+    - column: D
+      row: 64
+      expected_value: 16-24 years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  - value_id: n09000006
+    label: Fermanagh and Omagh
+    ordinal: 77
+    row_number: 78
+    expected_row_header_column: A
+    expected_row_header: N09000006
+    geography_id: N09000006
+    geography_level: local_authority
+    geography_name: Fermanagh and Omagh
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 78
+      expected_value: Female
+      label: Sex
+    - column: D
+      row: 78
+      expected_value: 16-24 years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  - value_id: n09000007
+    label: Lisburn and Castlereagh
+    ordinal: 91
+    row_number: 92
+    expected_row_header_column: A
+    expected_row_header: N09000007
+    geography_id: N09000007
+    geography_level: local_authority
+    geography_name: Lisburn and Castlereagh
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 92
+      expected_value: Female
+      label: Sex
+    - column: D
+      row: 92
+      expected_value: 16-24 years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  - value_id: n09000008
+    label: Mid and East Antrim
+    ordinal: 105
+    row_number: 106
+    expected_row_header_column: A
+    expected_row_header: N09000008
+    geography_id: N09000008
+    geography_level: local_authority
+    geography_name: Mid and East Antrim
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 106
+      expected_value: Female
+      label: Sex
+    - column: D
+      row: 106
+      expected_value: 16-24 years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  - value_id: n09000009
+    label: Mid Ulster
+    ordinal: 119
+    row_number: 120
+    expected_row_header_column: A
+    expected_row_header: N09000009
+    geography_id: N09000009
+    geography_level: local_authority
+    geography_name: Mid Ulster
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 120
+      expected_value: Female
+      label: Sex
+    - column: D
+      row: 120
+      expected_value: 16-24 years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  - value_id: n09000010
+    label: Newry, Mourne and Down
+    ordinal: 133
+    row_number: 134
+    expected_row_header_column: A
+    expected_row_header: N09000010
+    geography_id: N09000010
+    geography_level: local_authority
+    geography_name: Newry, Mourne and Down
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 134
+      expected_value: Female
+      label: Sex
+    - column: D
+      row: 134
+      expected_value: 16-24 years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  - value_id: n09000011
+    label: Ards and North Down
+    ordinal: 147
+    row_number: 148
+    expected_row_header_column: A
+    expected_row_header: N09000011
+    geography_id: N09000011
+    geography_level: local_authority
+    geography_name: Ards and North Down
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 148
+      expected_value: Female
+      label: Sex
+    - column: D
+      row: 148
+      expected_value: 16-24 years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  measures:
+  - measure_id: position_5
+    label: Resident or staying temporarily (no usual UK address)
+    ordinal: 0
+    column: E
+    source_column_id: Resident or staying temporarily (no usual UK address)
+    concept: nisra.census2021_communal_residents
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 6
+    expected_column_header: Resident or staying temporarily (no usual UK address)
+    concept_evidence_notes: CT0105 publisher column labels retained, including swapped Geography/Geography
+      code labels. Positions remain separate.
+    filters:
+      position_in_establishment: Resident or staying temporarily (no usual UK address)
+    constraints:
+    - variable: position_in_establishment
+      operator: ==
+      value: Resident or staying temporarily (no usual UK address)
+      label: Position in establishment
+    source_column_dimensions:
+      position_in_establishment: Resident or staying temporarily (no usual UK address)
+  - measure_id: position_6
+    label: Staff or owner or family member or partner of staff or owner
+    ordinal: 1
+    column: F
+    source_column_id: Staff or owner or family member or partner of staff or owner
+    concept: nisra.census2021_communal_residents
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 6
+    expected_column_header: Staff or owner or family member or partner of staff or owner
+    concept_evidence_notes: CT0105 publisher column labels retained, including swapped Geography/Geography
+      code labels. Positions remain separate.
+    filters:
+      position_in_establishment: Staff or owner or family member or partner of staff or owner
+    constraints:
+    - variable: position_in_establishment
+      operator: ==
+      value: Staff or owner or family member or partner of staff or owner
+      label: Position in establishment
+    source_column_dimensions:
+      position_in_establishment: Staff or owner or family member or partner of staff or owner
+  period_coverage:
+    start_date: '2021-03-21'
+    end_date: '2021-03-21'
+    basis: calendar
+    source_period_label: Census 2021
+    notes: Usual residents, including communal establishments; students at term-time address.
+  shared_filters:
+    Sex: Female
+    Age: 16-24 years
+    residence_type: Lives in a communal establishment
+  shared_constraints:
+  - variable: Sex
+    operator: ==
+    value: Female
+    label: Sex
+  - variable: Age
+    operator: ==
+    value: 16-24 years
+    label: Age
+  - variable: residence_type
+    operator: ==
+    value: Lives in a communal establishment
+    label: Residence type
+- record_set_id: nisra.census2021_ct0105_communal_residents_lgd.female.25_34_years
+  provenance_class: census
+  record_set_spec_id: nisra.census2021_ct0105_communal_residents_lgd.female.25_34_years.v1
+  source_record_id_prefix: nisra.census2021_ct0105_communal_residents_lgd.female.25_34_years
+  sheet_name: CT0105
+  period_type: calendar_year
+  period: 2021
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: communal_establishment_usual_resident
+  domain: population
+  groupby_dimension: geography
+  rows:
+  - value_id: n09000001
+    label: Antrim and Newtownabbey
+    ordinal: 8
+    row_number: 9
+    expected_row_header_column: A
+    expected_row_header: N09000001
+    geography_id: N09000001
+    geography_level: local_authority
+    geography_name: Antrim and Newtownabbey
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 9
+      expected_value: Female
+      label: Sex
+    - column: D
+      row: 9
+      expected_value: 25-34 years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  - value_id: n09000002
+    label: Armagh City, Banbridge and Craigavon
+    ordinal: 22
+    row_number: 23
+    expected_row_header_column: A
+    expected_row_header: N09000002
+    geography_id: N09000002
+    geography_level: local_authority
+    geography_name: Armagh City, Banbridge and Craigavon
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 23
+      expected_value: Female
+      label: Sex
+    - column: D
+      row: 23
+      expected_value: 25-34 years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  - value_id: n09000003
+    label: Belfast
+    ordinal: 36
+    row_number: 37
+    expected_row_header_column: A
+    expected_row_header: N09000003
+    geography_id: N09000003
+    geography_level: local_authority
+    geography_name: Belfast
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 37
+      expected_value: Female
+      label: Sex
+    - column: D
+      row: 37
+      expected_value: 25-34 years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  - value_id: n09000004
+    label: Causeway Coast and Glens
+    ordinal: 50
+    row_number: 51
+    expected_row_header_column: A
+    expected_row_header: N09000004
+    geography_id: N09000004
+    geography_level: local_authority
+    geography_name: Causeway Coast and Glens
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 51
+      expected_value: Female
+      label: Sex
+    - column: D
+      row: 51
+      expected_value: 25-34 years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  - value_id: n09000005
+    label: Derry City and Strabane
+    ordinal: 64
+    row_number: 65
+    expected_row_header_column: A
+    expected_row_header: N09000005
+    geography_id: N09000005
+    geography_level: local_authority
+    geography_name: Derry City and Strabane
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 65
+      expected_value: Female
+      label: Sex
+    - column: D
+      row: 65
+      expected_value: 25-34 years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  - value_id: n09000006
+    label: Fermanagh and Omagh
+    ordinal: 78
+    row_number: 79
+    expected_row_header_column: A
+    expected_row_header: N09000006
+    geography_id: N09000006
+    geography_level: local_authority
+    geography_name: Fermanagh and Omagh
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 79
+      expected_value: Female
+      label: Sex
+    - column: D
+      row: 79
+      expected_value: 25-34 years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  - value_id: n09000007
+    label: Lisburn and Castlereagh
+    ordinal: 92
+    row_number: 93
+    expected_row_header_column: A
+    expected_row_header: N09000007
+    geography_id: N09000007
+    geography_level: local_authority
+    geography_name: Lisburn and Castlereagh
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 93
+      expected_value: Female
+      label: Sex
+    - column: D
+      row: 93
+      expected_value: 25-34 years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  - value_id: n09000008
+    label: Mid and East Antrim
+    ordinal: 106
+    row_number: 107
+    expected_row_header_column: A
+    expected_row_header: N09000008
+    geography_id: N09000008
+    geography_level: local_authority
+    geography_name: Mid and East Antrim
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 107
+      expected_value: Female
+      label: Sex
+    - column: D
+      row: 107
+      expected_value: 25-34 years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  - value_id: n09000009
+    label: Mid Ulster
+    ordinal: 120
+    row_number: 121
+    expected_row_header_column: A
+    expected_row_header: N09000009
+    geography_id: N09000009
+    geography_level: local_authority
+    geography_name: Mid Ulster
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 121
+      expected_value: Female
+      label: Sex
+    - column: D
+      row: 121
+      expected_value: 25-34 years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  - value_id: n09000010
+    label: Newry, Mourne and Down
+    ordinal: 134
+    row_number: 135
+    expected_row_header_column: A
+    expected_row_header: N09000010
+    geography_id: N09000010
+    geography_level: local_authority
+    geography_name: Newry, Mourne and Down
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 135
+      expected_value: Female
+      label: Sex
+    - column: D
+      row: 135
+      expected_value: 25-34 years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  - value_id: n09000011
+    label: Ards and North Down
+    ordinal: 148
+    row_number: 149
+    expected_row_header_column: A
+    expected_row_header: N09000011
+    geography_id: N09000011
+    geography_level: local_authority
+    geography_name: Ards and North Down
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 149
+      expected_value: Female
+      label: Sex
+    - column: D
+      row: 149
+      expected_value: 25-34 years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  measures:
+  - measure_id: position_5
+    label: Resident or staying temporarily (no usual UK address)
+    ordinal: 0
+    column: E
+    source_column_id: Resident or staying temporarily (no usual UK address)
+    concept: nisra.census2021_communal_residents
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 6
+    expected_column_header: Resident or staying temporarily (no usual UK address)
+    concept_evidence_notes: CT0105 publisher column labels retained, including swapped Geography/Geography
+      code labels. Positions remain separate.
+    filters:
+      position_in_establishment: Resident or staying temporarily (no usual UK address)
+    constraints:
+    - variable: position_in_establishment
+      operator: ==
+      value: Resident or staying temporarily (no usual UK address)
+      label: Position in establishment
+    source_column_dimensions:
+      position_in_establishment: Resident or staying temporarily (no usual UK address)
+  - measure_id: position_6
+    label: Staff or owner or family member or partner of staff or owner
+    ordinal: 1
+    column: F
+    source_column_id: Staff or owner or family member or partner of staff or owner
+    concept: nisra.census2021_communal_residents
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 6
+    expected_column_header: Staff or owner or family member or partner of staff or owner
+    concept_evidence_notes: CT0105 publisher column labels retained, including swapped Geography/Geography
+      code labels. Positions remain separate.
+    filters:
+      position_in_establishment: Staff or owner or family member or partner of staff or owner
+    constraints:
+    - variable: position_in_establishment
+      operator: ==
+      value: Staff or owner or family member or partner of staff or owner
+      label: Position in establishment
+    source_column_dimensions:
+      position_in_establishment: Staff or owner or family member or partner of staff or owner
+  period_coverage:
+    start_date: '2021-03-21'
+    end_date: '2021-03-21'
+    basis: calendar
+    source_period_label: Census 2021
+    notes: Usual residents, including communal establishments; students at term-time address.
+  shared_filters:
+    Sex: Female
+    Age: 25-34 years
+    residence_type: Lives in a communal establishment
+  shared_constraints:
+  - variable: Sex
+    operator: ==
+    value: Female
+    label: Sex
+  - variable: Age
+    operator: ==
+    value: 25-34 years
+    label: Age
+  - variable: residence_type
+    operator: ==
+    value: Lives in a communal establishment
+    label: Residence type
+- record_set_id: nisra.census2021_ct0105_communal_residents_lgd.female.35_44_years
+  provenance_class: census
+  record_set_spec_id: nisra.census2021_ct0105_communal_residents_lgd.female.35_44_years.v1
+  source_record_id_prefix: nisra.census2021_ct0105_communal_residents_lgd.female.35_44_years
+  sheet_name: CT0105
+  period_type: calendar_year
+  period: 2021
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: communal_establishment_usual_resident
+  domain: population
+  groupby_dimension: geography
+  rows:
+  - value_id: n09000001
+    label: Antrim and Newtownabbey
+    ordinal: 9
+    row_number: 10
+    expected_row_header_column: A
+    expected_row_header: N09000001
+    geography_id: N09000001
+    geography_level: local_authority
+    geography_name: Antrim and Newtownabbey
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 10
+      expected_value: Female
+      label: Sex
+    - column: D
+      row: 10
+      expected_value: 35-44 years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  - value_id: n09000002
+    label: Armagh City, Banbridge and Craigavon
+    ordinal: 23
+    row_number: 24
+    expected_row_header_column: A
+    expected_row_header: N09000002
+    geography_id: N09000002
+    geography_level: local_authority
+    geography_name: Armagh City, Banbridge and Craigavon
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 24
+      expected_value: Female
+      label: Sex
+    - column: D
+      row: 24
+      expected_value: 35-44 years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  - value_id: n09000003
+    label: Belfast
+    ordinal: 37
+    row_number: 38
+    expected_row_header_column: A
+    expected_row_header: N09000003
+    geography_id: N09000003
+    geography_level: local_authority
+    geography_name: Belfast
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 38
+      expected_value: Female
+      label: Sex
+    - column: D
+      row: 38
+      expected_value: 35-44 years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  - value_id: n09000004
+    label: Causeway Coast and Glens
+    ordinal: 51
+    row_number: 52
+    expected_row_header_column: A
+    expected_row_header: N09000004
+    geography_id: N09000004
+    geography_level: local_authority
+    geography_name: Causeway Coast and Glens
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 52
+      expected_value: Female
+      label: Sex
+    - column: D
+      row: 52
+      expected_value: 35-44 years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  - value_id: n09000005
+    label: Derry City and Strabane
+    ordinal: 65
+    row_number: 66
+    expected_row_header_column: A
+    expected_row_header: N09000005
+    geography_id: N09000005
+    geography_level: local_authority
+    geography_name: Derry City and Strabane
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 66
+      expected_value: Female
+      label: Sex
+    - column: D
+      row: 66
+      expected_value: 35-44 years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  - value_id: n09000006
+    label: Fermanagh and Omagh
+    ordinal: 79
+    row_number: 80
+    expected_row_header_column: A
+    expected_row_header: N09000006
+    geography_id: N09000006
+    geography_level: local_authority
+    geography_name: Fermanagh and Omagh
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 80
+      expected_value: Female
+      label: Sex
+    - column: D
+      row: 80
+      expected_value: 35-44 years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  - value_id: n09000007
+    label: Lisburn and Castlereagh
+    ordinal: 93
+    row_number: 94
+    expected_row_header_column: A
+    expected_row_header: N09000007
+    geography_id: N09000007
+    geography_level: local_authority
+    geography_name: Lisburn and Castlereagh
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 94
+      expected_value: Female
+      label: Sex
+    - column: D
+      row: 94
+      expected_value: 35-44 years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  - value_id: n09000008
+    label: Mid and East Antrim
+    ordinal: 107
+    row_number: 108
+    expected_row_header_column: A
+    expected_row_header: N09000008
+    geography_id: N09000008
+    geography_level: local_authority
+    geography_name: Mid and East Antrim
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 108
+      expected_value: Female
+      label: Sex
+    - column: D
+      row: 108
+      expected_value: 35-44 years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  - value_id: n09000009
+    label: Mid Ulster
+    ordinal: 121
+    row_number: 122
+    expected_row_header_column: A
+    expected_row_header: N09000009
+    geography_id: N09000009
+    geography_level: local_authority
+    geography_name: Mid Ulster
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 122
+      expected_value: Female
+      label: Sex
+    - column: D
+      row: 122
+      expected_value: 35-44 years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  - value_id: n09000010
+    label: Newry, Mourne and Down
+    ordinal: 135
+    row_number: 136
+    expected_row_header_column: A
+    expected_row_header: N09000010
+    geography_id: N09000010
+    geography_level: local_authority
+    geography_name: Newry, Mourne and Down
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 136
+      expected_value: Female
+      label: Sex
+    - column: D
+      row: 136
+      expected_value: 35-44 years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  - value_id: n09000011
+    label: Ards and North Down
+    ordinal: 149
+    row_number: 150
+    expected_row_header_column: A
+    expected_row_header: N09000011
+    geography_id: N09000011
+    geography_level: local_authority
+    geography_name: Ards and North Down
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 150
+      expected_value: Female
+      label: Sex
+    - column: D
+      row: 150
+      expected_value: 35-44 years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  measures:
+  - measure_id: position_5
+    label: Resident or staying temporarily (no usual UK address)
+    ordinal: 0
+    column: E
+    source_column_id: Resident or staying temporarily (no usual UK address)
+    concept: nisra.census2021_communal_residents
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 6
+    expected_column_header: Resident or staying temporarily (no usual UK address)
+    concept_evidence_notes: CT0105 publisher column labels retained, including swapped Geography/Geography
+      code labels. Positions remain separate.
+    filters:
+      position_in_establishment: Resident or staying temporarily (no usual UK address)
+    constraints:
+    - variable: position_in_establishment
+      operator: ==
+      value: Resident or staying temporarily (no usual UK address)
+      label: Position in establishment
+    source_column_dimensions:
+      position_in_establishment: Resident or staying temporarily (no usual UK address)
+  - measure_id: position_6
+    label: Staff or owner or family member or partner of staff or owner
+    ordinal: 1
+    column: F
+    source_column_id: Staff or owner or family member or partner of staff or owner
+    concept: nisra.census2021_communal_residents
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 6
+    expected_column_header: Staff or owner or family member or partner of staff or owner
+    concept_evidence_notes: CT0105 publisher column labels retained, including swapped Geography/Geography
+      code labels. Positions remain separate.
+    filters:
+      position_in_establishment: Staff or owner or family member or partner of staff or owner
+    constraints:
+    - variable: position_in_establishment
+      operator: ==
+      value: Staff or owner or family member or partner of staff or owner
+      label: Position in establishment
+    source_column_dimensions:
+      position_in_establishment: Staff or owner or family member or partner of staff or owner
+  period_coverage:
+    start_date: '2021-03-21'
+    end_date: '2021-03-21'
+    basis: calendar
+    source_period_label: Census 2021
+    notes: Usual residents, including communal establishments; students at term-time address.
+  shared_filters:
+    Sex: Female
+    Age: 35-44 years
+    residence_type: Lives in a communal establishment
+  shared_constraints:
+  - variable: Sex
+    operator: ==
+    value: Female
+    label: Sex
+  - variable: Age
+    operator: ==
+    value: 35-44 years
+    label: Age
+  - variable: residence_type
+    operator: ==
+    value: Lives in a communal establishment
+    label: Residence type
+- record_set_id: nisra.census2021_ct0105_communal_residents_lgd.female.45_54_years
+  provenance_class: census
+  record_set_spec_id: nisra.census2021_ct0105_communal_residents_lgd.female.45_54_years.v1
+  source_record_id_prefix: nisra.census2021_ct0105_communal_residents_lgd.female.45_54_years
+  sheet_name: CT0105
+  period_type: calendar_year
+  period: 2021
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: communal_establishment_usual_resident
+  domain: population
+  groupby_dimension: geography
+  rows:
+  - value_id: n09000001
+    label: Antrim and Newtownabbey
+    ordinal: 10
+    row_number: 11
+    expected_row_header_column: A
+    expected_row_header: N09000001
+    geography_id: N09000001
+    geography_level: local_authority
+    geography_name: Antrim and Newtownabbey
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 11
+      expected_value: Female
+      label: Sex
+    - column: D
+      row: 11
+      expected_value: 45-54 years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  - value_id: n09000002
+    label: Armagh City, Banbridge and Craigavon
+    ordinal: 24
+    row_number: 25
+    expected_row_header_column: A
+    expected_row_header: N09000002
+    geography_id: N09000002
+    geography_level: local_authority
+    geography_name: Armagh City, Banbridge and Craigavon
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 25
+      expected_value: Female
+      label: Sex
+    - column: D
+      row: 25
+      expected_value: 45-54 years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  - value_id: n09000003
+    label: Belfast
+    ordinal: 38
+    row_number: 39
+    expected_row_header_column: A
+    expected_row_header: N09000003
+    geography_id: N09000003
+    geography_level: local_authority
+    geography_name: Belfast
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 39
+      expected_value: Female
+      label: Sex
+    - column: D
+      row: 39
+      expected_value: 45-54 years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  - value_id: n09000004
+    label: Causeway Coast and Glens
+    ordinal: 52
+    row_number: 53
+    expected_row_header_column: A
+    expected_row_header: N09000004
+    geography_id: N09000004
+    geography_level: local_authority
+    geography_name: Causeway Coast and Glens
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 53
+      expected_value: Female
+      label: Sex
+    - column: D
+      row: 53
+      expected_value: 45-54 years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  - value_id: n09000005
+    label: Derry City and Strabane
+    ordinal: 66
+    row_number: 67
+    expected_row_header_column: A
+    expected_row_header: N09000005
+    geography_id: N09000005
+    geography_level: local_authority
+    geography_name: Derry City and Strabane
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 67
+      expected_value: Female
+      label: Sex
+    - column: D
+      row: 67
+      expected_value: 45-54 years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  - value_id: n09000006
+    label: Fermanagh and Omagh
+    ordinal: 80
+    row_number: 81
+    expected_row_header_column: A
+    expected_row_header: N09000006
+    geography_id: N09000006
+    geography_level: local_authority
+    geography_name: Fermanagh and Omagh
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 81
+      expected_value: Female
+      label: Sex
+    - column: D
+      row: 81
+      expected_value: 45-54 years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  - value_id: n09000007
+    label: Lisburn and Castlereagh
+    ordinal: 94
+    row_number: 95
+    expected_row_header_column: A
+    expected_row_header: N09000007
+    geography_id: N09000007
+    geography_level: local_authority
+    geography_name: Lisburn and Castlereagh
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 95
+      expected_value: Female
+      label: Sex
+    - column: D
+      row: 95
+      expected_value: 45-54 years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  - value_id: n09000008
+    label: Mid and East Antrim
+    ordinal: 108
+    row_number: 109
+    expected_row_header_column: A
+    expected_row_header: N09000008
+    geography_id: N09000008
+    geography_level: local_authority
+    geography_name: Mid and East Antrim
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 109
+      expected_value: Female
+      label: Sex
+    - column: D
+      row: 109
+      expected_value: 45-54 years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  - value_id: n09000009
+    label: Mid Ulster
+    ordinal: 122
+    row_number: 123
+    expected_row_header_column: A
+    expected_row_header: N09000009
+    geography_id: N09000009
+    geography_level: local_authority
+    geography_name: Mid Ulster
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 123
+      expected_value: Female
+      label: Sex
+    - column: D
+      row: 123
+      expected_value: 45-54 years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  - value_id: n09000010
+    label: Newry, Mourne and Down
+    ordinal: 136
+    row_number: 137
+    expected_row_header_column: A
+    expected_row_header: N09000010
+    geography_id: N09000010
+    geography_level: local_authority
+    geography_name: Newry, Mourne and Down
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 137
+      expected_value: Female
+      label: Sex
+    - column: D
+      row: 137
+      expected_value: 45-54 years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  - value_id: n09000011
+    label: Ards and North Down
+    ordinal: 150
+    row_number: 151
+    expected_row_header_column: A
+    expected_row_header: N09000011
+    geography_id: N09000011
+    geography_level: local_authority
+    geography_name: Ards and North Down
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 151
+      expected_value: Female
+      label: Sex
+    - column: D
+      row: 151
+      expected_value: 45-54 years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  measures:
+  - measure_id: position_5
+    label: Resident or staying temporarily (no usual UK address)
+    ordinal: 0
+    column: E
+    source_column_id: Resident or staying temporarily (no usual UK address)
+    concept: nisra.census2021_communal_residents
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 6
+    expected_column_header: Resident or staying temporarily (no usual UK address)
+    concept_evidence_notes: CT0105 publisher column labels retained, including swapped Geography/Geography
+      code labels. Positions remain separate.
+    filters:
+      position_in_establishment: Resident or staying temporarily (no usual UK address)
+    constraints:
+    - variable: position_in_establishment
+      operator: ==
+      value: Resident or staying temporarily (no usual UK address)
+      label: Position in establishment
+    source_column_dimensions:
+      position_in_establishment: Resident or staying temporarily (no usual UK address)
+  - measure_id: position_6
+    label: Staff or owner or family member or partner of staff or owner
+    ordinal: 1
+    column: F
+    source_column_id: Staff or owner or family member or partner of staff or owner
+    concept: nisra.census2021_communal_residents
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 6
+    expected_column_header: Staff or owner or family member or partner of staff or owner
+    concept_evidence_notes: CT0105 publisher column labels retained, including swapped Geography/Geography
+      code labels. Positions remain separate.
+    filters:
+      position_in_establishment: Staff or owner or family member or partner of staff or owner
+    constraints:
+    - variable: position_in_establishment
+      operator: ==
+      value: Staff or owner or family member or partner of staff or owner
+      label: Position in establishment
+    source_column_dimensions:
+      position_in_establishment: Staff or owner or family member or partner of staff or owner
+  period_coverage:
+    start_date: '2021-03-21'
+    end_date: '2021-03-21'
+    basis: calendar
+    source_period_label: Census 2021
+    notes: Usual residents, including communal establishments; students at term-time address.
+  shared_filters:
+    Sex: Female
+    Age: 45-54 years
+    residence_type: Lives in a communal establishment
+  shared_constraints:
+  - variable: Sex
+    operator: ==
+    value: Female
+    label: Sex
+  - variable: Age
+    operator: ==
+    value: 45-54 years
+    label: Age
+  - variable: residence_type
+    operator: ==
+    value: Lives in a communal establishment
+    label: Residence type
+- record_set_id: nisra.census2021_ct0105_communal_residents_lgd.female.55_64_years
+  provenance_class: census
+  record_set_spec_id: nisra.census2021_ct0105_communal_residents_lgd.female.55_64_years.v1
+  source_record_id_prefix: nisra.census2021_ct0105_communal_residents_lgd.female.55_64_years
+  sheet_name: CT0105
+  period_type: calendar_year
+  period: 2021
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: communal_establishment_usual_resident
+  domain: population
+  groupby_dimension: geography
+  rows:
+  - value_id: n09000001
+    label: Antrim and Newtownabbey
+    ordinal: 11
+    row_number: 12
+    expected_row_header_column: A
+    expected_row_header: N09000001
+    geography_id: N09000001
+    geography_level: local_authority
+    geography_name: Antrim and Newtownabbey
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 12
+      expected_value: Female
+      label: Sex
+    - column: D
+      row: 12
+      expected_value: 55-64 years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  - value_id: n09000002
+    label: Armagh City, Banbridge and Craigavon
+    ordinal: 25
+    row_number: 26
+    expected_row_header_column: A
+    expected_row_header: N09000002
+    geography_id: N09000002
+    geography_level: local_authority
+    geography_name: Armagh City, Banbridge and Craigavon
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 26
+      expected_value: Female
+      label: Sex
+    - column: D
+      row: 26
+      expected_value: 55-64 years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  - value_id: n09000003
+    label: Belfast
+    ordinal: 39
+    row_number: 40
+    expected_row_header_column: A
+    expected_row_header: N09000003
+    geography_id: N09000003
+    geography_level: local_authority
+    geography_name: Belfast
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 40
+      expected_value: Female
+      label: Sex
+    - column: D
+      row: 40
+      expected_value: 55-64 years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  - value_id: n09000004
+    label: Causeway Coast and Glens
+    ordinal: 53
+    row_number: 54
+    expected_row_header_column: A
+    expected_row_header: N09000004
+    geography_id: N09000004
+    geography_level: local_authority
+    geography_name: Causeway Coast and Glens
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 54
+      expected_value: Female
+      label: Sex
+    - column: D
+      row: 54
+      expected_value: 55-64 years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  - value_id: n09000005
+    label: Derry City and Strabane
+    ordinal: 67
+    row_number: 68
+    expected_row_header_column: A
+    expected_row_header: N09000005
+    geography_id: N09000005
+    geography_level: local_authority
+    geography_name: Derry City and Strabane
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 68
+      expected_value: Female
+      label: Sex
+    - column: D
+      row: 68
+      expected_value: 55-64 years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  - value_id: n09000006
+    label: Fermanagh and Omagh
+    ordinal: 81
+    row_number: 82
+    expected_row_header_column: A
+    expected_row_header: N09000006
+    geography_id: N09000006
+    geography_level: local_authority
+    geography_name: Fermanagh and Omagh
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 82
+      expected_value: Female
+      label: Sex
+    - column: D
+      row: 82
+      expected_value: 55-64 years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  - value_id: n09000007
+    label: Lisburn and Castlereagh
+    ordinal: 95
+    row_number: 96
+    expected_row_header_column: A
+    expected_row_header: N09000007
+    geography_id: N09000007
+    geography_level: local_authority
+    geography_name: Lisburn and Castlereagh
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 96
+      expected_value: Female
+      label: Sex
+    - column: D
+      row: 96
+      expected_value: 55-64 years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  - value_id: n09000008
+    label: Mid and East Antrim
+    ordinal: 109
+    row_number: 110
+    expected_row_header_column: A
+    expected_row_header: N09000008
+    geography_id: N09000008
+    geography_level: local_authority
+    geography_name: Mid and East Antrim
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 110
+      expected_value: Female
+      label: Sex
+    - column: D
+      row: 110
+      expected_value: 55-64 years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  - value_id: n09000009
+    label: Mid Ulster
+    ordinal: 123
+    row_number: 124
+    expected_row_header_column: A
+    expected_row_header: N09000009
+    geography_id: N09000009
+    geography_level: local_authority
+    geography_name: Mid Ulster
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 124
+      expected_value: Female
+      label: Sex
+    - column: D
+      row: 124
+      expected_value: 55-64 years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  - value_id: n09000010
+    label: Newry, Mourne and Down
+    ordinal: 137
+    row_number: 138
+    expected_row_header_column: A
+    expected_row_header: N09000010
+    geography_id: N09000010
+    geography_level: local_authority
+    geography_name: Newry, Mourne and Down
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 138
+      expected_value: Female
+      label: Sex
+    - column: D
+      row: 138
+      expected_value: 55-64 years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  - value_id: n09000011
+    label: Ards and North Down
+    ordinal: 151
+    row_number: 152
+    expected_row_header_column: A
+    expected_row_header: N09000011
+    geography_id: N09000011
+    geography_level: local_authority
+    geography_name: Ards and North Down
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 152
+      expected_value: Female
+      label: Sex
+    - column: D
+      row: 152
+      expected_value: 55-64 years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  measures:
+  - measure_id: position_5
+    label: Resident or staying temporarily (no usual UK address)
+    ordinal: 0
+    column: E
+    source_column_id: Resident or staying temporarily (no usual UK address)
+    concept: nisra.census2021_communal_residents
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 6
+    expected_column_header: Resident or staying temporarily (no usual UK address)
+    concept_evidence_notes: CT0105 publisher column labels retained, including swapped Geography/Geography
+      code labels. Positions remain separate.
+    filters:
+      position_in_establishment: Resident or staying temporarily (no usual UK address)
+    constraints:
+    - variable: position_in_establishment
+      operator: ==
+      value: Resident or staying temporarily (no usual UK address)
+      label: Position in establishment
+    source_column_dimensions:
+      position_in_establishment: Resident or staying temporarily (no usual UK address)
+  - measure_id: position_6
+    label: Staff or owner or family member or partner of staff or owner
+    ordinal: 1
+    column: F
+    source_column_id: Staff or owner or family member or partner of staff or owner
+    concept: nisra.census2021_communal_residents
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 6
+    expected_column_header: Staff or owner or family member or partner of staff or owner
+    concept_evidence_notes: CT0105 publisher column labels retained, including swapped Geography/Geography
+      code labels. Positions remain separate.
+    filters:
+      position_in_establishment: Staff or owner or family member or partner of staff or owner
+    constraints:
+    - variable: position_in_establishment
+      operator: ==
+      value: Staff or owner or family member or partner of staff or owner
+      label: Position in establishment
+    source_column_dimensions:
+      position_in_establishment: Staff or owner or family member or partner of staff or owner
+  period_coverage:
+    start_date: '2021-03-21'
+    end_date: '2021-03-21'
+    basis: calendar
+    source_period_label: Census 2021
+    notes: Usual residents, including communal establishments; students at term-time address.
+  shared_filters:
+    Sex: Female
+    Age: 55-64 years
+    residence_type: Lives in a communal establishment
+  shared_constraints:
+  - variable: Sex
+    operator: ==
+    value: Female
+    label: Sex
+  - variable: Age
+    operator: ==
+    value: 55-64 years
+    label: Age
+  - variable: residence_type
+    operator: ==
+    value: Lives in a communal establishment
+    label: Residence type
+- record_set_id: nisra.census2021_ct0105_communal_residents_lgd.female.65_years
+  provenance_class: census
+  record_set_spec_id: nisra.census2021_ct0105_communal_residents_lgd.female.65_years.v1
+  source_record_id_prefix: nisra.census2021_ct0105_communal_residents_lgd.female.65_years
+  sheet_name: CT0105
+  period_type: calendar_year
+  period: 2021
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: communal_establishment_usual_resident
+  domain: population
+  groupby_dimension: geography
+  rows:
+  - value_id: n09000001
+    label: Antrim and Newtownabbey
+    ordinal: 12
+    row_number: 13
+    expected_row_header_column: A
+    expected_row_header: N09000001
+    geography_id: N09000001
+    geography_level: local_authority
+    geography_name: Antrim and Newtownabbey
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 13
+      expected_value: Female
+      label: Sex
+    - column: D
+      row: 13
+      expected_value: 65+ years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  - value_id: n09000002
+    label: Armagh City, Banbridge and Craigavon
+    ordinal: 26
+    row_number: 27
+    expected_row_header_column: A
+    expected_row_header: N09000002
+    geography_id: N09000002
+    geography_level: local_authority
+    geography_name: Armagh City, Banbridge and Craigavon
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 27
+      expected_value: Female
+      label: Sex
+    - column: D
+      row: 27
+      expected_value: 65+ years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  - value_id: n09000003
+    label: Belfast
+    ordinal: 40
+    row_number: 41
+    expected_row_header_column: A
+    expected_row_header: N09000003
+    geography_id: N09000003
+    geography_level: local_authority
+    geography_name: Belfast
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 41
+      expected_value: Female
+      label: Sex
+    - column: D
+      row: 41
+      expected_value: 65+ years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  - value_id: n09000004
+    label: Causeway Coast and Glens
+    ordinal: 54
+    row_number: 55
+    expected_row_header_column: A
+    expected_row_header: N09000004
+    geography_id: N09000004
+    geography_level: local_authority
+    geography_name: Causeway Coast and Glens
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 55
+      expected_value: Female
+      label: Sex
+    - column: D
+      row: 55
+      expected_value: 65+ years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  - value_id: n09000005
+    label: Derry City and Strabane
+    ordinal: 68
+    row_number: 69
+    expected_row_header_column: A
+    expected_row_header: N09000005
+    geography_id: N09000005
+    geography_level: local_authority
+    geography_name: Derry City and Strabane
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 69
+      expected_value: Female
+      label: Sex
+    - column: D
+      row: 69
+      expected_value: 65+ years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  - value_id: n09000006
+    label: Fermanagh and Omagh
+    ordinal: 82
+    row_number: 83
+    expected_row_header_column: A
+    expected_row_header: N09000006
+    geography_id: N09000006
+    geography_level: local_authority
+    geography_name: Fermanagh and Omagh
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 83
+      expected_value: Female
+      label: Sex
+    - column: D
+      row: 83
+      expected_value: 65+ years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  - value_id: n09000007
+    label: Lisburn and Castlereagh
+    ordinal: 96
+    row_number: 97
+    expected_row_header_column: A
+    expected_row_header: N09000007
+    geography_id: N09000007
+    geography_level: local_authority
+    geography_name: Lisburn and Castlereagh
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 97
+      expected_value: Female
+      label: Sex
+    - column: D
+      row: 97
+      expected_value: 65+ years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  - value_id: n09000008
+    label: Mid and East Antrim
+    ordinal: 110
+    row_number: 111
+    expected_row_header_column: A
+    expected_row_header: N09000008
+    geography_id: N09000008
+    geography_level: local_authority
+    geography_name: Mid and East Antrim
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 111
+      expected_value: Female
+      label: Sex
+    - column: D
+      row: 111
+      expected_value: 65+ years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  - value_id: n09000009
+    label: Mid Ulster
+    ordinal: 124
+    row_number: 125
+    expected_row_header_column: A
+    expected_row_header: N09000009
+    geography_id: N09000009
+    geography_level: local_authority
+    geography_name: Mid Ulster
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 125
+      expected_value: Female
+      label: Sex
+    - column: D
+      row: 125
+      expected_value: 65+ years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  - value_id: n09000010
+    label: Newry, Mourne and Down
+    ordinal: 138
+    row_number: 139
+    expected_row_header_column: A
+    expected_row_header: N09000010
+    geography_id: N09000010
+    geography_level: local_authority
+    geography_name: Newry, Mourne and Down
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 139
+      expected_value: Female
+      label: Sex
+    - column: D
+      row: 139
+      expected_value: 65+ years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  - value_id: n09000011
+    label: Ards and North Down
+    ordinal: 152
+    row_number: 153
+    expected_row_header_column: A
+    expected_row_header: N09000011
+    geography_id: N09000011
+    geography_level: local_authority
+    geography_name: Ards and North Down
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 153
+      expected_value: Female
+      label: Sex
+    - column: D
+      row: 153
+      expected_value: 65+ years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  measures:
+  - measure_id: position_5
+    label: Resident or staying temporarily (no usual UK address)
+    ordinal: 0
+    column: E
+    source_column_id: Resident or staying temporarily (no usual UK address)
+    concept: nisra.census2021_communal_residents
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 6
+    expected_column_header: Resident or staying temporarily (no usual UK address)
+    concept_evidence_notes: CT0105 publisher column labels retained, including swapped Geography/Geography
+      code labels. Positions remain separate.
+    filters:
+      position_in_establishment: Resident or staying temporarily (no usual UK address)
+    constraints:
+    - variable: position_in_establishment
+      operator: ==
+      value: Resident or staying temporarily (no usual UK address)
+      label: Position in establishment
+    source_column_dimensions:
+      position_in_establishment: Resident or staying temporarily (no usual UK address)
+  - measure_id: position_6
+    label: Staff or owner or family member or partner of staff or owner
+    ordinal: 1
+    column: F
+    source_column_id: Staff or owner or family member or partner of staff or owner
+    concept: nisra.census2021_communal_residents
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 6
+    expected_column_header: Staff or owner or family member or partner of staff or owner
+    concept_evidence_notes: CT0105 publisher column labels retained, including swapped Geography/Geography
+      code labels. Positions remain separate.
+    filters:
+      position_in_establishment: Staff or owner or family member or partner of staff or owner
+    constraints:
+    - variable: position_in_establishment
+      operator: ==
+      value: Staff or owner or family member or partner of staff or owner
+      label: Position in establishment
+    source_column_dimensions:
+      position_in_establishment: Staff or owner or family member or partner of staff or owner
+  period_coverage:
+    start_date: '2021-03-21'
+    end_date: '2021-03-21'
+    basis: calendar
+    source_period_label: Census 2021
+    notes: Usual residents, including communal establishments; students at term-time address.
+  shared_filters:
+    Sex: Female
+    Age: 65+ years
+    residence_type: Lives in a communal establishment
+  shared_constraints:
+  - variable: Sex
+    operator: ==
+    value: Female
+    label: Sex
+  - variable: Age
+    operator: ==
+    value: 65+ years
+    label: Age
+  - variable: residence_type
+    operator: ==
+    value: Lives in a communal establishment
+    label: Residence type
+- record_set_id: nisra.census2021_ct0105_communal_residents_lgd.male.0_15_years
+  provenance_class: census
+  record_set_spec_id: nisra.census2021_ct0105_communal_residents_lgd.male.0_15_years.v1
+  source_record_id_prefix: nisra.census2021_ct0105_communal_residents_lgd.male.0_15_years
+  sheet_name: CT0105
+  period_type: calendar_year
+  period: 2021
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: communal_establishment_usual_resident
+  domain: population
+  groupby_dimension: geography
+  rows:
+  - value_id: n09000001
+    label: Antrim and Newtownabbey
+    ordinal: 13
+    row_number: 14
+    expected_row_header_column: A
+    expected_row_header: N09000001
+    geography_id: N09000001
+    geography_level: local_authority
+    geography_name: Antrim and Newtownabbey
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 14
+      expected_value: Male
+      label: Sex
+    - column: D
+      row: 14
+      expected_value: 0-15 years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  - value_id: n09000002
+    label: Armagh City, Banbridge and Craigavon
+    ordinal: 27
+    row_number: 28
+    expected_row_header_column: A
+    expected_row_header: N09000002
+    geography_id: N09000002
+    geography_level: local_authority
+    geography_name: Armagh City, Banbridge and Craigavon
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 28
+      expected_value: Male
+      label: Sex
+    - column: D
+      row: 28
+      expected_value: 0-15 years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  - value_id: n09000003
+    label: Belfast
+    ordinal: 41
+    row_number: 42
+    expected_row_header_column: A
+    expected_row_header: N09000003
+    geography_id: N09000003
+    geography_level: local_authority
+    geography_name: Belfast
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 42
+      expected_value: Male
+      label: Sex
+    - column: D
+      row: 42
+      expected_value: 0-15 years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  - value_id: n09000004
+    label: Causeway Coast and Glens
+    ordinal: 55
+    row_number: 56
+    expected_row_header_column: A
+    expected_row_header: N09000004
+    geography_id: N09000004
+    geography_level: local_authority
+    geography_name: Causeway Coast and Glens
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 56
+      expected_value: Male
+      label: Sex
+    - column: D
+      row: 56
+      expected_value: 0-15 years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  - value_id: n09000005
+    label: Derry City and Strabane
+    ordinal: 69
+    row_number: 70
+    expected_row_header_column: A
+    expected_row_header: N09000005
+    geography_id: N09000005
+    geography_level: local_authority
+    geography_name: Derry City and Strabane
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 70
+      expected_value: Male
+      label: Sex
+    - column: D
+      row: 70
+      expected_value: 0-15 years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  - value_id: n09000006
+    label: Fermanagh and Omagh
+    ordinal: 83
+    row_number: 84
+    expected_row_header_column: A
+    expected_row_header: N09000006
+    geography_id: N09000006
+    geography_level: local_authority
+    geography_name: Fermanagh and Omagh
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 84
+      expected_value: Male
+      label: Sex
+    - column: D
+      row: 84
+      expected_value: 0-15 years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  - value_id: n09000007
+    label: Lisburn and Castlereagh
+    ordinal: 97
+    row_number: 98
+    expected_row_header_column: A
+    expected_row_header: N09000007
+    geography_id: N09000007
+    geography_level: local_authority
+    geography_name: Lisburn and Castlereagh
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 98
+      expected_value: Male
+      label: Sex
+    - column: D
+      row: 98
+      expected_value: 0-15 years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  - value_id: n09000008
+    label: Mid and East Antrim
+    ordinal: 111
+    row_number: 112
+    expected_row_header_column: A
+    expected_row_header: N09000008
+    geography_id: N09000008
+    geography_level: local_authority
+    geography_name: Mid and East Antrim
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 112
+      expected_value: Male
+      label: Sex
+    - column: D
+      row: 112
+      expected_value: 0-15 years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  - value_id: n09000009
+    label: Mid Ulster
+    ordinal: 125
+    row_number: 126
+    expected_row_header_column: A
+    expected_row_header: N09000009
+    geography_id: N09000009
+    geography_level: local_authority
+    geography_name: Mid Ulster
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 126
+      expected_value: Male
+      label: Sex
+    - column: D
+      row: 126
+      expected_value: 0-15 years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  - value_id: n09000010
+    label: Newry, Mourne and Down
+    ordinal: 139
+    row_number: 140
+    expected_row_header_column: A
+    expected_row_header: N09000010
+    geography_id: N09000010
+    geography_level: local_authority
+    geography_name: Newry, Mourne and Down
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 140
+      expected_value: Male
+      label: Sex
+    - column: D
+      row: 140
+      expected_value: 0-15 years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  - value_id: n09000011
+    label: Ards and North Down
+    ordinal: 153
+    row_number: 154
+    expected_row_header_column: A
+    expected_row_header: N09000011
+    geography_id: N09000011
+    geography_level: local_authority
+    geography_name: Ards and North Down
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 154
+      expected_value: Male
+      label: Sex
+    - column: D
+      row: 154
+      expected_value: 0-15 years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  measures:
+  - measure_id: position_5
+    label: Resident or staying temporarily (no usual UK address)
+    ordinal: 0
+    column: E
+    source_column_id: Resident or staying temporarily (no usual UK address)
+    concept: nisra.census2021_communal_residents
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 6
+    expected_column_header: Resident or staying temporarily (no usual UK address)
+    concept_evidence_notes: CT0105 publisher column labels retained, including swapped Geography/Geography
+      code labels. Positions remain separate.
+    filters:
+      position_in_establishment: Resident or staying temporarily (no usual UK address)
+    constraints:
+    - variable: position_in_establishment
+      operator: ==
+      value: Resident or staying temporarily (no usual UK address)
+      label: Position in establishment
+    source_column_dimensions:
+      position_in_establishment: Resident or staying temporarily (no usual UK address)
+  - measure_id: position_6
+    label: Staff or owner or family member or partner of staff or owner
+    ordinal: 1
+    column: F
+    source_column_id: Staff or owner or family member or partner of staff or owner
+    concept: nisra.census2021_communal_residents
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 6
+    expected_column_header: Staff or owner or family member or partner of staff or owner
+    concept_evidence_notes: CT0105 publisher column labels retained, including swapped Geography/Geography
+      code labels. Positions remain separate.
+    filters:
+      position_in_establishment: Staff or owner or family member or partner of staff or owner
+    constraints:
+    - variable: position_in_establishment
+      operator: ==
+      value: Staff or owner or family member or partner of staff or owner
+      label: Position in establishment
+    source_column_dimensions:
+      position_in_establishment: Staff or owner or family member or partner of staff or owner
+  period_coverage:
+    start_date: '2021-03-21'
+    end_date: '2021-03-21'
+    basis: calendar
+    source_period_label: Census 2021
+    notes: Usual residents, including communal establishments; students at term-time address.
+  shared_filters:
+    Sex: Male
+    Age: 0-15 years
+    residence_type: Lives in a communal establishment
+  shared_constraints:
+  - variable: Sex
+    operator: ==
+    value: Male
+    label: Sex
+  - variable: Age
+    operator: ==
+    value: 0-15 years
+    label: Age
+  - variable: residence_type
+    operator: ==
+    value: Lives in a communal establishment
+    label: Residence type
+- record_set_id: nisra.census2021_ct0105_communal_residents_lgd.male.16_24_years
+  provenance_class: census
+  record_set_spec_id: nisra.census2021_ct0105_communal_residents_lgd.male.16_24_years.v1
+  source_record_id_prefix: nisra.census2021_ct0105_communal_residents_lgd.male.16_24_years
+  sheet_name: CT0105
+  period_type: calendar_year
+  period: 2021
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: communal_establishment_usual_resident
+  domain: population
+  groupby_dimension: geography
+  rows:
+  - value_id: n09000001
+    label: Antrim and Newtownabbey
+    ordinal: 14
+    row_number: 15
+    expected_row_header_column: A
+    expected_row_header: N09000001
+    geography_id: N09000001
+    geography_level: local_authority
+    geography_name: Antrim and Newtownabbey
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 15
+      expected_value: Male
+      label: Sex
+    - column: D
+      row: 15
+      expected_value: 16-24 years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  - value_id: n09000002
+    label: Armagh City, Banbridge and Craigavon
+    ordinal: 28
+    row_number: 29
+    expected_row_header_column: A
+    expected_row_header: N09000002
+    geography_id: N09000002
+    geography_level: local_authority
+    geography_name: Armagh City, Banbridge and Craigavon
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 29
+      expected_value: Male
+      label: Sex
+    - column: D
+      row: 29
+      expected_value: 16-24 years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  - value_id: n09000003
+    label: Belfast
+    ordinal: 42
+    row_number: 43
+    expected_row_header_column: A
+    expected_row_header: N09000003
+    geography_id: N09000003
+    geography_level: local_authority
+    geography_name: Belfast
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 43
+      expected_value: Male
+      label: Sex
+    - column: D
+      row: 43
+      expected_value: 16-24 years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  - value_id: n09000004
+    label: Causeway Coast and Glens
+    ordinal: 56
+    row_number: 57
+    expected_row_header_column: A
+    expected_row_header: N09000004
+    geography_id: N09000004
+    geography_level: local_authority
+    geography_name: Causeway Coast and Glens
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 57
+      expected_value: Male
+      label: Sex
+    - column: D
+      row: 57
+      expected_value: 16-24 years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  - value_id: n09000005
+    label: Derry City and Strabane
+    ordinal: 70
+    row_number: 71
+    expected_row_header_column: A
+    expected_row_header: N09000005
+    geography_id: N09000005
+    geography_level: local_authority
+    geography_name: Derry City and Strabane
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 71
+      expected_value: Male
+      label: Sex
+    - column: D
+      row: 71
+      expected_value: 16-24 years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  - value_id: n09000006
+    label: Fermanagh and Omagh
+    ordinal: 84
+    row_number: 85
+    expected_row_header_column: A
+    expected_row_header: N09000006
+    geography_id: N09000006
+    geography_level: local_authority
+    geography_name: Fermanagh and Omagh
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 85
+      expected_value: Male
+      label: Sex
+    - column: D
+      row: 85
+      expected_value: 16-24 years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  - value_id: n09000007
+    label: Lisburn and Castlereagh
+    ordinal: 98
+    row_number: 99
+    expected_row_header_column: A
+    expected_row_header: N09000007
+    geography_id: N09000007
+    geography_level: local_authority
+    geography_name: Lisburn and Castlereagh
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 99
+      expected_value: Male
+      label: Sex
+    - column: D
+      row: 99
+      expected_value: 16-24 years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  - value_id: n09000008
+    label: Mid and East Antrim
+    ordinal: 112
+    row_number: 113
+    expected_row_header_column: A
+    expected_row_header: N09000008
+    geography_id: N09000008
+    geography_level: local_authority
+    geography_name: Mid and East Antrim
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 113
+      expected_value: Male
+      label: Sex
+    - column: D
+      row: 113
+      expected_value: 16-24 years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  - value_id: n09000009
+    label: Mid Ulster
+    ordinal: 126
+    row_number: 127
+    expected_row_header_column: A
+    expected_row_header: N09000009
+    geography_id: N09000009
+    geography_level: local_authority
+    geography_name: Mid Ulster
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 127
+      expected_value: Male
+      label: Sex
+    - column: D
+      row: 127
+      expected_value: 16-24 years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  - value_id: n09000010
+    label: Newry, Mourne and Down
+    ordinal: 140
+    row_number: 141
+    expected_row_header_column: A
+    expected_row_header: N09000010
+    geography_id: N09000010
+    geography_level: local_authority
+    geography_name: Newry, Mourne and Down
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 141
+      expected_value: Male
+      label: Sex
+    - column: D
+      row: 141
+      expected_value: 16-24 years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  - value_id: n09000011
+    label: Ards and North Down
+    ordinal: 154
+    row_number: 155
+    expected_row_header_column: A
+    expected_row_header: N09000011
+    geography_id: N09000011
+    geography_level: local_authority
+    geography_name: Ards and North Down
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 155
+      expected_value: Male
+      label: Sex
+    - column: D
+      row: 155
+      expected_value: 16-24 years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  measures:
+  - measure_id: position_5
+    label: Resident or staying temporarily (no usual UK address)
+    ordinal: 0
+    column: E
+    source_column_id: Resident or staying temporarily (no usual UK address)
+    concept: nisra.census2021_communal_residents
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 6
+    expected_column_header: Resident or staying temporarily (no usual UK address)
+    concept_evidence_notes: CT0105 publisher column labels retained, including swapped Geography/Geography
+      code labels. Positions remain separate.
+    filters:
+      position_in_establishment: Resident or staying temporarily (no usual UK address)
+    constraints:
+    - variable: position_in_establishment
+      operator: ==
+      value: Resident or staying temporarily (no usual UK address)
+      label: Position in establishment
+    source_column_dimensions:
+      position_in_establishment: Resident or staying temporarily (no usual UK address)
+  - measure_id: position_6
+    label: Staff or owner or family member or partner of staff or owner
+    ordinal: 1
+    column: F
+    source_column_id: Staff or owner or family member or partner of staff or owner
+    concept: nisra.census2021_communal_residents
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 6
+    expected_column_header: Staff or owner or family member or partner of staff or owner
+    concept_evidence_notes: CT0105 publisher column labels retained, including swapped Geography/Geography
+      code labels. Positions remain separate.
+    filters:
+      position_in_establishment: Staff or owner or family member or partner of staff or owner
+    constraints:
+    - variable: position_in_establishment
+      operator: ==
+      value: Staff or owner or family member or partner of staff or owner
+      label: Position in establishment
+    source_column_dimensions:
+      position_in_establishment: Staff or owner or family member or partner of staff or owner
+  period_coverage:
+    start_date: '2021-03-21'
+    end_date: '2021-03-21'
+    basis: calendar
+    source_period_label: Census 2021
+    notes: Usual residents, including communal establishments; students at term-time address.
+  shared_filters:
+    Sex: Male
+    Age: 16-24 years
+    residence_type: Lives in a communal establishment
+  shared_constraints:
+  - variable: Sex
+    operator: ==
+    value: Male
+    label: Sex
+  - variable: Age
+    operator: ==
+    value: 16-24 years
+    label: Age
+  - variable: residence_type
+    operator: ==
+    value: Lives in a communal establishment
+    label: Residence type
+- record_set_id: nisra.census2021_ct0105_communal_residents_lgd.male.25_34_years
+  provenance_class: census
+  record_set_spec_id: nisra.census2021_ct0105_communal_residents_lgd.male.25_34_years.v1
+  source_record_id_prefix: nisra.census2021_ct0105_communal_residents_lgd.male.25_34_years
+  sheet_name: CT0105
+  period_type: calendar_year
+  period: 2021
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: communal_establishment_usual_resident
+  domain: population
+  groupby_dimension: geography
+  rows:
+  - value_id: n09000001
+    label: Antrim and Newtownabbey
+    ordinal: 15
+    row_number: 16
+    expected_row_header_column: A
+    expected_row_header: N09000001
+    geography_id: N09000001
+    geography_level: local_authority
+    geography_name: Antrim and Newtownabbey
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 16
+      expected_value: Male
+      label: Sex
+    - column: D
+      row: 16
+      expected_value: 25-34 years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  - value_id: n09000002
+    label: Armagh City, Banbridge and Craigavon
+    ordinal: 29
+    row_number: 30
+    expected_row_header_column: A
+    expected_row_header: N09000002
+    geography_id: N09000002
+    geography_level: local_authority
+    geography_name: Armagh City, Banbridge and Craigavon
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 30
+      expected_value: Male
+      label: Sex
+    - column: D
+      row: 30
+      expected_value: 25-34 years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  - value_id: n09000003
+    label: Belfast
+    ordinal: 43
+    row_number: 44
+    expected_row_header_column: A
+    expected_row_header: N09000003
+    geography_id: N09000003
+    geography_level: local_authority
+    geography_name: Belfast
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 44
+      expected_value: Male
+      label: Sex
+    - column: D
+      row: 44
+      expected_value: 25-34 years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  - value_id: n09000004
+    label: Causeway Coast and Glens
+    ordinal: 57
+    row_number: 58
+    expected_row_header_column: A
+    expected_row_header: N09000004
+    geography_id: N09000004
+    geography_level: local_authority
+    geography_name: Causeway Coast and Glens
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 58
+      expected_value: Male
+      label: Sex
+    - column: D
+      row: 58
+      expected_value: 25-34 years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  - value_id: n09000005
+    label: Derry City and Strabane
+    ordinal: 71
+    row_number: 72
+    expected_row_header_column: A
+    expected_row_header: N09000005
+    geography_id: N09000005
+    geography_level: local_authority
+    geography_name: Derry City and Strabane
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 72
+      expected_value: Male
+      label: Sex
+    - column: D
+      row: 72
+      expected_value: 25-34 years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  - value_id: n09000006
+    label: Fermanagh and Omagh
+    ordinal: 85
+    row_number: 86
+    expected_row_header_column: A
+    expected_row_header: N09000006
+    geography_id: N09000006
+    geography_level: local_authority
+    geography_name: Fermanagh and Omagh
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 86
+      expected_value: Male
+      label: Sex
+    - column: D
+      row: 86
+      expected_value: 25-34 years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  - value_id: n09000007
+    label: Lisburn and Castlereagh
+    ordinal: 99
+    row_number: 100
+    expected_row_header_column: A
+    expected_row_header: N09000007
+    geography_id: N09000007
+    geography_level: local_authority
+    geography_name: Lisburn and Castlereagh
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 100
+      expected_value: Male
+      label: Sex
+    - column: D
+      row: 100
+      expected_value: 25-34 years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  - value_id: n09000008
+    label: Mid and East Antrim
+    ordinal: 113
+    row_number: 114
+    expected_row_header_column: A
+    expected_row_header: N09000008
+    geography_id: N09000008
+    geography_level: local_authority
+    geography_name: Mid and East Antrim
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 114
+      expected_value: Male
+      label: Sex
+    - column: D
+      row: 114
+      expected_value: 25-34 years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  - value_id: n09000009
+    label: Mid Ulster
+    ordinal: 127
+    row_number: 128
+    expected_row_header_column: A
+    expected_row_header: N09000009
+    geography_id: N09000009
+    geography_level: local_authority
+    geography_name: Mid Ulster
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 128
+      expected_value: Male
+      label: Sex
+    - column: D
+      row: 128
+      expected_value: 25-34 years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  - value_id: n09000010
+    label: Newry, Mourne and Down
+    ordinal: 141
+    row_number: 142
+    expected_row_header_column: A
+    expected_row_header: N09000010
+    geography_id: N09000010
+    geography_level: local_authority
+    geography_name: Newry, Mourne and Down
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 142
+      expected_value: Male
+      label: Sex
+    - column: D
+      row: 142
+      expected_value: 25-34 years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  - value_id: n09000011
+    label: Ards and North Down
+    ordinal: 155
+    row_number: 156
+    expected_row_header_column: A
+    expected_row_header: N09000011
+    geography_id: N09000011
+    geography_level: local_authority
+    geography_name: Ards and North Down
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 156
+      expected_value: Male
+      label: Sex
+    - column: D
+      row: 156
+      expected_value: 25-34 years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  measures:
+  - measure_id: position_5
+    label: Resident or staying temporarily (no usual UK address)
+    ordinal: 0
+    column: E
+    source_column_id: Resident or staying temporarily (no usual UK address)
+    concept: nisra.census2021_communal_residents
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 6
+    expected_column_header: Resident or staying temporarily (no usual UK address)
+    concept_evidence_notes: CT0105 publisher column labels retained, including swapped Geography/Geography
+      code labels. Positions remain separate.
+    filters:
+      position_in_establishment: Resident or staying temporarily (no usual UK address)
+    constraints:
+    - variable: position_in_establishment
+      operator: ==
+      value: Resident or staying temporarily (no usual UK address)
+      label: Position in establishment
+    source_column_dimensions:
+      position_in_establishment: Resident or staying temporarily (no usual UK address)
+  - measure_id: position_6
+    label: Staff or owner or family member or partner of staff or owner
+    ordinal: 1
+    column: F
+    source_column_id: Staff or owner or family member or partner of staff or owner
+    concept: nisra.census2021_communal_residents
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 6
+    expected_column_header: Staff or owner or family member or partner of staff or owner
+    concept_evidence_notes: CT0105 publisher column labels retained, including swapped Geography/Geography
+      code labels. Positions remain separate.
+    filters:
+      position_in_establishment: Staff or owner or family member or partner of staff or owner
+    constraints:
+    - variable: position_in_establishment
+      operator: ==
+      value: Staff or owner or family member or partner of staff or owner
+      label: Position in establishment
+    source_column_dimensions:
+      position_in_establishment: Staff or owner or family member or partner of staff or owner
+  period_coverage:
+    start_date: '2021-03-21'
+    end_date: '2021-03-21'
+    basis: calendar
+    source_period_label: Census 2021
+    notes: Usual residents, including communal establishments; students at term-time address.
+  shared_filters:
+    Sex: Male
+    Age: 25-34 years
+    residence_type: Lives in a communal establishment
+  shared_constraints:
+  - variable: Sex
+    operator: ==
+    value: Male
+    label: Sex
+  - variable: Age
+    operator: ==
+    value: 25-34 years
+    label: Age
+  - variable: residence_type
+    operator: ==
+    value: Lives in a communal establishment
+    label: Residence type
+- record_set_id: nisra.census2021_ct0105_communal_residents_lgd.male.35_44_years
+  provenance_class: census
+  record_set_spec_id: nisra.census2021_ct0105_communal_residents_lgd.male.35_44_years.v1
+  source_record_id_prefix: nisra.census2021_ct0105_communal_residents_lgd.male.35_44_years
+  sheet_name: CT0105
+  period_type: calendar_year
+  period: 2021
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: communal_establishment_usual_resident
+  domain: population
+  groupby_dimension: geography
+  rows:
+  - value_id: n09000001
+    label: Antrim and Newtownabbey
+    ordinal: 16
+    row_number: 17
+    expected_row_header_column: A
+    expected_row_header: N09000001
+    geography_id: N09000001
+    geography_level: local_authority
+    geography_name: Antrim and Newtownabbey
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 17
+      expected_value: Male
+      label: Sex
+    - column: D
+      row: 17
+      expected_value: 35-44 years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  - value_id: n09000002
+    label: Armagh City, Banbridge and Craigavon
+    ordinal: 30
+    row_number: 31
+    expected_row_header_column: A
+    expected_row_header: N09000002
+    geography_id: N09000002
+    geography_level: local_authority
+    geography_name: Armagh City, Banbridge and Craigavon
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 31
+      expected_value: Male
+      label: Sex
+    - column: D
+      row: 31
+      expected_value: 35-44 years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  - value_id: n09000003
+    label: Belfast
+    ordinal: 44
+    row_number: 45
+    expected_row_header_column: A
+    expected_row_header: N09000003
+    geography_id: N09000003
+    geography_level: local_authority
+    geography_name: Belfast
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 45
+      expected_value: Male
+      label: Sex
+    - column: D
+      row: 45
+      expected_value: 35-44 years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  - value_id: n09000004
+    label: Causeway Coast and Glens
+    ordinal: 58
+    row_number: 59
+    expected_row_header_column: A
+    expected_row_header: N09000004
+    geography_id: N09000004
+    geography_level: local_authority
+    geography_name: Causeway Coast and Glens
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 59
+      expected_value: Male
+      label: Sex
+    - column: D
+      row: 59
+      expected_value: 35-44 years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  - value_id: n09000005
+    label: Derry City and Strabane
+    ordinal: 72
+    row_number: 73
+    expected_row_header_column: A
+    expected_row_header: N09000005
+    geography_id: N09000005
+    geography_level: local_authority
+    geography_name: Derry City and Strabane
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 73
+      expected_value: Male
+      label: Sex
+    - column: D
+      row: 73
+      expected_value: 35-44 years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  - value_id: n09000006
+    label: Fermanagh and Omagh
+    ordinal: 86
+    row_number: 87
+    expected_row_header_column: A
+    expected_row_header: N09000006
+    geography_id: N09000006
+    geography_level: local_authority
+    geography_name: Fermanagh and Omagh
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 87
+      expected_value: Male
+      label: Sex
+    - column: D
+      row: 87
+      expected_value: 35-44 years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  - value_id: n09000007
+    label: Lisburn and Castlereagh
+    ordinal: 100
+    row_number: 101
+    expected_row_header_column: A
+    expected_row_header: N09000007
+    geography_id: N09000007
+    geography_level: local_authority
+    geography_name: Lisburn and Castlereagh
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 101
+      expected_value: Male
+      label: Sex
+    - column: D
+      row: 101
+      expected_value: 35-44 years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  - value_id: n09000008
+    label: Mid and East Antrim
+    ordinal: 114
+    row_number: 115
+    expected_row_header_column: A
+    expected_row_header: N09000008
+    geography_id: N09000008
+    geography_level: local_authority
+    geography_name: Mid and East Antrim
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 115
+      expected_value: Male
+      label: Sex
+    - column: D
+      row: 115
+      expected_value: 35-44 years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  - value_id: n09000009
+    label: Mid Ulster
+    ordinal: 128
+    row_number: 129
+    expected_row_header_column: A
+    expected_row_header: N09000009
+    geography_id: N09000009
+    geography_level: local_authority
+    geography_name: Mid Ulster
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 129
+      expected_value: Male
+      label: Sex
+    - column: D
+      row: 129
+      expected_value: 35-44 years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  - value_id: n09000010
+    label: Newry, Mourne and Down
+    ordinal: 142
+    row_number: 143
+    expected_row_header_column: A
+    expected_row_header: N09000010
+    geography_id: N09000010
+    geography_level: local_authority
+    geography_name: Newry, Mourne and Down
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 143
+      expected_value: Male
+      label: Sex
+    - column: D
+      row: 143
+      expected_value: 35-44 years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  - value_id: n09000011
+    label: Ards and North Down
+    ordinal: 156
+    row_number: 157
+    expected_row_header_column: A
+    expected_row_header: N09000011
+    geography_id: N09000011
+    geography_level: local_authority
+    geography_name: Ards and North Down
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 157
+      expected_value: Male
+      label: Sex
+    - column: D
+      row: 157
+      expected_value: 35-44 years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  measures:
+  - measure_id: position_5
+    label: Resident or staying temporarily (no usual UK address)
+    ordinal: 0
+    column: E
+    source_column_id: Resident or staying temporarily (no usual UK address)
+    concept: nisra.census2021_communal_residents
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 6
+    expected_column_header: Resident or staying temporarily (no usual UK address)
+    concept_evidence_notes: CT0105 publisher column labels retained, including swapped Geography/Geography
+      code labels. Positions remain separate.
+    filters:
+      position_in_establishment: Resident or staying temporarily (no usual UK address)
+    constraints:
+    - variable: position_in_establishment
+      operator: ==
+      value: Resident or staying temporarily (no usual UK address)
+      label: Position in establishment
+    source_column_dimensions:
+      position_in_establishment: Resident or staying temporarily (no usual UK address)
+  - measure_id: position_6
+    label: Staff or owner or family member or partner of staff or owner
+    ordinal: 1
+    column: F
+    source_column_id: Staff or owner or family member or partner of staff or owner
+    concept: nisra.census2021_communal_residents
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 6
+    expected_column_header: Staff or owner or family member or partner of staff or owner
+    concept_evidence_notes: CT0105 publisher column labels retained, including swapped Geography/Geography
+      code labels. Positions remain separate.
+    filters:
+      position_in_establishment: Staff or owner or family member or partner of staff or owner
+    constraints:
+    - variable: position_in_establishment
+      operator: ==
+      value: Staff or owner or family member or partner of staff or owner
+      label: Position in establishment
+    source_column_dimensions:
+      position_in_establishment: Staff or owner or family member or partner of staff or owner
+  period_coverage:
+    start_date: '2021-03-21'
+    end_date: '2021-03-21'
+    basis: calendar
+    source_period_label: Census 2021
+    notes: Usual residents, including communal establishments; students at term-time address.
+  shared_filters:
+    Sex: Male
+    Age: 35-44 years
+    residence_type: Lives in a communal establishment
+  shared_constraints:
+  - variable: Sex
+    operator: ==
+    value: Male
+    label: Sex
+  - variable: Age
+    operator: ==
+    value: 35-44 years
+    label: Age
+  - variable: residence_type
+    operator: ==
+    value: Lives in a communal establishment
+    label: Residence type
+- record_set_id: nisra.census2021_ct0105_communal_residents_lgd.male.45_54_years
+  provenance_class: census
+  record_set_spec_id: nisra.census2021_ct0105_communal_residents_lgd.male.45_54_years.v1
+  source_record_id_prefix: nisra.census2021_ct0105_communal_residents_lgd.male.45_54_years
+  sheet_name: CT0105
+  period_type: calendar_year
+  period: 2021
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: communal_establishment_usual_resident
+  domain: population
+  groupby_dimension: geography
+  rows:
+  - value_id: n09000001
+    label: Antrim and Newtownabbey
+    ordinal: 17
+    row_number: 18
+    expected_row_header_column: A
+    expected_row_header: N09000001
+    geography_id: N09000001
+    geography_level: local_authority
+    geography_name: Antrim and Newtownabbey
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 18
+      expected_value: Male
+      label: Sex
+    - column: D
+      row: 18
+      expected_value: 45-54 years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  - value_id: n09000002
+    label: Armagh City, Banbridge and Craigavon
+    ordinal: 31
+    row_number: 32
+    expected_row_header_column: A
+    expected_row_header: N09000002
+    geography_id: N09000002
+    geography_level: local_authority
+    geography_name: Armagh City, Banbridge and Craigavon
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 32
+      expected_value: Male
+      label: Sex
+    - column: D
+      row: 32
+      expected_value: 45-54 years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  - value_id: n09000003
+    label: Belfast
+    ordinal: 45
+    row_number: 46
+    expected_row_header_column: A
+    expected_row_header: N09000003
+    geography_id: N09000003
+    geography_level: local_authority
+    geography_name: Belfast
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 46
+      expected_value: Male
+      label: Sex
+    - column: D
+      row: 46
+      expected_value: 45-54 years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  - value_id: n09000004
+    label: Causeway Coast and Glens
+    ordinal: 59
+    row_number: 60
+    expected_row_header_column: A
+    expected_row_header: N09000004
+    geography_id: N09000004
+    geography_level: local_authority
+    geography_name: Causeway Coast and Glens
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 60
+      expected_value: Male
+      label: Sex
+    - column: D
+      row: 60
+      expected_value: 45-54 years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  - value_id: n09000005
+    label: Derry City and Strabane
+    ordinal: 73
+    row_number: 74
+    expected_row_header_column: A
+    expected_row_header: N09000005
+    geography_id: N09000005
+    geography_level: local_authority
+    geography_name: Derry City and Strabane
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 74
+      expected_value: Male
+      label: Sex
+    - column: D
+      row: 74
+      expected_value: 45-54 years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  - value_id: n09000006
+    label: Fermanagh and Omagh
+    ordinal: 87
+    row_number: 88
+    expected_row_header_column: A
+    expected_row_header: N09000006
+    geography_id: N09000006
+    geography_level: local_authority
+    geography_name: Fermanagh and Omagh
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 88
+      expected_value: Male
+      label: Sex
+    - column: D
+      row: 88
+      expected_value: 45-54 years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  - value_id: n09000007
+    label: Lisburn and Castlereagh
+    ordinal: 101
+    row_number: 102
+    expected_row_header_column: A
+    expected_row_header: N09000007
+    geography_id: N09000007
+    geography_level: local_authority
+    geography_name: Lisburn and Castlereagh
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 102
+      expected_value: Male
+      label: Sex
+    - column: D
+      row: 102
+      expected_value: 45-54 years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  - value_id: n09000008
+    label: Mid and East Antrim
+    ordinal: 115
+    row_number: 116
+    expected_row_header_column: A
+    expected_row_header: N09000008
+    geography_id: N09000008
+    geography_level: local_authority
+    geography_name: Mid and East Antrim
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 116
+      expected_value: Male
+      label: Sex
+    - column: D
+      row: 116
+      expected_value: 45-54 years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  - value_id: n09000009
+    label: Mid Ulster
+    ordinal: 129
+    row_number: 130
+    expected_row_header_column: A
+    expected_row_header: N09000009
+    geography_id: N09000009
+    geography_level: local_authority
+    geography_name: Mid Ulster
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 130
+      expected_value: Male
+      label: Sex
+    - column: D
+      row: 130
+      expected_value: 45-54 years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  - value_id: n09000010
+    label: Newry, Mourne and Down
+    ordinal: 143
+    row_number: 144
+    expected_row_header_column: A
+    expected_row_header: N09000010
+    geography_id: N09000010
+    geography_level: local_authority
+    geography_name: Newry, Mourne and Down
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 144
+      expected_value: Male
+      label: Sex
+    - column: D
+      row: 144
+      expected_value: 45-54 years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  - value_id: n09000011
+    label: Ards and North Down
+    ordinal: 157
+    row_number: 158
+    expected_row_header_column: A
+    expected_row_header: N09000011
+    geography_id: N09000011
+    geography_level: local_authority
+    geography_name: Ards and North Down
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 158
+      expected_value: Male
+      label: Sex
+    - column: D
+      row: 158
+      expected_value: 45-54 years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  measures:
+  - measure_id: position_5
+    label: Resident or staying temporarily (no usual UK address)
+    ordinal: 0
+    column: E
+    source_column_id: Resident or staying temporarily (no usual UK address)
+    concept: nisra.census2021_communal_residents
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 6
+    expected_column_header: Resident or staying temporarily (no usual UK address)
+    concept_evidence_notes: CT0105 publisher column labels retained, including swapped Geography/Geography
+      code labels. Positions remain separate.
+    filters:
+      position_in_establishment: Resident or staying temporarily (no usual UK address)
+    constraints:
+    - variable: position_in_establishment
+      operator: ==
+      value: Resident or staying temporarily (no usual UK address)
+      label: Position in establishment
+    source_column_dimensions:
+      position_in_establishment: Resident or staying temporarily (no usual UK address)
+  - measure_id: position_6
+    label: Staff or owner or family member or partner of staff or owner
+    ordinal: 1
+    column: F
+    source_column_id: Staff or owner or family member or partner of staff or owner
+    concept: nisra.census2021_communal_residents
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 6
+    expected_column_header: Staff or owner or family member or partner of staff or owner
+    concept_evidence_notes: CT0105 publisher column labels retained, including swapped Geography/Geography
+      code labels. Positions remain separate.
+    filters:
+      position_in_establishment: Staff or owner or family member or partner of staff or owner
+    constraints:
+    - variable: position_in_establishment
+      operator: ==
+      value: Staff or owner or family member or partner of staff or owner
+      label: Position in establishment
+    source_column_dimensions:
+      position_in_establishment: Staff or owner or family member or partner of staff or owner
+  period_coverage:
+    start_date: '2021-03-21'
+    end_date: '2021-03-21'
+    basis: calendar
+    source_period_label: Census 2021
+    notes: Usual residents, including communal establishments; students at term-time address.
+  shared_filters:
+    Sex: Male
+    Age: 45-54 years
+    residence_type: Lives in a communal establishment
+  shared_constraints:
+  - variable: Sex
+    operator: ==
+    value: Male
+    label: Sex
+  - variable: Age
+    operator: ==
+    value: 45-54 years
+    label: Age
+  - variable: residence_type
+    operator: ==
+    value: Lives in a communal establishment
+    label: Residence type
+- record_set_id: nisra.census2021_ct0105_communal_residents_lgd.male.55_64_years
+  provenance_class: census
+  record_set_spec_id: nisra.census2021_ct0105_communal_residents_lgd.male.55_64_years.v1
+  source_record_id_prefix: nisra.census2021_ct0105_communal_residents_lgd.male.55_64_years
+  sheet_name: CT0105
+  period_type: calendar_year
+  period: 2021
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: communal_establishment_usual_resident
+  domain: population
+  groupby_dimension: geography
+  rows:
+  - value_id: n09000001
+    label: Antrim and Newtownabbey
+    ordinal: 18
+    row_number: 19
+    expected_row_header_column: A
+    expected_row_header: N09000001
+    geography_id: N09000001
+    geography_level: local_authority
+    geography_name: Antrim and Newtownabbey
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 19
+      expected_value: Male
+      label: Sex
+    - column: D
+      row: 19
+      expected_value: 55-64 years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  - value_id: n09000002
+    label: Armagh City, Banbridge and Craigavon
+    ordinal: 32
+    row_number: 33
+    expected_row_header_column: A
+    expected_row_header: N09000002
+    geography_id: N09000002
+    geography_level: local_authority
+    geography_name: Armagh City, Banbridge and Craigavon
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 33
+      expected_value: Male
+      label: Sex
+    - column: D
+      row: 33
+      expected_value: 55-64 years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  - value_id: n09000003
+    label: Belfast
+    ordinal: 46
+    row_number: 47
+    expected_row_header_column: A
+    expected_row_header: N09000003
+    geography_id: N09000003
+    geography_level: local_authority
+    geography_name: Belfast
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 47
+      expected_value: Male
+      label: Sex
+    - column: D
+      row: 47
+      expected_value: 55-64 years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  - value_id: n09000004
+    label: Causeway Coast and Glens
+    ordinal: 60
+    row_number: 61
+    expected_row_header_column: A
+    expected_row_header: N09000004
+    geography_id: N09000004
+    geography_level: local_authority
+    geography_name: Causeway Coast and Glens
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 61
+      expected_value: Male
+      label: Sex
+    - column: D
+      row: 61
+      expected_value: 55-64 years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  - value_id: n09000005
+    label: Derry City and Strabane
+    ordinal: 74
+    row_number: 75
+    expected_row_header_column: A
+    expected_row_header: N09000005
+    geography_id: N09000005
+    geography_level: local_authority
+    geography_name: Derry City and Strabane
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 75
+      expected_value: Male
+      label: Sex
+    - column: D
+      row: 75
+      expected_value: 55-64 years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  - value_id: n09000006
+    label: Fermanagh and Omagh
+    ordinal: 88
+    row_number: 89
+    expected_row_header_column: A
+    expected_row_header: N09000006
+    geography_id: N09000006
+    geography_level: local_authority
+    geography_name: Fermanagh and Omagh
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 89
+      expected_value: Male
+      label: Sex
+    - column: D
+      row: 89
+      expected_value: 55-64 years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  - value_id: n09000007
+    label: Lisburn and Castlereagh
+    ordinal: 102
+    row_number: 103
+    expected_row_header_column: A
+    expected_row_header: N09000007
+    geography_id: N09000007
+    geography_level: local_authority
+    geography_name: Lisburn and Castlereagh
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 103
+      expected_value: Male
+      label: Sex
+    - column: D
+      row: 103
+      expected_value: 55-64 years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  - value_id: n09000008
+    label: Mid and East Antrim
+    ordinal: 116
+    row_number: 117
+    expected_row_header_column: A
+    expected_row_header: N09000008
+    geography_id: N09000008
+    geography_level: local_authority
+    geography_name: Mid and East Antrim
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 117
+      expected_value: Male
+      label: Sex
+    - column: D
+      row: 117
+      expected_value: 55-64 years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  - value_id: n09000009
+    label: Mid Ulster
+    ordinal: 130
+    row_number: 131
+    expected_row_header_column: A
+    expected_row_header: N09000009
+    geography_id: N09000009
+    geography_level: local_authority
+    geography_name: Mid Ulster
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 131
+      expected_value: Male
+      label: Sex
+    - column: D
+      row: 131
+      expected_value: 55-64 years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  - value_id: n09000010
+    label: Newry, Mourne and Down
+    ordinal: 144
+    row_number: 145
+    expected_row_header_column: A
+    expected_row_header: N09000010
+    geography_id: N09000010
+    geography_level: local_authority
+    geography_name: Newry, Mourne and Down
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 145
+      expected_value: Male
+      label: Sex
+    - column: D
+      row: 145
+      expected_value: 55-64 years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  - value_id: n09000011
+    label: Ards and North Down
+    ordinal: 158
+    row_number: 159
+    expected_row_header_column: A
+    expected_row_header: N09000011
+    geography_id: N09000011
+    geography_level: local_authority
+    geography_name: Ards and North Down
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 159
+      expected_value: Male
+      label: Sex
+    - column: D
+      row: 159
+      expected_value: 55-64 years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  measures:
+  - measure_id: position_5
+    label: Resident or staying temporarily (no usual UK address)
+    ordinal: 0
+    column: E
+    source_column_id: Resident or staying temporarily (no usual UK address)
+    concept: nisra.census2021_communal_residents
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 6
+    expected_column_header: Resident or staying temporarily (no usual UK address)
+    concept_evidence_notes: CT0105 publisher column labels retained, including swapped Geography/Geography
+      code labels. Positions remain separate.
+    filters:
+      position_in_establishment: Resident or staying temporarily (no usual UK address)
+    constraints:
+    - variable: position_in_establishment
+      operator: ==
+      value: Resident or staying temporarily (no usual UK address)
+      label: Position in establishment
+    source_column_dimensions:
+      position_in_establishment: Resident or staying temporarily (no usual UK address)
+  - measure_id: position_6
+    label: Staff or owner or family member or partner of staff or owner
+    ordinal: 1
+    column: F
+    source_column_id: Staff or owner or family member or partner of staff or owner
+    concept: nisra.census2021_communal_residents
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 6
+    expected_column_header: Staff or owner or family member or partner of staff or owner
+    concept_evidence_notes: CT0105 publisher column labels retained, including swapped Geography/Geography
+      code labels. Positions remain separate.
+    filters:
+      position_in_establishment: Staff or owner or family member or partner of staff or owner
+    constraints:
+    - variable: position_in_establishment
+      operator: ==
+      value: Staff or owner or family member or partner of staff or owner
+      label: Position in establishment
+    source_column_dimensions:
+      position_in_establishment: Staff or owner or family member or partner of staff or owner
+  period_coverage:
+    start_date: '2021-03-21'
+    end_date: '2021-03-21'
+    basis: calendar
+    source_period_label: Census 2021
+    notes: Usual residents, including communal establishments; students at term-time address.
+  shared_filters:
+    Sex: Male
+    Age: 55-64 years
+    residence_type: Lives in a communal establishment
+  shared_constraints:
+  - variable: Sex
+    operator: ==
+    value: Male
+    label: Sex
+  - variable: Age
+    operator: ==
+    value: 55-64 years
+    label: Age
+  - variable: residence_type
+    operator: ==
+    value: Lives in a communal establishment
+    label: Residence type
+- record_set_id: nisra.census2021_ct0105_communal_residents_lgd.male.65_years
+  provenance_class: census
+  record_set_spec_id: nisra.census2021_ct0105_communal_residents_lgd.male.65_years.v1
+  source_record_id_prefix: nisra.census2021_ct0105_communal_residents_lgd.male.65_years
+  sheet_name: CT0105
+  period_type: calendar_year
+  period: 2021
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: communal_establishment_usual_resident
+  domain: population
+  groupby_dimension: geography
+  rows:
+  - value_id: n09000001
+    label: Antrim and Newtownabbey
+    ordinal: 19
+    row_number: 20
+    expected_row_header_column: A
+    expected_row_header: N09000001
+    geography_id: N09000001
+    geography_level: local_authority
+    geography_name: Antrim and Newtownabbey
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 20
+      expected_value: Male
+      label: Sex
+    - column: D
+      row: 20
+      expected_value: 65+ years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  - value_id: n09000002
+    label: Armagh City, Banbridge and Craigavon
+    ordinal: 33
+    row_number: 34
+    expected_row_header_column: A
+    expected_row_header: N09000002
+    geography_id: N09000002
+    geography_level: local_authority
+    geography_name: Armagh City, Banbridge and Craigavon
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 34
+      expected_value: Male
+      label: Sex
+    - column: D
+      row: 34
+      expected_value: 65+ years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  - value_id: n09000003
+    label: Belfast
+    ordinal: 47
+    row_number: 48
+    expected_row_header_column: A
+    expected_row_header: N09000003
+    geography_id: N09000003
+    geography_level: local_authority
+    geography_name: Belfast
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 48
+      expected_value: Male
+      label: Sex
+    - column: D
+      row: 48
+      expected_value: 65+ years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  - value_id: n09000004
+    label: Causeway Coast and Glens
+    ordinal: 61
+    row_number: 62
+    expected_row_header_column: A
+    expected_row_header: N09000004
+    geography_id: N09000004
+    geography_level: local_authority
+    geography_name: Causeway Coast and Glens
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 62
+      expected_value: Male
+      label: Sex
+    - column: D
+      row: 62
+      expected_value: 65+ years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  - value_id: n09000005
+    label: Derry City and Strabane
+    ordinal: 75
+    row_number: 76
+    expected_row_header_column: A
+    expected_row_header: N09000005
+    geography_id: N09000005
+    geography_level: local_authority
+    geography_name: Derry City and Strabane
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 76
+      expected_value: Male
+      label: Sex
+    - column: D
+      row: 76
+      expected_value: 65+ years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  - value_id: n09000006
+    label: Fermanagh and Omagh
+    ordinal: 89
+    row_number: 90
+    expected_row_header_column: A
+    expected_row_header: N09000006
+    geography_id: N09000006
+    geography_level: local_authority
+    geography_name: Fermanagh and Omagh
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 90
+      expected_value: Male
+      label: Sex
+    - column: D
+      row: 90
+      expected_value: 65+ years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  - value_id: n09000007
+    label: Lisburn and Castlereagh
+    ordinal: 103
+    row_number: 104
+    expected_row_header_column: A
+    expected_row_header: N09000007
+    geography_id: N09000007
+    geography_level: local_authority
+    geography_name: Lisburn and Castlereagh
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 104
+      expected_value: Male
+      label: Sex
+    - column: D
+      row: 104
+      expected_value: 65+ years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  - value_id: n09000008
+    label: Mid and East Antrim
+    ordinal: 117
+    row_number: 118
+    expected_row_header_column: A
+    expected_row_header: N09000008
+    geography_id: N09000008
+    geography_level: local_authority
+    geography_name: Mid and East Antrim
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 118
+      expected_value: Male
+      label: Sex
+    - column: D
+      row: 118
+      expected_value: 65+ years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  - value_id: n09000009
+    label: Mid Ulster
+    ordinal: 131
+    row_number: 132
+    expected_row_header_column: A
+    expected_row_header: N09000009
+    geography_id: N09000009
+    geography_level: local_authority
+    geography_name: Mid Ulster
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 132
+      expected_value: Male
+      label: Sex
+    - column: D
+      row: 132
+      expected_value: 65+ years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  - value_id: n09000010
+    label: Newry, Mourne and Down
+    ordinal: 145
+    row_number: 146
+    expected_row_header_column: A
+    expected_row_header: N09000010
+    geography_id: N09000010
+    geography_level: local_authority
+    geography_name: Newry, Mourne and Down
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 146
+      expected_value: Male
+      label: Sex
+    - column: D
+      row: 146
+      expected_value: 65+ years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  - value_id: n09000011
+    label: Ards and North Down
+    ordinal: 159
+    row_number: 160
+    expected_row_header_column: A
+    expected_row_header: N09000011
+    geography_id: N09000011
+    geography_level: local_authority
+    geography_name: Ards and North Down
+    geography_vintage: lgd_2014
+    table_record_kind: detail
+    guard_cells:
+    - column: C
+      row: 160
+      expected_value: Male
+      label: Sex
+    - column: D
+      row: 160
+      expected_value: 65+ years
+      label: Age
+    - column: A
+      row: 2
+      expected_value: 'Table population: All usual residents in communal establishments'
+      label: Communal usual-resident table population
+    source_row_dimensions:
+      residence_type: Lives in a communal establishment
+  measures:
+  - measure_id: position_5
+    label: Resident or staying temporarily (no usual UK address)
+    ordinal: 0
+    column: E
+    source_column_id: Resident or staying temporarily (no usual UK address)
+    concept: nisra.census2021_communal_residents
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 6
+    expected_column_header: Resident or staying temporarily (no usual UK address)
+    concept_evidence_notes: CT0105 publisher column labels retained, including swapped Geography/Geography
+      code labels. Positions remain separate.
+    filters:
+      position_in_establishment: Resident or staying temporarily (no usual UK address)
+    constraints:
+    - variable: position_in_establishment
+      operator: ==
+      value: Resident or staying temporarily (no usual UK address)
+      label: Position in establishment
+    source_column_dimensions:
+      position_in_establishment: Resident or staying temporarily (no usual UK address)
+  - measure_id: position_6
+    label: Staff or owner or family member or partner of staff or owner
+    ordinal: 1
+    column: F
+    source_column_id: Staff or owner or family member or partner of staff or owner
+    concept: nisra.census2021_communal_residents
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 6
+    expected_column_header: Staff or owner or family member or partner of staff or owner
+    concept_evidence_notes: CT0105 publisher column labels retained, including swapped Geography/Geography
+      code labels. Positions remain separate.
+    filters:
+      position_in_establishment: Staff or owner or family member or partner of staff or owner
+    constraints:
+    - variable: position_in_establishment
+      operator: ==
+      value: Staff or owner or family member or partner of staff or owner
+      label: Position in establishment
+    source_column_dimensions:
+      position_in_establishment: Staff or owner or family member or partner of staff or owner
+  period_coverage:
+    start_date: '2021-03-21'
+    end_date: '2021-03-21'
+    basis: calendar
+    source_period_label: Census 2021
+    notes: Usual residents, including communal establishments; students at term-time address.
+  shared_filters:
+    Sex: Male
+    Age: 65+ years
+    residence_type: Lives in a communal establishment
+  shared_constraints:
+  - variable: Sex
+    operator: ==
+    value: Male
+    label: Sex
+  - variable: Age
+    operator: ==
+    value: 65+ years
+    label: Age
+  - variable: residence_type
+    operator: ==
+    value: Lives in a communal establishment
+    label: Residence type

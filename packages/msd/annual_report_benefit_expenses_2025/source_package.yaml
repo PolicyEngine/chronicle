@@ -1,0 +1,432 @@
+# Publisher actual FY2024/25 expenses only. Full-document numeric parse; select
+# all eleven significant expenditure types on page 182, including the published
+# Other and total. Accommodation Assistance is not identified as AS-only.
+# Split fiscal years store the opening year. No calculated sums or averages.
+schema_version: ledger.source_package.v1
+package_id: msd-annual-report-benefit-expenses-2025
+label: MSD actual Benefits or Related Expenses, fiscal year ended 30 June 2025
+dimension_labels:
+  msd.benefit_expense_component: Benefit expense component
+  benefit_expense_component: Benefit expense component
+dimension_value_labels:
+  benefit_expense_component:
+    Accommodation Assistance: Accommodation Assistance
+    Disability Assistance: Disability Assistance
+    Hardship Assistance: Hardship Assistance
+    Jobseeker Support and Emergency Benefit: Jobseeker Support and Emergency Benefit
+    New Zealand Superannuation: New Zealand Superannuation
+    Orphan's/Unsupported Child's Benefit: Orphan's/Unsupported Child's Benefit
+    Sole Parent Support: Sole Parent Support
+    Student Allowances: Student Allowances
+    Supported Living Payment: Supported Living Payment
+    Other Benefits or Related Expenses: Other Benefits or Related Expenses
+    Total Benefits or Related Expenses: Total Benefits or Related Expenses
+artifact:
+  source_name: msd
+  source_table: Ministry of Social Development Annual Report 2025, Benefits or Related Expenses
+  resource_package: db
+  resource_directory: data/msd/annual_report_benefit_expenses_2025
+  manifest: manifest.yaml
+  vintage: annual_report_2025
+  extracted_at: '2026-10-07'
+  extraction_method: pypdf text-line number extraction from the full 210-page publisher PDF
+  parser: pdf_text_numbers
+  artifact_year: 2025
+record_sets:
+- record_set_id: msd.benefit_expenses.fy2024
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: msd.benefit_expenses.fy2024.v1
+  source_record_id_prefix: msd.benefit_expenses.fy2024
+  sheet_name: document_numbers
+  period_type: fiscal_year
+  period: 2024
+  period_coverage:
+    basis: fiscal
+    source_period_label: '2025'
+    start_date: '2024-07-01'
+    end_date: '2025-06-30'
+    notes: The report states the year ended 30 June 2025, labels actual expense columns 2024
+      and 2025, and elsewhere names the financial year 2024/25. Chronicle stores the opening
+      year of the split fiscal year, 2024; source_period_label '2025' is the publisher's
+      column header, the year ended 30 June 2025. These are publisher actual expenses; no
+      period alignment or uprating.
+  geography_id: NZ
+  geography_level: country
+  geography_name: New Zealand
+  geography_vintage: current
+  entity: government
+  entity_role: benefit_paying_government
+  domain: social_benefit_expenditure
+  groupby_dimension: msd.benefit_expense_component
+  rows:
+  - value_id: accommodation_assistance
+    label: Accommodation Assistance
+    ordinal: 0
+    row_number: 4963
+    expected_row_header_column: C
+    expected_row_header: 2,410,658 Accommodation Assistance 2,232,026
+    table_record_kind: detail
+    source_row_dimensions:
+      benefit_expense_component: Accommodation Assistance
+    filters:
+      benefit_expense_component: Accommodation Assistance
+    constraints:
+    - variable: benefit_expense_component
+      operator: ==
+      value: Accommodation Assistance
+      label: Accommodation Assistance
+    guard_cells:
+    - column: A
+      expected_value: 182
+      label: PDF page number
+    - column: B
+      expected_value: 19
+      label: PDF extracted line number
+    - column: D
+      expected_value: 2,232,026
+      label: source Actual 2025 number text
+    - &id001
+      column: C
+      row: 3
+      expected_value: For the year ended 30 June 2025
+      label: report fiscal-year end date
+    - &id002
+      column: C
+      row: 4959
+      expected_value: 2024 2025
+      label: expense table actual-year columns
+    - &id003
+      column: D
+      row: 4959
+      expected_value: '2025'
+      label: selected Actual 2025 column
+    - &id004
+      column: F
+      row: 4959
+      expected_value: 'Benefits or related expenses includes the following significant expenditure
+        types: Actual Actual 2024 2025 $000 $000 Benefits or Related Expenses'
+      label: expense table actual-year and units context
+  - value_id: disability_assistance
+    label: Disability Assistance
+    ordinal: 1
+    row_number: 4965
+    expected_row_header_column: C
+    expected_row_header: 463,614 Disability Assistance 491,784
+    table_record_kind: detail
+    source_row_dimensions:
+      benefit_expense_component: Disability Assistance
+    filters:
+      benefit_expense_component: Disability Assistance
+    constraints:
+    - variable: benefit_expense_component
+      operator: ==
+      value: Disability Assistance
+      label: Disability Assistance
+    guard_cells:
+    - column: A
+      expected_value: 182
+      label: PDF page number
+    - column: B
+      expected_value: 20
+      label: PDF extracted line number
+    - column: D
+      expected_value: 491,784
+      label: source Actual 2025 number text
+    - *id001
+    - *id002
+    - *id003
+    - *id004
+  - value_id: hardship_assistance
+    label: Hardship Assistance
+    ordinal: 2
+    row_number: 4967
+    expected_row_header_column: C
+    expected_row_header: 667,421 Hardship Assistance 754,599
+    table_record_kind: detail
+    source_row_dimensions:
+      benefit_expense_component: Hardship Assistance
+    filters:
+      benefit_expense_component: Hardship Assistance
+    constraints:
+    - variable: benefit_expense_component
+      operator: ==
+      value: Hardship Assistance
+      label: Hardship Assistance
+    guard_cells:
+    - column: A
+      expected_value: 182
+      label: PDF page number
+    - column: B
+      expected_value: 21
+      label: PDF extracted line number
+    - column: D
+      expected_value: 754,599
+      label: source Actual 2025 number text
+    - *id001
+    - *id002
+    - *id003
+    - *id004
+  - value_id: jobseeker_support_and_emergency_benefit
+    label: Jobseeker Support and Emergency Benefit
+    ordinal: 3
+    row_number: 4969
+    expected_row_header_column: C
+    expected_row_header: 4,062,221 Jobseeker Support and Emergency Benefit 4,640,562
+    table_record_kind: detail
+    source_row_dimensions:
+      benefit_expense_component: Jobseeker Support and Emergency Benefit
+    filters:
+      benefit_expense_component: Jobseeker Support and Emergency Benefit
+    constraints:
+    - variable: benefit_expense_component
+      operator: ==
+      value: Jobseeker Support and Emergency Benefit
+      label: Jobseeker Support and Emergency Benefit
+    guard_cells:
+    - column: A
+      expected_value: 182
+      label: PDF page number
+    - column: B
+      expected_value: 22
+      label: PDF extracted line number
+    - column: D
+      expected_value: 4,640,562
+      label: source Actual 2025 number text
+    - *id001
+    - *id002
+    - *id003
+    - *id004
+  - value_id: new_zealand_superannuation
+    label: New Zealand Superannuation
+    ordinal: 4
+    row_number: 4971
+    expected_row_header_column: C
+    expected_row_header: 21,574,368 New Zealand Superannuation 23,191,199
+    table_record_kind: detail
+    source_row_dimensions:
+      benefit_expense_component: New Zealand Superannuation
+    filters:
+      benefit_expense_component: New Zealand Superannuation
+    constraints:
+    - variable: benefit_expense_component
+      operator: ==
+      value: New Zealand Superannuation
+      label: New Zealand Superannuation
+    guard_cells:
+    - column: A
+      expected_value: 182
+      label: PDF page number
+    - column: B
+      expected_value: 23
+      label: PDF extracted line number
+    - column: D
+      expected_value: 23,191,199
+      label: source Actual 2025 number text
+    - *id001
+    - *id002
+    - *id003
+    - *id004
+  - value_id: orphans_unsupported_childs_benefit
+    label: Orphan's/Unsupported Child's Benefit
+    ordinal: 5
+    row_number: 4973
+    expected_row_header_column: C
+    expected_row_header: 383,743 Orphan's/Unsupported Child's Benefit 402,311
+    table_record_kind: detail
+    source_row_dimensions:
+      benefit_expense_component: Orphan's/Unsupported Child's Benefit
+    filters:
+      benefit_expense_component: Orphan's/Unsupported Child's Benefit
+    constraints:
+    - variable: benefit_expense_component
+      operator: ==
+      value: Orphan's/Unsupported Child's Benefit
+      label: Orphan's/Unsupported Child's Benefit
+    guard_cells:
+    - column: A
+      expected_value: 182
+      label: PDF page number
+    - column: B
+      expected_value: 24
+      label: PDF extracted line number
+    - column: D
+      expected_value: 402,311
+      label: source Actual 2025 number text
+    - *id001
+    - *id002
+    - *id003
+    - *id004
+  - value_id: sole_parent_support
+    label: Sole Parent Support
+    ordinal: 6
+    row_number: 4975
+    expected_row_header_column: C
+    expected_row_header: 2,097,032 Sole Parent Support 2,255,092
+    table_record_kind: detail
+    source_row_dimensions:
+      benefit_expense_component: Sole Parent Support
+    filters:
+      benefit_expense_component: Sole Parent Support
+    constraints:
+    - variable: benefit_expense_component
+      operator: ==
+      value: Sole Parent Support
+      label: Sole Parent Support
+    guard_cells:
+    - column: A
+      expected_value: 182
+      label: PDF page number
+    - column: B
+      expected_value: 25
+      label: PDF extracted line number
+    - column: D
+      expected_value: 2,255,092
+      label: source Actual 2025 number text
+    - *id001
+    - *id002
+    - *id003
+    - *id004
+  - value_id: student_allowances
+    label: Student Allowances
+    ordinal: 7
+    row_number: 4977
+    expected_row_header_column: C
+    expected_row_header: 525,895 Student Allowances 573,646
+    table_record_kind: detail
+    source_row_dimensions:
+      benefit_expense_component: Student Allowances
+    filters:
+      benefit_expense_component: Student Allowances
+    constraints:
+    - variable: benefit_expense_component
+      operator: ==
+      value: Student Allowances
+      label: Student Allowances
+    guard_cells:
+    - column: A
+      expected_value: 182
+      label: PDF page number
+    - column: B
+      expected_value: 26
+      label: PDF extracted line number
+    - column: D
+      expected_value: 573,646
+      label: source Actual 2025 number text
+    - *id001
+    - *id002
+    - *id003
+    - *id004
+  - value_id: supported_living_payment
+    label: Supported Living Payment
+    ordinal: 8
+    row_number: 4979
+    expected_row_header_column: C
+    expected_row_header: 2,530,299 Supported Living Payment 2,668,450
+    table_record_kind: detail
+    source_row_dimensions:
+      benefit_expense_component: Supported Living Payment
+    filters:
+      benefit_expense_component: Supported Living Payment
+    constraints:
+    - variable: benefit_expense_component
+      operator: ==
+      value: Supported Living Payment
+      label: Supported Living Payment
+    guard_cells:
+    - column: A
+      expected_value: 182
+      label: PDF page number
+    - column: B
+      expected_value: 27
+      label: PDF extracted line number
+    - column: D
+      expected_value: 2,668,450
+      label: source Actual 2025 number text
+    - *id001
+    - *id002
+    - *id003
+    - *id004
+  - value_id: other_benefits_or_related_expenses
+    label: Other Benefits or Related Expenses
+    ordinal: 9
+    row_number: 4981
+    expected_row_header_column: C
+    expected_row_header: 948,233 Other Benefits or Related Expenses 1,057,867
+    table_record_kind: detail
+    source_row_dimensions:
+      benefit_expense_component: Other Benefits or Related Expenses
+    filters:
+      benefit_expense_component: Other Benefits or Related Expenses
+    constraints:
+    - variable: benefit_expense_component
+      operator: ==
+      value: Other Benefits or Related Expenses
+      label: Other Benefits or Related Expenses
+    guard_cells:
+    - column: A
+      expected_value: 182
+      label: PDF page number
+    - column: B
+      expected_value: 28
+      label: PDF extracted line number
+    - column: D
+      expected_value: 1,057,867
+      label: source Actual 2025 number text
+    - *id001
+    - *id002
+    - *id003
+    - *id004
+  - value_id: total_benefits_or_related_expenses
+    label: Total Benefits or Related Expenses
+    ordinal: 10
+    row_number: 4983
+    expected_row_header_column: C
+    expected_row_header: 35,663,484 Total Benefits or Related Expenses 38,267,536
+    table_record_kind: total
+    source_row_dimensions:
+      benefit_expense_component: Total Benefits or Related Expenses
+    filters:
+      benefit_expense_component: Total Benefits or Related Expenses
+    constraints:
+    - variable: benefit_expense_component
+      operator: ==
+      value: Total Benefits or Related Expenses
+      label: Total Benefits or Related Expenses
+    guard_cells:
+    - column: A
+      expected_value: 182
+      label: PDF page number
+    - column: B
+      expected_value: 29
+      label: PDF extracted line number
+    - column: D
+      expected_value: 38,267,536
+      label: source Actual 2025 number text
+    - *id001
+    - *id002
+    - *id003
+    - *id004
+  measures:
+  - measure_id: actual_expenses_nzd
+    label: Actual Benefits or Related Expenses (NZD)
+    ordinal: 0
+    column: E
+    source_column_id: actual_2025_expenses_nzd
+    expected_column_header_row: 1
+    expected_column_header: numeric_value
+    concept: msd.benefits_or_related_expenses
+    source_concept: msd.benefits_or_related_expenses
+    concept_relation: source_label
+    concept_authority: msd
+    concept_evidence_url: https://www.msd.govt.nz/documents/about-msd-and-our-work/publications-resources/corporate/annual-report/2025/msd-annual-report-2025.pdf
+    concept_evidence_notes: Annual Report 2025, PDF page 182, Benefits or Related Expenses,
+      Actual 2025 column ($000). The published total is preserved as a separate source cell,
+      never computed from components. Accommodation Assistance is the published appropriation
+      label. The report does not define which payments it includes; page 206 lists the appropriation
+      as exempted from reporting under Public Finance Act 1989 section 15D(2)(b)(ii). No AS-only
+      scope is asserted. See package evidence.md for verbatim table and exemption evidence.
+    unit: nzd
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000

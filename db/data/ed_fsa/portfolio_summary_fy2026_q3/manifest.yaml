@@ -1,0 +1,20 @@
+source_id: ed_fsa
+package_id: ed-fsa-portfolio-summary-fy2026-q3
+dataset: ed_fsa_portfolio_summary_fy2026_q3
+source_page: https://studentaid.gov/data-center/student/portfolio
+table: Federal Student Aid Portfolio Summary (PortfolioSummary.xls), through FY2026 Q3
+files:
+  2026:
+    filename: PortfolioSummary.xls
+    source_url: https://studentaid.gov/sites/default/files/fsawg/datacenter/library/PortfolioSummary.xls
+    sha256: 11606d4b93ceea969fcae0f790f3a4e1c2999b62050559ce89bdc269810a62ee
+    size_bytes: 63488
+    fetched_at: '2026-10-12T14:09:13Z'
+    source_table: Federal Student Aid Portfolio Summary (PortfolioSummary.xls), through FY2026 Q3
+    year: 2026
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/ed_fsa/ed-fsa-portfolio-summary-fy2026-q3/2026/11606d4b93ceea969fcae0f790f3a4e1c2999b62050559ce89bdc269810a62ee/PortfolioSummary.xls
+        uri: r2://ledger-raw/raw/ed_fsa/ed-fsa-portfolio-summary-fy2026-q3/2026/11606d4b93ceea969fcae0f790f3a4e1c2999b62050559ce89bdc269810a62ee/PortfolioSummary.xls

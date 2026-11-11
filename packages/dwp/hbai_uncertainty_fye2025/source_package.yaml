@@ -1,0 +1,555 @@
+# DWP Households Below Average Income, FYE 2025 release (26 March 2026): the 95% confidence
+# intervals for the four statistics dwp-hbai-summary-fye2025 carries, for
+# PolicyEngine/chronicle#357 item 5. They are only in the release's data-table ZIP, in
+# 'Communicating uncertainty' (member uncertainty-hbai-2024-25-tables.ods), read through the
+# zip_ods_used_range parser.
+#
+# Ported: Table 8a's interval for Quintile 3 (the median) and Table 8b's interval for all
+# individuals in relative low income, before and after housing costs, each as two facts on
+# the statistic dimension (ci_95_lower_bound, ci_95_upper_bound). The estimates the
+# intervals bracket (column C) equal the summary package's FYE 2025 facts and are not
+# repeated; the bounds are the stored values, which the sheet displays rounded. DWP
+# publishes intervals only for each release's latest year (FYE 2025 here), bootstrapped
+# from the FRS design (methodology report).
+#
+# Not ported: the other quintiles, mean, Gini, absolute low income, the children,
+# working-age and pensioner groups, and the intervals on the year-on-year change.
+schema_version: ledger.source_package.v1
+package_id: dwp-hbai-uncertainty-fye2025
+label: 'DWP Households Below Average Income, FYE 2025 release: 95% confidence intervals for the FYE 2025
+  median equivalised household income and percentage of individuals in relative low income, before and
+  after housing costs'
+dimension_labels:
+  housing_costs: Housing costs
+  price_basis: Price basis
+  low_income_threshold: Low income threshold
+  statistic: Statistic
+dimension_value_labels:
+  housing_costs:
+    before_housing_costs: Before housing costs
+    after_housing_costs: After housing costs
+  price_basis:
+    average_2024_25_prices: Average 2024/25 prices
+  low_income_threshold:
+    below_60pct_contemporary_median: Below 60% of the same year's median income
+  statistic:
+    ci_95_lower_bound: 95% confidence interval lower bound
+    ci_95_upper_bound: 95% confidence interval upper bound
+artifact:
+  source_name: dwp
+  source_table: 'Households Below Average Income, FYE 2025: HBAI data tables (ZIP), communicating uncertainty,
+    Tables 8a and 8b'
+  resource_package: db
+  resource_directory: data/dwp/hbai_uncertainty_fye2025
+  manifest: manifest.yaml
+  vintage: hbai_fye2025_release_2026_03_26
+  extracted_at: '2026-10-15'
+  extraction_method: ODS whole-workbook used-range cell parse
+  parser: zip_ods_used_range
+  archive_member: uncertainty-hbai-2024-25-tables.ods
+  artifact_year: 2025
+record_sets:
+- record_set_id: dwp.hbai_fye2025.median_income_ci95.before_housing_costs.fy2024
+  provenance_class: survey_aggregate
+  survey_instrument: Family Resources Survey
+  assertion: observation
+  record_set_spec_id: dwp.hbai_fye2025.median_income_ci95.before_housing_costs.fy2024.v1
+  source_record_id_prefix: dwp.hbai_fye2025.median_income_ci95.before_housing_costs.fy2024
+  sheet_name: 8a
+  period_type: fiscal_year
+  period: 2024
+  period_coverage:
+    start_date: '2024-04-01'
+    end_date: '2025-03-31'
+    basis: fiscal
+    source_period_label: 2024/25
+    notes: Financial year ending March 2025 (FYE 2025); period.value stores the opening year.
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: individual_in_private_household
+  domain: household_income_distribution
+  groupby_dimension: housing_costs
+  rows:
+  - value_id: before_housing_costs
+    label: Before housing costs
+    ordinal: 0
+    row_number: 9
+    expected_row_header_column: B
+    expected_row_header: Quintile 3
+    table_record_kind: detail
+    filters:
+      housing_costs: before_housing_costs
+      price_basis: average_2024_25_prices
+    constraints:
+    - variable: housing_costs
+      operator: ==
+      value: before_housing_costs
+      label: Housing costs
+    - variable: price_basis
+      operator: ==
+      value: average_2024_25_prices
+      label: Price basis
+    guard_cells:
+    - column: A
+      row: 7
+      expected_value: Before Housing Costs
+      label: housing-cost block heading
+    - column: F
+      row: 6
+      expected_value: 95% Confidence Interval
+      label: interval header
+    - column: F
+      row: 9
+      expected_value: ','
+      label: separator between the lower and upper bounds
+  measures:
+  - measure_id: median_equivalised_household_income_ci_95_lower_bound
+    label: Median equivalised household income, before housing costs, 2024/25, 95% confidence interval
+      lower bound
+    ordinal: 0
+    column: E
+    source_column_id: ci_95_lower_bound
+    source_column_dimensions:
+      statistic: ci_95_lower_bound
+    filters:
+      statistic: ci_95_lower_bound
+    constraints:
+    - variable: statistic
+      operator: ==
+      value: ci_95_lower_bound
+      label: Statistic
+    concept: dwp.hbai.median_equivalised_household_income
+    source_concept: dwp.hbai.median_equivalised_household_income
+    concept_relation: source_label
+    concept_authority: dwp
+    concept_evidence_url: https://www.gov.uk/government/statistics/households-below-average-income-for-financial-years-ending-1995-to-2025
+    concept_evidence_notes: 'HBAI communicating uncertainty tables (data-table ZIP member uncertainty-hbai-2024-25-tables.ods),
+      Table 8a, Quintile 3 row: the 95% confidence interval lower bound for the FYE 2025 median (column
+      C, which equals Table 1.2b''s estimate), GBP per week in average 2024/25 prices, as stored (the
+      sheet displays it rounded). DWP bootstraps the interval (500 resamples of the FRS design, regrossed;
+      methodology report). Households Below Average Income, FYE 1995 to FYE 2025 release (26 March 2026).
+      Weekly net disposable household income, equivalised with the modified OECD scale (couple without
+      children = 1; the AHC companion scale after housing costs), individuals ranked by their household''s
+      income. Relative low income is income below 60 per cent of the same year''s median. From FYE 2022
+      the survey is linked to DWP and HMRC administrative records, a break in series (Note 1). Figures
+      are for the United Kingdom from 2002/03 and Great Britain before (Notes). Family Resources Survey
+      estimates carry sampling error.'
+    unit: gbp_per_week
+    aggregation: median
+    expected_cell_type: number
+  - measure_id: median_equivalised_household_income_ci_95_upper_bound
+    label: Median equivalised household income, before housing costs, 2024/25, 95% confidence interval
+      upper bound
+    ordinal: 1
+    column: G
+    source_column_id: ci_95_upper_bound
+    source_column_dimensions:
+      statistic: ci_95_upper_bound
+    filters:
+      statistic: ci_95_upper_bound
+    constraints:
+    - variable: statistic
+      operator: ==
+      value: ci_95_upper_bound
+      label: Statistic
+    concept: dwp.hbai.median_equivalised_household_income
+    source_concept: dwp.hbai.median_equivalised_household_income
+    concept_relation: source_label
+    concept_authority: dwp
+    concept_evidence_url: https://www.gov.uk/government/statistics/households-below-average-income-for-financial-years-ending-1995-to-2025
+    concept_evidence_notes: 'HBAI communicating uncertainty tables (data-table ZIP member uncertainty-hbai-2024-25-tables.ods),
+      Table 8a, Quintile 3 row: the 95% confidence interval upper bound for the FYE 2025 median (column
+      C, which equals Table 1.2b''s estimate), GBP per week in average 2024/25 prices, as stored (the
+      sheet displays it rounded). DWP bootstraps the interval (500 resamples of the FRS design, regrossed;
+      methodology report). Households Below Average Income, FYE 1995 to FYE 2025 release (26 March 2026).
+      Weekly net disposable household income, equivalised with the modified OECD scale (couple without
+      children = 1; the AHC companion scale after housing costs), individuals ranked by their household''s
+      income. Relative low income is income below 60 per cent of the same year''s median. From FYE 2022
+      the survey is linked to DWP and HMRC administrative records, a break in series (Note 1). Figures
+      are for the United Kingdom from 2002/03 and Great Britain before (Notes). Family Resources Survey
+      estimates carry sampling error.'
+    unit: gbp_per_week
+    aggregation: median
+    expected_cell_type: number
+- record_set_id: dwp.hbai_fye2025.median_income_ci95.after_housing_costs.fy2024
+  provenance_class: survey_aggregate
+  survey_instrument: Family Resources Survey
+  assertion: observation
+  record_set_spec_id: dwp.hbai_fye2025.median_income_ci95.after_housing_costs.fy2024.v1
+  source_record_id_prefix: dwp.hbai_fye2025.median_income_ci95.after_housing_costs.fy2024
+  sheet_name: 8a
+  period_type: fiscal_year
+  period: 2024
+  period_coverage:
+    start_date: '2024-04-01'
+    end_date: '2025-03-31'
+    basis: fiscal
+    source_period_label: 2024/25
+    notes: Financial year ending March 2025 (FYE 2025); period.value stores the opening year.
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: individual_in_private_household
+  domain: household_income_distribution
+  groupby_dimension: housing_costs
+  rows:
+  - value_id: after_housing_costs
+    label: After housing costs
+    ordinal: 0
+    row_number: 16
+    expected_row_header_column: B
+    expected_row_header: Quintile 3
+    table_record_kind: detail
+    filters:
+      housing_costs: after_housing_costs
+      price_basis: average_2024_25_prices
+    constraints:
+    - variable: housing_costs
+      operator: ==
+      value: after_housing_costs
+      label: Housing costs
+    - variable: price_basis
+      operator: ==
+      value: average_2024_25_prices
+      label: Price basis
+    guard_cells:
+    - column: A
+      row: 14
+      expected_value: After Housing Costs
+      label: housing-cost block heading
+    - column: F
+      row: 6
+      expected_value: 95% Confidence Interval
+      label: interval header
+    - column: F
+      row: 16
+      expected_value: ','
+      label: separator between the lower and upper bounds
+  measures:
+  - measure_id: median_equivalised_household_income_ci_95_lower_bound
+    label: Median equivalised household income, after housing costs, 2024/25, 95% confidence interval
+      lower bound
+    ordinal: 0
+    column: E
+    source_column_id: ci_95_lower_bound
+    source_column_dimensions:
+      statistic: ci_95_lower_bound
+    filters:
+      statistic: ci_95_lower_bound
+    constraints:
+    - variable: statistic
+      operator: ==
+      value: ci_95_lower_bound
+      label: Statistic
+    concept: dwp.hbai.median_equivalised_household_income
+    source_concept: dwp.hbai.median_equivalised_household_income
+    concept_relation: source_label
+    concept_authority: dwp
+    concept_evidence_url: https://www.gov.uk/government/statistics/households-below-average-income-for-financial-years-ending-1995-to-2025
+    concept_evidence_notes: 'HBAI communicating uncertainty tables (data-table ZIP member uncertainty-hbai-2024-25-tables.ods),
+      Table 8a, Quintile 3 row: the 95% confidence interval lower bound for the FYE 2025 median (column
+      C, which equals Table 1.2b''s estimate), GBP per week in average 2024/25 prices, as stored (the
+      sheet displays it rounded). DWP bootstraps the interval (500 resamples of the FRS design, regrossed;
+      methodology report). Households Below Average Income, FYE 1995 to FYE 2025 release (26 March 2026).
+      Weekly net disposable household income, equivalised with the modified OECD scale (couple without
+      children = 1; the AHC companion scale after housing costs), individuals ranked by their household''s
+      income. Relative low income is income below 60 per cent of the same year''s median. From FYE 2022
+      the survey is linked to DWP and HMRC administrative records, a break in series (Note 1). Figures
+      are for the United Kingdom from 2002/03 and Great Britain before (Notes). Family Resources Survey
+      estimates carry sampling error.'
+    unit: gbp_per_week
+    aggregation: median
+    expected_cell_type: number
+  - measure_id: median_equivalised_household_income_ci_95_upper_bound
+    label: Median equivalised household income, after housing costs, 2024/25, 95% confidence interval
+      upper bound
+    ordinal: 1
+    column: G
+    source_column_id: ci_95_upper_bound
+    source_column_dimensions:
+      statistic: ci_95_upper_bound
+    filters:
+      statistic: ci_95_upper_bound
+    constraints:
+    - variable: statistic
+      operator: ==
+      value: ci_95_upper_bound
+      label: Statistic
+    concept: dwp.hbai.median_equivalised_household_income
+    source_concept: dwp.hbai.median_equivalised_household_income
+    concept_relation: source_label
+    concept_authority: dwp
+    concept_evidence_url: https://www.gov.uk/government/statistics/households-below-average-income-for-financial-years-ending-1995-to-2025
+    concept_evidence_notes: 'HBAI communicating uncertainty tables (data-table ZIP member uncertainty-hbai-2024-25-tables.ods),
+      Table 8a, Quintile 3 row: the 95% confidence interval upper bound for the FYE 2025 median (column
+      C, which equals Table 1.2b''s estimate), GBP per week in average 2024/25 prices, as stored (the
+      sheet displays it rounded). DWP bootstraps the interval (500 resamples of the FRS design, regrossed;
+      methodology report). Households Below Average Income, FYE 1995 to FYE 2025 release (26 March 2026).
+      Weekly net disposable household income, equivalised with the modified OECD scale (couple without
+      children = 1; the AHC companion scale after housing costs), individuals ranked by their household''s
+      income. Relative low income is income below 60 per cent of the same year''s median. From FYE 2022
+      the survey is linked to DWP and HMRC administrative records, a break in series (Note 1). Figures
+      are for the United Kingdom from 2002/03 and Great Britain before (Notes). Family Resources Survey
+      estimates carry sampling error.'
+    unit: gbp_per_week
+    aggregation: median
+    expected_cell_type: number
+- record_set_id: dwp.hbai_fye2025.relative_low_income_ci95.before_housing_costs.fy2024
+  provenance_class: survey_aggregate
+  survey_instrument: Family Resources Survey
+  assertion: observation
+  record_set_spec_id: dwp.hbai_fye2025.relative_low_income_ci95.before_housing_costs.fy2024.v1
+  source_record_id_prefix: dwp.hbai_fye2025.relative_low_income_ci95.before_housing_costs.fy2024
+  sheet_name: 8b
+  period_type: fiscal_year
+  period: 2024
+  period_coverage:
+    start_date: '2024-04-01'
+    end_date: '2025-03-31'
+    basis: fiscal
+    source_period_label: 2024/25
+    notes: Financial year ending March 2025 (FYE 2025); period.value stores the opening year.
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: individual_in_private_household
+  domain: household_income_distribution
+  groupby_dimension: housing_costs
+  rows:
+  - value_id: before_housing_costs
+    label: Before housing costs
+    ordinal: 0
+    row_number: 10
+    expected_row_header_column: A
+    expected_row_header: Relative Low Income
+    table_record_kind: detail
+    filters:
+      housing_costs: before_housing_costs
+      low_income_threshold: below_60pct_contemporary_median
+    constraints:
+    - variable: housing_costs
+      operator: ==
+      value: before_housing_costs
+      label: Housing costs
+    - variable: low_income_threshold
+      operator: ==
+      value: below_60pct_contemporary_median
+      label: Household income below 60 per cent of the same year's median
+    guard_cells:
+    - column: A
+      row: 9
+      expected_value: Before Housing Costs
+      label: housing-cost block heading
+    - column: D
+      row: 7
+      expected_value: All Individuals
+      label: population group
+    - column: E
+      row: 8
+      expected_value: 95% Confidence Intervals
+      label: interval header
+    - column: B
+      row: 10
+      expected_value: Percentage below 60% of relative median income
+      label: threshold definition
+  measures:
+  - measure_id: relative_low_income_share_ci_95_lower_bound
+    label: Individuals in relative low income, before housing costs, 2024/25, 95% confidence interval
+      lower bound
+    ordinal: 0
+    column: D
+    source_column_id: ci_95_lower_bound
+    source_column_dimensions:
+      statistic: ci_95_lower_bound
+    filters:
+      statistic: ci_95_lower_bound
+    constraints:
+    - variable: statistic
+      operator: ==
+      value: ci_95_lower_bound
+      label: Statistic
+    concept: dwp.hbai.relative_low_income_share
+    source_concept: dwp.hbai.relative_low_income_share
+    concept_relation: source_label
+    concept_authority: dwp
+    concept_evidence_url: https://www.gov.uk/government/statistics/households-below-average-income-for-financial-years-ending-1995-to-2025
+    concept_evidence_notes: 'HBAI communicating uncertainty tables (data-table ZIP member uncertainty-hbai-2024-25-tables.ods),
+      Table 8b, all individuals: the 95% confidence interval lower bound for the FYE 2025 percentage in
+      relative low income (column C, which equals Table 1.3a''s estimate), percentage points, as stored
+      (the sheet displays it rounded). DWP bootstraps the interval (methodology report). Households Below
+      Average Income, FYE 1995 to FYE 2025 release (26 March 2026). Weekly net disposable household income,
+      equivalised with the modified OECD scale (couple without children = 1; the AHC companion scale after
+      housing costs), individuals ranked by their household''s income. Relative low income is income below
+      60 per cent of the same year''s median. From FYE 2022 the survey is linked to DWP and HMRC administrative
+      records, a break in series (Note 1). Figures are for the United Kingdom from 2002/03 and Great Britain
+      before (Notes). Family Resources Survey estimates carry sampling error.'
+    unit: percent
+    aggregation: share
+    expected_cell_type: number
+  - measure_id: relative_low_income_share_ci_95_upper_bound
+    label: Individuals in relative low income, before housing costs, 2024/25, 95% confidence interval
+      upper bound
+    ordinal: 1
+    column: F
+    source_column_id: ci_95_upper_bound
+    source_column_dimensions:
+      statistic: ci_95_upper_bound
+    filters:
+      statistic: ci_95_upper_bound
+    constraints:
+    - variable: statistic
+      operator: ==
+      value: ci_95_upper_bound
+      label: Statistic
+    concept: dwp.hbai.relative_low_income_share
+    source_concept: dwp.hbai.relative_low_income_share
+    concept_relation: source_label
+    concept_authority: dwp
+    concept_evidence_url: https://www.gov.uk/government/statistics/households-below-average-income-for-financial-years-ending-1995-to-2025
+    concept_evidence_notes: 'HBAI communicating uncertainty tables (data-table ZIP member uncertainty-hbai-2024-25-tables.ods),
+      Table 8b, all individuals: the 95% confidence interval upper bound for the FYE 2025 percentage in
+      relative low income (column C, which equals Table 1.3a''s estimate), percentage points, as stored
+      (the sheet displays it rounded). DWP bootstraps the interval (methodology report). Households Below
+      Average Income, FYE 1995 to FYE 2025 release (26 March 2026). Weekly net disposable household income,
+      equivalised with the modified OECD scale (couple without children = 1; the AHC companion scale after
+      housing costs), individuals ranked by their household''s income. Relative low income is income below
+      60 per cent of the same year''s median. From FYE 2022 the survey is linked to DWP and HMRC administrative
+      records, a break in series (Note 1). Figures are for the United Kingdom from 2002/03 and Great Britain
+      before (Notes). Family Resources Survey estimates carry sampling error.'
+    unit: percent
+    aggregation: share
+    expected_cell_type: number
+- record_set_id: dwp.hbai_fye2025.relative_low_income_ci95.after_housing_costs.fy2024
+  provenance_class: survey_aggregate
+  survey_instrument: Family Resources Survey
+  assertion: observation
+  record_set_spec_id: dwp.hbai_fye2025.relative_low_income_ci95.after_housing_costs.fy2024.v1
+  source_record_id_prefix: dwp.hbai_fye2025.relative_low_income_ci95.after_housing_costs.fy2024
+  sheet_name: 8b
+  period_type: fiscal_year
+  period: 2024
+  period_coverage:
+    start_date: '2024-04-01'
+    end_date: '2025-03-31'
+    basis: fiscal
+    source_period_label: 2024/25
+    notes: Financial year ending March 2025 (FYE 2025); period.value stores the opening year.
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: individual_in_private_household
+  domain: household_income_distribution
+  groupby_dimension: housing_costs
+  rows:
+  - value_id: after_housing_costs
+    label: After housing costs
+    ordinal: 0
+    row_number: 15
+    expected_row_header_column: A
+    expected_row_header: Relative Low Income
+    table_record_kind: detail
+    filters:
+      housing_costs: after_housing_costs
+      low_income_threshold: below_60pct_contemporary_median
+    constraints:
+    - variable: housing_costs
+      operator: ==
+      value: after_housing_costs
+      label: Housing costs
+    - variable: low_income_threshold
+      operator: ==
+      value: below_60pct_contemporary_median
+      label: Household income below 60 per cent of the same year's median
+    guard_cells:
+    - column: A
+      row: 14
+      expected_value: After Housing Costs
+      label: housing-cost block heading
+    - column: D
+      row: 7
+      expected_value: All Individuals
+      label: population group
+    - column: E
+      row: 8
+      expected_value: 95% Confidence Intervals
+      label: interval header
+    - column: B
+      row: 15
+      expected_value: Percentage below 60% of relative median income
+      label: threshold definition
+  measures:
+  - measure_id: relative_low_income_share_ci_95_lower_bound
+    label: Individuals in relative low income, after housing costs, 2024/25, 95% confidence interval lower
+      bound
+    ordinal: 0
+    column: D
+    source_column_id: ci_95_lower_bound
+    source_column_dimensions:
+      statistic: ci_95_lower_bound
+    filters:
+      statistic: ci_95_lower_bound
+    constraints:
+    - variable: statistic
+      operator: ==
+      value: ci_95_lower_bound
+      label: Statistic
+    concept: dwp.hbai.relative_low_income_share
+    source_concept: dwp.hbai.relative_low_income_share
+    concept_relation: source_label
+    concept_authority: dwp
+    concept_evidence_url: https://www.gov.uk/government/statistics/households-below-average-income-for-financial-years-ending-1995-to-2025
+    concept_evidence_notes: 'HBAI communicating uncertainty tables (data-table ZIP member uncertainty-hbai-2024-25-tables.ods),
+      Table 8b, all individuals: the 95% confidence interval lower bound for the FYE 2025 percentage in
+      relative low income (column C, which equals Table 1.3a''s estimate), percentage points, as stored
+      (the sheet displays it rounded). DWP bootstraps the interval (methodology report). Households Below
+      Average Income, FYE 1995 to FYE 2025 release (26 March 2026). Weekly net disposable household income,
+      equivalised with the modified OECD scale (couple without children = 1; the AHC companion scale after
+      housing costs), individuals ranked by their household''s income. Relative low income is income below
+      60 per cent of the same year''s median. From FYE 2022 the survey is linked to DWP and HMRC administrative
+      records, a break in series (Note 1). Figures are for the United Kingdom from 2002/03 and Great Britain
+      before (Notes). Family Resources Survey estimates carry sampling error.'
+    unit: percent
+    aggregation: share
+    expected_cell_type: number
+  - measure_id: relative_low_income_share_ci_95_upper_bound
+    label: Individuals in relative low income, after housing costs, 2024/25, 95% confidence interval upper
+      bound
+    ordinal: 1
+    column: F
+    source_column_id: ci_95_upper_bound
+    source_column_dimensions:
+      statistic: ci_95_upper_bound
+    filters:
+      statistic: ci_95_upper_bound
+    constraints:
+    - variable: statistic
+      operator: ==
+      value: ci_95_upper_bound
+      label: Statistic
+    concept: dwp.hbai.relative_low_income_share
+    source_concept: dwp.hbai.relative_low_income_share
+    concept_relation: source_label
+    concept_authority: dwp
+    concept_evidence_url: https://www.gov.uk/government/statistics/households-below-average-income-for-financial-years-ending-1995-to-2025
+    concept_evidence_notes: 'HBAI communicating uncertainty tables (data-table ZIP member uncertainty-hbai-2024-25-tables.ods),
+      Table 8b, all individuals: the 95% confidence interval upper bound for the FYE 2025 percentage in
+      relative low income (column C, which equals Table 1.3a''s estimate), percentage points, as stored
+      (the sheet displays it rounded). DWP bootstraps the interval (methodology report). Households Below
+      Average Income, FYE 1995 to FYE 2025 release (26 March 2026). Weekly net disposable household income,
+      equivalised with the modified OECD scale (couple without children = 1; the AHC companion scale after
+      housing costs), individuals ranked by their household''s income. Relative low income is income below
+      60 per cent of the same year''s median. From FYE 2022 the survey is linked to DWP and HMRC administrative
+      records, a break in series (Note 1). Figures are for the United Kingdom from 2002/03 and Great Britain
+      before (Notes). Family Resources Survey estimates carry sampling error.'
+    unit: percent
+    aggregation: share
+    expected_cell_type: number

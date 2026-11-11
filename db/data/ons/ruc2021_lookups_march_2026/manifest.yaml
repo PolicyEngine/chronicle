@@ -1,0 +1,29 @@
+source_id: ons
+package_id: ons-ruc2021-lookups-march-2026
+dataset: ons_ons-ruc2021-lookups-march-2026
+source_page: https://www.ons.gov.uk/methodology/geography/geographicalproducts/ruralurbanclassifications/2021ruralurbanclassification
+table: 2021 Rural Urban Classification, all supplementary tables (OA, LSOA, MSOA,
+  LAD 2021 and LAD 2024 lookups), updated 31 March 2026
+files:
+  2026:
+    filename: 260331rucallsupplementarytables.xlsx
+    source_url: https://www.ons.gov.uk/file?uri=/methodology/geography/geographicalproducts/ruralurbanclassifications/2021ruralurbanclassification/260331rucallsupplementarytables.xlsx
+    sha256: bb19be3e628da4351887863ac310145ee476025438d982aeffc2443140454b36
+    size_bytes: 14927956
+    fetched_at: '2026-10-15T10:03:23+00:00'
+    storage:
+      local: false
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/ons/ons-ruc2021-lookups-march-2026/2026/bb19be3e628da4351887863ac310145ee476025438d982aeffc2443140454b36/260331rucallsupplementarytables.xlsx
+        uri: r2://ledger-raw/raw/uk/ons/ons-ruc2021-lookups-march-2026/2026/bb19be3e628da4351887863ac310145ee476025438d982aeffc2443140454b36/260331rucallsupplementarytables.xlsx
+registration_kind: raw_only
+provenance_notes: 'ONS 2021 Rural Urban Classification for England and Wales, the
+  all-supplementary- tables workbook (released 6 March 2025, updated 31 March 2026):
+  Tables 1A to 1E are the lookups for 2021 output areas (188,880), LSOAs (35,672),
+  MSOAs (7,264) and local authority districts on 2021 (331) and 2024 (318) boundaries,
+  each with RUC21CD, RUC21NM and the urban/rural flag; the other tables are supplementary.
+  It is the static, dated file behind the Open Geography Portal lookups, which are
+  regenerated exports. Licence: Open Government Licence v3.0; Source: Office for National
+  Statistics. Raw-only for chronicle#356 item 4.'

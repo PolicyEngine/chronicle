@@ -1,0 +1,19 @@
+source_id: nrs
+package_id: nrs-households-data-zone-2025
+dataset: nrs_nrs-households-data-zone-2025
+source_page: https://nrscotland.gov.uk/publications/small-area-statistics-on-households-and-dwellings-2025/
+table: households_data_zone_2025
+files:
+  2025:
+    filename: household-estimates-by-2022-data-zones-24-25.xlsx
+    source_url: https://nrscotland.gov.uk/media/ynjma234/household-estimates-by-2022-data-zones-24-25.xlsx
+    sha256: c7e1df4c7964e2206668ba46d85002fceed93d7b38b881e8c220920abb337f5b
+    size_bytes: 1736456
+    fetched_at: '2026-10-07T13:34:58+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/nrs/nrs-households-data-zone-2025/2025/c7e1df4c7964e2206668ba46d85002fceed93d7b38b881e8c220920abb337f5b/household-estimates-by-2022-data-zones-24-25.xlsx
+        uri: r2://ledger-raw/raw/uk/nrs/nrs-households-data-zone-2025/2025/c7e1df4c7964e2206668ba46d85002fceed93d7b38b881e8c220920abb337f5b/household-estimates-by-2022-data-zones-24-25.xlsx
+registration_kind: source_facts

@@ -1,0 +1,29 @@
+source_id: ons
+package_id: ons-paye-rti-nsa-october-2026
+dataset: ons_ons-paye-rti-nsa-october-2026
+source_page: https://www.ons.gov.uk/employmentandlabourmarket/peopleinwork/earningsandworkinghours/datasets/realtimeinformationstatisticsreferencetablenonseasonallyadjusted
+table: 'Earnings and employment from Pay As You Earn Real Time Information, non-seasonally
+  adjusted, UK: October 2026'
+license: Open Government Licence v3.0
+license_url: https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/
+attribution: 'Source: Office for National Statistics and HM Revenue and Customs, Earnings
+  and employment from Pay As You Earn Real Time Information, non-seasonally adjusted
+  (released 20 October 2026). Contains public sector information licensed under the
+  Open Government Licence v3.0.'
+license_evidence: 'ONS pages state: ''All content is available under the Open Government
+  Licence v3.0, except where otherwise stated.'' (dataset page https://www.ons.gov.uk/employmentandlabourmarket/peopleinwork/earningsandworkinghours/datasets/realtimeinformationstatisticsreferencetablenonseasonallyadjusted);
+  the workbook states no other terms.'
+license_verified_at: '2026-11-06'
+files:
+  2026:
+    filename: rtinsaoct2026.xlsx
+    source_url: https://www.ons.gov.uk/file?uri=/employmentandlabourmarket/peopleinwork/earningsandworkinghours/datasets/realtimeinformationstatisticsreferencetablenonseasonallyadjusted/current/rtinsaoct2026.xlsx
+    sha256: f67a0b41e31883a1d2dac22a52bf2369c543f0ed8ac96d2bd476e58890351c9b
+    size_bytes: 1530184
+    fetched_at: '2026-11-06T12:23:15+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/ons/ons-paye-rti-nsa-october-2026/2026/f67a0b41e31883a1d2dac22a52bf2369c543f0ed8ac96d2bd476e58890351c9b/rtinsaoct2026.xlsx
+        uri: r2://ledger-raw/raw/uk/ons/ons-paye-rti-nsa-october-2026/2026/f67a0b41e31883a1d2dac22a52bf2369c543f0ed8ac96d2bd476e58890351c9b/rtinsaoct2026.xlsx
