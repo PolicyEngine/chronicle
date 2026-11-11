@@ -3,6 +3,7 @@ __pycache__/
 micro/us/*.parquet
 venv/
 *.parquet
+.hypothesis/
 # Raw releases archived in R2 only (chronicle#343); each manifest pins the bytes.
 # Price Paid Data carries Royal Mail and OS address data licensed for
 # non-commercial use, so none of its bytes enter this public repository; the

@@ -2,17 +2,23 @@
 
 The database is a Chronicle-owned query surface for source-backed aggregate facts.
 It is deterministic output from source artifacts, selectors, and aggregate facts;
-hosted systems such as Supabase can mirror this schema later.
+hosted systems such as Supabase can mirror this schema later. With the same
+Python and SQLite build, identical inputs give byte-identical files:
+``ledger_builds.created_at`` comes from ``SOURCE_DATE_EPOCH``, never the wall
+clock.
 """
 
 from __future__ import annotations
 
 import hashlib
 import json
+import os
+import re
 import sqlite3
+from collections.abc import Mapping
 from contextlib import closing
 from dataclasses import asdict, dataclass
-from datetime import datetime, timezone
+from datetime import UTC, datetime, timedelta
 from decimal import Decimal
 from pathlib import Path
 from typing import Any
@@ -42,6 +48,11 @@ from chronicle.sources.rows import (
 )
 
 LEDGER_DB_SCHEMA_VERSION = schema_id("relational", Epoch.LEDGER)
+SOURCE_DATE_EPOCH_ENV = "SOURCE_DATE_EPOCH"
+_MAX_SOURCE_DATE_EPOCH = 253_402_300_799  # 9999-12-31T23:59:59Z
+# Unix seconds as ``date +%s`` prints them: no sign, no leading zeros.
+_SOURCE_DATE_EPOCH_PATTERN = re.compile(r"0|[1-9][0-9]{0,11}")
+_UNIX_EPOCH = datetime(1970, 1, 1, tzinfo=UTC)
 
 
 @dataclass(frozen=True)
@@ -72,6 +83,7 @@ def build_chronicle_db(
     build_id: str | None = None,
     replace: bool = False,
     emit_epoch: Epoch | str = EMIT_EPOCH,
+    source_date_epoch: int | None = None,
 ) -> ChronicleDbBuildReport:
     """Build a deterministic SQLite Chronicle database artifact.
 
@@ -79,6 +91,11 @@ def build_chronicle_db(
     ``build_id`` must carry an accepted build-domain prefix; it is validated
     before the filesystem is touched so a refused call leaves an existing
     database in place.
+
+    ``ledger_builds.created_at`` is ``source_date_epoch`` (Unix seconds) when
+    given, else the ``SOURCE_DATE_EPOCH`` environment variable, else the Unix
+    epoch, so the same inputs always write the same bytes. A malformed value
+    is refused before the filesystem is touched.
     """
     try:
         emit_epoch = Epoch(emit_epoch)
@@ -96,6 +113,7 @@ def build_chronicle_db(
         if build_id is not None
         else _build_id(facts, cells, rows, epoch=emit_epoch)
     )
+    created_at = build_created_at(source_date_epoch)
 
     path = Path(db_path)
     if path.exists():
@@ -120,6 +138,7 @@ def build_chronicle_db(
         _insert_build(
             connection,
             build_id=resolved_build_id,
+            created_at=created_at,
             facts_count=len(facts),
             constraints_count=sum(
                 len(constraints) for _, constraints in fact_constraints
@@ -420,10 +439,44 @@ def _create_indexes(connection: sqlite3.Connection) -> None:
     )
 
 
+def build_created_at(
+    source_date_epoch: int | None = None,
+    environ: Mapping[str, str] | None = None,
+) -> str:
+    """Return the ISO-8601 UTC build time for ``ledger_builds.created_at``.
+
+    An explicit ``source_date_epoch`` wins, then ``SOURCE_DATE_EPOCH`` in
+    ``environ`` (the process environment by default), formatted as
+    https://reproducible-builds.org/specs/source-date-epoch/ requires; when
+    neither is set the build is stamped with the Unix epoch. Builds call it
+    before touching their output so a malformed value refuses the build.
+    """
+    name = "source_date_epoch"
+    value: object = source_date_epoch
+    if value is None:
+        name = SOURCE_DATE_EPOCH_ENV
+        environ = os.environ if environ is None else environ
+        raw = environ.get(SOURCE_DATE_EPOCH_ENV, "0")
+        value = int(raw) if _SOURCE_DATE_EPOCH_PATTERN.fullmatch(raw) else raw
+    if (
+        not isinstance(value, int)
+        or isinstance(value, bool)
+        or not 0 <= value <= _MAX_SOURCE_DATE_EPOCH
+    ):
+        raise ValueError(
+            f"{name} must be an integer count of Unix seconds from 0 to "
+            f"{_MAX_SOURCE_DATE_EPOCH}; got {value!r}"
+        )
+    # Epoch arithmetic, unlike datetime.fromtimestamp, reaches year 9999 on
+    # every platform.
+    return (_UNIX_EPOCH + timedelta(seconds=value)).isoformat()
+
+
 def _insert_build(
     connection: sqlite3.Connection,
     *,
     build_id: str,
+    created_at: str,
     facts_count: int,
     constraints_count: int,
     source_records_count: int,
@@ -454,7 +507,7 @@ def _insert_build(
         (
             build_id,
             schema_id("relational", emit_epoch),
-            datetime.now(timezone.utc).isoformat(),
+            created_at,
             facts_count,
             constraints_count,
             source_records_count,
