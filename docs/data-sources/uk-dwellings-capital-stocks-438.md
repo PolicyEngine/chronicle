@@ -138,6 +138,10 @@ file is about a third of the size of the earlier preliminary editions ONS lists.
   for its measure.
 - The tables label each column by year and do not say at what point in the year a stock is
   measured. So the facts carry the year as printed, with no end-of-year coverage.
+- They behave as end-of-year positions, though. In all 240 sector-years, the 2025 edition's
+  net stock matches the balance sheet's end-of-year dwellings to within rounding (see the
+  parity check below). So a consumer can pair a year's stocks with the balance sheet's
+  position at the end of that year.
 - The stocks are modelled estimates, `model_output`.
 
 **Figures stored as text.** The 2025 workbook stores most of its figures, and its year headers,

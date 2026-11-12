@@ -698,7 +698,13 @@ def cs_record_set(
         "rows": [
             {
                 "value_id": role,
-                "label": header.rstrip("0123456789"),
+                # A value of the sector dimension: the total row's header names the
+                # asset, so the whole economy takes the sector's own name.
+                "label": (
+                    "Whole economy"
+                    if role == "total_economy"
+                    else header.rstrip("0123456789")
+                ),
                 "ordinal": 0,
                 "row_number": row,
                 "expected_row_header_column": "A",

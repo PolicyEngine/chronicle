@@ -4,7 +4,8 @@ Dwellings (AN.111) by institutional sector, read from the two national balance s
 workbooks that the land packages already pin; ONS's gross and net capital stock of
 dwellings at current prices from its capital stocks releases of 27 November 2025 and 10
 June 2026; and Census 2021 TS054 households by tenure for the MSOAs of England and Wales.
-Expected values are read from the pinned files here, never written into this file.
+Expected values are read from the pinned files here, except for the few published figures
+the issue lists, which are written in so that a re-pin that moves one of them fails.
 """
 
 from __future__ import annotations
@@ -433,3 +434,60 @@ def test_msoa_details_sum_to_the_total():
             details[fact.geography.id] += fact.value
     assert len(totals) == 7264
     assert totals == details
+
+
+# The figures PolicyEngine/chronicle#438 lists, as ONS publishes them: the balance sheets
+# in GBP million and the capital stocks in GBP billion, keyed by series and year. The
+# other tests read every value back from the pinned files; these hold a few of the values
+# themselves, so new bytes under the same layout fail here.
+PUBLISHED_ANCHORS = {
+    "ons-national-balance-sheet-dwellings-2025": {
+        ("ons.e46y", 2024): 2_525_540,
+        ("ons.e46d", 2024): 554_744,
+        ("ons.e46g", 2024): 0,
+        ("ons.e46i", 2024): 8_105,
+        ("ons.e46m", 2024): 1_962_691,
+        ("ons.e46e", 2024): 129_699,
+        ("ons.e46f", 2024): 425_045,
+        ("ons.e46v", 2024): 1_960_671,
+        ("ons.e46w", 2024): 2_020,
+    },
+    "ons-national-balance-sheet-dwellings-preliminary-2026": {
+        ("ons.e46y", 2025): 2_637_111,
+        ("ons.e46d", 2025): 592_560,
+        ("ons.e46g", 2025): 0,
+        ("ons.e46i", 2025): 7_615,
+        ("ons.e46m", 2025): 2_036_936,
+    },
+    "ons-capital-stocks-dwellings-2025": {
+        ("ons.mjf7", 2024): 4_632,
+        ("ons.mjf8", 2024): 2_526,
+    },
+    "ons-capital-stocks-dwellings-preliminary-2026": {
+        ("ons.mjf7", 2025): 4_801,
+        ("ons.mjf8", 2025): 2_631,
+    },
+}
+
+
+@pytest.mark.parametrize("package_id", sorted(PUBLISHED_ANCHORS))
+def test_the_figures_the_issue_lists_are_the_published_values(package_id):
+    scale = 1_000_000 if "balance-sheet" in package_id else 1_000_000_000
+    values = Counter()
+    for fact in _facts(package_id):
+        key = (fact.measure.source_concept, fact.period.value)
+        if key in PUBLISHED_ANCHORS[package_id]:
+            values[key] += fact.value
+    for key, published in PUBLISHED_ANCHORS[package_id].items():
+        assert values[key] == published * scale, key
+
+
+def test_city_of_london_001_has_the_published_households():
+    (fact,) = [
+        fact
+        for fact in _facts(TS054_MSOA)
+        if fact.geography.id == "E02000001"
+        and fact.filters["c2021_tenure_9_name"] == "Total: All households"
+    ]
+    assert fact.geography.name == "City of London 001"
+    assert fact.value == 4_914

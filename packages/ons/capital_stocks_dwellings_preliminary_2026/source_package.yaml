@@ -53,7 +53,7 @@ record_sets:
   groupby_dimension: ons.capital_stock_sector
   rows:
   - value_id: total_economy
-    label: Total dwellings (excluding land)
+    label: Whole economy
     ordinal: 0
     row_number: 4
     expected_row_header_column: A
@@ -109,7 +109,7 @@ record_sets:
   groupby_dimension: ons.capital_stock_sector
   rows:
   - value_id: total_economy
-    label: Total dwellings (excluding land)
+    label: Whole economy
     ordinal: 0
     row_number: 4
     expected_row_header_column: A
