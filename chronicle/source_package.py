@@ -1293,6 +1293,18 @@ SOURCE_PACKAGE_ALIASES = {
     ),
     "ons-land-underlying-buildings-2022": Path("ons/land_underlying_buildings_2022"),
     # end PolicyEngine/chronicle#408
+    # PolicyEngine/chronicle#438: dwellings by sector and ONS's capital stocks
+    "ons-national-balance-sheet-dwellings-2025": Path(
+        "ons/national_balance_sheet_dwellings_2025"
+    ),
+    "ons-national-balance-sheet-dwellings-preliminary-2026": Path(
+        "ons/national_balance_sheet_dwellings_preliminary_2026"
+    ),
+    "ons-capital-stocks-dwellings-2025": Path("ons/capital_stocks_dwellings_2025"),
+    "ons-capital-stocks-dwellings-preliminary-2026": Path(
+        "ons/capital_stocks_dwellings_preliminary_2026"
+    ),
+    # end PolicyEngine/chronicle#438
     "obr-fuel-duty-receipts-by-vehicle-april-2024": Path(
         "obr/fuel_duty_receipts_by_vehicle_april_2024"
     ),

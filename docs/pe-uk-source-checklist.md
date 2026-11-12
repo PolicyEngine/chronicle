@@ -489,6 +489,21 @@ Field contracts and caveats are in
 - **UCL's house price per square metre (item 6).** UK Data Service ReShare 856542's two
   bundles, 3.2 and 4.4 GB, pinned raw with no facts (`ucl-house-price-per-square-metre-856542`).
 
+## Beyond parity — UK dwellings inputs (chronicle#438)
+
+Inputs for Microcosm's stock table of homes
+([PolicyEngine/microcosm#1524](https://github.com/PolicyEngine/microcosm/issues/1524)) and its
+base ledger, following chronicle#408's land by sector. Four packages add 854 facts; field
+contracts, parity checks and caveats are in
+[`docs/data-sources/uk-dwellings-capital-stocks-438.md`](data-sources/uk-dwellings-capital-stocks-438.md).
+
+- **Dwellings by sector.** Dwellings (AN.111) for the twelve sectors of the two pinned balance
+  sheet workbooks, with no new file: `ons-national-balance-sheet-dwellings-2025` (360 facts,
+  1995 to 2024) and `ons-national-balance-sheet-dwellings-preliminary-2026` (12, end-2025).
+- **ONS capital stocks of dwellings.** The gross and net stock at current prices:
+  `ons-capital-stocks-dwellings-2025` (480 facts, eight sector rows, 1995 to 2024) and
+  `ons-capital-stocks-dwellings-preliminary-2026` (2, the whole economy in 2025).
+
 ## Beyond parity — UK young people and work facts (chronicle#420)
 
 Published facts for the review of young people and work

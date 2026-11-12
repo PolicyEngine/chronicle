@@ -537,6 +537,10 @@ So the whole economy less households and non-financial corporations is E43K + E4
 published figure rather than a residual. It is £454,887m in 2024, and £323,750m at end-2025 in
 the preliminary edition.
 
+[chronicle#438](https://github.com/PolicyEngine/chronicle/issues/438) reads the Dwellings column
+of the same tables into two sibling packages, which leave these two unchanged
+([`uk-dwellings-capital-stocks-438.md`](uk-dwellings-capital-stocks-438.md)).
+
 ### ONS's 2022 series
 
 **`ons-land-underlying-buildings-2022`** (108 facts) is Figure 1 of ONS's "Improving estimates of
