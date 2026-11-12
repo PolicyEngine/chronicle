@@ -16,6 +16,9 @@ every row number, column and guard cell below is one the package parser sees.
   ``ons-capital-stocks-dwellings-preliminary-2026``: the gross and net capital stock of
   dwellings at current prices, from ONS's capital stocks releases of 27 November 2025 and
   10 June 2026 (item 2).
+- ``ons-census2021-ts054-tenure-msoa``: Census 2021 TS054 households by tenure for the
+  7,264 MSOAs of England and Wales, in the categories and spec ids of
+  ``ons-census2021-ts054-tenure-lad`` (item 3).
 
 The helpers come from scripts/build_uk_408_packages.py, which writes the land packages.
 """
@@ -25,8 +28,12 @@ from __future__ import annotations
 import argparse
 import re
 import sys
+import textwrap
+import zipfile
 from dataclasses import dataclass
 from pathlib import Path
+
+import yaml
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
@@ -42,6 +49,10 @@ from build_uk_408_packages import (  # noqa: E402
 )
 
 from chronicle.sources.cells import source_cells_from_xlsx  # noqa: E402
+from chronicle.sources.rows import (  # noqa: E402
+    source_cells_from_source_rows,
+    source_rows_from_delimited_text,
+)
 
 EXTRACTED_AT = "2026-11-12"
 ISSUE = "PolicyEngine/chronicle#438"
@@ -851,6 +862,240 @@ def build_capital_stocks(edition: CapitalStocks) -> str:
     return render(header, payload)
 
 
+# --------------------------------------------- 3. Census 2021 TS054 tenure by MSOA
+
+TS054_LAD_DIRECTORY = "ons/census2021_ts054_tenure_lad"
+TS054_DIRECTORY = "ons/census2021_ts054_tenure_msoa"
+TS054_MEMBER = "census2021-ts054-msoa.csv"
+TS054_PREFIX = "Tenure of household: "
+TS054_LAD_PREFIX = "ons.census2021.ts054.lad."
+TS054_URL = "https://www.nomisweb.co.uk/datasets/c2021ts054"
+TS054_HOUSEHOLDS_NOTE = (
+    "Households, not dwellings: ONS's metadata says tenure is not available for "
+    "household spaces with no usual residents."
+)
+TS054_SDC_NOTE = (
+    "Census 2021's disclosure control (targeted record swapping and cell key "
+    "perturbation) can make counts differ slightly between tables, so an "
+    "authority's MSOAs need not sum to its local authority row."
+)
+TS054_SOCIAL_NOTE = (
+    "ONS's quality statement for the variable: people misreport their landlord between "
+    "'Council or local authority' and 'Housing association', so the two social rented "
+    "categories should be added together."
+)
+TS054_HEADER = """
+Census 2021 table TS054 (tenure of household) for the 7,264 middle layer super output
+areas of England and Wales on 2021 boundaries (6,856 in England, 408 in Wales), at Census
+Day, 21 March 2021, hence calendar_year 2021: the table ons-census2021-ts054-tenure-lad
+ports for local authorities, at a finer geography ({issue} item 3).
+
+Artifact: Nomis's bulk download for TS054 (census2021-ts054.zip), whose member
+census2021-ts054-msoa.csv has one row per MSOA and one column per category. The Nomis API
+query the local authority package pins, at geography TYPE152 instead of TYPE424, returns
+at most 25,000 rows to an unregistered user: 2,778 of the 7,264 MSOAs. Fetched in three
+pages on 12 November 2026, its 65,376 rows equal the member's cells.
+
+Ported, as for the local authority package: the eight detail categories and the
+all-households total, under the same uk.local_geography.tenure.<bucket>.v1 spec ids and
+c2021_tenure_9_name filters, so a target summing a bucket gets the same publisher facts at
+either geography. The eight details sum to the total in every MSOA. The four roll-up
+columns (Owned, Shared ownership, Social rented and Private rented) are sums of ported
+details and stay in the source rows.
+
+Semantics: households, not dwellings. ONS's quality statement for the variable says the
+two social rented categories should be added together, because people misreport their
+landlord between them. Census 2021's disclosure control (targeted record swapping and
+cell key perturbation) can make counts differ slightly between tables, so an authority's
+MSOAs need not sum to its local authority row.
+
+Rows: the eight detail record sets share one list of MSOA rows, written once and
+referenced by alias; the total record set has its own, marked total. Each row is guarded
+by its MSOA code in column C.
+"""
+
+
+class AliasingDumper(yaml.SafeDumper):
+    """YAML that writes a list shared by several record sets once, with an anchor."""
+
+
+def ts054_categories() -> list[tuple[str, str, str, str]]:
+    """(slug, spec id, category, row kind) per record set of the local authority package."""
+    path = PACKAGES / TS054_LAD_DIRECTORY / "source_package.yaml"
+    package = yaml.safe_load(path.read_text(encoding="utf-8"))
+    categories = []
+    for record_set in package["record_sets"]:
+        record_set_id = record_set["record_set_id"]
+        assert record_set_id.startswith(TS054_LAD_PREFIX), record_set_id
+        (category,) = record_set["shared_filters"].values()
+        kinds = {row["table_record_kind"] for row in record_set["rows"]}
+        (kind,) = kinds
+        categories.append(
+            (
+                record_set_id[len(TS054_LAD_PREFIX) :],
+                record_set["record_set_spec_id"],
+                category,
+                kind,
+            )
+        )
+    assert len(categories) == 9 and categories[0][3] == "total"
+    return categories
+
+
+def ts054_grid() -> dict[tuple[int, str], object]:
+    """The MSOA member's cells, as the package's zip_delimited_text_full_rows parse sees them."""
+    filename, path = manifest_file(TS054_DIRECTORY)
+    with zipfile.ZipFile(path) as archive:
+        content = archive.read(TS054_MEMBER)
+    rows = source_rows_from_delimited_text(
+        content, metadata(filename), sheet_name=TS054_MEMBER
+    )
+    cells = source_cells_from_source_rows(rows, selected_rows=())
+    return {
+        (row, column): value for (_sheet, row, column), value in grid_of(cells).items()
+    }
+
+
+def ts054_rows(grid: dict, kind: str) -> list[dict]:
+    """One row per MSOA, in the member's order, guarded by its code in column C."""
+    assert grid[(1, "C")] == "geography code" and grid[(1, "B")] == "geography"
+    rows = []
+    numbers = sorted({row for row, _ in grid if row > 1})
+    assert numbers == list(range(2, 2 + 7264)), (numbers[0], numbers[-1])
+    for ordinal, number in enumerate(numbers):
+        code, name = grid[(number, "C")], grid[(number, "B")]
+        assert grid[(number, "A")] == 2021, (number, grid[(number, "A")])
+        assert re.fullmatch(r"[EW]02\d{6}", code), code
+        rows.append(
+            {
+                "value_id": code.lower(),
+                "label": name,
+                "ordinal": ordinal,
+                "row_number": number,
+                "expected_row_header_column": "C",
+                "expected_row_header": code,
+                "geography_id": code,
+                "geography_level": "msoa",
+                "geography_name": name,
+                "geography_vintage": "msoa_2021",
+                "table_record_kind": kind,
+            }
+        )
+    return rows
+
+
+def build_ts054_msoa() -> str:
+    grid = ts054_grid()
+    columns = {
+        value[len(TS054_PREFIX) :]: column
+        for (row, column), value in grid.items()
+        if row == 1 and isinstance(value, str) and value.startswith(TS054_PREFIX)
+    }
+    shared_rows = {kind: ts054_rows(grid, kind) for kind in ("total", "detail")}
+    record_sets = []
+    for slug, spec_id, category, kind in ts054_categories():
+        column = columns[category]
+        header = TS054_PREFIX + category
+        assert grid[(1, column)] == header
+        notes = f"{TS054_HOUSEHOLDS_NOTE} {TS054_SDC_NOTE}"
+        if category.startswith("Social rented: "):
+            notes += f" {TS054_SOCIAL_NOTE}"
+        record_set_id = f"ons.census2021.ts054.msoa.{slug}"
+        record_sets.append(
+            {
+                "record_set_id": record_set_id,
+                "provenance_class": "census",
+                "record_set_spec_id": spec_id,
+                "source_record_id_prefix": record_set_id,
+                "sheet_name": TS054_MEMBER,
+                "period_type": "calendar_year",
+                "period": 2021,
+                "geography_id": "K04000001",
+                "geography_level": "country",
+                "geography_name": "England and Wales",
+                "geography_vintage": "gss_2023",
+                "entity": "household",
+                "entity_role": "occupied_household",
+                "domain": "housing_tenure",
+                "groupby_dimension": "ons.census2021_msoa",
+                "shared_filters": {"c2021_tenure_9_name": category},
+                "shared_constraints": [
+                    {
+                        "variable": "c2021_tenure_9_name",
+                        "operator": "==",
+                        "value": category,
+                        "label": "publisher tenure category",
+                    }
+                ],
+                "measures": [
+                    {
+                        "measure_id": "households",
+                        "label": "Occupied households",
+                        "ordinal": 0,
+                        "column": column,
+                        "source_column_id": header,
+                        "source_column_dimensions": {"c2021_tenure_9_name": category},
+                        "concept": "ons.census2021_households",
+                        "concept_evidence_url": TS054_URL,
+                        "concept_evidence_notes": notes,
+                        "unit": "count",
+                        "aggregation": "sum",
+                        "expected_cell_type": "number",
+                        "expected_column_header_row": 1,
+                        "expected_column_header": header,
+                    }
+                ],
+                "rows": shared_rows[kind],
+            }
+        )
+    payload = {
+        "schema_version": "ledger.source_package.v1",
+        "package_id": "ons-census2021-ts054-tenure-msoa",
+        "label": (
+            "Census 2021 TS054: households by tenure, middle layer super output areas of "
+            "England and Wales"
+        ),
+        "dimension_labels": {"ons.census2021_msoa": "Middle layer super output area"},
+        "artifact": {
+            "source_name": "ons",
+            "source_table": (
+                "Census 2021 TS054 tenure of household, middle layer super output areas "
+                "(2021), England and Wales"
+            ),
+            "resource_package": "db",
+            "resource_directory": f"data/{TS054_DIRECTORY}",
+            "manifest": "manifest.yaml",
+            "vintage": "census_2021",
+            "extracted_at": EXTRACTED_AT,
+            "extraction_method": (
+                "zip archive CSV member full-row parse, one source row per MSOA"
+            ),
+            "parser": "zip_delimited_text_full_rows",
+            "archive_member": TS054_MEMBER,
+            "sheet_name": TS054_MEMBER,
+            "artifact_year": 2021,
+        },
+        "record_sets": record_sets,
+    }
+    lines: list[str] = []
+    for paragraph in (
+        textwrap.dedent(TS054_HEADER.format(issue=ISSUE)).strip().split("\n\n")
+    ):
+        if lines:
+            lines.append("")
+        lines += textwrap.wrap(
+            " ".join(paragraph.split()), width=88, break_on_hyphens=False
+        )
+    comment = "".join(f"# {line}".rstrip() + "\n" for line in lines)
+    return comment + yaml.dump(
+        payload,
+        Dumper=AliasingDumper,
+        sort_keys=False,
+        allow_unicode=True,
+        width=100,
+    )
+
+
 BUILDERS = {
     **{
         edition.directory: (lambda edition=edition: build_nbs(edition))
@@ -860,6 +1105,7 @@ BUILDERS = {
         edition.directory: (lambda edition=edition: build_capital_stocks(edition))
         for edition in CS_EDITIONS
     },
+    TS054_DIRECTORY: build_ts054_msoa,
 }
 
 

@@ -1,18 +1,21 @@
-"""Source packages for PolicyEngine/chronicle#438: dwellings by sector and capital stocks.
+"""Source packages for PolicyEngine/chronicle#438: dwellings, capital stocks and tenure.
 
 Dwellings (AN.111) by institutional sector, read from the two national balance sheet
-workbooks that the land packages already pin, and ONS's gross and net capital stock of
+workbooks that the land packages already pin; ONS's gross and net capital stock of
 dwellings at current prices from its capital stocks releases of 27 November 2025 and 10
-June 2026. Expected values are read from the pinned workbooks here, never written into
-this file.
+June 2026; and Census 2021 TS054 households by tenure for the MSOAs of England and Wales.
+Expected values are read from the pinned files here, never written into this file.
 """
 
 from __future__ import annotations
 
 from collections import Counter, defaultdict
+import csv
 import hashlib
+import io
 from pathlib import Path
 import runpy
+import zipfile
 
 from openpyxl import load_workbook
 import pytest
@@ -37,7 +40,11 @@ PACKAGES = {
     "ons-national-balance-sheet-dwellings-preliminary-2026": (2026, 12, 12),
     "ons-capital-stocks-dwellings-2025": (2024, 480, 480),
     "ons-capital-stocks-dwellings-preliminary-2026": (2026, 2, 2),
+    "ons-census2021-ts054-tenure-msoa": (2021, 9, 9 * 7264),
 }
+TS054_MSOA = "ons-census2021-ts054-tenure-msoa"
+TS054_LAD = "ons-census2021-ts054-tenure-lad"
+TS054_MEMBER = "census2021-ts054-msoa.csv"
 # The dwellings package -> the land package whose workbook it reads.
 LAND = {
     "ons-national-balance-sheet-dwellings-2025": "ons-national-balance-sheet-land-2025",
@@ -53,6 +60,10 @@ NEW_ARTIFACTS = {
     "ons-capital-stocks-dwellings-preliminary-2026": (
         "e88090cfa63ee27939daac86f909c83414f950749a8530ce7feb6c953b6e8f18",
         172136,
+    ),
+    TS054_MSOA: (
+        "aa07311021776a93fdd7e8f6b3ad261b919305ef821ae68174fb1a66b85304c2",
+        4074446,
     ),
 }
 # dwellings CDID -> (sheet, entity role)
@@ -120,7 +131,7 @@ def _number(value: object) -> int:
 
 
 @pytest.mark.parametrize("package_id", sorted(PACKAGES))
-def test_packages_validate_register_and_carry_no_anchors(package_id):
+def test_packages_validate_register_and_alias_only_shared_rows(package_id):
     year, record_sets, count = PACKAGES[package_id]
     package_dir = ROOT / "packages" / SOURCE_PACKAGE_ALIASES[package_id]
     report = validate_source_package(package_dir, year=year)
@@ -129,17 +140,23 @@ def test_packages_validate_register_and_carry_no_anchors(package_id):
     assert report.counts["record_set_count"] == record_sets
     assert package_id in UK_BUNDLE_SOURCES
     text = (package_dir / "source_package.yaml").read_text(encoding="utf-8")
-    assert not any(
-        isinstance(token, (yaml.AnchorToken, yaml.AliasToken))
+    tokens = Counter(
+        type(token).__name__
         for token in yaml.scan(text)
+        if isinstance(token, (yaml.AnchorToken, yaml.AliasToken))
     )
+    # The MSOA package writes its detail record sets' shared rows once, with one
+    # anchor and an alias in each of the other seven; the others use none.
+    expected = {"AnchorToken": 1, "AliasToken": 7} if package_id == TS054_MSOA else {}
+    assert tokens == expected
     built = _facts(package_id)
     assert len(built) == count
     assert validate_facts(built).valid
     contract = validate_consumer_fact_contract(built)
     assert contract.valid, contract.to_dict()
     assert max(Counter(build_semantic_fact_key(fact) for fact in built).values()) == 1
-    assert {fact.provenance_class for fact in built} == {"model_output"}
+    provenance = "census" if package_id == TS054_MSOA else "model_output"
+    assert {fact.provenance_class for fact in built} == {provenance}
 
 
 def test_generator_reproduces_the_committed_packages():
@@ -347,3 +364,72 @@ def test_net_capital_stock_is_the_balance_sheets_dwellings_to_the_billion():
         )
         compared += 1
     assert compared == 8 * 30
+
+
+def _msoa_member() -> list[dict[str, str]]:
+    """The bulk zip's MSOA file, read with the standard library."""
+    (entry,) = _manifest(TS054_MSOA)["files"].values()
+    with zipfile.ZipFile(_artifact_dir(TS054_MSOA) / entry["filename"]) as archive:
+        text = archive.read(TS054_MEMBER).decode("utf-8")
+    return list(csv.DictReader(io.StringIO(text)))
+
+
+def test_msoa_tenure_is_the_bulk_files_cells():
+    rows = _msoa_member()
+    codes = [row["geography code"] for row in rows]
+    assert len(set(codes)) == len(codes) == 7264
+    assert sum(code.startswith("E02") for code in codes) == 6856
+    assert sum(code.startswith("W02") for code in codes) == 408
+    cells = {
+        (row["geography code"], header.removeprefix("Tenure of household: ")): int(
+            value
+        )
+        for row in rows
+        for header, value in row.items()
+        if header.startswith("Tenure of household: ")
+    }
+    names = {row["geography code"]: row["geography"] for row in rows}
+    facts = _facts(TS054_MSOA)
+    for fact in facts:
+        assert fact.geography.level == "msoa"
+        assert fact.geography.name == names[fact.geography.id]
+        key = (fact.geography.id, fact.filters["c2021_tenure_9_name"])
+        assert fact.value == cells[key], key
+    assert len({(fact.geography.id, *fact.filters.items()) for fact in facts}) == len(
+        facts
+    )
+
+
+def test_msoa_tenure_mirrors_the_local_authority_package():
+    """The same categories, filters and spec ids as the local authority rows."""
+
+    def by_category(package_id):
+        return {
+            record_set["shared_filters"]["c2021_tenure_9_name"]: (
+                record_set["record_set_spec_id"],
+                record_set["provenance_class"],
+                record_set["entity"],
+                record_set["entity_role"],
+                record_set["domain"],
+                record_set["measures"][0]["concept"],
+                {row["table_record_kind"] for row in record_set["rows"]},
+            )
+            for record_set in _package(package_id)["record_sets"]
+        }
+
+    msoa, lad = by_category(TS054_MSOA), by_category(TS054_LAD)
+    assert msoa == lad
+    assert len(msoa) == 9
+
+
+def test_msoa_details_sum_to_the_total():
+    """The eight detail categories add up to all households in every MSOA."""
+    totals = defaultdict(int)
+    details = defaultdict(int)
+    for fact in _facts(TS054_MSOA):
+        if fact.filters["c2021_tenure_9_name"] == "Total: All households":
+            totals[fact.geography.id] += fact.value
+        else:
+            details[fact.geography.id] += fact.value
+    assert len(totals) == 7264
+    assert totals == details

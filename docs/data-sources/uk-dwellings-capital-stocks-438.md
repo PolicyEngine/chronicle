@@ -1,8 +1,8 @@
-# UK dwellings by sector and ONS's capital stocks of dwellings (chronicle#438)
+# UK dwellings by sector, ONS's capital stocks of dwellings and tenure by MSOA (chronicle#438)
 
 [chronicle#438](https://github.com/PolicyEngine/chronicle/issues/438) follows
 [chronicle#408](https://github.com/PolicyEngine/chronicle/issues/408), whose item 8 ported land
-by sector from the same balance sheet workbooks. It asks for two inputs to Microcosm's stock
+by sector from the same balance sheet workbooks. It asks for three inputs to Microcosm's stock
 table of homes ([PolicyEngine/microcosm#1524](https://github.com/PolicyEngine/microcosm/issues/1524))
 and its base ledger ([PolicyEngine/microcosm#1521](https://github.com/PolicyEngine/microcosm/issues/1521),
 workstream 2):
@@ -10,11 +10,14 @@ workstream 2):
 1. Dwellings (AN.111) by institutional sector, from the two balance sheet workbooks Chronicle
    already pins.
 2. ONS's gross and net capital stock of dwellings, from its capital stocks releases.
+3. Census 2021 TS054 households by tenure for every MSOA in England and Wales.
 
-Four packages add 854 facts, all OGL v3.0 and `model_output`. Two new workbooks are pinned,
-and one parser is added for workbooks that store their figures as text. Solving the cost level,
-the England and Wales split, the depreciation profile and the base ledger stay Microcosm's work,
-and none of their values become Chronicle facts.
+Five packages add 66,230 facts, all OGL v3.0: 854 `model_output` facts for items 1 and 2, and
+65,376 `census` facts for item 3. Three new files are pinned, and one parser is added for
+workbooks that store their figures as text. Solving the cost level, the England and Wales
+split, the depreciation profile, the scaling of each authority's social rented homes across its
+MSOAs and the base ledger stay Microcosm's work, and none of their values become Chronicle
+facts.
 
 ## 1. Dwellings by sector, from the two pinned balance sheets
 
@@ -162,10 +165,78 @@ as text: "977" rather than 977.
 under the Open Government Licence v3.0, except where otherwise stated (checked 12 November
 2026).
 
+## 3. Census 2021 TS054 tenure by MSOA
+
+**Package.** `ons-census2021-ts054-tenure-msoa`: 65,376 facts. It covers the 7,264 middle
+layer super output areas of England and Wales on 2021 boundaries (6,856 in England, 408 in
+Wales), at Census Day, 21 March 2021 (`calendar_year` 2021, as for the local authority
+package).
+
+**Ported as the local authority package ports it.** `ons-census2021-ts054-tenure-lad` sets the
+pattern:
+
+- the eight detail categories and the all-households total;
+- the same `uk.local_geography.tenure.<bucket>.v1` spec ids and `c2021_tenure_9_name` filters,
+  so a target summing a bucket gets the same publisher facts at either geography;
+- concept `ons.census2021_households`, entity `household`, provenance class `census`;
+- geography level `msoa`, vintage `msoa_2021`, with the names the MSOA income package uses.
+
+**The artifact is Nomis's bulk download, not the API query.**
+
+- The issue asks for the local authority package's Nomis API query at geography `TYPE152` in
+  place of `TYPE424`. For a user without a Nomis key, the API returns at most 25,000 rows,
+  and this query has 65,376. Its first response stops partway through an MSOA, at 2,778 of
+  the 7,264.
+- Nomis's bulk download for TS054, `census2021-ts054.zip` (4,074,446 bytes, sha256
+  `aa073110…04c2`), is listed on its Census 2021 bulk page. Its member
+  `census2021-ts054-msoa.csv` has one row per MSOA and one column per category.
+- Fetched in three pages on 12 November 2026 for comparison, the API's 65,376 rows equal the
+  member's cells, names included.
+- The member's metadata file is version 2 of TS054, issued on 6 January 2023. ONS lists later
+  versions of 30 January and 28 March 2023, and the API's current rows match this file.
+- The package parses the member with `zip_delimited_text_full_rows`. The four roll-up columns
+  (Owned, Shared ownership, Social rented and Private rented) are sums of ported details. They
+  stay in the source rows.
+- The eight detail record sets share one list of MSOA rows. It is written once in the package
+  file and referenced by alias, which keeps the file at 4.5 MB rather than about 20 MB.
+
+**Semantics**
+
+- Households, not dwellings. ONS's metadata says tenure is not available for household spaces
+  with no usual residents.
+- ONS's quality statement for the variable: people misreport their landlord between "Council
+  or local authority" and "Housing association", so the two social rented categories should be
+  added together. The social rented facts carry that note.
+- Census 2021's disclosure control, targeted record swapping and cell key perturbation, can make
+  counts differ slightly between tables. Every fact carries that note too.
+- The eight details sum to the total in every MSOA. 1,575 cells are 0, kept as printed.
+
+**Parity with the local authority rows**
+
+The check maps each MSOA to its authority through the MSOA income workbook's 2021 authority
+codes, merging the 17 districts that became Cumberland, Westmorland and Furness, North
+Yorkshire and Somerset in April 2023. As the issue asks, the differences are reported here,
+not tested.
+
+- Of the 2,862 authority cells (318 authorities by nine categories), 722 equal the sum of their
+  MSOAs.
+- The rest differ by at most 26 households. The largest differences are in authorities' totals
+  of over 90,000 households.
+- The England and Wales total differs by 120 households: 24,783,284 summed over MSOAs, against
+  24,783,164 over authorities.
+- For the two social rented categories, an authority's MSOAs miss its row by at most 16 households
+  ("rents from council or local authority") and 14 ("other social rented").
+
+**Storage.** The zip is committed, and the private `ledger-raw` bucket holds it under
+`raw/uk/ons/ons-census2021-ts054-tenure-msoa/2021/<sha256>/`. ONS's page for TS054 states that
+all content is available under the Open Government Licence v3.0, except where otherwise stated
+(checked 12 November 2026).
+
 ## Not in this change
 
 - The chained volume measures, consumption of fixed capital, and the other assets the two
   capital stocks workbooks print.
+- TS054's other geographies in the bulk zip (output areas, LSOAs, regions and countries).
 - ONS's perpetual inventory method input files, which the bulletin links as a separate dataset,
   last released on 29 November 2024.
 - The 2026 annual balance sheet, expected in December 2026, and the next capital stocks edition,

@@ -333,6 +333,7 @@ UK_BUNDLE_SOURCES = (
     "ons-census2021-ts041-households-pcon24",
     "ons-census2021-ts046-central-heating-ltla",
     "ons-census2021-ts054-tenure-lad",
+    "ons-census2021-ts054-tenure-msoa",
     "ons-census2021-ur-ce-age101-persons-ctry",
     "ons-census2021-ur-ce-age101-persons-rgn",
     "ons-census2021-ur-ce-age101-sex-ctry",

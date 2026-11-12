@@ -1304,6 +1304,7 @@ SOURCE_PACKAGE_ALIASES = {
     "ons-capital-stocks-dwellings-preliminary-2026": Path(
         "ons/capital_stocks_dwellings_preliminary_2026"
     ),
+    "ons-census2021-ts054-tenure-msoa": Path("ons/census2021_ts054_tenure_msoa"),
     # end PolicyEngine/chronicle#438
     "obr-fuel-duty-receipts-by-vehicle-april-2024": Path(
         "obr/fuel_duty_receipts_by_vehicle_april_2024"

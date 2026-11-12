@@ -3620,6 +3620,17 @@
     "c2021_hh_1_name": {
       "Number of households": "Number of households"
     },
+    "c2021_tenure_9_name": {
+      "Lives rent free": "Lives rent free",
+      "Owned: Owns outright": "Owned: Owns outright",
+      "Owned: Owns with a mortgage or loan": "Owned: Owns with a mortgage or loan",
+      "Private rented: Other private rented": "Private rented: Other private rented",
+      "Private rented: Private landlord or letting agency": "Private rented: Private landlord or letting agency",
+      "Shared ownership: Shared ownership": "Shared ownership: Shared ownership",
+      "Social rented: Other social rented": "Social rented: Other social rented",
+      "Social rented: Rents from council or Local Authority": "Social rented: Rents from council or Local Authority",
+      "Total: All households": "Total: All households"
+    },
     "case_route": {
       "all": "All clients",
       "case_transfer": "Case transfers",

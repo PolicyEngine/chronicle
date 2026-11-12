@@ -1,0 +1,36 @@
+source_id: ons
+package_id: ons-census2021-ts054-tenure-msoa
+dataset: ons_ons-census2021-ts054-tenure-msoa
+source_page: https://www.nomisweb.co.uk/sources/census_2021_bulk
+table: Census 2021 TS054 tenure of household, middle layer super output areas (2021),
+  England and Wales
+license: Open Government Licence v3.0
+license_url: https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/
+attribution: 'Source: Office for National Statistics, Census 2021, table TS054 (tenure),
+  via Nomis. Contains public sector information licensed under the Open Government
+  Licence v3.0.'
+license_evidence: 'ONS''s page for TS054 states: ''All content is available under
+  the Open Government Licence v3.0, except where otherwise stated.'' (https://www.ons.gov.uk/datasets/TS054/editions/2021/versions/2)'
+license_verified_at: '2026-11-12'
+files:
+  2021:
+    filename: census2021-ts054.zip
+    source_url: https://www.nomisweb.co.uk/output/census/2021/census2021-ts054.zip
+    sha256: aa07311021776a93fdd7e8f6b3ad261b919305ef821ae68174fb1a66b85304c2
+    size_bytes: 4074446
+    fetched_at: '2026-11-12T12:28:37+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/ons/ons-census2021-ts054-tenure-msoa/2021/aa07311021776a93fdd7e8f6b3ad261b919305ef821ae68174fb1a66b85304c2/census2021-ts054.zip
+        uri: r2://ledger-raw/raw/uk/ons/ons-census2021-ts054-tenure-msoa/2021/aa07311021776a93fdd7e8f6b3ad261b919305ef821ae68174fb1a66b85304c2/census2021-ts054.zip
+registration_kind: source_facts
+provenance_notes: 'Nomis''s Census 2021 bulk download for TS054, which its census
+  2021 bulk page lists. The package reads the member census2021-ts054-msoa.csv (587,135
+  bytes, one row per MSOA and one column per category). The Nomis API query that ons-census2021-ts054-tenure-lad
+  pins, at geography TYPE152 rather than TYPE424, returns at most 25,000 rows to an
+  unregistered user: 2,778 of the 7,264 MSOAs. Fetched in three pages on 12 November
+  2026, its 65,376 rows equal the member''s cells. The member''s metadata file (metadata/ts054-2021-2.txt)
+  is version 2 of TS054, issued on 6 January 2023; ONS lists later versions of 30
+  January and 28 March 2023, and the API''s current rows match this file.'
