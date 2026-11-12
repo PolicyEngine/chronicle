@@ -127,7 +127,7 @@ def test_build_soi_table_1_4_wage_facts_from_packaged_source():
     }
 
     assert validate_facts(facts).valid
-    assert len(facts) == 580
+    assert len(facts) == 740
     assert (
         facts_by_concept_and_range[("irs_soi.returns_with_total_wages", "all")].value
         == 128_591_050

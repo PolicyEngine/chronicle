@@ -2036,6 +2036,7 @@ class DeclarativeRecordSet:
         measures = tuple(
             _measure_from_mapping(measure, year=year)
             for measure in _required(self.payload, "measures", "record_set")
+            if _mapping_applies_to_year(measure, year=year, context="measure")
         )
         return SourceRecordSetSpec(
             record_set_id=_render_required_string(
@@ -3859,6 +3860,55 @@ def _required(payload: dict[str, Any], key: str, context: str) -> Any:
     if key not in payload:
         raise ValueError(f"Missing required {context} field: {key}")
     return payload[key]
+
+
+def _mapping_applies_to_year(
+    payload: dict[str, Any],
+    *,
+    year: int,
+    context: str,
+) -> bool:
+    """Return whether a declarative mapping applies to the requested year."""
+    years = payload.get("years")
+    if years is None:
+        return True
+    identifier = payload.get(f"{context}_id")
+    context_label = f"{context} {identifier!r}" if identifier else context
+    if not isinstance(years, list) or not years:
+        raise ValueError(f"{context_label} years must be a non-empty list")
+    if any(isinstance(item, bool) or not isinstance(item, int) for item in years):
+        raise ValueError(f"{context_label} years entries must be integers")
+    if len(set(years)) != len(years):
+        raise ValueError(f"{context_label} years entries must be unique")
+    # Every per-year map must cover exactly the declared years: a map year
+    # outside ``years`` would drop the mapping at that year without an error.
+    by_year_keys = sorted(
+        key for key in payload if isinstance(key, str) and key.endswith("_by_year")
+    )
+    if "column_by_year" in by_year_keys:
+        by_year_keys.remove("column_by_year")
+        by_year_keys.insert(0, "column_by_year")
+    for key in by_year_keys:
+        mapped = payload[key]
+        if not isinstance(mapped, dict):
+            raise ValueError(f"{context_label} {key} must map years to values")
+        for declared_year in years:
+            if declared_year not in mapped and str(declared_year) not in mapped:
+                raise ValueError(
+                    f"{context_label} {key} has no entry for "
+                    f"declared year {declared_year}"
+                )
+        extra = sorted(
+            str(mapped_year)
+            for mapped_year in mapped
+            if str(mapped_year) not in {str(item) for item in years}
+        )
+        if extra:
+            raise ValueError(
+                f"{context_label} {key} maps year(s) {', '.join(extra)} "
+                f"outside its years {years}"
+            )
+    return year in years
 
 
 def _year_mapping(files_by_year: dict[Any, Any], year: int) -> dict[str, str]:
