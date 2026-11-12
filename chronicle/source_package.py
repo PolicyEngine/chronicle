@@ -1493,6 +1493,10 @@ class SourceArtifactSpec:
             return source_cells_from_xlsx(
                 content, artifact, sheets=self.sheets, read_only=True
             )
+        if self.parser == "xlsx_numeric_text_used_range":
+            return source_cells_from_xlsx(
+                content, artifact, sheets=self.sheets, coerce_numeric_text=True
+            )
         if self.parser == "zip_xlsx_used_range":
             member_content, member_name = self._archive_member_content(
                 content,
