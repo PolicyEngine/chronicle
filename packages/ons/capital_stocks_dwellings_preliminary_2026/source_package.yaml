@@ -1,0 +1,153 @@
+# ONS, Preliminary capital stocks and fixed capital consumption (released 10 June 2026):
+# the gross and net capital stock of dwellings at current prices, GBP billion (value_scale
+# 1e9), 2025, for the whole economy, from Tables 1.1.1 (gross) and 2.1.1 (net). The tables
+# print dwellings excluding land. This edition prints dwellings for the whole economy
+# only: its sector tables (1.3.1, 2.3.1) cover all assets together. Every fact carries
+# publication_status preliminary.
+#
+# The workbook states no estimation method, service lives or depreciation profile. Its
+# notes say only that differences between totals and the sum of their parts are due to
+# rounding (the tables print whole billions), that chained volume measures are referenced
+# to 2023, and that 'z' marks data not collected. ONS's bulletin of 27 November 2025
+# defines the gross stock as the value of all fixed assets still in use at a point in
+# time, and the net stock as the gross stock less the consumption of fixed capital accrued
+# up to that point. The stocks are modelled estimates (model_output).
+#
+# Written by scripts/build_uk_438_packages.py for PolicyEngine/chronicle#438 item 2.
+schema_version: ledger.source_package.v1
+package_id: ons-capital-stocks-dwellings-preliminary-2026
+label: 'ONS preliminary capital stocks: gross and net capital stock of dwellings, current prices, 2025'
+dimension_labels:
+  ons.capital_stock_sector: Institutional sector
+  publication_status: Publication status
+artifact:
+  source_name: ons
+  source_table: Preliminary capital stocks and fixed capital consumption, 10 June 2026, Tables 1.1.1 and
+    2.1.1
+  resource_package: db
+  resource_directory: data/ons/capital_stocks_dwellings_preliminary_2026
+  manifest: manifest.yaml
+  vintage: preliminary_capital_stocks_2026_06_10
+  extracted_at: '2026-11-12'
+  extraction_method: xlsx used-range cell parse of Tables 1.1.1 and 2.1.1
+  parser: xlsx_used_range
+  artifact_year: 2026
+  sheets:
+  - 1.1.1
+  - 2.1.1
+record_sets:
+- record_set_id: ons.preliminary_capital_stocks2026.dwellings.gross.total_economy.cy2025
+  provenance_class: model_output
+  record_set_spec_id: ons.preliminary_capital_stocks2026.dwellings.gross.total_economy.cy2025.v1
+  source_record_id_prefix: ons.preliminary_capital_stocks2026.dwellings.gross.total_economy.cy2025
+  sheet_name: 1.1.1
+  period_type: calendar_year
+  period: 2025
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: institutional_sector
+  entity_role: total_economy
+  domain: capital_stocks
+  groupby_dimension: ons.capital_stock_sector
+  rows:
+  - value_id: total_economy
+    label: Whole economy
+    ordinal: 0
+    row_number: 4
+    expected_row_header_column: A
+    expected_row_header: Total dwellings (excluding land)
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      row: 4
+      expected_value: MJF7
+      label: ONS series ID
+  measures:
+  - measure_id: gross_capital_stock
+    label: United Kingdom total gross capital stock of dwellings, 2025
+    ordinal: 0
+    column: AG
+    source_column_id: cy2025
+    expected_column_header_row: 2
+    expected_column_header: 2025
+    concept: ons.gross_capital_stock_dwellings_total
+    source_concept: ons.mjf7
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/nationalaccounts/uksectoraccounts/datasets/preliminarycapitalstocksandfixedcapitalconsumption
+    concept_evidence_notes: 'Preliminary capital stocks and fixed capital consumption, 10 June 2026, Table
+      1.1.1 Gross capital stock: by asset, current prices, GBP billion: dwellings (excluding land), Total
+      dwellings (excluding land), series MJF7. ONS''s bulletin of 27 November 2025 defines the gross capital
+      stock as the value of all fixed assets still in use at a point in time.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000000
+    expected_cell_type: number
+  shared_filters:
+    publication_status: preliminary
+  shared_constraints:
+  - variable: publication_status
+    operator: ==
+    value: preliminary
+    label: Publication status
+- record_set_id: ons.preliminary_capital_stocks2026.dwellings.net.total_economy.cy2025
+  provenance_class: model_output
+  record_set_spec_id: ons.preliminary_capital_stocks2026.dwellings.net.total_economy.cy2025.v1
+  source_record_id_prefix: ons.preliminary_capital_stocks2026.dwellings.net.total_economy.cy2025
+  sheet_name: 2.1.1
+  period_type: calendar_year
+  period: 2025
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: institutional_sector
+  entity_role: total_economy
+  domain: capital_stocks
+  groupby_dimension: ons.capital_stock_sector
+  rows:
+  - value_id: total_economy
+    label: Whole economy
+    ordinal: 0
+    row_number: 4
+    expected_row_header_column: A
+    expected_row_header: Total dwellings (excluding land)
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      row: 4
+      expected_value: MJF8
+      label: ONS series ID
+  measures:
+  - measure_id: net_capital_stock
+    label: United Kingdom total net capital stock of dwellings, 2025
+    ordinal: 0
+    column: AG
+    source_column_id: cy2025
+    expected_column_header_row: 2
+    expected_column_header: 2025
+    concept: ons.net_capital_stock_dwellings_total
+    source_concept: ons.mjf8
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/nationalaccounts/uksectoraccounts/datasets/preliminarycapitalstocksandfixedcapitalconsumption
+    concept_evidence_notes: 'Preliminary capital stocks and fixed capital consumption, 10 June 2026, Table
+      2.1.1 Net capital stock: by asset, current prices, GBP billion: dwellings (excluding land), Total
+      dwellings (excluding land), series MJF8. ONS''s bulletin of 27 November 2025 defines the net capital
+      stock as the gross stock less the consumption of fixed capital accrued up to that point.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000000
+    expected_cell_type: number
+  shared_filters:
+    publication_status: preliminary
+  shared_constraints:
+  - variable: publication_status
+    operator: ==
+    value: preliminary
+    label: Publication status
+dimension_value_labels:
+  publication_status:
+    preliminary: Preliminary

@@ -600,7 +600,14 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # and 14 add 408 (see above).
         # IRS SOI Table 1.4's partnership and S corporation net income and loss legs
         # add 160 (eight measures in 20 AGI ranges, TY2023).
-        "fact_count": 2246223,
+        # chronicle#438 adds 66,230. 854 are institutional sector facts:
+        # dwellings by sector from the two balance sheet workbooks (360 and 12)
+        # and ONS's gross and net capital stock of dwellings (480 and 2). 65,376
+        # are Census 2021 TS054 households by tenure, nine categories for each of
+        # the 7,264 MSOAs, whose geography keys the MSOA income package already
+        # carries. Measured with only its five packages at bundle year 2023: no
+        # new geography, period or entity key, duplicate key or warning.
+        "fact_count": 2312453,
         # The same change adds 82,064 geography keys: 46,363 Scottish 2022
         # output areas (UV404), 35,673 LSOA-level keys from the DESNZ LSOA
         # workbooks (Scotland's data zones already exist), the 26 Northern
@@ -697,8 +704,10 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # caseload packages. chronicle#435 adds gov.scot's second homes and empty
         # properties, and with them chronicle#420's three QEP payment-method packages
         # and the Band I and J estimates, and Registers of Scotland's Property Market
-        # Report. SSA's Supplement Tables 7.B3 and 7.B7 add two.
-        "source_package_count": 509,
+        # Report. SSA's Supplement Tables 7.B3 and 7.B7 add two. chronicle#438 adds
+        # five: the two balance sheet dwellings packages, the two capital stocks
+        # packages and Census 2021 TS054 by MSOA.
+        "source_package_count": 514,
         # 1 semantic-duplicate warning, plus the publisher wording Chronicle
         # keeps as published: values two packages word differently, groupby
         # rows that drift inside one package (chronicle#265, #266), and the
@@ -750,14 +759,14 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         if row_count == 1:
             assert row["aggregate_fact_key"].startswith("ledger.aggregate_fact.v2:")
             assert row["semantic_fact_key"].startswith("ledger.semantic_fact.v2:")
-    assert row_count == 2246223
+    assert row_count == 2312453
     assert provenance_classes <= {
         "administrative",
         "census",
         "model_output",
         "survey_aggregate",
     }
-    assert source_packages["source_package_count"] == 509
+    assert source_packages["source_package_count"] == 514
     assert source_packages["skipped_source_count"] == 24
     assert sorted(item["source"] for item in source_packages["skipped_sources"]) == [
         "census-acs-s0101-congressional-district-age-2024",
@@ -785,7 +794,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "jct-obbba-revenue-estimates-2025",
         "jct-tax-expenditures-2024",
     ]
-    assert coverage["fact_count"] == 2246223
+    assert coverage["fact_count"] == 2312453
     assert coverage["counts"]["by_source"] == {
         "bea": 446,
         "bfp_economic_outlook": 5,
@@ -827,7 +836,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "obr": 4539,
         "ofgem": 3640,
         "onem_rva_unemployment": 1,
-        "ons": 437810,
+        "ons": 504040,
         "onss_contributions": 1,
         "opgroeien_groeipakket": 11,
         "orr": 99,
@@ -861,8 +870,11 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     # second homes and empty properties web table, QEP tables 2.4.2, 2.4.3 and 2.5.2,
     # and the Band I and J consultation's figures; and one more for Registers of
     # Scotland's tables 9 and 10. SSA's Supplement Tables 7.B3 and 7.B7 add two,
-    # one per package.
-    assert len(table_counts) == 451
+    # one per package. chronicle#438 adds five, one per package: the dwellings
+    # packages name the balance sheets' Tables 2 to 13, the capital stocks
+    # packages Tables 1.1.1 and 2.1.1 of each release, and the MSOA package
+    # TS054 by MSOA.
+    assert len(table_counts) == 456
     assert (
         table_counts[
             "hmrc:Benefits in kind statistics: July 2026, Tables 1 to 4: company car "
@@ -2612,6 +2624,15 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     }
     for key, count in chronicle_408_period_increments.items():
         expected_period_counts[key] = expected_period_counts.get(key, 0) + count
+    # chronicle#438: each year from 1995 to 2024 gains the 2025 balance sheet's 12
+    # dwellings facts and the 2025 capital stocks release's 16 (eight rows, gross and
+    # net); end-2025 gains the preliminary balance sheet's 12 and the preliminary
+    # capital stocks release's two.
+    for year in range(1995, 2025):
+        expected_period_counts[f"calendar_year:{year}"] += 12 + 16
+    expected_period_counts["calendar_year:2025"] += 12 + 2
+    # Census Day 2021 gains TS054's nine categories for each of the 7,264 MSOAs.
+    expected_period_counts["calendar_year:2021"] += 9 * 7264
     # chronicle#419: NRS's eight council tax bands for each of the 7,392 data
     # zones, at December 2024 and December 2025.
     for year in (2024, 2025):
@@ -2934,7 +2955,8 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     # facts. chronicle#420's young people packages add 17,131: NEET, A06, PAYE RTI,
     # ASHE Table 6 and HMRC's NICs reliefs; its Scottish income tax outturn adds
     # its 429 UK rows. chronicle#420's QEP electricity payment-method tables add 66.
-    assert coverage["counts"]["by_geography"]["country:K02000001"] == 109084
+    # chronicle#438 adds its 854 facts, all for the United Kingdom.
+    assert coverage["counts"]["by_geography"]["country:K02000001"] == 109938
     # chronicle#343 adds the 63 OBR surcharge-costing facts for England, and
     # chronicle#358 ONS's 606 single-year residence-type rows for England. GSGB
     # 2025's England participation rows add 40. ISA Tables 9.9 and 9.12's
@@ -3027,14 +3049,16 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     # methods), and the Band I and J estimates' dwellings +4 and government +4;
     # Registers of Scotland's sales over £1 million add 168 dwellings.
     # SSA's Supplement Tables 7.B3 and 7.B7 add 193 people.
+    # chronicle#438 adds 854 institutional sectors (dwellings by sector and the
+    # capital stocks of dwellings) and 65,376 households (TS054 by MSOA).
     assert coverage["counts"]["by_entity"] == {
         "benefit_unit": 33645,
         "dwelling": 709104,
         "family": 1700,
         "firm": 1927,
         "government": 14075,
-        "household": 680028,
-        "institutional_sector": 9264,
+        "household": 745404,
+        "institutional_sector": 10118,
         "pension_plan": 2,
         "person": 734519,
         "return": 16087,

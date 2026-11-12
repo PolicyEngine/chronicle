@@ -91,6 +91,68 @@ def test_ods_numeric_text_mode_coerces_formatted_numbers_only():
     assert [cell.cell_type for cell in cells] == ["number", "number", "text"]
 
 
+@pytest.mark.parametrize("read_only", [False, True], ids=["full", "read_only"])
+def test_xlsx_numeric_text_mode_coerces_numeric_text_only(read_only):
+    """ONS's capital stocks tables store most figures as text, such as '977'."""
+    artifact = SourceArtifactMetadata(
+        source_name="ons",
+        source_table="test",
+        source_file="test.xlsx",
+        url="https://example.test/test.xlsx",
+        vintage="test",
+        sha256="abc123",
+        size_bytes=10,
+        extracted_at="2026-11-12",
+        extraction_method="test",
+    )
+    workbook = openpyxl.Workbook()
+    sheet = workbook.active
+    sheet.title = "1.1.1"
+    sheet.append(["Households", "MJY2", "3636", " 1,234 ", "-12.5", 16, "z", None])
+    content = BytesIO()
+    workbook.save(content)
+
+    uncoerced = source_cells_from_xlsx(
+        content.getvalue(), artifact, sheets=("1.1.1",), read_only=read_only
+    )
+    cells = source_cells_from_xlsx(
+        content.getvalue(),
+        artifact,
+        sheets=("1.1.1",),
+        read_only=read_only,
+        coerce_numeric_text=True,
+    )
+
+    assert [cell.raw_value for cell in uncoerced] == [
+        "Households",
+        "MJY2",
+        "3636",
+        " 1,234 ",
+        "-12.5",
+        16,
+        "z",
+    ]
+    assert [cell.raw_value for cell in cells] == [
+        "Households",
+        "MJY2",
+        3636,
+        1234,
+        -12.5,
+        16,
+        "z",
+    ]
+    assert [cell.cell_type for cell in cells] == [
+        "text",
+        "text",
+        "number",
+        "number",
+        "number",
+        "number",
+        "text",
+    ]
+    assert [cell.display_value for cell in cells][2:5] == ["3636", "1234", "-12.5"]
+
+
 def test_build_soi_table_1_1_source_cells_preserves_workbook_used_range():
     cells = build_soi_table_1_1_source_cells(2023)
     report = validate_source_cells(cells)

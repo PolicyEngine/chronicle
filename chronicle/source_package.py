@@ -1293,6 +1293,19 @@ SOURCE_PACKAGE_ALIASES = {
     ),
     "ons-land-underlying-buildings-2022": Path("ons/land_underlying_buildings_2022"),
     # end PolicyEngine/chronicle#408
+    # PolicyEngine/chronicle#438: dwellings by sector and ONS's capital stocks
+    "ons-national-balance-sheet-dwellings-2025": Path(
+        "ons/national_balance_sheet_dwellings_2025"
+    ),
+    "ons-national-balance-sheet-dwellings-preliminary-2026": Path(
+        "ons/national_balance_sheet_dwellings_preliminary_2026"
+    ),
+    "ons-capital-stocks-dwellings-2025": Path("ons/capital_stocks_dwellings_2025"),
+    "ons-capital-stocks-dwellings-preliminary-2026": Path(
+        "ons/capital_stocks_dwellings_preliminary_2026"
+    ),
+    "ons-census2021-ts054-tenure-msoa": Path("ons/census2021_ts054_tenure_msoa"),
+    # end PolicyEngine/chronicle#438
     "obr-fuel-duty-receipts-by-vehicle-april-2024": Path(
         "obr/fuel_duty_receipts_by_vehicle_april_2024"
     ),
@@ -1492,6 +1505,10 @@ class SourceArtifactSpec:
         if self.parser == "xlsx_read_only_used_range":
             return source_cells_from_xlsx(
                 content, artifact, sheets=self.sheets, read_only=True
+            )
+        if self.parser == "xlsx_numeric_text_used_range":
+            return source_cells_from_xlsx(
+                content, artifact, sheets=self.sheets, coerce_numeric_text=True
             )
         if self.parser == "zip_xlsx_used_range":
             member_content, member_name = self._archive_member_content(

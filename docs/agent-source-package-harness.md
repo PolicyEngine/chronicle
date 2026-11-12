@@ -58,6 +58,11 @@ Two parsers suit large or nested publisher files:
   `zip_xlsx_used_range` does for XLSX; DWP's HBAI confidence intervals are only
   in the release's data-table ZIP.
 
+Some publishers store figures as text. `ods_numeric_text_used_range` and
+`xlsx_numeric_text_used_range` read a text cell that holds only a number, such as
+"977" or "1,234", as that number, and leave every other cell as the plain parse
+reads it. ONS's capital stocks tables need the XLSX one (chronicle#438).
+
 `ons_census_observations_json_rows` unpivots an ONS Census 2021 API
 `census-observations` response into one source row per published cell: the
 population type the response's request URL names, a label and a `_code` column

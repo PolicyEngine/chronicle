@@ -3620,6 +3620,17 @@
     "c2021_hh_1_name": {
       "Number of households": "Number of households"
     },
+    "c2021_tenure_9_name": {
+      "Lives rent free": "Lives rent free",
+      "Owned: Owns outright": "Owned: Owns outright",
+      "Owned: Owns with a mortgage or loan": "Owned: Owns with a mortgage or loan",
+      "Private rented: Other private rented": "Private rented: Other private rented",
+      "Private rented: Private landlord or letting agency": "Private rented: Private landlord or letting agency",
+      "Shared ownership: Shared ownership": "Shared ownership: Shared ownership",
+      "Social rented: Other social rented": "Social rented: Other social rented",
+      "Social rented: Rents from council or Local Authority": "Social rented: Rents from council or Local Authority",
+      "Total: All households": "Total: All households"
+    },
     "case_route": {
       "all": "All clients",
       "case_transfer": "Case transfers",
@@ -8329,6 +8340,9 @@
       "soc_9__group_self_invested_personal_pension": "Elementary occupations, group self-invested personal pension",
       "soc_9__group_stakeholder_pension": "Elementary occupations, group stakeholder pension"
     },
+    "ons.capital_stock_sector": {
+      "total_economy": "Whole economy"
+    },
     "ons.coicop": {
       "coicop_01": "Food and non-alcoholic beverages",
       "coicop_02": "Alcohol, tobacco and narcotics",
@@ -8367,7 +8381,11 @@
       "cy2018": "2018",
       "cy2019": "2019",
       "cy2020": "2020",
-      "cy2021": "2021"
+      "cy2021": "2021",
+      "cy2022": "2022",
+      "cy2023": "2023",
+      "cy2024": "2024",
+      "cy2025": "2025"
     },
     "partner_indicator": {
       "Has a partner": "Has a partner",
@@ -8453,6 +8471,7 @@
       "terraced": "Terraced"
     },
     "publication_status": {
+      "preliminary": "Preliminary",
       "provisional": "Provisional"
     },
     "published_unit": {
