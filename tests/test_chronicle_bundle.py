@@ -598,6 +598,8 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # SSA's Supplement Tables 7.B3 and 7.B7 add 193 (128 and 65).
         # Historic Table 2's state Schedule 1 line 1 and Schedule A lines 7, 8a
         # and 14 add 408 (see above).
+        # IRS SOI Table 1.4's partnership and S corporation net income and loss legs
+        # add 160 (eight measures in 20 AGI ranges, TY2023).
         # chronicle#438 adds 66,230. 854 are institutional sector facts:
         # dwellings by sector from the two balance sheet workbooks (360 and 12)
         # and ONS's gross and net capital stock of dwellings (480 and 2). 65,376
@@ -605,7 +607,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # the 7,264 MSOAs, whose geography keys the MSOA income package already
         # carries. Measured with only its five packages at bundle year 2023: no
         # new geography, period or entity key, duplicate key or warning.
-        "fact_count": 2312293,
+        "fact_count": 2312453,
         # The same change adds 82,064 geography keys: 46,363 Scottish 2022
         # output areas (UV404), 35,673 LSOA-level keys from the DESNZ LSOA
         # workbooks (Scotland's data zones already exist), the 26 Northern
@@ -757,7 +759,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         if row_count == 1:
             assert row["aggregate_fact_key"].startswith("ledger.aggregate_fact.v2:")
             assert row["semantic_fact_key"].startswith("ledger.semantic_fact.v2:")
-    assert row_count == 2312293
+    assert row_count == 2312453
     assert provenance_classes <= {
         "administrative",
         "census",
@@ -792,7 +794,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "jct-obbba-revenue-estimates-2025",
         "jct-tax-expenditures-2024",
     ]
-    assert coverage["fact_count"] == 2312293
+    assert coverage["fact_count"] == 2312453
     assert coverage["counts"]["by_source"] == {
         "bea": 446,
         "bfp_economic_outlook": 5,
@@ -819,7 +821,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "hmrc": 40025,
         "ici": 12,
         "ird": 4362,
-        "irs_soi": 44371,
+        "irs_soi": 44531,
         "isc": 4,
         "jrc_euromod_be": 90,
         "kff": 52,
@@ -2425,6 +2427,8 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         expected_period_counts[key] = expected_period_counts.get(key, 0) + count
     # PolicyEngine/microcosm#1418: SPI 2023-24 Table 3.10.
     expected_period_counts["tax_year:2023"] += 159
+    # IRS SOI Table 1.4's partnership and S corporation net income and loss legs, TY2023.
+    expected_period_counts["tax_year:2023"] += 160
     # chronicle#393: the OBR October 2026 EFO packages, by fiscal and calendar year.
     for key, count in {
         "calendar_year:2024": 1,
@@ -2924,7 +2928,8 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         == 35
     )
     # SSA's Supplement Tables 7.B3 and 7.B7 add four (two national cells each).
-    assert coverage["counts"]["by_geography"]["country:0100000US"] == 2120
+    # IRS SOI Table 1.4's partnership and S corporation net income and loss legs add 160.
+    assert coverage["counts"]["by_geography"]["country:0100000US"] == 2280
     # 255, less Vintage 2024's state total (chronicle#397), + 16 Census Vintage
     # 2025 age groups (15 groups and the total), + 6 from SSA's Supplement
     # Tables 7.B3 (four California cells) and 7.B7 (two), + 8 Historic Table 2
@@ -3058,7 +3063,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "person": 734519,
         "return": 16087,
         "social_protection_scheme": 36,
-        "tax_unit": 45676,
+        "tax_unit": 45836,
     }
     assert not coverage["duplicates"]["aggregate_fact_keys"]
     assert len(coverage["duplicates"]["semantic_fact_keys"]) == 4135
