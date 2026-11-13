@@ -1,16 +1,23 @@
 # Publisher of every Chronicle source folder (packages/<folder> and
 # db/data/<folder>; every package lives in the same folder as its data).
 #
-# Chronicle holds government-produced records only: see the 2026-10-21
+# Chronicle admits only government-produced records: see the 2026-10-21
 # amendment to docs/adr-chronicle-facts-only.md. tests/test_source_publishers.py
 # fails when a folder is missing here, when an entry names no folder, or when a
-# non-government folder appears beyond the three that predate the rule.
+# non-government or edge-case folder appears beyond those added before the rule
+# took effect. It reads these entries only; it does not check each package.
 #
 # status:
 #   government      part of a national, subnational, or supranational government
-#   edge_case       a category whose treatment awaits a ruling (edge_case names it);
-#                   existing packages stay until then
-#   non_government  predates the rule; stays until its migration is ruled on
+#   edge_case       a category whose treatment awaits a ruling (edge_case names
+#                   it: central_bank, regulator, public_body, supranational);
+#                   existing folders stay, and new ones wait for the ruling
+#   non_government  added before the rule took effect; stays until its
+#                   migration is ruled on
+#
+# notes give joint publishers, other publishers inside a folder, and some
+# third-party hosts as examples; they are not a complete list of where each
+# package's files are fetched.
 schema_version: chronicle.source_publishers.v1
 folders:
   bea:
@@ -62,10 +69,13 @@ folders:
     notes: >-
       pip_daily_living_foi_2025 is a DWP freedom-of-information reply fetched
       from WhatDoTheyKnow, a third-party host.
+  ed_fsa:
+    publisher: Federal Student Aid, U.S. Department of Education
+    status: government
   eurostat:
     publisher: Eurostat (European Commission)
     status: edge_case
-    edge_case: intergovernmental
+    edge_case: supranational
   federal_reserve:
     publisher: Board of Governors of the Federal Reserve System
     status: edge_case
@@ -73,6 +83,14 @@ folders:
   fpb:
     publisher: Federal Planning Bureau (Belgium)
     status: government
+  gambling_commission:
+    publisher: Gambling Commission
+    status: edge_case
+    edge_case: regulator
+    notes: >-
+      Executive non-departmental public body (GOV.UK). Both packages are
+      official statistics; data files are served from Contentful's asset
+      host (assets.ctfassets.net), which the Commission's website uses.
   hhs_acf:
     publisher: Administration for Children and Families (HHS)
     status: government
@@ -105,7 +123,7 @@ folders:
   jrc:
     publisher: Joint Research Centre (European Commission)
     status: edge_case
-    edge_case: intergovernmental
+    edge_case: supranational
   kff:
     publisher: KFF
     status: non_government
@@ -133,7 +151,8 @@ folders:
   nithc:
     publisher: Northern Ireland Transport Holding Company (Translink)
     status: edge_case
-    edge_case: public_corporation
+    edge_case: public_body
+    notes: Public corporation wholly owned by government.
   nrs:
     publisher: National Records of Scotland
     status: government
@@ -153,6 +172,9 @@ folders:
   ons:
     publisher: Office for National Statistics
     status: government
+    notes: >-
+      Many census tables are fetched from Nomis, which Durham University runs
+      for ONS, and boundary lookups from ArcGIS Online.
   onss:
     publisher: National Social Security Office (ONSS/RSZ, Belgium)
     status: government
@@ -163,6 +185,18 @@ folders:
     publisher: Office of Rail and Road
     status: edge_case
     edge_case: regulator
+  ostbelgien:
+    publisher: Ministerium der Deutschsprachigen Gemeinschaft (Belgium)
+    status: government
+    notes: Published through Ostbelgien Statistik (ostbelgienstatistik.be).
+  ros:
+    publisher: Registers of Scotland
+    status: government
+  rsz:
+    publisher: >-
+      Rijksdienst voor Sociale Zekerheid / Office national de sécurité
+      sociale (Belgium)
+    status: government
   scotgov:
     publisher: Scottish Government
     status: government
@@ -172,7 +206,11 @@ folders:
   slc:
     publisher: Student Loans Company
     status: edge_case
-    edge_case: public_corporation
+    edge_case: public_body
+    notes: >-
+      Executive non-departmental public body (GOV.UK), parent DfE.
+      student_loan_borrower_forecasts_england_2025 is DfE's Student loan
+      forecasts for England, a plain government record.
   spf_finances:
     publisher: Federal Public Service Finance (Belgium), released by Statbel
     status: government
@@ -188,12 +226,26 @@ folders:
   stats_nz:
     publisher: Stats NZ
     status: government
+    notes: Some files are fetched from ArcGIS Online (services2.arcgis.com).
+  tpa:
+    publisher: Tax Policy Associates
+    status: non_government
+    notes: >-
+      UK tax think tank. Raw-only: the configuration and output cells of its
+      lvt_model_2026 land value tax model at a pinned commit.
   treasury:
     publisher: The Treasury (New Zealand)
     status: government
     notes: >-
       an24_01_fiscal_totals is fetched from the NZ Treasury Analytics &
       Insights GitHub organisation, a third-party host.
+  ucl:
+    publisher: University College London
+    status: non_government
+    notes: >-
+      Raw-only: House Price Per Square Metre in England and Wales, 1995-2023,
+      deposited in UK Data Service ReShare; it joins HM Land Registry Price
+      Paid Data to EPC floor areas.
   usda_snap:
     publisher: USDA Food and Nutrition Service
     status: government

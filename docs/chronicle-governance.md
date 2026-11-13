@@ -31,11 +31,13 @@ Chronicle may:
 
 Chronicle must not:
 
-- hold records that a non-government publisher produced (a trade
+- add records that a non-government publisher produced (a trade
   association, charity, think tank, university, firm, or an aggregator that
-  republishes government data); every source folder's publisher is named and
-  classified in `docs/source-publishers.yaml`, and edge cases follow the
-  2026-10-21 amendment to `docs/adr-chronicle-facts-only.md`
+  republishes government data). Every source folder's publisher is named and
+  classified in `docs/source-publishers.yaml`; the five folders added before
+  this rule took effect (`isc`, `ici`, `kff`, `tpa`, `ucl`) stay until their
+  migration is ruled on, and edge cases are listed, with proposed treatment,
+  in the 2026-10-21 amendment to `docs/adr-chronicle-facts-only.md`
 - reconcile across sources
 - age facts to a build year
 - store PolicyEngine-computed values (aged, uprated, forecast, or reconciled

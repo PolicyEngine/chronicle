@@ -10,17 +10,21 @@ baseline, BFP outlook, SSA trustees) is a fact typed
 `assertion: source_projection`. PolicyEngine-computed values — aged, uprated,
 forecast, or reconciled levels — are never Chronicle facts.
 
-Chronicle holds government-produced records only. Before adding a source
+Chronicle admits only government-produced records. Before adding a source
 folder or package, confirm the publisher is part of a government and add or
-update its entry in `docs/source-publishers.yaml`; `tests/test_source_publishers.py`
-fails on an unclassified folder or a new non-government one. Do not add
-records from trade associations, charities, think tanks, universities,
-firms, or aggregators that republish government data: take the series from
-the government publisher instead. Comparisons against outside scores belong
-in PolicyEngine/policyengine-scorecard, not here. Edge cases (central banks,
-regulators, public corporations, intergovernmental bodies, government records
-on a third-party host) follow the 2026-10-21 amendment in
-`docs/adr-chronicle-facts-only.md`.
+update its entry in `docs/source-publishers.yaml`. `tests/test_source_publishers.py`
+fails on an unclassified folder and on a new non-government or edge-case
+folder, but it reads folder entries only, so check each package's publisher
+yourself. Do not add records from trade associations, charities, think
+tanks, universities, firms, or aggregators that republish government data:
+take the series from the government publisher instead. Comparisons against
+outside scores belong in PolicyEngine/policyengine-scorecard, not here. Five
+folders added before the rule took effect fail it (`isc`, `ici`, `kff`,
+`tpa`, `ucl`); they stay until their migration is ruled on. Edge cases
+(central banks, regulators, public bodies, supranational bodies, government
+records on a third-party host) are listed, with proposed treatment, in the
+2026-10-21 amendment to `docs/adr-chronicle-facts-only.md`; a new folder in
+one of those categories waits for the ruling.
 
 Do not put Microcosm work in Chronicle:
 

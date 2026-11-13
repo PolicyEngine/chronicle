@@ -57,7 +57,7 @@ fact's `period` is the period its value refers to. Consumers must enforce any
 contract that aligns it to another period (see
 [`docs/adr-chronicle-facts-only.md`](docs/adr-chronicle-facts-only.md)).
 
-Chronicle holds government-produced records only. A fact's publisher must be
+Chronicle admits only government-produced records. A fact's publisher must be
 part of a government: a legislature or one of its offices, a ministry or
 department and its agencies, a statistics office, or a public body set up to
 publish official figures. Records from trade associations, charities, think
@@ -69,9 +69,9 @@ estimates against outside scores live in the separate
 [`docs/source-publishers.yaml`](docs/source-publishers.yaml) names the
 publisher of every source folder, and the ADR's 2026-10-21 amendment lists
 the proposed treatment of edge cases (central banks, regulators, public
-corporations, intergovernmental bodies, third-party hosts) and the three
-folders that predate the rule (`isc`, `ici`, `kff`), which stay until their
-migration is ruled on.
+bodies, supranational bodies, third-party hosts) and the five folders added
+before the rule took effect (`isc`, `ici`, `kff`, `tpa`, `ucl`), which stay
+until their migration is ruled on.
 
 | Layer | Owns | Examples |
 |-------|------|----------|
