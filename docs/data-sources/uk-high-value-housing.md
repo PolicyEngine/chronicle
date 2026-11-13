@@ -72,9 +72,11 @@ Each of their file entries says so with `storage.local: false`:
 `.gitignore` keeps the local copies out of commits.
 
 Price Paid is registered as HM Land Registry's yearly files, not its single
-`pp-complete.csv` (5,525,539,417 bytes). `publish-raw` uploads through
+`pp-complete.csv` (5,525,539,417 bytes). `publish-raw` then uploaded only through
 `wrangler r2 object put`, which refuses files above 300 MiB; the largest yearly
-file (`pp-2002.csv`) is 239,344,429 bytes. The 32 yearly files of a release hold
+file (`pp-2002.csv`) is 239,344,429 bytes. Larger files now go through R2's S3
+API ([chronicle#409](https://github.com/PolicyEngine/chronicle/issues/409)), but
+the yearly files stay: they are the release's own split. The 32 yearly files of a release hold
 exactly the complete file's rows, split by year of transfer. For this release,
 order-independent row digests by year agree between the two (31,610,742 rows).
 

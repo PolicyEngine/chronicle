@@ -13,6 +13,9 @@ import yaml
 from chronicle.cli import main as cli_main
 from chronicle.artifacts import (
     R2_COUNTRY_PUBLISHERS,
+    WRANGLER_PUT_LIMIT_BYTES,
+    ArtifactStorageLocation,
+    _upload_r2_object,
     build_artifact_key,
     build_artifact_rows,
     build_derived_r2_key,
@@ -28,6 +31,7 @@ from chronicle.artifacts import (
 from chronicle.bundle import NZ_BUNDLE_SOURCE_PREFIXES, NZ_BUNDLE_SOURCES
 from chronicle.epoch import Epoch
 from chronicle.harness import main as harness_main
+from chronicle.r2_s3 import R2S3Error
 from chronicle.source_package import load_source_package
 
 
@@ -190,7 +194,8 @@ def test_every_nz_suite_manifest_declares_its_default_canonical_raw_key():
             checked.append(manifest["source_id"])
 
     assert set(checked) == set(NZ_BUNDLE_SOURCE_PREFIXES)
-    assert checked.count("treasury") == 4
+    # G8-d3 adds PREFU 2026 (treasury/prefu26_economic_assumptions).
+    assert checked.count("treasury") == 5
 
 
 def test_all_desnz_manifests_use_canonical_uk_r2_keys_and_pinned_bytes():
@@ -198,8 +203,9 @@ def test_all_desnz_manifests_use_canonical_uk_r2_keys_and_pinned_bytes():
 
     # chronicle#322 adds the road-transport fuel-consumption workbook.
     # chronicle#356 adds Northern Ireland's electricity and gas workbooks and the
-    # LSOA and MSOA domestic gas and electricity workbooks.
-    assert len(manifests) == 21
+    # LSOA and MSOA domestic gas and electricity workbooks. chronicle#420 item 12 adds
+    # Quarterly Energy Prices tables 2.4.2, 2.4.3 and 2.5.2.
+    assert len(manifests) == 24
     for manifest_path in manifests:
         manifest = yaml.safe_load(manifest_path.read_text())
         for year, artifact in manifest["files"].items():
@@ -674,6 +680,248 @@ def test_publish_raw_refuses_r2_only_bytes_without_an_r2_location(tmp_path):
     assert not report.valid
     assert report.entries[0].errors == ("r2_only_without_r2_location",)
     assert not log.exists()
+
+
+def _fetch_release(tmp_path: Path, content: bytes) -> Path:
+    source = tmp_path / "release.csv"
+    source.write_bytes(content)
+    output_dir = tmp_path / "data" / "hmlr" / "release"
+    fetch_source_artifact(
+        str(source),
+        source_id="hmlr",
+        package_id="hmlr-release",
+        year=2026,
+        output_dir=output_dir,
+    )
+    return output_dir
+
+
+def test_fetch_publish_and_inventory_hash_files_without_reading_them_whole(
+    tmp_path, monkeypatch
+):
+    # Raw files can be several GB (chronicle#409), so none is read whole.
+    def refuse_whole_read(path):
+        raise AssertionError(f"read whole: {path}")
+
+    monkeypatch.setattr(Path, "read_bytes", refuse_whole_read)
+    wrangler, _ = _logging_wrangler(tmp_path)
+    output_dir = _fetch_release(tmp_path, b"raw release bytes")
+
+    published = publish_source_artifacts(output_dir, wrangler_command=str(wrangler))
+    inventory = inventory_source_artifacts(output_dir)
+
+    assert published.valid and inventory.valid
+    (entry,) = published.entries
+    assert entry.sha256 == hashlib.sha256(b"raw release bytes").hexdigest()
+    assert entry.size_bytes == len(b"raw release bytes")
+    assert inventory.entries[0].sha256_actual == entry.sha256
+
+
+class _RecordingS3Client:
+    uploads: list[tuple[str, str, bytes, str | None]] = []
+    error: Exception | None = None
+    # What HEAD finds under the key before an upload, and after one that failed.
+    existing_size: int | Exception | None = None
+    size_after_error: int | Exception | None = None
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, *exc_info):
+        return None
+
+    def object_size(self, bucket, key):
+        if isinstance(self.existing_size, Exception):
+            raise self.existing_size
+        return self.existing_size
+
+    def put_file(self, bucket, key, path, *, content_type=None):
+        if self.error is not None:
+            type(self).existing_size = self.size_after_error
+            raise self.error
+        self.uploads.append((bucket, key, Path(path).read_bytes(), content_type))
+        return 1
+
+
+def test_files_above_the_wrangler_limit_go_through_the_s3_api(tmp_path, monkeypatch):
+    wrangler, log = _logging_wrangler(tmp_path)
+    output_dir = _fetch_release(tmp_path, b"above the limit")
+    monkeypatch.setattr("chronicle.artifacts.WRANGLER_PUT_LIMIT_BYTES", 4)
+    monkeypatch.setattr(_RecordingS3Client, "uploads", [])
+    monkeypatch.setattr("chronicle.artifacts._r2_s3_client", _RecordingS3Client)
+
+    report = publish_source_artifacts(output_dir, wrangler_command=str(wrangler))
+    manifest = yaml.safe_load((output_dir / "manifest.yaml").read_text())
+    r2 = manifest["files"][2026]["storage"]["r2"]
+
+    assert report.valid
+    assert report.counts["uploaded_count"] == 1
+    assert report.entries[0].upload.command[0] == "r2-s3-multipart-put"
+    assert _RecordingS3Client.uploads == [
+        ("ledger-raw", r2["key"], b"above the limit", "text/csv")
+    ]
+    assert r2["key"].startswith("raw/uk/hmlr/hmlr-release/2026/")
+    assert not log.exists()
+
+
+@pytest.mark.parametrize(
+    "size_after_error",
+    [None, R2S3Error("HEAD failed")],
+    ids=["nothing-under-the-key", "head-fails-too"],
+)
+def test_a_failed_s3_upload_records_no_r2_location(
+    tmp_path, monkeypatch, size_after_error
+):
+    wrangler, log = _logging_wrangler(tmp_path)
+    output_dir = _fetch_release(tmp_path, b"above the limit")
+    monkeypatch.setattr("chronicle.artifacts.WRANGLER_PUT_LIMIT_BYTES", 4)
+    monkeypatch.setattr(_RecordingS3Client, "error", R2S3Error("HTTP 403: denied"))
+    monkeypatch.setattr(_RecordingS3Client, "existing_size", None)
+    monkeypatch.setattr(_RecordingS3Client, "size_after_error", size_after_error)
+    monkeypatch.setattr("chronicle.artifacts._r2_s3_client", _RecordingS3Client)
+
+    report = publish_source_artifacts(output_dir, wrangler_command=str(wrangler))
+    manifest = yaml.safe_load((output_dir / "manifest.yaml").read_text())
+
+    assert not report.valid
+    assert report.entries[0].errors == ("r2_upload_failed",)
+    # The upload's own error is reported, not the check that followed it.
+    assert report.entries[0].upload.stderr == "HTTP 403: denied"
+    assert "storage" not in manifest["files"][2026]
+    assert not log.exists()
+
+
+@pytest.mark.parametrize(
+    ("existing_size", "sent"),
+    [(15, False), (14, True)],
+    ids=["same-size", "other-size"],
+)
+def test_an_object_of_the_files_size_under_its_key_is_not_sent_again(
+    tmp_path, monkeypatch, existing_size, sent
+):
+    # The key carries the file's sha256, so an object of its size is the file.
+    wrangler, log = _logging_wrangler(tmp_path)
+    output_dir = _fetch_release(tmp_path, b"above the limit")
+    monkeypatch.setattr("chronicle.artifacts.WRANGLER_PUT_LIMIT_BYTES", 4)
+    monkeypatch.setattr(_RecordingS3Client, "uploads", [])
+    monkeypatch.setattr(_RecordingS3Client, "existing_size", existing_size)
+    monkeypatch.setattr("chronicle.artifacts._r2_s3_client", _RecordingS3Client)
+
+    report = publish_source_artifacts(output_dir, wrangler_command=str(wrangler))
+    manifest = yaml.safe_load((output_dir / "manifest.yaml").read_text())
+    entry = report.entries[0]
+
+    assert report.valid
+    assert manifest["files"][2026]["storage"]["r2"]["key"] == entry.r2_location.key
+    assert len(_RecordingS3Client.uploads) == int(sent)
+    assert (entry.upload.stdout == "already in R2") is not sent
+    assert not log.exists()
+
+
+def test_an_upload_whose_completion_landed_counts_as_uploaded(tmp_path, monkeypatch):
+    # A completion can commit and lose its response: the retry then finds no
+    # upload and put_file raises, though the object is in R2.
+    wrangler, log = _logging_wrangler(tmp_path)
+    output_dir = _fetch_release(tmp_path, b"above the limit")
+    monkeypatch.setattr("chronicle.artifacts.WRANGLER_PUT_LIMIT_BYTES", 4)
+    monkeypatch.setattr(
+        _RecordingS3Client,
+        "error",
+        R2S3Error("POST key returned HTTP 404: <Code>NoSuchUpload</Code>"),
+    )
+    monkeypatch.setattr(_RecordingS3Client, "existing_size", None)
+    monkeypatch.setattr(_RecordingS3Client, "size_after_error", 15)
+    monkeypatch.setattr("chronicle.artifacts._r2_s3_client", _RecordingS3Client)
+
+    report = publish_source_artifacts(output_dir, wrangler_command=str(wrangler))
+    manifest = yaml.safe_load((output_dir / "manifest.yaml").read_text())
+    entry = report.entries[0]
+
+    assert report.valid
+    assert entry.errors == ()
+    assert "NoSuchUpload" in entry.upload.stdout
+    assert manifest["files"][2026]["storage"]["r2"]["key"] == entry.r2_location.key
+    assert not log.exists()
+
+
+def test_a_derived_file_is_sent_whatever_is_under_its_key(tmp_path, monkeypatch):
+    # A derived key names the build, not the bytes: a rebuilt file of the same
+    # size, under the same build ID, may hold other bytes.
+    suite = tmp_path / "suite"
+    suite.mkdir()
+    (suite / "ledger.db").write_bytes(b"rebuilt ledger")
+    monkeypatch.setattr("chronicle.artifacts.WRANGLER_PUT_LIMIT_BYTES", 4)
+    monkeypatch.setattr(_RecordingS3Client, "uploads", [])
+    monkeypatch.setattr(_RecordingS3Client, "existing_size", 14)
+    monkeypatch.setattr("chronicle.artifacts._r2_s3_client", _RecordingS3Client)
+
+    def publish():
+        return publish_derived_artifacts(
+            suite,
+            source_id="ons",
+            package_id="pkg",
+            year=2024,
+            build_id="ledger.build.v1:test123",
+            wrangler_command="false",
+        )
+
+    sent = publish()
+    monkeypatch.setattr(
+        _RecordingS3Client, "error", R2S3Error("HTTP 404: NoSuchUpload")
+    )
+    monkeypatch.setattr(_RecordingS3Client, "size_after_error", 14)
+    failed = publish()
+
+    assert sent.valid
+    assert sent.entries[0].upload.stdout == "uploaded in 1 parts"
+    assert [upload[2] for upload in _RecordingS3Client.uploads] == [b"rebuilt ledger"]
+    assert not failed.valid
+    assert failed.entries[0].upload.stderr == "HTTP 404: NoSuchUpload"
+
+
+def test_the_s3_path_starts_one_byte_above_the_wrangler_limit(tmp_path, monkeypatch):
+    # Wrangler refuses only files above its limit (sizeBytes > 300 MiB).
+    wrangler, log = _logging_wrangler(tmp_path)
+    sent: list[int] = []
+
+    class SizeRecordingClient(_RecordingS3Client):
+        def put_file(self, bucket, key, path, *, content_type=None):
+            sent.append(Path(path).stat().st_size)
+            return 4
+
+    monkeypatch.setattr(_RecordingS3Client, "existing_size", None)
+    monkeypatch.setattr("chronicle.artifacts._r2_s3_client", SizeRecordingClient)
+    location = ArtifactStorageLocation(provider="r2", bucket="ledger-raw", key="raw/k")
+    results = {}
+    for size in (WRANGLER_PUT_LIMIT_BYTES, WRANGLER_PUT_LIMIT_BYTES + 1):
+        path = tmp_path / f"{size}.zip"
+        with path.open("wb") as stream:
+            stream.truncate(size)  # sparse, so nothing is written
+        results[size] = _upload_r2_object(
+            location, path, wrangler_command=str(wrangler)
+        )
+
+    assert WRANGLER_PUT_LIMIT_BYTES == 300 * 1024 * 1024
+    assert results[WRANGLER_PUT_LIMIT_BYTES].command[0] == str(wrangler)
+    assert results[WRANGLER_PUT_LIMIT_BYTES + 1].command[0] == "r2-s3-multipart-put"
+    assert sent == [WRANGLER_PUT_LIMIT_BYTES + 1]
+    assert log.read_text().count("r2 object put") == 1
+
+
+def test_fetch_keeps_the_earlier_copy_when_a_download_fails(tmp_path):
+    output_dir = _fetch_release(tmp_path, b"first copy")
+
+    with pytest.raises(FileNotFoundError):
+        fetch_source_artifact(
+            str(tmp_path / "gone" / "release.csv"),
+            source_id="hmlr",
+            package_id="hmlr-release",
+            year=2026,
+            output_dir=output_dir,
+        )
+
+    assert (output_dir / "release.csv").read_bytes() == b"first copy"
+    assert not (output_dir / "release.csv.partial").exists()
 
 
 def test_artifact_cli_commands_emit_json(tmp_path, capsys):

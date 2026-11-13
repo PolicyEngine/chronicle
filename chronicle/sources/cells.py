@@ -152,6 +152,7 @@ def source_cells_from_xlsx(
     *,
     sheets: Sequence[str] = (),
     read_only: bool = False,
+    coerce_numeric_text: bool = False,
 ) -> list[SourceCell]:
     """Parse all used-range cells from an XLSX workbook.
 
@@ -164,9 +165,18 @@ def source_cells_from_xlsx(
     instead of loading the whole workbook twice. It emits the same cells, and
     exists for publisher workbooks too large to load whole on every build, such
     as DESNZ's 50 MB small-area workbooks of which a package reads two sheets.
+
+    ``coerce_numeric_text`` reads a text cell that holds only a number, such as
+    the "977" that ONS's capital stocks tables store as text, as that number, as
+    the ODS parser's numeric-text mode does. Any other text stays text.
     """
     if read_only:
-        return _source_cells_from_xlsx_read_only(content, artifact, sheets=sheets)
+        return _source_cells_from_xlsx_read_only(
+            content,
+            artifact,
+            sheets=sheets,
+            coerce_numeric_text=coerce_numeric_text,
+        )
     value_workbook = openpyxl.load_workbook(BytesIO(content), data_only=True)
     formula_workbook = openpyxl.load_workbook(BytesIO(content), data_only=False)
     if sheets:
@@ -188,6 +198,8 @@ def source_cells_from_xlsx(
                     column=column_index,
                 )
                 raw_value = _xlsx_cell_raw_value(cell.value)
+                if coerce_numeric_text and isinstance(raw_value, str):
+                    raw_value = _coerce_numeric_text(raw_value)
                 formula = (
                     str(formula_cell.value) if formula_cell.data_type == "f" else None
                 )
@@ -212,6 +224,7 @@ def _source_cells_from_xlsx_read_only(
     artifact: SourceArtifactMetadata,
     *,
     sheets: Sequence[str],
+    coerce_numeric_text: bool = False,
 ) -> list[SourceCell]:
     """Stream the named worksheets' used ranges, as the full parse would emit them."""
     if not sheets:
@@ -255,6 +268,8 @@ def _source_cells_from_xlsx_read_only(
                     zip(value_row, formula_row, strict=True), start=1
                 ):
                     raw_value = _xlsx_cell_raw_value(cell.value)
+                    if coerce_numeric_text and isinstance(raw_value, str):
+                        raw_value = _coerce_numeric_text(raw_value)
                     formula = (
                         str(formula_cell.value)
                         if getattr(formula_cell, "data_type", None) == "f"
@@ -692,7 +707,7 @@ def _ods_attr(namespace: str, name: str) -> str:
     return f"{{{_ODS_NAMESPACES[namespace]}}}{name}"
 
 
-_ODS_NUMERIC_TEXT_RE = re.compile(r"-?(?:\d{1,3}(?:,\d{3})+|\d+)(?:\.\d+)?")
+_NUMERIC_TEXT_RE = re.compile(r"-?(?:\d{1,3}(?:,\d{3})+|\d+)(?:\.\d+)?")
 
 
 def _ods_rows(
@@ -725,7 +740,7 @@ def _ods_row_values(
     for cell in row.findall("table:table-cell", _ODS_NAMESPACES):
         raw_value = _ods_cell_raw_value(cell)
         if coerce_numeric_text and isinstance(raw_value, str):
-            raw_value = _coerce_ods_numeric_text(raw_value)
+            raw_value = _coerce_numeric_text(raw_value)
         column_repeat = int(
             cell.attrib.get(_ods_attr("table", "number-columns-repeated"), 1)
         )
@@ -738,9 +753,9 @@ def _ods_row_values(
     return values
 
 
-def _coerce_ods_numeric_text(value: str) -> int | float | str:
+def _coerce_numeric_text(value: str) -> int | float | str:
     stripped = value.strip()
-    if _ODS_NUMERIC_TEXT_RE.fullmatch(stripped) is None:
+    if _NUMERIC_TEXT_RE.fullmatch(stripped) is None:
         return value
     normalized = stripped.replace(",", "")
     if "." in normalized:
@@ -1096,7 +1111,7 @@ def _delimited_scalar(value: str) -> Scalar:
         return None
     if "_" in stripped:
         return stripped
-    numeric = stripped.replace("$", "").replace(",", "")
+    numeric = stripped.replace("$", "").replace("£", "").replace(",", "")
     if numeric.lstrip("-").isdigit():
         return int(numeric)
     try:

@@ -611,25 +611,21 @@ def test_belgium_supplementary_publisher_aliases_are_registered():
     } <= set(SOURCE_PACKAGE_ALIASES)
 
 
-def test_sfpd_legal_pension_caseload_matches_published_cells():
-    facts = _facts(SFPD_PENSION_ALIAS, 2025)
-    by_scheme = {fact.filters["sfpd.scheme"]: fact.value for fact in facts}
-
-    # Exact published counts from PensionStat.be (SFP/SFPD), January 2025.
-    assert by_scheme == {
-        "all": 2674520,
-        "employee": 2357954,
-        "self_employed": 690590,
-        "civil_servant": 604506,
+def test_sfpd_legal_pension_caseload_uses_publisher_workbook():
+    # The package now reads detailed publisher cells, replacing four curated
+    # headlines. Independent cell/value checks live in test_chronicle_pensionstat.
+    package = load_source_package(SFPD_PENSION_ALIAS)
+    assert package.artifact.source_name == "sfpd_pensions"
+    assert package.artifact.artifact_year == 2025
+    assert package.artifact.parser == "xlsx_read_only_used_range"
+    assert set(package.artifact.sheets) == {
+        "Info",
+        "Gepensioneerden",
+        "Gepensioneerden_gemeente",
+        "IGO",
+        "Jaaruitgave",
+        "MinP_aantal",
     }
-    # Scheme counts are per-scheme recipients (mixed careers), not a partition:
-    # their sum exceeds the all-schemes total.
-    scheme_sum = sum(v for k, v in by_scheme.items() if k != "all")
-    assert scheme_sum > by_scheme["all"]
-    assert {fact.source.source_name for fact in facts} == {"sfpd_pensions"}
-    assert {fact.geography.level for fact in facts} == {"country"}
-    assert {fact.measure.unit for fact in facts} == {"count"}
-    assert validate_facts(facts).valid
 
 
 def test_groeipakket_caseload_matches_published_component_cells():
@@ -708,13 +704,15 @@ def test_fpb_annex_has_requested_table_counts_and_vintage_boundary():
         "source_record_count": 1000,
         "source_region_count": 1000,
     }
-    assert Counter(fact.measure.source_concept for fact in facts) == {
-        "fpb.economic_outlook_2026_2031.t01.published_cell": 40,
-        "fpb.economic_outlook_2026_2031.t06.published_cell": 30,
-        "fpb.economic_outlook_2026_2031.t07.published_cell": 100,
-        "fpb.economic_outlook_2026_2031.t11.published_cell": 210,
-        "fpb.economic_outlook_2026_2031.t17.published_cell": 70,
-        "fpb.economic_outlook_2026_2031.t24.published_cell": 550,
+    # Source concepts name the table and row; row grain is pinned in
+    # test_source_fpb_row_source_concept.
+    assert Counter(fact.measure.source_concept.rsplit(".", 1)[0] for fact in facts) == {
+        "fpb.economic_outlook_2026_2031.t01": 40,
+        "fpb.economic_outlook_2026_2031.t06": 30,
+        "fpb.economic_outlook_2026_2031.t07": 100,
+        "fpb.economic_outlook_2026_2031.t11": 210,
+        "fpb.economic_outlook_2026_2031.t17": 70,
+        "fpb.economic_outlook_2026_2031.t24": 550,
     }
     assert Counter((fact.period.value, fact.assertion) for fact in facts) == {
         **{(year, "observation"): 100 for year in range(2022, 2026)},

@@ -14412,24 +14412,24 @@ record_sets:
     value_scale: 1000
     expected_cell_type: number
   - measure_id: charitable_returns
-    label: Returns with charitable contributions deduction
+    label: Returns with contributions deduction
     ordinal: 38
     column: CR
     source_column_id: N19700
     expected_column_header_row: 1
     expected_column_header: N19700
-    concept: irs_soi.returns_with_charitable_contributions_deduction
+    concept: irs_soi.returns_with_contributions_deduction
     unit: count
     aggregation: sum
     expected_cell_type: number
   - measure_id: charitable_amount
-    label: Charitable contributions deduction
+    label: Contributions deduction amount
     ordinal: 39
     column: CS
     source_column_id: A19700
     expected_column_header_row: 1
     expected_column_header: A19700
-    concept: irs_soi.charitable_contributions_deduction
+    concept: irs_soi.contributions_deduction
     unit: usd
     aggregation: sum
     value_scale: 1000

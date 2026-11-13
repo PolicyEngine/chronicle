@@ -1,0 +1,26 @@
+source_id: ons
+package_id: ons-lsoa11-lsoa21-lad22-exact-fit-lookup-v3
+dataset: ons_ons-lsoa11-lsoa21-lad22-exact-fit-lookup-v3
+source_page: https://geoportal.statistics.gov.uk/datasets/cbfe64cc03d74af982c1afec639bafd1
+table: LSOA (2011) to LSOA (2021) to Local Authority District (2022) Exact Fit Lookup
+  for EW (V3)
+files:
+  2021:
+    filename: ew_lsoa11_lsoa21_lad22_exact_fit_v3.csv
+    source_url: https://open-geography-portalx-ons.hub.arcgis.com/api/download/v1/items/cbfe64cc03d74af982c1afec639bafd1/csv?layers=0
+    sha256: 7cac152d20679fe18aade0dc2d4292b4624f23ba45a43fca7cafce716429e500
+    size_bytes: 3030656
+    fetched_at: '2026-11-04T18:27:32+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/ons/ons-lsoa11-lsoa21-lad22-exact-fit-lookup-v3/2021/7cac152d20679fe18aade0dc2d4292b4624f23ba45a43fca7cafce716429e500/ew_lsoa11_lsoa21_lad22_exact_fit_v3.csv
+        uri: r2://ledger-raw/raw/uk/ons/ons-lsoa11-lsoa21-lad22-exact-fit-lookup-v3/2021/7cac152d20679fe18aade0dc2d4292b4624f23ba45a43fca7cafce716429e500/ew_lsoa11_lsoa21_lad22_exact_fit_v3.csv
+registration_kind: raw_only
+provenance_notes: 'ONS LSOA (2011) to LSOA (2021) to Local Authority District (2022)
+  Exact Fit Lookup for England and Wales, version 3 (Open Geography Portal item cbfe64cc03d74af982c1afec639bafd1):
+  35,796 rows, one per pair of 2011 and 2021 LSOAs, covering 34,753 2011 and 35,672
+  2021 LSOAs, with the change indicator CHGIND (U unchanged 33,647; S split 1,900;
+  M merged 239; X irregular 10) and the 2022 district. Licence: Open Government Licence
+  v3.0 (ONS geography licences). Raw-only for chronicle#412 item 1.'

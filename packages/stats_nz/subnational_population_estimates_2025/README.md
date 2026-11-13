@@ -1,8 +1,9 @@
-# Stats NZ subnational population, 30 June 2025 — partial
+# Stats NZ subnational population, 30 June 2023 and 2025 — partial
 
-This package emits 85 publisher-backed population counts: the 16 regional
+This package emits 102 publisher-backed population counts: the 16 regional
 council areas and the separately published New Zealand total, each for all ages
-and the four source age bands. It does **not** complete the five-year-age × sex ×
+at 30 June 2023 and 2025, plus the four source age bands at 30 June 2025.
+It does **not** complete the five-year-age × sex ×
 region surface requested by [issue #176](https://github.com/PolicyEngine/chronicle/issues/176).
 
 The [29 October 2025 release](https://www.stats.govt.nz/information-releases/subnational-population-estimates-at-30-june-2025/)
@@ -10,6 +11,7 @@ and its unchanged XLSX provide these cells:
 
 | Source sheet | Exact selection | Facts |
 |---|---|---:|
+| Table 1 | B7:B22 and B25, headed numeric `2023` (no `P`) | 17 |
 | Table 1 | D7:D22 and D25, headed `2025 P` | 17 |
 | Table 3 | Columns D:G, rows 10, 13, 16, 19, 22, 25, 28, 31, 34, 37, 40, 43, 46, 49, 52, 55, 64 | 68 |
 
@@ -19,35 +21,43 @@ worksheets are parsed over their complete used ranges (2,265 cells), including
 unselected years and explanatory footnotes. Territorial-authority all-age
 counts from Table 2 are ingested separately by
 [subnational_population_ta_2025](../subnational_population_ta_2025/README.md).
-Local-board tables, island subtotals, percentages, median ages, and
-population-change components are not ingested by this package.
+The `2024 P` column, local-board tables, island subtotals, percentages, median
+ages, and population-change components are not ingested by this package.
 
 ## Reference period and population definition
 
-- Reference date: **30 June 2025**, expressed as `calendar_year: 2025` plus
-  equal start/end coverage dates `2025-06-30`. These are point-in-time counts,
+- Reference dates: **30 June 2023** and **30 June 2025**, expressed as
+  `calendar_year: 2023` / `2025` plus equal start/end coverage dates
+  `2023-06-30` / `2025-06-30`, respectively. These are point-in-time counts,
   not annual average populations.
-- Publication vintage: **29 October 2025**; all selected figures are
-  **provisional**. The source artifact remains pinned even if Stats NZ later
-  revises its historical estimates.
+- Publication vintage: **29 October 2025**. The selected **2025** figures are
+  **provisional**. Table 1!B6 is numeric `2023` without a `P` marker, so the
+  2023 facts are not marked provisional. The workbook's Contents and footnotes
+  do not explicitly label 2023 final or revised; neither status is added.
+  The source artifact remains pinned even if Stats NZ later revises its
+  historical estimates.
 - Population: estimated resident population (ERP), based on the 2023 census
   usually resident population and adjusted for net census under/overcount,
   residents temporarily overseas on census night, and subsequent births,
   deaths, and net migration. This is not the unadjusted census-night count.
+  The 2023 estimates are the release's 2023-base series, not the 7 March 2023
+  census-night count (Table 1!A26:A28).
 - Geography: regional boundaries at **1 January 2025**, with REGC codes stored
   as strings and `geography_vintage: regc_2025`. The separately pinned official
   [REGC 2025 attributes](https://services2.arcgis.com/vKb0s8tBIA3bdocZ/arcgis/rest/services/Regional_Council_2025/FeatureServer)
   supply the codes and names. The classification names code `02` “Auckland”;
   the population workbook labels the same region “Auckland region”.
-- National scope: Table 1!D25 publishes **5,324,700**, including areas outside
-  regions, such as Chatham Islands territory. The package reads the published
+- National scope: Table 1!B25 publishes **5,200,000** for 2023 and D25 publishes
+  **5,324,700** for 2025, including areas outside regions, such as Chatham
+  Islands territory. The package reads the published
   national cells directly. It neither sums the 16 regions nor constructs a
   code-`99` outside-region residual. Published rounding also prevents exact
   reconciliation from being assumed.
 - Provenance: `census` for a census-controlled ERP estimate, and
   `assertion: observation` for the historical reference date. “Observation”
   does not mean final or error-free; the source's provisional status remains
-  explicit in the period and concept evidence.
+  explicit in the 2025 period and concept evidence. The 2023 evidence retains
+  its unmarked column header.
 - Concept relation: `source_label`, with Stats NZ evidence. No Axiom canonical
   equivalence, population calibration, uprating, interpolation, or target
   activation is claimed.
@@ -57,6 +67,11 @@ age headers, reference years, the boundary footnote, and the provisional-status
 footnote have guards. The tests compare every admitted value against the
 publisher workbook and every regional code/name against the independent
 publisher classification.
+
+The 2023 selectors additionally guard Table 1!A3, A5 and B5, along with A4,
+numeric B6, every selected row header, A29 and A34. Both dates use the same
+source concept, REGC 2025 geographies, provenance class and assertion. No ratio
+or growth rate is constructed.
 
 Dimension labels follow the bundle's one-label-per-id rule. `geography` is
 "Geography" and `person.age_band` is "Age band", the labels the other packages

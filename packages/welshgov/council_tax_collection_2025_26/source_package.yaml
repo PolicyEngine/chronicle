@@ -9,25 +9,26 @@
 # the in-year collection rate. Publisher note 3: the amounts are net of all
 # deductions on council tax bills, such as council tax reduction scheme.
 #
-# Ported: the 'Total Wales' row, publisher columns 1, 2, 3, 4, 6, 7 and 9.
-# Excluded: columns 5, 8, 10, 11 and 12, which the publisher labels as
-# formulas over the other columns (5=(1+2-3-4), 8=(7/6), 10=(6-7-9),
-# 11=(10+5), 12=(11-1)), so the in-year collection rate is consumer arithmetic
-# (column 7 over column 6); the 22 per-authority rows (wave-3 local-geography
-# scope, in this pinned artifact); and Table 1, which prints collection rates
-# as percentages (the current-year rate is column 8's ratio, the previous-year
-# rate is a revised restatement of the earlier release, and a memo 'assumed
-# collection rate' is a budget assumption) and is outside this amounts-only
-# package. Values are the workbook's stored cells (H27 is 2403994.83 in GBP
-# thousand behind a '#,##0' format; its .83 is GBP 830). Split-year labels
-# store the opening year: 2025-26 is fiscal_year 2025.
+# Ported: the 'Total Wales' row and the 22 billing authority rows (added for
+# PolicyEngine/chronicle#408, in the record set at the end), publisher columns
+# 1, 2, 3, 4, 6, 7 and 9. Excluded: columns 5, 8, 10, 11 and 12, which the
+# publisher labels as formulas over the other columns (5=(1+2-3-4), 8=(7/6),
+# 10=(6-7-9), 11=(10+5), 12=(11-1)), so the in-year collection rate is
+# consumer arithmetic (column 7 over column 6); and Table 1, which prints
+# collection rates as percentages (the current-year rate is column 8's ratio,
+# the previous-year rate is a revised restatement of the earlier release, and
+# a memo 'assumed collection rate' is a budget assumption) and is outside this
+# amounts-only package. Values are the workbook's stored cells (H27 is
+# 2403994.83 in GBP thousand behind a '#,##0' format, from Cardiff's
+# 253702.83 in H19; its .83 is GBP 830). Split-year labels store the opening
+# year: 2025-26 is fiscal_year 2025.
 #
 # gov.wales 403s a plain fetch; the workbook was retrieved with browser
 # headers and pinned byte-for-byte (sha256 in manifest.yaml).
 schema_version: ledger.source_package.v1
 package_id: welshgov-council-tax-collection-2025-26
 label: 'Welsh Government council tax collection rates 2025-26: net collectable debit, amounts
-  collected and written off, and arrears, Wales'
+  collected and written off, and arrears, Wales and its 22 billing authorities'
 dimension_labels:
   'welshgov.geography_row': 'Geography'
 artifact:
@@ -236,6 +237,413 @@ record_sets:
       Amounts written off as bad debts during year'' (publisher column number 9). Publisher
       note 3: the amounts are net of all deductions on council tax bills, such as council
       tax reduction scheme. GBP thousands (value_scale 1000).'
+    unit: gbp
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000
+# Record sets below: scripts/build_uk_408_packages.py (PolicyEngine/chronicle#408).
+- record_set_id: welshgov.ct_collection_2025_26.table_2.billing_authorities
+  provenance_class: administrative
+  record_set_spec_id: welshgov.ct_collection_2025_26.table_2.billing_authorities.v1
+  source_record_id_prefix: welshgov.ct_collection_2025_26.table_2.billing_authorities
+  sheet_name: Table2
+  period_type: fiscal_year
+  period: 2025
+  geography_id: W92000004
+  geography_level: country
+  geography_name: Wales
+  geography_vintage: current
+  entity: government
+  entity_role: billing_authority
+  domain: council_tax
+  groupby_dimension: welshgov.geography_row
+  rows:
+  - value_id: w06000001_isle_of_anglesey
+    label: Isle of Anglesey
+    ordinal: 0
+    row_number: 5
+    expected_row_header_column: A
+    expected_row_header: Isle of Anglesey
+    geography_id: W06000001
+    geography_level: local_authority
+    geography_name: Isle of Anglesey
+    geography_vintage: lad_2023
+    table_record_kind: total
+  - value_id: w06000002_gwynedd
+    label: Gwynedd
+    ordinal: 1
+    row_number: 6
+    expected_row_header_column: A
+    expected_row_header: Gwynedd
+    geography_id: W06000002
+    geography_level: local_authority
+    geography_name: Gwynedd
+    geography_vintage: lad_2023
+    table_record_kind: total
+  - value_id: w06000003_conwy
+    label: Conwy
+    ordinal: 2
+    row_number: 7
+    expected_row_header_column: A
+    expected_row_header: Conwy
+    geography_id: W06000003
+    geography_level: local_authority
+    geography_name: Conwy
+    geography_vintage: lad_2023
+    table_record_kind: total
+  - value_id: w06000004_denbighshire
+    label: Denbighshire
+    ordinal: 3
+    row_number: 8
+    expected_row_header_column: A
+    expected_row_header: Denbighshire
+    geography_id: W06000004
+    geography_level: local_authority
+    geography_name: Denbighshire
+    geography_vintage: lad_2023
+    table_record_kind: total
+  - value_id: w06000005_flintshire
+    label: Flintshire
+    ordinal: 4
+    row_number: 9
+    expected_row_header_column: A
+    expected_row_header: Flintshire
+    geography_id: W06000005
+    geography_level: local_authority
+    geography_name: Flintshire
+    geography_vintage: lad_2023
+    table_record_kind: total
+  - value_id: w06000006_wrexham
+    label: Wrexham
+    ordinal: 5
+    row_number: 10
+    expected_row_header_column: A
+    expected_row_header: Wrexham
+    geography_id: W06000006
+    geography_level: local_authority
+    geography_name: Wrexham
+    geography_vintage: lad_2023
+    table_record_kind: total
+  - value_id: w06000023_powys
+    label: Powys
+    ordinal: 6
+    row_number: 11
+    expected_row_header_column: A
+    expected_row_header: Powys
+    geography_id: W06000023
+    geography_level: local_authority
+    geography_name: Powys
+    geography_vintage: lad_2023
+    table_record_kind: total
+  - value_id: w06000008_ceredigion
+    label: Ceredigion
+    ordinal: 7
+    row_number: 12
+    expected_row_header_column: A
+    expected_row_header: Ceredigion
+    geography_id: W06000008
+    geography_level: local_authority
+    geography_name: Ceredigion
+    geography_vintage: lad_2023
+    table_record_kind: total
+  - value_id: w06000009_pembrokeshire
+    label: Pembrokeshire
+    ordinal: 8
+    row_number: 13
+    expected_row_header_column: A
+    expected_row_header: Pembrokeshire
+    geography_id: W06000009
+    geography_level: local_authority
+    geography_name: Pembrokeshire
+    geography_vintage: lad_2023
+    table_record_kind: total
+  - value_id: w06000010_carmarthenshire
+    label: Carmarthenshire
+    ordinal: 9
+    row_number: 14
+    expected_row_header_column: A
+    expected_row_header: Carmarthenshire
+    geography_id: W06000010
+    geography_level: local_authority
+    geography_name: Carmarthenshire
+    geography_vintage: lad_2023
+    table_record_kind: total
+  - value_id: w06000011_swansea
+    label: Swansea
+    ordinal: 10
+    row_number: 15
+    expected_row_header_column: A
+    expected_row_header: Swansea
+    geography_id: W06000011
+    geography_level: local_authority
+    geography_name: Swansea
+    geography_vintage: lad_2023
+    table_record_kind: total
+  - value_id: w06000012_neath_port_talbot
+    label: Neath Port Talbot
+    ordinal: 11
+    row_number: 16
+    expected_row_header_column: A
+    expected_row_header: Neath Port Talbot
+    geography_id: W06000012
+    geography_level: local_authority
+    geography_name: Neath Port Talbot
+    geography_vintage: lad_2023
+    table_record_kind: total
+  - value_id: w06000013_bridgend
+    label: Bridgend
+    ordinal: 12
+    row_number: 17
+    expected_row_header_column: A
+    expected_row_header: Bridgend
+    geography_id: W06000013
+    geography_level: local_authority
+    geography_name: Bridgend
+    geography_vintage: lad_2023
+    table_record_kind: total
+  - value_id: w06000014_vale_of_glamorgan
+    label: Vale of Glamorgan
+    ordinal: 13
+    row_number: 18
+    expected_row_header_column: A
+    expected_row_header: Vale of Glamorgan
+    geography_id: W06000014
+    geography_level: local_authority
+    geography_name: Vale of Glamorgan
+    geography_vintage: lad_2023
+    table_record_kind: total
+  - value_id: w06000015_cardiff
+    label: Cardiff
+    ordinal: 14
+    row_number: 19
+    expected_row_header_column: A
+    expected_row_header: Cardiff
+    geography_id: W06000015
+    geography_level: local_authority
+    geography_name: Cardiff
+    geography_vintage: lad_2023
+    table_record_kind: total
+  - value_id: w06000016_rhondda_cynon_taf
+    label: Rhondda Cynon Taf
+    ordinal: 15
+    row_number: 20
+    expected_row_header_column: A
+    expected_row_header: Rhondda Cynon Taf
+    geography_id: W06000016
+    geography_level: local_authority
+    geography_name: Rhondda Cynon Taf
+    geography_vintage: lad_2023
+    table_record_kind: total
+  - value_id: w06000024_merthyr_tydfil
+    label: Merthyr Tydfil
+    ordinal: 16
+    row_number: 21
+    expected_row_header_column: A
+    expected_row_header: Merthyr Tydfil
+    geography_id: W06000024
+    geography_level: local_authority
+    geography_name: Merthyr Tydfil
+    geography_vintage: lad_2023
+    table_record_kind: total
+  - value_id: w06000018_caerphilly
+    label: Caerphilly
+    ordinal: 17
+    row_number: 22
+    expected_row_header_column: A
+    expected_row_header: Caerphilly
+    geography_id: W06000018
+    geography_level: local_authority
+    geography_name: Caerphilly
+    geography_vintage: lad_2023
+    table_record_kind: total
+  - value_id: w06000019_blaenau_gwent
+    label: Blaenau Gwent
+    ordinal: 18
+    row_number: 23
+    expected_row_header_column: A
+    expected_row_header: Blaenau Gwent
+    geography_id: W06000019
+    geography_level: local_authority
+    geography_name: Blaenau Gwent
+    geography_vintage: lad_2023
+    table_record_kind: total
+  - value_id: w06000020_torfaen
+    label: Torfaen
+    ordinal: 19
+    row_number: 24
+    expected_row_header_column: A
+    expected_row_header: Torfaen
+    geography_id: W06000020
+    geography_level: local_authority
+    geography_name: Torfaen
+    geography_vintage: lad_2023
+    table_record_kind: total
+  - value_id: w06000021_monmouthshire
+    label: Monmouthshire
+    ordinal: 20
+    row_number: 25
+    expected_row_header_column: A
+    expected_row_header: Monmouthshire
+    geography_id: W06000021
+    geography_level: local_authority
+    geography_name: Monmouthshire
+    geography_vintage: lad_2023
+    table_record_kind: total
+  - value_id: w06000022_newport
+    label: Newport
+    ordinal: 21
+    row_number: 26
+    expected_row_header_column: A
+    expected_row_header: Newport
+    geography_id: W06000022
+    geography_level: local_authority
+    geography_name: Newport
+    geography_vintage: lad_2023
+    table_record_kind: total
+  measures:
+  - measure_id: arrears_brought_forward
+    label: Council tax arrears brought forward at 1 April 2025 (GBP thousands)
+    ordinal: 0
+    column: B
+    source_column_id: arrears_brought_forward
+    expected_column_header_row: 3
+    expected_column_header: 'Arrears: Total arrears brought forward at 01/04/25'
+    concept: welshgov.council_tax.arrears_brought_forward
+    source_concept: welshgov.council_tax.arrears_brought_forward
+    concept_relation: source_label
+    concept_authority: welshgov
+    concept_evidence_url: https://www.gov.wales/council-tax-collection-rates-april-2025-march-2026
+    concept_evidence_notes: 'Welsh Government, Council tax collection rates in Wales, 2025-26, workbook
+      sheet ''Table2'' (Table 2: Amounts outstanding in respect of 2025-26 bills and arrears [Note 3]),
+      the 22 billing authority rows, column B ''Arrears: Total arrears brought forward at 01/04/25'' (publisher
+      column number 1). Publisher note 3: the amounts are net of all deductions on council tax bills,
+      such as council tax reduction scheme. GBP thousands (value_scale 1000).'
+    unit: gbp
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000
+  - measure_id: prior_year_debits_credits
+    label: Prior-year council tax debits and credits raised in 2025-26 (GBP thousands)
+    ordinal: 1
+    column: C
+    source_column_id: prior_year_debits_credits
+    expected_column_header_row: 3
+    expected_column_header: "Arrears: Prior year debits/credits raised in \n2025-26 [Note 4]"
+    concept: welshgov.council_tax.prior_year_debits_credits
+    source_concept: welshgov.council_tax.prior_year_debits_credits
+    concept_relation: source_label
+    concept_authority: welshgov
+    concept_evidence_url: https://www.gov.wales/council-tax-collection-rates-april-2025-march-2026
+    concept_evidence_notes: 'Welsh Government, Council tax collection rates in Wales, 2025-26, workbook
+      sheet ''Table2'' (Table 2: Amounts outstanding in respect of 2025-26 bills and arrears [Note 3]),
+      the 22 billing authority rows, column C ''Arrears: Prior year debits/credits raised in 2025-26 [Note
+      4]'' (publisher column number 2). Publisher note 3: the amounts are net of all deductions on council
+      tax bills, such as council tax reduction scheme. GBP thousands (value_scale 1000).'
+    unit: gbp
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000
+  - measure_id: arrears_collected
+    label: Council tax arrears collected during 2025-26 (GBP thousands)
+    ordinal: 2
+    column: D
+    source_column_id: arrears_collected
+    expected_column_header_row: 3
+    expected_column_header: 'Arrears: Amount collected during 2025-26'
+    concept: welshgov.council_tax.arrears_collected
+    source_concept: welshgov.council_tax.arrears_collected
+    concept_relation: source_label
+    concept_authority: welshgov
+    concept_evidence_url: https://www.gov.wales/council-tax-collection-rates-april-2025-march-2026
+    concept_evidence_notes: 'Welsh Government, Council tax collection rates in Wales, 2025-26, workbook
+      sheet ''Table2'' (Table 2: Amounts outstanding in respect of 2025-26 bills and arrears [Note 3]),
+      the 22 billing authority rows, column D ''Arrears: Amount collected during 2025-26'' (publisher
+      column number 3). Publisher note 3: the amounts are net of all deductions on council tax bills,
+      such as council tax reduction scheme. GBP thousands (value_scale 1000).'
+    unit: gbp
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000
+  - measure_id: arrears_written_off
+    label: Council tax arrears written off as bad debts during 2025-26 (GBP thousands)
+    ordinal: 3
+    column: E
+    source_column_id: arrears_written_off
+    expected_column_header_row: 3
+    expected_column_header: 'Arrears: Arrears written off as bad debts during current year'
+    concept: welshgov.council_tax.arrears_written_off
+    source_concept: welshgov.council_tax.arrears_written_off
+    concept_relation: source_label
+    concept_authority: welshgov
+    concept_evidence_url: https://www.gov.wales/council-tax-collection-rates-april-2025-march-2026
+    concept_evidence_notes: 'Welsh Government, Council tax collection rates in Wales, 2025-26, workbook
+      sheet ''Table2'' (Table 2: Amounts outstanding in respect of 2025-26 bills and arrears [Note 3]),
+      the 22 billing authority rows, column E ''Arrears: Arrears written off as bad debts during current
+      year'' (publisher column number 4). Publisher note 3: the amounts are net of all deductions on council
+      tax bills, such as council tax reduction scheme. GBP thousands (value_scale 1000).'
+    unit: gbp
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000
+  - measure_id: net_collectable_debit
+    label: 'In-year council tax 2025-26: total debits, net collectable debit (GBP thousands)'
+    ordinal: 4
+    column: G
+    source_column_id: net_collectable_debit
+    expected_column_header_row: 3
+    expected_column_header: 'In-year council tax 2025-26: Total debits'
+    concept: welshgov.council_tax.net_collectable_debit
+    source_concept: welshgov.council_tax.net_collectable_debit
+    concept_relation: source_label
+    concept_authority: welshgov
+    concept_evidence_url: https://www.gov.wales/council-tax-collection-rates-april-2025-march-2026
+    concept_evidence_notes: 'Welsh Government, Council tax collection rates in Wales, 2025-26, workbook
+      sheet ''Table2'' (Table 2: Amounts outstanding in respect of 2025-26 bills and arrears [Note 3]),
+      the 22 billing authority rows, column G ''In-year council tax 2025-26: Total debits'' (publisher
+      column number 6). Publisher note 3: the amounts are net of all deductions on council tax bills,
+      such as council tax reduction scheme. GBP thousands (value_scale 1000).'
+    unit: gbp
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000
+  - measure_id: amount_collected_in_year
+    label: 'In-year council tax 2025-26: amounts collected during the year (GBP thousands)'
+    ordinal: 5
+    column: H
+    source_column_id: amount_collected_in_year
+    expected_column_header_row: 3
+    expected_column_header: 'In-year council tax 2025-26: Amounts collected during year'
+    concept: welshgov.council_tax.amount_collected_in_year
+    source_concept: welshgov.council_tax.amount_collected_in_year
+    concept_relation: source_label
+    concept_authority: welshgov
+    concept_evidence_url: https://www.gov.wales/council-tax-collection-rates-april-2025-march-2026
+    concept_evidence_notes: 'Welsh Government, Council tax collection rates in Wales, 2025-26, workbook
+      sheet ''Table2'' (Table 2: Amounts outstanding in respect of 2025-26 bills and arrears [Note 3]),
+      the 22 billing authority rows, column H ''In-year council tax 2025-26: Amounts collected during
+      year'' (publisher column number 7). Publisher note 3: the amounts are net of all deductions on council
+      tax bills, such as council tax reduction scheme. GBP thousands (value_scale 1000).'
+    unit: gbp
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000
+  - measure_id: in_year_written_off
+    label: 'In-year council tax 2025-26: amounts written off as bad debts during the year (GBP thousands)'
+    ordinal: 6
+    column: J
+    source_column_id: in_year_written_off
+    expected_column_header_row: 3
+    expected_column_header: 'In-year council tax 2025-26: Amounts written off as bad debts during year'
+    concept: welshgov.council_tax.in_year_written_off
+    source_concept: welshgov.council_tax.in_year_written_off
+    concept_relation: source_label
+    concept_authority: welshgov
+    concept_evidence_url: https://www.gov.wales/council-tax-collection-rates-april-2025-march-2026
+    concept_evidence_notes: 'Welsh Government, Council tax collection rates in Wales, 2025-26, workbook
+      sheet ''Table2'' (Table 2: Amounts outstanding in respect of 2025-26 bills and arrears [Note 3]),
+      the 22 billing authority rows, column J ''In-year council tax 2025-26: Amounts written off as bad
+      debts during year'' (publisher column number 9). Publisher note 3: the amounts are net of all deductions
+      on council tax bills, such as council tax reduction scheme. GBP thousands (value_scale 1000).'
     unit: gbp
     aggregation: sum
     expected_cell_type: number

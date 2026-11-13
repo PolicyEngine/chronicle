@@ -1,0 +1,747 @@
+# Publisher cells only; footnote 4 makes 2026 earnings actual despite Forecast4.
+# Each record set explicitly declares its provenance_class.
+schema_version: ledger.source_package.v1
+package_id: treasury-prefu26-economic-assumptions
+label: Treasury PREFU 2026 average ordinary-time weekly earnings, annual percentage change, years ending
+  30 June 2025–2031
+dimension_labels:
+  treasury.prefu26.assumption: Economic assumption
+  earnings_component: Earnings component
+  publication_status: Publication status
+dimension_value_labels:
+  earnings_component:
+    ordinary_time: Ordinary time
+  publication_status:
+    Actual: Actual
+    Forecast4: 'Forecast4 (footnote 4: earnings are actuals)'
+    Forecast: Forecast
+artifact:
+  source_name: treasury
+  source_table: PREFU 2026 Table 4.1 - Key economic assumptions for fiscal forecasts
+  resource_package: db
+  resource_directory: data/treasury/prefu26_economic_assumptions
+  manifest: manifest.yaml
+  vintage: prefu_2026_09_29
+  extracted_at: '2026-10-22'
+  extraction_method: Full used-range cell parse of Index and Table 4.1; seven published row 17 cells only,
+    no arithmetic
+  parser: xlsx_used_range
+  sheets:
+  - Index
+  - Table 4.1
+  artifact_year: 2026
+record_sets:
+- record_set_id: treasury.prefu26.average_weekly_earnings.fy2024
+  provenance_class: model_output
+  assertion: observation
+  record_set_spec_id: treasury.prefu26.average_weekly_earnings.fy2024.v1
+  source_record_id_prefix: treasury.prefu26.average_weekly_earnings.fy2024
+  sheet_name: Table 4.1
+  period_type: fiscal_year
+  period: 2024
+  period_coverage:
+    basis: fiscal
+    source_period_label: Year ending 30 June 2025
+    start_date: '2024-07-01'
+    end_date: '2025-06-30'
+    notes: 'Publisher Year ending 30 June 2025; Chronicle opening-year fiscal_year:2024. Publisher column
+      status is Actual. Footnote 3 (Table 4.1!C21:D21): Ordinary time. Footnote 4 (C22:D22): Measures
+      are actuals except for real GDP and nominal GDP. 2026 earnings are therefore actuals despite the
+      Forecast4 column heading; only 2027–2031 earnings are forecasts. The published annual percentage
+      change is retained unchanged; no annual average, level, factor or period alignment is calculated.'
+  geography_id: NZ
+  geography_level: country
+  geography_name: New Zealand
+  geography_vintage: current
+  entity: government
+  entity_role: forecaster
+  domain: economic_outlook
+  groupby_dimension: treasury.prefu26.assumption
+  shared_filters:
+    earnings_component: ordinary_time
+    publication_status: Actual
+  rows:
+  - value_id: average_weekly_earnings_annual_percentage_change
+    label: Average weekly earnings (annual percentage change, ordinary time)
+    ordinal: 0
+    row_number: 17
+    expected_row_header_column: B
+    expected_row_header: Average weekly earnings3 (ann % chg)
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      row: 1
+      expected_value: Table 4.1 - Key economic assumptions for fiscal forecasts
+      label: table title
+    - column: B
+      row: 2
+      expected_value: 'Sources: The Treasury, Stats NZ, Reserve Bank of New Zealand'
+      label: publisher source attribution
+    - column: B
+      row: 5
+      expected_value: Year ending 30 June
+      label: publisher period basis
+    - column: C
+      row: 6
+      expected_value: Actual
+      label: publisher status
+    - column: C
+      row: 21
+      expected_value: 3
+      label: ordinary-time footnote marker
+    - column: D
+      row: 21
+      expected_value: Ordinary time.
+      label: ordinary-time footnote
+    - column: C
+      row: 22
+      expected_value: 4
+      label: actuals qualification marker
+    - column: D
+      row: 22
+      expected_value: Measures are actuals except for real GDP and nominal GDP.
+      label: actuals qualification
+  measures:
+  - measure_id: average_weekly_earnings_annual_percentage_change
+    label: Average ordinary-time weekly earnings, annual percentage change, year ending 30 June 2025 (Actual)
+    ordinal: 0
+    column: C
+    source_column_id: year_ending_30_june_2025
+    expected_column_header_row: 5
+    expected_column_header: 2025
+    concept: treasury.average_weekly_earnings_annual_percentage_change
+    source_concept: treasury.prefu26.average_weekly_earnings_annual_percentage_change
+    concept_relation: source_label
+    concept_authority: treasury
+    concept_evidence_url: https://www.treasury.govt.nz/publications/efu/pre-election-economic-and-fiscal-update-2026
+    concept_evidence_notes: 'Table 4.1 row 17, Average weekly earnings3 (ann % chg). Publisher Year ending
+      30 June 2025; Chronicle opening-year fiscal_year:2024. Publisher column status is Actual. Footnote
+      3 (Table 4.1!C21:D21): Ordinary time. Footnote 4 (C22:D22): Measures are actuals except for real
+      GDP and nominal GDP. 2026 earnings are therefore actuals despite the Forecast4 column heading; only
+      2027–2031 earnings are forecasts. The published annual percentage change is retained unchanged;
+      no annual average, level, factor or period alignment is calculated.'
+    unit: percent
+    aggregation: sum
+    value_scale: 1
+    expected_cell_type: number
+  shared_constraints:
+  - variable: earnings_component
+    operator: ==
+    value: ordinary_time
+    label: Ordinary time
+  - variable: publication_status
+    operator: ==
+    value: Actual
+    label: Actual
+- record_set_id: treasury.prefu26.average_weekly_earnings.fy2025
+  provenance_class: model_output
+  assertion: observation
+  record_set_spec_id: treasury.prefu26.average_weekly_earnings.fy2025.v1
+  source_record_id_prefix: treasury.prefu26.average_weekly_earnings.fy2025
+  sheet_name: Table 4.1
+  period_type: fiscal_year
+  period: 2025
+  period_coverage:
+    basis: fiscal
+    source_period_label: Year ending 30 June 2026
+    start_date: '2025-07-01'
+    end_date: '2026-06-30'
+    notes: 'Publisher Year ending 30 June 2026; Chronicle opening-year fiscal_year:2025. Publisher column
+      status is Forecast4. Footnote 3 (Table 4.1!C21:D21): Ordinary time. Footnote 4 (C22:D22): Measures
+      are actuals except for real GDP and nominal GDP. 2026 earnings are therefore actuals despite the
+      Forecast4 column heading; only 2027–2031 earnings are forecasts. The published annual percentage
+      change is retained unchanged; no annual average, level, factor or period alignment is calculated.'
+  geography_id: NZ
+  geography_level: country
+  geography_name: New Zealand
+  geography_vintage: current
+  entity: government
+  entity_role: forecaster
+  domain: economic_outlook
+  groupby_dimension: treasury.prefu26.assumption
+  shared_filters:
+    earnings_component: ordinary_time
+    publication_status: Forecast4
+  rows:
+  - value_id: average_weekly_earnings_annual_percentage_change
+    label: Average weekly earnings (annual percentage change, ordinary time)
+    ordinal: 0
+    row_number: 17
+    expected_row_header_column: B
+    expected_row_header: Average weekly earnings3 (ann % chg)
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      row: 1
+      expected_value: Table 4.1 - Key economic assumptions for fiscal forecasts
+      label: table title
+    - column: B
+      row: 2
+      expected_value: 'Sources: The Treasury, Stats NZ, Reserve Bank of New Zealand'
+      label: publisher source attribution
+    - column: B
+      row: 5
+      expected_value: Year ending 30 June
+      label: publisher period basis
+    - column: D
+      row: 6
+      expected_value: Forecast4
+      label: publisher status
+    - column: C
+      row: 21
+      expected_value: 3
+      label: ordinary-time footnote marker
+    - column: D
+      row: 21
+      expected_value: Ordinary time.
+      label: ordinary-time footnote
+    - column: C
+      row: 22
+      expected_value: 4
+      label: actuals qualification marker
+    - column: D
+      row: 22
+      expected_value: Measures are actuals except for real GDP and nominal GDP.
+      label: actuals qualification
+  measures:
+  - measure_id: average_weekly_earnings_annual_percentage_change
+    label: Average ordinary-time weekly earnings, annual percentage change, year ending 30 June 2026 (Forecast4)
+    ordinal: 0
+    column: D
+    source_column_id: year_ending_30_june_2026
+    expected_column_header_row: 5
+    expected_column_header: 2026
+    concept: treasury.average_weekly_earnings_annual_percentage_change
+    source_concept: treasury.prefu26.average_weekly_earnings_annual_percentage_change
+    concept_relation: source_label
+    concept_authority: treasury
+    concept_evidence_url: https://www.treasury.govt.nz/publications/efu/pre-election-economic-and-fiscal-update-2026
+    concept_evidence_notes: 'Table 4.1 row 17, Average weekly earnings3 (ann % chg). Publisher Year ending
+      30 June 2026; Chronicle opening-year fiscal_year:2025. Publisher column status is Forecast4. Footnote
+      3 (Table 4.1!C21:D21): Ordinary time. Footnote 4 (C22:D22): Measures are actuals except for real
+      GDP and nominal GDP. 2026 earnings are therefore actuals despite the Forecast4 column heading; only
+      2027–2031 earnings are forecasts. The published annual percentage change is retained unchanged;
+      no annual average, level, factor or period alignment is calculated.'
+    unit: percent
+    aggregation: sum
+    value_scale: 1
+    expected_cell_type: number
+  shared_constraints:
+  - variable: earnings_component
+    operator: ==
+    value: ordinary_time
+    label: Ordinary time
+  - variable: publication_status
+    operator: ==
+    value: Forecast4
+    label: 'Forecast4 (footnote 4: earnings are actuals)'
+- record_set_id: treasury.prefu26.average_weekly_earnings.fy2026
+  provenance_class: model_output
+  assertion: source_projection
+  record_set_spec_id: treasury.prefu26.average_weekly_earnings.fy2026.v1
+  source_record_id_prefix: treasury.prefu26.average_weekly_earnings.fy2026
+  sheet_name: Table 4.1
+  period_type: fiscal_year
+  period: 2026
+  period_coverage:
+    basis: fiscal
+    source_period_label: Year ending 30 June 2027
+    start_date: '2026-07-01'
+    end_date: '2027-06-30'
+    notes: 'Publisher Year ending 30 June 2027; Chronicle opening-year fiscal_year:2026. Publisher column
+      status is Forecast. Footnote 3 (Table 4.1!C21:D21): Ordinary time. Footnote 4 (C22:D22): Measures
+      are actuals except for real GDP and nominal GDP. 2026 earnings are therefore actuals despite the
+      Forecast4 column heading; only 2027–2031 earnings are forecasts. The published annual percentage
+      change is retained unchanged; no annual average, level, factor or period alignment is calculated.'
+  geography_id: NZ
+  geography_level: country
+  geography_name: New Zealand
+  geography_vintage: current
+  entity: government
+  entity_role: forecaster
+  domain: economic_outlook
+  groupby_dimension: treasury.prefu26.assumption
+  shared_filters:
+    earnings_component: ordinary_time
+    publication_status: Forecast
+  rows:
+  - value_id: average_weekly_earnings_annual_percentage_change
+    label: Average weekly earnings (annual percentage change, ordinary time)
+    ordinal: 0
+    row_number: 17
+    expected_row_header_column: B
+    expected_row_header: Average weekly earnings3 (ann % chg)
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      row: 1
+      expected_value: Table 4.1 - Key economic assumptions for fiscal forecasts
+      label: table title
+    - column: B
+      row: 2
+      expected_value: 'Sources: The Treasury, Stats NZ, Reserve Bank of New Zealand'
+      label: publisher source attribution
+    - column: B
+      row: 5
+      expected_value: Year ending 30 June
+      label: publisher period basis
+    - column: E
+      row: 6
+      expected_value: Forecast
+      label: publisher status
+    - column: C
+      row: 21
+      expected_value: 3
+      label: ordinary-time footnote marker
+    - column: D
+      row: 21
+      expected_value: Ordinary time.
+      label: ordinary-time footnote
+    - column: C
+      row: 22
+      expected_value: 4
+      label: actuals qualification marker
+    - column: D
+      row: 22
+      expected_value: Measures are actuals except for real GDP and nominal GDP.
+      label: actuals qualification
+  measures:
+  - measure_id: average_weekly_earnings_annual_percentage_change
+    label: Average ordinary-time weekly earnings, annual percentage change, year ending 30 June 2027 (Forecast)
+    ordinal: 0
+    column: E
+    source_column_id: year_ending_30_june_2027
+    expected_column_header_row: 5
+    expected_column_header: 2027
+    concept: treasury.average_weekly_earnings_annual_percentage_change
+    source_concept: treasury.prefu26.average_weekly_earnings_annual_percentage_change
+    concept_relation: source_label
+    concept_authority: treasury
+    concept_evidence_url: https://www.treasury.govt.nz/publications/efu/pre-election-economic-and-fiscal-update-2026
+    concept_evidence_notes: 'Table 4.1 row 17, Average weekly earnings3 (ann % chg). Publisher Year ending
+      30 June 2027; Chronicle opening-year fiscal_year:2026. Publisher column status is Forecast. Footnote
+      3 (Table 4.1!C21:D21): Ordinary time. Footnote 4 (C22:D22): Measures are actuals except for real
+      GDP and nominal GDP. 2026 earnings are therefore actuals despite the Forecast4 column heading; only
+      2027–2031 earnings are forecasts. The published annual percentage change is retained unchanged;
+      no annual average, level, factor or period alignment is calculated.'
+    unit: percent
+    aggregation: sum
+    value_scale: 1
+    expected_cell_type: number
+  shared_constraints:
+  - variable: earnings_component
+    operator: ==
+    value: ordinary_time
+    label: Ordinary time
+  - variable: publication_status
+    operator: ==
+    value: Forecast
+    label: Forecast
+- record_set_id: treasury.prefu26.average_weekly_earnings.fy2027
+  provenance_class: model_output
+  assertion: source_projection
+  record_set_spec_id: treasury.prefu26.average_weekly_earnings.fy2027.v1
+  source_record_id_prefix: treasury.prefu26.average_weekly_earnings.fy2027
+  sheet_name: Table 4.1
+  period_type: fiscal_year
+  period: 2027
+  period_coverage:
+    basis: fiscal
+    source_period_label: Year ending 30 June 2028
+    start_date: '2027-07-01'
+    end_date: '2028-06-30'
+    notes: 'Publisher Year ending 30 June 2028; Chronicle opening-year fiscal_year:2027. Publisher column
+      status is Forecast. Footnote 3 (Table 4.1!C21:D21): Ordinary time. Footnote 4 (C22:D22): Measures
+      are actuals except for real GDP and nominal GDP. 2026 earnings are therefore actuals despite the
+      Forecast4 column heading; only 2027–2031 earnings are forecasts. The published annual percentage
+      change is retained unchanged; no annual average, level, factor or period alignment is calculated.'
+  geography_id: NZ
+  geography_level: country
+  geography_name: New Zealand
+  geography_vintage: current
+  entity: government
+  entity_role: forecaster
+  domain: economic_outlook
+  groupby_dimension: treasury.prefu26.assumption
+  shared_filters:
+    earnings_component: ordinary_time
+    publication_status: Forecast
+  rows:
+  - value_id: average_weekly_earnings_annual_percentage_change
+    label: Average weekly earnings (annual percentage change, ordinary time)
+    ordinal: 0
+    row_number: 17
+    expected_row_header_column: B
+    expected_row_header: Average weekly earnings3 (ann % chg)
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      row: 1
+      expected_value: Table 4.1 - Key economic assumptions for fiscal forecasts
+      label: table title
+    - column: B
+      row: 2
+      expected_value: 'Sources: The Treasury, Stats NZ, Reserve Bank of New Zealand'
+      label: publisher source attribution
+    - column: B
+      row: 5
+      expected_value: Year ending 30 June
+      label: publisher period basis
+    - column: F
+      row: 6
+      expected_value: Forecast
+      label: publisher status
+    - column: C
+      row: 21
+      expected_value: 3
+      label: ordinary-time footnote marker
+    - column: D
+      row: 21
+      expected_value: Ordinary time.
+      label: ordinary-time footnote
+    - column: C
+      row: 22
+      expected_value: 4
+      label: actuals qualification marker
+    - column: D
+      row: 22
+      expected_value: Measures are actuals except for real GDP and nominal GDP.
+      label: actuals qualification
+  measures:
+  - measure_id: average_weekly_earnings_annual_percentage_change
+    label: Average ordinary-time weekly earnings, annual percentage change, year ending 30 June 2028 (Forecast)
+    ordinal: 0
+    column: F
+    source_column_id: year_ending_30_june_2028
+    expected_column_header_row: 5
+    expected_column_header: 2028
+    concept: treasury.average_weekly_earnings_annual_percentage_change
+    source_concept: treasury.prefu26.average_weekly_earnings_annual_percentage_change
+    concept_relation: source_label
+    concept_authority: treasury
+    concept_evidence_url: https://www.treasury.govt.nz/publications/efu/pre-election-economic-and-fiscal-update-2026
+    concept_evidence_notes: 'Table 4.1 row 17, Average weekly earnings3 (ann % chg). Publisher Year ending
+      30 June 2028; Chronicle opening-year fiscal_year:2027. Publisher column status is Forecast. Footnote
+      3 (Table 4.1!C21:D21): Ordinary time. Footnote 4 (C22:D22): Measures are actuals except for real
+      GDP and nominal GDP. 2026 earnings are therefore actuals despite the Forecast4 column heading; only
+      2027–2031 earnings are forecasts. The published annual percentage change is retained unchanged;
+      no annual average, level, factor or period alignment is calculated.'
+    unit: percent
+    aggregation: sum
+    value_scale: 1
+    expected_cell_type: number
+  shared_constraints:
+  - variable: earnings_component
+    operator: ==
+    value: ordinary_time
+    label: Ordinary time
+  - variable: publication_status
+    operator: ==
+    value: Forecast
+    label: Forecast
+- record_set_id: treasury.prefu26.average_weekly_earnings.fy2028
+  provenance_class: model_output
+  assertion: source_projection
+  record_set_spec_id: treasury.prefu26.average_weekly_earnings.fy2028.v1
+  source_record_id_prefix: treasury.prefu26.average_weekly_earnings.fy2028
+  sheet_name: Table 4.1
+  period_type: fiscal_year
+  period: 2028
+  period_coverage:
+    basis: fiscal
+    source_period_label: Year ending 30 June 2029
+    start_date: '2028-07-01'
+    end_date: '2029-06-30'
+    notes: 'Publisher Year ending 30 June 2029; Chronicle opening-year fiscal_year:2028. Publisher column
+      status is Forecast. Footnote 3 (Table 4.1!C21:D21): Ordinary time. Footnote 4 (C22:D22): Measures
+      are actuals except for real GDP and nominal GDP. 2026 earnings are therefore actuals despite the
+      Forecast4 column heading; only 2027–2031 earnings are forecasts. The published annual percentage
+      change is retained unchanged; no annual average, level, factor or period alignment is calculated.'
+  geography_id: NZ
+  geography_level: country
+  geography_name: New Zealand
+  geography_vintage: current
+  entity: government
+  entity_role: forecaster
+  domain: economic_outlook
+  groupby_dimension: treasury.prefu26.assumption
+  shared_filters:
+    earnings_component: ordinary_time
+    publication_status: Forecast
+  rows:
+  - value_id: average_weekly_earnings_annual_percentage_change
+    label: Average weekly earnings (annual percentage change, ordinary time)
+    ordinal: 0
+    row_number: 17
+    expected_row_header_column: B
+    expected_row_header: Average weekly earnings3 (ann % chg)
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      row: 1
+      expected_value: Table 4.1 - Key economic assumptions for fiscal forecasts
+      label: table title
+    - column: B
+      row: 2
+      expected_value: 'Sources: The Treasury, Stats NZ, Reserve Bank of New Zealand'
+      label: publisher source attribution
+    - column: B
+      row: 5
+      expected_value: Year ending 30 June
+      label: publisher period basis
+    - column: G
+      row: 6
+      expected_value: Forecast
+      label: publisher status
+    - column: C
+      row: 21
+      expected_value: 3
+      label: ordinary-time footnote marker
+    - column: D
+      row: 21
+      expected_value: Ordinary time.
+      label: ordinary-time footnote
+    - column: C
+      row: 22
+      expected_value: 4
+      label: actuals qualification marker
+    - column: D
+      row: 22
+      expected_value: Measures are actuals except for real GDP and nominal GDP.
+      label: actuals qualification
+  measures:
+  - measure_id: average_weekly_earnings_annual_percentage_change
+    label: Average ordinary-time weekly earnings, annual percentage change, year ending 30 June 2029 (Forecast)
+    ordinal: 0
+    column: G
+    source_column_id: year_ending_30_june_2029
+    expected_column_header_row: 5
+    expected_column_header: 2029
+    concept: treasury.average_weekly_earnings_annual_percentage_change
+    source_concept: treasury.prefu26.average_weekly_earnings_annual_percentage_change
+    concept_relation: source_label
+    concept_authority: treasury
+    concept_evidence_url: https://www.treasury.govt.nz/publications/efu/pre-election-economic-and-fiscal-update-2026
+    concept_evidence_notes: 'Table 4.1 row 17, Average weekly earnings3 (ann % chg). Publisher Year ending
+      30 June 2029; Chronicle opening-year fiscal_year:2028. Publisher column status is Forecast. Footnote
+      3 (Table 4.1!C21:D21): Ordinary time. Footnote 4 (C22:D22): Measures are actuals except for real
+      GDP and nominal GDP. 2026 earnings are therefore actuals despite the Forecast4 column heading; only
+      2027–2031 earnings are forecasts. The published annual percentage change is retained unchanged;
+      no annual average, level, factor or period alignment is calculated.'
+    unit: percent
+    aggregation: sum
+    value_scale: 1
+    expected_cell_type: number
+  shared_constraints:
+  - variable: earnings_component
+    operator: ==
+    value: ordinary_time
+    label: Ordinary time
+  - variable: publication_status
+    operator: ==
+    value: Forecast
+    label: Forecast
+- record_set_id: treasury.prefu26.average_weekly_earnings.fy2029
+  provenance_class: model_output
+  assertion: source_projection
+  record_set_spec_id: treasury.prefu26.average_weekly_earnings.fy2029.v1
+  source_record_id_prefix: treasury.prefu26.average_weekly_earnings.fy2029
+  sheet_name: Table 4.1
+  period_type: fiscal_year
+  period: 2029
+  period_coverage:
+    basis: fiscal
+    source_period_label: Year ending 30 June 2030
+    start_date: '2029-07-01'
+    end_date: '2030-06-30'
+    notes: 'Publisher Year ending 30 June 2030; Chronicle opening-year fiscal_year:2029. Publisher column
+      status is Forecast. Footnote 3 (Table 4.1!C21:D21): Ordinary time. Footnote 4 (C22:D22): Measures
+      are actuals except for real GDP and nominal GDP. 2026 earnings are therefore actuals despite the
+      Forecast4 column heading; only 2027–2031 earnings are forecasts. The published annual percentage
+      change is retained unchanged; no annual average, level, factor or period alignment is calculated.'
+  geography_id: NZ
+  geography_level: country
+  geography_name: New Zealand
+  geography_vintage: current
+  entity: government
+  entity_role: forecaster
+  domain: economic_outlook
+  groupby_dimension: treasury.prefu26.assumption
+  shared_filters:
+    earnings_component: ordinary_time
+    publication_status: Forecast
+  rows:
+  - value_id: average_weekly_earnings_annual_percentage_change
+    label: Average weekly earnings (annual percentage change, ordinary time)
+    ordinal: 0
+    row_number: 17
+    expected_row_header_column: B
+    expected_row_header: Average weekly earnings3 (ann % chg)
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      row: 1
+      expected_value: Table 4.1 - Key economic assumptions for fiscal forecasts
+      label: table title
+    - column: B
+      row: 2
+      expected_value: 'Sources: The Treasury, Stats NZ, Reserve Bank of New Zealand'
+      label: publisher source attribution
+    - column: B
+      row: 5
+      expected_value: Year ending 30 June
+      label: publisher period basis
+    - column: H
+      row: 6
+      expected_value: Forecast
+      label: publisher status
+    - column: C
+      row: 21
+      expected_value: 3
+      label: ordinary-time footnote marker
+    - column: D
+      row: 21
+      expected_value: Ordinary time.
+      label: ordinary-time footnote
+    - column: C
+      row: 22
+      expected_value: 4
+      label: actuals qualification marker
+    - column: D
+      row: 22
+      expected_value: Measures are actuals except for real GDP and nominal GDP.
+      label: actuals qualification
+  measures:
+  - measure_id: average_weekly_earnings_annual_percentage_change
+    label: Average ordinary-time weekly earnings, annual percentage change, year ending 30 June 2030 (Forecast)
+    ordinal: 0
+    column: H
+    source_column_id: year_ending_30_june_2030
+    expected_column_header_row: 5
+    expected_column_header: 2030
+    concept: treasury.average_weekly_earnings_annual_percentage_change
+    source_concept: treasury.prefu26.average_weekly_earnings_annual_percentage_change
+    concept_relation: source_label
+    concept_authority: treasury
+    concept_evidence_url: https://www.treasury.govt.nz/publications/efu/pre-election-economic-and-fiscal-update-2026
+    concept_evidence_notes: 'Table 4.1 row 17, Average weekly earnings3 (ann % chg). Publisher Year ending
+      30 June 2030; Chronicle opening-year fiscal_year:2029. Publisher column status is Forecast. Footnote
+      3 (Table 4.1!C21:D21): Ordinary time. Footnote 4 (C22:D22): Measures are actuals except for real
+      GDP and nominal GDP. 2026 earnings are therefore actuals despite the Forecast4 column heading; only
+      2027–2031 earnings are forecasts. The published annual percentage change is retained unchanged;
+      no annual average, level, factor or period alignment is calculated.'
+    unit: percent
+    aggregation: sum
+    value_scale: 1
+    expected_cell_type: number
+  shared_constraints:
+  - variable: earnings_component
+    operator: ==
+    value: ordinary_time
+    label: Ordinary time
+  - variable: publication_status
+    operator: ==
+    value: Forecast
+    label: Forecast
+- record_set_id: treasury.prefu26.average_weekly_earnings.fy2030
+  provenance_class: model_output
+  assertion: source_projection
+  record_set_spec_id: treasury.prefu26.average_weekly_earnings.fy2030.v1
+  source_record_id_prefix: treasury.prefu26.average_weekly_earnings.fy2030
+  sheet_name: Table 4.1
+  period_type: fiscal_year
+  period: 2030
+  period_coverage:
+    basis: fiscal
+    source_period_label: Year ending 30 June 2031
+    start_date: '2030-07-01'
+    end_date: '2031-06-30'
+    notes: 'Publisher Year ending 30 June 2031; Chronicle opening-year fiscal_year:2030. Publisher column
+      status is Forecast. Footnote 3 (Table 4.1!C21:D21): Ordinary time. Footnote 4 (C22:D22): Measures
+      are actuals except for real GDP and nominal GDP. 2026 earnings are therefore actuals despite the
+      Forecast4 column heading; only 2027–2031 earnings are forecasts. The published annual percentage
+      change is retained unchanged; no annual average, level, factor or period alignment is calculated.'
+  geography_id: NZ
+  geography_level: country
+  geography_name: New Zealand
+  geography_vintage: current
+  entity: government
+  entity_role: forecaster
+  domain: economic_outlook
+  groupby_dimension: treasury.prefu26.assumption
+  shared_filters:
+    earnings_component: ordinary_time
+    publication_status: Forecast
+  rows:
+  - value_id: average_weekly_earnings_annual_percentage_change
+    label: Average weekly earnings (annual percentage change, ordinary time)
+    ordinal: 0
+    row_number: 17
+    expected_row_header_column: B
+    expected_row_header: Average weekly earnings3 (ann % chg)
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      row: 1
+      expected_value: Table 4.1 - Key economic assumptions for fiscal forecasts
+      label: table title
+    - column: B
+      row: 2
+      expected_value: 'Sources: The Treasury, Stats NZ, Reserve Bank of New Zealand'
+      label: publisher source attribution
+    - column: B
+      row: 5
+      expected_value: Year ending 30 June
+      label: publisher period basis
+    - column: I
+      row: 6
+      expected_value: Forecast
+      label: publisher status
+    - column: C
+      row: 21
+      expected_value: 3
+      label: ordinary-time footnote marker
+    - column: D
+      row: 21
+      expected_value: Ordinary time.
+      label: ordinary-time footnote
+    - column: C
+      row: 22
+      expected_value: 4
+      label: actuals qualification marker
+    - column: D
+      row: 22
+      expected_value: Measures are actuals except for real GDP and nominal GDP.
+      label: actuals qualification
+  measures:
+  - measure_id: average_weekly_earnings_annual_percentage_change
+    label: Average ordinary-time weekly earnings, annual percentage change, year ending 30 June 2031 (Forecast)
+    ordinal: 0
+    column: I
+    source_column_id: year_ending_30_june_2031
+    expected_column_header_row: 5
+    expected_column_header: 2031
+    concept: treasury.average_weekly_earnings_annual_percentage_change
+    source_concept: treasury.prefu26.average_weekly_earnings_annual_percentage_change
+    concept_relation: source_label
+    concept_authority: treasury
+    concept_evidence_url: https://www.treasury.govt.nz/publications/efu/pre-election-economic-and-fiscal-update-2026
+    concept_evidence_notes: 'Table 4.1 row 17, Average weekly earnings3 (ann % chg). Publisher Year ending
+      30 June 2031; Chronicle opening-year fiscal_year:2030. Publisher column status is Forecast. Footnote
+      3 (Table 4.1!C21:D21): Ordinary time. Footnote 4 (C22:D22): Measures are actuals except for real
+      GDP and nominal GDP. 2026 earnings are therefore actuals despite the Forecast4 column heading; only
+      2027–2031 earnings are forecasts. The published annual percentage change is retained unchanged;
+      no annual average, level, factor or period alignment is calculated.'
+    unit: percent
+    aggregation: sum
+    value_scale: 1
+    expected_cell_type: number
+  shared_constraints:
+  - variable: earnings_component
+    operator: ==
+    value: ordinary_time
+    label: Ordinary time
+  - variable: publication_status
+    operator: ==
+    value: Forecast
+    label: Forecast

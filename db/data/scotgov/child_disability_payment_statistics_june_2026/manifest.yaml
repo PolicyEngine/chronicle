@@ -1,0 +1,30 @@
+source_id: scotgov
+package_id: scotgov-child-disability-payment-statistics-june-2026
+dataset: scotgov_scotgov-child-disability-payment-statistics-june-2026
+source_page: https://www.socialsecurity.gov.scot/publications/2026/08/child-disability-payment-statistics-to-30-june-2026
+table: 'Social Security Scotland, Child Disability Payment statistics to 30 June 2026:
+  tables (published 18 August 2026)'
+publisher: Social Security Scotland (an executive agency of the Scottish Government)
+license: Open Government Licence v3.0
+license_url: https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/
+attribution: 'Source: Social Security Scotland, Child Disability Payment statistics
+  to 30 June 2026 (published 18 August 2026). Contains public sector information licensed
+  under the Open Government Licence v3.0.'
+license_evidence: 'The publication page (https://www.socialsecurity.gov.scot/publications/2026/08/child-disability-payment-statistics-to-30-june-2026)
+  states: ''All content is available under the Open Government Licence v3.0, except
+  for graphic assets and where otherwise stated''; the workbook states no other terms.'
+license_verified_at: '2026-11-06'
+files:
+  2026:
+    filename: child_disability_payment_statistics_to_30_june_2026.xlsx
+    publisher_filename: Child Disability Payment Statistics to 30 June 2026.xlsx
+    source_url: https://www.socialsecurity.gov.scot/binaries/socialsecurity/publications/2026/08/child-disability-payment-statistics-to-30-june-2026/child-disability-payment-statistics-to-30-june-2026/publishing%3AcontentBlocks%5B2%5D/publishing%3Adocument/Child+Disability+Payment+Statistics+to+30+June+2026.xlsx
+    sha256: 7cde9d474d1ab6817a937f7085462444ba112a4cd0ee27da1a4a37310e113600
+    size_bytes: 555775
+    fetched_at: '2026-11-06T13:30:56+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/scotgov/scotgov-child-disability-payment-statistics-june-2026/2026/7cde9d474d1ab6817a937f7085462444ba112a4cd0ee27da1a4a37310e113600/child_disability_payment_statistics_to_30_june_2026.xlsx
+        uri: r2://ledger-raw/raw/uk/scotgov/scotgov-child-disability-payment-statistics-june-2026/2026/7cde9d474d1ab6817a937f7085462444ba112a4cd0ee27da1a4a37310e113600/child_disability_payment_statistics_to_30_june_2026.xlsx

@@ -1,0 +1,1 @@
+Chronicle's Stat-Xplore age reader takes the bound of an 'Over N' label: ages in completed years, so N + 1 and over. DWP's 'Over 70' Universal Credit band (people aged 71 to 90, by DWP's definition) now carries age >= 71, as the Attendance Allowance cube's '90 and over' carries age >= 90, so a reader selecting by age keeps it.

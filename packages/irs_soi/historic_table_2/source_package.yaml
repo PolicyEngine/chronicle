@@ -72,8 +72,11 @@ record_sets:
     domain: all_individual_income_tax_returns
     groupby_dimension: us:statutes/26/62#adjusted_gross_income
     rows:
+      # The CSV has no text for AGI_STUB 0 (the IRS guide calls it "No AGI
+      # Stub"), so the label is Chronicle's: the one its register gives
+      # adjusted gross income all (chronicle#376).
       - value_id: all
-        label: All returns
+        label: All returns, total
         ordinal: 0
         row_number: 2
         expected_row_header_column: B

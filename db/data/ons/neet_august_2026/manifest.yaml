@@ -1,0 +1,29 @@
+source_id: ons
+package_id: ons-neet-august-2026
+dataset: ons_ons-neet-august-2026
+source_page: https://www.ons.gov.uk/employmentandlabourmarket/peoplenotinwork/unemployment/datasets/youngpeoplenotineducationemploymentortrainingneettable1
+table: 'Young people not in education, employment or training (NEET), UK: August 2026
+  (NEET Table 1)'
+license: Open Government Licence v3.0
+license_url: https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/
+attribution: 'Source: Office for National Statistics, Labour Force Survey, Young people
+  not in education, employment or training (NEET), UK: August 2026 (released 27 August
+  2026). Contains public sector information licensed under the Open Government Licence
+  v3.0.'
+license_evidence: 'ONS pages state: ''All content is available under the Open Government
+  Licence v3.0, except where otherwise stated.'' (dataset page https://www.ons.gov.uk/employmentandlabourmarket/peoplenotinwork/unemployment/datasets/youngpeoplenotineducationemploymentortrainingneettable1);
+  the workbook states no other terms.'
+license_verified_at: '2026-11-06'
+files:
+  2026:
+    filename: notineducationemploymentortrainingaj26.xlsx
+    source_url: https://www.ons.gov.uk/file?uri=/employmentandlabourmarket/peoplenotinwork/unemployment/datasets/youngpeoplenotineducationemploymentortrainingneettable1/current/notineducationemploymentortrainingaj26.xlsx
+    sha256: e01e0a0877eb8e09927e795ad89ff4efbbef005c756e7eebfdd7732bdcf49394
+    size_bytes: 219832
+    fetched_at: '2026-11-06T12:19:21+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/ons/ons-neet-august-2026/2026/e01e0a0877eb8e09927e795ad89ff4efbbef005c756e7eebfdd7732bdcf49394/notineducationemploymentortrainingaj26.xlsx
+        uri: r2://ledger-raw/raw/uk/ons/ons-neet-august-2026/2026/e01e0a0877eb8e09927e795ad89ff4efbbef005c756e7eebfdd7732bdcf49394/notineducationemploymentortrainingaj26.xlsx

@@ -1,0 +1,192 @@
+{
+  "query" : {
+    "database" : "str:database:PIP_Monthly_new",
+    "measures" : [ "str:count:PIP_Monthly_new:V_F_PIP_MONTHLY" ],
+    "recodes" : {
+      "str:field:PIP_Monthly_new:V_F_PIP_MONTHLY:COA_CODE" : {
+        "map" : [ [ "str:value:PIP_Monthly_new:V_F_PIP_MONTHLY:COA_CODE:V_C_MASTERGEOG21_REGION_TO_COUNTRY:E12000001" ], [ "str:value:PIP_Monthly_new:V_F_PIP_MONTHLY:COA_CODE:V_C_MASTERGEOG21_REGION_TO_COUNTRY:E12000002" ], [ "str:value:PIP_Monthly_new:V_F_PIP_MONTHLY:COA_CODE:V_C_MASTERGEOG21_REGION_TO_COUNTRY:E12000003" ], [ "str:value:PIP_Monthly_new:V_F_PIP_MONTHLY:COA_CODE:V_C_MASTERGEOG21_REGION_TO_COUNTRY:E12000004" ], [ "str:value:PIP_Monthly_new:V_F_PIP_MONTHLY:COA_CODE:V_C_MASTERGEOG21_REGION_TO_COUNTRY:E12000005" ], [ "str:value:PIP_Monthly_new:V_F_PIP_MONTHLY:COA_CODE:V_C_MASTERGEOG21_REGION_TO_COUNTRY:E12000006" ], [ "str:value:PIP_Monthly_new:V_F_PIP_MONTHLY:COA_CODE:V_C_MASTERGEOG21_REGION_TO_COUNTRY:E12000007" ], [ "str:value:PIP_Monthly_new:V_F_PIP_MONTHLY:COA_CODE:V_C_MASTERGEOG21_REGION_TO_COUNTRY:E12000008" ], [ "str:value:PIP_Monthly_new:V_F_PIP_MONTHLY:COA_CODE:V_C_MASTERGEOG21_REGION_TO_COUNTRY:E12000009" ] ],
+        "total" : false
+      },
+      "str:field:PIP_Monthly_new:V_F_PIP_MONTHLY:DL_AWARD_TYPE" : {
+        "map" : [ [ "str:value:PIP_Monthly_new:V_F_PIP_MONTHLY:DL_AWARD_TYPE:C_PIP_DL_AWARD_TYPE:1" ], [ "str:value:PIP_Monthly_new:V_F_PIP_MONTHLY:DL_AWARD_TYPE:C_PIP_DL_AWARD_TYPE:2" ], [ "str:value:PIP_Monthly_new:V_F_PIP_MONTHLY:DL_AWARD_TYPE:C_PIP_DL_AWARD_TYPE:3" ], [ "str:value:PIP_Monthly_new:V_F_PIP_MONTHLY:DL_AWARD_TYPE:C_PIP_DL_AWARD_TYPE:99" ] ],
+        "total" : true
+      },
+      "str:field:PIP_Monthly_new:V_F_PIP_MONTHLY:MOB_AWARD_TYPE" : {
+        "map" : [ [ "str:value:PIP_Monthly_new:V_F_PIP_MONTHLY:MOB_AWARD_TYPE:C_PIP_MOB_AWARD_TYPE:1" ], [ "str:value:PIP_Monthly_new:V_F_PIP_MONTHLY:MOB_AWARD_TYPE:C_PIP_MOB_AWARD_TYPE:2" ], [ "str:value:PIP_Monthly_new:V_F_PIP_MONTHLY:MOB_AWARD_TYPE:C_PIP_MOB_AWARD_TYPE:3" ], [ "str:value:PIP_Monthly_new:V_F_PIP_MONTHLY:MOB_AWARD_TYPE:C_PIP_MOB_AWARD_TYPE:99" ] ],
+        "total" : true
+      },
+      "str:field:PIP_Monthly_new:F_PIP_DATE:DATE2" : {
+        "map" : [ [ "str:value:PIP_Monthly_new:F_PIP_DATE:DATE2:C_PIP_DATE:202401" ], [ "str:value:PIP_Monthly_new:F_PIP_DATE:DATE2:C_PIP_DATE:202404" ], [ "str:value:PIP_Monthly_new:F_PIP_DATE:DATE2:C_PIP_DATE:202407" ], [ "str:value:PIP_Monthly_new:F_PIP_DATE:DATE2:C_PIP_DATE:202410" ], [ "str:value:PIP_Monthly_new:F_PIP_DATE:DATE2:C_PIP_DATE:202501" ], [ "str:value:PIP_Monthly_new:F_PIP_DATE:DATE2:C_PIP_DATE:202504" ], [ "str:value:PIP_Monthly_new:F_PIP_DATE:DATE2:C_PIP_DATE:202507" ], [ "str:value:PIP_Monthly_new:F_PIP_DATE:DATE2:C_PIP_DATE:202510" ], [ "str:value:PIP_Monthly_new:F_PIP_DATE:DATE2:C_PIP_DATE:202601" ], [ "str:value:PIP_Monthly_new:F_PIP_DATE:DATE2:C_PIP_DATE:202604" ], [ "str:value:PIP_Monthly_new:F_PIP_DATE:DATE2:C_PIP_DATE:202607" ] ],
+        "total" : false
+      }
+    },
+    "dimensions" : [ [ "str:field:PIP_Monthly_new:F_PIP_DATE:DATE2" ], [ "str:field:PIP_Monthly_new:V_F_PIP_MONTHLY:COA_CODE" ], [ "str:field:PIP_Monthly_new:V_F_PIP_MONTHLY:DL_AWARD_TYPE" ], [ "str:field:PIP_Monthly_new:V_F_PIP_MONTHLY:MOB_AWARD_TYPE" ] ]
+  },
+  "database" : {
+    "id" : "PIP_Monthly_new",
+    "uri" : "str:database:PIP_Monthly_new",
+    "label" : "PIP Cases with Entitlement from 2019",
+    "annotationKeys" : [ "I", "II", "III", "IV" ]
+  },
+  "measures" : [ {
+    "uri" : "str:count:PIP_Monthly_new:V_F_PIP_MONTHLY",
+    "label" : "PIP Cases with Entitlement from 2019",
+    "measure" : "str:count:PIP_Monthly_new:V_F_PIP_MONTHLY",
+    "function" : "COUNT"
+  } ],
+  "fields" : [ {
+    "uri" : "str:field:PIP_Monthly_new:F_PIP_DATE:DATE2",
+    "label" : "Month",
+    "items" : [ {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:PIP_Monthly_new:F_PIP_DATE:DATE2:C_PIP_DATE:202401" ],
+      "labels" : [ "Jan-24" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:PIP_Monthly_new:F_PIP_DATE:DATE2:C_PIP_DATE:202404" ],
+      "labels" : [ "Apr-24" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:PIP_Monthly_new:F_PIP_DATE:DATE2:C_PIP_DATE:202407" ],
+      "labels" : [ "Jul-24" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:PIP_Monthly_new:F_PIP_DATE:DATE2:C_PIP_DATE:202410" ],
+      "labels" : [ "Oct-24" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:PIP_Monthly_new:F_PIP_DATE:DATE2:C_PIP_DATE:202501" ],
+      "labels" : [ "Jan-25" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:PIP_Monthly_new:F_PIP_DATE:DATE2:C_PIP_DATE:202504" ],
+      "labels" : [ "Apr-25" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:PIP_Monthly_new:F_PIP_DATE:DATE2:C_PIP_DATE:202507" ],
+      "labels" : [ "Jul-25" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:PIP_Monthly_new:F_PIP_DATE:DATE2:C_PIP_DATE:202510" ],
+      "labels" : [ "Oct-25" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:PIP_Monthly_new:F_PIP_DATE:DATE2:C_PIP_DATE:202601" ],
+      "labels" : [ "Jan-26" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:PIP_Monthly_new:F_PIP_DATE:DATE2:C_PIP_DATE:202604" ],
+      "labels" : [ "Apr-26" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:PIP_Monthly_new:F_PIP_DATE:DATE2:C_PIP_DATE:202607" ],
+      "labels" : [ "Jul-26" ]
+    } ]
+  }, {
+    "uri" : "str:field:PIP_Monthly_new:V_F_PIP_MONTHLY:COA_CODE",
+    "label" : "National - Regional - LA - OAs",
+    "annotationKeys" : [ "V" ],
+    "items" : [ {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:PIP_Monthly_new:V_F_PIP_MONTHLY:COA_CODE:V_C_MASTERGEOG21_REGION_TO_COUNTRY:E12000001" ],
+      "labels" : [ "North East" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:PIP_Monthly_new:V_F_PIP_MONTHLY:COA_CODE:V_C_MASTERGEOG21_REGION_TO_COUNTRY:E12000002" ],
+      "labels" : [ "North West" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:PIP_Monthly_new:V_F_PIP_MONTHLY:COA_CODE:V_C_MASTERGEOG21_REGION_TO_COUNTRY:E12000003" ],
+      "labels" : [ "Yorkshire and The Humber" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:PIP_Monthly_new:V_F_PIP_MONTHLY:COA_CODE:V_C_MASTERGEOG21_REGION_TO_COUNTRY:E12000004" ],
+      "labels" : [ "East Midlands" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:PIP_Monthly_new:V_F_PIP_MONTHLY:COA_CODE:V_C_MASTERGEOG21_REGION_TO_COUNTRY:E12000005" ],
+      "labels" : [ "West Midlands" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:PIP_Monthly_new:V_F_PIP_MONTHLY:COA_CODE:V_C_MASTERGEOG21_REGION_TO_COUNTRY:E12000006" ],
+      "labels" : [ "East of England" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:PIP_Monthly_new:V_F_PIP_MONTHLY:COA_CODE:V_C_MASTERGEOG21_REGION_TO_COUNTRY:E12000007" ],
+      "labels" : [ "London" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:PIP_Monthly_new:V_F_PIP_MONTHLY:COA_CODE:V_C_MASTERGEOG21_REGION_TO_COUNTRY:E12000008" ],
+      "labels" : [ "South East" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:PIP_Monthly_new:V_F_PIP_MONTHLY:COA_CODE:V_C_MASTERGEOG21_REGION_TO_COUNTRY:E12000009" ],
+      "labels" : [ "South West" ]
+    } ]
+  }, {
+    "uri" : "str:field:PIP_Monthly_new:V_F_PIP_MONTHLY:DL_AWARD_TYPE",
+    "label" : "Daily Living Award Status",
+    "annotationKeys" : [ "XI" ],
+    "items" : [ {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:PIP_Monthly_new:V_F_PIP_MONTHLY:DL_AWARD_TYPE:C_PIP_DL_AWARD_TYPE:1" ],
+      "labels" : [ "Daily Living - Enhanced" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:PIP_Monthly_new:V_F_PIP_MONTHLY:DL_AWARD_TYPE:C_PIP_DL_AWARD_TYPE:2" ],
+      "labels" : [ "Daily Living - Standard" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:PIP_Monthly_new:V_F_PIP_MONTHLY:DL_AWARD_TYPE:C_PIP_DL_AWARD_TYPE:3" ],
+      "labels" : [ "Daily Living - Nil" ],
+      "annotationKeys" : [ "X" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:PIP_Monthly_new:V_F_PIP_MONTHLY:DL_AWARD_TYPE:C_PIP_DL_AWARD_TYPE:99" ],
+      "labels" : [ "Unknown or missing" ]
+    }, {
+      "type" : "Total",
+      "labels" : [ "Total" ]
+    } ]
+  }, {
+    "uri" : "str:field:PIP_Monthly_new:V_F_PIP_MONTHLY:MOB_AWARD_TYPE",
+    "label" : "Mobility Award Status",
+    "annotationKeys" : [ "XI" ],
+    "items" : [ {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:PIP_Monthly_new:V_F_PIP_MONTHLY:MOB_AWARD_TYPE:C_PIP_MOB_AWARD_TYPE:1" ],
+      "labels" : [ "Mobility Award - Enhanced" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:PIP_Monthly_new:V_F_PIP_MONTHLY:MOB_AWARD_TYPE:C_PIP_MOB_AWARD_TYPE:2" ],
+      "labels" : [ "Mobility Award - Standard" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:PIP_Monthly_new:V_F_PIP_MONTHLY:MOB_AWARD_TYPE:C_PIP_MOB_AWARD_TYPE:3" ],
+      "labels" : [ "Mobility Award - Nil" ],
+      "annotationKeys" : [ "X" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:PIP_Monthly_new:V_F_PIP_MONTHLY:MOB_AWARD_TYPE:C_PIP_MOB_AWARD_TYPE:99" ],
+      "labels" : [ "Unknown or missing" ]
+    }, {
+      "type" : "Total",
+      "labels" : [ "Total" ]
+    } ]
+  } ],
+  "cubes" : {
+    "str:count:PIP_Monthly_new:V_F_PIP_MONTHLY" : {
+      "values" : [ [ [ [ 74426, 24525, 10778, 0, 109729 ], [ 22008, 33979, 40544, 0, 96534 ], [ 3508, 4274, 66, 0, 7844 ], [ 0, 0, 0, 25, 25 ], [ 99946, 62776, 51381, 25, 214127 ] ], [ [ 179751, 58711, 25777, 0, 264237 ], [ 58044, 84887, 93970, 0, 236904 ], [ 8443, 9623, 153, 0, 18222 ], [ 0, 0, 0, 69, 69 ], [ 246238, 153218, 119904, 69, 519422 ] ], [ [ 119823, 37038, 14990, 0, 171855 ], [ 37462, 55909, 61135, 0, 154503 ], [ 5946, 7083, 95, 0, 13123 ], [ 0, 0, 0, 24, 24 ], [ 163232, 100023, 76221, 24, 339503 ] ], [ [ 105885, 28276, 9428, 0, 143584 ], [ 44248, 44915, 32911, 0, 122071 ], [ 5889, 7408, 158, 0, 13455 ], [ 0, 0, 0, 19, 19 ], [ 156016, 80599, 42499, 19, 279137 ] ], [ [ 134619, 35056, 12055, 0, 181735 ], [ 58566, 56647, 40021, 0, 155234 ], [ 7943, 9392, 215, 0, 17550 ], [ 0, 0, 0, 36, 36 ], [ 201126, 101095, 52294, 36, 354549 ] ], [ [ 101506, 29733, 12483, 0, 143719 ], [ 32910, 44483, 50483, 0, 127875 ], [ 5051, 6405, 111, 0, 11566 ], [ 0, 0, 0, 29, 29 ], [ 139459, 80622, 63080, 29, 283188 ] ], [ [ 137859, 41574, 19677, 0, 199106 ], [ 36324, 56116, 76304, 0, 168745 ], [ 5691, 6036, 189, 0, 11922 ], [ 0, 0, 0, 36, 36 ], [ 179878, 103731, 96171, 36, 379808 ] ], [ [ 132759, 41562, 17173, 0, 191497 ], [ 38945, 56307, 67702, 0, 162956 ], [ 6198, 7996, 157, 0, 14346 ], [ 0, 0, 0, 30, 30 ], [ 177902, 105864, 85027, 30, 368827 ] ], [ [ 101407, 31557, 13424, 0, 146392 ], [ 30066, 41925, 50571, 0, 122562 ], [ 4529, 5901, 115, 0, 10548 ], [ 0, 0, 0, 35, 35 ], [ 136000, 79383, 64107, 35, 279529 ] ] ], [ [ [ 76964, 25621, 10905, 0, 113483 ], [ 22909, 34659, 40829, 0, 98400 ], [ 3601, 4485, 42, 0, 8131 ], [ 0, 0, 0, 21, 21 ], [ 103473, 64764, 51777, 21, 220034 ] ], [ [ 186677, 61522, 26028, 0, 274226 ], [ 60354, 86362, 94726, 0, 241440 ], [ 8725, 10099, 130, 0, 18950 ], [ 0, 0, 0, 68, 68 ], [ 255755, 157979, 120884, 68, 534685 ] ], [ [ 124610, 38873, 15124, 0, 178612 ], [ 39290, 56921, 61901, 0, 158114 ], [ 6150, 7422, 82, 0, 13653 ], [ 0, 0, 0, 20, 20 ], [ 170049, 103216, 77112, 20, 350397 ] ], [ [ 108889, 29234, 9588, 0, 147717 ], [ 45218, 45694, 33713, 0, 124626 ], [ 6078, 7615, 145, 0, 13840 ], [ 0, 0, 0, 17, 17 ], [ 160190, 82538, 43450, 17, 286196 ] ], [ [ 138394, 36253, 12338, 0, 186984 ], [ 59617, 57714, 40761, 0, 158092 ], [ 8044, 9610, 232, 0, 17892 ], [ 0, 0, 0, 30, 30 ], [ 206056, 103580, 53335, 30, 362997 ] ], [ [ 105616, 31142, 12711, 0, 149470 ], [ 34278, 45649, 51383, 0, 131315 ], [ 5233, 6815, 109, 0, 12157 ], [ 0, 0, 0, 29, 29 ], [ 145129, 83607, 64208, 29, 292970 ] ], [ [ 144175, 43176, 19888, 0, 207240 ], [ 38115, 57385, 77083, 0, 172586 ], [ 5932, 6365, 204, 0, 12500 ], [ 0, 0, 0, 39, 39 ], [ 188221, 106930, 97175, 39, 392358 ] ], [ [ 138738, 43480, 17333, 0, 199549 ], [ 40687, 57534, 68551, 0, 166769 ], [ 6432, 8451, 155, 0, 15039 ], [ 0, 0, 0, 25, 25 ], [ 185858, 109470, 86034, 25, 381391 ] ], [ [ 105601, 32897, 13373, 0, 151865 ], [ 31315, 42730, 50759, 0, 124803 ], [ 4649, 6179, 131, 0, 10962 ], [ 0, 0, 0, 26, 26 ], [ 141567, 81804, 64259, 26, 287655 ] ] ], [ [ [ 79511, 26737, 10971, 0, 117219 ], [ 23947, 35624, 41447, 0, 101023 ], [ 3798, 4775, 35, 0, 8610 ], [ 0, 0, 0, 25, 25 ], [ 107252, 67139, 52455, 25, 226869 ] ], [ [ 193711, 64436, 26330, 0, 284477 ], [ 63116, 88701, 96485, 0, 248303 ], [ 9089, 10882, 104, 0, 20076 ], [ 0, 0, 0, 66, 66 ], [ 265916, 164018, 122924, 66, 552921 ] ], [ [ 129056, 40799, 15371, 0, 185227 ], [ 41079, 58448, 63105, 0, 162631 ], [ 6390, 7856, 90, 0, 14339 ], [ 0, 0, 0, 21, 21 ], [ 176530, 107104, 78565, 21, 362219 ] ], [ [ 112145, 30402, 9822, 0, 152370 ], [ 46522, 46912, 34729, 0, 128160 ], [ 6277, 7902, 113, 0, 14298 ], [ 0, 0, 0, 17, 17 ], [ 164948, 85211, 44662, 17, 294837 ] ], [ [ 142213, 37600, 12655, 0, 192469 ], [ 61023, 59313, 42223, 0, 162556 ], [ 8349, 9967, 150, 0, 18472 ], [ 0, 0, 0, 28, 28 ], [ 211584, 106883, 55026, 28, 373528 ] ], [ [ 109666, 32624, 12905, 0, 155190 ], [ 35868, 46810, 52378, 0, 135057 ], [ 5475, 7281, 141, 0, 12894 ], [ 0, 0, 0, 29, 29 ], [ 151006, 86713, 65425, 29, 303170 ] ], [ [ 150226, 44932, 20192, 0, 215351 ], [ 40072, 58823, 78094, 0, 176985 ], [ 6180, 6809, 174, 0, 13160 ], [ 0, 0, 0, 35, 35 ], [ 196476, 110563, 98454, 35, 405529 ] ], [ [ 144242, 45608, 17482, 0, 207334 ], [ 42481, 59238, 69897, 0, 171614 ], [ 6769, 9179, 158, 0, 16109 ], [ 0, 0, 0, 33, 33 ], [ 193495, 114022, 87537, 33, 395088 ] ], [ [ 109277, 34129, 13530, 0, 156938 ], [ 32580, 43869, 51657, 0, 128107 ], [ 4890, 6547, 127, 0, 11561 ], [ 0, 0, 0, 24, 24 ], [ 146745, 84538, 65311, 24, 296621 ] ] ], [ [ [ 81565, 27701, 11057, 0, 120320 ], [ 24810, 36473, 41995, 0, 103272 ], [ 3920, 4980, 51, 0, 8954 ], [ 0, 0, 0, 25, 25 ], [ 110290, 69153, 53099, 25, 232571 ] ], [ [ 199730, 66859, 26666, 0, 293255 ], [ 65268, 90651, 97829, 0, 253749 ], [ 9431, 11380, 99, 0, 20907 ], [ 0, 0, 0, 63, 63 ], [ 274425, 168889, 124600, 63, 567972 ] ], [ [ 133015, 42524, 15633, 0, 191167 ], [ 42731, 60080, 64508, 0, 167322 ], [ 6624, 8354, 64, 0, 15045 ], [ 0, 0, 0, 22, 22 ], [ 182372, 110957, 80207, 22, 373555 ] ], [ [ 115194, 31514, 9958, 0, 156664 ], [ 47659, 48067, 35681, 0, 131406 ], [ 6481, 8240, 103, 0, 14824 ], [ 0, 0, 0, 17, 17 ], [ 169328, 87822, 45739, 17, 302910 ] ], [ [ 145988, 38812, 12925, 0, 197721 ], [ 62342, 60764, 43265, 0, 166369 ], [ 8586, 10338, 142, 0, 19067 ], [ 0, 0, 0, 29, 29 ], [ 216910, 109907, 56329, 29, 383180 ] ], [ [ 113214, 33899, 13110, 0, 160222 ], [ 37117, 48153, 53596, 0, 138865 ], [ 5711, 7639, 84, 0, 13431 ], [ 0, 0, 0, 31, 31 ], [ 156038, 89687, 66791, 31, 312551 ] ], [ [ 156424, 46544, 20473, 0, 223444 ], [ 41835, 60322, 79843, 0, 182003 ], [ 6477, 7213, 133, 0, 13824 ], [ 0, 0, 0, 32, 32 ], [ 204737, 114079, 100450, 32, 419300 ] ], [ [ 149161, 47463, 17788, 0, 214414 ], [ 44131, 60790, 71464, 0, 176384 ], [ 7086, 9657, 105, 0, 16842 ], [ 0, 0, 0, 33, 33 ], [ 200377, 117911, 89356, 33, 407674 ] ], [ [ 112768, 35239, 13696, 0, 161701 ], [ 33611, 44809, 52552, 0, 130973 ], [ 5076, 6860, 87, 0, 12023 ], [ 0, 0, 0, 26, 26 ], [ 151456, 86910, 66334, 26, 304731 ] ] ], [ [ [ 83169, 28378, 11173, 0, 122716 ], [ 25551, 37031, 42504, 0, 105080 ], [ 4002, 5143, 52, 0, 9196 ], [ 0, 0, 0, 26, 26 ], [ 112719, 70545, 53726, 26, 237017 ] ], [ [ 204230, 68596, 26914, 0, 299742 ], [ 67156, 92110, 98876, 0, 258140 ], [ 9582, 11671, 155, 0, 21409 ], [ 0, 0, 0, 64, 64 ], [ 280966, 172375, 125943, 64, 579352 ] ], [ [ 136136, 43647, 15749, 0, 195533 ], [ 44117, 61062, 65192, 0, 170365 ], [ 6819, 8546, 97, 0, 15461 ], [ 0, 0, 0, 22, 22 ], [ 187069, 113253, 81038, 22, 381381 ] ], [ [ 117580, 32478, 10162, 0, 160217 ], [ 48451, 48984, 36225, 0, 133658 ], [ 6618, 8334, 98, 0, 15045 ], [ 0, 0, 0, 16, 16 ], [ 172654, 89786, 46484, 16, 308942 ] ], [ [ 148880, 39910, 13164, 0, 201953 ], [ 63407, 62073, 44092, 0, 169575 ], [ 8808, 10468, 143, 0, 19418 ], [ 0, 0, 0, 25, 25 ], [ 221095, 112453, 57402, 25, 390970 ] ], [ [ 116297, 35101, 13271, 0, 164664 ], [ 38254, 49333, 54440, 0, 142026 ], [ 5826, 7869, 93, 0, 13787 ], [ 0, 0, 0, 31, 31 ], [ 160374, 92304, 67802, 31, 320510 ] ], [ [ 161814, 47919, 20775, 0, 230510 ], [ 43707, 61892, 81389, 0, 186986 ], [ 6769, 7521, 116, 0, 14406 ], [ 0, 0, 0, 35, 35 ], [ 212286, 117336, 102279, 35, 431934 ] ], [ [ 153517, 48973, 18063, 0, 220554 ], [ 45471, 61972, 71901, 0, 179344 ], [ 7210, 9983, 125, 0, 17322 ], [ 0, 0, 0, 32, 32 ], [ 206200, 120929, 90091, 32, 417258 ] ], [ [ 115747, 36205, 13779, 0, 165730 ], [ 34376, 45256, 52778, 0, 132414 ], [ 5179, 7045, 109, 0, 12333 ], [ 0, 0, 0, 23, 23 ], [ 155304, 88507, 66664, 23, 310500 ] ] ], [ [ [ 85048, 29266, 11217, 0, 125534 ], [ 26338, 37931, 43048, 0, 107320 ], [ 4115, 5355, 81, 0, 9550 ], [ 0, 0, 0, 21, 21 ], [ 115503, 72556, 54339, 21, 242424 ] ], [ [ 209560, 70892, 27045, 0, 307491 ], [ 69342, 93794, 100269, 0, 263410 ], [ 9801, 12155, 259, 0, 22214 ], [ 0, 0, 0, 62, 62 ], [ 288700, 176840, 127569, 62, 593175 ] ], [ [ 139656, 45036, 15842, 0, 200540 ], [ 45753, 62469, 66486, 0, 174704 ], [ 7002, 8863, 214, 0, 16074 ], [ 0, 0, 0, 18, 18 ], [ 192412, 116366, 82541, 18, 391342 ] ], [ [ 119890, 33122, 10267, 0, 163280 ], [ 49130, 49707, 36493, 0, 135336 ], [ 6688, 8410, 249, 0, 15346 ], [ 0, 0, 0, 16, 16 ], [ 175704, 91241, 47014, 16, 313978 ] ], [ [ 151531, 40684, 13251, 0, 205461 ], [ 64286, 62774, 44379, 0, 171440 ], [ 8951, 10618, 285, 0, 19853 ], [ 0, 0, 0, 31, 31 ], [ 224769, 114076, 57911, 31, 396780 ] ], [ [ 119598, 36236, 13427, 0, 169256 ], [ 39345, 50531, 55224, 0, 145093 ], [ 6025, 8182, 111, 0, 14321 ], [ 0, 0, 0, 31, 31 ], [ 164971, 94946, 68758, 31, 328705 ] ], [ [ 167187, 49319, 21005, 0, 237508 ], [ 45364, 63577, 83043, 0, 191977 ], [ 6973, 7818, 135, 0, 14930 ], [ 0, 0, 0, 31, 31 ], [ 219520, 120714, 104180, 31, 444446 ] ], [ [ 158279, 50640, 18283, 0, 227204 ], [ 47036, 63452, 73178, 0, 183661 ], [ 7432, 10406, 141, 0, 17977 ], [ 0, 0, 0, 32, 32 ], [ 212743, 124497, 91603, 32, 428875 ] ], [ [ 118828, 37346, 13896, 0, 170066 ], [ 35295, 46190, 53419, 0, 134905 ], [ 5343, 7361, 138, 0, 12839 ], [ 0, 0, 0, 23, 23 ], [ 159463, 90896, 67453, 23, 317836 ] ] ], [ [ [ 86697, 30053, 11312, 0, 128058 ], [ 27082, 38758, 43596, 0, 109436 ], [ 4251, 5569, 76, 0, 9893 ], [ 0, 0, 0, 21, 21 ], [ 118027, 74382, 54986, 21, 247415 ] ], [ [ 214294, 73020, 27186, 0, 314499 ], [ 71479, 95687, 102099, 0, 269260 ], [ 10171, 12721, 174, 0, 23069 ], [ 0, 0, 0, 63, 63 ], [ 295943, 181426, 129461, 63, 606885 ] ], [ [ 142609, 46271, 16069, 0, 204951 ], [ 47304, 63935, 67938, 0, 179173 ], [ 7279, 9238, 105, 0, 16617 ], [ 0, 0, 0, 21, 21 ], [ 197193, 119441, 84107, 21, 400758 ] ], [ [ 122675, 34083, 10479, 0, 167235 ], [ 50059, 51079, 37580, 0, 138716 ], [ 6902, 8663, 97, 0, 15662 ], [ 0, 0, 0, 22, 22 ], [ 179636, 93823, 48149, 22, 321630 ] ], [ [ 154951, 41888, 13558, 0, 210397 ], [ 65383, 64434, 45670, 0, 175495 ], [ 9226, 10935, 145, 0, 20307 ], [ 0, 0, 0, 28, 28 ], [ 229564, 117261, 59374, 28, 406223 ] ], [ [ 122471, 37112, 13613, 0, 173192 ], [ 40348, 51675, 56268, 0, 148296 ], [ 6193, 8432, 73, 0, 14696 ], [ 0, 0, 0, 27, 27 ], [ 169006, 97216, 69957, 27, 336214 ] ], [ [ 171997, 50498, 21204, 0, 243696 ], [ 46701, 64857, 84348, 0, 195902 ], [ 7107, 8061, 96, 0, 15263 ], [ 0, 0, 0, 35, 35 ], [ 225807, 123419, 105644, 35, 454902 ] ], [ [ 162371, 51999, 18559, 0, 232930 ], [ 48483, 64884, 74541, 0, 187906 ], [ 7705, 10849, 131, 0, 18677 ], [ 0, 0, 0, 32, 32 ], [ 218554, 127731, 93219, 32, 439541 ] ], [ [ 121400, 38206, 13987, 0, 173588 ], [ 36242, 47098, 54538, 0, 137882 ], [ 5525, 7671, 107, 0, 13299 ], [ 0, 0, 0, 23, 23 ], [ 163169, 92974, 68629, 23, 324803 ] ] ], [ [ [ 87919, 30320, 11235, 0, 129473 ], [ 27731, 39034, 43335, 0, 110096 ], [ 4230, 5558, 94, 0, 9882 ], [ 0, 0, 0, 21, 21 ], [ 119876, 74913, 54669, 21, 249476 ] ], [ [ 217501, 73899, 27013, 0, 318416 ], [ 73042, 96306, 101455, 0, 270811 ], [ 10168, 12773, 274, 0, 23212 ], [ 0, 0, 0, 61, 61 ], [ 300716, 182983, 128738, 61, 612501 ] ], [ [ 144604, 46624, 15935, 0, 207159 ], [ 48447, 64549, 67819, 0, 180813 ], [ 7377, 9252, 136, 0, 16764 ], [ 0, 0, 0, 21, 21 ], [ 200429, 120419, 83890, 21, 404756 ] ], [ [ 124858, 34448, 10474, 0, 169783 ], [ 50792, 51669, 37776, 0, 140245 ], [ 6952, 8688, 144, 0, 15787 ], [ 0, 0, 0, 22, 22 ], [ 182606, 94809, 48400, 22, 325831 ] ], [ [ 157344, 42429, 13575, 0, 213353 ], [ 66345, 65395, 46219, 0, 177961 ], [ 9367, 10962, 212, 0, 20545 ], [ 0, 0, 0, 27, 27 ], [ 233058, 118789, 60001, 27, 411878 ] ], [ [ 125278, 37869, 13695, 0, 176843 ], [ 41203, 52312, 56720, 0, 150232 ], [ 6272, 8533, 87, 0, 14891 ], [ 0, 0, 0, 31, 31 ], [ 172753, 98714, 70502, 31, 341998 ] ], [ [ 176690, 51598, 21355, 0, 249643 ], [ 47747, 66034, 85220, 0, 199002 ], [ 7281, 8119, 128, 0, 15530 ], [ 0, 0, 0, 35, 35 ], [ 231717, 125753, 106707, 35, 464206 ] ], [ [ 166105, 52977, 18620, 0, 237695 ], [ 49546, 65805, 75074, 0, 190429 ], [ 7812, 10980, 126, 0, 18915 ], [ 0, 0, 0, 31, 31 ], [ 223458, 129763, 93820, 31, 447068 ] ], [ [ 123781, 38806, 13985, 0, 176572 ], [ 36954, 47635, 54713, 0, 139300 ], [ 5561, 7767, 133, 0, 13461 ], [ 0, 0, 0, 23, 23 ], [ 166292, 94203, 68832, 23, 329356 ] ] ], [ [ [ 89133, 30847, 11169, 0, 131142 ], [ 28277, 39436, 43562, 0, 111277 ], [ 4295, 5669, 57, 0, 10026 ], [ 0, 0, 0, 25, 25 ], [ 121708, 75948, 54789, 25, 252470 ] ], [ [ 220667, 75015, 27013, 0, 322699 ], [ 74273, 97279, 101848, 0, 273393 ], [ 10310, 12979, 171, 0, 23457 ], [ 0, 0, 0, 62, 62 ], [ 305248, 185278, 129032, 62, 619611 ] ], [ [ 146613, 47256, 16039, 0, 209910 ], [ 49410, 65197, 68211, 0, 182817 ], [ 7468, 9295, 77, 0, 16839 ], [ 0, 0, 0, 20, 20 ], [ 203492, 121750, 84330, 20, 409587 ] ], [ [ 125868, 34655, 10481, 0, 171001 ], [ 50955, 52082, 38008, 0, 141043 ], [ 6908, 8562, 87, 0, 15554 ], [ 0, 0, 0, 22, 22 ], [ 183733, 95294, 48570, 22, 327613 ] ], [ [ 158247, 42718, 13503, 0, 214470 ], [ 66505, 65716, 46391, 0, 178607 ], [ 9330, 10771, 159, 0, 20257 ], [ 0, 0, 0, 27, 27 ], [ 234079, 119206, 60048, 27, 413359 ] ], [ [ 127422, 38619, 13725, 0, 179770 ], [ 41806, 53242, 57290, 0, 152336 ], [ 6365, 8590, 68, 0, 15021 ], [ 0, 0, 0, 30, 30 ], [ 175594, 100451, 71085, 30, 347160 ] ], [ [ 180130, 52508, 21571, 0, 254203 ], [ 48786, 67207, 86456, 0, 202453 ], [ 7464, 8259, 108, 0, 15824 ], [ 0, 0, 0, 35, 35 ], [ 236374, 127974, 108128, 35, 472517 ] ], [ [ 169159, 53946, 18752, 0, 241858 ], [ 50294, 66858, 75848, 0, 193002 ], [ 7991, 11145, 176, 0, 19314 ], [ 0, 0, 0, 28, 28 ], [ 227438, 131958, 94782, 28, 454205 ] ], [ [ 125568, 39532, 13989, 0, 179085 ], [ 37407, 48116, 55002, 0, 140521 ], [ 5602, 7922, 154, 0, 13683 ], [ 0, 0, 0, 23, 23 ], [ 168576, 95569, 69137, 23, 333307 ] ] ], [ [ [ 90711, 31550, 11321, 0, 133581 ], [ 28900, 40143, 44151, 0, 113195 ], [ 4356, 5780, 52, 0, 10192 ], [ 0, 0, 0, 21, 21 ], [ 123971, 77475, 55520, 21, 256986 ] ], [ [ 225229, 76972, 27424, 0, 329630 ], [ 76001, 99172, 103771, 0, 278941 ], [ 10571, 13214, 140, 0, 23927 ], [ 0, 0, 0, 56, 56 ], [ 311801, 189360, 131337, 56, 632560 ] ], [ [ 149616, 48366, 16316, 0, 214292 ], [ 50678, 66661, 69839, 0, 187174 ], [ 7690, 9589, 88, 0, 17368 ], [ 0, 0, 0, 20, 20 ], [ 207987, 124616, 86235, 20, 418859 ] ], [ [ 127814, 35324, 10606, 0, 173739 ], [ 51738, 53493, 38970, 0, 144204 ], [ 7052, 8792, 98, 0, 15941 ], [ 0, 0, 0, 18, 18 ], [ 186600, 97606, 49677, 18, 333897 ] ], [ [ 160794, 43533, 13594, 0, 217919 ], [ 67334, 67480, 47416, 0, 182235 ], [ 9540, 11048, 165, 0, 20749 ], [ 0, 0, 0, 26, 26 ], [ 237667, 122061, 61170, 26, 420931 ] ], [ [ 130579, 39610, 13870, 0, 184053 ], [ 42775, 54576, 58737, 0, 156084 ], [ 6513, 8749, 97, 0, 15354 ], [ 0, 0, 0, 31, 31 ], [ 179862, 102931, 72702, 31, 355522 ] ], [ [ 185532, 53953, 21906, 0, 261393 ], [ 50347, 69129, 88892, 0, 208368 ], [ 7709, 8540, 125, 0, 16370 ], [ 0, 0, 0, 33, 33 ], [ 243585, 131618, 110926, 33, 486163 ] ], [ [ 173394, 55336, 18945, 0, 247675 ], [ 51457, 68480, 77495, 0, 197431 ], [ 8209, 11446, 165, 0, 19824 ], [ 0, 0, 0, 29, 29 ], [ 233054, 135263, 96610, 29, 464959 ] ], [ [ 127986, 40260, 14088, 0, 182336 ], [ 38038, 48922, 55899, 0, 142853 ], [ 5726, 8062, 139, 0, 13923 ], [ 0, 0, 0, 21, 21 ], [ 171748, 97235, 70125, 21, 339134 ] ] ], [ [ [ 92248, 32113, 11460, 0, 135819 ], [ 29430, 40851, 44985, 0, 115266 ], [ 4485, 5940, 48, 0, 10472 ], [ 0, 0, 0, 21, 21 ], [ 126165, 78905, 56486, 21, 261577 ] ], [ [ 229629, 78651, 27892, 0, 336171 ], [ 77506, 101026, 105951, 0, 284485 ], [ 10870, 13553, 117, 0, 24536 ], [ 0, 0, 0, 57, 57 ], [ 318002, 193230, 133965, 57, 645253 ] ], [ [ 152247, 49347, 16573, 0, 218171 ], [ 51732, 67996, 71536, 0, 191259 ], [ 7920, 9846, 61, 0, 17825 ], [ 0, 0, 0, 24, 24 ], [ 211900, 127188, 88173, 24, 427285 ] ], [ [ 130442, 36082, 10812, 0, 177337 ], [ 52526, 54863, 40084, 0, 147476 ], [ 7286, 8969, 81, 0, 16335 ], [ 0, 0, 0, 18, 18 ], [ 190252, 99914, 50978, 18, 341169 ] ], [ [ 163842, 44387, 13772, 0, 222001 ], [ 68208, 69063, 48649, 0, 185923 ], [ 9766, 11325, 153, 0, 21243 ], [ 0, 0, 0, 26, 26 ], [ 241818, 124779, 62578, 26, 429197 ] ], [ [ 133810, 40611, 14098, 0, 188520 ], [ 43724, 55860, 60200, 0, 159783 ], [ 6699, 8994, 66, 0, 15765 ], [ 0, 0, 0, 31, 31 ], [ 184230, 105471, 74366, 31, 364093 ] ], [ [ 190415, 55293, 22232, 0, 267947 ], [ 51480, 70724, 90706, 0, 212913 ], [ 7914, 8713, 95, 0, 16721 ], [ 0, 0, 0, 33, 33 ], [ 249808, 134734, 113038, 33, 497613 ] ], [ [ 177827, 56612, 19237, 0, 253679 ], [ 52685, 70034, 79516, 0, 202231 ], [ 8447, 11814, 125, 0, 20388 ], [ 0, 0, 0, 29, 29 ], [ 238958, 138456, 98877, 29, 476321 ] ], [ [ 130441, 41110, 14274, 0, 185828 ], [ 38773, 49980, 57309, 0, 146065 ], [ 5879, 8280, 95, 0, 14256 ], [ 0, 0, 0, 19, 19 ], [ 175093, 99368, 71685, 19, 346168 ] ] ] ],
+      "precision" : 0
+    }
+  },
+  "annotationMap" : {
+    "I" : "\"..\" denotes a nil or negligible number of claimants or award amount based on a nil or negligible number of claimants.",
+    "II" : "From March 2022, a new benefit called Adult Disability Payment (ADP) began to be introduced in Scotland. All Scottish applications for support because of disability or long term ill-health should be made to ADP from 29th August 2022. Social Security Scotland began to move clients to ADP from September 2022, and completed this case transfer process for those who were in receipt of PIP in Scotland by the end of June 2025.",
+    "III" : "Retrieving \"DWP Ownership\" returns claims administered by DWP in England, Wales and Abroad. Retrieving \"Devolved to Scotland\" returns claims DWP still administer in Scotland. From July 2025 onwards, any data appearing in Stat-Xplore for PIP activity in Scotland may relate to cases where a person moves to Scotland from England or Wales while in receipt of PIP and is in the process of applying for ADP instead. New legislation introduced in November 2025 provides for an extension of entitlement to PIP (commonly referred to as a \"run-on period\") of up to 13 weeks from the date of the move.",
+    "IV" : "Please note: If you retrieve all data within this benefit, this will return PIP claims administered by DWP. Datapoints from March 2022 will no longer reflect a full total for Great Britain because of the introduction of Adult Disability Payment in Scotland.",
+    "XI" : "For a very small proportion of the caseload (0.2%), the combination of award rates (daily living and mobility) is reported as nil-nil. Investigations suggest that award rates may be temporarily shown as a nil rate in the data used to derive the statistics for a short period, whilst a claim review is in process, after which the new award rate is set. These cases should be treated with caution and may be revised in a subsequent release.\n",
+    "V" : "Geographies are based on the claimants latest recorded address.  In some cases this may not be in the same geographical area as their initial claim.",
+    "X" : "From June 2024, cases classified as “Chronic Fatigue Syndrome” (CFS) on the PIP Computer System have been moved to Neurological Disease > Other neurological disorders. This change has been applied to all data from April 2013 onwards. In earlier published versions of the data, CFS cases were classified as Musculoskeletal disease (general) > Chronic pain syndromes. \n"
+  }
+}

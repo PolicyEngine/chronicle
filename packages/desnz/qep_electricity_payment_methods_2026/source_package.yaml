@@ -1,0 +1,4160 @@
+# DESNZ, Quarterly Energy Prices table 2.4.2, 'Regional variation of payment method for
+# standard electricity' (updated 29 September 2026, data to the quarter ending June 2026,
+# https://www.gov.uk/government/statistical-data-sets/quarterly-domestic-energy-price-statistics),
+# for PolicyEngine/chronicle#420 item 12: a Direct Debit, standard credit and prepayment
+# draw in Microcosm (PolicyEngine/uk-energy-price-cap-jan-2027#4), asked in
+# PolicyEngine/chronicle#435 for Microcosm's next data PR. Written by
+# scripts/build_uk_qep_payment_method_packages.py from the pinned workbook.
+#
+# Ported: the percentage of domestic customers paying by standard credit, Direct Debit and
+# prepayment, for the 14 former Public Electricity Supplier distribution areas, England
+# and Wales, Scotland, Great Britain, Northern Ireland and the United Kingdom, each
+# quarter from April to June 2024 to April to June 2026 (sheet '2.4.2') and each year 2024
+# and 2025 (sheet '2.4.2 (Annual)'). Includes electricity customers on standard
+# electricity tariffs only. Payment method is a filter on concept
+# desnz.qep.domestic_electricity_payment_method_share; each region's three shares are the
+# publisher's rounded percentages and add to 100 within 1 point(s). The shares come from
+# DESNZ's quarterly survey of a sample of suppliers, 'uplifted to Ofgem's total customer
+# numbers' (methodology sheet). Regions are the desnz:qep:pes ids the unit cost packages
+# use. The publisher's annual figure for Table 2.4.2 Regional variation of payment method
+# for standard electricity.
+#
+# Not ported: earlier quarters and years, not asked in PolicyEngine/chronicle#420; the
+# fixed and online tariff sheets; and tables 2.4.1 and 2.5.1, which split customers by
+# supplier type, not payment method. The next update is due 17 December 2026 (cover
+# sheet). 627 facts.
+schema_version: ledger.source_package.v1
+package_id: desnz-qep-electricity-payment-methods-2026
+label: 'DESNZ QEP table 2.4.2: standard electricity customers by payment method and region, quarterly
+  from April 2024 and annually 2024 and 2025'
+dimension_labels:
+  desnz.qep.price_region: QEP price region
+  fuel: Fuel
+  payment_method: Payment method
+  metering_arrangement: Metering arrangement
+dimension_value_labels:
+  fuel:
+    electricity: Electricity
+  payment_method:
+    standard_credit: Standard credit
+    direct_debit: Direct debit
+    prepayment: Prepayment
+  metering_arrangement:
+    standard: Standard electricity
+artifact:
+  source_name: desnz
+  source_table: 'Quarterly Energy Prices table 2.4.2: regional variation of payment method for standard
+    electricity'
+  resource_package: db
+  resource_directory: data/desnz/qep_electricity_payment_methods_2026
+  manifest: manifest.yaml
+  vintage: qep_2026_09_29
+  extracted_at: '2026-11-10'
+  extraction_method: xlsx used-range cell parse (table_242.xlsx)
+  parser: xlsx_used_range
+  sheets:
+  - 2.4.2
+  - 2.4.2 (Annual)
+  sheet_name: 2.4.2
+  artifact_year: 2026
+record_sets:
+- record_set_id: desnz.qep.table_2_4_2.2024_q2
+  provenance_class: survey_aggregate
+  assertion: observation
+  survey_instrument: DESNZ Quarterly Energy Prices supplier survey
+  record_set_spec_id: desnz.qep.table_2_4_2.payment_methods.quarterly.v1
+  source_record_id_prefix: desnz.qep.table_2_4_2.2024_q2
+  sheet_name: 2.4.2
+  period_type: quarter
+  period: 2024-Q2
+  period_coverage:
+    start_date: '2024-04-01'
+    end_date: '2024-06-30'
+    basis: calendar
+    source_period_label: 2024 Apr – Jun
+    notes: The quarter the publisher's survey of suppliers covers.
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: household
+  entity_role: domestic_energy_customer
+  domain: domestic_energy_prices
+  groupby_dimension: desnz.qep.price_region
+  shared_filters:
+    fuel: electricity
+    metering_arrangement: standard
+  shared_constraints:
+  - {variable: fuel, operator: ==, value: electricity, label: Fuel}
+  - {variable: metering_arrangement, operator: ==, value: standard, label: Metering arrangement}
+  rows:
+  - value_id: east_midlands
+    label: East Midlands
+    ordinal: 0
+    row_number: 1435
+    expected_row_header_column: C
+    expected_row_header: East Midlands
+    geography_id: desnz:qep:pes:east_midlands
+    geography_level: statistical_scope
+    geography_name: East Midlands
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2024, label: reference year}
+    - {column: B, expected_value: Apr – Jun, label: reference quarter}
+  - value_id: eastern
+    label: Eastern
+    ordinal: 1
+    row_number: 1436
+    expected_row_header_column: C
+    expected_row_header: Eastern
+    geography_id: desnz:qep:pes:eastern
+    geography_level: statistical_scope
+    geography_name: Eastern
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2024, label: reference year}
+    - {column: B, expected_value: Apr – Jun, label: reference quarter}
+  - value_id: london
+    label: London
+    ordinal: 2
+    row_number: 1437
+    expected_row_header_column: C
+    expected_row_header: London
+    geography_id: desnz:qep:pes:london
+    geography_level: statistical_scope
+    geography_name: London
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2024, label: reference year}
+    - {column: B, expected_value: Apr – Jun, label: reference quarter}
+  - value_id: merseyside_north_wales
+    label: Merseyside & North Wales
+    ordinal: 3
+    row_number: 1438
+    expected_row_header_column: C
+    expected_row_header: Merseyside & North Wales
+    geography_id: desnz:qep:pes:merseyside_and_north_wales
+    geography_level: statistical_scope
+    geography_name: Merseyside & North Wales
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2024, label: reference year}
+    - {column: B, expected_value: Apr – Jun, label: reference quarter}
+  - value_id: north_east
+    label: North East
+    ordinal: 4
+    row_number: 1439
+    expected_row_header_column: C
+    expected_row_header: North East
+    geography_id: desnz:qep:pes:north_east
+    geography_level: statistical_scope
+    geography_name: North East
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2024, label: reference year}
+    - {column: B, expected_value: Apr – Jun, label: reference quarter}
+  - value_id: north_west
+    label: North West
+    ordinal: 5
+    row_number: 1440
+    expected_row_header_column: C
+    expected_row_header: North West
+    geography_id: desnz:qep:pes:north_west
+    geography_level: statistical_scope
+    geography_name: North West
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2024, label: reference year}
+    - {column: B, expected_value: Apr – Jun, label: reference quarter}
+  - value_id: south_east
+    label: South East
+    ordinal: 6
+    row_number: 1441
+    expected_row_header_column: C
+    expected_row_header: South East
+    geography_id: desnz:qep:pes:south_east
+    geography_level: statistical_scope
+    geography_name: South East
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2024, label: reference year}
+    - {column: B, expected_value: Apr – Jun, label: reference quarter}
+  - value_id: south_wales
+    label: South Wales
+    ordinal: 7
+    row_number: 1442
+    expected_row_header_column: C
+    expected_row_header: South Wales
+    geography_id: desnz:qep:pes:south_wales
+    geography_level: statistical_scope
+    geography_name: South Wales
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2024, label: reference year}
+    - {column: B, expected_value: Apr – Jun, label: reference quarter}
+  - value_id: south_west
+    label: South West
+    ordinal: 8
+    row_number: 1443
+    expected_row_header_column: C
+    expected_row_header: South West
+    geography_id: desnz:qep:pes:south_west
+    geography_level: statistical_scope
+    geography_name: South West
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2024, label: reference year}
+    - {column: B, expected_value: Apr – Jun, label: reference quarter}
+  - value_id: southern
+    label: Southern
+    ordinal: 9
+    row_number: 1444
+    expected_row_header_column: C
+    expected_row_header: Southern
+    geography_id: desnz:qep:pes:southern
+    geography_level: statistical_scope
+    geography_name: Southern
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2024, label: reference year}
+    - {column: B, expected_value: Apr – Jun, label: reference quarter}
+  - value_id: west_midlands
+    label: West Midlands
+    ordinal: 10
+    row_number: 1445
+    expected_row_header_column: C
+    expected_row_header: West Midlands
+    geography_id: desnz:qep:pes:west_midlands
+    geography_level: statistical_scope
+    geography_name: West Midlands
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2024, label: reference year}
+    - {column: B, expected_value: Apr – Jun, label: reference quarter}
+  - value_id: yorkshire
+    label: Yorkshire
+    ordinal: 11
+    row_number: 1446
+    expected_row_header_column: C
+    expected_row_header: Yorkshire
+    geography_id: desnz:qep:pes:yorkshire
+    geography_level: statistical_scope
+    geography_name: Yorkshire
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2024, label: reference year}
+    - {column: B, expected_value: Apr – Jun, label: reference quarter}
+  - value_id: england_and_wales
+    label: England and Wales
+    ordinal: 12
+    row_number: 1447
+    expected_row_header_column: C
+    expected_row_header: England & Wales
+    geography_id: K04000001
+    geography_level: country
+    geography_name: England and Wales
+    geography_vintage: current
+    table_record_kind: subtotal
+    guard_cells:
+    - {column: A, expected_value: 2024, label: reference year}
+    - {column: B, expected_value: Apr – Jun, label: reference quarter}
+  - value_id: north_scotland
+    label: North Scotland
+    ordinal: 13
+    row_number: 1448
+    expected_row_header_column: C
+    expected_row_header: North Scotland
+    geography_id: desnz:qep:pes:north_scotland
+    geography_level: statistical_scope
+    geography_name: North Scotland
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2024, label: reference year}
+    - {column: B, expected_value: Apr – Jun, label: reference quarter}
+  - value_id: south_scotland
+    label: South Scotland
+    ordinal: 14
+    row_number: 1449
+    expected_row_header_column: C
+    expected_row_header: South Scotland
+    geography_id: desnz:qep:pes:south_scotland
+    geography_level: statistical_scope
+    geography_name: South Scotland
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2024, label: reference year}
+    - {column: B, expected_value: Apr – Jun, label: reference quarter}
+  - value_id: scotland
+    label: Scotland
+    ordinal: 15
+    row_number: 1450
+    expected_row_header_column: C
+    expected_row_header: Scotland
+    geography_id: S92000003
+    geography_level: country
+    geography_name: Scotland
+    geography_vintage: current
+    table_record_kind: subtotal
+    guard_cells:
+    - {column: A, expected_value: 2024, label: reference year}
+    - {column: B, expected_value: Apr – Jun, label: reference quarter}
+  - value_id: great_britain
+    label: Great Britain
+    ordinal: 16
+    row_number: 1451
+    expected_row_header_column: C
+    expected_row_header: Great Britain
+    geography_id: K03000001
+    geography_level: country
+    geography_name: Great Britain
+    geography_vintage: current
+    table_record_kind: subtotal
+    guard_cells:
+    - {column: A, expected_value: 2024, label: reference year}
+    - {column: B, expected_value: Apr – Jun, label: reference quarter}
+  - value_id: northern_ireland
+    label: Northern Ireland
+    ordinal: 17
+    row_number: 1452
+    expected_row_header_column: C
+    expected_row_header: Northern Ireland
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: current
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2024, label: reference year}
+    - {column: B, expected_value: Apr – Jun, label: reference quarter}
+  - value_id: united_kingdom
+    label: United Kingdom
+    ordinal: 18
+    row_number: 1453
+    expected_row_header_column: C
+    expected_row_header: United Kingdom
+    geography_id: K02000001
+    geography_level: country
+    geography_name: United Kingdom
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - {column: A, expected_value: 2024, label: reference year}
+    - {column: B, expected_value: Apr – Jun, label: reference quarter}
+  measures:
+  - measure_id: standard_credit
+    label: Credit (%)
+    ordinal: 0
+    column: D
+    source_column_id: standard_credit
+    expected_column_header_row: 9
+    expected_column_header: Credit (%)
+    concept: desnz.qep.domestic_electricity_payment_method_share
+    source_concept: desnz.qep.domestic_electricity_payment_method_share
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/quarterly-domestic-energy-price-statistics
+    concept_evidence_notes: 'Quarterly Energy Prices table 2.4.2, ''Regional variation of payment method
+      for standard electricity'', column ''Credit (%)'': the percentage of the region''s customers paying
+      by standard credit. Includes electricity customers on standard electricity tariffs only. Note 3.
+      Standard credit customers pay on receipt of their bill which is usually payment 3 months in arrears.
+      Data on gas and electricity tariffs is received directly from a sample of energy companies that
+      supply electricity and gas across the UK via a quarterly survey. In order for the sample data to
+      be comparable for the whole market, data is uplifted to Ofgem''s total customer numbers.'
+    unit: percent
+    aggregation: share
+    expected_cell_type: number
+    filters:
+      payment_method: standard_credit
+    constraints:
+    - {variable: payment_method, operator: ==, value: standard_credit, label: Payment method}
+  - measure_id: direct_debit
+    label: Direct Debit (%)
+    ordinal: 1
+    column: E
+    source_column_id: direct_debit
+    expected_column_header_row: 9
+    expected_column_header: Direct Debit (%)
+    concept: desnz.qep.domestic_electricity_payment_method_share
+    source_concept: desnz.qep.domestic_electricity_payment_method_share
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/quarterly-domestic-energy-price-statistics
+    concept_evidence_notes: 'Quarterly Energy Prices table 2.4.2, ''Regional variation of payment method
+      for standard electricity'', column ''Direct Debit (%)'': the percentage of the region''s customers
+      paying by direct debit. Includes electricity customers on standard electricity tariffs only. Note
+      4. Direct debit transfers an agreed or variable amount directly from the customer’s bank account
+      to the energy supplier. Data on gas and electricity tariffs is received directly from a sample of
+      energy companies that supply electricity and gas across the UK via a quarterly survey. In order
+      for the sample data to be comparable for the whole market, data is uplifted to Ofgem''s total customer
+      numbers.'
+    unit: percent
+    aggregation: share
+    expected_cell_type: number
+    filters:
+      payment_method: direct_debit
+    constraints:
+    - {variable: payment_method, operator: ==, value: direct_debit, label: Payment method}
+  - measure_id: prepayment
+    label: Prepayment (%)
+    ordinal: 2
+    column: F
+    source_column_id: prepayment
+    expected_column_header_row: 9
+    expected_column_header: Prepayment (%)
+    concept: desnz.qep.domestic_electricity_payment_method_share
+    source_concept: desnz.qep.domestic_electricity_payment_method_share
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/quarterly-domestic-energy-price-statistics
+    concept_evidence_notes: 'Quarterly Energy Prices table 2.4.2, ''Regional variation of payment method
+      for standard electricity'', column ''Prepayment (%)'': the percentage of the region''s customers
+      paying by prepayment. Includes electricity customers on standard electricity tariffs only. Note
+      5. Prepayment requires the customer to make advance payment before fuel can be used. Data on gas
+      and electricity tariffs is received directly from a sample of energy companies that supply electricity
+      and gas across the UK via a quarterly survey. In order for the sample data to be comparable for
+      the whole market, data is uplifted to Ofgem''s total customer numbers.'
+    unit: percent
+    aggregation: share
+    expected_cell_type: number
+    filters:
+      payment_method: prepayment
+    constraints:
+    - {variable: payment_method, operator: ==, value: prepayment, label: Payment method}
+- record_set_id: desnz.qep.table_2_4_2.2024_q3
+  provenance_class: survey_aggregate
+  assertion: observation
+  survey_instrument: DESNZ Quarterly Energy Prices supplier survey
+  record_set_spec_id: desnz.qep.table_2_4_2.payment_methods.quarterly.v1
+  source_record_id_prefix: desnz.qep.table_2_4_2.2024_q3
+  sheet_name: 2.4.2
+  period_type: quarter
+  period: 2024-Q3
+  period_coverage:
+    start_date: '2024-07-01'
+    end_date: '2024-09-30'
+    basis: calendar
+    source_period_label: 2024 Jul – Sep
+    notes: The quarter the publisher's survey of suppliers covers.
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: household
+  entity_role: domestic_energy_customer
+  domain: domestic_energy_prices
+  groupby_dimension: desnz.qep.price_region
+  shared_filters:
+    fuel: electricity
+    metering_arrangement: standard
+  shared_constraints:
+  - {variable: fuel, operator: ==, value: electricity, label: Fuel}
+  - {variable: metering_arrangement, operator: ==, value: standard, label: Metering arrangement}
+  rows:
+  - value_id: east_midlands
+    label: East Midlands
+    ordinal: 0
+    row_number: 1454
+    expected_row_header_column: C
+    expected_row_header: East Midlands
+    geography_id: desnz:qep:pes:east_midlands
+    geography_level: statistical_scope
+    geography_name: East Midlands
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2024, label: reference year}
+    - {column: B, expected_value: Jul – Sep, label: reference quarter}
+  - value_id: eastern
+    label: Eastern
+    ordinal: 1
+    row_number: 1455
+    expected_row_header_column: C
+    expected_row_header: Eastern
+    geography_id: desnz:qep:pes:eastern
+    geography_level: statistical_scope
+    geography_name: Eastern
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2024, label: reference year}
+    - {column: B, expected_value: Jul – Sep, label: reference quarter}
+  - value_id: london
+    label: London
+    ordinal: 2
+    row_number: 1456
+    expected_row_header_column: C
+    expected_row_header: London
+    geography_id: desnz:qep:pes:london
+    geography_level: statistical_scope
+    geography_name: London
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2024, label: reference year}
+    - {column: B, expected_value: Jul – Sep, label: reference quarter}
+  - value_id: merseyside_north_wales
+    label: Merseyside & North Wales
+    ordinal: 3
+    row_number: 1457
+    expected_row_header_column: C
+    expected_row_header: Merseyside & North Wales
+    geography_id: desnz:qep:pes:merseyside_and_north_wales
+    geography_level: statistical_scope
+    geography_name: Merseyside & North Wales
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2024, label: reference year}
+    - {column: B, expected_value: Jul – Sep, label: reference quarter}
+  - value_id: north_east
+    label: North East
+    ordinal: 4
+    row_number: 1458
+    expected_row_header_column: C
+    expected_row_header: North East
+    geography_id: desnz:qep:pes:north_east
+    geography_level: statistical_scope
+    geography_name: North East
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2024, label: reference year}
+    - {column: B, expected_value: Jul – Sep, label: reference quarter}
+  - value_id: north_west
+    label: North West
+    ordinal: 5
+    row_number: 1459
+    expected_row_header_column: C
+    expected_row_header: North West
+    geography_id: desnz:qep:pes:north_west
+    geography_level: statistical_scope
+    geography_name: North West
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2024, label: reference year}
+    - {column: B, expected_value: Jul – Sep, label: reference quarter}
+  - value_id: south_east
+    label: South East
+    ordinal: 6
+    row_number: 1460
+    expected_row_header_column: C
+    expected_row_header: South East
+    geography_id: desnz:qep:pes:south_east
+    geography_level: statistical_scope
+    geography_name: South East
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2024, label: reference year}
+    - {column: B, expected_value: Jul – Sep, label: reference quarter}
+  - value_id: south_wales
+    label: South Wales
+    ordinal: 7
+    row_number: 1461
+    expected_row_header_column: C
+    expected_row_header: South Wales
+    geography_id: desnz:qep:pes:south_wales
+    geography_level: statistical_scope
+    geography_name: South Wales
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2024, label: reference year}
+    - {column: B, expected_value: Jul – Sep, label: reference quarter}
+  - value_id: south_west
+    label: South West
+    ordinal: 8
+    row_number: 1462
+    expected_row_header_column: C
+    expected_row_header: South West
+    geography_id: desnz:qep:pes:south_west
+    geography_level: statistical_scope
+    geography_name: South West
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2024, label: reference year}
+    - {column: B, expected_value: Jul – Sep, label: reference quarter}
+  - value_id: southern
+    label: Southern
+    ordinal: 9
+    row_number: 1463
+    expected_row_header_column: C
+    expected_row_header: Southern
+    geography_id: desnz:qep:pes:southern
+    geography_level: statistical_scope
+    geography_name: Southern
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2024, label: reference year}
+    - {column: B, expected_value: Jul – Sep, label: reference quarter}
+  - value_id: west_midlands
+    label: West Midlands
+    ordinal: 10
+    row_number: 1464
+    expected_row_header_column: C
+    expected_row_header: West Midlands
+    geography_id: desnz:qep:pes:west_midlands
+    geography_level: statistical_scope
+    geography_name: West Midlands
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2024, label: reference year}
+    - {column: B, expected_value: Jul – Sep, label: reference quarter}
+  - value_id: yorkshire
+    label: Yorkshire
+    ordinal: 11
+    row_number: 1465
+    expected_row_header_column: C
+    expected_row_header: Yorkshire
+    geography_id: desnz:qep:pes:yorkshire
+    geography_level: statistical_scope
+    geography_name: Yorkshire
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2024, label: reference year}
+    - {column: B, expected_value: Jul – Sep, label: reference quarter}
+  - value_id: england_and_wales
+    label: England and Wales
+    ordinal: 12
+    row_number: 1466
+    expected_row_header_column: C
+    expected_row_header: England & Wales
+    geography_id: K04000001
+    geography_level: country
+    geography_name: England and Wales
+    geography_vintage: current
+    table_record_kind: subtotal
+    guard_cells:
+    - {column: A, expected_value: 2024, label: reference year}
+    - {column: B, expected_value: Jul – Sep, label: reference quarter}
+  - value_id: north_scotland
+    label: North Scotland
+    ordinal: 13
+    row_number: 1467
+    expected_row_header_column: C
+    expected_row_header: North Scotland
+    geography_id: desnz:qep:pes:north_scotland
+    geography_level: statistical_scope
+    geography_name: North Scotland
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2024, label: reference year}
+    - {column: B, expected_value: Jul – Sep, label: reference quarter}
+  - value_id: south_scotland
+    label: South Scotland
+    ordinal: 14
+    row_number: 1468
+    expected_row_header_column: C
+    expected_row_header: South Scotland
+    geography_id: desnz:qep:pes:south_scotland
+    geography_level: statistical_scope
+    geography_name: South Scotland
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2024, label: reference year}
+    - {column: B, expected_value: Jul – Sep, label: reference quarter}
+  - value_id: scotland
+    label: Scotland
+    ordinal: 15
+    row_number: 1469
+    expected_row_header_column: C
+    expected_row_header: Scotland
+    geography_id: S92000003
+    geography_level: country
+    geography_name: Scotland
+    geography_vintage: current
+    table_record_kind: subtotal
+    guard_cells:
+    - {column: A, expected_value: 2024, label: reference year}
+    - {column: B, expected_value: Jul – Sep, label: reference quarter}
+  - value_id: great_britain
+    label: Great Britain
+    ordinal: 16
+    row_number: 1470
+    expected_row_header_column: C
+    expected_row_header: Great Britain
+    geography_id: K03000001
+    geography_level: country
+    geography_name: Great Britain
+    geography_vintage: current
+    table_record_kind: subtotal
+    guard_cells:
+    - {column: A, expected_value: 2024, label: reference year}
+    - {column: B, expected_value: Jul – Sep, label: reference quarter}
+  - value_id: northern_ireland
+    label: Northern Ireland
+    ordinal: 17
+    row_number: 1471
+    expected_row_header_column: C
+    expected_row_header: Northern Ireland
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: current
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2024, label: reference year}
+    - {column: B, expected_value: Jul – Sep, label: reference quarter}
+  - value_id: united_kingdom
+    label: United Kingdom
+    ordinal: 18
+    row_number: 1472
+    expected_row_header_column: C
+    expected_row_header: United Kingdom
+    geography_id: K02000001
+    geography_level: country
+    geography_name: United Kingdom
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - {column: A, expected_value: 2024, label: reference year}
+    - {column: B, expected_value: Jul – Sep, label: reference quarter}
+  measures:
+  - measure_id: standard_credit
+    label: Credit (%)
+    ordinal: 0
+    column: D
+    source_column_id: standard_credit
+    expected_column_header_row: 9
+    expected_column_header: Credit (%)
+    concept: desnz.qep.domestic_electricity_payment_method_share
+    source_concept: desnz.qep.domestic_electricity_payment_method_share
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/quarterly-domestic-energy-price-statistics
+    concept_evidence_notes: 'Quarterly Energy Prices table 2.4.2, ''Regional variation of payment method
+      for standard electricity'', column ''Credit (%)'': the percentage of the region''s customers paying
+      by standard credit. Includes electricity customers on standard electricity tariffs only. Note 3.
+      Standard credit customers pay on receipt of their bill which is usually payment 3 months in arrears.
+      Data on gas and electricity tariffs is received directly from a sample of energy companies that
+      supply electricity and gas across the UK via a quarterly survey. In order for the sample data to
+      be comparable for the whole market, data is uplifted to Ofgem''s total customer numbers.'
+    unit: percent
+    aggregation: share
+    expected_cell_type: number
+    filters:
+      payment_method: standard_credit
+    constraints:
+    - {variable: payment_method, operator: ==, value: standard_credit, label: Payment method}
+  - measure_id: direct_debit
+    label: Direct Debit (%)
+    ordinal: 1
+    column: E
+    source_column_id: direct_debit
+    expected_column_header_row: 9
+    expected_column_header: Direct Debit (%)
+    concept: desnz.qep.domestic_electricity_payment_method_share
+    source_concept: desnz.qep.domestic_electricity_payment_method_share
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/quarterly-domestic-energy-price-statistics
+    concept_evidence_notes: 'Quarterly Energy Prices table 2.4.2, ''Regional variation of payment method
+      for standard electricity'', column ''Direct Debit (%)'': the percentage of the region''s customers
+      paying by direct debit. Includes electricity customers on standard electricity tariffs only. Note
+      4. Direct debit transfers an agreed or variable amount directly from the customer’s bank account
+      to the energy supplier. Data on gas and electricity tariffs is received directly from a sample of
+      energy companies that supply electricity and gas across the UK via a quarterly survey. In order
+      for the sample data to be comparable for the whole market, data is uplifted to Ofgem''s total customer
+      numbers.'
+    unit: percent
+    aggregation: share
+    expected_cell_type: number
+    filters:
+      payment_method: direct_debit
+    constraints:
+    - {variable: payment_method, operator: ==, value: direct_debit, label: Payment method}
+  - measure_id: prepayment
+    label: Prepayment (%)
+    ordinal: 2
+    column: F
+    source_column_id: prepayment
+    expected_column_header_row: 9
+    expected_column_header: Prepayment (%)
+    concept: desnz.qep.domestic_electricity_payment_method_share
+    source_concept: desnz.qep.domestic_electricity_payment_method_share
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/quarterly-domestic-energy-price-statistics
+    concept_evidence_notes: 'Quarterly Energy Prices table 2.4.2, ''Regional variation of payment method
+      for standard electricity'', column ''Prepayment (%)'': the percentage of the region''s customers
+      paying by prepayment. Includes electricity customers on standard electricity tariffs only. Note
+      5. Prepayment requires the customer to make advance payment before fuel can be used. Data on gas
+      and electricity tariffs is received directly from a sample of energy companies that supply electricity
+      and gas across the UK via a quarterly survey. In order for the sample data to be comparable for
+      the whole market, data is uplifted to Ofgem''s total customer numbers.'
+    unit: percent
+    aggregation: share
+    expected_cell_type: number
+    filters:
+      payment_method: prepayment
+    constraints:
+    - {variable: payment_method, operator: ==, value: prepayment, label: Payment method}
+- record_set_id: desnz.qep.table_2_4_2.2024_q4
+  provenance_class: survey_aggregate
+  assertion: observation
+  survey_instrument: DESNZ Quarterly Energy Prices supplier survey
+  record_set_spec_id: desnz.qep.table_2_4_2.payment_methods.quarterly.v1
+  source_record_id_prefix: desnz.qep.table_2_4_2.2024_q4
+  sheet_name: 2.4.2
+  period_type: quarter
+  period: 2024-Q4
+  period_coverage:
+    start_date: '2024-10-01'
+    end_date: '2024-12-31'
+    basis: calendar
+    source_period_label: 2024 Oct – Dec
+    notes: The quarter the publisher's survey of suppliers covers.
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: household
+  entity_role: domestic_energy_customer
+  domain: domestic_energy_prices
+  groupby_dimension: desnz.qep.price_region
+  shared_filters:
+    fuel: electricity
+    metering_arrangement: standard
+  shared_constraints:
+  - {variable: fuel, operator: ==, value: electricity, label: Fuel}
+  - {variable: metering_arrangement, operator: ==, value: standard, label: Metering arrangement}
+  rows:
+  - value_id: east_midlands
+    label: East Midlands
+    ordinal: 0
+    row_number: 1473
+    expected_row_header_column: C
+    expected_row_header: East Midlands
+    geography_id: desnz:qep:pes:east_midlands
+    geography_level: statistical_scope
+    geography_name: East Midlands
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2024, label: reference year}
+    - {column: B, expected_value: Oct – Dec, label: reference quarter}
+  - value_id: eastern
+    label: Eastern
+    ordinal: 1
+    row_number: 1474
+    expected_row_header_column: C
+    expected_row_header: Eastern
+    geography_id: desnz:qep:pes:eastern
+    geography_level: statistical_scope
+    geography_name: Eastern
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2024, label: reference year}
+    - {column: B, expected_value: Oct – Dec, label: reference quarter}
+  - value_id: london
+    label: London
+    ordinal: 2
+    row_number: 1475
+    expected_row_header_column: C
+    expected_row_header: London
+    geography_id: desnz:qep:pes:london
+    geography_level: statistical_scope
+    geography_name: London
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2024, label: reference year}
+    - {column: B, expected_value: Oct – Dec, label: reference quarter}
+  - value_id: merseyside_north_wales
+    label: Merseyside & North Wales
+    ordinal: 3
+    row_number: 1476
+    expected_row_header_column: C
+    expected_row_header: Merseyside & North Wales
+    geography_id: desnz:qep:pes:merseyside_and_north_wales
+    geography_level: statistical_scope
+    geography_name: Merseyside & North Wales
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2024, label: reference year}
+    - {column: B, expected_value: Oct – Dec, label: reference quarter}
+  - value_id: north_east
+    label: North East
+    ordinal: 4
+    row_number: 1477
+    expected_row_header_column: C
+    expected_row_header: North East
+    geography_id: desnz:qep:pes:north_east
+    geography_level: statistical_scope
+    geography_name: North East
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2024, label: reference year}
+    - {column: B, expected_value: Oct – Dec, label: reference quarter}
+  - value_id: north_west
+    label: North West
+    ordinal: 5
+    row_number: 1478
+    expected_row_header_column: C
+    expected_row_header: North West
+    geography_id: desnz:qep:pes:north_west
+    geography_level: statistical_scope
+    geography_name: North West
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2024, label: reference year}
+    - {column: B, expected_value: Oct – Dec, label: reference quarter}
+  - value_id: south_east
+    label: South East
+    ordinal: 6
+    row_number: 1479
+    expected_row_header_column: C
+    expected_row_header: South East
+    geography_id: desnz:qep:pes:south_east
+    geography_level: statistical_scope
+    geography_name: South East
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2024, label: reference year}
+    - {column: B, expected_value: Oct – Dec, label: reference quarter}
+  - value_id: south_wales
+    label: South Wales
+    ordinal: 7
+    row_number: 1480
+    expected_row_header_column: C
+    expected_row_header: South Wales
+    geography_id: desnz:qep:pes:south_wales
+    geography_level: statistical_scope
+    geography_name: South Wales
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2024, label: reference year}
+    - {column: B, expected_value: Oct – Dec, label: reference quarter}
+  - value_id: south_west
+    label: South West
+    ordinal: 8
+    row_number: 1481
+    expected_row_header_column: C
+    expected_row_header: South West
+    geography_id: desnz:qep:pes:south_west
+    geography_level: statistical_scope
+    geography_name: South West
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2024, label: reference year}
+    - {column: B, expected_value: Oct – Dec, label: reference quarter}
+  - value_id: southern
+    label: Southern
+    ordinal: 9
+    row_number: 1482
+    expected_row_header_column: C
+    expected_row_header: Southern
+    geography_id: desnz:qep:pes:southern
+    geography_level: statistical_scope
+    geography_name: Southern
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2024, label: reference year}
+    - {column: B, expected_value: Oct – Dec, label: reference quarter}
+  - value_id: west_midlands
+    label: West Midlands
+    ordinal: 10
+    row_number: 1483
+    expected_row_header_column: C
+    expected_row_header: West Midlands
+    geography_id: desnz:qep:pes:west_midlands
+    geography_level: statistical_scope
+    geography_name: West Midlands
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2024, label: reference year}
+    - {column: B, expected_value: Oct – Dec, label: reference quarter}
+  - value_id: yorkshire
+    label: Yorkshire
+    ordinal: 11
+    row_number: 1484
+    expected_row_header_column: C
+    expected_row_header: Yorkshire
+    geography_id: desnz:qep:pes:yorkshire
+    geography_level: statistical_scope
+    geography_name: Yorkshire
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2024, label: reference year}
+    - {column: B, expected_value: Oct – Dec, label: reference quarter}
+  - value_id: england_and_wales
+    label: England and Wales
+    ordinal: 12
+    row_number: 1485
+    expected_row_header_column: C
+    expected_row_header: England & Wales
+    geography_id: K04000001
+    geography_level: country
+    geography_name: England and Wales
+    geography_vintage: current
+    table_record_kind: subtotal
+    guard_cells:
+    - {column: A, expected_value: 2024, label: reference year}
+    - {column: B, expected_value: Oct – Dec, label: reference quarter}
+  - value_id: north_scotland
+    label: North Scotland
+    ordinal: 13
+    row_number: 1486
+    expected_row_header_column: C
+    expected_row_header: North Scotland
+    geography_id: desnz:qep:pes:north_scotland
+    geography_level: statistical_scope
+    geography_name: North Scotland
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2024, label: reference year}
+    - {column: B, expected_value: Oct – Dec, label: reference quarter}
+  - value_id: south_scotland
+    label: South Scotland
+    ordinal: 14
+    row_number: 1487
+    expected_row_header_column: C
+    expected_row_header: South Scotland
+    geography_id: desnz:qep:pes:south_scotland
+    geography_level: statistical_scope
+    geography_name: South Scotland
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2024, label: reference year}
+    - {column: B, expected_value: Oct – Dec, label: reference quarter}
+  - value_id: scotland
+    label: Scotland
+    ordinal: 15
+    row_number: 1488
+    expected_row_header_column: C
+    expected_row_header: Scotland
+    geography_id: S92000003
+    geography_level: country
+    geography_name: Scotland
+    geography_vintage: current
+    table_record_kind: subtotal
+    guard_cells:
+    - {column: A, expected_value: 2024, label: reference year}
+    - {column: B, expected_value: Oct – Dec, label: reference quarter}
+  - value_id: great_britain
+    label: Great Britain
+    ordinal: 16
+    row_number: 1489
+    expected_row_header_column: C
+    expected_row_header: Great Britain
+    geography_id: K03000001
+    geography_level: country
+    geography_name: Great Britain
+    geography_vintage: current
+    table_record_kind: subtotal
+    guard_cells:
+    - {column: A, expected_value: 2024, label: reference year}
+    - {column: B, expected_value: Oct – Dec, label: reference quarter}
+  - value_id: northern_ireland
+    label: Northern Ireland
+    ordinal: 17
+    row_number: 1490
+    expected_row_header_column: C
+    expected_row_header: Northern Ireland
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: current
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2024, label: reference year}
+    - {column: B, expected_value: Oct – Dec, label: reference quarter}
+  - value_id: united_kingdom
+    label: United Kingdom
+    ordinal: 18
+    row_number: 1491
+    expected_row_header_column: C
+    expected_row_header: United Kingdom
+    geography_id: K02000001
+    geography_level: country
+    geography_name: United Kingdom
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - {column: A, expected_value: 2024, label: reference year}
+    - {column: B, expected_value: Oct – Dec, label: reference quarter}
+  measures:
+  - measure_id: standard_credit
+    label: Credit (%)
+    ordinal: 0
+    column: D
+    source_column_id: standard_credit
+    expected_column_header_row: 9
+    expected_column_header: Credit (%)
+    concept: desnz.qep.domestic_electricity_payment_method_share
+    source_concept: desnz.qep.domestic_electricity_payment_method_share
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/quarterly-domestic-energy-price-statistics
+    concept_evidence_notes: 'Quarterly Energy Prices table 2.4.2, ''Regional variation of payment method
+      for standard electricity'', column ''Credit (%)'': the percentage of the region''s customers paying
+      by standard credit. Includes electricity customers on standard electricity tariffs only. Note 3.
+      Standard credit customers pay on receipt of their bill which is usually payment 3 months in arrears.
+      Data on gas and electricity tariffs is received directly from a sample of energy companies that
+      supply electricity and gas across the UK via a quarterly survey. In order for the sample data to
+      be comparable for the whole market, data is uplifted to Ofgem''s total customer numbers.'
+    unit: percent
+    aggregation: share
+    expected_cell_type: number
+    filters:
+      payment_method: standard_credit
+    constraints:
+    - {variable: payment_method, operator: ==, value: standard_credit, label: Payment method}
+  - measure_id: direct_debit
+    label: Direct Debit (%)
+    ordinal: 1
+    column: E
+    source_column_id: direct_debit
+    expected_column_header_row: 9
+    expected_column_header: Direct Debit (%)
+    concept: desnz.qep.domestic_electricity_payment_method_share
+    source_concept: desnz.qep.domestic_electricity_payment_method_share
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/quarterly-domestic-energy-price-statistics
+    concept_evidence_notes: 'Quarterly Energy Prices table 2.4.2, ''Regional variation of payment method
+      for standard electricity'', column ''Direct Debit (%)'': the percentage of the region''s customers
+      paying by direct debit. Includes electricity customers on standard electricity tariffs only. Note
+      4. Direct debit transfers an agreed or variable amount directly from the customer’s bank account
+      to the energy supplier. Data on gas and electricity tariffs is received directly from a sample of
+      energy companies that supply electricity and gas across the UK via a quarterly survey. In order
+      for the sample data to be comparable for the whole market, data is uplifted to Ofgem''s total customer
+      numbers.'
+    unit: percent
+    aggregation: share
+    expected_cell_type: number
+    filters:
+      payment_method: direct_debit
+    constraints:
+    - {variable: payment_method, operator: ==, value: direct_debit, label: Payment method}
+  - measure_id: prepayment
+    label: Prepayment (%)
+    ordinal: 2
+    column: F
+    source_column_id: prepayment
+    expected_column_header_row: 9
+    expected_column_header: Prepayment (%)
+    concept: desnz.qep.domestic_electricity_payment_method_share
+    source_concept: desnz.qep.domestic_electricity_payment_method_share
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/quarterly-domestic-energy-price-statistics
+    concept_evidence_notes: 'Quarterly Energy Prices table 2.4.2, ''Regional variation of payment method
+      for standard electricity'', column ''Prepayment (%)'': the percentage of the region''s customers
+      paying by prepayment. Includes electricity customers on standard electricity tariffs only. Note
+      5. Prepayment requires the customer to make advance payment before fuel can be used. Data on gas
+      and electricity tariffs is received directly from a sample of energy companies that supply electricity
+      and gas across the UK via a quarterly survey. In order for the sample data to be comparable for
+      the whole market, data is uplifted to Ofgem''s total customer numbers.'
+    unit: percent
+    aggregation: share
+    expected_cell_type: number
+    filters:
+      payment_method: prepayment
+    constraints:
+    - {variable: payment_method, operator: ==, value: prepayment, label: Payment method}
+- record_set_id: desnz.qep.table_2_4_2.2025_q1
+  provenance_class: survey_aggregate
+  assertion: observation
+  survey_instrument: DESNZ Quarterly Energy Prices supplier survey
+  record_set_spec_id: desnz.qep.table_2_4_2.payment_methods.quarterly.v1
+  source_record_id_prefix: desnz.qep.table_2_4_2.2025_q1
+  sheet_name: 2.4.2
+  period_type: quarter
+  period: 2025-Q1
+  period_coverage:
+    start_date: '2025-01-01'
+    end_date: '2025-03-31'
+    basis: calendar
+    source_period_label: 2025 Jan – Mar
+    notes: The quarter the publisher's survey of suppliers covers.
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: household
+  entity_role: domestic_energy_customer
+  domain: domestic_energy_prices
+  groupby_dimension: desnz.qep.price_region
+  shared_filters:
+    fuel: electricity
+    metering_arrangement: standard
+  shared_constraints:
+  - {variable: fuel, operator: ==, value: electricity, label: Fuel}
+  - {variable: metering_arrangement, operator: ==, value: standard, label: Metering arrangement}
+  rows:
+  - value_id: east_midlands
+    label: East Midlands
+    ordinal: 0
+    row_number: 1492
+    expected_row_header_column: C
+    expected_row_header: East Midlands
+    geography_id: desnz:qep:pes:east_midlands
+    geography_level: statistical_scope
+    geography_name: East Midlands
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2025, label: reference year}
+    - {column: B, expected_value: Jan – Mar, label: reference quarter}
+  - value_id: eastern
+    label: Eastern
+    ordinal: 1
+    row_number: 1493
+    expected_row_header_column: C
+    expected_row_header: Eastern
+    geography_id: desnz:qep:pes:eastern
+    geography_level: statistical_scope
+    geography_name: Eastern
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2025, label: reference year}
+    - {column: B, expected_value: Jan – Mar, label: reference quarter}
+  - value_id: london
+    label: London
+    ordinal: 2
+    row_number: 1494
+    expected_row_header_column: C
+    expected_row_header: London
+    geography_id: desnz:qep:pes:london
+    geography_level: statistical_scope
+    geography_name: London
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2025, label: reference year}
+    - {column: B, expected_value: Jan – Mar, label: reference quarter}
+  - value_id: merseyside_north_wales
+    label: Merseyside & North Wales
+    ordinal: 3
+    row_number: 1495
+    expected_row_header_column: C
+    expected_row_header: Merseyside & North Wales
+    geography_id: desnz:qep:pes:merseyside_and_north_wales
+    geography_level: statistical_scope
+    geography_name: Merseyside & North Wales
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2025, label: reference year}
+    - {column: B, expected_value: Jan – Mar, label: reference quarter}
+  - value_id: north_east
+    label: North East
+    ordinal: 4
+    row_number: 1496
+    expected_row_header_column: C
+    expected_row_header: North East
+    geography_id: desnz:qep:pes:north_east
+    geography_level: statistical_scope
+    geography_name: North East
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2025, label: reference year}
+    - {column: B, expected_value: Jan – Mar, label: reference quarter}
+  - value_id: north_west
+    label: North West
+    ordinal: 5
+    row_number: 1497
+    expected_row_header_column: C
+    expected_row_header: North West
+    geography_id: desnz:qep:pes:north_west
+    geography_level: statistical_scope
+    geography_name: North West
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2025, label: reference year}
+    - {column: B, expected_value: Jan – Mar, label: reference quarter}
+  - value_id: south_east
+    label: South East
+    ordinal: 6
+    row_number: 1498
+    expected_row_header_column: C
+    expected_row_header: South East
+    geography_id: desnz:qep:pes:south_east
+    geography_level: statistical_scope
+    geography_name: South East
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2025, label: reference year}
+    - {column: B, expected_value: Jan – Mar, label: reference quarter}
+  - value_id: south_wales
+    label: South Wales
+    ordinal: 7
+    row_number: 1499
+    expected_row_header_column: C
+    expected_row_header: South Wales
+    geography_id: desnz:qep:pes:south_wales
+    geography_level: statistical_scope
+    geography_name: South Wales
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2025, label: reference year}
+    - {column: B, expected_value: Jan – Mar, label: reference quarter}
+  - value_id: south_west
+    label: South West
+    ordinal: 8
+    row_number: 1500
+    expected_row_header_column: C
+    expected_row_header: South West
+    geography_id: desnz:qep:pes:south_west
+    geography_level: statistical_scope
+    geography_name: South West
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2025, label: reference year}
+    - {column: B, expected_value: Jan – Mar, label: reference quarter}
+  - value_id: southern
+    label: Southern
+    ordinal: 9
+    row_number: 1501
+    expected_row_header_column: C
+    expected_row_header: Southern
+    geography_id: desnz:qep:pes:southern
+    geography_level: statistical_scope
+    geography_name: Southern
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2025, label: reference year}
+    - {column: B, expected_value: Jan – Mar, label: reference quarter}
+  - value_id: west_midlands
+    label: West Midlands
+    ordinal: 10
+    row_number: 1502
+    expected_row_header_column: C
+    expected_row_header: West Midlands
+    geography_id: desnz:qep:pes:west_midlands
+    geography_level: statistical_scope
+    geography_name: West Midlands
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2025, label: reference year}
+    - {column: B, expected_value: Jan – Mar, label: reference quarter}
+  - value_id: yorkshire
+    label: Yorkshire
+    ordinal: 11
+    row_number: 1503
+    expected_row_header_column: C
+    expected_row_header: Yorkshire
+    geography_id: desnz:qep:pes:yorkshire
+    geography_level: statistical_scope
+    geography_name: Yorkshire
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2025, label: reference year}
+    - {column: B, expected_value: Jan – Mar, label: reference quarter}
+  - value_id: england_and_wales
+    label: England and Wales
+    ordinal: 12
+    row_number: 1504
+    expected_row_header_column: C
+    expected_row_header: England & Wales
+    geography_id: K04000001
+    geography_level: country
+    geography_name: England and Wales
+    geography_vintage: current
+    table_record_kind: subtotal
+    guard_cells:
+    - {column: A, expected_value: 2025, label: reference year}
+    - {column: B, expected_value: Jan – Mar, label: reference quarter}
+  - value_id: north_scotland
+    label: North Scotland
+    ordinal: 13
+    row_number: 1505
+    expected_row_header_column: C
+    expected_row_header: North Scotland
+    geography_id: desnz:qep:pes:north_scotland
+    geography_level: statistical_scope
+    geography_name: North Scotland
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2025, label: reference year}
+    - {column: B, expected_value: Jan – Mar, label: reference quarter}
+  - value_id: south_scotland
+    label: South Scotland
+    ordinal: 14
+    row_number: 1506
+    expected_row_header_column: C
+    expected_row_header: South Scotland
+    geography_id: desnz:qep:pes:south_scotland
+    geography_level: statistical_scope
+    geography_name: South Scotland
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2025, label: reference year}
+    - {column: B, expected_value: Jan – Mar, label: reference quarter}
+  - value_id: scotland
+    label: Scotland
+    ordinal: 15
+    row_number: 1507
+    expected_row_header_column: C
+    expected_row_header: Scotland
+    geography_id: S92000003
+    geography_level: country
+    geography_name: Scotland
+    geography_vintage: current
+    table_record_kind: subtotal
+    guard_cells:
+    - {column: A, expected_value: 2025, label: reference year}
+    - {column: B, expected_value: Jan – Mar, label: reference quarter}
+  - value_id: great_britain
+    label: Great Britain
+    ordinal: 16
+    row_number: 1508
+    expected_row_header_column: C
+    expected_row_header: Great Britain
+    geography_id: K03000001
+    geography_level: country
+    geography_name: Great Britain
+    geography_vintage: current
+    table_record_kind: subtotal
+    guard_cells:
+    - {column: A, expected_value: 2025, label: reference year}
+    - {column: B, expected_value: Jan – Mar, label: reference quarter}
+  - value_id: northern_ireland
+    label: Northern Ireland
+    ordinal: 17
+    row_number: 1509
+    expected_row_header_column: C
+    expected_row_header: Northern Ireland
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: current
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2025, label: reference year}
+    - {column: B, expected_value: Jan – Mar, label: reference quarter}
+  - value_id: united_kingdom
+    label: United Kingdom
+    ordinal: 18
+    row_number: 1510
+    expected_row_header_column: C
+    expected_row_header: United Kingdom
+    geography_id: K02000001
+    geography_level: country
+    geography_name: United Kingdom
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - {column: A, expected_value: 2025, label: reference year}
+    - {column: B, expected_value: Jan – Mar, label: reference quarter}
+  measures:
+  - measure_id: standard_credit
+    label: Credit (%)
+    ordinal: 0
+    column: D
+    source_column_id: standard_credit
+    expected_column_header_row: 9
+    expected_column_header: Credit (%)
+    concept: desnz.qep.domestic_electricity_payment_method_share
+    source_concept: desnz.qep.domestic_electricity_payment_method_share
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/quarterly-domestic-energy-price-statistics
+    concept_evidence_notes: 'Quarterly Energy Prices table 2.4.2, ''Regional variation of payment method
+      for standard electricity'', column ''Credit (%)'': the percentage of the region''s customers paying
+      by standard credit. Includes electricity customers on standard electricity tariffs only. Note 3.
+      Standard credit customers pay on receipt of their bill which is usually payment 3 months in arrears.
+      Data on gas and electricity tariffs is received directly from a sample of energy companies that
+      supply electricity and gas across the UK via a quarterly survey. In order for the sample data to
+      be comparable for the whole market, data is uplifted to Ofgem''s total customer numbers.'
+    unit: percent
+    aggregation: share
+    expected_cell_type: number
+    filters:
+      payment_method: standard_credit
+    constraints:
+    - {variable: payment_method, operator: ==, value: standard_credit, label: Payment method}
+  - measure_id: direct_debit
+    label: Direct Debit (%)
+    ordinal: 1
+    column: E
+    source_column_id: direct_debit
+    expected_column_header_row: 9
+    expected_column_header: Direct Debit (%)
+    concept: desnz.qep.domestic_electricity_payment_method_share
+    source_concept: desnz.qep.domestic_electricity_payment_method_share
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/quarterly-domestic-energy-price-statistics
+    concept_evidence_notes: 'Quarterly Energy Prices table 2.4.2, ''Regional variation of payment method
+      for standard electricity'', column ''Direct Debit (%)'': the percentage of the region''s customers
+      paying by direct debit. Includes electricity customers on standard electricity tariffs only. Note
+      4. Direct debit transfers an agreed or variable amount directly from the customer’s bank account
+      to the energy supplier. Data on gas and electricity tariffs is received directly from a sample of
+      energy companies that supply electricity and gas across the UK via a quarterly survey. In order
+      for the sample data to be comparable for the whole market, data is uplifted to Ofgem''s total customer
+      numbers.'
+    unit: percent
+    aggregation: share
+    expected_cell_type: number
+    filters:
+      payment_method: direct_debit
+    constraints:
+    - {variable: payment_method, operator: ==, value: direct_debit, label: Payment method}
+  - measure_id: prepayment
+    label: Prepayment (%)
+    ordinal: 2
+    column: F
+    source_column_id: prepayment
+    expected_column_header_row: 9
+    expected_column_header: Prepayment (%)
+    concept: desnz.qep.domestic_electricity_payment_method_share
+    source_concept: desnz.qep.domestic_electricity_payment_method_share
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/quarterly-domestic-energy-price-statistics
+    concept_evidence_notes: 'Quarterly Energy Prices table 2.4.2, ''Regional variation of payment method
+      for standard electricity'', column ''Prepayment (%)'': the percentage of the region''s customers
+      paying by prepayment. Includes electricity customers on standard electricity tariffs only. Note
+      5. Prepayment requires the customer to make advance payment before fuel can be used. Data on gas
+      and electricity tariffs is received directly from a sample of energy companies that supply electricity
+      and gas across the UK via a quarterly survey. In order for the sample data to be comparable for
+      the whole market, data is uplifted to Ofgem''s total customer numbers.'
+    unit: percent
+    aggregation: share
+    expected_cell_type: number
+    filters:
+      payment_method: prepayment
+    constraints:
+    - {variable: payment_method, operator: ==, value: prepayment, label: Payment method}
+- record_set_id: desnz.qep.table_2_4_2.2025_q2
+  provenance_class: survey_aggregate
+  assertion: observation
+  survey_instrument: DESNZ Quarterly Energy Prices supplier survey
+  record_set_spec_id: desnz.qep.table_2_4_2.payment_methods.quarterly.v1
+  source_record_id_prefix: desnz.qep.table_2_4_2.2025_q2
+  sheet_name: 2.4.2
+  period_type: quarter
+  period: 2025-Q2
+  period_coverage:
+    start_date: '2025-04-01'
+    end_date: '2025-06-30'
+    basis: calendar
+    source_period_label: 2025 Apr – Jun
+    notes: The quarter the publisher's survey of suppliers covers.
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: household
+  entity_role: domestic_energy_customer
+  domain: domestic_energy_prices
+  groupby_dimension: desnz.qep.price_region
+  shared_filters:
+    fuel: electricity
+    metering_arrangement: standard
+  shared_constraints:
+  - {variable: fuel, operator: ==, value: electricity, label: Fuel}
+  - {variable: metering_arrangement, operator: ==, value: standard, label: Metering arrangement}
+  rows:
+  - value_id: east_midlands
+    label: East Midlands
+    ordinal: 0
+    row_number: 1511
+    expected_row_header_column: C
+    expected_row_header: East Midlands
+    geography_id: desnz:qep:pes:east_midlands
+    geography_level: statistical_scope
+    geography_name: East Midlands
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2025, label: reference year}
+    - {column: B, expected_value: Apr – Jun, label: reference quarter}
+  - value_id: eastern
+    label: Eastern
+    ordinal: 1
+    row_number: 1512
+    expected_row_header_column: C
+    expected_row_header: Eastern
+    geography_id: desnz:qep:pes:eastern
+    geography_level: statistical_scope
+    geography_name: Eastern
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2025, label: reference year}
+    - {column: B, expected_value: Apr – Jun, label: reference quarter}
+  - value_id: london
+    label: London
+    ordinal: 2
+    row_number: 1513
+    expected_row_header_column: C
+    expected_row_header: London
+    geography_id: desnz:qep:pes:london
+    geography_level: statistical_scope
+    geography_name: London
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2025, label: reference year}
+    - {column: B, expected_value: Apr – Jun, label: reference quarter}
+  - value_id: merseyside_north_wales
+    label: Merseyside & North Wales
+    ordinal: 3
+    row_number: 1514
+    expected_row_header_column: C
+    expected_row_header: Merseyside & North Wales
+    geography_id: desnz:qep:pes:merseyside_and_north_wales
+    geography_level: statistical_scope
+    geography_name: Merseyside & North Wales
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2025, label: reference year}
+    - {column: B, expected_value: Apr – Jun, label: reference quarter}
+  - value_id: north_east
+    label: North East
+    ordinal: 4
+    row_number: 1515
+    expected_row_header_column: C
+    expected_row_header: North East
+    geography_id: desnz:qep:pes:north_east
+    geography_level: statistical_scope
+    geography_name: North East
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2025, label: reference year}
+    - {column: B, expected_value: Apr – Jun, label: reference quarter}
+  - value_id: north_west
+    label: North West
+    ordinal: 5
+    row_number: 1516
+    expected_row_header_column: C
+    expected_row_header: North West
+    geography_id: desnz:qep:pes:north_west
+    geography_level: statistical_scope
+    geography_name: North West
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2025, label: reference year}
+    - {column: B, expected_value: Apr – Jun, label: reference quarter}
+  - value_id: south_east
+    label: South East
+    ordinal: 6
+    row_number: 1517
+    expected_row_header_column: C
+    expected_row_header: South East
+    geography_id: desnz:qep:pes:south_east
+    geography_level: statistical_scope
+    geography_name: South East
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2025, label: reference year}
+    - {column: B, expected_value: Apr – Jun, label: reference quarter}
+  - value_id: south_wales
+    label: South Wales
+    ordinal: 7
+    row_number: 1518
+    expected_row_header_column: C
+    expected_row_header: South Wales
+    geography_id: desnz:qep:pes:south_wales
+    geography_level: statistical_scope
+    geography_name: South Wales
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2025, label: reference year}
+    - {column: B, expected_value: Apr – Jun, label: reference quarter}
+  - value_id: south_west
+    label: South West
+    ordinal: 8
+    row_number: 1519
+    expected_row_header_column: C
+    expected_row_header: South West
+    geography_id: desnz:qep:pes:south_west
+    geography_level: statistical_scope
+    geography_name: South West
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2025, label: reference year}
+    - {column: B, expected_value: Apr – Jun, label: reference quarter}
+  - value_id: southern
+    label: Southern
+    ordinal: 9
+    row_number: 1520
+    expected_row_header_column: C
+    expected_row_header: Southern
+    geography_id: desnz:qep:pes:southern
+    geography_level: statistical_scope
+    geography_name: Southern
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2025, label: reference year}
+    - {column: B, expected_value: Apr – Jun, label: reference quarter}
+  - value_id: west_midlands
+    label: West Midlands
+    ordinal: 10
+    row_number: 1521
+    expected_row_header_column: C
+    expected_row_header: West Midlands
+    geography_id: desnz:qep:pes:west_midlands
+    geography_level: statistical_scope
+    geography_name: West Midlands
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2025, label: reference year}
+    - {column: B, expected_value: Apr – Jun, label: reference quarter}
+  - value_id: yorkshire
+    label: Yorkshire
+    ordinal: 11
+    row_number: 1522
+    expected_row_header_column: C
+    expected_row_header: Yorkshire
+    geography_id: desnz:qep:pes:yorkshire
+    geography_level: statistical_scope
+    geography_name: Yorkshire
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2025, label: reference year}
+    - {column: B, expected_value: Apr – Jun, label: reference quarter}
+  - value_id: england_and_wales
+    label: England and Wales
+    ordinal: 12
+    row_number: 1523
+    expected_row_header_column: C
+    expected_row_header: England & Wales
+    geography_id: K04000001
+    geography_level: country
+    geography_name: England and Wales
+    geography_vintage: current
+    table_record_kind: subtotal
+    guard_cells:
+    - {column: A, expected_value: 2025, label: reference year}
+    - {column: B, expected_value: Apr – Jun, label: reference quarter}
+  - value_id: north_scotland
+    label: North Scotland
+    ordinal: 13
+    row_number: 1524
+    expected_row_header_column: C
+    expected_row_header: North Scotland
+    geography_id: desnz:qep:pes:north_scotland
+    geography_level: statistical_scope
+    geography_name: North Scotland
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2025, label: reference year}
+    - {column: B, expected_value: Apr – Jun, label: reference quarter}
+  - value_id: south_scotland
+    label: South Scotland
+    ordinal: 14
+    row_number: 1525
+    expected_row_header_column: C
+    expected_row_header: South Scotland
+    geography_id: desnz:qep:pes:south_scotland
+    geography_level: statistical_scope
+    geography_name: South Scotland
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2025, label: reference year}
+    - {column: B, expected_value: Apr – Jun, label: reference quarter}
+  - value_id: scotland
+    label: Scotland
+    ordinal: 15
+    row_number: 1526
+    expected_row_header_column: C
+    expected_row_header: Scotland
+    geography_id: S92000003
+    geography_level: country
+    geography_name: Scotland
+    geography_vintage: current
+    table_record_kind: subtotal
+    guard_cells:
+    - {column: A, expected_value: 2025, label: reference year}
+    - {column: B, expected_value: Apr – Jun, label: reference quarter}
+  - value_id: great_britain
+    label: Great Britain
+    ordinal: 16
+    row_number: 1527
+    expected_row_header_column: C
+    expected_row_header: Great Britain
+    geography_id: K03000001
+    geography_level: country
+    geography_name: Great Britain
+    geography_vintage: current
+    table_record_kind: subtotal
+    guard_cells:
+    - {column: A, expected_value: 2025, label: reference year}
+    - {column: B, expected_value: Apr – Jun, label: reference quarter}
+  - value_id: northern_ireland
+    label: Northern Ireland
+    ordinal: 17
+    row_number: 1528
+    expected_row_header_column: C
+    expected_row_header: Northern Ireland
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: current
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2025, label: reference year}
+    - {column: B, expected_value: Apr – Jun, label: reference quarter}
+  - value_id: united_kingdom
+    label: United Kingdom
+    ordinal: 18
+    row_number: 1529
+    expected_row_header_column: C
+    expected_row_header: United Kingdom
+    geography_id: K02000001
+    geography_level: country
+    geography_name: United Kingdom
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - {column: A, expected_value: 2025, label: reference year}
+    - {column: B, expected_value: Apr – Jun, label: reference quarter}
+  measures:
+  - measure_id: standard_credit
+    label: Credit (%)
+    ordinal: 0
+    column: D
+    source_column_id: standard_credit
+    expected_column_header_row: 9
+    expected_column_header: Credit (%)
+    concept: desnz.qep.domestic_electricity_payment_method_share
+    source_concept: desnz.qep.domestic_electricity_payment_method_share
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/quarterly-domestic-energy-price-statistics
+    concept_evidence_notes: 'Quarterly Energy Prices table 2.4.2, ''Regional variation of payment method
+      for standard electricity'', column ''Credit (%)'': the percentage of the region''s customers paying
+      by standard credit. Includes electricity customers on standard electricity tariffs only. Note 3.
+      Standard credit customers pay on receipt of their bill which is usually payment 3 months in arrears.
+      Data on gas and electricity tariffs is received directly from a sample of energy companies that
+      supply electricity and gas across the UK via a quarterly survey. In order for the sample data to
+      be comparable for the whole market, data is uplifted to Ofgem''s total customer numbers.'
+    unit: percent
+    aggregation: share
+    expected_cell_type: number
+    filters:
+      payment_method: standard_credit
+    constraints:
+    - {variable: payment_method, operator: ==, value: standard_credit, label: Payment method}
+  - measure_id: direct_debit
+    label: Direct Debit (%)
+    ordinal: 1
+    column: E
+    source_column_id: direct_debit
+    expected_column_header_row: 9
+    expected_column_header: Direct Debit (%)
+    concept: desnz.qep.domestic_electricity_payment_method_share
+    source_concept: desnz.qep.domestic_electricity_payment_method_share
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/quarterly-domestic-energy-price-statistics
+    concept_evidence_notes: 'Quarterly Energy Prices table 2.4.2, ''Regional variation of payment method
+      for standard electricity'', column ''Direct Debit (%)'': the percentage of the region''s customers
+      paying by direct debit. Includes electricity customers on standard electricity tariffs only. Note
+      4. Direct debit transfers an agreed or variable amount directly from the customer’s bank account
+      to the energy supplier. Data on gas and electricity tariffs is received directly from a sample of
+      energy companies that supply electricity and gas across the UK via a quarterly survey. In order
+      for the sample data to be comparable for the whole market, data is uplifted to Ofgem''s total customer
+      numbers.'
+    unit: percent
+    aggregation: share
+    expected_cell_type: number
+    filters:
+      payment_method: direct_debit
+    constraints:
+    - {variable: payment_method, operator: ==, value: direct_debit, label: Payment method}
+  - measure_id: prepayment
+    label: Prepayment (%)
+    ordinal: 2
+    column: F
+    source_column_id: prepayment
+    expected_column_header_row: 9
+    expected_column_header: Prepayment (%)
+    concept: desnz.qep.domestic_electricity_payment_method_share
+    source_concept: desnz.qep.domestic_electricity_payment_method_share
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/quarterly-domestic-energy-price-statistics
+    concept_evidence_notes: 'Quarterly Energy Prices table 2.4.2, ''Regional variation of payment method
+      for standard electricity'', column ''Prepayment (%)'': the percentage of the region''s customers
+      paying by prepayment. Includes electricity customers on standard electricity tariffs only. Note
+      5. Prepayment requires the customer to make advance payment before fuel can be used. Data on gas
+      and electricity tariffs is received directly from a sample of energy companies that supply electricity
+      and gas across the UK via a quarterly survey. In order for the sample data to be comparable for
+      the whole market, data is uplifted to Ofgem''s total customer numbers.'
+    unit: percent
+    aggregation: share
+    expected_cell_type: number
+    filters:
+      payment_method: prepayment
+    constraints:
+    - {variable: payment_method, operator: ==, value: prepayment, label: Payment method}
+- record_set_id: desnz.qep.table_2_4_2.2025_q3
+  provenance_class: survey_aggregate
+  assertion: observation
+  survey_instrument: DESNZ Quarterly Energy Prices supplier survey
+  record_set_spec_id: desnz.qep.table_2_4_2.payment_methods.quarterly.v1
+  source_record_id_prefix: desnz.qep.table_2_4_2.2025_q3
+  sheet_name: 2.4.2
+  period_type: quarter
+  period: 2025-Q3
+  period_coverage:
+    start_date: '2025-07-01'
+    end_date: '2025-09-30'
+    basis: calendar
+    source_period_label: 2025 Jul – Sep
+    notes: The quarter the publisher's survey of suppliers covers.
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: household
+  entity_role: domestic_energy_customer
+  domain: domestic_energy_prices
+  groupby_dimension: desnz.qep.price_region
+  shared_filters:
+    fuel: electricity
+    metering_arrangement: standard
+  shared_constraints:
+  - {variable: fuel, operator: ==, value: electricity, label: Fuel}
+  - {variable: metering_arrangement, operator: ==, value: standard, label: Metering arrangement}
+  rows:
+  - value_id: east_midlands
+    label: East Midlands
+    ordinal: 0
+    row_number: 1530
+    expected_row_header_column: C
+    expected_row_header: East Midlands
+    geography_id: desnz:qep:pes:east_midlands
+    geography_level: statistical_scope
+    geography_name: East Midlands
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2025, label: reference year}
+    - {column: B, expected_value: Jul – Sep, label: reference quarter}
+  - value_id: eastern
+    label: Eastern
+    ordinal: 1
+    row_number: 1531
+    expected_row_header_column: C
+    expected_row_header: Eastern
+    geography_id: desnz:qep:pes:eastern
+    geography_level: statistical_scope
+    geography_name: Eastern
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2025, label: reference year}
+    - {column: B, expected_value: Jul – Sep, label: reference quarter}
+  - value_id: london
+    label: London
+    ordinal: 2
+    row_number: 1532
+    expected_row_header_column: C
+    expected_row_header: London
+    geography_id: desnz:qep:pes:london
+    geography_level: statistical_scope
+    geography_name: London
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2025, label: reference year}
+    - {column: B, expected_value: Jul – Sep, label: reference quarter}
+  - value_id: merseyside_north_wales
+    label: Merseyside & North Wales
+    ordinal: 3
+    row_number: 1533
+    expected_row_header_column: C
+    expected_row_header: Merseyside & North Wales
+    geography_id: desnz:qep:pes:merseyside_and_north_wales
+    geography_level: statistical_scope
+    geography_name: Merseyside & North Wales
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2025, label: reference year}
+    - {column: B, expected_value: Jul – Sep, label: reference quarter}
+  - value_id: north_east
+    label: North East
+    ordinal: 4
+    row_number: 1534
+    expected_row_header_column: C
+    expected_row_header: North East
+    geography_id: desnz:qep:pes:north_east
+    geography_level: statistical_scope
+    geography_name: North East
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2025, label: reference year}
+    - {column: B, expected_value: Jul – Sep, label: reference quarter}
+  - value_id: north_west
+    label: North West
+    ordinal: 5
+    row_number: 1535
+    expected_row_header_column: C
+    expected_row_header: North West
+    geography_id: desnz:qep:pes:north_west
+    geography_level: statistical_scope
+    geography_name: North West
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2025, label: reference year}
+    - {column: B, expected_value: Jul – Sep, label: reference quarter}
+  - value_id: south_east
+    label: South East
+    ordinal: 6
+    row_number: 1536
+    expected_row_header_column: C
+    expected_row_header: South East
+    geography_id: desnz:qep:pes:south_east
+    geography_level: statistical_scope
+    geography_name: South East
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2025, label: reference year}
+    - {column: B, expected_value: Jul – Sep, label: reference quarter}
+  - value_id: south_wales
+    label: South Wales
+    ordinal: 7
+    row_number: 1537
+    expected_row_header_column: C
+    expected_row_header: South Wales
+    geography_id: desnz:qep:pes:south_wales
+    geography_level: statistical_scope
+    geography_name: South Wales
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2025, label: reference year}
+    - {column: B, expected_value: Jul – Sep, label: reference quarter}
+  - value_id: south_west
+    label: South West
+    ordinal: 8
+    row_number: 1538
+    expected_row_header_column: C
+    expected_row_header: South West
+    geography_id: desnz:qep:pes:south_west
+    geography_level: statistical_scope
+    geography_name: South West
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2025, label: reference year}
+    - {column: B, expected_value: Jul – Sep, label: reference quarter}
+  - value_id: southern
+    label: Southern
+    ordinal: 9
+    row_number: 1539
+    expected_row_header_column: C
+    expected_row_header: Southern
+    geography_id: desnz:qep:pes:southern
+    geography_level: statistical_scope
+    geography_name: Southern
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2025, label: reference year}
+    - {column: B, expected_value: Jul – Sep, label: reference quarter}
+  - value_id: west_midlands
+    label: West Midlands
+    ordinal: 10
+    row_number: 1540
+    expected_row_header_column: C
+    expected_row_header: West Midlands
+    geography_id: desnz:qep:pes:west_midlands
+    geography_level: statistical_scope
+    geography_name: West Midlands
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2025, label: reference year}
+    - {column: B, expected_value: Jul – Sep, label: reference quarter}
+  - value_id: yorkshire
+    label: Yorkshire
+    ordinal: 11
+    row_number: 1541
+    expected_row_header_column: C
+    expected_row_header: Yorkshire
+    geography_id: desnz:qep:pes:yorkshire
+    geography_level: statistical_scope
+    geography_name: Yorkshire
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2025, label: reference year}
+    - {column: B, expected_value: Jul – Sep, label: reference quarter}
+  - value_id: england_and_wales
+    label: England and Wales
+    ordinal: 12
+    row_number: 1542
+    expected_row_header_column: C
+    expected_row_header: England & Wales
+    geography_id: K04000001
+    geography_level: country
+    geography_name: England and Wales
+    geography_vintage: current
+    table_record_kind: subtotal
+    guard_cells:
+    - {column: A, expected_value: 2025, label: reference year}
+    - {column: B, expected_value: Jul – Sep, label: reference quarter}
+  - value_id: north_scotland
+    label: North Scotland
+    ordinal: 13
+    row_number: 1543
+    expected_row_header_column: C
+    expected_row_header: North Scotland
+    geography_id: desnz:qep:pes:north_scotland
+    geography_level: statistical_scope
+    geography_name: North Scotland
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2025, label: reference year}
+    - {column: B, expected_value: Jul – Sep, label: reference quarter}
+  - value_id: south_scotland
+    label: South Scotland
+    ordinal: 14
+    row_number: 1544
+    expected_row_header_column: C
+    expected_row_header: South Scotland
+    geography_id: desnz:qep:pes:south_scotland
+    geography_level: statistical_scope
+    geography_name: South Scotland
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2025, label: reference year}
+    - {column: B, expected_value: Jul – Sep, label: reference quarter}
+  - value_id: scotland
+    label: Scotland
+    ordinal: 15
+    row_number: 1545
+    expected_row_header_column: C
+    expected_row_header: Scotland
+    geography_id: S92000003
+    geography_level: country
+    geography_name: Scotland
+    geography_vintage: current
+    table_record_kind: subtotal
+    guard_cells:
+    - {column: A, expected_value: 2025, label: reference year}
+    - {column: B, expected_value: Jul – Sep, label: reference quarter}
+  - value_id: great_britain
+    label: Great Britain
+    ordinal: 16
+    row_number: 1546
+    expected_row_header_column: C
+    expected_row_header: Great Britain
+    geography_id: K03000001
+    geography_level: country
+    geography_name: Great Britain
+    geography_vintage: current
+    table_record_kind: subtotal
+    guard_cells:
+    - {column: A, expected_value: 2025, label: reference year}
+    - {column: B, expected_value: Jul – Sep, label: reference quarter}
+  - value_id: northern_ireland
+    label: Northern Ireland
+    ordinal: 17
+    row_number: 1547
+    expected_row_header_column: C
+    expected_row_header: Northern Ireland
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: current
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2025, label: reference year}
+    - {column: B, expected_value: Jul – Sep, label: reference quarter}
+  - value_id: united_kingdom
+    label: United Kingdom
+    ordinal: 18
+    row_number: 1548
+    expected_row_header_column: C
+    expected_row_header: United Kingdom
+    geography_id: K02000001
+    geography_level: country
+    geography_name: United Kingdom
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - {column: A, expected_value: 2025, label: reference year}
+    - {column: B, expected_value: Jul – Sep, label: reference quarter}
+  measures:
+  - measure_id: standard_credit
+    label: Credit (%)
+    ordinal: 0
+    column: D
+    source_column_id: standard_credit
+    expected_column_header_row: 9
+    expected_column_header: Credit (%)
+    concept: desnz.qep.domestic_electricity_payment_method_share
+    source_concept: desnz.qep.domestic_electricity_payment_method_share
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/quarterly-domestic-energy-price-statistics
+    concept_evidence_notes: 'Quarterly Energy Prices table 2.4.2, ''Regional variation of payment method
+      for standard electricity'', column ''Credit (%)'': the percentage of the region''s customers paying
+      by standard credit. Includes electricity customers on standard electricity tariffs only. Note 3.
+      Standard credit customers pay on receipt of their bill which is usually payment 3 months in arrears.
+      Data on gas and electricity tariffs is received directly from a sample of energy companies that
+      supply electricity and gas across the UK via a quarterly survey. In order for the sample data to
+      be comparable for the whole market, data is uplifted to Ofgem''s total customer numbers.'
+    unit: percent
+    aggregation: share
+    expected_cell_type: number
+    filters:
+      payment_method: standard_credit
+    constraints:
+    - {variable: payment_method, operator: ==, value: standard_credit, label: Payment method}
+  - measure_id: direct_debit
+    label: Direct Debit (%)
+    ordinal: 1
+    column: E
+    source_column_id: direct_debit
+    expected_column_header_row: 9
+    expected_column_header: Direct Debit (%)
+    concept: desnz.qep.domestic_electricity_payment_method_share
+    source_concept: desnz.qep.domestic_electricity_payment_method_share
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/quarterly-domestic-energy-price-statistics
+    concept_evidence_notes: 'Quarterly Energy Prices table 2.4.2, ''Regional variation of payment method
+      for standard electricity'', column ''Direct Debit (%)'': the percentage of the region''s customers
+      paying by direct debit. Includes electricity customers on standard electricity tariffs only. Note
+      4. Direct debit transfers an agreed or variable amount directly from the customer’s bank account
+      to the energy supplier. Data on gas and electricity tariffs is received directly from a sample of
+      energy companies that supply electricity and gas across the UK via a quarterly survey. In order
+      for the sample data to be comparable for the whole market, data is uplifted to Ofgem''s total customer
+      numbers.'
+    unit: percent
+    aggregation: share
+    expected_cell_type: number
+    filters:
+      payment_method: direct_debit
+    constraints:
+    - {variable: payment_method, operator: ==, value: direct_debit, label: Payment method}
+  - measure_id: prepayment
+    label: Prepayment (%)
+    ordinal: 2
+    column: F
+    source_column_id: prepayment
+    expected_column_header_row: 9
+    expected_column_header: Prepayment (%)
+    concept: desnz.qep.domestic_electricity_payment_method_share
+    source_concept: desnz.qep.domestic_electricity_payment_method_share
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/quarterly-domestic-energy-price-statistics
+    concept_evidence_notes: 'Quarterly Energy Prices table 2.4.2, ''Regional variation of payment method
+      for standard electricity'', column ''Prepayment (%)'': the percentage of the region''s customers
+      paying by prepayment. Includes electricity customers on standard electricity tariffs only. Note
+      5. Prepayment requires the customer to make advance payment before fuel can be used. Data on gas
+      and electricity tariffs is received directly from a sample of energy companies that supply electricity
+      and gas across the UK via a quarterly survey. In order for the sample data to be comparable for
+      the whole market, data is uplifted to Ofgem''s total customer numbers.'
+    unit: percent
+    aggregation: share
+    expected_cell_type: number
+    filters:
+      payment_method: prepayment
+    constraints:
+    - {variable: payment_method, operator: ==, value: prepayment, label: Payment method}
+- record_set_id: desnz.qep.table_2_4_2.2025_q4
+  provenance_class: survey_aggregate
+  assertion: observation
+  survey_instrument: DESNZ Quarterly Energy Prices supplier survey
+  record_set_spec_id: desnz.qep.table_2_4_2.payment_methods.quarterly.v1
+  source_record_id_prefix: desnz.qep.table_2_4_2.2025_q4
+  sheet_name: 2.4.2
+  period_type: quarter
+  period: 2025-Q4
+  period_coverage:
+    start_date: '2025-10-01'
+    end_date: '2025-12-31'
+    basis: calendar
+    source_period_label: 2025 Oct – Dec
+    notes: The quarter the publisher's survey of suppliers covers.
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: household
+  entity_role: domestic_energy_customer
+  domain: domestic_energy_prices
+  groupby_dimension: desnz.qep.price_region
+  shared_filters:
+    fuel: electricity
+    metering_arrangement: standard
+  shared_constraints:
+  - {variable: fuel, operator: ==, value: electricity, label: Fuel}
+  - {variable: metering_arrangement, operator: ==, value: standard, label: Metering arrangement}
+  rows:
+  - value_id: east_midlands
+    label: East Midlands
+    ordinal: 0
+    row_number: 1549
+    expected_row_header_column: C
+    expected_row_header: East Midlands
+    geography_id: desnz:qep:pes:east_midlands
+    geography_level: statistical_scope
+    geography_name: East Midlands
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2025, label: reference year}
+    - {column: B, expected_value: Oct – Dec, label: reference quarter}
+  - value_id: eastern
+    label: Eastern
+    ordinal: 1
+    row_number: 1550
+    expected_row_header_column: C
+    expected_row_header: Eastern
+    geography_id: desnz:qep:pes:eastern
+    geography_level: statistical_scope
+    geography_name: Eastern
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2025, label: reference year}
+    - {column: B, expected_value: Oct – Dec, label: reference quarter}
+  - value_id: london
+    label: London
+    ordinal: 2
+    row_number: 1551
+    expected_row_header_column: C
+    expected_row_header: London
+    geography_id: desnz:qep:pes:london
+    geography_level: statistical_scope
+    geography_name: London
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2025, label: reference year}
+    - {column: B, expected_value: Oct – Dec, label: reference quarter}
+  - value_id: merseyside_north_wales
+    label: Merseyside & North Wales
+    ordinal: 3
+    row_number: 1552
+    expected_row_header_column: C
+    expected_row_header: Merseyside & North Wales
+    geography_id: desnz:qep:pes:merseyside_and_north_wales
+    geography_level: statistical_scope
+    geography_name: Merseyside & North Wales
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2025, label: reference year}
+    - {column: B, expected_value: Oct – Dec, label: reference quarter}
+  - value_id: north_east
+    label: North East
+    ordinal: 4
+    row_number: 1553
+    expected_row_header_column: C
+    expected_row_header: North East
+    geography_id: desnz:qep:pes:north_east
+    geography_level: statistical_scope
+    geography_name: North East
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2025, label: reference year}
+    - {column: B, expected_value: Oct – Dec, label: reference quarter}
+  - value_id: north_west
+    label: North West
+    ordinal: 5
+    row_number: 1554
+    expected_row_header_column: C
+    expected_row_header: North West
+    geography_id: desnz:qep:pes:north_west
+    geography_level: statistical_scope
+    geography_name: North West
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2025, label: reference year}
+    - {column: B, expected_value: Oct – Dec, label: reference quarter}
+  - value_id: south_east
+    label: South East
+    ordinal: 6
+    row_number: 1555
+    expected_row_header_column: C
+    expected_row_header: South East
+    geography_id: desnz:qep:pes:south_east
+    geography_level: statistical_scope
+    geography_name: South East
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2025, label: reference year}
+    - {column: B, expected_value: Oct – Dec, label: reference quarter}
+  - value_id: south_wales
+    label: South Wales
+    ordinal: 7
+    row_number: 1556
+    expected_row_header_column: C
+    expected_row_header: South Wales
+    geography_id: desnz:qep:pes:south_wales
+    geography_level: statistical_scope
+    geography_name: South Wales
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2025, label: reference year}
+    - {column: B, expected_value: Oct – Dec, label: reference quarter}
+  - value_id: south_west
+    label: South West
+    ordinal: 8
+    row_number: 1557
+    expected_row_header_column: C
+    expected_row_header: South West
+    geography_id: desnz:qep:pes:south_west
+    geography_level: statistical_scope
+    geography_name: South West
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2025, label: reference year}
+    - {column: B, expected_value: Oct – Dec, label: reference quarter}
+  - value_id: southern
+    label: Southern
+    ordinal: 9
+    row_number: 1558
+    expected_row_header_column: C
+    expected_row_header: Southern
+    geography_id: desnz:qep:pes:southern
+    geography_level: statistical_scope
+    geography_name: Southern
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2025, label: reference year}
+    - {column: B, expected_value: Oct – Dec, label: reference quarter}
+  - value_id: west_midlands
+    label: West Midlands
+    ordinal: 10
+    row_number: 1559
+    expected_row_header_column: C
+    expected_row_header: West Midlands
+    geography_id: desnz:qep:pes:west_midlands
+    geography_level: statistical_scope
+    geography_name: West Midlands
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2025, label: reference year}
+    - {column: B, expected_value: Oct – Dec, label: reference quarter}
+  - value_id: yorkshire
+    label: Yorkshire
+    ordinal: 11
+    row_number: 1560
+    expected_row_header_column: C
+    expected_row_header: Yorkshire
+    geography_id: desnz:qep:pes:yorkshire
+    geography_level: statistical_scope
+    geography_name: Yorkshire
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2025, label: reference year}
+    - {column: B, expected_value: Oct – Dec, label: reference quarter}
+  - value_id: england_and_wales
+    label: England and Wales
+    ordinal: 12
+    row_number: 1561
+    expected_row_header_column: C
+    expected_row_header: England & Wales
+    geography_id: K04000001
+    geography_level: country
+    geography_name: England and Wales
+    geography_vintage: current
+    table_record_kind: subtotal
+    guard_cells:
+    - {column: A, expected_value: 2025, label: reference year}
+    - {column: B, expected_value: Oct – Dec, label: reference quarter}
+  - value_id: north_scotland
+    label: North Scotland
+    ordinal: 13
+    row_number: 1562
+    expected_row_header_column: C
+    expected_row_header: North Scotland
+    geography_id: desnz:qep:pes:north_scotland
+    geography_level: statistical_scope
+    geography_name: North Scotland
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2025, label: reference year}
+    - {column: B, expected_value: Oct – Dec, label: reference quarter}
+  - value_id: south_scotland
+    label: South Scotland
+    ordinal: 14
+    row_number: 1563
+    expected_row_header_column: C
+    expected_row_header: South Scotland
+    geography_id: desnz:qep:pes:south_scotland
+    geography_level: statistical_scope
+    geography_name: South Scotland
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2025, label: reference year}
+    - {column: B, expected_value: Oct – Dec, label: reference quarter}
+  - value_id: scotland
+    label: Scotland
+    ordinal: 15
+    row_number: 1564
+    expected_row_header_column: C
+    expected_row_header: Scotland
+    geography_id: S92000003
+    geography_level: country
+    geography_name: Scotland
+    geography_vintage: current
+    table_record_kind: subtotal
+    guard_cells:
+    - {column: A, expected_value: 2025, label: reference year}
+    - {column: B, expected_value: Oct – Dec, label: reference quarter}
+  - value_id: great_britain
+    label: Great Britain
+    ordinal: 16
+    row_number: 1565
+    expected_row_header_column: C
+    expected_row_header: Great Britain
+    geography_id: K03000001
+    geography_level: country
+    geography_name: Great Britain
+    geography_vintage: current
+    table_record_kind: subtotal
+    guard_cells:
+    - {column: A, expected_value: 2025, label: reference year}
+    - {column: B, expected_value: Oct – Dec, label: reference quarter}
+  - value_id: northern_ireland
+    label: Northern Ireland
+    ordinal: 17
+    row_number: 1566
+    expected_row_header_column: C
+    expected_row_header: Northern Ireland
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: current
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2025, label: reference year}
+    - {column: B, expected_value: Oct – Dec, label: reference quarter}
+  - value_id: united_kingdom
+    label: United Kingdom
+    ordinal: 18
+    row_number: 1567
+    expected_row_header_column: C
+    expected_row_header: United Kingdom
+    geography_id: K02000001
+    geography_level: country
+    geography_name: United Kingdom
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - {column: A, expected_value: 2025, label: reference year}
+    - {column: B, expected_value: Oct – Dec, label: reference quarter}
+  measures:
+  - measure_id: standard_credit
+    label: Credit (%)
+    ordinal: 0
+    column: D
+    source_column_id: standard_credit
+    expected_column_header_row: 9
+    expected_column_header: Credit (%)
+    concept: desnz.qep.domestic_electricity_payment_method_share
+    source_concept: desnz.qep.domestic_electricity_payment_method_share
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/quarterly-domestic-energy-price-statistics
+    concept_evidence_notes: 'Quarterly Energy Prices table 2.4.2, ''Regional variation of payment method
+      for standard electricity'', column ''Credit (%)'': the percentage of the region''s customers paying
+      by standard credit. Includes electricity customers on standard electricity tariffs only. Note 3.
+      Standard credit customers pay on receipt of their bill which is usually payment 3 months in arrears.
+      Data on gas and electricity tariffs is received directly from a sample of energy companies that
+      supply electricity and gas across the UK via a quarterly survey. In order for the sample data to
+      be comparable for the whole market, data is uplifted to Ofgem''s total customer numbers.'
+    unit: percent
+    aggregation: share
+    expected_cell_type: number
+    filters:
+      payment_method: standard_credit
+    constraints:
+    - {variable: payment_method, operator: ==, value: standard_credit, label: Payment method}
+  - measure_id: direct_debit
+    label: Direct Debit (%)
+    ordinal: 1
+    column: E
+    source_column_id: direct_debit
+    expected_column_header_row: 9
+    expected_column_header: Direct Debit (%)
+    concept: desnz.qep.domestic_electricity_payment_method_share
+    source_concept: desnz.qep.domestic_electricity_payment_method_share
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/quarterly-domestic-energy-price-statistics
+    concept_evidence_notes: 'Quarterly Energy Prices table 2.4.2, ''Regional variation of payment method
+      for standard electricity'', column ''Direct Debit (%)'': the percentage of the region''s customers
+      paying by direct debit. Includes electricity customers on standard electricity tariffs only. Note
+      4. Direct debit transfers an agreed or variable amount directly from the customer’s bank account
+      to the energy supplier. Data on gas and electricity tariffs is received directly from a sample of
+      energy companies that supply electricity and gas across the UK via a quarterly survey. In order
+      for the sample data to be comparable for the whole market, data is uplifted to Ofgem''s total customer
+      numbers.'
+    unit: percent
+    aggregation: share
+    expected_cell_type: number
+    filters:
+      payment_method: direct_debit
+    constraints:
+    - {variable: payment_method, operator: ==, value: direct_debit, label: Payment method}
+  - measure_id: prepayment
+    label: Prepayment (%)
+    ordinal: 2
+    column: F
+    source_column_id: prepayment
+    expected_column_header_row: 9
+    expected_column_header: Prepayment (%)
+    concept: desnz.qep.domestic_electricity_payment_method_share
+    source_concept: desnz.qep.domestic_electricity_payment_method_share
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/quarterly-domestic-energy-price-statistics
+    concept_evidence_notes: 'Quarterly Energy Prices table 2.4.2, ''Regional variation of payment method
+      for standard electricity'', column ''Prepayment (%)'': the percentage of the region''s customers
+      paying by prepayment. Includes electricity customers on standard electricity tariffs only. Note
+      5. Prepayment requires the customer to make advance payment before fuel can be used. Data on gas
+      and electricity tariffs is received directly from a sample of energy companies that supply electricity
+      and gas across the UK via a quarterly survey. In order for the sample data to be comparable for
+      the whole market, data is uplifted to Ofgem''s total customer numbers.'
+    unit: percent
+    aggregation: share
+    expected_cell_type: number
+    filters:
+      payment_method: prepayment
+    constraints:
+    - {variable: payment_method, operator: ==, value: prepayment, label: Payment method}
+- record_set_id: desnz.qep.table_2_4_2.2026_q1
+  provenance_class: survey_aggregate
+  assertion: observation
+  survey_instrument: DESNZ Quarterly Energy Prices supplier survey
+  record_set_spec_id: desnz.qep.table_2_4_2.payment_methods.quarterly.v1
+  source_record_id_prefix: desnz.qep.table_2_4_2.2026_q1
+  sheet_name: 2.4.2
+  period_type: quarter
+  period: 2026-Q1
+  period_coverage:
+    start_date: '2026-01-01'
+    end_date: '2026-03-31'
+    basis: calendar
+    source_period_label: 2026 Jan – Mar
+    notes: The quarter the publisher's survey of suppliers covers.
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: household
+  entity_role: domestic_energy_customer
+  domain: domestic_energy_prices
+  groupby_dimension: desnz.qep.price_region
+  shared_filters:
+    fuel: electricity
+    metering_arrangement: standard
+  shared_constraints:
+  - {variable: fuel, operator: ==, value: electricity, label: Fuel}
+  - {variable: metering_arrangement, operator: ==, value: standard, label: Metering arrangement}
+  rows:
+  - value_id: east_midlands
+    label: East Midlands
+    ordinal: 0
+    row_number: 1568
+    expected_row_header_column: C
+    expected_row_header: East Midlands
+    geography_id: desnz:qep:pes:east_midlands
+    geography_level: statistical_scope
+    geography_name: East Midlands
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2026, label: reference year}
+    - {column: B, expected_value: Jan – Mar, label: reference quarter}
+  - value_id: eastern
+    label: Eastern
+    ordinal: 1
+    row_number: 1569
+    expected_row_header_column: C
+    expected_row_header: Eastern
+    geography_id: desnz:qep:pes:eastern
+    geography_level: statistical_scope
+    geography_name: Eastern
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2026, label: reference year}
+    - {column: B, expected_value: Jan – Mar, label: reference quarter}
+  - value_id: london
+    label: London
+    ordinal: 2
+    row_number: 1570
+    expected_row_header_column: C
+    expected_row_header: London
+    geography_id: desnz:qep:pes:london
+    geography_level: statistical_scope
+    geography_name: London
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2026, label: reference year}
+    - {column: B, expected_value: Jan – Mar, label: reference quarter}
+  - value_id: merseyside_north_wales
+    label: Merseyside & North Wales
+    ordinal: 3
+    row_number: 1571
+    expected_row_header_column: C
+    expected_row_header: Merseyside & North Wales
+    geography_id: desnz:qep:pes:merseyside_and_north_wales
+    geography_level: statistical_scope
+    geography_name: Merseyside & North Wales
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2026, label: reference year}
+    - {column: B, expected_value: Jan – Mar, label: reference quarter}
+  - value_id: north_east
+    label: North East
+    ordinal: 4
+    row_number: 1572
+    expected_row_header_column: C
+    expected_row_header: North East
+    geography_id: desnz:qep:pes:north_east
+    geography_level: statistical_scope
+    geography_name: North East
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2026, label: reference year}
+    - {column: B, expected_value: Jan – Mar, label: reference quarter}
+  - value_id: north_west
+    label: North West
+    ordinal: 5
+    row_number: 1573
+    expected_row_header_column: C
+    expected_row_header: North West
+    geography_id: desnz:qep:pes:north_west
+    geography_level: statistical_scope
+    geography_name: North West
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2026, label: reference year}
+    - {column: B, expected_value: Jan – Mar, label: reference quarter}
+  - value_id: south_east
+    label: South East
+    ordinal: 6
+    row_number: 1574
+    expected_row_header_column: C
+    expected_row_header: South East
+    geography_id: desnz:qep:pes:south_east
+    geography_level: statistical_scope
+    geography_name: South East
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2026, label: reference year}
+    - {column: B, expected_value: Jan – Mar, label: reference quarter}
+  - value_id: south_wales
+    label: South Wales
+    ordinal: 7
+    row_number: 1575
+    expected_row_header_column: C
+    expected_row_header: South Wales
+    geography_id: desnz:qep:pes:south_wales
+    geography_level: statistical_scope
+    geography_name: South Wales
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2026, label: reference year}
+    - {column: B, expected_value: Jan – Mar, label: reference quarter}
+  - value_id: south_west
+    label: South West
+    ordinal: 8
+    row_number: 1576
+    expected_row_header_column: C
+    expected_row_header: South West
+    geography_id: desnz:qep:pes:south_west
+    geography_level: statistical_scope
+    geography_name: South West
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2026, label: reference year}
+    - {column: B, expected_value: Jan – Mar, label: reference quarter}
+  - value_id: southern
+    label: Southern
+    ordinal: 9
+    row_number: 1577
+    expected_row_header_column: C
+    expected_row_header: Southern
+    geography_id: desnz:qep:pes:southern
+    geography_level: statistical_scope
+    geography_name: Southern
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2026, label: reference year}
+    - {column: B, expected_value: Jan – Mar, label: reference quarter}
+  - value_id: west_midlands
+    label: West Midlands
+    ordinal: 10
+    row_number: 1578
+    expected_row_header_column: C
+    expected_row_header: West Midlands
+    geography_id: desnz:qep:pes:west_midlands
+    geography_level: statistical_scope
+    geography_name: West Midlands
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2026, label: reference year}
+    - {column: B, expected_value: Jan – Mar, label: reference quarter}
+  - value_id: yorkshire
+    label: Yorkshire
+    ordinal: 11
+    row_number: 1579
+    expected_row_header_column: C
+    expected_row_header: Yorkshire
+    geography_id: desnz:qep:pes:yorkshire
+    geography_level: statistical_scope
+    geography_name: Yorkshire
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2026, label: reference year}
+    - {column: B, expected_value: Jan – Mar, label: reference quarter}
+  - value_id: england_and_wales
+    label: England and Wales
+    ordinal: 12
+    row_number: 1580
+    expected_row_header_column: C
+    expected_row_header: England & Wales
+    geography_id: K04000001
+    geography_level: country
+    geography_name: England and Wales
+    geography_vintage: current
+    table_record_kind: subtotal
+    guard_cells:
+    - {column: A, expected_value: 2026, label: reference year}
+    - {column: B, expected_value: Jan – Mar, label: reference quarter}
+  - value_id: north_scotland
+    label: North Scotland
+    ordinal: 13
+    row_number: 1581
+    expected_row_header_column: C
+    expected_row_header: North Scotland
+    geography_id: desnz:qep:pes:north_scotland
+    geography_level: statistical_scope
+    geography_name: North Scotland
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2026, label: reference year}
+    - {column: B, expected_value: Jan – Mar, label: reference quarter}
+  - value_id: south_scotland
+    label: South Scotland
+    ordinal: 14
+    row_number: 1582
+    expected_row_header_column: C
+    expected_row_header: South Scotland
+    geography_id: desnz:qep:pes:south_scotland
+    geography_level: statistical_scope
+    geography_name: South Scotland
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2026, label: reference year}
+    - {column: B, expected_value: Jan – Mar, label: reference quarter}
+  - value_id: scotland
+    label: Scotland
+    ordinal: 15
+    row_number: 1583
+    expected_row_header_column: C
+    expected_row_header: Scotland
+    geography_id: S92000003
+    geography_level: country
+    geography_name: Scotland
+    geography_vintage: current
+    table_record_kind: subtotal
+    guard_cells:
+    - {column: A, expected_value: 2026, label: reference year}
+    - {column: B, expected_value: Jan – Mar, label: reference quarter}
+  - value_id: great_britain
+    label: Great Britain
+    ordinal: 16
+    row_number: 1584
+    expected_row_header_column: C
+    expected_row_header: Great Britain
+    geography_id: K03000001
+    geography_level: country
+    geography_name: Great Britain
+    geography_vintage: current
+    table_record_kind: subtotal
+    guard_cells:
+    - {column: A, expected_value: 2026, label: reference year}
+    - {column: B, expected_value: Jan – Mar, label: reference quarter}
+  - value_id: northern_ireland
+    label: Northern Ireland
+    ordinal: 17
+    row_number: 1585
+    expected_row_header_column: C
+    expected_row_header: Northern Ireland
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: current
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2026, label: reference year}
+    - {column: B, expected_value: Jan – Mar, label: reference quarter}
+  - value_id: united_kingdom
+    label: United Kingdom
+    ordinal: 18
+    row_number: 1586
+    expected_row_header_column: C
+    expected_row_header: United Kingdom
+    geography_id: K02000001
+    geography_level: country
+    geography_name: United Kingdom
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - {column: A, expected_value: 2026, label: reference year}
+    - {column: B, expected_value: Jan – Mar, label: reference quarter}
+  measures:
+  - measure_id: standard_credit
+    label: Credit (%)
+    ordinal: 0
+    column: D
+    source_column_id: standard_credit
+    expected_column_header_row: 9
+    expected_column_header: Credit (%)
+    concept: desnz.qep.domestic_electricity_payment_method_share
+    source_concept: desnz.qep.domestic_electricity_payment_method_share
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/quarterly-domestic-energy-price-statistics
+    concept_evidence_notes: 'Quarterly Energy Prices table 2.4.2, ''Regional variation of payment method
+      for standard electricity'', column ''Credit (%)'': the percentage of the region''s customers paying
+      by standard credit. Includes electricity customers on standard electricity tariffs only. Note 3.
+      Standard credit customers pay on receipt of their bill which is usually payment 3 months in arrears.
+      Data on gas and electricity tariffs is received directly from a sample of energy companies that
+      supply electricity and gas across the UK via a quarterly survey. In order for the sample data to
+      be comparable for the whole market, data is uplifted to Ofgem''s total customer numbers.'
+    unit: percent
+    aggregation: share
+    expected_cell_type: number
+    filters:
+      payment_method: standard_credit
+    constraints:
+    - {variable: payment_method, operator: ==, value: standard_credit, label: Payment method}
+  - measure_id: direct_debit
+    label: Direct Debit (%)
+    ordinal: 1
+    column: E
+    source_column_id: direct_debit
+    expected_column_header_row: 9
+    expected_column_header: Direct Debit (%)
+    concept: desnz.qep.domestic_electricity_payment_method_share
+    source_concept: desnz.qep.domestic_electricity_payment_method_share
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/quarterly-domestic-energy-price-statistics
+    concept_evidence_notes: 'Quarterly Energy Prices table 2.4.2, ''Regional variation of payment method
+      for standard electricity'', column ''Direct Debit (%)'': the percentage of the region''s customers
+      paying by direct debit. Includes electricity customers on standard electricity tariffs only. Note
+      4. Direct debit transfers an agreed or variable amount directly from the customer’s bank account
+      to the energy supplier. Data on gas and electricity tariffs is received directly from a sample of
+      energy companies that supply electricity and gas across the UK via a quarterly survey. In order
+      for the sample data to be comparable for the whole market, data is uplifted to Ofgem''s total customer
+      numbers.'
+    unit: percent
+    aggregation: share
+    expected_cell_type: number
+    filters:
+      payment_method: direct_debit
+    constraints:
+    - {variable: payment_method, operator: ==, value: direct_debit, label: Payment method}
+  - measure_id: prepayment
+    label: Prepayment (%)
+    ordinal: 2
+    column: F
+    source_column_id: prepayment
+    expected_column_header_row: 9
+    expected_column_header: Prepayment (%)
+    concept: desnz.qep.domestic_electricity_payment_method_share
+    source_concept: desnz.qep.domestic_electricity_payment_method_share
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/quarterly-domestic-energy-price-statistics
+    concept_evidence_notes: 'Quarterly Energy Prices table 2.4.2, ''Regional variation of payment method
+      for standard electricity'', column ''Prepayment (%)'': the percentage of the region''s customers
+      paying by prepayment. Includes electricity customers on standard electricity tariffs only. Note
+      5. Prepayment requires the customer to make advance payment before fuel can be used. Data on gas
+      and electricity tariffs is received directly from a sample of energy companies that supply electricity
+      and gas across the UK via a quarterly survey. In order for the sample data to be comparable for
+      the whole market, data is uplifted to Ofgem''s total customer numbers.'
+    unit: percent
+    aggregation: share
+    expected_cell_type: number
+    filters:
+      payment_method: prepayment
+    constraints:
+    - {variable: payment_method, operator: ==, value: prepayment, label: Payment method}
+- record_set_id: desnz.qep.table_2_4_2.2026_q2
+  provenance_class: survey_aggregate
+  assertion: observation
+  survey_instrument: DESNZ Quarterly Energy Prices supplier survey
+  record_set_spec_id: desnz.qep.table_2_4_2.payment_methods.quarterly.v1
+  source_record_id_prefix: desnz.qep.table_2_4_2.2026_q2
+  sheet_name: 2.4.2
+  period_type: quarter
+  period: 2026-Q2
+  period_coverage:
+    start_date: '2026-04-01'
+    end_date: '2026-06-30'
+    basis: calendar
+    source_period_label: 2026 Apr – Jun
+    notes: The quarter the publisher's survey of suppliers covers.
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: household
+  entity_role: domestic_energy_customer
+  domain: domestic_energy_prices
+  groupby_dimension: desnz.qep.price_region
+  shared_filters:
+    fuel: electricity
+    metering_arrangement: standard
+  shared_constraints:
+  - {variable: fuel, operator: ==, value: electricity, label: Fuel}
+  - {variable: metering_arrangement, operator: ==, value: standard, label: Metering arrangement}
+  rows:
+  - value_id: east_midlands
+    label: East Midlands
+    ordinal: 0
+    row_number: 1587
+    expected_row_header_column: C
+    expected_row_header: East Midlands
+    geography_id: desnz:qep:pes:east_midlands
+    geography_level: statistical_scope
+    geography_name: East Midlands
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2026, label: reference year}
+    - {column: B, expected_value: Apr – Jun, label: reference quarter}
+  - value_id: eastern
+    label: Eastern
+    ordinal: 1
+    row_number: 1588
+    expected_row_header_column: C
+    expected_row_header: Eastern
+    geography_id: desnz:qep:pes:eastern
+    geography_level: statistical_scope
+    geography_name: Eastern
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2026, label: reference year}
+    - {column: B, expected_value: Apr – Jun, label: reference quarter}
+  - value_id: london
+    label: London
+    ordinal: 2
+    row_number: 1589
+    expected_row_header_column: C
+    expected_row_header: London
+    geography_id: desnz:qep:pes:london
+    geography_level: statistical_scope
+    geography_name: London
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2026, label: reference year}
+    - {column: B, expected_value: Apr – Jun, label: reference quarter}
+  - value_id: merseyside_north_wales
+    label: Merseyside & North Wales
+    ordinal: 3
+    row_number: 1590
+    expected_row_header_column: C
+    expected_row_header: Merseyside & North Wales
+    geography_id: desnz:qep:pes:merseyside_and_north_wales
+    geography_level: statistical_scope
+    geography_name: Merseyside & North Wales
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2026, label: reference year}
+    - {column: B, expected_value: Apr – Jun, label: reference quarter}
+  - value_id: north_east
+    label: North East
+    ordinal: 4
+    row_number: 1591
+    expected_row_header_column: C
+    expected_row_header: North East
+    geography_id: desnz:qep:pes:north_east
+    geography_level: statistical_scope
+    geography_name: North East
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2026, label: reference year}
+    - {column: B, expected_value: Apr – Jun, label: reference quarter}
+  - value_id: north_west
+    label: North West
+    ordinal: 5
+    row_number: 1592
+    expected_row_header_column: C
+    expected_row_header: North West
+    geography_id: desnz:qep:pes:north_west
+    geography_level: statistical_scope
+    geography_name: North West
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2026, label: reference year}
+    - {column: B, expected_value: Apr – Jun, label: reference quarter}
+  - value_id: south_east
+    label: South East
+    ordinal: 6
+    row_number: 1593
+    expected_row_header_column: C
+    expected_row_header: South East
+    geography_id: desnz:qep:pes:south_east
+    geography_level: statistical_scope
+    geography_name: South East
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2026, label: reference year}
+    - {column: B, expected_value: Apr – Jun, label: reference quarter}
+  - value_id: south_wales
+    label: South Wales
+    ordinal: 7
+    row_number: 1594
+    expected_row_header_column: C
+    expected_row_header: South Wales
+    geography_id: desnz:qep:pes:south_wales
+    geography_level: statistical_scope
+    geography_name: South Wales
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2026, label: reference year}
+    - {column: B, expected_value: Apr – Jun, label: reference quarter}
+  - value_id: south_west
+    label: South West
+    ordinal: 8
+    row_number: 1595
+    expected_row_header_column: C
+    expected_row_header: South West
+    geography_id: desnz:qep:pes:south_west
+    geography_level: statistical_scope
+    geography_name: South West
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2026, label: reference year}
+    - {column: B, expected_value: Apr – Jun, label: reference quarter}
+  - value_id: southern
+    label: Southern
+    ordinal: 9
+    row_number: 1596
+    expected_row_header_column: C
+    expected_row_header: Southern
+    geography_id: desnz:qep:pes:southern
+    geography_level: statistical_scope
+    geography_name: Southern
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2026, label: reference year}
+    - {column: B, expected_value: Apr – Jun, label: reference quarter}
+  - value_id: west_midlands
+    label: West Midlands
+    ordinal: 10
+    row_number: 1597
+    expected_row_header_column: C
+    expected_row_header: West Midlands
+    geography_id: desnz:qep:pes:west_midlands
+    geography_level: statistical_scope
+    geography_name: West Midlands
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2026, label: reference year}
+    - {column: B, expected_value: Apr – Jun, label: reference quarter}
+  - value_id: yorkshire
+    label: Yorkshire
+    ordinal: 11
+    row_number: 1598
+    expected_row_header_column: C
+    expected_row_header: Yorkshire
+    geography_id: desnz:qep:pes:yorkshire
+    geography_level: statistical_scope
+    geography_name: Yorkshire
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2026, label: reference year}
+    - {column: B, expected_value: Apr – Jun, label: reference quarter}
+  - value_id: england_and_wales
+    label: England and Wales
+    ordinal: 12
+    row_number: 1599
+    expected_row_header_column: C
+    expected_row_header: England & Wales
+    geography_id: K04000001
+    geography_level: country
+    geography_name: England and Wales
+    geography_vintage: current
+    table_record_kind: subtotal
+    guard_cells:
+    - {column: A, expected_value: 2026, label: reference year}
+    - {column: B, expected_value: Apr – Jun, label: reference quarter}
+  - value_id: north_scotland
+    label: North Scotland
+    ordinal: 13
+    row_number: 1600
+    expected_row_header_column: C
+    expected_row_header: North Scotland
+    geography_id: desnz:qep:pes:north_scotland
+    geography_level: statistical_scope
+    geography_name: North Scotland
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2026, label: reference year}
+    - {column: B, expected_value: Apr – Jun, label: reference quarter}
+  - value_id: south_scotland
+    label: South Scotland
+    ordinal: 14
+    row_number: 1601
+    expected_row_header_column: C
+    expected_row_header: South Scotland
+    geography_id: desnz:qep:pes:south_scotland
+    geography_level: statistical_scope
+    geography_name: South Scotland
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2026, label: reference year}
+    - {column: B, expected_value: Apr – Jun, label: reference quarter}
+  - value_id: scotland
+    label: Scotland
+    ordinal: 15
+    row_number: 1602
+    expected_row_header_column: C
+    expected_row_header: Scotland
+    geography_id: S92000003
+    geography_level: country
+    geography_name: Scotland
+    geography_vintage: current
+    table_record_kind: subtotal
+    guard_cells:
+    - {column: A, expected_value: 2026, label: reference year}
+    - {column: B, expected_value: Apr – Jun, label: reference quarter}
+  - value_id: great_britain
+    label: Great Britain
+    ordinal: 16
+    row_number: 1603
+    expected_row_header_column: C
+    expected_row_header: Great Britain
+    geography_id: K03000001
+    geography_level: country
+    geography_name: Great Britain
+    geography_vintage: current
+    table_record_kind: subtotal
+    guard_cells:
+    - {column: A, expected_value: 2026, label: reference year}
+    - {column: B, expected_value: Apr – Jun, label: reference quarter}
+  - value_id: northern_ireland
+    label: Northern Ireland
+    ordinal: 17
+    row_number: 1604
+    expected_row_header_column: C
+    expected_row_header: Northern Ireland
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: current
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2026, label: reference year}
+    - {column: B, expected_value: Apr – Jun, label: reference quarter}
+  - value_id: united_kingdom
+    label: United Kingdom
+    ordinal: 18
+    row_number: 1605
+    expected_row_header_column: C
+    expected_row_header: UK
+    geography_id: K02000001
+    geography_level: country
+    geography_name: United Kingdom
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - {column: A, expected_value: 2026, label: reference year}
+    - {column: B, expected_value: Apr – Jun, label: reference quarter}
+  measures:
+  - measure_id: standard_credit
+    label: Credit (%)
+    ordinal: 0
+    column: D
+    source_column_id: standard_credit
+    expected_column_header_row: 9
+    expected_column_header: Credit (%)
+    concept: desnz.qep.domestic_electricity_payment_method_share
+    source_concept: desnz.qep.domestic_electricity_payment_method_share
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/quarterly-domestic-energy-price-statistics
+    concept_evidence_notes: 'Quarterly Energy Prices table 2.4.2, ''Regional variation of payment method
+      for standard electricity'', column ''Credit (%)'': the percentage of the region''s customers paying
+      by standard credit. Includes electricity customers on standard electricity tariffs only. Note 3.
+      Standard credit customers pay on receipt of their bill which is usually payment 3 months in arrears.
+      Data on gas and electricity tariffs is received directly from a sample of energy companies that
+      supply electricity and gas across the UK via a quarterly survey. In order for the sample data to
+      be comparable for the whole market, data is uplifted to Ofgem''s total customer numbers.'
+    unit: percent
+    aggregation: share
+    expected_cell_type: number
+    filters:
+      payment_method: standard_credit
+    constraints:
+    - {variable: payment_method, operator: ==, value: standard_credit, label: Payment method}
+  - measure_id: direct_debit
+    label: Direct Debit (%)
+    ordinal: 1
+    column: E
+    source_column_id: direct_debit
+    expected_column_header_row: 9
+    expected_column_header: Direct Debit (%)
+    concept: desnz.qep.domestic_electricity_payment_method_share
+    source_concept: desnz.qep.domestic_electricity_payment_method_share
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/quarterly-domestic-energy-price-statistics
+    concept_evidence_notes: 'Quarterly Energy Prices table 2.4.2, ''Regional variation of payment method
+      for standard electricity'', column ''Direct Debit (%)'': the percentage of the region''s customers
+      paying by direct debit. Includes electricity customers on standard electricity tariffs only. Note
+      4. Direct debit transfers an agreed or variable amount directly from the customer’s bank account
+      to the energy supplier. Data on gas and electricity tariffs is received directly from a sample of
+      energy companies that supply electricity and gas across the UK via a quarterly survey. In order
+      for the sample data to be comparable for the whole market, data is uplifted to Ofgem''s total customer
+      numbers.'
+    unit: percent
+    aggregation: share
+    expected_cell_type: number
+    filters:
+      payment_method: direct_debit
+    constraints:
+    - {variable: payment_method, operator: ==, value: direct_debit, label: Payment method}
+  - measure_id: prepayment
+    label: Prepayment (%)
+    ordinal: 2
+    column: F
+    source_column_id: prepayment
+    expected_column_header_row: 9
+    expected_column_header: Prepayment (%)
+    concept: desnz.qep.domestic_electricity_payment_method_share
+    source_concept: desnz.qep.domestic_electricity_payment_method_share
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/quarterly-domestic-energy-price-statistics
+    concept_evidence_notes: 'Quarterly Energy Prices table 2.4.2, ''Regional variation of payment method
+      for standard electricity'', column ''Prepayment (%)'': the percentage of the region''s customers
+      paying by prepayment. Includes electricity customers on standard electricity tariffs only. Note
+      5. Prepayment requires the customer to make advance payment before fuel can be used. Data on gas
+      and electricity tariffs is received directly from a sample of energy companies that supply electricity
+      and gas across the UK via a quarterly survey. In order for the sample data to be comparable for
+      the whole market, data is uplifted to Ofgem''s total customer numbers.'
+    unit: percent
+    aggregation: share
+    expected_cell_type: number
+    filters:
+      payment_method: prepayment
+    constraints:
+    - {variable: payment_method, operator: ==, value: prepayment, label: Payment method}
+- record_set_id: desnz.qep.table_2_4_2.cy2024
+  provenance_class: survey_aggregate
+  assertion: observation
+  survey_instrument: DESNZ Quarterly Energy Prices supplier survey
+  record_set_spec_id: desnz.qep.table_2_4_2.payment_methods.annual.v1
+  source_record_id_prefix: desnz.qep.table_2_4_2.cy2024
+  sheet_name: 2.4.2 (Annual)
+  period_type: calendar_year
+  period: 2024
+  period_coverage:
+    start_date: '2024-01-01'
+    end_date: '2024-12-31'
+    basis: calendar
+    source_period_label: '2024'
+    notes: The publisher's annual figure for Table 2.4.2 Regional variation of payment method for standard
+      electricity.
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: household
+  entity_role: domestic_energy_customer
+  domain: domestic_energy_prices
+  groupby_dimension: desnz.qep.price_region
+  shared_filters:
+    fuel: electricity
+    metering_arrangement: standard
+  shared_constraints:
+  - {variable: fuel, operator: ==, value: electricity, label: Fuel}
+  - {variable: metering_arrangement, operator: ==, value: standard, label: Metering arrangement}
+  rows:
+  - value_id: east_midlands
+    label: East Midlands
+    ordinal: 0
+    row_number: 276
+    expected_row_header_column: B
+    expected_row_header: East Midlands
+    geography_id: desnz:qep:pes:east_midlands
+    geography_level: statistical_scope
+    geography_name: East Midlands
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2024, label: reference year}
+  - value_id: eastern
+    label: Eastern
+    ordinal: 1
+    row_number: 277
+    expected_row_header_column: B
+    expected_row_header: Eastern
+    geography_id: desnz:qep:pes:eastern
+    geography_level: statistical_scope
+    geography_name: Eastern
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2024, label: reference year}
+  - value_id: london
+    label: London
+    ordinal: 2
+    row_number: 278
+    expected_row_header_column: B
+    expected_row_header: London
+    geography_id: desnz:qep:pes:london
+    geography_level: statistical_scope
+    geography_name: London
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2024, label: reference year}
+  - value_id: merseyside_north_wales
+    label: Merseyside & North Wales
+    ordinal: 3
+    row_number: 279
+    expected_row_header_column: B
+    expected_row_header: Merseyside & North Wales
+    geography_id: desnz:qep:pes:merseyside_and_north_wales
+    geography_level: statistical_scope
+    geography_name: Merseyside & North Wales
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2024, label: reference year}
+  - value_id: north_east
+    label: North East
+    ordinal: 4
+    row_number: 280
+    expected_row_header_column: B
+    expected_row_header: North East
+    geography_id: desnz:qep:pes:north_east
+    geography_level: statistical_scope
+    geography_name: North East
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2024, label: reference year}
+  - value_id: north_west
+    label: North West
+    ordinal: 5
+    row_number: 281
+    expected_row_header_column: B
+    expected_row_header: North West
+    geography_id: desnz:qep:pes:north_west
+    geography_level: statistical_scope
+    geography_name: North West
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2024, label: reference year}
+  - value_id: south_east
+    label: South East
+    ordinal: 6
+    row_number: 282
+    expected_row_header_column: B
+    expected_row_header: South East
+    geography_id: desnz:qep:pes:south_east
+    geography_level: statistical_scope
+    geography_name: South East
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2024, label: reference year}
+  - value_id: south_wales
+    label: South Wales
+    ordinal: 7
+    row_number: 283
+    expected_row_header_column: B
+    expected_row_header: South Wales
+    geography_id: desnz:qep:pes:south_wales
+    geography_level: statistical_scope
+    geography_name: South Wales
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2024, label: reference year}
+  - value_id: south_west
+    label: South West
+    ordinal: 8
+    row_number: 284
+    expected_row_header_column: B
+    expected_row_header: South West
+    geography_id: desnz:qep:pes:south_west
+    geography_level: statistical_scope
+    geography_name: South West
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2024, label: reference year}
+  - value_id: southern
+    label: Southern
+    ordinal: 9
+    row_number: 285
+    expected_row_header_column: B
+    expected_row_header: Southern
+    geography_id: desnz:qep:pes:southern
+    geography_level: statistical_scope
+    geography_name: Southern
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2024, label: reference year}
+  - value_id: west_midlands
+    label: West Midlands
+    ordinal: 10
+    row_number: 286
+    expected_row_header_column: B
+    expected_row_header: West Midlands
+    geography_id: desnz:qep:pes:west_midlands
+    geography_level: statistical_scope
+    geography_name: West Midlands
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2024, label: reference year}
+  - value_id: yorkshire
+    label: Yorkshire
+    ordinal: 11
+    row_number: 287
+    expected_row_header_column: B
+    expected_row_header: Yorkshire
+    geography_id: desnz:qep:pes:yorkshire
+    geography_level: statistical_scope
+    geography_name: Yorkshire
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2024, label: reference year}
+  - value_id: england_and_wales
+    label: England and Wales
+    ordinal: 12
+    row_number: 288
+    expected_row_header_column: B
+    expected_row_header: England & Wales
+    geography_id: K04000001
+    geography_level: country
+    geography_name: England and Wales
+    geography_vintage: current
+    table_record_kind: subtotal
+    guard_cells:
+    - {column: A, expected_value: 2024, label: reference year}
+  - value_id: north_scotland
+    label: North Scotland
+    ordinal: 13
+    row_number: 289
+    expected_row_header_column: B
+    expected_row_header: North Scotland
+    geography_id: desnz:qep:pes:north_scotland
+    geography_level: statistical_scope
+    geography_name: North Scotland
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2024, label: reference year}
+  - value_id: south_scotland
+    label: South Scotland
+    ordinal: 14
+    row_number: 290
+    expected_row_header_column: B
+    expected_row_header: South Scotland
+    geography_id: desnz:qep:pes:south_scotland
+    geography_level: statistical_scope
+    geography_name: South Scotland
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2024, label: reference year}
+  - value_id: scotland
+    label: Scotland
+    ordinal: 15
+    row_number: 291
+    expected_row_header_column: B
+    expected_row_header: Scotland
+    geography_id: S92000003
+    geography_level: country
+    geography_name: Scotland
+    geography_vintage: current
+    table_record_kind: subtotal
+    guard_cells:
+    - {column: A, expected_value: 2024, label: reference year}
+  - value_id: great_britain
+    label: Great Britain
+    ordinal: 16
+    row_number: 292
+    expected_row_header_column: B
+    expected_row_header: Great Britain
+    geography_id: K03000001
+    geography_level: country
+    geography_name: Great Britain
+    geography_vintage: current
+    table_record_kind: subtotal
+    guard_cells:
+    - {column: A, expected_value: 2024, label: reference year}
+  - value_id: northern_ireland
+    label: Northern Ireland
+    ordinal: 17
+    row_number: 293
+    expected_row_header_column: B
+    expected_row_header: Northern Ireland
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: current
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2024, label: reference year}
+  - value_id: united_kingdom
+    label: United Kingdom
+    ordinal: 18
+    row_number: 294
+    expected_row_header_column: B
+    expected_row_header: United Kingdom
+    geography_id: K02000001
+    geography_level: country
+    geography_name: United Kingdom
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - {column: A, expected_value: 2024, label: reference year}
+  measures:
+  - measure_id: standard_credit
+    label: Credit (%)
+    ordinal: 0
+    column: C
+    source_column_id: standard_credit
+    expected_column_header_row: 9
+    expected_column_header: Credit (%)
+    concept: desnz.qep.domestic_electricity_payment_method_share
+    source_concept: desnz.qep.domestic_electricity_payment_method_share
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/quarterly-domestic-energy-price-statistics
+    concept_evidence_notes: 'Quarterly Energy Prices table 2.4.2, ''Regional variation of payment method
+      for standard electricity'', column ''Credit (%)'': the percentage of the region''s customers paying
+      by standard credit. Includes electricity customers on standard electricity tariffs only. Note 3.
+      Standard credit customers pay on receipt of their bill which is usually payment 3 months in arrears.
+      Data on gas and electricity tariffs is received directly from a sample of energy companies that
+      supply electricity and gas across the UK via a quarterly survey. In order for the sample data to
+      be comparable for the whole market, data is uplifted to Ofgem''s total customer numbers.'
+    unit: percent
+    aggregation: share
+    expected_cell_type: number
+    filters:
+      payment_method: standard_credit
+    constraints:
+    - {variable: payment_method, operator: ==, value: standard_credit, label: Payment method}
+  - measure_id: direct_debit
+    label: Direct Debit (%)
+    ordinal: 1
+    column: D
+    source_column_id: direct_debit
+    expected_column_header_row: 9
+    expected_column_header: Direct Debit (%)
+    concept: desnz.qep.domestic_electricity_payment_method_share
+    source_concept: desnz.qep.domestic_electricity_payment_method_share
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/quarterly-domestic-energy-price-statistics
+    concept_evidence_notes: 'Quarterly Energy Prices table 2.4.2, ''Regional variation of payment method
+      for standard electricity'', column ''Direct Debit (%)'': the percentage of the region''s customers
+      paying by direct debit. Includes electricity customers on standard electricity tariffs only. Note
+      4. Direct debit transfers an agreed or variable amount directly from the customer’s bank account
+      to the energy supplier. Data on gas and electricity tariffs is received directly from a sample of
+      energy companies that supply electricity and gas across the UK via a quarterly survey. In order
+      for the sample data to be comparable for the whole market, data is uplifted to Ofgem''s total customer
+      numbers.'
+    unit: percent
+    aggregation: share
+    expected_cell_type: number
+    filters:
+      payment_method: direct_debit
+    constraints:
+    - {variable: payment_method, operator: ==, value: direct_debit, label: Payment method}
+  - measure_id: prepayment
+    label: Prepayment (%)
+    ordinal: 2
+    column: E
+    source_column_id: prepayment
+    expected_column_header_row: 9
+    expected_column_header: Prepayment (%)
+    concept: desnz.qep.domestic_electricity_payment_method_share
+    source_concept: desnz.qep.domestic_electricity_payment_method_share
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/quarterly-domestic-energy-price-statistics
+    concept_evidence_notes: 'Quarterly Energy Prices table 2.4.2, ''Regional variation of payment method
+      for standard electricity'', column ''Prepayment (%)'': the percentage of the region''s customers
+      paying by prepayment. Includes electricity customers on standard electricity tariffs only. Note
+      5. Prepayment requires the customer to make advance payment before fuel can be used. Data on gas
+      and electricity tariffs is received directly from a sample of energy companies that supply electricity
+      and gas across the UK via a quarterly survey. In order for the sample data to be comparable for
+      the whole market, data is uplifted to Ofgem''s total customer numbers.'
+    unit: percent
+    aggregation: share
+    expected_cell_type: number
+    filters:
+      payment_method: prepayment
+    constraints:
+    - {variable: payment_method, operator: ==, value: prepayment, label: Payment method}
+- record_set_id: desnz.qep.table_2_4_2.cy2025
+  provenance_class: survey_aggregate
+  assertion: observation
+  survey_instrument: DESNZ Quarterly Energy Prices supplier survey
+  record_set_spec_id: desnz.qep.table_2_4_2.payment_methods.annual.v1
+  source_record_id_prefix: desnz.qep.table_2_4_2.cy2025
+  sheet_name: 2.4.2 (Annual)
+  period_type: calendar_year
+  period: 2025
+  period_coverage:
+    start_date: '2025-01-01'
+    end_date: '2025-12-31'
+    basis: calendar
+    source_period_label: '2025'
+    notes: The publisher's annual figure for Table 2.4.2 Regional variation of payment method for standard
+      electricity.
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: household
+  entity_role: domestic_energy_customer
+  domain: domestic_energy_prices
+  groupby_dimension: desnz.qep.price_region
+  shared_filters:
+    fuel: electricity
+    metering_arrangement: standard
+  shared_constraints:
+  - {variable: fuel, operator: ==, value: electricity, label: Fuel}
+  - {variable: metering_arrangement, operator: ==, value: standard, label: Metering arrangement}
+  rows:
+  - value_id: east_midlands
+    label: East Midlands
+    ordinal: 0
+    row_number: 295
+    expected_row_header_column: B
+    expected_row_header: East Midlands
+    geography_id: desnz:qep:pes:east_midlands
+    geography_level: statistical_scope
+    geography_name: East Midlands
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2025, label: reference year}
+  - value_id: eastern
+    label: Eastern
+    ordinal: 1
+    row_number: 296
+    expected_row_header_column: B
+    expected_row_header: Eastern
+    geography_id: desnz:qep:pes:eastern
+    geography_level: statistical_scope
+    geography_name: Eastern
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2025, label: reference year}
+  - value_id: london
+    label: London
+    ordinal: 2
+    row_number: 297
+    expected_row_header_column: B
+    expected_row_header: London
+    geography_id: desnz:qep:pes:london
+    geography_level: statistical_scope
+    geography_name: London
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2025, label: reference year}
+  - value_id: merseyside_north_wales
+    label: Merseyside & North Wales
+    ordinal: 3
+    row_number: 298
+    expected_row_header_column: B
+    expected_row_header: Merseyside & North Wales
+    geography_id: desnz:qep:pes:merseyside_and_north_wales
+    geography_level: statistical_scope
+    geography_name: Merseyside & North Wales
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2025, label: reference year}
+  - value_id: north_east
+    label: North East
+    ordinal: 4
+    row_number: 299
+    expected_row_header_column: B
+    expected_row_header: North East
+    geography_id: desnz:qep:pes:north_east
+    geography_level: statistical_scope
+    geography_name: North East
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2025, label: reference year}
+  - value_id: north_west
+    label: North West
+    ordinal: 5
+    row_number: 300
+    expected_row_header_column: B
+    expected_row_header: North West
+    geography_id: desnz:qep:pes:north_west
+    geography_level: statistical_scope
+    geography_name: North West
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2025, label: reference year}
+  - value_id: south_east
+    label: South East
+    ordinal: 6
+    row_number: 301
+    expected_row_header_column: B
+    expected_row_header: South East
+    geography_id: desnz:qep:pes:south_east
+    geography_level: statistical_scope
+    geography_name: South East
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2025, label: reference year}
+  - value_id: south_wales
+    label: South Wales
+    ordinal: 7
+    row_number: 302
+    expected_row_header_column: B
+    expected_row_header: South Wales
+    geography_id: desnz:qep:pes:south_wales
+    geography_level: statistical_scope
+    geography_name: South Wales
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2025, label: reference year}
+  - value_id: south_west
+    label: South West
+    ordinal: 8
+    row_number: 303
+    expected_row_header_column: B
+    expected_row_header: South West
+    geography_id: desnz:qep:pes:south_west
+    geography_level: statistical_scope
+    geography_name: South West
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2025, label: reference year}
+  - value_id: southern
+    label: Southern
+    ordinal: 9
+    row_number: 304
+    expected_row_header_column: B
+    expected_row_header: Southern
+    geography_id: desnz:qep:pes:southern
+    geography_level: statistical_scope
+    geography_name: Southern
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2025, label: reference year}
+  - value_id: west_midlands
+    label: West Midlands
+    ordinal: 10
+    row_number: 305
+    expected_row_header_column: B
+    expected_row_header: West Midlands
+    geography_id: desnz:qep:pes:west_midlands
+    geography_level: statistical_scope
+    geography_name: West Midlands
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2025, label: reference year}
+  - value_id: yorkshire
+    label: Yorkshire
+    ordinal: 11
+    row_number: 306
+    expected_row_header_column: B
+    expected_row_header: Yorkshire
+    geography_id: desnz:qep:pes:yorkshire
+    geography_level: statistical_scope
+    geography_name: Yorkshire
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2025, label: reference year}
+  - value_id: england_and_wales
+    label: England and Wales
+    ordinal: 12
+    row_number: 307
+    expected_row_header_column: B
+    expected_row_header: England & Wales
+    geography_id: K04000001
+    geography_level: country
+    geography_name: England and Wales
+    geography_vintage: current
+    table_record_kind: subtotal
+    guard_cells:
+    - {column: A, expected_value: 2025, label: reference year}
+  - value_id: north_scotland
+    label: North Scotland
+    ordinal: 13
+    row_number: 308
+    expected_row_header_column: B
+    expected_row_header: North Scotland
+    geography_id: desnz:qep:pes:north_scotland
+    geography_level: statistical_scope
+    geography_name: North Scotland
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2025, label: reference year}
+  - value_id: south_scotland
+    label: South Scotland
+    ordinal: 14
+    row_number: 309
+    expected_row_header_column: B
+    expected_row_header: South Scotland
+    geography_id: desnz:qep:pes:south_scotland
+    geography_level: statistical_scope
+    geography_name: South Scotland
+    geography_vintage: desnz_qep_pes_regions_2026
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2025, label: reference year}
+  - value_id: scotland
+    label: Scotland
+    ordinal: 15
+    row_number: 310
+    expected_row_header_column: B
+    expected_row_header: Scotland
+    geography_id: S92000003
+    geography_level: country
+    geography_name: Scotland
+    geography_vintage: current
+    table_record_kind: subtotal
+    guard_cells:
+    - {column: A, expected_value: 2025, label: reference year}
+  - value_id: great_britain
+    label: Great Britain
+    ordinal: 16
+    row_number: 311
+    expected_row_header_column: B
+    expected_row_header: Great Britain
+    geography_id: K03000001
+    geography_level: country
+    geography_name: Great Britain
+    geography_vintage: current
+    table_record_kind: subtotal
+    guard_cells:
+    - {column: A, expected_value: 2025, label: reference year}
+  - value_id: northern_ireland
+    label: Northern Ireland
+    ordinal: 17
+    row_number: 312
+    expected_row_header_column: B
+    expected_row_header: Northern Ireland
+    geography_id: N92000002
+    geography_level: country
+    geography_name: Northern Ireland
+    geography_vintage: current
+    table_record_kind: detail
+    guard_cells:
+    - {column: A, expected_value: 2025, label: reference year}
+  - value_id: united_kingdom
+    label: United Kingdom
+    ordinal: 18
+    row_number: 313
+    expected_row_header_column: B
+    expected_row_header: United Kingdom
+    geography_id: K02000001
+    geography_level: country
+    geography_name: United Kingdom
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - {column: A, expected_value: 2025, label: reference year}
+  measures:
+  - measure_id: standard_credit
+    label: Credit (%)
+    ordinal: 0
+    column: C
+    source_column_id: standard_credit
+    expected_column_header_row: 9
+    expected_column_header: Credit (%)
+    concept: desnz.qep.domestic_electricity_payment_method_share
+    source_concept: desnz.qep.domestic_electricity_payment_method_share
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/quarterly-domestic-energy-price-statistics
+    concept_evidence_notes: 'Quarterly Energy Prices table 2.4.2, ''Regional variation of payment method
+      for standard electricity'', column ''Credit (%)'': the percentage of the region''s customers paying
+      by standard credit. Includes electricity customers on standard electricity tariffs only. Note 3.
+      Standard credit customers pay on receipt of their bill which is usually payment 3 months in arrears.
+      Data on gas and electricity tariffs is received directly from a sample of energy companies that
+      supply electricity and gas across the UK via a quarterly survey. In order for the sample data to
+      be comparable for the whole market, data is uplifted to Ofgem''s total customer numbers.'
+    unit: percent
+    aggregation: share
+    expected_cell_type: number
+    filters:
+      payment_method: standard_credit
+    constraints:
+    - {variable: payment_method, operator: ==, value: standard_credit, label: Payment method}
+  - measure_id: direct_debit
+    label: Direct Debit (%)
+    ordinal: 1
+    column: D
+    source_column_id: direct_debit
+    expected_column_header_row: 9
+    expected_column_header: Direct Debit (%)
+    concept: desnz.qep.domestic_electricity_payment_method_share
+    source_concept: desnz.qep.domestic_electricity_payment_method_share
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/quarterly-domestic-energy-price-statistics
+    concept_evidence_notes: 'Quarterly Energy Prices table 2.4.2, ''Regional variation of payment method
+      for standard electricity'', column ''Direct Debit (%)'': the percentage of the region''s customers
+      paying by direct debit. Includes electricity customers on standard electricity tariffs only. Note
+      4. Direct debit transfers an agreed or variable amount directly from the customer’s bank account
+      to the energy supplier. Data on gas and electricity tariffs is received directly from a sample of
+      energy companies that supply electricity and gas across the UK via a quarterly survey. In order
+      for the sample data to be comparable for the whole market, data is uplifted to Ofgem''s total customer
+      numbers.'
+    unit: percent
+    aggregation: share
+    expected_cell_type: number
+    filters:
+      payment_method: direct_debit
+    constraints:
+    - {variable: payment_method, operator: ==, value: direct_debit, label: Payment method}
+  - measure_id: prepayment
+    label: Prepayment (%)
+    ordinal: 2
+    column: E
+    source_column_id: prepayment
+    expected_column_header_row: 9
+    expected_column_header: Prepayment (%)
+    concept: desnz.qep.domestic_electricity_payment_method_share
+    source_concept: desnz.qep.domestic_electricity_payment_method_share
+    concept_relation: source_label
+    concept_authority: desnz
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/quarterly-domestic-energy-price-statistics
+    concept_evidence_notes: 'Quarterly Energy Prices table 2.4.2, ''Regional variation of payment method
+      for standard electricity'', column ''Prepayment (%)'': the percentage of the region''s customers
+      paying by prepayment. Includes electricity customers on standard electricity tariffs only. Note
+      5. Prepayment requires the customer to make advance payment before fuel can be used. Data on gas
+      and electricity tariffs is received directly from a sample of energy companies that supply electricity
+      and gas across the UK via a quarterly survey. In order for the sample data to be comparable for
+      the whole market, data is uplifted to Ofgem''s total customer numbers.'
+    unit: percent
+    aggregation: share
+    expected_cell_type: number
+    filters:
+      payment_method: prepayment
+    constraints:
+    - {variable: payment_method, operator: ==, value: prepayment, label: Payment method}

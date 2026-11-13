@@ -3,6 +3,7 @@ __pycache__/
 micro/us/*.parquet
 venv/
 *.parquet
+.hypothesis/
 # Raw releases archived in R2 only (chronicle#343); each manifest pins the bytes.
 # Price Paid Data carries Royal Mail and OS address data licensed for
 # non-commercial use, so none of its bytes enter this public repository; the
@@ -19,3 +20,19 @@ db/data/desnz/lsoa_domestic_*_consumption_2024/LSOA_domestic_*_2010-2024.xlsx
 # the DESNZ MSOA workbooks and the ONS 2021 rural-urban workbook. R2 holds them.
 db/data/desnz/msoa_domestic_*_consumption_2010_2024/MSOA_domestic_*_2010-2024.xlsx
 db/data/ons/ruc2021_lookups_march_2026/260331rucallsupplementarytables.xlsx
+db/data/gambling_commission/gsgb_annual_report_*/GSGB_annual_report_*_data_tables.xlsx
+# The ONS OA 2011 to OA 2021 lookup (chronicle#412) is 9.8 MB and parsed by no build;
+# R2 holds it. The May 2026 NSPL zip of the same issue falls under the nspl_* rule.
+db/data/ons/oa11_oa21_lad22_exact_fit_lookup_v3/ew_oa11_oa21_lad22_exact_fit_v3.csv
+# The VOA's 2026 small-area stock zips (chronicle#408) are raw-only registrations that
+# no build parses, 4-96 MB each; R2 holds them.
+db/data/voa/ctsop*_lsoa_2026/CTSOP_*.zip
+# Tax Policy Associates' model files (chronicle#408) are a raw-only registration that no
+# build parses; config.py is third-party Python source. R2 holds them.
+db/data/tpa/lvt_model_2026/config.py
+db/data/tpa/lvt_model_2026/cells.json
+db/data/tpa/lvt_model_2026/LICENSE
+# UCL's house price per square metre deposit (ReShare 856542, chronicle#409) is two
+# zips of 3.2 and 4.4 GB, above GitHub's file limit and carrying Royal Mail address
+# data licensed for non-commercial use. R2 holds them; the manifest pins the bytes.
+db/data/ucl/house_price_per_square_metre_856542/856542_bundle_*.zip

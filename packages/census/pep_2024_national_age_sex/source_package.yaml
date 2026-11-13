@@ -843,8 +843,10 @@ record_sets:
           end: 84
       label: single-year age sequence
     table_record_kind: detail
+  # The file has numeric age codes only (85 to 100 summed here), so the label
+  # is Chronicle's: the one its register gives age 85_plus (chronicle#376).
   - value_id: 85_plus
-    label: Age 85 and over
+    label: Age 85 plus
     ordinal: 18
     row_number: 88
     row_end_number: 103

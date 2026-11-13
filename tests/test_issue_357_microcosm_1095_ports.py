@@ -34,7 +34,8 @@ RECEIPTS = "obr-efo-receipts-march-2026"
 EXPENDITURE = "obr-efo-expenditure-march-2026"
 MTUC = "dwp-mtuc-households-legacy-benefit-move-status-july-2022-june-2026"
 NEW_PACKAGES = {
-    STAMPS: (2025, 352),
+    # 352 facts from Tables 6b, 8a and 8b; 1,135 from chronicle#408's tables.
+    STAMPS: (2025, 1487),
     HBAI: (2025, 124),
     HBAI_CI: (2025, 8),
     MTUC: (2026, 80),
@@ -137,16 +138,23 @@ def test_stamp_table_6b_keeps_the_surcharge_gross(facts):
 
 
 def test_stamp_facts_state_coverage_threshold_and_edition(facts):
-    stamps = facts[STAMPS]
+    # chronicle#408's tables add areas and quarters, which
+    # tests/test_source_uk_408_facts.py covers.
+    stamps = [
+        f
+        for f in facts[STAMPS]
+        if f.layout.record_set_id.split(".")[2] in {"table_6b", "table_8a", "table_8b"}
+    ]
+    assert len(stamps) == 352
     assert {f.geography.id for f in stamps} == {"hmrc:england_and_northern_ireland"}
     assert {f.geography.level for f in stamps} == {"statistical_scope"}
     assert {f.geography.name for f in stamps} == {"England and Northern Ireland"}
     assert {f.period.type for f in stamps} == {"fiscal_year"}
     assert {f.period.value for f in stamps} == {2023, 2024}
-    assert {f.source.vintage for f in stamps} == {
+    assert {f.source.vintage for f in facts[STAMPS]} == {
         "annual_stamp_tax_statistics_2024_25_corrected_2026_03_11"
     }
-    for fact in stamps:
+    for fact in facts[STAMPS]:
         threshold = [
             c for c in fact.constraints if c.variable == "sdlt_chargeable_consideration"
         ]
@@ -180,15 +188,20 @@ def test_obr_sheet_3_7_property_type_lines():
         ]
         return fact.value
 
+    # chronicle#397: only the 2024-25 outturn, which the October 2026 EFO does not
+    # print, stays in the March package.
+    assert {
+        fact.period.value
+        for fact in facts
+        if fact.layout.record_set_id.startswith("obr.efo_2026_03.receipts.sdlt")
+    } == {2024}
     # Outturn 2024-25 equals HMRC's all-buyer totals (Tables 8a and 8b).
     assert value("sdlt_residential", 2024) == pytest.approx(10.38e9)
     assert value("sdlt_non_residential", 2024) == pytest.approx(3.505e9)
-    # The two property types make up sheet 3.8's SDLT line in every year.
-    for year in range(2024, 2031):
-        total = value("sdlt", year)
-        assert value("sdlt_residential", year) + value(
-            "sdlt_non_residential", year
-        ) == pytest.approx(total, rel=1e-9)
+    # The two property types make up sheet 3.8's SDLT line.
+    assert value("sdlt_residential", 2024) + value(
+        "sdlt_non_residential", 2024
+    ) == pytest.approx(value("sdlt", 2024), rel=1e-9)
 
 
 EXPENDITURE_STAMPS = {
@@ -215,7 +228,8 @@ def test_obr_table_4_9_lines_carry_dwp_geography():
     table = [
         f for f in facts if f.layout.record_set_id.split(".")[3] in EXPENDITURE_STAMPS
     ]
-    assert len(table) == len(EXPENDITURE_STAMPS) * 7
+    # chronicle#397: 2024-25 only; the October 2026 EFO carries the later years.
+    assert len(table) == len(EXPENDITURE_STAMPS)
     for fact in table:
         line = fact.layout.record_set_id.split(".")[3]
         assert fact.geography.id == EXPENDITURE_STAMPS[line], (line, fact.geography.id)
@@ -234,8 +248,8 @@ def test_obr_table_4_9_lines_carry_dwp_geography():
     assert by_line[("ni_social_security_in_welfare_cap", 2024)] == pytest.approx(
         5_709_140_000
     )
-    assert by_line[("ni_social_security_outside_welfare_cap", 2030)] == pytest.approx(
-        5_493_620_000
+    assert by_line[("ni_social_security_outside_welfare_cap", 2024)] == pytest.approx(
+        3_999_748_000
     )
     assert by_line[("carers_allowance", 2024)] == pytest.approx(4_239_907_876.11)
     # Table 4.1 and 4.19 lines keep the United Kingdom.

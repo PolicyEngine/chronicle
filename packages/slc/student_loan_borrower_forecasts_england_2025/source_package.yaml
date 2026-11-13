@@ -12,7 +12,7 @@
 # with no forecast) are skipped per year, not zero-filled.
 # policyengine-uk-data keys these values to END-year calendars (its 2025 =
 # AY 2024/25) and uses only the Higher education total rows - both
-# populace-side declarations over these facts.
+# Microcosm-side declarations over these facts.
 schema_version: ledger.source_package.v1
 package_id: slc-student-loan-borrower-forecasts-england-2025
 label: 'SLC/DfE student loan forecasts for England, Table 6a: borrowers liable to repay and
