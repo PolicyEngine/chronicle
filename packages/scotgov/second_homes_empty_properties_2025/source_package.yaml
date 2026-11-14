@@ -1,0 +1,5165 @@
+# Scottish Government, 'Second homes and empty properties in September 2025' (published 16
+# December 2025,
+# https://www.gov.scot/publications/second-homes-and-empty-properties-in-september-2025/),
+# the web table's six tables, for PolicyEngine/chronicle#435 item 1 (Microcosm's Scottish
+# council tax level, PolicyEngine/microcosm#1095). Written by
+# scripts/build_uk_scottish_second_homes_package.py from the pinned workbook. The
+# councils' council tax base (CTAXBASE) returns give the counts; 'Data presented for
+# September each year' (cover sheet), so each year is month YYYY-09, as the CTAXBASE
+# chargeable dwellings packages stamp their September counts.
+#
+# Ported, for Scotland and its 32 council areas at September 2024 and September 2025:
+# second homes; empty properties, empty for more than 6 months and liable for council tax;
+# long-term empty properties, 12 months or more; the long-term empty properties where a
+# discount below 10% or an increase has been applied; dwellings with an unoccupied
+# exemption from council tax; and the worksheet of second homes plus empty properties.
+# Each class is its own concept, scotgov.council_tax.<measure id>, with the cover sheet's
+# definition and the notes on it quoted in the evidence notes. Second homes and empty
+# properties are chargeable dwellings (entity role chargeable_dwelling, as MHCLG's Council
+# Taxbase lines 11 to 17); unoccupied exemptions are exempt_dwelling. The September 2024
+# edition's web table (published 17 December 2024, sha256 8c796fb0…) prints the same cells
+# for every year to 2024: this edition revises none of them.
+#
+# Not ported: the years before 2024 (from 1996, 2005, 2013 or 2014), not asked in
+# PolicyEngine/chronicle#435, some of which notes 3 to 9 qualify. Nothing in the edition
+# splits the counts by council tax band or by premium or discount rate beyond the
+# long-term empty table, and CTAXBASE's published tables give chargeable dwellings by band
+# only (the scotgov-council-tax-bands packages), with no Band D equivalents by class.
+#
+# Geography: Scotland and the register's S12 codes. The web table spells some areas its
+# own way ('Edinburgh, City of', 'Glasgow' on two sheets, '&' for 'and', 'SCOTLAND' and
+# trailing spaces on some sheets); each row guard carries its sheet's exact text, and each
+# area's geography name is its first sheet's spelling.
+#
+# Caveats, quoted in the evidence notes: trends 'should be interpreted with some caution'
+# (note 1); empty homes before 2024 'will therefore be overstated' where councils included
+# properties empty less than 6 months (note 10), and South Ayrshire still includes 'a very
+# small number' of them (note 11); Na h-Eileanan Siar's 2024 figures 'are not as up to
+# date as they would normally be' (note 13); and the second homes premium powers from
+# April 2024 (note 14).
+#
+# Parity, asserted by the generator: in every table and year the 32 councils add to
+# Scotland (12 checks) except one misprinted cell, the long-term empty properties with a
+# discount below 10% or an increase at September 2025, where the Scotland row prints
+# 25,073 and the councils add to 25,703, the figure the edition's empty homes page gives;
+# it is ported as printed. In every area and year (66 checks) second homes plus empty
+# properties is the total, long-term empty is within empty, and the discount or increase
+# subset is within long-term empty. Scotland: second homes 21,606 and 20,927, empty
+# properties 43,538 and 44,453, long-term empty 31,596 and 32,337 (2024 and 2025). 396
+# facts.
+schema_version: ledger.source_package.v1
+package_id: scotgov-second-homes-empty-properties-2025
+label: 'Scottish Government Second Homes and Empty Properties, September 2025 edition: second homes, empty
+  and long-term empty properties and unoccupied exemptions by council area, September 2024 and 2025'
+dimension_labels:
+  geography: Geography
+artifact:
+  source_name: scotgov
+  source_table: 'Second homes and empty properties in September 2025: web table'
+  resource_package: db
+  resource_directory: data/scotgov/second_homes_empty_properties_2025
+  manifest: manifest.yaml
+  vintage: second_homes_empty_properties_2025_12_16
+  extracted_at: '2026-11-10'
+  extraction_method: xlsx used-range cell parse (Empty_properties_and_second_homes_September_2025_Web_Table.xlsx)
+  parser: xlsx_used_range
+  sheets:
+  - Second Homes Empty Properties
+  - Second Homes
+  - Empty Properties (6 months +)
+  - Long Term Empty 12 Months
+  - Long Term Empty Discount
+  - Unoccupied Exemptions
+  sheet_name: Second Homes Empty Properties
+  artifact_year: 2025
+record_sets:
+- record_set_id: scotgov.second_homes_empty_properties_2025.second_homes_and_empty_properties.y2024
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: uk.local_geography.council_tax.scotland_second_homes_empty_properties.second_homes_and_empty_properties.v1
+  source_record_id_prefix: scotgov.second_homes_empty_properties_2025.second_homes_and_empty_properties.y2024
+  sheet_name: Second Homes Empty Properties
+  period_type: month
+  period: 2024-09
+  period_coverage:
+    basis: calendar
+    source_period_label: September 2024
+    notes: '''Data presented for September each year'' (cover sheet): the councils'' council tax base
+      (CTAXBASE) returns at September 2024, read from the Second homes and empty properties in September
+      2025 edition. Note 13: ''As a result of a cyber attack on Na h-Eileanan Siar in November 2023 the
+      council was still working through a large backlog of changes to accounts and properties at the time
+      of the 2024 data collection. For this reason, the figures are not as up to date as they would normally
+      be.'''
+  geography_id: S92000003
+  geography_level: country
+  geography_name: Scotland
+  geography_vintage: current
+  entity: dwelling
+  entity_role: chargeable_dwelling
+  domain: council_tax_stock
+  groupby_dimension: geography
+  measures:
+  - measure_id: second_homes_and_empty_properties
+    label: Second homes and empty properties
+    ordinal: 0
+    column: U
+    source_column_id: second_homes_and_empty_properties
+    expected_column_header_row: 4
+    expected_column_header: '2024'
+    concept: scotgov.council_tax.second_homes_and_empty_properties
+    source_concept: scotgov.council_tax.second_homes_and_empty_properties
+    concept_relation: source_label
+    concept_authority: scotgov
+    concept_evidence_url: https://www.gov.scot/publications/second-homes-and-empty-properties-in-september-2025/
+    concept_evidence_notes: 'Second homes and empty properties in September 2025, web table, sheet ''Second
+      Homes Empty Properties'' (''Total Second Homes and Empty Properties''), column U (''2024''). The
+      worksheet''s total of second homes and empty properties. The contents sheet describes it as ''Total
+      Second Homes and Long Term Empty Properties''; in every cell it is the Second Homes table plus the
+      Empty Properties (6 months +) table, which the generator asserts. Second homes: homes which are
+      furnished and lived in for at least 25 days in a 12-month period but not as someone’s main residence.
+      Empty Properties: properties which have been empty for more than 6 months and are liable for council
+      tax. Of which, there are long term empty properties (empty for more than 12 months). Note 1: ''Trends
+      over time for all these statistics should be interpreted with some caution, given that increases
+      and decreases can be caused in part by reclassification exercises which local authorities carry
+      out from time to time, or issues with management information systems, rather than being real changes
+      in the numbers of properties.'' Note 10: ''In September 2024 the guidance for empty properties data
+      collection was strengthened to ensure that councils excluded properties empty less than 6 months
+      from their data return (in CTAXBASE 8b). It was discovered that prior to 2024 some councils had
+      included these in their return to the Scottish Government. Empty homes (properties empty for more
+      than 6 months) will therefore be overstated in such instances; however, we are not able to quantify
+      the impact of their inclusion on published statistics before 2024. The decrease of 6% in empty homes
+      between 2023 and 2024, is likely to be associated with a programme of work to clarify that empty
+      homes should only be recorded at 6 months or over. This decrease was driven by the City of Edinburgh,
+      where data from 2024 is now provided for empty homes 6 months or over (decrease of 57%, -4,107).''
+      Note 11: ''Following the strengthening of guidance described in note 10, there was one authority
+      (South Ayrshire) who reported they have a very small number of properties empty less than 6 months
+      included in the total for empty properties.'' Note 14: ''Powers enabling Councils in Scotland to
+      apply either, a 50% Council Tax discount, the standard rate, or an up to 100% council tax premium
+      (double the rate) on second homes came into force in April 2024. 30 local authorities have introduced
+      the premium in some form as of September 2024.'''
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+  rows:
+  - value_id: s92000003
+    label: Scotland
+    ordinal: 0
+    row_number: 5
+    expected_row_header_column: A
+    expected_row_header: Scotland
+    geography_id: S92000003
+    geography_level: country
+    geography_name: Scotland
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - {column: A, row: 1, expected_value: Total Second Homes and  Empty Properties, label: table title}
+    - {column: A, row: 4, expected_value: Local Authority, label: row header label}
+  - value_id: s12000033
+    label: Aberdeen City
+    ordinal: 1
+    row_number: 6
+    expected_row_header_column: A
+    expected_row_header: Aberdeen City
+    geography_id: S12000033
+    geography_level: local_authority
+    geography_name: Aberdeen City
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000034
+    label: Aberdeenshire
+    ordinal: 2
+    row_number: 7
+    expected_row_header_column: A
+    expected_row_header: Aberdeenshire
+    geography_id: S12000034
+    geography_level: local_authority
+    geography_name: Aberdeenshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000041
+    label: Angus
+    ordinal: 3
+    row_number: 8
+    expected_row_header_column: A
+    expected_row_header: 'Angus '
+    geography_id: S12000041
+    geography_level: local_authority
+    geography_name: Angus
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000035
+    label: Argyll and Bute
+    ordinal: 4
+    row_number: 9
+    expected_row_header_column: A
+    expected_row_header: Argyll & Bute
+    geography_id: S12000035
+    geography_level: local_authority
+    geography_name: Argyll & Bute
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000005
+    label: Clackmannanshire
+    ordinal: 5
+    row_number: 10
+    expected_row_header_column: A
+    expected_row_header: Clackmannanshire
+    geography_id: S12000005
+    geography_level: local_authority
+    geography_name: Clackmannanshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000006
+    label: Dumfries and Galloway
+    ordinal: 6
+    row_number: 11
+    expected_row_header_column: A
+    expected_row_header: Dumfries & Galloway
+    geography_id: S12000006
+    geography_level: local_authority
+    geography_name: Dumfries & Galloway
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000042
+    label: Dundee City
+    ordinal: 7
+    row_number: 12
+    expected_row_header_column: A
+    expected_row_header: Dundee City
+    geography_id: S12000042
+    geography_level: local_authority
+    geography_name: Dundee City
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000008
+    label: East Ayrshire
+    ordinal: 8
+    row_number: 13
+    expected_row_header_column: A
+    expected_row_header: East Ayrshire
+    geography_id: S12000008
+    geography_level: local_authority
+    geography_name: East Ayrshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000045
+    label: East Dunbartonshire
+    ordinal: 9
+    row_number: 14
+    expected_row_header_column: A
+    expected_row_header: East Dunbartonshire
+    geography_id: S12000045
+    geography_level: local_authority
+    geography_name: East Dunbartonshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000010
+    label: East Lothian
+    ordinal: 10
+    row_number: 15
+    expected_row_header_column: A
+    expected_row_header: East Lothian
+    geography_id: S12000010
+    geography_level: local_authority
+    geography_name: East Lothian
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000011
+    label: East Renfrewshire
+    ordinal: 11
+    row_number: 16
+    expected_row_header_column: A
+    expected_row_header: East Renfrewshire
+    geography_id: S12000011
+    geography_level: local_authority
+    geography_name: East Renfrewshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000036
+    label: City of Edinburgh
+    ordinal: 12
+    row_number: 17
+    expected_row_header_column: A
+    expected_row_header: Edinburgh, City of
+    geography_id: S12000036
+    geography_level: local_authority
+    geography_name: Edinburgh, City of
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000014
+    label: Falkirk
+    ordinal: 13
+    row_number: 18
+    expected_row_header_column: A
+    expected_row_header: Falkirk
+    geography_id: S12000014
+    geography_level: local_authority
+    geography_name: Falkirk
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000047
+    label: Fife
+    ordinal: 14
+    row_number: 19
+    expected_row_header_column: A
+    expected_row_header: Fife
+    geography_id: S12000047
+    geography_level: local_authority
+    geography_name: Fife
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000049
+    label: Glasgow City
+    ordinal: 15
+    row_number: 20
+    expected_row_header_column: A
+    expected_row_header: Glasgow City
+    geography_id: S12000049
+    geography_level: local_authority
+    geography_name: Glasgow City
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000017
+    label: Highland
+    ordinal: 16
+    row_number: 21
+    expected_row_header_column: A
+    expected_row_header: Highland
+    geography_id: S12000017
+    geography_level: local_authority
+    geography_name: Highland
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000018
+    label: Inverclyde
+    ordinal: 17
+    row_number: 22
+    expected_row_header_column: A
+    expected_row_header: Inverclyde
+    geography_id: S12000018
+    geography_level: local_authority
+    geography_name: Inverclyde
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000019
+    label: Midlothian
+    ordinal: 18
+    row_number: 23
+    expected_row_header_column: A
+    expected_row_header: Midlothian
+    geography_id: S12000019
+    geography_level: local_authority
+    geography_name: Midlothian
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000020
+    label: Moray
+    ordinal: 19
+    row_number: 24
+    expected_row_header_column: A
+    expected_row_header: Moray
+    geography_id: S12000020
+    geography_level: local_authority
+    geography_name: Moray
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000013
+    label: Na h-Eileanan Siar
+    ordinal: 20
+    row_number: 25
+    expected_row_header_column: A
+    expected_row_header: Na h-Eileanan Siar
+    geography_id: S12000013
+    geography_level: local_authority
+    geography_name: Na h-Eileanan Siar
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000021
+    label: North Ayrshire
+    ordinal: 21
+    row_number: 26
+    expected_row_header_column: A
+    expected_row_header: North Ayrshire
+    geography_id: S12000021
+    geography_level: local_authority
+    geography_name: North Ayrshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000050
+    label: North Lanarkshire
+    ordinal: 22
+    row_number: 27
+    expected_row_header_column: A
+    expected_row_header: North Lanarkshire
+    geography_id: S12000050
+    geography_level: local_authority
+    geography_name: North Lanarkshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000023
+    label: Orkney Islands
+    ordinal: 23
+    row_number: 28
+    expected_row_header_column: A
+    expected_row_header: Orkney Islands
+    geography_id: S12000023
+    geography_level: local_authority
+    geography_name: Orkney Islands
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000048
+    label: Perth and Kinross
+    ordinal: 24
+    row_number: 29
+    expected_row_header_column: A
+    expected_row_header: Perth & Kinross
+    geography_id: S12000048
+    geography_level: local_authority
+    geography_name: Perth & Kinross
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000038
+    label: Renfrewshire
+    ordinal: 25
+    row_number: 30
+    expected_row_header_column: A
+    expected_row_header: Renfrewshire
+    geography_id: S12000038
+    geography_level: local_authority
+    geography_name: Renfrewshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000026
+    label: Scottish Borders
+    ordinal: 26
+    row_number: 31
+    expected_row_header_column: A
+    expected_row_header: Scottish Borders
+    geography_id: S12000026
+    geography_level: local_authority
+    geography_name: Scottish Borders
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000027
+    label: Shetland Islands
+    ordinal: 27
+    row_number: 32
+    expected_row_header_column: A
+    expected_row_header: Shetland Islands
+    geography_id: S12000027
+    geography_level: local_authority
+    geography_name: Shetland Islands
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000028
+    label: South Ayrshire
+    ordinal: 28
+    row_number: 33
+    expected_row_header_column: A
+    expected_row_header: South Ayrshire
+    geography_id: S12000028
+    geography_level: local_authority
+    geography_name: South Ayrshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000029
+    label: South Lanarkshire
+    ordinal: 29
+    row_number: 34
+    expected_row_header_column: A
+    expected_row_header: South Lanarkshire
+    geography_id: S12000029
+    geography_level: local_authority
+    geography_name: South Lanarkshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000030
+    label: Stirling
+    ordinal: 30
+    row_number: 35
+    expected_row_header_column: A
+    expected_row_header: Stirling
+    geography_id: S12000030
+    geography_level: local_authority
+    geography_name: Stirling
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000039
+    label: West Dunbartonshire
+    ordinal: 31
+    row_number: 36
+    expected_row_header_column: A
+    expected_row_header: West Dunbartonshire
+    geography_id: S12000039
+    geography_level: local_authority
+    geography_name: West Dunbartonshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000040
+    label: West Lothian
+    ordinal: 32
+    row_number: 37
+    expected_row_header_column: A
+    expected_row_header: West Lothian
+    geography_id: S12000040
+    geography_level: local_authority
+    geography_name: West Lothian
+    geography_vintage: ca_2019
+    table_record_kind: detail
+- record_set_id: scotgov.second_homes_empty_properties_2025.second_homes_and_empty_properties.y2025
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: uk.local_geography.council_tax.scotland_second_homes_empty_properties.second_homes_and_empty_properties.v1
+  source_record_id_prefix: scotgov.second_homes_empty_properties_2025.second_homes_and_empty_properties.y2025
+  sheet_name: Second Homes Empty Properties
+  period_type: month
+  period: 2025-09
+  period_coverage:
+    basis: calendar
+    source_period_label: September 2025
+    notes: '''Data presented for September each year'' (cover sheet): the councils'' council tax base
+      (CTAXBASE) returns at September 2025, read from the Second homes and empty properties in September
+      2025 edition.'
+  geography_id: S92000003
+  geography_level: country
+  geography_name: Scotland
+  geography_vintage: current
+  entity: dwelling
+  entity_role: chargeable_dwelling
+  domain: council_tax_stock
+  groupby_dimension: geography
+  measures:
+  - measure_id: second_homes_and_empty_properties
+    label: Second homes and empty properties
+    ordinal: 0
+    column: V
+    source_column_id: second_homes_and_empty_properties
+    expected_column_header_row: 4
+    expected_column_header: '2025'
+    concept: scotgov.council_tax.second_homes_and_empty_properties
+    source_concept: scotgov.council_tax.second_homes_and_empty_properties
+    concept_relation: source_label
+    concept_authority: scotgov
+    concept_evidence_url: https://www.gov.scot/publications/second-homes-and-empty-properties-in-september-2025/
+    concept_evidence_notes: 'Second homes and empty properties in September 2025, web table, sheet ''Second
+      Homes Empty Properties'' (''Total Second Homes and Empty Properties''), column V (''2025''). The
+      worksheet''s total of second homes and empty properties. The contents sheet describes it as ''Total
+      Second Homes and Long Term Empty Properties''; in every cell it is the Second Homes table plus the
+      Empty Properties (6 months +) table, which the generator asserts. Second homes: homes which are
+      furnished and lived in for at least 25 days in a 12-month period but not as someone’s main residence.
+      Empty Properties: properties which have been empty for more than 6 months and are liable for council
+      tax. Of which, there are long term empty properties (empty for more than 12 months). Note 1: ''Trends
+      over time for all these statistics should be interpreted with some caution, given that increases
+      and decreases can be caused in part by reclassification exercises which local authorities carry
+      out from time to time, or issues with management information systems, rather than being real changes
+      in the numbers of properties.'' Note 10: ''In September 2024 the guidance for empty properties data
+      collection was strengthened to ensure that councils excluded properties empty less than 6 months
+      from their data return (in CTAXBASE 8b). It was discovered that prior to 2024 some councils had
+      included these in their return to the Scottish Government. Empty homes (properties empty for more
+      than 6 months) will therefore be overstated in such instances; however, we are not able to quantify
+      the impact of their inclusion on published statistics before 2024. The decrease of 6% in empty homes
+      between 2023 and 2024, is likely to be associated with a programme of work to clarify that empty
+      homes should only be recorded at 6 months or over. This decrease was driven by the City of Edinburgh,
+      where data from 2024 is now provided for empty homes 6 months or over (decrease of 57%, -4,107).''
+      Note 11: ''Following the strengthening of guidance described in note 10, there was one authority
+      (South Ayrshire) who reported they have a very small number of properties empty less than 6 months
+      included in the total for empty properties.'' Note 14: ''Powers enabling Councils in Scotland to
+      apply either, a 50% Council Tax discount, the standard rate, or an up to 100% council tax premium
+      (double the rate) on second homes came into force in April 2024. 30 local authorities have introduced
+      the premium in some form as of September 2024.'''
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+  rows:
+  - value_id: s92000003
+    label: Scotland
+    ordinal: 0
+    row_number: 5
+    expected_row_header_column: A
+    expected_row_header: Scotland
+    geography_id: S92000003
+    geography_level: country
+    geography_name: Scotland
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - {column: A, row: 1, expected_value: Total Second Homes and  Empty Properties, label: table title}
+    - {column: A, row: 4, expected_value: Local Authority, label: row header label}
+  - value_id: s12000033
+    label: Aberdeen City
+    ordinal: 1
+    row_number: 6
+    expected_row_header_column: A
+    expected_row_header: Aberdeen City
+    geography_id: S12000033
+    geography_level: local_authority
+    geography_name: Aberdeen City
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000034
+    label: Aberdeenshire
+    ordinal: 2
+    row_number: 7
+    expected_row_header_column: A
+    expected_row_header: Aberdeenshire
+    geography_id: S12000034
+    geography_level: local_authority
+    geography_name: Aberdeenshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000041
+    label: Angus
+    ordinal: 3
+    row_number: 8
+    expected_row_header_column: A
+    expected_row_header: 'Angus '
+    geography_id: S12000041
+    geography_level: local_authority
+    geography_name: Angus
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000035
+    label: Argyll and Bute
+    ordinal: 4
+    row_number: 9
+    expected_row_header_column: A
+    expected_row_header: Argyll & Bute
+    geography_id: S12000035
+    geography_level: local_authority
+    geography_name: Argyll & Bute
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000005
+    label: Clackmannanshire
+    ordinal: 5
+    row_number: 10
+    expected_row_header_column: A
+    expected_row_header: Clackmannanshire
+    geography_id: S12000005
+    geography_level: local_authority
+    geography_name: Clackmannanshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000006
+    label: Dumfries and Galloway
+    ordinal: 6
+    row_number: 11
+    expected_row_header_column: A
+    expected_row_header: Dumfries & Galloway
+    geography_id: S12000006
+    geography_level: local_authority
+    geography_name: Dumfries & Galloway
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000042
+    label: Dundee City
+    ordinal: 7
+    row_number: 12
+    expected_row_header_column: A
+    expected_row_header: Dundee City
+    geography_id: S12000042
+    geography_level: local_authority
+    geography_name: Dundee City
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000008
+    label: East Ayrshire
+    ordinal: 8
+    row_number: 13
+    expected_row_header_column: A
+    expected_row_header: East Ayrshire
+    geography_id: S12000008
+    geography_level: local_authority
+    geography_name: East Ayrshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000045
+    label: East Dunbartonshire
+    ordinal: 9
+    row_number: 14
+    expected_row_header_column: A
+    expected_row_header: East Dunbartonshire
+    geography_id: S12000045
+    geography_level: local_authority
+    geography_name: East Dunbartonshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000010
+    label: East Lothian
+    ordinal: 10
+    row_number: 15
+    expected_row_header_column: A
+    expected_row_header: East Lothian
+    geography_id: S12000010
+    geography_level: local_authority
+    geography_name: East Lothian
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000011
+    label: East Renfrewshire
+    ordinal: 11
+    row_number: 16
+    expected_row_header_column: A
+    expected_row_header: East Renfrewshire
+    geography_id: S12000011
+    geography_level: local_authority
+    geography_name: East Renfrewshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000036
+    label: City of Edinburgh
+    ordinal: 12
+    row_number: 17
+    expected_row_header_column: A
+    expected_row_header: Edinburgh, City of
+    geography_id: S12000036
+    geography_level: local_authority
+    geography_name: Edinburgh, City of
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000014
+    label: Falkirk
+    ordinal: 13
+    row_number: 18
+    expected_row_header_column: A
+    expected_row_header: Falkirk
+    geography_id: S12000014
+    geography_level: local_authority
+    geography_name: Falkirk
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000047
+    label: Fife
+    ordinal: 14
+    row_number: 19
+    expected_row_header_column: A
+    expected_row_header: Fife
+    geography_id: S12000047
+    geography_level: local_authority
+    geography_name: Fife
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000049
+    label: Glasgow City
+    ordinal: 15
+    row_number: 20
+    expected_row_header_column: A
+    expected_row_header: Glasgow City
+    geography_id: S12000049
+    geography_level: local_authority
+    geography_name: Glasgow City
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000017
+    label: Highland
+    ordinal: 16
+    row_number: 21
+    expected_row_header_column: A
+    expected_row_header: Highland
+    geography_id: S12000017
+    geography_level: local_authority
+    geography_name: Highland
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000018
+    label: Inverclyde
+    ordinal: 17
+    row_number: 22
+    expected_row_header_column: A
+    expected_row_header: Inverclyde
+    geography_id: S12000018
+    geography_level: local_authority
+    geography_name: Inverclyde
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000019
+    label: Midlothian
+    ordinal: 18
+    row_number: 23
+    expected_row_header_column: A
+    expected_row_header: Midlothian
+    geography_id: S12000019
+    geography_level: local_authority
+    geography_name: Midlothian
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000020
+    label: Moray
+    ordinal: 19
+    row_number: 24
+    expected_row_header_column: A
+    expected_row_header: Moray
+    geography_id: S12000020
+    geography_level: local_authority
+    geography_name: Moray
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000013
+    label: Na h-Eileanan Siar
+    ordinal: 20
+    row_number: 25
+    expected_row_header_column: A
+    expected_row_header: Na h-Eileanan Siar
+    geography_id: S12000013
+    geography_level: local_authority
+    geography_name: Na h-Eileanan Siar
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000021
+    label: North Ayrshire
+    ordinal: 21
+    row_number: 26
+    expected_row_header_column: A
+    expected_row_header: North Ayrshire
+    geography_id: S12000021
+    geography_level: local_authority
+    geography_name: North Ayrshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000050
+    label: North Lanarkshire
+    ordinal: 22
+    row_number: 27
+    expected_row_header_column: A
+    expected_row_header: North Lanarkshire
+    geography_id: S12000050
+    geography_level: local_authority
+    geography_name: North Lanarkshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000023
+    label: Orkney Islands
+    ordinal: 23
+    row_number: 28
+    expected_row_header_column: A
+    expected_row_header: Orkney Islands
+    geography_id: S12000023
+    geography_level: local_authority
+    geography_name: Orkney Islands
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000048
+    label: Perth and Kinross
+    ordinal: 24
+    row_number: 29
+    expected_row_header_column: A
+    expected_row_header: Perth & Kinross
+    geography_id: S12000048
+    geography_level: local_authority
+    geography_name: Perth & Kinross
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000038
+    label: Renfrewshire
+    ordinal: 25
+    row_number: 30
+    expected_row_header_column: A
+    expected_row_header: Renfrewshire
+    geography_id: S12000038
+    geography_level: local_authority
+    geography_name: Renfrewshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000026
+    label: Scottish Borders
+    ordinal: 26
+    row_number: 31
+    expected_row_header_column: A
+    expected_row_header: Scottish Borders
+    geography_id: S12000026
+    geography_level: local_authority
+    geography_name: Scottish Borders
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000027
+    label: Shetland Islands
+    ordinal: 27
+    row_number: 32
+    expected_row_header_column: A
+    expected_row_header: Shetland Islands
+    geography_id: S12000027
+    geography_level: local_authority
+    geography_name: Shetland Islands
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000028
+    label: South Ayrshire
+    ordinal: 28
+    row_number: 33
+    expected_row_header_column: A
+    expected_row_header: South Ayrshire
+    geography_id: S12000028
+    geography_level: local_authority
+    geography_name: South Ayrshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000029
+    label: South Lanarkshire
+    ordinal: 29
+    row_number: 34
+    expected_row_header_column: A
+    expected_row_header: South Lanarkshire
+    geography_id: S12000029
+    geography_level: local_authority
+    geography_name: South Lanarkshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000030
+    label: Stirling
+    ordinal: 30
+    row_number: 35
+    expected_row_header_column: A
+    expected_row_header: Stirling
+    geography_id: S12000030
+    geography_level: local_authority
+    geography_name: Stirling
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000039
+    label: West Dunbartonshire
+    ordinal: 31
+    row_number: 36
+    expected_row_header_column: A
+    expected_row_header: West Dunbartonshire
+    geography_id: S12000039
+    geography_level: local_authority
+    geography_name: West Dunbartonshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000040
+    label: West Lothian
+    ordinal: 32
+    row_number: 37
+    expected_row_header_column: A
+    expected_row_header: West Lothian
+    geography_id: S12000040
+    geography_level: local_authority
+    geography_name: West Lothian
+    geography_vintage: ca_2019
+    table_record_kind: detail
+- record_set_id: scotgov.second_homes_empty_properties_2025.second_homes.y2024
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: uk.local_geography.council_tax.scotland_second_homes_empty_properties.second_homes.v1
+  source_record_id_prefix: scotgov.second_homes_empty_properties_2025.second_homes.y2024
+  sheet_name: Second Homes
+  period_type: month
+  period: 2024-09
+  period_coverage:
+    basis: calendar
+    source_period_label: September 2024
+    notes: '''Data presented for September each year'' (cover sheet): the councils'' council tax base
+      (CTAXBASE) returns at September 2024, read from the Second homes and empty properties in September
+      2025 edition. Note 13: ''As a result of a cyber attack on Na h-Eileanan Siar in November 2023 the
+      council was still working through a large backlog of changes to accounts and properties at the time
+      of the 2024 data collection. For this reason, the figures are not as up to date as they would normally
+      be.'''
+  geography_id: S92000003
+  geography_level: country
+  geography_name: Scotland
+  geography_vintage: current
+  entity: dwelling
+  entity_role: chargeable_dwelling
+  domain: council_tax_stock
+  groupby_dimension: geography
+  measures:
+  - measure_id: second_homes
+    label: Second homes
+    ordinal: 0
+    column: U
+    source_column_id: second_homes
+    expected_column_header_row: 4
+    expected_column_header: '2024'
+    concept: scotgov.council_tax.second_homes
+    source_concept: scotgov.council_tax.second_homes
+    concept_relation: source_label
+    concept_authority: scotgov
+    concept_evidence_url: https://www.gov.scot/publications/second-homes-and-empty-properties-in-september-2025/
+    concept_evidence_notes: 'Second homes and empty properties in September 2025, web table, sheet ''Second
+      Homes'' (''Second Homes''), column U (''2024''). Second homes: homes which are furnished and lived
+      in for at least 25 days in a 12-month period but not as someone’s main residence. Note 1: ''Trends
+      over time for all these statistics should be interpreted with some caution, given that increases
+      and decreases can be caused in part by reclassification exercises which local authorities carry
+      out from time to time, or issues with management information systems, rather than being real changes
+      in the numbers of properties.'' Note 14: ''Powers enabling Councils in Scotland to apply either,
+      a 50% Council Tax discount, the standard rate, or an up to 100% council tax premium (double the
+      rate) on second homes came into force in April 2024. 30 local authorities have introduced the premium
+      in some form as of September 2024.'''
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+  rows:
+  - value_id: s92000003
+    label: Scotland
+    ordinal: 0
+    row_number: 5
+    expected_row_header_column: A
+    expected_row_header: Scotland
+    geography_id: S92000003
+    geography_level: country
+    geography_name: Scotland
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - {column: A, row: 1, expected_value: Second Homes, label: table title}
+    - {column: A, row: 4, expected_value: Local Authority, label: row header label}
+  - value_id: s12000033
+    label: Aberdeen City
+    ordinal: 1
+    row_number: 6
+    expected_row_header_column: A
+    expected_row_header: 'Aberdeen City '
+    geography_id: S12000033
+    geography_level: local_authority
+    geography_name: Aberdeen City
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000034
+    label: Aberdeenshire
+    ordinal: 2
+    row_number: 7
+    expected_row_header_column: A
+    expected_row_header: Aberdeenshire
+    geography_id: S12000034
+    geography_level: local_authority
+    geography_name: Aberdeenshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000041
+    label: Angus
+    ordinal: 3
+    row_number: 8
+    expected_row_header_column: A
+    expected_row_header: Angus
+    geography_id: S12000041
+    geography_level: local_authority
+    geography_name: Angus
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000035
+    label: Argyll and Bute
+    ordinal: 4
+    row_number: 9
+    expected_row_header_column: A
+    expected_row_header: Argyll & Bute
+    geography_id: S12000035
+    geography_level: local_authority
+    geography_name: Argyll & Bute
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000005
+    label: Clackmannanshire
+    ordinal: 5
+    row_number: 10
+    expected_row_header_column: A
+    expected_row_header: 'Clackmannanshire '
+    geography_id: S12000005
+    geography_level: local_authority
+    geography_name: Clackmannanshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000006
+    label: Dumfries and Galloway
+    ordinal: 6
+    row_number: 11
+    expected_row_header_column: A
+    expected_row_header: Dumfries & Galloway
+    geography_id: S12000006
+    geography_level: local_authority
+    geography_name: Dumfries & Galloway
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000042
+    label: Dundee City
+    ordinal: 7
+    row_number: 12
+    expected_row_header_column: A
+    expected_row_header: Dundee City
+    geography_id: S12000042
+    geography_level: local_authority
+    geography_name: Dundee City
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000008
+    label: East Ayrshire
+    ordinal: 8
+    row_number: 13
+    expected_row_header_column: A
+    expected_row_header: East Ayrshire
+    geography_id: S12000008
+    geography_level: local_authority
+    geography_name: East Ayrshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000045
+    label: East Dunbartonshire
+    ordinal: 9
+    row_number: 14
+    expected_row_header_column: A
+    expected_row_header: East Dunbartonshire
+    geography_id: S12000045
+    geography_level: local_authority
+    geography_name: East Dunbartonshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000010
+    label: East Lothian
+    ordinal: 10
+    row_number: 15
+    expected_row_header_column: A
+    expected_row_header: East Lothian
+    geography_id: S12000010
+    geography_level: local_authority
+    geography_name: East Lothian
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000011
+    label: East Renfrewshire
+    ordinal: 11
+    row_number: 16
+    expected_row_header_column: A
+    expected_row_header: East Renfrewshire
+    geography_id: S12000011
+    geography_level: local_authority
+    geography_name: East Renfrewshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000036
+    label: City of Edinburgh
+    ordinal: 12
+    row_number: 17
+    expected_row_header_column: A
+    expected_row_header: Edinburgh, City of
+    geography_id: S12000036
+    geography_level: local_authority
+    geography_name: Edinburgh, City of
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000014
+    label: Falkirk
+    ordinal: 13
+    row_number: 18
+    expected_row_header_column: A
+    expected_row_header: Falkirk
+    geography_id: S12000014
+    geography_level: local_authority
+    geography_name: Falkirk
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000047
+    label: Fife
+    ordinal: 14
+    row_number: 19
+    expected_row_header_column: A
+    expected_row_header: Fife
+    geography_id: S12000047
+    geography_level: local_authority
+    geography_name: Fife
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000049
+    label: Glasgow City
+    ordinal: 15
+    row_number: 20
+    expected_row_header_column: A
+    expected_row_header: Glasgow City
+    geography_id: S12000049
+    geography_level: local_authority
+    geography_name: Glasgow City
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000017
+    label: Highland
+    ordinal: 16
+    row_number: 21
+    expected_row_header_column: A
+    expected_row_header: Highland
+    geography_id: S12000017
+    geography_level: local_authority
+    geography_name: Highland
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000018
+    label: Inverclyde
+    ordinal: 17
+    row_number: 22
+    expected_row_header_column: A
+    expected_row_header: Inverclyde
+    geography_id: S12000018
+    geography_level: local_authority
+    geography_name: Inverclyde
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000019
+    label: Midlothian
+    ordinal: 18
+    row_number: 23
+    expected_row_header_column: A
+    expected_row_header: 'Midlothian '
+    geography_id: S12000019
+    geography_level: local_authority
+    geography_name: Midlothian
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000020
+    label: Moray
+    ordinal: 19
+    row_number: 24
+    expected_row_header_column: A
+    expected_row_header: Moray
+    geography_id: S12000020
+    geography_level: local_authority
+    geography_name: Moray
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000013
+    label: Na h-Eileanan Siar
+    ordinal: 20
+    row_number: 25
+    expected_row_header_column: A
+    expected_row_header: Na h-Eileanan Siar
+    geography_id: S12000013
+    geography_level: local_authority
+    geography_name: Na h-Eileanan Siar
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000021
+    label: North Ayrshire
+    ordinal: 21
+    row_number: 26
+    expected_row_header_column: A
+    expected_row_header: North Ayrshire
+    geography_id: S12000021
+    geography_level: local_authority
+    geography_name: North Ayrshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000050
+    label: North Lanarkshire
+    ordinal: 22
+    row_number: 27
+    expected_row_header_column: A
+    expected_row_header: North Lanarkshire
+    geography_id: S12000050
+    geography_level: local_authority
+    geography_name: North Lanarkshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000023
+    label: Orkney Islands
+    ordinal: 23
+    row_number: 28
+    expected_row_header_column: A
+    expected_row_header: Orkney Islands
+    geography_id: S12000023
+    geography_level: local_authority
+    geography_name: Orkney Islands
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000048
+    label: Perth and Kinross
+    ordinal: 24
+    row_number: 29
+    expected_row_header_column: A
+    expected_row_header: Perth & Kinross
+    geography_id: S12000048
+    geography_level: local_authority
+    geography_name: Perth & Kinross
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000038
+    label: Renfrewshire
+    ordinal: 25
+    row_number: 30
+    expected_row_header_column: A
+    expected_row_header: 'Renfrewshire '
+    geography_id: S12000038
+    geography_level: local_authority
+    geography_name: Renfrewshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000026
+    label: Scottish Borders
+    ordinal: 26
+    row_number: 31
+    expected_row_header_column: A
+    expected_row_header: Scottish Borders
+    geography_id: S12000026
+    geography_level: local_authority
+    geography_name: Scottish Borders
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000027
+    label: Shetland Islands
+    ordinal: 27
+    row_number: 32
+    expected_row_header_column: A
+    expected_row_header: Shetland Islands
+    geography_id: S12000027
+    geography_level: local_authority
+    geography_name: Shetland Islands
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000028
+    label: South Ayrshire
+    ordinal: 28
+    row_number: 33
+    expected_row_header_column: A
+    expected_row_header: South Ayrshire
+    geography_id: S12000028
+    geography_level: local_authority
+    geography_name: South Ayrshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000029
+    label: South Lanarkshire
+    ordinal: 29
+    row_number: 34
+    expected_row_header_column: A
+    expected_row_header: South Lanarkshire
+    geography_id: S12000029
+    geography_level: local_authority
+    geography_name: South Lanarkshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000030
+    label: Stirling
+    ordinal: 30
+    row_number: 35
+    expected_row_header_column: A
+    expected_row_header: Stirling
+    geography_id: S12000030
+    geography_level: local_authority
+    geography_name: Stirling
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000039
+    label: West Dunbartonshire
+    ordinal: 31
+    row_number: 36
+    expected_row_header_column: A
+    expected_row_header: West Dunbartonshire
+    geography_id: S12000039
+    geography_level: local_authority
+    geography_name: West Dunbartonshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000040
+    label: West Lothian
+    ordinal: 32
+    row_number: 37
+    expected_row_header_column: A
+    expected_row_header: West Lothian
+    geography_id: S12000040
+    geography_level: local_authority
+    geography_name: West Lothian
+    geography_vintage: ca_2019
+    table_record_kind: detail
+- record_set_id: scotgov.second_homes_empty_properties_2025.second_homes.y2025
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: uk.local_geography.council_tax.scotland_second_homes_empty_properties.second_homes.v1
+  source_record_id_prefix: scotgov.second_homes_empty_properties_2025.second_homes.y2025
+  sheet_name: Second Homes
+  period_type: month
+  period: 2025-09
+  period_coverage:
+    basis: calendar
+    source_period_label: September 2025
+    notes: '''Data presented for September each year'' (cover sheet): the councils'' council tax base
+      (CTAXBASE) returns at September 2025, read from the Second homes and empty properties in September
+      2025 edition.'
+  geography_id: S92000003
+  geography_level: country
+  geography_name: Scotland
+  geography_vintage: current
+  entity: dwelling
+  entity_role: chargeable_dwelling
+  domain: council_tax_stock
+  groupby_dimension: geography
+  measures:
+  - measure_id: second_homes
+    label: Second homes
+    ordinal: 0
+    column: V
+    source_column_id: second_homes
+    expected_column_header_row: 4
+    expected_column_header: '2025'
+    concept: scotgov.council_tax.second_homes
+    source_concept: scotgov.council_tax.second_homes
+    concept_relation: source_label
+    concept_authority: scotgov
+    concept_evidence_url: https://www.gov.scot/publications/second-homes-and-empty-properties-in-september-2025/
+    concept_evidence_notes: 'Second homes and empty properties in September 2025, web table, sheet ''Second
+      Homes'' (''Second Homes''), column V (''2025''). Second homes: homes which are furnished and lived
+      in for at least 25 days in a 12-month period but not as someone’s main residence. Note 1: ''Trends
+      over time for all these statistics should be interpreted with some caution, given that increases
+      and decreases can be caused in part by reclassification exercises which local authorities carry
+      out from time to time, or issues with management information systems, rather than being real changes
+      in the numbers of properties.'' Note 14: ''Powers enabling Councils in Scotland to apply either,
+      a 50% Council Tax discount, the standard rate, or an up to 100% council tax premium (double the
+      rate) on second homes came into force in April 2024. 30 local authorities have introduced the premium
+      in some form as of September 2024.'''
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+  rows:
+  - value_id: s92000003
+    label: Scotland
+    ordinal: 0
+    row_number: 5
+    expected_row_header_column: A
+    expected_row_header: Scotland
+    geography_id: S92000003
+    geography_level: country
+    geography_name: Scotland
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - {column: A, row: 1, expected_value: Second Homes, label: table title}
+    - {column: A, row: 4, expected_value: Local Authority, label: row header label}
+  - value_id: s12000033
+    label: Aberdeen City
+    ordinal: 1
+    row_number: 6
+    expected_row_header_column: A
+    expected_row_header: 'Aberdeen City '
+    geography_id: S12000033
+    geography_level: local_authority
+    geography_name: Aberdeen City
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000034
+    label: Aberdeenshire
+    ordinal: 2
+    row_number: 7
+    expected_row_header_column: A
+    expected_row_header: Aberdeenshire
+    geography_id: S12000034
+    geography_level: local_authority
+    geography_name: Aberdeenshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000041
+    label: Angus
+    ordinal: 3
+    row_number: 8
+    expected_row_header_column: A
+    expected_row_header: Angus
+    geography_id: S12000041
+    geography_level: local_authority
+    geography_name: Angus
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000035
+    label: Argyll and Bute
+    ordinal: 4
+    row_number: 9
+    expected_row_header_column: A
+    expected_row_header: Argyll & Bute
+    geography_id: S12000035
+    geography_level: local_authority
+    geography_name: Argyll & Bute
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000005
+    label: Clackmannanshire
+    ordinal: 5
+    row_number: 10
+    expected_row_header_column: A
+    expected_row_header: 'Clackmannanshire '
+    geography_id: S12000005
+    geography_level: local_authority
+    geography_name: Clackmannanshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000006
+    label: Dumfries and Galloway
+    ordinal: 6
+    row_number: 11
+    expected_row_header_column: A
+    expected_row_header: Dumfries & Galloway
+    geography_id: S12000006
+    geography_level: local_authority
+    geography_name: Dumfries & Galloway
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000042
+    label: Dundee City
+    ordinal: 7
+    row_number: 12
+    expected_row_header_column: A
+    expected_row_header: Dundee City
+    geography_id: S12000042
+    geography_level: local_authority
+    geography_name: Dundee City
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000008
+    label: East Ayrshire
+    ordinal: 8
+    row_number: 13
+    expected_row_header_column: A
+    expected_row_header: East Ayrshire
+    geography_id: S12000008
+    geography_level: local_authority
+    geography_name: East Ayrshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000045
+    label: East Dunbartonshire
+    ordinal: 9
+    row_number: 14
+    expected_row_header_column: A
+    expected_row_header: East Dunbartonshire
+    geography_id: S12000045
+    geography_level: local_authority
+    geography_name: East Dunbartonshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000010
+    label: East Lothian
+    ordinal: 10
+    row_number: 15
+    expected_row_header_column: A
+    expected_row_header: East Lothian
+    geography_id: S12000010
+    geography_level: local_authority
+    geography_name: East Lothian
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000011
+    label: East Renfrewshire
+    ordinal: 11
+    row_number: 16
+    expected_row_header_column: A
+    expected_row_header: East Renfrewshire
+    geography_id: S12000011
+    geography_level: local_authority
+    geography_name: East Renfrewshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000036
+    label: City of Edinburgh
+    ordinal: 12
+    row_number: 17
+    expected_row_header_column: A
+    expected_row_header: Edinburgh, City of
+    geography_id: S12000036
+    geography_level: local_authority
+    geography_name: Edinburgh, City of
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000014
+    label: Falkirk
+    ordinal: 13
+    row_number: 18
+    expected_row_header_column: A
+    expected_row_header: Falkirk
+    geography_id: S12000014
+    geography_level: local_authority
+    geography_name: Falkirk
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000047
+    label: Fife
+    ordinal: 14
+    row_number: 19
+    expected_row_header_column: A
+    expected_row_header: Fife
+    geography_id: S12000047
+    geography_level: local_authority
+    geography_name: Fife
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000049
+    label: Glasgow City
+    ordinal: 15
+    row_number: 20
+    expected_row_header_column: A
+    expected_row_header: Glasgow City
+    geography_id: S12000049
+    geography_level: local_authority
+    geography_name: Glasgow City
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000017
+    label: Highland
+    ordinal: 16
+    row_number: 21
+    expected_row_header_column: A
+    expected_row_header: Highland
+    geography_id: S12000017
+    geography_level: local_authority
+    geography_name: Highland
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000018
+    label: Inverclyde
+    ordinal: 17
+    row_number: 22
+    expected_row_header_column: A
+    expected_row_header: Inverclyde
+    geography_id: S12000018
+    geography_level: local_authority
+    geography_name: Inverclyde
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000019
+    label: Midlothian
+    ordinal: 18
+    row_number: 23
+    expected_row_header_column: A
+    expected_row_header: 'Midlothian '
+    geography_id: S12000019
+    geography_level: local_authority
+    geography_name: Midlothian
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000020
+    label: Moray
+    ordinal: 19
+    row_number: 24
+    expected_row_header_column: A
+    expected_row_header: Moray
+    geography_id: S12000020
+    geography_level: local_authority
+    geography_name: Moray
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000013
+    label: Na h-Eileanan Siar
+    ordinal: 20
+    row_number: 25
+    expected_row_header_column: A
+    expected_row_header: Na h-Eileanan Siar
+    geography_id: S12000013
+    geography_level: local_authority
+    geography_name: Na h-Eileanan Siar
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000021
+    label: North Ayrshire
+    ordinal: 21
+    row_number: 26
+    expected_row_header_column: A
+    expected_row_header: North Ayrshire
+    geography_id: S12000021
+    geography_level: local_authority
+    geography_name: North Ayrshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000050
+    label: North Lanarkshire
+    ordinal: 22
+    row_number: 27
+    expected_row_header_column: A
+    expected_row_header: North Lanarkshire
+    geography_id: S12000050
+    geography_level: local_authority
+    geography_name: North Lanarkshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000023
+    label: Orkney Islands
+    ordinal: 23
+    row_number: 28
+    expected_row_header_column: A
+    expected_row_header: Orkney Islands
+    geography_id: S12000023
+    geography_level: local_authority
+    geography_name: Orkney Islands
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000048
+    label: Perth and Kinross
+    ordinal: 24
+    row_number: 29
+    expected_row_header_column: A
+    expected_row_header: Perth & Kinross
+    geography_id: S12000048
+    geography_level: local_authority
+    geography_name: Perth & Kinross
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000038
+    label: Renfrewshire
+    ordinal: 25
+    row_number: 30
+    expected_row_header_column: A
+    expected_row_header: 'Renfrewshire '
+    geography_id: S12000038
+    geography_level: local_authority
+    geography_name: Renfrewshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000026
+    label: Scottish Borders
+    ordinal: 26
+    row_number: 31
+    expected_row_header_column: A
+    expected_row_header: Scottish Borders
+    geography_id: S12000026
+    geography_level: local_authority
+    geography_name: Scottish Borders
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000027
+    label: Shetland Islands
+    ordinal: 27
+    row_number: 32
+    expected_row_header_column: A
+    expected_row_header: Shetland Islands
+    geography_id: S12000027
+    geography_level: local_authority
+    geography_name: Shetland Islands
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000028
+    label: South Ayrshire
+    ordinal: 28
+    row_number: 33
+    expected_row_header_column: A
+    expected_row_header: South Ayrshire
+    geography_id: S12000028
+    geography_level: local_authority
+    geography_name: South Ayrshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000029
+    label: South Lanarkshire
+    ordinal: 29
+    row_number: 34
+    expected_row_header_column: A
+    expected_row_header: South Lanarkshire
+    geography_id: S12000029
+    geography_level: local_authority
+    geography_name: South Lanarkshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000030
+    label: Stirling
+    ordinal: 30
+    row_number: 35
+    expected_row_header_column: A
+    expected_row_header: Stirling
+    geography_id: S12000030
+    geography_level: local_authority
+    geography_name: Stirling
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000039
+    label: West Dunbartonshire
+    ordinal: 31
+    row_number: 36
+    expected_row_header_column: A
+    expected_row_header: West Dunbartonshire
+    geography_id: S12000039
+    geography_level: local_authority
+    geography_name: West Dunbartonshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000040
+    label: West Lothian
+    ordinal: 32
+    row_number: 37
+    expected_row_header_column: A
+    expected_row_header: West Lothian
+    geography_id: S12000040
+    geography_level: local_authority
+    geography_name: West Lothian
+    geography_vintage: ca_2019
+    table_record_kind: detail
+- record_set_id: scotgov.second_homes_empty_properties_2025.empty_properties.y2024
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: uk.local_geography.council_tax.scotland_second_homes_empty_properties.empty_properties.v1
+  source_record_id_prefix: scotgov.second_homes_empty_properties_2025.empty_properties.y2024
+  sheet_name: Empty Properties (6 months +)
+  period_type: month
+  period: 2024-09
+  period_coverage:
+    basis: calendar
+    source_period_label: September 2024
+    notes: '''Data presented for September each year'' (cover sheet): the councils'' council tax base
+      (CTAXBASE) returns at September 2024, read from the Second homes and empty properties in September
+      2025 edition. Note 13: ''As a result of a cyber attack on Na h-Eileanan Siar in November 2023 the
+      council was still working through a large backlog of changes to accounts and properties at the time
+      of the 2024 data collection. For this reason, the figures are not as up to date as they would normally
+      be.'''
+  geography_id: S92000003
+  geography_level: country
+  geography_name: Scotland
+  geography_vintage: current
+  entity: dwelling
+  entity_role: chargeable_dwelling
+  domain: council_tax_stock
+  groupby_dimension: geography
+  measures:
+  - measure_id: empty_properties
+    label: Empty properties (empty for more than 6 months, liable for council tax)
+    ordinal: 0
+    column: U
+    source_column_id: empty_properties
+    expected_column_header_row: 4
+    expected_column_header: '2024'
+    concept: scotgov.council_tax.empty_properties
+    source_concept: scotgov.council_tax.empty_properties
+    concept_relation: source_label
+    concept_authority: scotgov
+    concept_evidence_url: https://www.gov.scot/publications/second-homes-and-empty-properties-in-september-2025/
+    concept_evidence_notes: 'Second homes and empty properties in September 2025, web table, sheet ''Empty
+      Properties (6 months +)'' (''Empty Properties (6 months +)''), column U (''2024''). Empty Properties:
+      properties which have been empty for more than 6 months and are liable for council tax. Of which,
+      there are long term empty properties (empty for more than 12 months). Note 1: ''Trends over time
+      for all these statistics should be interpreted with some caution, given that increases and decreases
+      can be caused in part by reclassification exercises which local authorities carry out from time
+      to time, or issues with management information systems, rather than being real changes in the numbers
+      of properties.'' Note 10: ''In September 2024 the guidance for empty properties data collection
+      was strengthened to ensure that councils excluded properties empty less than 6 months from their
+      data return (in CTAXBASE 8b). It was discovered that prior to 2024 some councils had included these
+      in their return to the Scottish Government. Empty homes (properties empty for more than 6 months)
+      will therefore be overstated in such instances; however, we are not able to quantify the impact
+      of their inclusion on published statistics before 2024. The decrease of 6% in empty homes between
+      2023 and 2024, is likely to be associated with a programme of work to clarify that empty homes should
+      only be recorded at 6 months or over. This decrease was driven by the City of Edinburgh, where data
+      from 2024 is now provided for empty homes 6 months or over (decrease of 57%, -4,107).'' Note 11:
+      ''Following the strengthening of guidance described in note 10, there was one authority (South Ayrshire)
+      who reported they have a very small number of properties empty less than 6 months included in the
+      total for empty properties.'' Note 12: ''Caution should be taken when interpreting the North Lanarkshire
+      change between 2023 and 2024 as it seems likely, rather than an increase in empty homes this year,
+      that their previous returns have under reported empty homes.'''
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+  rows:
+  - value_id: s92000003
+    label: Scotland
+    ordinal: 0
+    row_number: 5
+    expected_row_header_column: A
+    expected_row_header: Scotland
+    geography_id: S92000003
+    geography_level: country
+    geography_name: Scotland
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - {column: A, row: 1, expected_value: Empty Properties (6 months +), label: table title}
+    - {column: A, row: 4, expected_value: Local Authority, label: row header label}
+  - value_id: s12000033
+    label: Aberdeen City
+    ordinal: 1
+    row_number: 6
+    expected_row_header_column: A
+    expected_row_header: Aberdeen City
+    geography_id: S12000033
+    geography_level: local_authority
+    geography_name: Aberdeen City
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000034
+    label: Aberdeenshire
+    ordinal: 2
+    row_number: 7
+    expected_row_header_column: A
+    expected_row_header: Aberdeenshire
+    geography_id: S12000034
+    geography_level: local_authority
+    geography_name: Aberdeenshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000041
+    label: Angus
+    ordinal: 3
+    row_number: 8
+    expected_row_header_column: A
+    expected_row_header: Angus
+    geography_id: S12000041
+    geography_level: local_authority
+    geography_name: Angus
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000035
+    label: Argyll and Bute
+    ordinal: 4
+    row_number: 9
+    expected_row_header_column: A
+    expected_row_header: Argyll & Bute
+    geography_id: S12000035
+    geography_level: local_authority
+    geography_name: Argyll & Bute
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000005
+    label: Clackmannanshire
+    ordinal: 5
+    row_number: 10
+    expected_row_header_column: A
+    expected_row_header: Clackmannanshire
+    geography_id: S12000005
+    geography_level: local_authority
+    geography_name: Clackmannanshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000006
+    label: Dumfries and Galloway
+    ordinal: 6
+    row_number: 11
+    expected_row_header_column: A
+    expected_row_header: Dumfries & Galloway
+    geography_id: S12000006
+    geography_level: local_authority
+    geography_name: Dumfries & Galloway
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000042
+    label: Dundee City
+    ordinal: 7
+    row_number: 12
+    expected_row_header_column: A
+    expected_row_header: Dundee City
+    geography_id: S12000042
+    geography_level: local_authority
+    geography_name: Dundee City
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000008
+    label: East Ayrshire
+    ordinal: 8
+    row_number: 13
+    expected_row_header_column: A
+    expected_row_header: East Ayrshire
+    geography_id: S12000008
+    geography_level: local_authority
+    geography_name: East Ayrshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000045
+    label: East Dunbartonshire
+    ordinal: 9
+    row_number: 14
+    expected_row_header_column: A
+    expected_row_header: East Dunbartonshire
+    geography_id: S12000045
+    geography_level: local_authority
+    geography_name: East Dunbartonshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000010
+    label: East Lothian
+    ordinal: 10
+    row_number: 15
+    expected_row_header_column: A
+    expected_row_header: East Lothian
+    geography_id: S12000010
+    geography_level: local_authority
+    geography_name: East Lothian
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000011
+    label: East Renfrewshire
+    ordinal: 11
+    row_number: 16
+    expected_row_header_column: A
+    expected_row_header: East Renfrewshire
+    geography_id: S12000011
+    geography_level: local_authority
+    geography_name: East Renfrewshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000036
+    label: City of Edinburgh
+    ordinal: 12
+    row_number: 17
+    expected_row_header_column: A
+    expected_row_header: Edinburgh, City of
+    geography_id: S12000036
+    geography_level: local_authority
+    geography_name: Edinburgh, City of
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000014
+    label: Falkirk
+    ordinal: 13
+    row_number: 18
+    expected_row_header_column: A
+    expected_row_header: Falkirk
+    geography_id: S12000014
+    geography_level: local_authority
+    geography_name: Falkirk
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000047
+    label: Fife
+    ordinal: 14
+    row_number: 19
+    expected_row_header_column: A
+    expected_row_header: Fife
+    geography_id: S12000047
+    geography_level: local_authority
+    geography_name: Fife
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000049
+    label: Glasgow City
+    ordinal: 15
+    row_number: 20
+    expected_row_header_column: A
+    expected_row_header: Glasgow City
+    geography_id: S12000049
+    geography_level: local_authority
+    geography_name: Glasgow City
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000017
+    label: Highland
+    ordinal: 16
+    row_number: 21
+    expected_row_header_column: A
+    expected_row_header: Highland
+    geography_id: S12000017
+    geography_level: local_authority
+    geography_name: Highland
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000018
+    label: Inverclyde
+    ordinal: 17
+    row_number: 22
+    expected_row_header_column: A
+    expected_row_header: Inverclyde
+    geography_id: S12000018
+    geography_level: local_authority
+    geography_name: Inverclyde
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000019
+    label: Midlothian
+    ordinal: 18
+    row_number: 23
+    expected_row_header_column: A
+    expected_row_header: Midlothian
+    geography_id: S12000019
+    geography_level: local_authority
+    geography_name: Midlothian
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000020
+    label: Moray
+    ordinal: 19
+    row_number: 24
+    expected_row_header_column: A
+    expected_row_header: Moray
+    geography_id: S12000020
+    geography_level: local_authority
+    geography_name: Moray
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000013
+    label: Na h-Eileanan Siar
+    ordinal: 20
+    row_number: 25
+    expected_row_header_column: A
+    expected_row_header: Na h-Eileanan Siar
+    geography_id: S12000013
+    geography_level: local_authority
+    geography_name: Na h-Eileanan Siar
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000021
+    label: North Ayrshire
+    ordinal: 21
+    row_number: 26
+    expected_row_header_column: A
+    expected_row_header: North Ayrshire
+    geography_id: S12000021
+    geography_level: local_authority
+    geography_name: North Ayrshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000050
+    label: North Lanarkshire
+    ordinal: 22
+    row_number: 27
+    expected_row_header_column: A
+    expected_row_header: North Lanarkshire
+    geography_id: S12000050
+    geography_level: local_authority
+    geography_name: North Lanarkshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000023
+    label: Orkney Islands
+    ordinal: 23
+    row_number: 28
+    expected_row_header_column: A
+    expected_row_header: Orkney Islands
+    geography_id: S12000023
+    geography_level: local_authority
+    geography_name: Orkney Islands
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000048
+    label: Perth and Kinross
+    ordinal: 24
+    row_number: 29
+    expected_row_header_column: A
+    expected_row_header: Perth & Kinross
+    geography_id: S12000048
+    geography_level: local_authority
+    geography_name: Perth & Kinross
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000038
+    label: Renfrewshire
+    ordinal: 25
+    row_number: 30
+    expected_row_header_column: A
+    expected_row_header: 'Renfrewshire '
+    geography_id: S12000038
+    geography_level: local_authority
+    geography_name: Renfrewshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000026
+    label: Scottish Borders
+    ordinal: 26
+    row_number: 31
+    expected_row_header_column: A
+    expected_row_header: Scottish Borders
+    geography_id: S12000026
+    geography_level: local_authority
+    geography_name: Scottish Borders
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000027
+    label: Shetland Islands
+    ordinal: 27
+    row_number: 32
+    expected_row_header_column: A
+    expected_row_header: Shetland Islands
+    geography_id: S12000027
+    geography_level: local_authority
+    geography_name: Shetland Islands
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000028
+    label: South Ayrshire
+    ordinal: 28
+    row_number: 33
+    expected_row_header_column: A
+    expected_row_header: South Ayrshire
+    geography_id: S12000028
+    geography_level: local_authority
+    geography_name: South Ayrshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000029
+    label: South Lanarkshire
+    ordinal: 29
+    row_number: 34
+    expected_row_header_column: A
+    expected_row_header: South Lanarkshire
+    geography_id: S12000029
+    geography_level: local_authority
+    geography_name: South Lanarkshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000030
+    label: Stirling
+    ordinal: 30
+    row_number: 35
+    expected_row_header_column: A
+    expected_row_header: Stirling
+    geography_id: S12000030
+    geography_level: local_authority
+    geography_name: Stirling
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000039
+    label: West Dunbartonshire
+    ordinal: 31
+    row_number: 36
+    expected_row_header_column: A
+    expected_row_header: West Dunbartonshire
+    geography_id: S12000039
+    geography_level: local_authority
+    geography_name: West Dunbartonshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000040
+    label: West Lothian
+    ordinal: 32
+    row_number: 37
+    expected_row_header_column: A
+    expected_row_header: West Lothian
+    geography_id: S12000040
+    geography_level: local_authority
+    geography_name: West Lothian
+    geography_vintage: ca_2019
+    table_record_kind: detail
+- record_set_id: scotgov.second_homes_empty_properties_2025.empty_properties.y2025
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: uk.local_geography.council_tax.scotland_second_homes_empty_properties.empty_properties.v1
+  source_record_id_prefix: scotgov.second_homes_empty_properties_2025.empty_properties.y2025
+  sheet_name: Empty Properties (6 months +)
+  period_type: month
+  period: 2025-09
+  period_coverage:
+    basis: calendar
+    source_period_label: September 2025
+    notes: '''Data presented for September each year'' (cover sheet): the councils'' council tax base
+      (CTAXBASE) returns at September 2025, read from the Second homes and empty properties in September
+      2025 edition.'
+  geography_id: S92000003
+  geography_level: country
+  geography_name: Scotland
+  geography_vintage: current
+  entity: dwelling
+  entity_role: chargeable_dwelling
+  domain: council_tax_stock
+  groupby_dimension: geography
+  measures:
+  - measure_id: empty_properties
+    label: Empty properties (empty for more than 6 months, liable for council tax)
+    ordinal: 0
+    column: V
+    source_column_id: empty_properties
+    expected_column_header_row: 4
+    expected_column_header: '2025'
+    concept: scotgov.council_tax.empty_properties
+    source_concept: scotgov.council_tax.empty_properties
+    concept_relation: source_label
+    concept_authority: scotgov
+    concept_evidence_url: https://www.gov.scot/publications/second-homes-and-empty-properties-in-september-2025/
+    concept_evidence_notes: 'Second homes and empty properties in September 2025, web table, sheet ''Empty
+      Properties (6 months +)'' (''Empty Properties (6 months +)''), column V (''2025''). Empty Properties:
+      properties which have been empty for more than 6 months and are liable for council tax. Of which,
+      there are long term empty properties (empty for more than 12 months). Note 1: ''Trends over time
+      for all these statistics should be interpreted with some caution, given that increases and decreases
+      can be caused in part by reclassification exercises which local authorities carry out from time
+      to time, or issues with management information systems, rather than being real changes in the numbers
+      of properties.'' Note 10: ''In September 2024 the guidance for empty properties data collection
+      was strengthened to ensure that councils excluded properties empty less than 6 months from their
+      data return (in CTAXBASE 8b). It was discovered that prior to 2024 some councils had included these
+      in their return to the Scottish Government. Empty homes (properties empty for more than 6 months)
+      will therefore be overstated in such instances; however, we are not able to quantify the impact
+      of their inclusion on published statistics before 2024. The decrease of 6% in empty homes between
+      2023 and 2024, is likely to be associated with a programme of work to clarify that empty homes should
+      only be recorded at 6 months or over. This decrease was driven by the City of Edinburgh, where data
+      from 2024 is now provided for empty homes 6 months or over (decrease of 57%, -4,107).'' Note 11:
+      ''Following the strengthening of guidance described in note 10, there was one authority (South Ayrshire)
+      who reported they have a very small number of properties empty less than 6 months included in the
+      total for empty properties.'' Note 12: ''Caution should be taken when interpreting the North Lanarkshire
+      change between 2023 and 2024 as it seems likely, rather than an increase in empty homes this year,
+      that their previous returns have under reported empty homes.'''
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+  rows:
+  - value_id: s92000003
+    label: Scotland
+    ordinal: 0
+    row_number: 5
+    expected_row_header_column: A
+    expected_row_header: Scotland
+    geography_id: S92000003
+    geography_level: country
+    geography_name: Scotland
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - {column: A, row: 1, expected_value: Empty Properties (6 months +), label: table title}
+    - {column: A, row: 4, expected_value: Local Authority, label: row header label}
+  - value_id: s12000033
+    label: Aberdeen City
+    ordinal: 1
+    row_number: 6
+    expected_row_header_column: A
+    expected_row_header: Aberdeen City
+    geography_id: S12000033
+    geography_level: local_authority
+    geography_name: Aberdeen City
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000034
+    label: Aberdeenshire
+    ordinal: 2
+    row_number: 7
+    expected_row_header_column: A
+    expected_row_header: Aberdeenshire
+    geography_id: S12000034
+    geography_level: local_authority
+    geography_name: Aberdeenshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000041
+    label: Angus
+    ordinal: 3
+    row_number: 8
+    expected_row_header_column: A
+    expected_row_header: Angus
+    geography_id: S12000041
+    geography_level: local_authority
+    geography_name: Angus
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000035
+    label: Argyll and Bute
+    ordinal: 4
+    row_number: 9
+    expected_row_header_column: A
+    expected_row_header: Argyll & Bute
+    geography_id: S12000035
+    geography_level: local_authority
+    geography_name: Argyll & Bute
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000005
+    label: Clackmannanshire
+    ordinal: 5
+    row_number: 10
+    expected_row_header_column: A
+    expected_row_header: Clackmannanshire
+    geography_id: S12000005
+    geography_level: local_authority
+    geography_name: Clackmannanshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000006
+    label: Dumfries and Galloway
+    ordinal: 6
+    row_number: 11
+    expected_row_header_column: A
+    expected_row_header: Dumfries & Galloway
+    geography_id: S12000006
+    geography_level: local_authority
+    geography_name: Dumfries & Galloway
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000042
+    label: Dundee City
+    ordinal: 7
+    row_number: 12
+    expected_row_header_column: A
+    expected_row_header: Dundee City
+    geography_id: S12000042
+    geography_level: local_authority
+    geography_name: Dundee City
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000008
+    label: East Ayrshire
+    ordinal: 8
+    row_number: 13
+    expected_row_header_column: A
+    expected_row_header: East Ayrshire
+    geography_id: S12000008
+    geography_level: local_authority
+    geography_name: East Ayrshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000045
+    label: East Dunbartonshire
+    ordinal: 9
+    row_number: 14
+    expected_row_header_column: A
+    expected_row_header: East Dunbartonshire
+    geography_id: S12000045
+    geography_level: local_authority
+    geography_name: East Dunbartonshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000010
+    label: East Lothian
+    ordinal: 10
+    row_number: 15
+    expected_row_header_column: A
+    expected_row_header: East Lothian
+    geography_id: S12000010
+    geography_level: local_authority
+    geography_name: East Lothian
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000011
+    label: East Renfrewshire
+    ordinal: 11
+    row_number: 16
+    expected_row_header_column: A
+    expected_row_header: East Renfrewshire
+    geography_id: S12000011
+    geography_level: local_authority
+    geography_name: East Renfrewshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000036
+    label: City of Edinburgh
+    ordinal: 12
+    row_number: 17
+    expected_row_header_column: A
+    expected_row_header: Edinburgh, City of
+    geography_id: S12000036
+    geography_level: local_authority
+    geography_name: Edinburgh, City of
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000014
+    label: Falkirk
+    ordinal: 13
+    row_number: 18
+    expected_row_header_column: A
+    expected_row_header: Falkirk
+    geography_id: S12000014
+    geography_level: local_authority
+    geography_name: Falkirk
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000047
+    label: Fife
+    ordinal: 14
+    row_number: 19
+    expected_row_header_column: A
+    expected_row_header: Fife
+    geography_id: S12000047
+    geography_level: local_authority
+    geography_name: Fife
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000049
+    label: Glasgow City
+    ordinal: 15
+    row_number: 20
+    expected_row_header_column: A
+    expected_row_header: Glasgow City
+    geography_id: S12000049
+    geography_level: local_authority
+    geography_name: Glasgow City
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000017
+    label: Highland
+    ordinal: 16
+    row_number: 21
+    expected_row_header_column: A
+    expected_row_header: Highland
+    geography_id: S12000017
+    geography_level: local_authority
+    geography_name: Highland
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000018
+    label: Inverclyde
+    ordinal: 17
+    row_number: 22
+    expected_row_header_column: A
+    expected_row_header: Inverclyde
+    geography_id: S12000018
+    geography_level: local_authority
+    geography_name: Inverclyde
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000019
+    label: Midlothian
+    ordinal: 18
+    row_number: 23
+    expected_row_header_column: A
+    expected_row_header: Midlothian
+    geography_id: S12000019
+    geography_level: local_authority
+    geography_name: Midlothian
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000020
+    label: Moray
+    ordinal: 19
+    row_number: 24
+    expected_row_header_column: A
+    expected_row_header: Moray
+    geography_id: S12000020
+    geography_level: local_authority
+    geography_name: Moray
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000013
+    label: Na h-Eileanan Siar
+    ordinal: 20
+    row_number: 25
+    expected_row_header_column: A
+    expected_row_header: Na h-Eileanan Siar
+    geography_id: S12000013
+    geography_level: local_authority
+    geography_name: Na h-Eileanan Siar
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000021
+    label: North Ayrshire
+    ordinal: 21
+    row_number: 26
+    expected_row_header_column: A
+    expected_row_header: North Ayrshire
+    geography_id: S12000021
+    geography_level: local_authority
+    geography_name: North Ayrshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000050
+    label: North Lanarkshire
+    ordinal: 22
+    row_number: 27
+    expected_row_header_column: A
+    expected_row_header: North Lanarkshire
+    geography_id: S12000050
+    geography_level: local_authority
+    geography_name: North Lanarkshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000023
+    label: Orkney Islands
+    ordinal: 23
+    row_number: 28
+    expected_row_header_column: A
+    expected_row_header: Orkney Islands
+    geography_id: S12000023
+    geography_level: local_authority
+    geography_name: Orkney Islands
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000048
+    label: Perth and Kinross
+    ordinal: 24
+    row_number: 29
+    expected_row_header_column: A
+    expected_row_header: Perth & Kinross
+    geography_id: S12000048
+    geography_level: local_authority
+    geography_name: Perth & Kinross
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000038
+    label: Renfrewshire
+    ordinal: 25
+    row_number: 30
+    expected_row_header_column: A
+    expected_row_header: 'Renfrewshire '
+    geography_id: S12000038
+    geography_level: local_authority
+    geography_name: Renfrewshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000026
+    label: Scottish Borders
+    ordinal: 26
+    row_number: 31
+    expected_row_header_column: A
+    expected_row_header: Scottish Borders
+    geography_id: S12000026
+    geography_level: local_authority
+    geography_name: Scottish Borders
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000027
+    label: Shetland Islands
+    ordinal: 27
+    row_number: 32
+    expected_row_header_column: A
+    expected_row_header: Shetland Islands
+    geography_id: S12000027
+    geography_level: local_authority
+    geography_name: Shetland Islands
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000028
+    label: South Ayrshire
+    ordinal: 28
+    row_number: 33
+    expected_row_header_column: A
+    expected_row_header: South Ayrshire
+    geography_id: S12000028
+    geography_level: local_authority
+    geography_name: South Ayrshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000029
+    label: South Lanarkshire
+    ordinal: 29
+    row_number: 34
+    expected_row_header_column: A
+    expected_row_header: South Lanarkshire
+    geography_id: S12000029
+    geography_level: local_authority
+    geography_name: South Lanarkshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000030
+    label: Stirling
+    ordinal: 30
+    row_number: 35
+    expected_row_header_column: A
+    expected_row_header: Stirling
+    geography_id: S12000030
+    geography_level: local_authority
+    geography_name: Stirling
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000039
+    label: West Dunbartonshire
+    ordinal: 31
+    row_number: 36
+    expected_row_header_column: A
+    expected_row_header: West Dunbartonshire
+    geography_id: S12000039
+    geography_level: local_authority
+    geography_name: West Dunbartonshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000040
+    label: West Lothian
+    ordinal: 32
+    row_number: 37
+    expected_row_header_column: A
+    expected_row_header: West Lothian
+    geography_id: S12000040
+    geography_level: local_authority
+    geography_name: West Lothian
+    geography_vintage: ca_2019
+    table_record_kind: detail
+- record_set_id: scotgov.second_homes_empty_properties_2025.long_term_empty_properties.y2024
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: uk.local_geography.council_tax.scotland_second_homes_empty_properties.long_term_empty_properties.v1
+  source_record_id_prefix: scotgov.second_homes_empty_properties_2025.long_term_empty_properties.y2024
+  sheet_name: Long Term Empty 12 Months
+  period_type: month
+  period: 2024-09
+  period_coverage:
+    basis: calendar
+    source_period_label: September 2024
+    notes: '''Data presented for September each year'' (cover sheet): the councils'' council tax base
+      (CTAXBASE) returns at September 2024, read from the Second homes and empty properties in September
+      2025 edition. Note 13: ''As a result of a cyber attack on Na h-Eileanan Siar in November 2023 the
+      council was still working through a large backlog of changes to accounts and properties at the time
+      of the 2024 data collection. For this reason, the figures are not as up to date as they would normally
+      be.'''
+  geography_id: S92000003
+  geography_level: country
+  geography_name: Scotland
+  geography_vintage: current
+  entity: dwelling
+  entity_role: chargeable_dwelling
+  domain: council_tax_stock
+  groupby_dimension: geography
+  measures:
+  - measure_id: long_term_empty_properties
+    label: Long-term empty properties (empty for 12 months or more)
+    ordinal: 0
+    column: M
+    source_column_id: long_term_empty_properties
+    expected_column_header_row: 4
+    expected_column_header: '2024'
+    concept: scotgov.council_tax.long_term_empty_properties
+    source_concept: scotgov.council_tax.long_term_empty_properties
+    concept_relation: source_label
+    concept_authority: scotgov
+    concept_evidence_url: https://www.gov.scot/publications/second-homes-and-empty-properties-in-september-2025/
+    concept_evidence_notes: 'Second homes and empty properties in September 2025, web table, sheet ''Long
+      Term Empty 12 Months'' (''Long Term Empty Properties: 12 months or more''), column M (''2024'').
+      Empty Properties: properties which have been empty for more than 6 months and are liable for council
+      tax. Of which, there are long term empty properties (empty for more than 12 months). Note 1: ''Trends
+      over time for all these statistics should be interpreted with some caution, given that increases
+      and decreases can be caused in part by reclassification exercises which local authorities carry
+      out from time to time, or issues with management information systems, rather than being real changes
+      in the numbers of properties.'' Note 2: ''From 1st April 2013 local authorities gained the discretionary
+      power to remove the empty properties discount or set a council tax increase of 100% on certain properties
+      which have been empty for one year or more. This, along with associated improvements in the data
+      held by local authorities, has led to the reclassification of a number of properties and has had
+      a significant bearing on the year-on-year changes in the figures.'' Note 10: ''In September 2024
+      the guidance for empty properties data collection was strengthened to ensure that councils excluded
+      properties empty less than 6 months from their data return (in CTAXBASE 8b). It was discovered that
+      prior to 2024 some councils had included these in their return to the Scottish Government. Empty
+      homes (properties empty for more than 6 months) will therefore be overstated in such instances;
+      however, we are not able to quantify the impact of their inclusion on published statistics before
+      2024. The decrease of 6% in empty homes between 2023 and 2024, is likely to be associated with a
+      programme of work to clarify that empty homes should only be recorded at 6 months or over. This
+      decrease was driven by the City of Edinburgh, where data from 2024 is now provided for empty homes
+      6 months or over (decrease of 57%, -4,107).'' Note 11: ''Following the strengthening of guidance
+      described in note 10, there was one authority (South Ayrshire) who reported they have a very small
+      number of properties empty less than 6 months included in the total for empty properties.'''
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+  rows:
+  - value_id: s92000003
+    label: Scotland
+    ordinal: 0
+    row_number: 5
+    expected_row_header_column: A
+    expected_row_header: Scotland
+    geography_id: S92000003
+    geography_level: country
+    geography_name: Scotland
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - {column: A, row: 1, expected_value: 'Long Term Empty Properties: 12 months or more', label: table
+        title}
+    - {column: A, row: 4, expected_value: Local Authority, label: row header label}
+  - value_id: s12000033
+    label: Aberdeen City
+    ordinal: 1
+    row_number: 6
+    expected_row_header_column: A
+    expected_row_header: Aberdeen City
+    geography_id: S12000033
+    geography_level: local_authority
+    geography_name: Aberdeen City
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000034
+    label: Aberdeenshire
+    ordinal: 2
+    row_number: 7
+    expected_row_header_column: A
+    expected_row_header: Aberdeenshire
+    geography_id: S12000034
+    geography_level: local_authority
+    geography_name: Aberdeenshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000041
+    label: Angus
+    ordinal: 3
+    row_number: 8
+    expected_row_header_column: A
+    expected_row_header: Angus
+    geography_id: S12000041
+    geography_level: local_authority
+    geography_name: Angus
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000035
+    label: Argyll and Bute
+    ordinal: 4
+    row_number: 9
+    expected_row_header_column: A
+    expected_row_header: Argyll & Bute
+    geography_id: S12000035
+    geography_level: local_authority
+    geography_name: Argyll & Bute
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000005
+    label: Clackmannanshire
+    ordinal: 5
+    row_number: 10
+    expected_row_header_column: A
+    expected_row_header: 'Clackmannanshire '
+    geography_id: S12000005
+    geography_level: local_authority
+    geography_name: Clackmannanshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000006
+    label: Dumfries and Galloway
+    ordinal: 6
+    row_number: 11
+    expected_row_header_column: A
+    expected_row_header: Dumfries & Galloway
+    geography_id: S12000006
+    geography_level: local_authority
+    geography_name: Dumfries & Galloway
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000042
+    label: Dundee City
+    ordinal: 7
+    row_number: 12
+    expected_row_header_column: A
+    expected_row_header: Dundee City
+    geography_id: S12000042
+    geography_level: local_authority
+    geography_name: Dundee City
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000008
+    label: East Ayrshire
+    ordinal: 8
+    row_number: 13
+    expected_row_header_column: A
+    expected_row_header: East Ayrshire
+    geography_id: S12000008
+    geography_level: local_authority
+    geography_name: East Ayrshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000045
+    label: East Dunbartonshire
+    ordinal: 9
+    row_number: 14
+    expected_row_header_column: A
+    expected_row_header: East Dunbartonshire
+    geography_id: S12000045
+    geography_level: local_authority
+    geography_name: East Dunbartonshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000010
+    label: East Lothian
+    ordinal: 10
+    row_number: 15
+    expected_row_header_column: A
+    expected_row_header: East Lothian
+    geography_id: S12000010
+    geography_level: local_authority
+    geography_name: East Lothian
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000011
+    label: East Renfrewshire
+    ordinal: 11
+    row_number: 16
+    expected_row_header_column: A
+    expected_row_header: 'East Renfrewshire '
+    geography_id: S12000011
+    geography_level: local_authority
+    geography_name: East Renfrewshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000036
+    label: City of Edinburgh
+    ordinal: 12
+    row_number: 17
+    expected_row_header_column: A
+    expected_row_header: 'Edinburgh, City of '
+    geography_id: S12000036
+    geography_level: local_authority
+    geography_name: Edinburgh, City of
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000014
+    label: Falkirk
+    ordinal: 13
+    row_number: 18
+    expected_row_header_column: A
+    expected_row_header: Falkirk
+    geography_id: S12000014
+    geography_level: local_authority
+    geography_name: Falkirk
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000047
+    label: Fife
+    ordinal: 14
+    row_number: 19
+    expected_row_header_column: A
+    expected_row_header: Fife
+    geography_id: S12000047
+    geography_level: local_authority
+    geography_name: Fife
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000049
+    label: Glasgow City
+    ordinal: 15
+    row_number: 20
+    expected_row_header_column: A
+    expected_row_header: Glasgow City
+    geography_id: S12000049
+    geography_level: local_authority
+    geography_name: Glasgow City
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000017
+    label: Highland
+    ordinal: 16
+    row_number: 21
+    expected_row_header_column: A
+    expected_row_header: Highland
+    geography_id: S12000017
+    geography_level: local_authority
+    geography_name: Highland
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000018
+    label: Inverclyde
+    ordinal: 17
+    row_number: 22
+    expected_row_header_column: A
+    expected_row_header: Inverclyde
+    geography_id: S12000018
+    geography_level: local_authority
+    geography_name: Inverclyde
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000019
+    label: Midlothian
+    ordinal: 18
+    row_number: 23
+    expected_row_header_column: A
+    expected_row_header: 'Midlothian '
+    geography_id: S12000019
+    geography_level: local_authority
+    geography_name: Midlothian
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000020
+    label: Moray
+    ordinal: 19
+    row_number: 24
+    expected_row_header_column: A
+    expected_row_header: Moray
+    geography_id: S12000020
+    geography_level: local_authority
+    geography_name: Moray
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000013
+    label: Na h-Eileanan Siar
+    ordinal: 20
+    row_number: 25
+    expected_row_header_column: A
+    expected_row_header: Na h-Eileanan Siar
+    geography_id: S12000013
+    geography_level: local_authority
+    geography_name: Na h-Eileanan Siar
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000021
+    label: North Ayrshire
+    ordinal: 21
+    row_number: 26
+    expected_row_header_column: A
+    expected_row_header: North Ayrshire
+    geography_id: S12000021
+    geography_level: local_authority
+    geography_name: North Ayrshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000050
+    label: North Lanarkshire
+    ordinal: 22
+    row_number: 27
+    expected_row_header_column: A
+    expected_row_header: North Lanarkshire
+    geography_id: S12000050
+    geography_level: local_authority
+    geography_name: North Lanarkshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000023
+    label: Orkney Islands
+    ordinal: 23
+    row_number: 28
+    expected_row_header_column: A
+    expected_row_header: Orkney Islands
+    geography_id: S12000023
+    geography_level: local_authority
+    geography_name: Orkney Islands
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000048
+    label: Perth and Kinross
+    ordinal: 24
+    row_number: 29
+    expected_row_header_column: A
+    expected_row_header: Perth & Kinross
+    geography_id: S12000048
+    geography_level: local_authority
+    geography_name: Perth & Kinross
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000038
+    label: Renfrewshire
+    ordinal: 25
+    row_number: 30
+    expected_row_header_column: A
+    expected_row_header: 'Renfrewshire '
+    geography_id: S12000038
+    geography_level: local_authority
+    geography_name: Renfrewshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000026
+    label: Scottish Borders
+    ordinal: 26
+    row_number: 31
+    expected_row_header_column: A
+    expected_row_header: Scottish Borders
+    geography_id: S12000026
+    geography_level: local_authority
+    geography_name: Scottish Borders
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000027
+    label: Shetland Islands
+    ordinal: 27
+    row_number: 32
+    expected_row_header_column: A
+    expected_row_header: Shetland Islands
+    geography_id: S12000027
+    geography_level: local_authority
+    geography_name: Shetland Islands
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000028
+    label: South Ayrshire
+    ordinal: 28
+    row_number: 33
+    expected_row_header_column: A
+    expected_row_header: South Ayrshire
+    geography_id: S12000028
+    geography_level: local_authority
+    geography_name: South Ayrshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000029
+    label: South Lanarkshire
+    ordinal: 29
+    row_number: 34
+    expected_row_header_column: A
+    expected_row_header: South Lanarkshire
+    geography_id: S12000029
+    geography_level: local_authority
+    geography_name: South Lanarkshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000030
+    label: Stirling
+    ordinal: 30
+    row_number: 35
+    expected_row_header_column: A
+    expected_row_header: Stirling
+    geography_id: S12000030
+    geography_level: local_authority
+    geography_name: Stirling
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000039
+    label: West Dunbartonshire
+    ordinal: 31
+    row_number: 36
+    expected_row_header_column: A
+    expected_row_header: West Dunbartonshire
+    geography_id: S12000039
+    geography_level: local_authority
+    geography_name: West Dunbartonshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000040
+    label: West Lothian
+    ordinal: 32
+    row_number: 37
+    expected_row_header_column: A
+    expected_row_header: West Lothian
+    geography_id: S12000040
+    geography_level: local_authority
+    geography_name: West Lothian
+    geography_vintage: ca_2019
+    table_record_kind: detail
+- record_set_id: scotgov.second_homes_empty_properties_2025.long_term_empty_properties.y2025
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: uk.local_geography.council_tax.scotland_second_homes_empty_properties.long_term_empty_properties.v1
+  source_record_id_prefix: scotgov.second_homes_empty_properties_2025.long_term_empty_properties.y2025
+  sheet_name: Long Term Empty 12 Months
+  period_type: month
+  period: 2025-09
+  period_coverage:
+    basis: calendar
+    source_period_label: September 2025
+    notes: '''Data presented for September each year'' (cover sheet): the councils'' council tax base
+      (CTAXBASE) returns at September 2025, read from the Second homes and empty properties in September
+      2025 edition.'
+  geography_id: S92000003
+  geography_level: country
+  geography_name: Scotland
+  geography_vintage: current
+  entity: dwelling
+  entity_role: chargeable_dwelling
+  domain: council_tax_stock
+  groupby_dimension: geography
+  measures:
+  - measure_id: long_term_empty_properties
+    label: Long-term empty properties (empty for 12 months or more)
+    ordinal: 0
+    column: N
+    source_column_id: long_term_empty_properties
+    expected_column_header_row: 4
+    expected_column_header: '2025'
+    concept: scotgov.council_tax.long_term_empty_properties
+    source_concept: scotgov.council_tax.long_term_empty_properties
+    concept_relation: source_label
+    concept_authority: scotgov
+    concept_evidence_url: https://www.gov.scot/publications/second-homes-and-empty-properties-in-september-2025/
+    concept_evidence_notes: 'Second homes and empty properties in September 2025, web table, sheet ''Long
+      Term Empty 12 Months'' (''Long Term Empty Properties: 12 months or more''), column N (''2025'').
+      Empty Properties: properties which have been empty for more than 6 months and are liable for council
+      tax. Of which, there are long term empty properties (empty for more than 12 months). Note 1: ''Trends
+      over time for all these statistics should be interpreted with some caution, given that increases
+      and decreases can be caused in part by reclassification exercises which local authorities carry
+      out from time to time, or issues with management information systems, rather than being real changes
+      in the numbers of properties.'' Note 2: ''From 1st April 2013 local authorities gained the discretionary
+      power to remove the empty properties discount or set a council tax increase of 100% on certain properties
+      which have been empty for one year or more. This, along with associated improvements in the data
+      held by local authorities, has led to the reclassification of a number of properties and has had
+      a significant bearing on the year-on-year changes in the figures.'' Note 10: ''In September 2024
+      the guidance for empty properties data collection was strengthened to ensure that councils excluded
+      properties empty less than 6 months from their data return (in CTAXBASE 8b). It was discovered that
+      prior to 2024 some councils had included these in their return to the Scottish Government. Empty
+      homes (properties empty for more than 6 months) will therefore be overstated in such instances;
+      however, we are not able to quantify the impact of their inclusion on published statistics before
+      2024. The decrease of 6% in empty homes between 2023 and 2024, is likely to be associated with a
+      programme of work to clarify that empty homes should only be recorded at 6 months or over. This
+      decrease was driven by the City of Edinburgh, where data from 2024 is now provided for empty homes
+      6 months or over (decrease of 57%, -4,107).'' Note 11: ''Following the strengthening of guidance
+      described in note 10, there was one authority (South Ayrshire) who reported they have a very small
+      number of properties empty less than 6 months included in the total for empty properties.'''
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+  rows:
+  - value_id: s92000003
+    label: Scotland
+    ordinal: 0
+    row_number: 5
+    expected_row_header_column: A
+    expected_row_header: Scotland
+    geography_id: S92000003
+    geography_level: country
+    geography_name: Scotland
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - {column: A, row: 1, expected_value: 'Long Term Empty Properties: 12 months or more', label: table
+        title}
+    - {column: A, row: 4, expected_value: Local Authority, label: row header label}
+  - value_id: s12000033
+    label: Aberdeen City
+    ordinal: 1
+    row_number: 6
+    expected_row_header_column: A
+    expected_row_header: Aberdeen City
+    geography_id: S12000033
+    geography_level: local_authority
+    geography_name: Aberdeen City
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000034
+    label: Aberdeenshire
+    ordinal: 2
+    row_number: 7
+    expected_row_header_column: A
+    expected_row_header: Aberdeenshire
+    geography_id: S12000034
+    geography_level: local_authority
+    geography_name: Aberdeenshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000041
+    label: Angus
+    ordinal: 3
+    row_number: 8
+    expected_row_header_column: A
+    expected_row_header: Angus
+    geography_id: S12000041
+    geography_level: local_authority
+    geography_name: Angus
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000035
+    label: Argyll and Bute
+    ordinal: 4
+    row_number: 9
+    expected_row_header_column: A
+    expected_row_header: Argyll & Bute
+    geography_id: S12000035
+    geography_level: local_authority
+    geography_name: Argyll & Bute
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000005
+    label: Clackmannanshire
+    ordinal: 5
+    row_number: 10
+    expected_row_header_column: A
+    expected_row_header: 'Clackmannanshire '
+    geography_id: S12000005
+    geography_level: local_authority
+    geography_name: Clackmannanshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000006
+    label: Dumfries and Galloway
+    ordinal: 6
+    row_number: 11
+    expected_row_header_column: A
+    expected_row_header: Dumfries & Galloway
+    geography_id: S12000006
+    geography_level: local_authority
+    geography_name: Dumfries & Galloway
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000042
+    label: Dundee City
+    ordinal: 7
+    row_number: 12
+    expected_row_header_column: A
+    expected_row_header: Dundee City
+    geography_id: S12000042
+    geography_level: local_authority
+    geography_name: Dundee City
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000008
+    label: East Ayrshire
+    ordinal: 8
+    row_number: 13
+    expected_row_header_column: A
+    expected_row_header: East Ayrshire
+    geography_id: S12000008
+    geography_level: local_authority
+    geography_name: East Ayrshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000045
+    label: East Dunbartonshire
+    ordinal: 9
+    row_number: 14
+    expected_row_header_column: A
+    expected_row_header: East Dunbartonshire
+    geography_id: S12000045
+    geography_level: local_authority
+    geography_name: East Dunbartonshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000010
+    label: East Lothian
+    ordinal: 10
+    row_number: 15
+    expected_row_header_column: A
+    expected_row_header: East Lothian
+    geography_id: S12000010
+    geography_level: local_authority
+    geography_name: East Lothian
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000011
+    label: East Renfrewshire
+    ordinal: 11
+    row_number: 16
+    expected_row_header_column: A
+    expected_row_header: 'East Renfrewshire '
+    geography_id: S12000011
+    geography_level: local_authority
+    geography_name: East Renfrewshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000036
+    label: City of Edinburgh
+    ordinal: 12
+    row_number: 17
+    expected_row_header_column: A
+    expected_row_header: 'Edinburgh, City of '
+    geography_id: S12000036
+    geography_level: local_authority
+    geography_name: Edinburgh, City of
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000014
+    label: Falkirk
+    ordinal: 13
+    row_number: 18
+    expected_row_header_column: A
+    expected_row_header: Falkirk
+    geography_id: S12000014
+    geography_level: local_authority
+    geography_name: Falkirk
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000047
+    label: Fife
+    ordinal: 14
+    row_number: 19
+    expected_row_header_column: A
+    expected_row_header: Fife
+    geography_id: S12000047
+    geography_level: local_authority
+    geography_name: Fife
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000049
+    label: Glasgow City
+    ordinal: 15
+    row_number: 20
+    expected_row_header_column: A
+    expected_row_header: Glasgow City
+    geography_id: S12000049
+    geography_level: local_authority
+    geography_name: Glasgow City
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000017
+    label: Highland
+    ordinal: 16
+    row_number: 21
+    expected_row_header_column: A
+    expected_row_header: Highland
+    geography_id: S12000017
+    geography_level: local_authority
+    geography_name: Highland
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000018
+    label: Inverclyde
+    ordinal: 17
+    row_number: 22
+    expected_row_header_column: A
+    expected_row_header: Inverclyde
+    geography_id: S12000018
+    geography_level: local_authority
+    geography_name: Inverclyde
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000019
+    label: Midlothian
+    ordinal: 18
+    row_number: 23
+    expected_row_header_column: A
+    expected_row_header: 'Midlothian '
+    geography_id: S12000019
+    geography_level: local_authority
+    geography_name: Midlothian
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000020
+    label: Moray
+    ordinal: 19
+    row_number: 24
+    expected_row_header_column: A
+    expected_row_header: Moray
+    geography_id: S12000020
+    geography_level: local_authority
+    geography_name: Moray
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000013
+    label: Na h-Eileanan Siar
+    ordinal: 20
+    row_number: 25
+    expected_row_header_column: A
+    expected_row_header: Na h-Eileanan Siar
+    geography_id: S12000013
+    geography_level: local_authority
+    geography_name: Na h-Eileanan Siar
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000021
+    label: North Ayrshire
+    ordinal: 21
+    row_number: 26
+    expected_row_header_column: A
+    expected_row_header: North Ayrshire
+    geography_id: S12000021
+    geography_level: local_authority
+    geography_name: North Ayrshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000050
+    label: North Lanarkshire
+    ordinal: 22
+    row_number: 27
+    expected_row_header_column: A
+    expected_row_header: North Lanarkshire
+    geography_id: S12000050
+    geography_level: local_authority
+    geography_name: North Lanarkshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000023
+    label: Orkney Islands
+    ordinal: 23
+    row_number: 28
+    expected_row_header_column: A
+    expected_row_header: Orkney Islands
+    geography_id: S12000023
+    geography_level: local_authority
+    geography_name: Orkney Islands
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000048
+    label: Perth and Kinross
+    ordinal: 24
+    row_number: 29
+    expected_row_header_column: A
+    expected_row_header: Perth & Kinross
+    geography_id: S12000048
+    geography_level: local_authority
+    geography_name: Perth & Kinross
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000038
+    label: Renfrewshire
+    ordinal: 25
+    row_number: 30
+    expected_row_header_column: A
+    expected_row_header: 'Renfrewshire '
+    geography_id: S12000038
+    geography_level: local_authority
+    geography_name: Renfrewshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000026
+    label: Scottish Borders
+    ordinal: 26
+    row_number: 31
+    expected_row_header_column: A
+    expected_row_header: Scottish Borders
+    geography_id: S12000026
+    geography_level: local_authority
+    geography_name: Scottish Borders
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000027
+    label: Shetland Islands
+    ordinal: 27
+    row_number: 32
+    expected_row_header_column: A
+    expected_row_header: Shetland Islands
+    geography_id: S12000027
+    geography_level: local_authority
+    geography_name: Shetland Islands
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000028
+    label: South Ayrshire
+    ordinal: 28
+    row_number: 33
+    expected_row_header_column: A
+    expected_row_header: South Ayrshire
+    geography_id: S12000028
+    geography_level: local_authority
+    geography_name: South Ayrshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000029
+    label: South Lanarkshire
+    ordinal: 29
+    row_number: 34
+    expected_row_header_column: A
+    expected_row_header: South Lanarkshire
+    geography_id: S12000029
+    geography_level: local_authority
+    geography_name: South Lanarkshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000030
+    label: Stirling
+    ordinal: 30
+    row_number: 35
+    expected_row_header_column: A
+    expected_row_header: Stirling
+    geography_id: S12000030
+    geography_level: local_authority
+    geography_name: Stirling
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000039
+    label: West Dunbartonshire
+    ordinal: 31
+    row_number: 36
+    expected_row_header_column: A
+    expected_row_header: West Dunbartonshire
+    geography_id: S12000039
+    geography_level: local_authority
+    geography_name: West Dunbartonshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000040
+    label: West Lothian
+    ordinal: 32
+    row_number: 37
+    expected_row_header_column: A
+    expected_row_header: West Lothian
+    geography_id: S12000040
+    geography_level: local_authority
+    geography_name: West Lothian
+    geography_vintage: ca_2019
+    table_record_kind: detail
+- record_set_id: scotgov.second_homes_empty_properties_2025.long_term_empty_properties_discount_below_10_percent_or_increase.y2024
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: uk.local_geography.council_tax.scotland_second_homes_empty_properties.long_term_empty_properties_discount_below_10_percent_or_increase.v1
+  source_record_id_prefix: scotgov.second_homes_empty_properties_2025.long_term_empty_properties_discount_below_10_percent_or_increase.y2024
+  sheet_name: Long Term Empty Discount
+  period_type: month
+  period: 2024-09
+  period_coverage:
+    basis: calendar
+    source_period_label: September 2024
+    notes: '''Data presented for September each year'' (cover sheet): the councils'' council tax base
+      (CTAXBASE) returns at September 2024, read from the Second homes and empty properties in September
+      2025 edition. Note 13: ''As a result of a cyber attack on Na h-Eileanan Siar in November 2023 the
+      council was still working through a large backlog of changes to accounts and properties at the time
+      of the 2024 data collection. For this reason, the figures are not as up to date as they would normally
+      be.'''
+  geography_id: S92000003
+  geography_level: country
+  geography_name: Scotland
+  geography_vintage: current
+  entity: dwelling
+  entity_role: chargeable_dwelling
+  domain: council_tax_stock
+  groupby_dimension: geography
+  measures:
+  - measure_id: long_term_empty_properties_discount_below_10_percent_or_increase
+    label: Long-term empty properties with a discount below 10% or an increase
+    ordinal: 0
+    column: L
+    source_column_id: long_term_empty_properties_discount_below_10_percent_or_increase
+    expected_column_header_row: 4
+    expected_column_header: '2024'
+    concept: scotgov.council_tax.long_term_empty_properties_discount_below_10_percent_or_increase
+    source_concept: scotgov.council_tax.long_term_empty_properties_discount_below_10_percent_or_increase
+    concept_relation: source_label
+    concept_authority: scotgov
+    concept_evidence_url: https://www.gov.scot/publications/second-homes-and-empty-properties-in-september-2025/
+    concept_evidence_notes: 'Second homes and empty properties in September 2025, web table, sheet ''Long
+      Term Empty Discount'' (''Long Term Empty Properties: 12 months or more and where a discount below
+      10% or an increase has been applied''), column L (''2024''). Long-term empty properties (12 months
+      or more) where a council tax discount below 10% or an increase has been applied. Empty Properties:
+      properties which have been empty for more than 6 months and are liable for council tax. Of which,
+      there are long term empty properties (empty for more than 12 months). Note 1: ''Trends over time
+      for all these statistics should be interpreted with some caution, given that increases and decreases
+      can be caused in part by reclassification exercises which local authorities carry out from time
+      to time, or issues with management information systems, rather than being real changes in the numbers
+      of properties.'' Note 2: ''From 1st April 2013 local authorities gained the discretionary power
+      to remove the empty properties discount or set a council tax increase of 100% on certain properties
+      which have been empty for one year or more. This, along with associated improvements in the data
+      held by local authorities, has led to the reclassification of a number of properties and has had
+      a significant bearing on the year-on-year changes in the figures.'''
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+  rows:
+  - value_id: s92000003
+    label: Scotland
+    ordinal: 0
+    row_number: 5
+    expected_row_header_column: A
+    expected_row_header: SCOTLAND
+    geography_id: S92000003
+    geography_level: country
+    geography_name: Scotland
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - {column: A, row: 1, expected_value: 'Long Term Empty Properties: 12 months or more and where a discount
+        below 10% or an increase has been applied', label: table title}
+    - {column: A, row: 4, expected_value: Local Authority, label: row header label}
+  - value_id: s12000033
+    label: Aberdeen City
+    ordinal: 1
+    row_number: 6
+    expected_row_header_column: A
+    expected_row_header: Aberdeen City
+    geography_id: S12000033
+    geography_level: local_authority
+    geography_name: Aberdeen City
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000034
+    label: Aberdeenshire
+    ordinal: 2
+    row_number: 7
+    expected_row_header_column: A
+    expected_row_header: Aberdeenshire
+    geography_id: S12000034
+    geography_level: local_authority
+    geography_name: Aberdeenshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000041
+    label: Angus
+    ordinal: 3
+    row_number: 8
+    expected_row_header_column: A
+    expected_row_header: Angus
+    geography_id: S12000041
+    geography_level: local_authority
+    geography_name: Angus
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000035
+    label: Argyll and Bute
+    ordinal: 4
+    row_number: 9
+    expected_row_header_column: A
+    expected_row_header: Argyll & Bute
+    geography_id: S12000035
+    geography_level: local_authority
+    geography_name: Argyll & Bute
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000005
+    label: Clackmannanshire
+    ordinal: 5
+    row_number: 10
+    expected_row_header_column: A
+    expected_row_header: Clackmannanshire
+    geography_id: S12000005
+    geography_level: local_authority
+    geography_name: Clackmannanshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000006
+    label: Dumfries and Galloway
+    ordinal: 6
+    row_number: 11
+    expected_row_header_column: A
+    expected_row_header: Dumfries & Galloway
+    geography_id: S12000006
+    geography_level: local_authority
+    geography_name: Dumfries & Galloway
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000042
+    label: Dundee City
+    ordinal: 7
+    row_number: 12
+    expected_row_header_column: A
+    expected_row_header: Dundee City
+    geography_id: S12000042
+    geography_level: local_authority
+    geography_name: Dundee City
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000008
+    label: East Ayrshire
+    ordinal: 8
+    row_number: 13
+    expected_row_header_column: A
+    expected_row_header: East Ayrshire
+    geography_id: S12000008
+    geography_level: local_authority
+    geography_name: East Ayrshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000045
+    label: East Dunbartonshire
+    ordinal: 9
+    row_number: 14
+    expected_row_header_column: A
+    expected_row_header: East Dunbartonshire
+    geography_id: S12000045
+    geography_level: local_authority
+    geography_name: East Dunbartonshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000010
+    label: East Lothian
+    ordinal: 10
+    row_number: 15
+    expected_row_header_column: A
+    expected_row_header: East Lothian
+    geography_id: S12000010
+    geography_level: local_authority
+    geography_name: East Lothian
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000011
+    label: East Renfrewshire
+    ordinal: 11
+    row_number: 16
+    expected_row_header_column: A
+    expected_row_header: East Renfrewshire
+    geography_id: S12000011
+    geography_level: local_authority
+    geography_name: East Renfrewshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000036
+    label: City of Edinburgh
+    ordinal: 12
+    row_number: 17
+    expected_row_header_column: A
+    expected_row_header: Edinburgh, City of
+    geography_id: S12000036
+    geography_level: local_authority
+    geography_name: Edinburgh, City of
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000014
+    label: Falkirk
+    ordinal: 13
+    row_number: 18
+    expected_row_header_column: A
+    expected_row_header: Falkirk
+    geography_id: S12000014
+    geography_level: local_authority
+    geography_name: Falkirk
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000047
+    label: Fife
+    ordinal: 14
+    row_number: 19
+    expected_row_header_column: A
+    expected_row_header: Fife
+    geography_id: S12000047
+    geography_level: local_authority
+    geography_name: Fife
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000049
+    label: Glasgow City
+    ordinal: 15
+    row_number: 20
+    expected_row_header_column: A
+    expected_row_header: Glasgow
+    geography_id: S12000049
+    geography_level: local_authority
+    geography_name: Glasgow City
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000017
+    label: Highland
+    ordinal: 16
+    row_number: 21
+    expected_row_header_column: A
+    expected_row_header: Highland
+    geography_id: S12000017
+    geography_level: local_authority
+    geography_name: Highland
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000018
+    label: Inverclyde
+    ordinal: 17
+    row_number: 22
+    expected_row_header_column: A
+    expected_row_header: Inverclyde
+    geography_id: S12000018
+    geography_level: local_authority
+    geography_name: Inverclyde
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000019
+    label: Midlothian
+    ordinal: 18
+    row_number: 23
+    expected_row_header_column: A
+    expected_row_header: Midlothian
+    geography_id: S12000019
+    geography_level: local_authority
+    geography_name: Midlothian
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000020
+    label: Moray
+    ordinal: 19
+    row_number: 24
+    expected_row_header_column: A
+    expected_row_header: Moray
+    geography_id: S12000020
+    geography_level: local_authority
+    geography_name: Moray
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000013
+    label: Na h-Eileanan Siar
+    ordinal: 20
+    row_number: 25
+    expected_row_header_column: A
+    expected_row_header: Na h-Eileanan Siar
+    geography_id: S12000013
+    geography_level: local_authority
+    geography_name: Na h-Eileanan Siar
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000021
+    label: North Ayrshire
+    ordinal: 21
+    row_number: 26
+    expected_row_header_column: A
+    expected_row_header: North Ayrshire
+    geography_id: S12000021
+    geography_level: local_authority
+    geography_name: North Ayrshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000050
+    label: North Lanarkshire
+    ordinal: 22
+    row_number: 27
+    expected_row_header_column: A
+    expected_row_header: North Lanarkshire
+    geography_id: S12000050
+    geography_level: local_authority
+    geography_name: North Lanarkshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000023
+    label: Orkney Islands
+    ordinal: 23
+    row_number: 28
+    expected_row_header_column: A
+    expected_row_header: Orkney Islands
+    geography_id: S12000023
+    geography_level: local_authority
+    geography_name: Orkney Islands
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000048
+    label: Perth and Kinross
+    ordinal: 24
+    row_number: 29
+    expected_row_header_column: A
+    expected_row_header: Perth & Kinross
+    geography_id: S12000048
+    geography_level: local_authority
+    geography_name: Perth & Kinross
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000038
+    label: Renfrewshire
+    ordinal: 25
+    row_number: 30
+    expected_row_header_column: A
+    expected_row_header: Renfrewshire
+    geography_id: S12000038
+    geography_level: local_authority
+    geography_name: Renfrewshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000026
+    label: Scottish Borders
+    ordinal: 26
+    row_number: 31
+    expected_row_header_column: A
+    expected_row_header: Scottish Borders
+    geography_id: S12000026
+    geography_level: local_authority
+    geography_name: Scottish Borders
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000027
+    label: Shetland Islands
+    ordinal: 27
+    row_number: 32
+    expected_row_header_column: A
+    expected_row_header: Shetland Islands
+    geography_id: S12000027
+    geography_level: local_authority
+    geography_name: Shetland Islands
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000028
+    label: South Ayrshire
+    ordinal: 28
+    row_number: 33
+    expected_row_header_column: A
+    expected_row_header: South Ayrshire
+    geography_id: S12000028
+    geography_level: local_authority
+    geography_name: South Ayrshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000029
+    label: South Lanarkshire
+    ordinal: 29
+    row_number: 34
+    expected_row_header_column: A
+    expected_row_header: South Lanarkshire
+    geography_id: S12000029
+    geography_level: local_authority
+    geography_name: South Lanarkshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000030
+    label: Stirling
+    ordinal: 30
+    row_number: 35
+    expected_row_header_column: A
+    expected_row_header: Stirling
+    geography_id: S12000030
+    geography_level: local_authority
+    geography_name: Stirling
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000039
+    label: West Dunbartonshire
+    ordinal: 31
+    row_number: 36
+    expected_row_header_column: A
+    expected_row_header: West Dunbartonshire
+    geography_id: S12000039
+    geography_level: local_authority
+    geography_name: West Dunbartonshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000040
+    label: West Lothian
+    ordinal: 32
+    row_number: 37
+    expected_row_header_column: A
+    expected_row_header: West Lothian
+    geography_id: S12000040
+    geography_level: local_authority
+    geography_name: West Lothian
+    geography_vintage: ca_2019
+    table_record_kind: detail
+- record_set_id: scotgov.second_homes_empty_properties_2025.long_term_empty_properties_discount_below_10_percent_or_increase.y2025
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: uk.local_geography.council_tax.scotland_second_homes_empty_properties.long_term_empty_properties_discount_below_10_percent_or_increase.v1
+  source_record_id_prefix: scotgov.second_homes_empty_properties_2025.long_term_empty_properties_discount_below_10_percent_or_increase.y2025
+  sheet_name: Long Term Empty Discount
+  period_type: month
+  period: 2025-09
+  period_coverage:
+    basis: calendar
+    source_period_label: September 2025
+    notes: '''Data presented for September each year'' (cover sheet): the councils'' council tax base
+      (CTAXBASE) returns at September 2025, read from the Second homes and empty properties in September
+      2025 edition.'
+  geography_id: S92000003
+  geography_level: country
+  geography_name: Scotland
+  geography_vintage: current
+  entity: dwelling
+  entity_role: chargeable_dwelling
+  domain: council_tax_stock
+  groupby_dimension: geography
+  measures:
+  - measure_id: long_term_empty_properties_discount_below_10_percent_or_increase
+    label: Long-term empty properties with a discount below 10% or an increase
+    ordinal: 0
+    column: M
+    source_column_id: long_term_empty_properties_discount_below_10_percent_or_increase
+    expected_column_header_row: 4
+    expected_column_header: '2025'
+    concept: scotgov.council_tax.long_term_empty_properties_discount_below_10_percent_or_increase
+    source_concept: scotgov.council_tax.long_term_empty_properties_discount_below_10_percent_or_increase
+    concept_relation: source_label
+    concept_authority: scotgov
+    concept_evidence_url: https://www.gov.scot/publications/second-homes-and-empty-properties-in-september-2025/
+    concept_evidence_notes: 'Second homes and empty properties in September 2025, web table, sheet ''Long
+      Term Empty Discount'' (''Long Term Empty Properties: 12 months or more and where a discount below
+      10% or an increase has been applied''), column M (''2025''). Long-term empty properties (12 months
+      or more) where a council tax discount below 10% or an increase has been applied. Empty Properties:
+      properties which have been empty for more than 6 months and are liable for council tax. Of which,
+      there are long term empty properties (empty for more than 12 months). Note 1: ''Trends over time
+      for all these statistics should be interpreted with some caution, given that increases and decreases
+      can be caused in part by reclassification exercises which local authorities carry out from time
+      to time, or issues with management information systems, rather than being real changes in the numbers
+      of properties.'' Note 2: ''From 1st April 2013 local authorities gained the discretionary power
+      to remove the empty properties discount or set a council tax increase of 100% on certain properties
+      which have been empty for one year or more. This, along with associated improvements in the data
+      held by local authorities, has led to the reclassification of a number of properties and has had
+      a significant bearing on the year-on-year changes in the figures.'''
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+  rows:
+  - value_id: s92000003
+    label: Scotland
+    ordinal: 0
+    row_number: 5
+    expected_row_header_column: A
+    expected_row_header: SCOTLAND
+    geography_id: S92000003
+    geography_level: country
+    geography_name: Scotland
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - {column: A, row: 1, expected_value: 'Long Term Empty Properties: 12 months or more and where a discount
+        below 10% or an increase has been applied', label: table title}
+    - {column: A, row: 4, expected_value: Local Authority, label: row header label}
+  - value_id: s12000033
+    label: Aberdeen City
+    ordinal: 1
+    row_number: 6
+    expected_row_header_column: A
+    expected_row_header: Aberdeen City
+    geography_id: S12000033
+    geography_level: local_authority
+    geography_name: Aberdeen City
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000034
+    label: Aberdeenshire
+    ordinal: 2
+    row_number: 7
+    expected_row_header_column: A
+    expected_row_header: Aberdeenshire
+    geography_id: S12000034
+    geography_level: local_authority
+    geography_name: Aberdeenshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000041
+    label: Angus
+    ordinal: 3
+    row_number: 8
+    expected_row_header_column: A
+    expected_row_header: Angus
+    geography_id: S12000041
+    geography_level: local_authority
+    geography_name: Angus
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000035
+    label: Argyll and Bute
+    ordinal: 4
+    row_number: 9
+    expected_row_header_column: A
+    expected_row_header: Argyll & Bute
+    geography_id: S12000035
+    geography_level: local_authority
+    geography_name: Argyll & Bute
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000005
+    label: Clackmannanshire
+    ordinal: 5
+    row_number: 10
+    expected_row_header_column: A
+    expected_row_header: Clackmannanshire
+    geography_id: S12000005
+    geography_level: local_authority
+    geography_name: Clackmannanshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000006
+    label: Dumfries and Galloway
+    ordinal: 6
+    row_number: 11
+    expected_row_header_column: A
+    expected_row_header: Dumfries & Galloway
+    geography_id: S12000006
+    geography_level: local_authority
+    geography_name: Dumfries & Galloway
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000042
+    label: Dundee City
+    ordinal: 7
+    row_number: 12
+    expected_row_header_column: A
+    expected_row_header: Dundee City
+    geography_id: S12000042
+    geography_level: local_authority
+    geography_name: Dundee City
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000008
+    label: East Ayrshire
+    ordinal: 8
+    row_number: 13
+    expected_row_header_column: A
+    expected_row_header: East Ayrshire
+    geography_id: S12000008
+    geography_level: local_authority
+    geography_name: East Ayrshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000045
+    label: East Dunbartonshire
+    ordinal: 9
+    row_number: 14
+    expected_row_header_column: A
+    expected_row_header: East Dunbartonshire
+    geography_id: S12000045
+    geography_level: local_authority
+    geography_name: East Dunbartonshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000010
+    label: East Lothian
+    ordinal: 10
+    row_number: 15
+    expected_row_header_column: A
+    expected_row_header: East Lothian
+    geography_id: S12000010
+    geography_level: local_authority
+    geography_name: East Lothian
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000011
+    label: East Renfrewshire
+    ordinal: 11
+    row_number: 16
+    expected_row_header_column: A
+    expected_row_header: East Renfrewshire
+    geography_id: S12000011
+    geography_level: local_authority
+    geography_name: East Renfrewshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000036
+    label: City of Edinburgh
+    ordinal: 12
+    row_number: 17
+    expected_row_header_column: A
+    expected_row_header: Edinburgh, City of
+    geography_id: S12000036
+    geography_level: local_authority
+    geography_name: Edinburgh, City of
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000014
+    label: Falkirk
+    ordinal: 13
+    row_number: 18
+    expected_row_header_column: A
+    expected_row_header: Falkirk
+    geography_id: S12000014
+    geography_level: local_authority
+    geography_name: Falkirk
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000047
+    label: Fife
+    ordinal: 14
+    row_number: 19
+    expected_row_header_column: A
+    expected_row_header: Fife
+    geography_id: S12000047
+    geography_level: local_authority
+    geography_name: Fife
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000049
+    label: Glasgow City
+    ordinal: 15
+    row_number: 20
+    expected_row_header_column: A
+    expected_row_header: Glasgow
+    geography_id: S12000049
+    geography_level: local_authority
+    geography_name: Glasgow City
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000017
+    label: Highland
+    ordinal: 16
+    row_number: 21
+    expected_row_header_column: A
+    expected_row_header: Highland
+    geography_id: S12000017
+    geography_level: local_authority
+    geography_name: Highland
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000018
+    label: Inverclyde
+    ordinal: 17
+    row_number: 22
+    expected_row_header_column: A
+    expected_row_header: Inverclyde
+    geography_id: S12000018
+    geography_level: local_authority
+    geography_name: Inverclyde
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000019
+    label: Midlothian
+    ordinal: 18
+    row_number: 23
+    expected_row_header_column: A
+    expected_row_header: Midlothian
+    geography_id: S12000019
+    geography_level: local_authority
+    geography_name: Midlothian
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000020
+    label: Moray
+    ordinal: 19
+    row_number: 24
+    expected_row_header_column: A
+    expected_row_header: Moray
+    geography_id: S12000020
+    geography_level: local_authority
+    geography_name: Moray
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000013
+    label: Na h-Eileanan Siar
+    ordinal: 20
+    row_number: 25
+    expected_row_header_column: A
+    expected_row_header: Na h-Eileanan Siar
+    geography_id: S12000013
+    geography_level: local_authority
+    geography_name: Na h-Eileanan Siar
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000021
+    label: North Ayrshire
+    ordinal: 21
+    row_number: 26
+    expected_row_header_column: A
+    expected_row_header: North Ayrshire
+    geography_id: S12000021
+    geography_level: local_authority
+    geography_name: North Ayrshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000050
+    label: North Lanarkshire
+    ordinal: 22
+    row_number: 27
+    expected_row_header_column: A
+    expected_row_header: North Lanarkshire
+    geography_id: S12000050
+    geography_level: local_authority
+    geography_name: North Lanarkshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000023
+    label: Orkney Islands
+    ordinal: 23
+    row_number: 28
+    expected_row_header_column: A
+    expected_row_header: Orkney Islands
+    geography_id: S12000023
+    geography_level: local_authority
+    geography_name: Orkney Islands
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000048
+    label: Perth and Kinross
+    ordinal: 24
+    row_number: 29
+    expected_row_header_column: A
+    expected_row_header: Perth & Kinross
+    geography_id: S12000048
+    geography_level: local_authority
+    geography_name: Perth & Kinross
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000038
+    label: Renfrewshire
+    ordinal: 25
+    row_number: 30
+    expected_row_header_column: A
+    expected_row_header: Renfrewshire
+    geography_id: S12000038
+    geography_level: local_authority
+    geography_name: Renfrewshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000026
+    label: Scottish Borders
+    ordinal: 26
+    row_number: 31
+    expected_row_header_column: A
+    expected_row_header: Scottish Borders
+    geography_id: S12000026
+    geography_level: local_authority
+    geography_name: Scottish Borders
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000027
+    label: Shetland Islands
+    ordinal: 27
+    row_number: 32
+    expected_row_header_column: A
+    expected_row_header: Shetland Islands
+    geography_id: S12000027
+    geography_level: local_authority
+    geography_name: Shetland Islands
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000028
+    label: South Ayrshire
+    ordinal: 28
+    row_number: 33
+    expected_row_header_column: A
+    expected_row_header: South Ayrshire
+    geography_id: S12000028
+    geography_level: local_authority
+    geography_name: South Ayrshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000029
+    label: South Lanarkshire
+    ordinal: 29
+    row_number: 34
+    expected_row_header_column: A
+    expected_row_header: South Lanarkshire
+    geography_id: S12000029
+    geography_level: local_authority
+    geography_name: South Lanarkshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000030
+    label: Stirling
+    ordinal: 30
+    row_number: 35
+    expected_row_header_column: A
+    expected_row_header: Stirling
+    geography_id: S12000030
+    geography_level: local_authority
+    geography_name: Stirling
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000039
+    label: West Dunbartonshire
+    ordinal: 31
+    row_number: 36
+    expected_row_header_column: A
+    expected_row_header: West Dunbartonshire
+    geography_id: S12000039
+    geography_level: local_authority
+    geography_name: West Dunbartonshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000040
+    label: West Lothian
+    ordinal: 32
+    row_number: 37
+    expected_row_header_column: A
+    expected_row_header: West Lothian
+    geography_id: S12000040
+    geography_level: local_authority
+    geography_name: West Lothian
+    geography_vintage: ca_2019
+    table_record_kind: detail
+- record_set_id: scotgov.second_homes_empty_properties_2025.unoccupied_exemptions.y2024
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: uk.local_geography.council_tax.scotland_second_homes_empty_properties.unoccupied_exemptions.v1
+  source_record_id_prefix: scotgov.second_homes_empty_properties_2025.unoccupied_exemptions.y2024
+  sheet_name: Unoccupied Exemptions
+  period_type: month
+  period: 2024-09
+  period_coverage:
+    basis: calendar
+    source_period_label: September 2024
+    notes: '''Data presented for September each year'' (cover sheet): the councils'' council tax base
+      (CTAXBASE) returns at September 2024, read from the Second homes and empty properties in September
+      2025 edition. Note 13: ''As a result of a cyber attack on Na h-Eileanan Siar in November 2023 the
+      council was still working through a large backlog of changes to accounts and properties at the time
+      of the 2024 data collection. For this reason, the figures are not as up to date as they would normally
+      be.'''
+  geography_id: S92000003
+  geography_level: country
+  geography_name: Scotland
+  geography_vintage: current
+  entity: dwelling
+  entity_role: exempt_dwelling
+  domain: council_tax_stock
+  groupby_dimension: geography
+  measures:
+  - measure_id: unoccupied_exemptions
+    label: Dwellings with an unoccupied exemption from council tax
+    ordinal: 0
+    column: AD
+    source_column_id: unoccupied_exemptions
+    expected_column_header_row: 4
+    expected_column_header: '2024'
+    concept: scotgov.council_tax.unoccupied_exemptions
+    source_concept: scotgov.council_tax.unoccupied_exemptions
+    concept_relation: source_label
+    concept_authority: scotgov
+    concept_evidence_url: https://www.gov.scot/publications/second-homes-and-empty-properties-in-september-2025/
+    concept_evidence_notes: 'Second homes and empty properties in September 2025, web table, sheet ''Unoccupied
+      Exemptions'' (''Number of dwellings receiving an exemption from council tax due to being an unoccupied
+      exemption''), column AD (''2024''). Unoccupied Exemptions: the total number of dwellings exempt
+      from Council Tax due to being unoccupied. Examples being housing awaiting demolition or a new build
+      waiting to be occupied (please refer to the Council Tax (Exempt Dwellings) (Scotland) Order 1997
+      for more information). Note 1: ''Trends over time for all these statistics should be interpreted
+      with some caution, given that increases and decreases can be caused in part by reclassification
+      exercises which local authorities carry out from time to time, or issues with management information
+      systems, rather than being real changes in the numbers of properties.'''
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+  rows:
+  - value_id: s92000003
+    label: Scotland
+    ordinal: 0
+    row_number: 5
+    expected_row_header_column: A
+    expected_row_header: SCOTLAND
+    geography_id: S92000003
+    geography_level: country
+    geography_name: Scotland
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - {column: A, row: 1, expected_value: Number of dwellings receiving an exemption from council tax
+        due to being an unoccupied exemption, label: table title}
+    - {column: A, row: 4, expected_value: Local Authority, label: row header label}
+  - value_id: s12000033
+    label: Aberdeen City
+    ordinal: 1
+    row_number: 6
+    expected_row_header_column: A
+    expected_row_header: Aberdeen City
+    geography_id: S12000033
+    geography_level: local_authority
+    geography_name: Aberdeen City
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000034
+    label: Aberdeenshire
+    ordinal: 2
+    row_number: 7
+    expected_row_header_column: A
+    expected_row_header: Aberdeenshire
+    geography_id: S12000034
+    geography_level: local_authority
+    geography_name: Aberdeenshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000041
+    label: Angus
+    ordinal: 3
+    row_number: 8
+    expected_row_header_column: A
+    expected_row_header: Angus
+    geography_id: S12000041
+    geography_level: local_authority
+    geography_name: Angus
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000035
+    label: Argyll and Bute
+    ordinal: 4
+    row_number: 9
+    expected_row_header_column: A
+    expected_row_header: Argyll & Bute
+    geography_id: S12000035
+    geography_level: local_authority
+    geography_name: Argyll & Bute
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000005
+    label: Clackmannanshire
+    ordinal: 5
+    row_number: 10
+    expected_row_header_column: A
+    expected_row_header: Clackmannanshire
+    geography_id: S12000005
+    geography_level: local_authority
+    geography_name: Clackmannanshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000006
+    label: Dumfries and Galloway
+    ordinal: 6
+    row_number: 11
+    expected_row_header_column: A
+    expected_row_header: Dumfries & Galloway
+    geography_id: S12000006
+    geography_level: local_authority
+    geography_name: Dumfries & Galloway
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000042
+    label: Dundee City
+    ordinal: 7
+    row_number: 12
+    expected_row_header_column: A
+    expected_row_header: Dundee City
+    geography_id: S12000042
+    geography_level: local_authority
+    geography_name: Dundee City
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000008
+    label: East Ayrshire
+    ordinal: 8
+    row_number: 13
+    expected_row_header_column: A
+    expected_row_header: East Ayrshire
+    geography_id: S12000008
+    geography_level: local_authority
+    geography_name: East Ayrshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000045
+    label: East Dunbartonshire
+    ordinal: 9
+    row_number: 14
+    expected_row_header_column: A
+    expected_row_header: East Dunbartonshire
+    geography_id: S12000045
+    geography_level: local_authority
+    geography_name: East Dunbartonshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000010
+    label: East Lothian
+    ordinal: 10
+    row_number: 15
+    expected_row_header_column: A
+    expected_row_header: East Lothian
+    geography_id: S12000010
+    geography_level: local_authority
+    geography_name: East Lothian
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000011
+    label: East Renfrewshire
+    ordinal: 11
+    row_number: 16
+    expected_row_header_column: A
+    expected_row_header: East Renfrewshire
+    geography_id: S12000011
+    geography_level: local_authority
+    geography_name: East Renfrewshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000036
+    label: City of Edinburgh
+    ordinal: 12
+    row_number: 17
+    expected_row_header_column: A
+    expected_row_header: Edinburgh, City of
+    geography_id: S12000036
+    geography_level: local_authority
+    geography_name: Edinburgh, City of
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000014
+    label: Falkirk
+    ordinal: 13
+    row_number: 18
+    expected_row_header_column: A
+    expected_row_header: Falkirk
+    geography_id: S12000014
+    geography_level: local_authority
+    geography_name: Falkirk
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000047
+    label: Fife
+    ordinal: 14
+    row_number: 19
+    expected_row_header_column: A
+    expected_row_header: Fife
+    geography_id: S12000047
+    geography_level: local_authority
+    geography_name: Fife
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000049
+    label: Glasgow City
+    ordinal: 15
+    row_number: 20
+    expected_row_header_column: A
+    expected_row_header: Glasgow
+    geography_id: S12000049
+    geography_level: local_authority
+    geography_name: Glasgow City
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000017
+    label: Highland
+    ordinal: 16
+    row_number: 21
+    expected_row_header_column: A
+    expected_row_header: Highland
+    geography_id: S12000017
+    geography_level: local_authority
+    geography_name: Highland
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000018
+    label: Inverclyde
+    ordinal: 17
+    row_number: 22
+    expected_row_header_column: A
+    expected_row_header: Inverclyde
+    geography_id: S12000018
+    geography_level: local_authority
+    geography_name: Inverclyde
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000019
+    label: Midlothian
+    ordinal: 18
+    row_number: 23
+    expected_row_header_column: A
+    expected_row_header: Midlothian
+    geography_id: S12000019
+    geography_level: local_authority
+    geography_name: Midlothian
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000020
+    label: Moray
+    ordinal: 19
+    row_number: 24
+    expected_row_header_column: A
+    expected_row_header: Moray
+    geography_id: S12000020
+    geography_level: local_authority
+    geography_name: Moray
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000013
+    label: Na h-Eileanan Siar
+    ordinal: 20
+    row_number: 25
+    expected_row_header_column: A
+    expected_row_header: Na h-Eileanan Siar
+    geography_id: S12000013
+    geography_level: local_authority
+    geography_name: Na h-Eileanan Siar
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000021
+    label: North Ayrshire
+    ordinal: 21
+    row_number: 26
+    expected_row_header_column: A
+    expected_row_header: North Ayrshire
+    geography_id: S12000021
+    geography_level: local_authority
+    geography_name: North Ayrshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000050
+    label: North Lanarkshire
+    ordinal: 22
+    row_number: 27
+    expected_row_header_column: A
+    expected_row_header: North Lanarkshire
+    geography_id: S12000050
+    geography_level: local_authority
+    geography_name: North Lanarkshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000023
+    label: Orkney Islands
+    ordinal: 23
+    row_number: 28
+    expected_row_header_column: A
+    expected_row_header: Orkney Islands
+    geography_id: S12000023
+    geography_level: local_authority
+    geography_name: Orkney Islands
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000048
+    label: Perth and Kinross
+    ordinal: 24
+    row_number: 29
+    expected_row_header_column: A
+    expected_row_header: Perth & Kinross
+    geography_id: S12000048
+    geography_level: local_authority
+    geography_name: Perth & Kinross
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000038
+    label: Renfrewshire
+    ordinal: 25
+    row_number: 30
+    expected_row_header_column: A
+    expected_row_header: Renfrewshire
+    geography_id: S12000038
+    geography_level: local_authority
+    geography_name: Renfrewshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000026
+    label: Scottish Borders
+    ordinal: 26
+    row_number: 31
+    expected_row_header_column: A
+    expected_row_header: Scottish Borders
+    geography_id: S12000026
+    geography_level: local_authority
+    geography_name: Scottish Borders
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000027
+    label: Shetland Islands
+    ordinal: 27
+    row_number: 32
+    expected_row_header_column: A
+    expected_row_header: Shetland Islands
+    geography_id: S12000027
+    geography_level: local_authority
+    geography_name: Shetland Islands
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000028
+    label: South Ayrshire
+    ordinal: 28
+    row_number: 33
+    expected_row_header_column: A
+    expected_row_header: South Ayrshire
+    geography_id: S12000028
+    geography_level: local_authority
+    geography_name: South Ayrshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000029
+    label: South Lanarkshire
+    ordinal: 29
+    row_number: 34
+    expected_row_header_column: A
+    expected_row_header: South Lanarkshire
+    geography_id: S12000029
+    geography_level: local_authority
+    geography_name: South Lanarkshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000030
+    label: Stirling
+    ordinal: 30
+    row_number: 35
+    expected_row_header_column: A
+    expected_row_header: Stirling
+    geography_id: S12000030
+    geography_level: local_authority
+    geography_name: Stirling
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000039
+    label: West Dunbartonshire
+    ordinal: 31
+    row_number: 36
+    expected_row_header_column: A
+    expected_row_header: West Dunbartonshire
+    geography_id: S12000039
+    geography_level: local_authority
+    geography_name: West Dunbartonshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000040
+    label: West Lothian
+    ordinal: 32
+    row_number: 37
+    expected_row_header_column: A
+    expected_row_header: West Lothian
+    geography_id: S12000040
+    geography_level: local_authority
+    geography_name: West Lothian
+    geography_vintage: ca_2019
+    table_record_kind: detail
+- record_set_id: scotgov.second_homes_empty_properties_2025.unoccupied_exemptions.y2025
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: uk.local_geography.council_tax.scotland_second_homes_empty_properties.unoccupied_exemptions.v1
+  source_record_id_prefix: scotgov.second_homes_empty_properties_2025.unoccupied_exemptions.y2025
+  sheet_name: Unoccupied Exemptions
+  period_type: month
+  period: 2025-09
+  period_coverage:
+    basis: calendar
+    source_period_label: September 2025
+    notes: '''Data presented for September each year'' (cover sheet): the councils'' council tax base
+      (CTAXBASE) returns at September 2025, read from the Second homes and empty properties in September
+      2025 edition.'
+  geography_id: S92000003
+  geography_level: country
+  geography_name: Scotland
+  geography_vintage: current
+  entity: dwelling
+  entity_role: exempt_dwelling
+  domain: council_tax_stock
+  groupby_dimension: geography
+  measures:
+  - measure_id: unoccupied_exemptions
+    label: Dwellings with an unoccupied exemption from council tax
+    ordinal: 0
+    column: AE
+    source_column_id: unoccupied_exemptions
+    expected_column_header_row: 4
+    expected_column_header: '2025'
+    concept: scotgov.council_tax.unoccupied_exemptions
+    source_concept: scotgov.council_tax.unoccupied_exemptions
+    concept_relation: source_label
+    concept_authority: scotgov
+    concept_evidence_url: https://www.gov.scot/publications/second-homes-and-empty-properties-in-september-2025/
+    concept_evidence_notes: 'Second homes and empty properties in September 2025, web table, sheet ''Unoccupied
+      Exemptions'' (''Number of dwellings receiving an exemption from council tax due to being an unoccupied
+      exemption''), column AE (''2025''). Unoccupied Exemptions: the total number of dwellings exempt
+      from Council Tax due to being unoccupied. Examples being housing awaiting demolition or a new build
+      waiting to be occupied (please refer to the Council Tax (Exempt Dwellings) (Scotland) Order 1997
+      for more information). Note 1: ''Trends over time for all these statistics should be interpreted
+      with some caution, given that increases and decreases can be caused in part by reclassification
+      exercises which local authorities carry out from time to time, or issues with management information
+      systems, rather than being real changes in the numbers of properties.'''
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+  rows:
+  - value_id: s92000003
+    label: Scotland
+    ordinal: 0
+    row_number: 5
+    expected_row_header_column: A
+    expected_row_header: SCOTLAND
+    geography_id: S92000003
+    geography_level: country
+    geography_name: Scotland
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells:
+    - {column: A, row: 1, expected_value: Number of dwellings receiving an exemption from council tax
+        due to being an unoccupied exemption, label: table title}
+    - {column: A, row: 4, expected_value: Local Authority, label: row header label}
+  - value_id: s12000033
+    label: Aberdeen City
+    ordinal: 1
+    row_number: 6
+    expected_row_header_column: A
+    expected_row_header: Aberdeen City
+    geography_id: S12000033
+    geography_level: local_authority
+    geography_name: Aberdeen City
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000034
+    label: Aberdeenshire
+    ordinal: 2
+    row_number: 7
+    expected_row_header_column: A
+    expected_row_header: Aberdeenshire
+    geography_id: S12000034
+    geography_level: local_authority
+    geography_name: Aberdeenshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000041
+    label: Angus
+    ordinal: 3
+    row_number: 8
+    expected_row_header_column: A
+    expected_row_header: Angus
+    geography_id: S12000041
+    geography_level: local_authority
+    geography_name: Angus
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000035
+    label: Argyll and Bute
+    ordinal: 4
+    row_number: 9
+    expected_row_header_column: A
+    expected_row_header: Argyll & Bute
+    geography_id: S12000035
+    geography_level: local_authority
+    geography_name: Argyll & Bute
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000005
+    label: Clackmannanshire
+    ordinal: 5
+    row_number: 10
+    expected_row_header_column: A
+    expected_row_header: Clackmannanshire
+    geography_id: S12000005
+    geography_level: local_authority
+    geography_name: Clackmannanshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000006
+    label: Dumfries and Galloway
+    ordinal: 6
+    row_number: 11
+    expected_row_header_column: A
+    expected_row_header: Dumfries & Galloway
+    geography_id: S12000006
+    geography_level: local_authority
+    geography_name: Dumfries & Galloway
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000042
+    label: Dundee City
+    ordinal: 7
+    row_number: 12
+    expected_row_header_column: A
+    expected_row_header: Dundee City
+    geography_id: S12000042
+    geography_level: local_authority
+    geography_name: Dundee City
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000008
+    label: East Ayrshire
+    ordinal: 8
+    row_number: 13
+    expected_row_header_column: A
+    expected_row_header: East Ayrshire
+    geography_id: S12000008
+    geography_level: local_authority
+    geography_name: East Ayrshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000045
+    label: East Dunbartonshire
+    ordinal: 9
+    row_number: 14
+    expected_row_header_column: A
+    expected_row_header: East Dunbartonshire
+    geography_id: S12000045
+    geography_level: local_authority
+    geography_name: East Dunbartonshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000010
+    label: East Lothian
+    ordinal: 10
+    row_number: 15
+    expected_row_header_column: A
+    expected_row_header: East Lothian
+    geography_id: S12000010
+    geography_level: local_authority
+    geography_name: East Lothian
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000011
+    label: East Renfrewshire
+    ordinal: 11
+    row_number: 16
+    expected_row_header_column: A
+    expected_row_header: East Renfrewshire
+    geography_id: S12000011
+    geography_level: local_authority
+    geography_name: East Renfrewshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000036
+    label: City of Edinburgh
+    ordinal: 12
+    row_number: 17
+    expected_row_header_column: A
+    expected_row_header: Edinburgh, City of
+    geography_id: S12000036
+    geography_level: local_authority
+    geography_name: Edinburgh, City of
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000014
+    label: Falkirk
+    ordinal: 13
+    row_number: 18
+    expected_row_header_column: A
+    expected_row_header: Falkirk
+    geography_id: S12000014
+    geography_level: local_authority
+    geography_name: Falkirk
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000047
+    label: Fife
+    ordinal: 14
+    row_number: 19
+    expected_row_header_column: A
+    expected_row_header: Fife
+    geography_id: S12000047
+    geography_level: local_authority
+    geography_name: Fife
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000049
+    label: Glasgow City
+    ordinal: 15
+    row_number: 20
+    expected_row_header_column: A
+    expected_row_header: Glasgow
+    geography_id: S12000049
+    geography_level: local_authority
+    geography_name: Glasgow City
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000017
+    label: Highland
+    ordinal: 16
+    row_number: 21
+    expected_row_header_column: A
+    expected_row_header: Highland
+    geography_id: S12000017
+    geography_level: local_authority
+    geography_name: Highland
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000018
+    label: Inverclyde
+    ordinal: 17
+    row_number: 22
+    expected_row_header_column: A
+    expected_row_header: Inverclyde
+    geography_id: S12000018
+    geography_level: local_authority
+    geography_name: Inverclyde
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000019
+    label: Midlothian
+    ordinal: 18
+    row_number: 23
+    expected_row_header_column: A
+    expected_row_header: Midlothian
+    geography_id: S12000019
+    geography_level: local_authority
+    geography_name: Midlothian
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000020
+    label: Moray
+    ordinal: 19
+    row_number: 24
+    expected_row_header_column: A
+    expected_row_header: Moray
+    geography_id: S12000020
+    geography_level: local_authority
+    geography_name: Moray
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000013
+    label: Na h-Eileanan Siar
+    ordinal: 20
+    row_number: 25
+    expected_row_header_column: A
+    expected_row_header: Na h-Eileanan Siar
+    geography_id: S12000013
+    geography_level: local_authority
+    geography_name: Na h-Eileanan Siar
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000021
+    label: North Ayrshire
+    ordinal: 21
+    row_number: 26
+    expected_row_header_column: A
+    expected_row_header: North Ayrshire
+    geography_id: S12000021
+    geography_level: local_authority
+    geography_name: North Ayrshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000050
+    label: North Lanarkshire
+    ordinal: 22
+    row_number: 27
+    expected_row_header_column: A
+    expected_row_header: North Lanarkshire
+    geography_id: S12000050
+    geography_level: local_authority
+    geography_name: North Lanarkshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000023
+    label: Orkney Islands
+    ordinal: 23
+    row_number: 28
+    expected_row_header_column: A
+    expected_row_header: Orkney Islands
+    geography_id: S12000023
+    geography_level: local_authority
+    geography_name: Orkney Islands
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000048
+    label: Perth and Kinross
+    ordinal: 24
+    row_number: 29
+    expected_row_header_column: A
+    expected_row_header: Perth & Kinross
+    geography_id: S12000048
+    geography_level: local_authority
+    geography_name: Perth & Kinross
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000038
+    label: Renfrewshire
+    ordinal: 25
+    row_number: 30
+    expected_row_header_column: A
+    expected_row_header: Renfrewshire
+    geography_id: S12000038
+    geography_level: local_authority
+    geography_name: Renfrewshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000026
+    label: Scottish Borders
+    ordinal: 26
+    row_number: 31
+    expected_row_header_column: A
+    expected_row_header: Scottish Borders
+    geography_id: S12000026
+    geography_level: local_authority
+    geography_name: Scottish Borders
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000027
+    label: Shetland Islands
+    ordinal: 27
+    row_number: 32
+    expected_row_header_column: A
+    expected_row_header: Shetland Islands
+    geography_id: S12000027
+    geography_level: local_authority
+    geography_name: Shetland Islands
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000028
+    label: South Ayrshire
+    ordinal: 28
+    row_number: 33
+    expected_row_header_column: A
+    expected_row_header: South Ayrshire
+    geography_id: S12000028
+    geography_level: local_authority
+    geography_name: South Ayrshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000029
+    label: South Lanarkshire
+    ordinal: 29
+    row_number: 34
+    expected_row_header_column: A
+    expected_row_header: South Lanarkshire
+    geography_id: S12000029
+    geography_level: local_authority
+    geography_name: South Lanarkshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000030
+    label: Stirling
+    ordinal: 30
+    row_number: 35
+    expected_row_header_column: A
+    expected_row_header: Stirling
+    geography_id: S12000030
+    geography_level: local_authority
+    geography_name: Stirling
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000039
+    label: West Dunbartonshire
+    ordinal: 31
+    row_number: 36
+    expected_row_header_column: A
+    expected_row_header: West Dunbartonshire
+    geography_id: S12000039
+    geography_level: local_authority
+    geography_name: West Dunbartonshire
+    geography_vintage: ca_2019
+    table_record_kind: detail
+  - value_id: s12000040
+    label: West Lothian
+    ordinal: 32
+    row_number: 37
+    expected_row_header_column: A
+    expected_row_header: West Lothian
+    geography_id: S12000040
+    geography_level: local_authority
+    geography_name: West Lothian
+    geography_vintage: ca_2019
+    table_record_kind: detail

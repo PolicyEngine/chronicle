@@ -1,0 +1,521 @@
+{
+  "objectIdFieldName" : "OBJECTID", 
+  "uniqueIdField" : 
+  {
+    "name" : "OBJECTID", 
+    "isSystemMaintained" : true
+  }, 
+  "globalIdFieldName" : "", 
+  "geometryType" : "esriGeometryPolygon", 
+  "spatialReference" : {
+    "wkid" : 2193, 
+    "latestWkid" : 2193
+  }, 
+  "fields" : [
+    {
+      "name" : "TA2025_V1_00", 
+      "type" : "esriFieldTypeString", 
+      "alias" : "Territorial Authority Code", 
+      "sqlType" : "sqlTypeOther", 
+      "length" : 10, 
+      "domain" : null, 
+      "defaultValue" : null
+    }, 
+    {
+      "name" : "TA2025_V1_00_NAME", 
+      "type" : "esriFieldTypeString", 
+      "alias" : "Territorial Authority Name", 
+      "sqlType" : "sqlTypeOther", 
+      "length" : 250, 
+      "domain" : null, 
+      "defaultValue" : null
+    }, 
+    {
+      "name" : "TA2025_V1_00_NAME_ASCII", 
+      "type" : "esriFieldTypeString", 
+      "alias" : "TA2025_V1_00_NAME_ASCII", 
+      "sqlType" : "sqlTypeOther", 
+      "length" : 250, 
+      "domain" : null, 
+      "defaultValue" : null
+    }
+  ], 
+  "features" : [
+    {
+      "attributes" : {
+        "TA2025_V1_00" : "001", 
+        "TA2025_V1_00_NAME" : "Far North District", 
+        "TA2025_V1_00_NAME_ASCII" : "Far North District"
+      }
+    }, 
+    {
+      "attributes" : {
+        "TA2025_V1_00" : "002", 
+        "TA2025_V1_00_NAME" : "Whangarei District", 
+        "TA2025_V1_00_NAME_ASCII" : "Whangarei District"
+      }
+    }, 
+    {
+      "attributes" : {
+        "TA2025_V1_00" : "003", 
+        "TA2025_V1_00_NAME" : "Kaipara District", 
+        "TA2025_V1_00_NAME_ASCII" : "Kaipara District"
+      }
+    }, 
+    {
+      "attributes" : {
+        "TA2025_V1_00" : "011", 
+        "TA2025_V1_00_NAME" : "Thames-Coromandel District", 
+        "TA2025_V1_00_NAME_ASCII" : "Thames-Coromandel District"
+      }
+    }, 
+    {
+      "attributes" : {
+        "TA2025_V1_00" : "012", 
+        "TA2025_V1_00_NAME" : "Hauraki District", 
+        "TA2025_V1_00_NAME_ASCII" : "Hauraki District"
+      }
+    }, 
+    {
+      "attributes" : {
+        "TA2025_V1_00" : "013", 
+        "TA2025_V1_00_NAME" : "Waikato District", 
+        "TA2025_V1_00_NAME_ASCII" : "Waikato District"
+      }
+    }, 
+    {
+      "attributes" : {
+        "TA2025_V1_00" : "015", 
+        "TA2025_V1_00_NAME" : "Matamata-Piako District", 
+        "TA2025_V1_00_NAME_ASCII" : "Matamata-Piako District"
+      }
+    }, 
+    {
+      "attributes" : {
+        "TA2025_V1_00" : "016", 
+        "TA2025_V1_00_NAME" : "Hamilton City", 
+        "TA2025_V1_00_NAME_ASCII" : "Hamilton City"
+      }
+    }, 
+    {
+      "attributes" : {
+        "TA2025_V1_00" : "017", 
+        "TA2025_V1_00_NAME" : "Waipa District", 
+        "TA2025_V1_00_NAME_ASCII" : "Waipa District"
+      }
+    }, 
+    {
+      "attributes" : {
+        "TA2025_V1_00" : "018", 
+        "TA2025_V1_00_NAME" : "Ōtorohanga District", 
+        "TA2025_V1_00_NAME_ASCII" : "Otorohanga District"
+      }
+    }, 
+    {
+      "attributes" : {
+        "TA2025_V1_00" : "019", 
+        "TA2025_V1_00_NAME" : "South Waikato District", 
+        "TA2025_V1_00_NAME_ASCII" : "South Waikato District"
+      }
+    }, 
+    {
+      "attributes" : {
+        "TA2025_V1_00" : "020", 
+        "TA2025_V1_00_NAME" : "Waitomo District", 
+        "TA2025_V1_00_NAME_ASCII" : "Waitomo District"
+      }
+    }, 
+    {
+      "attributes" : {
+        "TA2025_V1_00" : "021", 
+        "TA2025_V1_00_NAME" : "Taupo District", 
+        "TA2025_V1_00_NAME_ASCII" : "Taupo District"
+      }
+    }, 
+    {
+      "attributes" : {
+        "TA2025_V1_00" : "022", 
+        "TA2025_V1_00_NAME" : "Western Bay of Plenty District", 
+        "TA2025_V1_00_NAME_ASCII" : "Western Bay of Plenty District"
+      }
+    }, 
+    {
+      "attributes" : {
+        "TA2025_V1_00" : "023", 
+        "TA2025_V1_00_NAME" : "Tauranga City", 
+        "TA2025_V1_00_NAME_ASCII" : "Tauranga City"
+      }
+    }, 
+    {
+      "attributes" : {
+        "TA2025_V1_00" : "024", 
+        "TA2025_V1_00_NAME" : "Rotorua District", 
+        "TA2025_V1_00_NAME_ASCII" : "Rotorua District"
+      }
+    }, 
+    {
+      "attributes" : {
+        "TA2025_V1_00" : "025", 
+        "TA2025_V1_00_NAME" : "Whakatane District", 
+        "TA2025_V1_00_NAME_ASCII" : "Whakatane District"
+      }
+    }, 
+    {
+      "attributes" : {
+        "TA2025_V1_00" : "026", 
+        "TA2025_V1_00_NAME" : "Kawerau District", 
+        "TA2025_V1_00_NAME_ASCII" : "Kawerau District"
+      }
+    }, 
+    {
+      "attributes" : {
+        "TA2025_V1_00" : "027", 
+        "TA2025_V1_00_NAME" : "Ōpōtiki District", 
+        "TA2025_V1_00_NAME_ASCII" : "Opotiki District"
+      }
+    }, 
+    {
+      "attributes" : {
+        "TA2025_V1_00" : "028", 
+        "TA2025_V1_00_NAME" : "Gisborne District", 
+        "TA2025_V1_00_NAME_ASCII" : "Gisborne District"
+      }
+    }, 
+    {
+      "attributes" : {
+        "TA2025_V1_00" : "029", 
+        "TA2025_V1_00_NAME" : "Wairoa District", 
+        "TA2025_V1_00_NAME_ASCII" : "Wairoa District"
+      }
+    }, 
+    {
+      "attributes" : {
+        "TA2025_V1_00" : "030", 
+        "TA2025_V1_00_NAME" : "Hastings District", 
+        "TA2025_V1_00_NAME_ASCII" : "Hastings District"
+      }
+    }, 
+    {
+      "attributes" : {
+        "TA2025_V1_00" : "031", 
+        "TA2025_V1_00_NAME" : "Napier City", 
+        "TA2025_V1_00_NAME_ASCII" : "Napier City"
+      }
+    }, 
+    {
+      "attributes" : {
+        "TA2025_V1_00" : "032", 
+        "TA2025_V1_00_NAME" : "Central Hawke's Bay District", 
+        "TA2025_V1_00_NAME_ASCII" : "Central Hawke's Bay District"
+      }
+    }, 
+    {
+      "attributes" : {
+        "TA2025_V1_00" : "033", 
+        "TA2025_V1_00_NAME" : "New Plymouth District", 
+        "TA2025_V1_00_NAME_ASCII" : "New Plymouth District"
+      }
+    }, 
+    {
+      "attributes" : {
+        "TA2025_V1_00" : "034", 
+        "TA2025_V1_00_NAME" : "Stratford District", 
+        "TA2025_V1_00_NAME_ASCII" : "Stratford District"
+      }
+    }, 
+    {
+      "attributes" : {
+        "TA2025_V1_00" : "035", 
+        "TA2025_V1_00_NAME" : "South Taranaki District", 
+        "TA2025_V1_00_NAME_ASCII" : "South Taranaki District"
+      }
+    }, 
+    {
+      "attributes" : {
+        "TA2025_V1_00" : "036", 
+        "TA2025_V1_00_NAME" : "Ruapehu District", 
+        "TA2025_V1_00_NAME_ASCII" : "Ruapehu District"
+      }
+    }, 
+    {
+      "attributes" : {
+        "TA2025_V1_00" : "037", 
+        "TA2025_V1_00_NAME" : "Whanganui District", 
+        "TA2025_V1_00_NAME_ASCII" : "Whanganui District"
+      }
+    }, 
+    {
+      "attributes" : {
+        "TA2025_V1_00" : "038", 
+        "TA2025_V1_00_NAME" : "Rangitikei District", 
+        "TA2025_V1_00_NAME_ASCII" : "Rangitikei District"
+      }
+    }, 
+    {
+      "attributes" : {
+        "TA2025_V1_00" : "039", 
+        "TA2025_V1_00_NAME" : "Manawatu District", 
+        "TA2025_V1_00_NAME_ASCII" : "Manawatu District"
+      }
+    }, 
+    {
+      "attributes" : {
+        "TA2025_V1_00" : "040", 
+        "TA2025_V1_00_NAME" : "Palmerston North City", 
+        "TA2025_V1_00_NAME_ASCII" : "Palmerston North City"
+      }
+    }, 
+    {
+      "attributes" : {
+        "TA2025_V1_00" : "041", 
+        "TA2025_V1_00_NAME" : "Tararua District", 
+        "TA2025_V1_00_NAME_ASCII" : "Tararua District"
+      }
+    }, 
+    {
+      "attributes" : {
+        "TA2025_V1_00" : "042", 
+        "TA2025_V1_00_NAME" : "Horowhenua District", 
+        "TA2025_V1_00_NAME_ASCII" : "Horowhenua District"
+      }
+    }, 
+    {
+      "attributes" : {
+        "TA2025_V1_00" : "043", 
+        "TA2025_V1_00_NAME" : "Kapiti Coast District", 
+        "TA2025_V1_00_NAME_ASCII" : "Kapiti Coast District"
+      }
+    }, 
+    {
+      "attributes" : {
+        "TA2025_V1_00" : "044", 
+        "TA2025_V1_00_NAME" : "Porirua City", 
+        "TA2025_V1_00_NAME_ASCII" : "Porirua City"
+      }
+    }, 
+    {
+      "attributes" : {
+        "TA2025_V1_00" : "045", 
+        "TA2025_V1_00_NAME" : "Upper Hutt City", 
+        "TA2025_V1_00_NAME_ASCII" : "Upper Hutt City"
+      }
+    }, 
+    {
+      "attributes" : {
+        "TA2025_V1_00" : "046", 
+        "TA2025_V1_00_NAME" : "Lower Hutt City", 
+        "TA2025_V1_00_NAME_ASCII" : "Lower Hutt City"
+      }
+    }, 
+    {
+      "attributes" : {
+        "TA2025_V1_00" : "047", 
+        "TA2025_V1_00_NAME" : "Wellington City", 
+        "TA2025_V1_00_NAME_ASCII" : "Wellington City"
+      }
+    }, 
+    {
+      "attributes" : {
+        "TA2025_V1_00" : "048", 
+        "TA2025_V1_00_NAME" : "Masterton District", 
+        "TA2025_V1_00_NAME_ASCII" : "Masterton District"
+      }
+    }, 
+    {
+      "attributes" : {
+        "TA2025_V1_00" : "049", 
+        "TA2025_V1_00_NAME" : "Carterton District", 
+        "TA2025_V1_00_NAME_ASCII" : "Carterton District"
+      }
+    }, 
+    {
+      "attributes" : {
+        "TA2025_V1_00" : "050", 
+        "TA2025_V1_00_NAME" : "South Wairarapa District", 
+        "TA2025_V1_00_NAME_ASCII" : "South Wairarapa District"
+      }
+    }, 
+    {
+      "attributes" : {
+        "TA2025_V1_00" : "051", 
+        "TA2025_V1_00_NAME" : "Tasman District", 
+        "TA2025_V1_00_NAME_ASCII" : "Tasman District"
+      }
+    }, 
+    {
+      "attributes" : {
+        "TA2025_V1_00" : "052", 
+        "TA2025_V1_00_NAME" : "Nelson City", 
+        "TA2025_V1_00_NAME_ASCII" : "Nelson City"
+      }
+    }, 
+    {
+      "attributes" : {
+        "TA2025_V1_00" : "053", 
+        "TA2025_V1_00_NAME" : "Marlborough District", 
+        "TA2025_V1_00_NAME_ASCII" : "Marlborough District"
+      }
+    }, 
+    {
+      "attributes" : {
+        "TA2025_V1_00" : "054", 
+        "TA2025_V1_00_NAME" : "Kaikoura District", 
+        "TA2025_V1_00_NAME_ASCII" : "Kaikoura District"
+      }
+    }, 
+    {
+      "attributes" : {
+        "TA2025_V1_00" : "055", 
+        "TA2025_V1_00_NAME" : "Buller District", 
+        "TA2025_V1_00_NAME_ASCII" : "Buller District"
+      }
+    }, 
+    {
+      "attributes" : {
+        "TA2025_V1_00" : "056", 
+        "TA2025_V1_00_NAME" : "Grey District", 
+        "TA2025_V1_00_NAME_ASCII" : "Grey District"
+      }
+    }, 
+    {
+      "attributes" : {
+        "TA2025_V1_00" : "057", 
+        "TA2025_V1_00_NAME" : "Westland District", 
+        "TA2025_V1_00_NAME_ASCII" : "Westland District"
+      }
+    }, 
+    {
+      "attributes" : {
+        "TA2025_V1_00" : "058", 
+        "TA2025_V1_00_NAME" : "Hurunui District", 
+        "TA2025_V1_00_NAME_ASCII" : "Hurunui District"
+      }
+    }, 
+    {
+      "attributes" : {
+        "TA2025_V1_00" : "059", 
+        "TA2025_V1_00_NAME" : "Waimakariri District", 
+        "TA2025_V1_00_NAME_ASCII" : "Waimakariri District"
+      }
+    }, 
+    {
+      "attributes" : {
+        "TA2025_V1_00" : "060", 
+        "TA2025_V1_00_NAME" : "Christchurch City", 
+        "TA2025_V1_00_NAME_ASCII" : "Christchurch City"
+      }
+    }, 
+    {
+      "attributes" : {
+        "TA2025_V1_00" : "062", 
+        "TA2025_V1_00_NAME" : "Selwyn District", 
+        "TA2025_V1_00_NAME_ASCII" : "Selwyn District"
+      }
+    }, 
+    {
+      "attributes" : {
+        "TA2025_V1_00" : "063", 
+        "TA2025_V1_00_NAME" : "Ashburton District", 
+        "TA2025_V1_00_NAME_ASCII" : "Ashburton District"
+      }
+    }, 
+    {
+      "attributes" : {
+        "TA2025_V1_00" : "064", 
+        "TA2025_V1_00_NAME" : "Timaru District", 
+        "TA2025_V1_00_NAME_ASCII" : "Timaru District"
+      }
+    }, 
+    {
+      "attributes" : {
+        "TA2025_V1_00" : "065", 
+        "TA2025_V1_00_NAME" : "Mackenzie District", 
+        "TA2025_V1_00_NAME_ASCII" : "Mackenzie District"
+      }
+    }, 
+    {
+      "attributes" : {
+        "TA2025_V1_00" : "066", 
+        "TA2025_V1_00_NAME" : "Waimate District", 
+        "TA2025_V1_00_NAME_ASCII" : "Waimate District"
+      }
+    }, 
+    {
+      "attributes" : {
+        "TA2025_V1_00" : "067", 
+        "TA2025_V1_00_NAME" : "Chatham Islands Territory", 
+        "TA2025_V1_00_NAME_ASCII" : "Chatham Islands Territory"
+      }
+    }, 
+    {
+      "attributes" : {
+        "TA2025_V1_00" : "068", 
+        "TA2025_V1_00_NAME" : "Waitaki District", 
+        "TA2025_V1_00_NAME_ASCII" : "Waitaki District"
+      }
+    }, 
+    {
+      "attributes" : {
+        "TA2025_V1_00" : "069", 
+        "TA2025_V1_00_NAME" : "Central Otago District", 
+        "TA2025_V1_00_NAME_ASCII" : "Central Otago District"
+      }
+    }, 
+    {
+      "attributes" : {
+        "TA2025_V1_00" : "070", 
+        "TA2025_V1_00_NAME" : "Queenstown-Lakes District", 
+        "TA2025_V1_00_NAME_ASCII" : "Queenstown-Lakes District"
+      }
+    }, 
+    {
+      "attributes" : {
+        "TA2025_V1_00" : "071", 
+        "TA2025_V1_00_NAME" : "Dunedin City", 
+        "TA2025_V1_00_NAME_ASCII" : "Dunedin City"
+      }
+    }, 
+    {
+      "attributes" : {
+        "TA2025_V1_00" : "072", 
+        "TA2025_V1_00_NAME" : "Clutha District", 
+        "TA2025_V1_00_NAME_ASCII" : "Clutha District"
+      }
+    }, 
+    {
+      "attributes" : {
+        "TA2025_V1_00" : "073", 
+        "TA2025_V1_00_NAME" : "Southland District", 
+        "TA2025_V1_00_NAME_ASCII" : "Southland District"
+      }
+    }, 
+    {
+      "attributes" : {
+        "TA2025_V1_00" : "074", 
+        "TA2025_V1_00_NAME" : "Gore District", 
+        "TA2025_V1_00_NAME_ASCII" : "Gore District"
+      }
+    }, 
+    {
+      "attributes" : {
+        "TA2025_V1_00" : "075", 
+        "TA2025_V1_00_NAME" : "Invercargill City", 
+        "TA2025_V1_00_NAME_ASCII" : "Invercargill City"
+      }
+    }, 
+    {
+      "attributes" : {
+        "TA2025_V1_00" : "076", 
+        "TA2025_V1_00_NAME" : "Auckland", 
+        "TA2025_V1_00_NAME_ASCII" : "Auckland"
+      }
+    }, 
+    {
+      "attributes" : {
+        "TA2025_V1_00" : "999", 
+        "TA2025_V1_00_NAME" : "Area Outside Territorial Authority", 
+        "TA2025_V1_00_NAME_ASCII" : "Area Outside Territorial Authority"
+      }
+    }
+  ]
+}

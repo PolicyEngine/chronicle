@@ -1,0 +1,18 @@
+source_id: nrs
+package_id: nrs-census2022-uv404-tenure-output-area
+dataset: nrs_nrs-census2022-uv404-tenure-output-area
+source_page: https://www.scotlandscensus.gov.uk/documents/2022-output-area-data/
+table: Scotland's Census 2022 UV404 household tenure, households, 2022 output areas
+files:
+  2022:
+    filename: census2022_uv404_household_tenure_households_oa.csv
+    source_url: https://ukds-ckan.s3.eu-west-1.amazonaws.com/2022/NRS/UV404/Census_2022_UV404_Household_tenure_Households_oa.csv
+    sha256: d6abb0ee1a8f21e17160a517088b1ca62ddcb728a35bf5ecbf82c7f400b6378f
+    size_bytes: 1821874
+    fetched_at: '2026-10-15T10:44:06+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/nrs/nrs-census2022-uv404-tenure-output-area/2022/d6abb0ee1a8f21e17160a517088b1ca62ddcb728a35bf5ecbf82c7f400b6378f/census2022_uv404_household_tenure_households_oa.csv
+        uri: r2://ledger-raw/raw/uk/nrs/nrs-census2022-uv404-tenure-output-area/2022/d6abb0ee1a8f21e17160a517088b1ca62ddcb728a35bf5ecbf82c7f400b6378f/census2022_uv404_household_tenure_households_oa.csv

@@ -18,7 +18,7 @@
 # against that workbook's Table 1 before authoring (rows verified equal).
 # uk-data multiplies the UK figure by an unpinned ~5.4m renter-household
 # count to build its rent_private target; the product is excluded (computed)
-# per the facts-only ADR and stays a populace-side declaration. gov.uk/ONS
+# per the facts-only ADR and stays a Microcosm-side declaration. gov.uk/ONS
 # pages embed per-request ids in page chrome, so the archived HTML is not
 # byte-reproducible across fetches; the parsed statistical content is stable
 # and the manifest sha pins the archived bytes (dwp-benefit-statistics

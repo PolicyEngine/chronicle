@@ -1,0 +1,132 @@
+source_id: belgium
+package_id: rsz-annual-wages-key-figures-2020-2025
+source_name: RSZ/ONSS annual remuneration and paid work key figures
+publisher: Rijksdienst voor Sociale Zekerheid / Office national de sécurité sociale, Directie Statistiek
+source_page: https://www.rsz.be/stats/voorpublicatie-ruwe-data
+license: CC BY 4.0
+license_url: https://creativecommons.org/licenses/by/4.0/
+license_evidence_url: https://www.rsz.be/open-data-data-governance-act
+attribution: RSZ/ONSS, Directie Statistiek, Lonen en bezoldigde prestaties, October 2026 pre-publication;
+  retrieved 2026-10-24. Representation normalized by PolicyEngine Chronicle; CC BY 4.0.
+files:
+  2025:
+    filename: annual_wages_key_figures_2020_2025.csv
+    source_url: https://www.rsz.be/file/6103c41969844d308979992d7f84d51e59927e1e/c4c5776181e3dd24273ecb6b9486065cb468fadb/ruwedata-donneesbrutes-periods-wages.xlsx
+    source_table: Lonen en bezoldigde prestaties, Kerncijfers-Chiffres Clés, 2020–2025
+    sha256: 7f97f510d332a0966b1afba110ce448f4a4a83d9d58fd5c3bb4d8d36d1aeca97
+    size_bytes: 68891
+    retrieved_at: '2026-10-24T01:05:27Z'
+    notes: Representation-only one-cell transcription; exact workbook, sheet, cell, cached value, displayed
+      precision and printed labels are retained. Uploaded to R2 ledger-raw and verified by SHA-256 readback
+      on 2026-10-24.
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/belgium/rsz-annual-wages-key-figures-2020-2025/2025/7f97f510d332a0966b1afba110ce448f4a4a83d9d58fd5c3bb4d8d36d1aeca97/annual_wages_key_figures_2020_2025.csv
+        uri: r2://ledger-raw/raw/belgium/rsz-annual-wages-key-figures-2020-2025/2025/7f97f510d332a0966b1afba110ce448f4a4a83d9d58fd5c3bb4d8d36d1aeca97/annual_wages_key_figures_2020_2025.csv
+  source_capture:
+    filename: rsz-ruwedata-periods-wages.xlsx
+    source_url: https://www.rsz.be/file/6103c41969844d308979992d7f84d51e59927e1e/c4c5776181e3dd24273ecb6b9486065cb468fadb/ruwedata-donneesbrutes-periods-wages.xlsx
+    source_table: Lonen en bezoldigde prestaties, Kerncijfers-Chiffres Clés, 2020–2025
+    sha256: 7eea6aa74dd8c3c287c54bf591fef0e8e5d5507404988f94a05bf259fd6883af
+    size_bytes: 988408
+    retrieved_at: '2026-10-24T01:05:27Z'
+    notes: Unmodified staged source capture or acquisition evidence. Uploaded to R2 ledger-raw and verified
+      by SHA-256 readback on 2026-10-24.
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/belgium/rsz-annual-wages-key-figures-2020-2025/source_capture/7eea6aa74dd8c3c287c54bf591fef0e8e5d5507404988f94a05bf259fd6883af/rsz-ruwedata-periods-wages.xlsx
+        uri: r2://ledger-raw/raw/belgium/rsz-annual-wages-key-figures-2020-2025/source_capture/7eea6aa74dd8c3c287c54bf591fef0e8e5d5507404988f94a05bf259fd6883af/rsz-ruwedata-periods-wages.xlsx
+  landing_page:
+    filename: rsz-voorpublicatie-ruwe-data.html
+    source_url: https://www.rsz.be/stats/voorpublicatie-ruwe-data
+    source_table: Lonen en bezoldigde prestaties, Kerncijfers-Chiffres Clés, 2020–2025
+    sha256: 5fff81ac54d2661573e2b8b736ab82d900ea1a5b89c60b591ec1cf5824560ddb
+    size_bytes: 34926
+    retrieved_at: '2026-10-24T01:05:27Z'
+    notes: Unmodified staged source capture or acquisition evidence. Uploaded to R2 ledger-raw and verified
+      by SHA-256 readback on 2026-10-24.
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/belgium/rsz-annual-wages-key-figures-2020-2025/landing_page/5fff81ac54d2661573e2b8b736ab82d900ea1a5b89c60b591ec1cf5824560ddb/rsz-voorpublicatie-ruwe-data.html
+        uri: r2://ledger-raw/raw/belgium/rsz-annual-wages-key-figures-2020-2025/landing_page/5fff81ac54d2661573e2b8b736ab82d900ea1a5b89c60b591ec1cf5824560ddb/rsz-voorpublicatie-ruwe-data.html
+  daily_wage_definition:
+    filename: rsz-gemeenschappelijke-criteria.html
+    source_url: https://www.rsz.be/gemeenschappelijke-criteria
+    source_table: Lonen en bezoldigde prestaties, Kerncijfers-Chiffres Clés, 2020–2025
+    sha256: b1f9df57fcd06e5091ed34d642ddb91a4c79b3d86f1d50cbaf68fc3e41b54c91
+    size_bytes: 54965
+    retrieved_at: '2026-10-24T01:05:27Z'
+    notes: Unmodified staged source capture or acquisition evidence. Uploaded to R2 ledger-raw and verified
+      by SHA-256 readback on 2026-10-24.
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/belgium/rsz-annual-wages-key-figures-2020-2025/daily_wage_definition/b1f9df57fcd06e5091ed34d642ddb91a4c79b3d86f1d50cbaf68fc3e41b54c91/rsz-gemeenschappelijke-criteria.html
+        uri: r2://ledger-raw/raw/belgium/rsz-annual-wages-key-figures-2020-2025/daily_wage_definition/b1f9df57fcd06e5091ed34d642ddb91a4c79b3d86f1d50cbaf68fc3e41b54c91/rsz-gemeenschappelijke-criteria.html
+  variable_definitions:
+    filename: rsz-gemeenschappelijke-variabelen.html
+    source_url: https://www.rsz.be/gemeenschappelijke-variabelen
+    source_table: Lonen en bezoldigde prestaties, Kerncijfers-Chiffres Clés, 2020–2025
+    sha256: e008e4a37f1686b8ce8c5bd22b575e3953b76dbfb701e7490f2ce6ec099f0428
+    size_bytes: 49534
+    retrieved_at: '2026-10-24T01:05:27Z'
+    notes: Unmodified staged source capture or acquisition evidence. Uploaded to R2 ledger-raw and verified
+      by SHA-256 readback on 2026-10-24.
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/belgium/rsz-annual-wages-key-figures-2020-2025/variable_definitions/e008e4a37f1686b8ce8c5bd22b575e3953b76dbfb701e7490f2ce6ec099f0428/rsz-gemeenschappelijke-variabelen.html
+        uri: r2://ledger-raw/raw/belgium/rsz-annual-wages-key-figures-2020-2025/variable_definitions/e008e4a37f1686b8ce8c5bd22b575e3953b76dbfb701e7490f2ce6ec099f0428/rsz-gemeenschappelijke-variabelen.html
+  licence_evidence:
+    filename: rsz-open-data-data-governance-act.html
+    source_url: https://www.rsz.be/open-data-data-governance-act
+    source_table: Lonen en bezoldigde prestaties, Kerncijfers-Chiffres Clés, 2020–2025
+    sha256: 956cb55a26adbdca779ed153a8cb8290bb2dea3e2b643380cc485fc5d554ab6e
+    size_bytes: 34617
+    retrieved_at: '2026-10-24T01:05:27Z'
+    notes: Unmodified staged source capture or acquisition evidence. Uploaded to R2 ledger-raw and verified
+      by SHA-256 readback on 2026-10-24.
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/belgium/rsz-annual-wages-key-figures-2020-2025/licence_evidence/956cb55a26adbdca779ed153a8cb8290bb2dea3e2b643380cc485fc5d554ab6e/rsz-open-data-data-governance-act.html
+        uri: r2://ledger-raw/raw/belgium/rsz-annual-wages-key-figures-2020-2025/licence_evidence/956cb55a26adbdca779ed153a8cb8290bb2dea3e2b643380cc485fc5d554ab6e/rsz-open-data-data-governance-act.html
+  capture_receipt:
+    filename: CAPTURED_AT.txt
+    source_url: https://www.rsz.be/stats/voorpublicatie-ruwe-data
+    source_table: Lonen en bezoldigde prestaties, Kerncijfers-Chiffres Clés, 2020–2025
+    sha256: 07b9c2e35cf9cd5bc5e04ba675a745a20baae790d550e7cfb3a1b53a7215c2eb
+    size_bytes: 21
+    retrieved_at: '2026-10-24T01:05:27Z'
+    notes: Unmodified staged source capture or acquisition evidence. Uploaded to R2 ledger-raw and verified
+      by SHA-256 readback on 2026-10-24.
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/belgium/rsz-annual-wages-key-figures-2020-2025/capture_receipt/07b9c2e35cf9cd5bc5e04ba675a745a20baae790d550e7cfb3a1b53a7215c2eb/CAPTURED_AT.txt
+        uri: r2://ledger-raw/raw/belgium/rsz-annual-wages-key-figures-2020-2025/capture_receipt/07b9c2e35cf9cd5bc5e04ba675a745a20baae790d550e7cfb3a1b53a7215c2eb/CAPTURED_AT.txt
+  capture_checksums:
+    filename: SHA256SUMS.txt
+    source_url: https://www.rsz.be/stats/voorpublicatie-ruwe-data
+    source_table: Lonen en bezoldigde prestaties, Kerncijfers-Chiffres Clés, 2020–2025
+    sha256: d37d47da53090bb18fe01a2db855ddd13a0a594b8680241762e6f1c5e9815adb
+    size_bytes: 854
+    retrieved_at: '2026-10-24T01:05:27Z'
+    notes: Unmodified staged source capture or acquisition evidence. Uploaded to R2 ledger-raw and verified
+      by SHA-256 readback on 2026-10-24.
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/belgium/rsz-annual-wages-key-figures-2020-2025/capture_checksums/d37d47da53090bb18fe01a2db855ddd13a0a594b8680241762e6f1c5e9815adb/SHA256SUMS.txt
+        uri: r2://ledger-raw/raw/belgium/rsz-annual-wages-key-figures-2020-2025/capture_checksums/d37d47da53090bb18fe01a2db855ddd13a0a594b8680241762e6f1c5e9815adb/SHA256SUMS.txt

@@ -17,7 +17,7 @@
 # rows (the bulk of the sheet) and the per-LA CTSOP1.1 zips are wave-3 scope
 # (#134). policyengine-uk-data regex-discovers this workbook's URL at
 # runtime with no committed fallback and keys the values to calendar 2025 -
-# a populace-side timing declaration.
+# a Microcosm-side timing declaration.
 schema_version: ledger.source_package.v1
 package_id: voa-council-tax-bands-2025
 label: 'VOA Council Tax stock of properties 2025: properties by band, national and regional

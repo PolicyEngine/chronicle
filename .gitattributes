@@ -18,8 +18,13 @@ db/data/ons/oa21_wd24_lad24_lookup/ew_oa21_ward24_lad24_bestfit.csv -diff
 db/data/welshgov/council_tax_dwellings_2023_24_to_2026_27/statswales_council_tax_dwellings_by_authority_and_band.csv -diff
 db/data/hmrc/pension_contribution_relief_2023_24/Tables_6_1_and_6_2.csv -diff
 db/data/hmrc/winter_fuel_payment_charge_2025/winter-fuel-payments-charge.html -diff
+db/data/ons/aps218_occupation_apr_2024_mar_2025/aps218_occupation_apr_2024_mar_2025.csv -diff
+db/data/ons/aps218_occupation_jan_dec_2025/aps218_occupation_jan_dec_2025.csv -diff
+db/data/ons/aps218_occupation_apr_2025_mar_2026/aps218_occupation_apr_2025_mar_2026.csv -diff
+db/data/ssa/ssi_table_7b1_2024/7b_wayback_20260101161547.html -diff -text
 # Preserve hash-pinned publisher bytes, including original line endings/spacing.
 db/data/stats_nz/subnational_population_estimates_2025/subnational-population-estimates-at-30-june-2025-provisional.xlsx binary
 db/data/stats_nz/regional_council_2025_codes/regional-council-2025-codes.json binary
+db/data/stats_nz/territorial_authority_2025_codes/territorial-authority-2025-codes.json binary
 db/data/stats_nz/national_population_estimates_2025/national-population-estimates-at-30-june-2025-landing-page.html binary
 db/data/mbie/tenancy_bond_rents_tla_2026/detailed-monthly-tla-tenancy-september.csv binary

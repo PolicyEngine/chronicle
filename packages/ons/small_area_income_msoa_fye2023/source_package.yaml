@@ -7,7 +7,7 @@
 #
 # provenance_class is model_output: the estimates are produced by a small-area
 # model built on the Family Resources Survey (note 3 records the FYE2023
-# sample boost), not by direct survey aggregation. populace's census records
+# sample boost), not by direct survey aggregation. Microcosm's census records
 # the matching frs_model_based_target_circularity adjudication.
 #
 # MSOA is the only grain the publisher releases - there is no local-authority

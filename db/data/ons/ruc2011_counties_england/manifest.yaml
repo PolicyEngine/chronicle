@@ -1,0 +1,25 @@
+source_id: ons
+package_id: ons-ruc2011-counties-england
+dataset: ons_ons-ruc2011-counties-england
+source_page: https://geoportal.statistics.gov.uk/datasets/ce3f8fa9ba214943961ea49148c15329
+table: Rural Urban Classification (2011) of Counties in England
+files:
+  2011:
+    filename: RUC11_CTY11_EN.csv
+    source_url: https://www.arcgis.com/sharing/rest/content/items/ce3f8fa9ba214943961ea49148c15329/data
+    sha256: 3224816ca18638dd86849b60b90359b7a54ba9f1c472bbc04db4feabea2fb9a2
+    size_bytes: 4665
+    fetched_at: '2026-10-15T10:03:06+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/ons/ons-ruc2011-counties-england/2011/3224816ca18638dd86849b60b90359b7a54ba9f1c472bbc04db4feabea2fb9a2/RUC11_CTY11_EN.csv
+        uri: r2://ledger-raw/raw/uk/ons/ons-ruc2011-counties-england/2011/3224816ca18638dd86849b60b90359b7a54ba9f1c472bbc04db4feabea2fb9a2/RUC11_CTY11_EN.csv
+registration_kind: raw_only
+provenance_notes: 'ONS Open Geography Portal lookup: 2011 Rural Urban Classification
+  of the 27 counties in England (RUC11CD, RUC11 and Broad RUC11). DfT does not say
+  how BUS01 classes two- tier county transport authorities; with counties taking this
+  class and unitaries the district class, BUS01e''s authority rows reproduce BUS01a''s
+  urban-rural scopes for 2015, 2019 and 2023-2025 (an inference, not a DfT statement).
+  Licence: Open Government Licence v3.0. Raw-only for chronicle#356 item 4.'

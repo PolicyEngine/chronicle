@@ -1,0 +1,32 @@
+source_id: dwp
+package_id: dwp-pathways-to-work-evidence-pack-chapter-2-2025
+dataset: dwp_dwp-pathways-to-work-evidence-pack-chapter-2-2025
+source_page: https://www.gov.uk/government/consultations/pathways-to-work-reforming-benefits-and-support-to-get-britain-working-green-paper/pathways-to-work-evidence-pack-chapter-2-reforming-the-structure
+table: 'Pathways to Work: Evidence pack: Chapter 2 reforming the structure, data tables
+  (ODS, revised 23 July 2025)'
+license: Open Government Licence v3.0
+license_url: https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/
+attribution: 'Source: Department for Work and Pensions, Pathways to Work: Evidence
+  pack: Chapter 2 reforming the structure, data tables (published 2 May 2025, updated
+  23 July 2025). Contains public sector information licensed under the Open Government
+  Licence v3.0.'
+license_evidence: 'The consultation page states: ''All content is available under
+  the Open Government Licence v3.0, except where otherwise stated'' (https://www.gov.uk/government/consultations/pathways-to-work-reforming-benefits-and-support-to-get-britain-working-green-paper);
+  its update history records ''The Evidence pack: Chapter 2 reforming the structure
+  .ods file has been updated'' on 23 July 2025 (and 17 July 2025). The workbook states
+  no other terms.'
+license_verified_at: '2026-11-06'
+files:
+  2025:
+    filename: chapter_2_reforming_the_structure.ods
+    source_url: https://assets.publishing.service.gov.uk/media/68808d2f28f29c99778a74eb/chapter_2_reforming_the_structure.ods
+    sha256: 4a6e864b9a357bf76190f45e99eddee95a9abc9430cdc5885ba51a3c16bafd62
+    size_bytes: 832879
+    fetched_at: '2026-11-06T12:30:24+00:00'
+    publisher_last_modified: '2025-07-23T07:20:15+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/dwp/dwp-pathways-to-work-evidence-pack-chapter-2-2025/2025/4a6e864b9a357bf76190f45e99eddee95a9abc9430cdc5885ba51a3c16bafd62/chapter_2_reforming_the_structure.ods
+        uri: r2://ledger-raw/raw/uk/dwp/dwp-pathways-to-work-evidence-pack-chapter-2-2025/2025/4a6e864b9a357bf76190f45e99eddee95a9abc9430cdc5885ba51a3c16bafd62/chapter_2_reforming_the_structure.ods

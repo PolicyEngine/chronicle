@@ -1,0 +1,32 @@
+source_id: ons
+package_id: ons-capital-stocks-dwellings-2025
+dataset: ons_ons-capital-stocks-dwellings-2025
+source_page: https://www.ons.gov.uk/economy/nationalaccounts/uksectoraccounts/datasets/capitalstocksconsumptionoffixedcapital
+table: Capital stocks and fixed capital consumption, released 27 November 2025 (reference
+  tables)
+license: Open Government Licence v3.0
+license_url: https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/
+attribution: 'Source: Office for National Statistics, Capital stocks and fixed capital
+  consumption (released 27 November 2025). Contains public sector information licensed
+  under the Open Government Licence v3.0.'
+license_evidence: 'ONS pages state: ''All content is available under the Open Government
+  Licence v3.0, except where otherwise stated.'' (dataset page)'
+license_verified_at: '2026-11-12'
+files:
+  2024:
+    filename: capitalstockstables2025.xlsx
+    source_url: https://www.ons.gov.uk/file?uri=/economy/nationalaccounts/uksectoraccounts/datasets/capitalstocksconsumptionoffixedcapital/current/capitalstockstables2025.xlsx
+    sha256: 71a995c315b016a507532bb16fd454494b3d4f4fce34fdeedd8beb25c9120de7
+    size_bytes: 535814
+    fetched_at: '2026-11-12T11:16:22+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/ons/ons-capital-stocks-dwellings-2025/2024/71a995c315b016a507532bb16fd454494b3d4f4fce34fdeedd8beb25c9120de7/capitalstockstables2025.xlsx
+        uri: r2://ledger-raw/raw/uk/ons/ons-capital-stocks-dwellings-2025/2024/71a995c315b016a507532bb16fd454494b3d4f4fce34fdeedd8beb25c9120de7/capitalstockstables2025.xlsx
+registration_kind: source_facts
+provenance_notes: ONS's dataset page lists the file at 535.8 kB, released 27 November
+  2025, with the next release to be announced. The workbook stores most of its figures
+  as text (the sector rows of Tables 1.1.1 and 2.1.1, and the year headers), so the
+  package parses it with xlsx_numeric_text_used_range.
