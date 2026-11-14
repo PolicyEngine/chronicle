@@ -5,8 +5,9 @@ build, loaded with `chronicle load-supabase-mirror` and queried with
 `query_sources`. Both once addressed live tables under older schema names, but
 successive renames left them pointing at a schema nobody created. Since the
 Ledger rename (2026-06-30) both have defaulted to a `ledger` schema that does
-not exist in the configured project. Nothing read the copy that was loaded, so
-both were retired on 2026-10-12.
+not exist in the configured project. Nothing read the copy that was loaded.
+chronicle#351 retired both on that evidence, which dates from 2026-10-12, and
+deleted the Supabase client and the `supabase` dependency with them.
 
 ## What was retired
 
@@ -17,6 +18,20 @@ both were retired on 2026-10-12.
 | `load_supabase_mirror_files` | `chronicle/harness.py` | Harness wrapper for the loader |
 | `query_sources` | `db/supabase_client.py`, re-exported by `chronicle.sources`, `chronicle.sources.client` and `policyengine_chronicle.sources` | Read a `sources` table from the same schema |
 | `LEDGER_SCHEMA` / `POLICYENGINE_LEDGER_SCHEMA` | `db/supabase_client.py` | Named that schema |
+| `SupabaseConfig`, `get_supabase_client` | `db/supabase_client.py`, re-exported by `chronicle.client` | Read `POLICYENGINE_SUPABASE_URL` and a service key from the environment and built the Supabase client |
+| `chronicle.client` | `chronicle/client.py` | Re-exported those two names |
+| The `supabase` dependency | `pyproject.toml`, `uv.lock` | Installed the Supabase client library and the packages only it required |
+
+Besides the loader and `query_sources`, only the legacy target-input helpers
+(`query_targets`, `query_strata`, `insert_targets_batch`) used the client.
+chronicle#353 retired those first, so chronicle#351 deleted the client module,
+its re-export and the dependency as well. No shipped module imports a Supabase
+client (`tests/test_supabase_mirror_retired.py`).
+
+`cryptography` used to arrive only through `supabase`. pypdf needs it to read
+the one AES-encrypted publisher PDF Chronicle keeps
+(`db/data/sfpd/pension_amount_bands_2025/nl_statistiek_2025.pdf`), so
+`pyproject.toml` now asks for `pypdf[crypto]`.
 
 ## What stays
 
@@ -27,11 +42,6 @@ both were retired on 2026-10-12.
   `publish-derived` can upload it to `ledger-derived`.
 - `publish-derived --build-artifacts-out` still writes `build_artifacts` rows
   for the objects it published.
-- When this retirement landed, `SupabaseConfig` and `get_supabase_client` stayed
-  in `db/supabase_client.py` only for the legacy target-input helpers
-  (`query_targets`, `query_strata`, `insert_targets_batch`). Those helpers are
-  being retired separately, and the client and the `supabase` dependency go with
-  them.
 
 ## History
 

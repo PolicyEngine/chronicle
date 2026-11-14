@@ -113,7 +113,6 @@ chronicle/
 │   ├── jurisdictions/       # Temporary in-repo jurisdiction source prototypes
 ├── db/                      # Source-artifact store and packaged source files
 │   ├── schema.py            # SQLModel: SourceArtifact, SourceTable, SourceRow
-│   ├── supabase_client.py   # Supabase client helpers
 │   └── data/                # Publisher files that source packages read
 ├── data/                    # Cached data files
 └── docs/                    # Architecture and source documentation
@@ -192,8 +191,9 @@ This writes queryable Chronicle-owned tables such as `source_rows`,
 `source_columns`, `source_row_values`, `source_cells`, `aggregate_facts`,
 `aggregate_constraints`, `concept_alignments`, `fact_source_cells`, and
 `fact_source_rows`. The DB is a deterministic build artifact from source
-manifests, parsers, and checked-in specs; hosted Postgres/Supabase should mirror
-this schema rather than become the unreproducible origin of source-backed facts.
+manifests, parsers, and checked-in specs; a hosted copy, if one is ever
+reintroduced, should mirror this schema rather than become the unreproducible
+origin of source-backed facts.
 
 On the same Python and SQLite build, identical inputs write a byte-identical
 `ledger.db`, so a rebuilt suite's `ledger.db`, `datapackage.json` and

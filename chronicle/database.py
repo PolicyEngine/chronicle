@@ -2,7 +2,7 @@
 
 The database is a Chronicle-owned query surface for source-backed aggregate facts.
 It is deterministic output from source artifacts, selectors, and aggregate facts;
-hosted systems such as Supabase can mirror this schema later. With the same
+a hosted store can mirror this schema later. With the same
 Python and SQLite build, identical inputs give byte-identical files:
 ``ledger_builds.created_at`` comes from ``SOURCE_DATE_EPOCH``, never the wall
 clock.

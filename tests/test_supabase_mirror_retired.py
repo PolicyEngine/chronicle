@@ -1,14 +1,14 @@
-"""The hosted Supabase mirror path stays retired.
+"""The hosted Supabase mirror path and the Supabase client stay retired.
 
 See docs/supabase-mirror-retirement.md: since the Ledger rename the loader and
 `query_sources` defaulted to a `ledger` schema that does not exist in the
-configured project, and nothing read a hosted copy.
+configured project, and nothing read a hosted copy. The client module and the
+`supabase` dependency went with their last callers.
 """
 
 from __future__ import annotations
 
 import ast
-import importlib
 import importlib.util
 import inspect
 import sys
@@ -33,14 +33,10 @@ RETIRED_SURFACE_STRINGS = (
     "POLICYENGINE_LEDGER_SCHEMA",
     "20260504_chronicle_bronze",
 )
-# Modules allowed to import a Supabase client while the legacy target-input
-# helpers remain. The set only shrinks.
-SUPABASE_CLIENT_IMPORTERS = {
-    "chronicle/client.py",
-    "chronicle/targets/__init__.py",
-    "chronicle/targets/client.py",
-    "db/supabase_client.py",
-}
+# Modules allowed to import a Supabase client. The legacy target-input helpers
+# were its last callers; with them and the client retired, none may. The test
+# compares for equality, so an entry that names no importer fails it too.
+SUPABASE_CLIENT_IMPORTERS: frozenset[str] = frozenset()
 SUPABASE_MODULES = ("supabase", "db.supabase_client", "chronicle.client")
 
 
@@ -125,14 +121,9 @@ def test_query_sources_is_retired_from_every_namespace():
     with pytest.raises(AttributeError):
         getattr(public_sources, "query_sources")
     assert importlib.util.find_spec("chronicle.sources.client") is None
-    # The client module itself goes once the legacy target helpers are retired.
-    if importlib.util.find_spec("db.supabase_client") is not None:
-        supabase_client = importlib.import_module("db.supabase_client")
-        for name in ("query_sources", "LEDGER_SCHEMA"):
-            assert not hasattr(supabase_client, name)
 
 
-def test_supabase_client_is_reached_only_from_legacy_target_helpers():
+def test_no_shipped_module_imports_a_supabase_client():
     importers = set()
     for root in _shipped_roots():
         for path in sorted(root.rglob("*.py")):
@@ -140,7 +131,33 @@ def test_supabase_client_is_reached_only_from_legacy_target_helpers():
             if _imports_supabase(_imported_modules(tree, _package_of(path))):
                 importers.add(path.relative_to(REPO_ROOT).as_posix())
 
-    assert importers <= SUPABASE_CLIENT_IMPORTERS
+    assert importers == SUPABASE_CLIENT_IMPORTERS
+
+
+def test_supabase_is_not_a_dependency():
+    pyproject = tomllib.loads((REPO_ROOT / "pyproject.toml").read_text())
+    project = pyproject["project"]
+    requirements = [
+        *project["dependencies"],
+        *(
+            requirement
+            for group in project.get("optional-dependencies", {}).values()
+            for requirement in group
+        ),
+        *(
+            requirement
+            for group in pyproject.get("dependency-groups", {}).values()
+            for requirement in group
+            if isinstance(requirement, str)
+        ),
+    ]
+
+    assert requirements
+    assert not [
+        requirement
+        for requirement in requirements
+        if requirement.strip().lower().startswith("supabase")
+    ]
 
 
 @pytest.mark.parametrize(

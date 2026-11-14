@@ -56,10 +56,11 @@ from policyengine_chronicle.targets import hard_target_package_aliases
 from policyengine_chronicle.normalization import convert_units
 ```
 
-The `db` package holds the local source-artifact store, the Supabase client
-and the packaged publisher files behind the public `policyengine_chronicle`
-namespace. The legacy `targets` / `strata` / `stratum_constraints` tables and
-their loaders were retired (see `docs/us-legacy-etl-cleanup.md`).
+The `db` package holds the local source-artifact store and the packaged
+publisher files behind the public `policyengine_chronicle` namespace. The
+legacy `targets` / `strata` / `stratum_constraints` tables and their loaders
+were retired (see `docs/us-legacy-etl-cleanup.md`), and so was the Supabase
+client (see `docs/supabase-mirror-retirement.md`).
 
 Jurisdiction source packages should use short import namespaces and published
 distribution names with a PolicyEngine prefix:

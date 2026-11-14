@@ -29,9 +29,9 @@ columns. `build-suite` writes it, `publish-derived` can store it in
 into other stores.
 
 The deterministic local build remains the authority for source-backed facts.
-There is no hosted relational mirror. The Supabase mirror was retired on
-2026-10-12 because its default schema does not exist in the configured project
-and nothing read the copy it once loaded; see
+There is no hosted relational mirror. chronicle#351 retired the Supabase mirror
+because its default schema did not exist in the configured project and nothing
+read the copy it once loaded, both checked on 2026-10-12; see
 `docs/supabase-mirror-retirement.md`.
 
 ## Ownership Matrix
