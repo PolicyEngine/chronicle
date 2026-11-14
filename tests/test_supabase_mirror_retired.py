@@ -53,20 +53,65 @@ def _package_of(path: Path) -> str:
     return ".".join(relative.parts[:-1])
 
 
+def _absolute(name: str, package: str) -> str | None:
+    """`name` with its leading dots resolved against `package`, if they resolve."""
+    try:
+        return importlib.util.resolve_name(name, package)
+    except ImportError:
+        return None
+
+
+def _argument(call: ast.Call, position: int, keyword: str) -> ast.expr | None:
+    if len(call.args) > position:
+        return call.args[position]
+    return next((item.value for item in call.keywords if item.arg == keyword), None)
+
+
+def _literal(node: ast.expr | None, kind: type = str):
+    if isinstance(node, ast.Constant) and isinstance(node.value, kind):
+        return node.value
+    return None
+
+
+def _dynamically_imported(call: ast.Call, package: str) -> set[str]:
+    """Modules an `import_module` or `__import__` call names in string literals."""
+    if isinstance(call.func, ast.Name):
+        function = call.func.id
+    elif isinstance(call.func, ast.Attribute):
+        function = call.func.attr
+    else:
+        return set()
+    name = _literal(_argument(call, 0, "name"))
+    if name is None:
+        return set()
+    if function == "import_module":
+        module = _absolute(name, _literal(_argument(call, 1, "package")) or "")
+        return {module} if module else set()
+    if function != "__import__":
+        return set()
+    level = _literal(_argument(call, 4, "level"), int) or 0
+    module = _absolute("." * level + name, package)
+    if not module:
+        return set()
+    fromlist = _argument(call, 3, "fromlist")
+    items = fromlist.elts if isinstance(fromlist, (ast.List, ast.Tuple)) else []
+    return {module, *(f"{module}.{item}" for item in map(_literal, items) if item)}
+
+
 def _imported_modules(tree: ast.AST, package: str) -> set[str]:
+    """Modules that import statements or literal dynamic imports in `tree` name."""
     modules = set()
     for node in ast.walk(tree):
         if isinstance(node, ast.Import):
             modules.update(alias.name for alias in node.names)
         elif isinstance(node, ast.ImportFrom):
-            name = node.module or ""
-            if node.level:
-                try:
-                    name = importlib.util.resolve_name("." * node.level + name, package)
-                except ImportError:
-                    continue
+            name = _absolute("." * node.level + (node.module or ""), package)
+            if name is None:
+                continue
             modules.add(name)
             modules.update(f"{name}.{alias.name}" for alias in node.names)
+        elif isinstance(node, ast.Call):
+            modules.update(_dynamically_imported(node, package))
     return modules
 
 
@@ -174,9 +219,21 @@ def test_supabase_is_not_a_dependency():
         ("from . import supabase_client", "db", True),
         ("from ..client import get_supabase_client", "chronicle.targets", True),
         ("from .client import get_supabase_client", "chronicle", True),
+        ("importlib.import_module('supabase')", "chronicle", True),
+        ("import_module(name='supabase.client')", "chronicle", True),
+        ("importlib.import_module('.client', package='chronicle')", "db", True),
+        ("importlib.import_module('..supabase_client', 'db.x')", "chronicle", True),
+        ("__import__('supabase')", "chronicle", True),
+        ("builtins.__import__('db.supabase_client')", "chronicle", True),
+        ("__import__('db', fromlist=['supabase_client'])", "chronicle", True),
+        ("__import__('supabase_client', globals(), None, [], 1)", "db", True),
         ("from .client import helper", "chronicle.sources", False),
         ("from chronicle.sources import SourceFile", "chronicle", False),
         ("supabase = 'a string, not an import'", "chronicle", False),
+        ("importlib.import_module('chronicle.sources')", "chronicle", False),
+        ("importlib.import_module(module_name)", "chronicle", False),
+        ("importlib.import_module('.client')", "chronicle", False),
+        ("print('supabase')", "chronicle", False),
     ],
 )
 def test_supabase_import_detection(source, package, expected):
