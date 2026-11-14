@@ -722,10 +722,7 @@ DOC_MUTATIONS = {
     ),
     "escaped pipe between column codes": (
         [("`N19300`/`A19300`", "`N19300`\\|`A19301`")],
-        [
-            "soi-congressional-district-2022: no `mortgage_interest_paid_*` "
-            "measure reads `A19301`"
-        ],
+        [f"{BROAD}: no `mortgage_interest_paid_*` measure reads `A19301`"],
     ),
     "second table with a bold header": (
         [
