@@ -11,6 +11,7 @@ from __future__ import annotations
 import ast
 import importlib.util
 import inspect
+import re
 import sys
 import tomllib
 from pathlib import Path
@@ -32,12 +33,36 @@ RETIRED_SURFACE_STRINGS = (
     "query_sources",
     "POLICYENGINE_LEDGER_SCHEMA",
     "20260504_chronicle_bronze",
+    "POLICYENGINE_SUPABASE_URL",
+    "get_supabase_client",
+    "SupabaseConfig",
 )
 # Modules allowed to import a Supabase client. The legacy target-input helpers
 # were its last callers; with them and the client retired, none may. The test
 # compares for equality, so an entry that names no importer fails it too.
 SUPABASE_CLIENT_IMPORTERS: frozenset[str] = frozenset()
-SUPABASE_MODULES = ("supabase", "db.supabase_client", "chronicle.client")
+# The `supabase` distribution and the client packages it is assembled from: the
+# five that main's `uv.lock` listed under it before the retirement, then
+# `gotrue` and `supafunc`, the names under which PyPI first carried
+# `supabase-auth` and `supabase-functions`.
+SUPABASE_DISTRIBUTIONS = frozenset(
+    {
+        "supabase",
+        "postgrest",
+        "realtime",
+        "storage3",
+        "supabase-auth",
+        "supabase-functions",
+        "gotrue",
+        "supafunc",
+    }
+)
+# Each of those installs one import package of the same name, with `-` as `_`.
+SUPABASE_MODULES = (
+    *sorted(name.replace("-", "_") for name in SUPABASE_DISTRIBUTIONS),
+    "db.supabase_client",
+    "chronicle.client",
+)
 
 
 def _shipped_roots() -> list[Path]:
@@ -74,32 +99,34 @@ def _literal(node: ast.expr | None, kind: type = str):
 
 
 def _dynamically_imported(call: ast.Call, package: str) -> set[str]:
-    """Modules an `import_module` or `__import__` call names in string literals."""
-    if isinstance(call.func, ast.Name):
-        function = call.func.id
-    elif isinstance(call.func, ast.Attribute):
-        function = call.func.attr
-    else:
-        return set()
+    """Modules `call` would import if the string literal it passes first names one.
+
+    The called function's own name decides nothing, because an alias hides it
+    (`from importlib import import_module as load`). Every call is read both as
+    `import_module(name, package)` and as
+    `__import__(name, globals, locals, fromlist, level)`.
+    """
     name = _literal(_argument(call, 0, "name"))
     if name is None:
         return set()
-    if function == "import_module":
-        module = _absolute(name, _literal(_argument(call, 1, "package")) or "")
-        return {module} if module else set()
-    if function != "__import__":
-        return set()
+    modules = set()
+    module = _absolute(name, _literal(_argument(call, 1, "package")) or "")
+    if module:
+        modules.add(module)
+    if name.startswith("."):  # `__import__` takes its dots from `level`
+        return modules
     level = _literal(_argument(call, 4, "level"), int) or 0
     module = _absolute("." * level + name, package)
-    if not module:
-        return set()
-    fromlist = _argument(call, 3, "fromlist")
-    items = fromlist.elts if isinstance(fromlist, (ast.List, ast.Tuple)) else []
-    return {module, *(f"{module}.{item}" for item in map(_literal, items) if item)}
+    if module:
+        fromlist = _argument(call, 3, "fromlist")
+        items = fromlist.elts if isinstance(fromlist, (ast.List, ast.Tuple)) else []
+        modules.add(module)
+        modules.update(f"{module}.{item}" for item in map(_literal, items) if item)
+    return modules
 
 
 def _imported_modules(tree: ast.AST, package: str) -> set[str]:
-    """Modules that import statements or literal dynamic imports in `tree` name."""
+    """Modules that import statements in `tree` name, or that a call could import."""
     modules = set()
     for node in ast.walk(tree):
         if isinstance(node, ast.Import):
@@ -121,6 +148,41 @@ def _imports_supabase(modules: set[str]) -> bool:
         for module in modules
         for target in SUPABASE_MODULES
     )
+
+
+def _requirements(pyproject: dict) -> list[str]:
+    """Every requirement `pyproject` installs from, uv's older dev list included."""
+    project = pyproject["project"]
+    return [
+        *project["dependencies"],
+        *(
+            requirement
+            for group in project.get("optional-dependencies", {}).values()
+            for requirement in group
+        ),
+        *(
+            requirement
+            for group in pyproject.get("dependency-groups", {}).values()
+            for requirement in group
+            if isinstance(requirement, str)
+        ),
+        *pyproject.get("tool", {}).get("uv", {}).get("dev-dependencies", []),
+    ]
+
+
+def _distribution(requirement: str) -> str:
+    """The distribution `requirement` names, normalised as package indexes do."""
+    name = re.match(r"[A-Za-z0-9]+(?:[-_.]+[A-Za-z0-9]+)*", requirement.strip())
+    return re.sub(r"[-_.]+", "-", name.group()).lower() if name else ""
+
+
+def _requires_supabase(requirement: str) -> bool:
+    distribution = _distribution(requirement)
+    return distribution in SUPABASE_DISTRIBUTIONS or distribution.startswith("supabase")
+
+
+def _retired_surfaces_named(text: str) -> list[str]:
+    return [needle for needle in RETIRED_SURFACE_STRINGS if needle in text]
 
 
 def test_chronicle_cli_rejects_load_supabase_mirror(monkeypatch, capsys):
@@ -181,28 +243,49 @@ def test_no_shipped_module_imports_a_supabase_client():
 
 def test_supabase_is_not_a_dependency():
     pyproject = tomllib.loads((REPO_ROOT / "pyproject.toml").read_text())
-    project = pyproject["project"]
-    requirements = [
-        *project["dependencies"],
-        *(
-            requirement
-            for group in project.get("optional-dependencies", {}).values()
-            for requirement in group
-        ),
-        *(
-            requirement
-            for group in pyproject.get("dependency-groups", {}).values()
-            for requirement in group
-            if isinstance(requirement, str)
-        ),
-    ]
+    requirements = _requirements(pyproject)
 
     assert requirements
     assert not [
-        requirement
-        for requirement in requirements
-        if requirement.strip().lower().startswith("supabase")
+        requirement for requirement in requirements if _requires_supabase(requirement)
     ]
+
+
+@pytest.mark.parametrize(
+    "pyproject",
+    [
+        '[project]\ndependencies = ["supabase"]',
+        '[project]\ndependencies = []\noptional-dependencies.hosted = ["supabase"]',
+        "[project]\ndependencies = []\n[dependency-groups]\n"
+        'dev = ["supabase", {include-group = "docs"}]',
+        '[project]\ndependencies = []\n[tool.uv]\ndev-dependencies = ["supabase"]',
+    ],
+)
+def test_requirements_come_from_every_table_that_installs(pyproject):
+    assert _requirements(tomllib.loads(pyproject)) == ["supabase"]
+
+
+@pytest.mark.parametrize(
+    ("requirement", "expected"),
+    [
+        ("supabase>=2.0", True),
+        ("Supabase", True),
+        ("supabase-py==0.0.2", True),
+        ("postgrest>=2.27", True),
+        ("realtime", True),
+        ("storage3==2.27.0", True),
+        ("supabase-auth>=2", True),
+        ("supabase_auth ; python_version >= '3.14'", True),
+        ("Supabase.Functions[all]", True),
+        ("gotrue", True),
+        ("supafunc<1", True),
+        ("httpx>=0.27.0", False),
+        ("pypdf[crypto]>=6.14.2", False),
+        ("postgres>=1", False),
+    ],
+)
+def test_supabase_requirement_detection(requirement, expected):
+    assert _requires_supabase(requirement) is expected
 
 
 @pytest.mark.parametrize(
@@ -227,13 +310,35 @@ def test_supabase_is_not_a_dependency():
         ("builtins.__import__('db.supabase_client')", "chronicle", True),
         ("__import__('db', fromlist=['supabase_client'])", "chronicle", True),
         ("__import__('supabase_client', globals(), None, [], 1)", "db", True),
+        ("from postgrest import SyncPostgrestClient", "chronicle", True),
+        ("import storage3", "db", True),
+        ("from realtime import AsyncRealtimeClient", "chronicle", True),
+        ("from supabase_auth import SyncGoTrueClient", "chronicle", True),
+        ("import supabase_functions.errors", "chronicle", True),
+        ("import gotrue", "chronicle", True),
+        ("from supafunc import SyncFunctionsClient", "chronicle", True),
+        ("importlib.import_module('postgrest')", "chronicle", True),
+        # An alias hides the importing function's name, so any call that passes
+        # a Supabase module's name first counts.
+        ("from importlib import import_module as load\nload('supabase')", "db", True),
+        ("load = importlib.import_module\nload('storage3')", "chronicle", True),
+        ("load('.client', package='chronicle')", "db", True),
+        ("getattr(importlib, 'import_module')('supabase')", "chronicle", True),
+        ("imp = __import__\nimp('db', fromlist=['supabase_client'])", "db", True),
+        ("imp('supabase_client', globals(), None, [], 1)", "db", True),
+        ("print('supabase')", "chronicle", True),
         ("from .client import helper", "chronicle.sources", False),
         ("from chronicle.sources import SourceFile", "chronicle", False),
         ("supabase = 'a string, not an import'", "chronicle", False),
         ("importlib.import_module('chronicle.sources')", "chronicle", False),
         ("importlib.import_module(module_name)", "chronicle", False),
         ("importlib.import_module('.client')", "chronicle", False),
-        ("print('supabase')", "chronicle", False),
+        ("load('.client')", "chronicle", False),
+        ("print('supabase is retired')", "chronicle", False),
+        ("log.info('importing %s', 'supabase')", "chronicle", False),
+        ("from .realtime import feed", "chronicle.sources", False),
+        ("from chronicle import realtime", "chronicle", False),
+        ("import postgres", "chronicle", False),
     ],
 )
 def test_supabase_import_detection(source, package, expected):
@@ -260,12 +365,30 @@ def test_no_code_or_doc_advertises_the_retired_mirror():
     for path in _surface_files():
         if path == RETIREMENT_DOC or not path.exists():
             continue
-        text = path.read_text(encoding="utf-8")
-        for needle in RETIRED_SURFACE_STRINGS:
-            if needle in text:
-                offenders.append((path.relative_to(REPO_ROOT).as_posix(), needle))
+        relative = path.relative_to(REPO_ROOT).as_posix()
+        for needle in _retired_surfaces_named(path.read_text(encoding="utf-8")):
+            offenders.append((relative, needle))
 
     assert offenders == []
+
+
+@pytest.mark.parametrize(
+    ("text", "expected"),
+    [
+        ("Run `chronicle load-supabase-mirror --dir out`.", ["load-supabase-mirror"]),
+        ("Set `POLICYENGINE_SUPABASE_URL` first.", ["POLICYENGINE_SUPABASE_URL"]),
+        (
+            'httpx.post(os.environ["POLICYENGINE_SUPABASE_URL"] + path, json=rows)',
+            ["POLICYENGINE_SUPABASE_URL"],
+        ),
+        ("from chronicle.client import get_supabase_client", ["get_supabase_client"]),
+        ("config = SupabaseConfig.from_env()", ["SupabaseConfig"]),
+        ("`db/supabase_client.py`'s `query_targets` and `query_strata`", []),
+        ("https://stat-xplore.dwp.gov.uk/webapi/rest/v1/table", []),
+    ],
+)
+def test_retired_surface_detection(text, expected):
+    assert _retired_surfaces_named(text) == expected
 
 
 def test_retirement_record_names_every_retired_surface():
