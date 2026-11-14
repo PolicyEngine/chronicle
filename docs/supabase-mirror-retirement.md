@@ -127,6 +127,9 @@ consumer-fact export (`chronicle build-consumer-artifact`).
 
 The rename plan in issue #143 lists the Supabase `ledger` schema and mirror
 tables among the operational stores to rename. With the mirror retired,
-nothing Chronicle writes or reads is hosted, so there is nothing to rename. The
-`CHRONICLE_SCHEMA` handling that PR #226 adds for the loader is no longer
-needed.
+Chronicle reads and writes no Supabase schema, so the plan has no Supabase
+schema to rename. The retirement takes no other store out of that plan:
+Chronicle still reads and writes the R2 buckets `ledger-raw` and
+`ledger-derived`, and `ledger.db` keeps its file name and its `ledger_builds`
+table. The `CHRONICLE_SCHEMA` handling that PR #226 adds for the loader is no
+longer needed.
