@@ -415,8 +415,8 @@ uv run chronicle scaffold-package --source-id irs_soi --package-id soi-table-1-2
 
 Raw source artifacts should be content-addressed and checksum-locked before a
 package spec depends on them. Tiny fixtures can stay in Git, but production raw
-files should live in private Cloudflare R2 buckets, with `manifest.yaml` and the
-hosted database carrying the queryable provenance.
+files should live in private Cloudflare R2 buckets, with `manifest.yaml` and
+each build's `ledger.db` carrying the queryable provenance.
 
 The buckets live on the PolicyEngine Cloudflare account, which `wrangler.toml`
 pins via `account_id`, so a plain `wrangler login` as any account member is the
