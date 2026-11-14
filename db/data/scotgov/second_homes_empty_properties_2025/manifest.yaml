@@ -1,0 +1,30 @@
+source_id: scotgov
+package_id: scotgov-second-homes-empty-properties-2025
+dataset: scotgov_scotgov-second-homes-empty-properties-2025
+source_page: https://www.gov.scot/publications/second-homes-and-empty-properties-in-september-2025/
+table: 'Scottish Government, Second homes and empty properties in September 2025:
+  web table (published 16 December 2025)'
+publisher: Scottish Government (Housing Statistics and Analysis Team)
+license: Open Government Licence v3.0
+license_url: https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/
+attribution: 'Source: Scottish Government, Second homes and empty properties in September
+  2025 (published 16 December 2025). Contains public sector information licensed under
+  the Open Government Licence v3.0.'
+license_evidence: 'The publication page (https://www.gov.scot/publications/second-homes-and-empty-properties-in-september-2025/)
+  states: ''All content is available under the Open Government Licence v3.0, except
+  for graphic assets and where otherwise stated''; the workbook states no other terms.'
+license_verified_at: '2026-11-10'
+files:
+  2025:
+    filename: Empty_properties_and_second_homes_September_2025_Web_Table.xlsx
+    publisher_filename: Empty properties and second homes, September 2025 - Web Table.xlsx
+    source_url: https://www.gov.scot/binaries/content/documents/govscot/publications/statistics/2025/12/second-homes-and-empty-properties-in-september-2025/documents/second-homes-and-empty-properties-september-2025---web-table/second-homes-and-empty-properties-september-2025---web-table/govscot%3Adocument/Empty%2Bproperties%2Band%2Bsecond%2Bhomes%252C%2BSeptember%2B2025%2B-%2BWeb%2BTable.xlsx
+    sha256: 082d5dc767badc2a0f7263597e5c98df37f9459852f881bd25dd3e6c730957f5
+    size_bytes: 67976
+    fetched_at: '2026-11-10T16:11:48+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/scotgov/scotgov-second-homes-empty-properties-2025/2025/082d5dc767badc2a0f7263597e5c98df37f9459852f881bd25dd3e6c730957f5/Empty_properties_and_second_homes_September_2025_Web_Table.xlsx
+        uri: r2://ledger-raw/raw/uk/scotgov/scotgov-second-homes-empty-properties-2025/2025/082d5dc767badc2a0f7263597e5c98df37f9459852f881bd25dd3e6c730957f5/Empty_properties_and_second_homes_September_2025_Web_Table.xlsx

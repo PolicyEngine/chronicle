@@ -7,14 +7,21 @@ import re
 import shutil
 from dataclasses import asdict, dataclass
 from pathlib import Path
-from typing import Any, Callable, Sequence
+from typing import Any, Callable, Iterable, Sequence
 
-from chronicle.dimension_labels import dimension_label_issues, dimension_labels_by_id
+from chronicle.database import build_created_at
+from chronicle.dimension_labels import (
+    cross_package_value_label_remedy,
+    dimension_label_issues,
+    dimension_labels_by_id,
+)
 from chronicle.epoch import canonicalize_key, schema_id
 from chronicle.source_package import (
     ARTIFACT_YEAR_RESTAMP_CODE,
     SOURCE_PACKAGE_ALIASES,
+    SourcePackage,
     assert_alias_map_covers_packages,
+    load_source_package,
     validate_source_package,
 )
 from chronicle.suite import BuildSuiteReport, build_source_suite
@@ -26,6 +33,17 @@ BUNDLE_SCHEMA_VERSION = schema_id("bundle")
 BUNDLE_COVERAGE_SCHEMA_VERSION = schema_id("bundle_coverage")
 BUNDLE_SOURCES_SCHEMA_VERSION = schema_id("bundle_sources")
 DEFAULT_BUNDLE_SOURCES = tuple(sorted(SOURCE_PACKAGE_ALIASES))
+# Per-source suite files that bundle assembly never reads back: it merges each
+# suite's consumer_facts.jsonl and keeps its reports. A slim bundle
+# (keep_suite_intermediates=False) deletes these as each suite finishes; the
+# BEA NIPA suites alone write a 1 GB ledger.db each for under 100 KB of facts.
+SUITE_INTERMEDIATE_FILES = (
+    "source_rows.jsonl",
+    "source_cells.jsonl",
+    "facts.jsonl",
+    "ledger.db",
+)
+PRUNED_INTERMEDIATES_REPORT = "pruned_intermediates.json"
 UK_BUNDLE_SOURCE_PREFIXES = (
     "desnz",
     "dfc_ni",
@@ -33,6 +51,7 @@ UK_BUNDLE_SOURCE_PREFIXES = (
     "dfi_ni",
     "dft",
     "dwp",
+    "gambling_commission",
     "hmrc",
     "isc",
     "lps",
@@ -44,6 +63,7 @@ UK_BUNDLE_SOURCE_PREFIXES = (
     "ofgem",
     "ons",
     "orr",
+    "ros",
     "scotgov",
     "slc",
     "voa",
@@ -52,18 +72,25 @@ UK_BUNDLE_SOURCE_PREFIXES = (
 UK_BUNDLE_SOURCES = (
     "desnz-energy-trends-domestic-electricity-2026",
     "desnz-energy-trends-domestic-gas-2026",
+    "desnz-lsoa-domestic-electricity-consumption-2024",
+    "desnz-lsoa-domestic-gas-consumption-2024",
     "desnz-monthly-annual-road-fuel-prices-august-2026",
     "desnz-need-england-wales-2023",
     "desnz-need-england-wales-2024",
     "desnz-need-scotland-2023",
     "desnz-need-scotland-2024",
     "desnz-qep-electricity-annual-bills-2026",
+    "desnz-qep-electricity-payment-methods-2026",
     "desnz-qep-electricity-unit-fixed-costs-2026",
     "desnz-qep-gas-annual-bills-2026",
+    "desnz-qep-gas-payment-methods-2026",
     "desnz-qep-gas-unit-fixed-costs-2026",
+    "desnz-qep-time-of-use-electricity-payment-methods-2026",
     "desnz-road-transport-fuel-consumption-2024",
     "desnz-subnational-electricity-consumption-2024",
+    "desnz-subnational-electricity-consumption-northern-ireland-2024",
     "desnz-subnational-gas-consumption-2024",
+    "desnz-subnational-gas-consumption-northern-ireland-2024",
     "desnz-weekly-road-fuel-prices-september-2026",
     "dfc-ni-pension-credit-statistics-may-2026",
     "dfc-ni-state-pension-statistics-may-2026",
@@ -73,7 +100,9 @@ UK_BUNDLE_SOURCES = (
     "dfi-ni-public-transport-statistics-2024-25",
     "dfi-ni-public-transport-statistics-2025-26",
     "dft-bus01-passenger-journeys-2025",
+    "dft-bus01-wales-journeys-2025",
     "dft-bus0415-fares-index-2026",
+    "dft-bus04i-operating-revenue-2025",
     "dft-bus05i-revenue-support-2025",
     "dft-nts-vehicle-ownership-2024",
     "dft-nts0303-mode-trips-2025",
@@ -89,10 +118,20 @@ UK_BUNDLE_SOURCES = (
     "dwp-esa-caseload-payment-type-phase-may-2018-march-2026",
     "dwp-hb-claimants-client-type-tenure-accommodation-type-september-2025-february-2026",
     "dwp-hb-claimants-client-type-tenure-january-2023-february-2026",
+    "dwp-hbai-summary-fye2025",
+    "dwp-hbai-uncertainty-fye2025",
+    "dwp-mtuc-households-legacy-benefit-move-status-july-2022-june-2026",
+    "dwp-pathways-to-work-pip-points-january-2025",
     "dwp-pension-credit-amount-band-type-february-2023-march-2026",
     "dwp-pension-credit-gender-type-february-2023-march-2026",
     "dwp-pension-credit-region-type-partner-age-february-2023-march-2026",
     "dwp-pension-credit-type-partner-age-february-2023-march-2026",
+    "dwp-pip-cases-by-constituency-july-2026",
+    "dwp-pip-cases-by-local-authority-july-2026",
+    "dwp-pip-cases-country-award-age-january-2024-july-2026",
+    "dwp-pip-cases-country-disability-award-january-2024-july-2026",
+    "dwp-pip-cases-country-end-of-life-rules-award-january-2024-july-2026",
+    "dwp-pip-cases-region-award-january-2024-july-2026",
     "dwp-pip-daily-living-foi-2025",
     "dwp-state-pension-age-gender-type-february-2023-march-2026",
     "dwp-state-pension-amount-band-type-february-2023-march-2026",
@@ -100,9 +139,9 @@ UK_BUNDLE_SOURCES = (
     "dwp-state-pension-region-type-gender-february-2023-march-2026",
     "dwp-uc-childcare-element-march-2021-may-2026",
     "dwp-uc-deductions-march-2025-february-2026",
-    "dwp-uc-households-by-constituency-children-january-2025-may-2026",
-    "dwp-uc-households-by-constituency-january-2025-may-2026",
-    "dwp-uc-households-by-local-authority-january-2025-may-2026",
+    "dwp-uc-households-by-constituency-children-payment-indicator-january-2025-may-2026",
+    "dwp-uc-households-by-constituency-payment-indicator-january-2025-may-2026",
+    "dwp-uc-households-by-local-authority-payment-indicator-january-2025-may-2026",
     "dwp-uc-households-carer-entitlement-payment-indicator-january-2023-may-2026",
     "dwp-uc-households-children-april-december-2025",
     "dwp-uc-households-children-child-entitlement-april-december-2025",
@@ -116,6 +155,7 @@ UK_BUNDLE_SOURCES = (
     "dwp-uc-households-lcw-entitlement-group-payment-indicator-january-2023-may-2026",
     "dwp-uc-households-lcw-entitlement-payment-indicator-january-2023-may-2026",
     "dwp-uc-payment-distribution-april-december-2025",
+    "dwp-uc-people-country-age-conditionality-regime-april-2024-may-2026",
     "dwp-uc-people-employment-indicator-january-2023-may-2026",
     "dwp-uc-scotland-youngest-child-april-december-2025",
     "dwp-uc-two-child-limit-2025",
@@ -125,6 +165,12 @@ UK_BUNDLE_SOURCES = (
     "dwp-winter-fuel-payment-statistics-winter-2024-25",
     "dwp-winter-fuel-payment-statistics-winter-2025-26",
     "dwp-workplace-pension-savings-trends-2009-to-2025",
+    "gambling-commission-gsgb-annual-report-2025",
+    "gambling-commission-industry-statistics-fy2025-26",
+    "hmrc-alcohol-bulletin-july-2026",
+    "hmrc-benefits-in-kind-july-2026",
+    "hmrc-betting-gaming-statistics-july-2026",
+    "hmrc-cash-isa-limit-reduction-2026",
     "hmrc-cgt-age-2026",
     "hmrc-cgt-asset-type-2026",
     "hmrc-cgt-badr-ir-2026",
@@ -135,16 +181,22 @@ UK_BUNDLE_SOURCES = (
     "hmrc-cgt-size-of-gain-2026",
     "hmrc-cgt-statistics-2026",
     "hmrc-child-benefit-august-2025",
+    "hmrc-employer-nics-age-reliefs-january-2026",
     "hmrc-hydrocarbon-oils-quantities-june-2026",
     "hmrc-income-tax-liabilities-july-2026",
+    "hmrc-isa-statistics-2026",
+    "hmrc-lisa-statistics-2026",
     "hmrc-pension-contribution-relief-2023-24",
     "hmrc-property-rental-income-2026",
     "hmrc-salary-sacrifice-reform-2029-headcounts",
     "hmrc-salary-sacrifice-relief-2024-25",
+    "hmrc-scottish-income-tax-outturn-2024-25",
     "hmrc-spi-income-bands-2023-24",
     "hmrc-spi-income-by-area-2023-24",
     "hmrc-spi-income-by-region-2023-24",
+    "hmrc-stamp-tax-statistics-2024-25",
     "hmrc-tax-free-childcare-march-2026",
+    "hmrc-tobacco-bulletin-july-2026",
     "hmrc-vat-firm-sector-targets-2024-25",
     "hmrc-vat-firm-targets-2024-25",
     "hmrc-winter-fuel-payment-charge-2025",
@@ -152,28 +204,47 @@ UK_BUNDLE_SOURCES = (
     "isc-annual-census-2024",
     "isc-annual-census-2025",
     "isc-annual-census-2026",
+    "lps-disabled-persons-allowance-ye-2024",
+    "lps-domestic-rates-paid-2026",
     "lps-housing-stock-lgd-2026",
+    "lps-lone-pensioner-allowance-ye-2024",
+    "mhclg-council-tax-collection-by-authority-2025-26",
     "mhclg-council-tax-collection-england-2025-26",
     "mhclg-council-tax-levels-england-2026-27",
     "mhclg-council-tax-levels-england-summary-2025-26",
+    "mhclg-council-tax-qrc4-2025-26",
     "mhclg-council-taxbase-england-2023",
     "mhclg-council-taxbase-england-2024",
     "mhclg-council-taxbase-england-2025",
     "mhclg-ehs-weekly-housing-costs-2023-24",
+    "mhclg-epc-d3-domestic-2026-q3",
+    "mhclg-land-value-estimates-2023",
+    "mhclg-live-table-126-dwelling-density-2026",
+    "mhclg-market-value-survey-2024-chapter-1",
+    "mhclg-market-value-survey-2024-chapter-3",
+    "mhclg-market-value-survey-2024-chapter-4",
     "nisra-census2021-ct0105-communal-residents-lgd",
     "nisra-census2021-household-composition-country",
     "nisra-census2021-households-lgd",
     "nisra-census2021-households-pcon24",
     "nisra-census2021-ms-f04-communal-residents-ward",
+    "nisra-census2021-residence-type-age-persons-lgd14",
+    "nisra-census2021-residence-type-age-persons-ni",
+    "nisra-census2021-residence-type-age-persons-parlcon24",
+    "nisra-census2021-residence-type-age-sex-lgd14",
+    "nisra-census2021-residence-type-age-sex-ni",
+    "nisra-census2021-residence-type-age-sex-parlcon24",
     "nisra-census2021-tenure-lgd",
     "nisra-mye-2025-lgd-single-year-age",
     "nisra-pcon24-population-by-age-2024",
     "nithc-annual-report-accounts-2024-25",
     "nrs-census2022-households-ukpc24",
     "nrs-census2022-uv101a-council-area",
+    "nrs-census2022-uv101a-scotland",
     "nrs-census2022-uv101a-ukpc24",
     "nrs-census2022-uv113-household-composition-country",
     "nrs-census2022-uv404-tenure-council-area",
+    "nrs-census2022-uv404-tenure-output-area",
     "nrs-census2022-uv407-central-heating-council-area",
     "nrs-dwellings-data-zone-2025",
     "nrs-households-data-zone-2025",
@@ -181,13 +252,24 @@ UK_BUNDLE_SOURCES = (
     "nrs-mye-2025-council-area",
     "nrs-pcon24-population-by-age-2024-revised-2026",
     "obr-efo-aggregates-march-2026",
+    "obr-efo-aggregates-october-2026",
     "obr-efo-economy-march-2026",
+    "obr-efo-economy-october-2026",
     "obr-efo-expenditure-march-2026",
+    "obr-efo-expenditure-october-2026",
+    "obr-efo-policy-october-2026",
     "obr-efo-receipts-march-2026",
+    "obr-efo-receipts-october-2026",
     "obr-fuel-duty-receipts-by-vehicle-april-2024",
+    "obr-hvcts-costing-april-2026",
     "obr-salary-sacrifice-costing-february-2026",
     "ofgem-energy-price-cap-levels-2024-2026",
     "ofgem-energy-price-cap-q1-2024",
+    "ons-a06-nsa-october-2026",
+    "ons-a06-sa-october-2026",
+    "ons-aps218-occupation-apr-2024-mar-2025",
+    "ons-aps218-occupation-apr-2025-mar-2026",
+    "ons-aps218-occupation-jan-dec-2025",
     "ons-ashe-employee-contribution-bands-by-age-2024-full-pay",
     "ons-ashe-employee-contribution-bands-by-age-2024-qualifying-earnings",
     "ons-ashe-employee-contribution-bands-by-business-size-2024-full-pay",
@@ -208,6 +290,32 @@ UK_BUNDLE_SOURCES = (
     "ons-ashe-pension-membership-by-business-size-earnings-2024",
     "ons-ashe-pension-membership-by-industry-earnings-2024",
     "ons-ashe-pension-membership-by-occupation-earnings-2024",
+    "ons-ashe-table2-annual-pay-gross-2024-revised",
+    "ons-ashe-table2-annual-pay-gross-2025-revised",
+    "ons-ashe-table2-annual-pay-gross-2026-provisional",
+    "ons-ashe-table2-annual-pay-gross-cv-2024-revised",
+    "ons-ashe-table2-annual-pay-gross-cv-2025-revised",
+    "ons-ashe-table2-annual-pay-gross-cv-2026-provisional",
+    "ons-ashe-table2-weekly-pay-gross-2024-revised",
+    "ons-ashe-table2-weekly-pay-gross-2025-revised",
+    "ons-ashe-table2-weekly-pay-gross-2026-provisional",
+    "ons-ashe-table2-weekly-pay-gross-cv-2024-revised",
+    "ons-ashe-table2-weekly-pay-gross-cv-2025-revised",
+    "ons-ashe-table2-weekly-pay-gross-cv-2026-provisional",
+    "ons-ashe-table6-annual-pay-gross-2024-revised",
+    "ons-ashe-table6-annual-pay-gross-2025-revised",
+    "ons-ashe-table6-annual-pay-gross-2026-provisional",
+    "ons-ashe-table6-annual-pay-gross-cv-2024-revised",
+    "ons-ashe-table6-annual-pay-gross-cv-2025-revised",
+    "ons-ashe-table6-annual-pay-gross-cv-2026-provisional",
+    "ons-ashe-table6-weekly-pay-gross-2024-revised",
+    "ons-ashe-table6-weekly-pay-gross-2025-revised",
+    "ons-ashe-table6-weekly-pay-gross-2026-provisional",
+    "ons-ashe-table6-weekly-pay-gross-cv-2024-revised",
+    "ons-ashe-table6-weekly-pay-gross-cv-2025-revised",
+    "ons-ashe-table6-weekly-pay-gross-cv-2026-provisional",
+    "ons-capital-stocks-dwellings-2025",
+    "ons-capital-stocks-dwellings-preliminary-2026",
     "ons-census2021-rm120-lad-residence1-sex0",
     "ons-census2021-rm120-lad-residence1-sex1",
     "ons-census2021-rm120-lad-residence1-sex2",
@@ -225,27 +333,50 @@ UK_BUNDLE_SOURCES = (
     "ons-census2021-ts041-households-pcon24",
     "ons-census2021-ts046-central-heating-ltla",
     "ons-census2021-ts054-tenure-lad",
-    "ons-consumer-trends-current-price-2026",
+    "ons-census2021-ts054-tenure-msoa",
+    "ons-census2021-ur-ce-age101-persons-ctry",
+    "ons-census2021-ur-ce-age101-persons-rgn",
+    "ons-census2021-ur-ce-age101-sex-ctry",
+    "ons-census2021-ur-ce-age101-sex-rgn",
+    "ons-census2021-ur-hh-age101-persons-ctry",
+    "ons-census2021-ur-hh-age101-persons-rgn",
+    "ons-census2021-ur-hh-age101-sex-ctry",
+    "ons-census2021-ur-hh-age101-sex-rgn",
+    "ons-consumer-trends-current-price-september-2026",
+    "ons-crpsf-ni-domestic-rates-fye2025",
     "ons-employee-workplace-pensions-summary-2024",
     "ons-families-households-2025",
     "ons-household-projections-2022-based",
     "ons-household-totals-country-region-2015-2025",
     "ons-households-by-type-country-2025",
+    "ons-hpssa-pcon24-year-ending-march-2026",
     "ons-lad-population-by-age-2024",
     "ons-lad-population-by-age-2025",
+    "ons-land-underlying-buildings-2022",
+    "ons-mm23-cpi-index-liquefied-hydrocarbons-october-2026",
+    "ons-mm23-cpi-index-natural-gas-october-2026",
+    "ons-mm23-cpi-weight-gas-october-2026",
+    "ons-mm23-cpi-weight-liquefied-hydrocarbons-october-2026",
+    "ons-mm23-cpi-weight-natural-gas-october-2026",
     "ons-mye-2023-england-regions",
     "ons-mye-2023-uk-countries",
     "ons-mye-2024-uk",
     "ons-mye-2024-uk-revised-2026",
     "ons-mye-2025-uk",
+    "ons-national-balance-sheet-dwellings-2025",
+    "ons-national-balance-sheet-dwellings-preliminary-2026",
     "ons-national-balance-sheet-land-2025",
     "ons-national-balance-sheet-land-preliminary-2026",
+    "ons-neet-august-2026",
+    "ons-paye-rti-age-nsa-october-2026",
     "ons-pcon24-population-by-age-2024",
     "ons-pipr-private-rent-march-2026",
     "ons-pipr-rents-by-area-august-2026",
     "ons-pipr-rents-by-area-june-2026",
     "ons-public-sector-employment-2026",
     "ons-public-sector-employment-june-2026",
+    "ons-pusf-vehicle-duty-businesses-october-2026",
+    "ons-pusf-vehicle-duty-households-october-2026",
     "ons-savings-interest-income",
     "ons-small-area-income-msoa-fye2023",
     "ons-subnational-dwellings-by-tenure-2024",
@@ -256,18 +387,25 @@ UK_BUNDLE_SOURCES = (
     "orr-government-support-7271-2024-25",
     "orr-rail-fares-7180-2026",
     "orr-rail-finance-7223-2024-25",
+    "ros-property-market-report-2025-26",
+    "scotgov-adp-caseload-july-2026",
     "scotgov-band-d-council-tax-rates-2026-27",
     "scotgov-band-d-equivalents-2025",
     "scotgov-bus-coach-statistics-2023-24",
     "scotgov-bus-coach-statistics-2024-25",
+    "scotgov-carer-support-payment-caseload-june-2026",
+    "scotgov-child-disability-payment-caseload-june-2026",
     "scotgov-council-tax-bands-2023",
     "scotgov-council-tax-bands-2024",
     "scotgov-council-tax-bands-2025",
     "scotgov-council-tax-collection-2024-25",
     "scotgov-council-tax-collection-2025-26",
+    "scotgov-council-tax-high-value-bands-consultation-2026",
     "scotgov-dwelling-stock-by-tenure-2024",
+    "scotgov-padp-caseload-july-2026",
     "scotgov-private-sector-rents-2025",
     "scotgov-scottish-budget-social-security-assistance-2026",
+    "scotgov-second-homes-empty-properties-2025",
     "scotgov-slgfs-council-tax-2024-25",
     "slc-student-loan-borrower-forecasts-england-2025",
     "slc-student-loan-repayments-england-2025",
@@ -278,8 +416,12 @@ UK_BUNDLE_SOURCES = (
     "slc-student-support-england-2025",
     "slc-student-support-england-2025-provisional-2025-26",
     "voa-council-tax-bands-2025",
+    "voa-council-tax-bands-2026",
+    "voa-council-tax-build-periods-2026",
+    "voa-council-tax-property-types-2026",
     "voa-council-tax-stock-by-lad-2025",
     "welshgov-bus-statistics-2024-25",
+    "welshgov-childcare-offer-report-2023-24",
     "welshgov-council-tax-collection-2024-25",
     "welshgov-council-tax-collection-2025-26",
     "welshgov-council-tax-dwellings-2023-24-to-2026-27",
@@ -370,11 +512,83 @@ NZ_BUNDLE_SOURCES = (
     "stats-nz-census-2023-weekly-rent-rc-18",
     "stats-nz-census-2023-weekly-rent-rc-99",
     "stats-nz-household-net-worth-2024",
+    "stats-nz-qes-average-weekly-earnings-june-2025",
+    "stats-nz-qes-average-weekly-earnings-june-2026",
+    "stats-nz-qes-average-weekly-earnings-september-2026",
     "stats-nz-subnational-population-estimates-2025",
+    "stats-nz-subnational-population-ta-2025",
     "treasury-an24-01-fiscal-totals",
     "treasury-estimates-of-appropriations-2026-27",
+    "treasury-prefu26-economic-assumptions",
 )
-BUNDLE_SUITES = ("nz", "uk")
+# Every package under these publisher directories is a Belgian package: Statbel,
+# the Federal Planning Bureau (fpb, and bfp for its French initials), the
+# National Bank of Belgium, ONEM/RVA, ONSS and RSZ (the social security office's
+# French and Dutch initials), Opgroeien, Ostbelgien, the Federal Pensions
+# Service (sfpd) and SPF Finances. None of these names another country.
+BE_BUNDLE_SOURCE_PREFIXES = (
+    "bfp",
+    "fpb",
+    "nbb",
+    "onem_rva",
+    "onss",
+    "opgroeien",
+    "ostbelgien",
+    "rsz",
+    "sfpd",
+    "spf_finances",
+    "statbel",
+)
+# Eurostat publishes for every EU member state, so packages/eurostat/ is not
+# Belgian-only and its prefix cannot stand for membership. A Eurostat package
+# joins the BE suite when its declarations cover Belgium: a row reports for the
+# country BE or a Belgian NUTS region (BE1, BE21, ...), or the package reads a
+# euro exchange-rate series (ert_bil_eur_*), which has no country axis and is
+# Belgium's currency. A Eurostat package that covers only other countries
+# stays out.
+BE_EUROSTAT_SOURCE_PREFIX = "eurostat"
+BE_EUROSTAT_EURO_RATE_SCOPE_PREFIX = "eurostat:ert_bil_eur_"
+# The curated Belgian suite (`build-bundle --suite be`). Each member pins one
+# artifact_year and declares nothing by year, so --year does not change what it
+# builds; facts keep the publishers' own periods.
+#
+# Chronicle builds whole packages. Four multi-country Eurostat members
+# (gov_10a_taxag, ilc_di01, ilc_li02 and spr_exp_func) also carry German and
+# French rows, which consumers leave out by geography.
+#
+# jrc-euromod-be-baseline-statistics-2025 is not a member. JRC's EUROMOD-BE
+# baseline statistics are a comparison statistic, and decision d1822, on moving
+# that package out of Chronicle to the scorecard that uses it, is still open.
+# packages/jrc/ is outside the prefixes above, so the drift guard leaves it out.
+BE_BUNDLE_SOURCES = (
+    "bfp-economic-outlook-2026-06",
+    "eurostat-ert-bil-eur-a-usd",
+    "eurostat-gov-10a-taxag",
+    "eurostat-gov-10a-taxag-2025",
+    "eurostat-ilc-di01",
+    "eurostat-ilc-li02",
+    "eurostat-nasa-10-nf-tr",
+    "eurostat-spr-exp-func",
+    "eurostat-spr-exp-func-2024",
+    "fpb-economic-outlook-2026-2031-june-2026",
+    "nbb-national-accounts-household-disposable-income-2024",
+    "onem-rva-unemployment-2024",
+    "onss-contributions-2024",
+    "opgroeien-groeipakket-caseload-2025",
+    "ostbelgien-kindergeld-2025",
+    "rsz-annual-wages-key-figures-2020-2025",
+    "rsz-employment-daily-wage-class-2023-2026",
+    "sfpd-legal-pension-caseload-2025",
+    "sfpd-pension-amount-bands-2025",
+    "spf-finances-municipal-tax-rate-ay2026",
+    "spf-finances-pit-2023",
+    "statbel-fiscal-income-2023-nis-2025",
+    "statbel-fiscal-income-distribution-2023",
+    "statbel-population-structure-2025",
+    "statbel-population-structure-2026",
+    "statbel-population-structure-commune-2025",
+)
+BUNDLE_SUITES = ("be", "nz", "uk")
 
 _KEY_DOMAINS = {
     "aggregate_fact_key": "aggregate_fact",
@@ -403,13 +617,16 @@ def _assert_suite_matches_aliases(
     country: str,
     sources: tuple[str, ...],
     expected: tuple[str, ...],
+    *,
+    expected_from: str | None = None,
 ) -> None:
     if sources != expected:
         missing = sorted(set(expected) - set(sources))
         extra = sorted(set(sources) - set(expected))
+        expected_from = expected_from or f"{country}-prefixed SOURCE_PACKAGE_ALIASES"
         raise ValueError(
-            f"{country}_BUNDLE_SOURCES drifted from {country}-prefixed "
-            f"SOURCE_PACKAGE_ALIASES: missing={missing}, extra={extra}"
+            f"{country}_BUNDLE_SOURCES drifted from {expected_from}: "
+            f"missing={missing}, extra={extra}"
         )
 
 
@@ -447,8 +664,84 @@ def assert_nz_bundle_sources_match_aliases() -> None:
     )
 
 
+def _declared_geographies(package: SourcePackage) -> set[tuple[Any, Any]]:
+    """Return each ``(level, id)`` a package's rows report for.
+
+    A row's own geography overrides its record set's, as it does in the facts.
+    Read from the declarations, so the artifact is never parsed.
+    """
+    geographies = set()
+    for record_set in package.record_sets:
+        payload = record_set.payload
+        for row in payload.get("rows") or ():
+            geographies.add(
+                (
+                    row.get("geography_level") or payload.get("geography_level"),
+                    row.get("geography_id") or payload.get("geography_id"),
+                )
+            )
+    return geographies
+
+
+def _covers_belgium(level: Any, geography_id: Any) -> bool:
+    """Whether a geography is Belgium, a Belgian NUTS region or the euro's rate."""
+    level, geography_id = str(level), str(geography_id)
+    if level == "country":
+        return geography_id == "BE"
+    if level.startswith("nuts"):
+        return geography_id.startswith("BE")
+    return level == "statistical_scope" and geography_id.startswith(
+        BE_EUROSTAT_EURO_RATE_SCOPE_PREFIX
+    )
+
+
+def be_eurostat_bundle_sources_from_packages() -> tuple[str, ...]:
+    """Return the Eurostat aliases whose packages cover Belgium."""
+    members = []
+    for alias in _prefixed_aliases((BE_EUROSTAT_SOURCE_PREFIX,)):
+        try:
+            geographies = _declared_geographies(load_source_package(alias))
+        except Exception as exc:
+            raise ValueError(
+                f"BE bundle drift guard could not read Eurostat package {alias}: {exc}"
+            ) from exc
+        if any(_covers_belgium(*geography) for geography in geographies):
+            members.append(alias)
+    return tuple(members)
+
+
+def be_bundle_sources_from_aliases() -> tuple[str, ...]:
+    """Return the Belgian aliases implied by the packages themselves.
+
+    Every alias under a Belgian publisher directory counts. Eurostat aliases
+    count only when their packages cover Belgium, since packages/eurostat/ can
+    hold packages that cover only other member states.
+    """
+    return tuple(
+        sorted(
+            (
+                *_prefixed_aliases(BE_BUNDLE_SOURCE_PREFIXES),
+                *be_eurostat_bundle_sources_from_packages(),
+            )
+        )
+    )
+
+
+def assert_be_bundle_sources_match_aliases() -> None:
+    """Fail loudly if the curated BE suite omits or adds a Belgian alias."""
+    _assert_suite_matches_aliases(
+        "BE",
+        BE_BUNDLE_SOURCES,
+        be_bundle_sources_from_aliases(),
+        expected_from="Belgian SOURCE_PACKAGE_ALIASES",
+    )
+
+
 def bundle_suite_sources(suite: str) -> tuple[str, ...]:
-    """Return a curated suite's sources once they match its prefixed aliases."""
+    """Return a curated suite's sources once they pass its drift guard."""
+    if suite == "be":
+        assert_be_bundle_sources_match_aliases()
+        return BE_BUNDLE_SOURCES
     if suite == "uk":
         assert_uk_bundle_sources_match_aliases()
         return UK_BUNDLE_SOURCES
@@ -559,8 +852,19 @@ def build_bundle(
     axiom_roots: Sequence[str | Path] = (),
     require_axiom_validation: bool = False,
     replace: bool = False,
+    keep_suite_intermediates: bool = True,
 ) -> BuildBundleReport:
-    """Build source-package suites and merge their consumer-contract facts."""
+    """Build source-package suites and merge their consumer-contract facts.
+
+    With ``keep_suite_intermediates=False`` each suite's
+    ``SUITE_INTERMEDIATE_FILES`` are deleted as soon as that suite finishes,
+    whether or not it built, and ``reports/pruned_intermediates.json`` lists
+    what was deleted. Slim mode changes no file the bundle keeps, so its
+    reports and sidecars still name or hash the deleted files
+    (tests/test_chronicle_bundle_slim.py compares every kept file with a full
+    build's, byte for byte).
+    """
+    build_created_at()  # Refuse a malformed SOURCE_DATE_EPOCH before writing.
     output_path = Path(output_dir)
     _prepare_output_dir(output_path, replace=replace)
     reports_path = output_path / "reports"
@@ -586,102 +890,125 @@ def build_bundle(
     errors: list[BuildBundleIssue] = []
     warnings: list[BuildBundleIssue] = []
     source_reports: list[BundleSourceReport] = []
-    consumer_rows: list[dict[str, Any]] = []
-    shared_metadata: dict[tuple[str, str], dict[str, Any]] = {}
     dimension_labels: dict[str, dict[str, list[str]]] = {}
     geography_names: dict[tuple[str, str], dict[str, list[str]]] = {}
     value_labels: dict[tuple[str, str], dict[str, list[str]]] = {}
-
-    for source in build_sources:
-        suite_dir = sources_path / _safe_source_dir_name(source)
-        try:
-            suite_report = build_source_suite(
-                source,
-                suite_dir,
-                year=year,
-                axiom_command=axiom_command,
-                axiom_roots=axiom_roots,
-                require_axiom_validation=require_axiom_validation,
-                replace=True,
-            )
-        except Exception as exc:
-            errors.append(
-                BuildBundleIssue(
-                    code="source_suite_build_failed",
-                    message=str(exc),
-                    source=source,
-                )
-            )
-            continue
-
-        if not suite_report.valid:
-            errors.append(
-                BuildBundleIssue(
-                    code="source_suite_invalid",
-                    message="Nested source-package suite did not pass validation.",
-                    source=source,
-                )
-            )
-        rows = _load_jsonl(
-            Path(suite_report.outputs["consumer_facts"]),
-            shared_metadata=shared_metadata,
-        )
-        consumer_rows.extend(rows)
-        source_reports.append(_bundle_source_report(source, suite_report))
-        label_errors, label_warnings = _dimension_label_reports(source, rows)
-        errors.extend(label_errors)
-        warnings.extend(label_warnings)
-        errors.extend(_geography_name_errors(source, rows))
-        for area, names in _geography_names(rows).items():
-            for name in names:
-                geography_names.setdefault(area, {}).setdefault(name, []).append(source)
-        for pair, labels in _value_labels(rows).items():
-            for label in labels:
-                value_labels.setdefault(pair, {}).setdefault(label, []).append(source)
-        for dimension_id, labels in dimension_labels_by_id(rows).items():
-            for label in labels:
-                dimension_labels.setdefault(dimension_id, {}).setdefault(
-                    label, []
-                ).append(source)
-
-    errors.extend(_cross_package_dimension_label_errors(dimension_labels))
-    warnings.extend(_cross_package_geography_name_warnings(geography_names))
-    warnings.extend(_cross_package_value_label_warnings(value_labels))
-    aggregate_duplicates = _duplicate_key_reports(
-        consumer_rows,
-        "aggregate_fact_key",
-    )
-    semantic_duplicates = _duplicate_key_reports(
-        consumer_rows,
-        "semantic_fact_key",
-    )
-    for duplicate in aggregate_duplicates:
-        errors.append(
-            BuildBundleIssue(
-                code="duplicate_aggregate_fact_key",
-                message="Aggregate fact keys must be unique within a bundle.",
-                key=duplicate["key"],
-            )
-        )
-    if semantic_duplicates:
-        warnings.append(
-            BuildBundleIssue(
-                code="duplicate_semantic_fact_key",
-                message=(
-                    "One or more semantic facts appear in multiple rows; "
-                    "downstream consumers should reconcile or select sources."
-                ),
-            )
-        )
-
+    # Each package's rows are written and counted as soon as they are read, then
+    # freed. Holding every package's rows until the end peaked at 15.0 GiB on CI
+    # for the default bundle's 1.74M rows, close to the runner's memory. The file
+    # takes its final name once every package is in it; a failed build removes it.
+    coverage_counts = _BundleCoverage()
+    pruned_suites: list[dict[str, Any]] = []
     consumer_facts_path = output_path / "consumer_facts.jsonl"
+    partial_facts_path = output_path / "consumer_facts.jsonl.partial"
+    partial_facts_path.write_text("", encoding="utf-8")
+
+    try:
+        for source in build_sources:
+            suite_dir = sources_path / _safe_source_dir_name(source)
+            try:
+                suite_report = build_source_suite(
+                    source,
+                    suite_dir,
+                    year=year,
+                    axiom_command=axiom_command,
+                    axiom_roots=axiom_roots,
+                    require_axiom_validation=require_axiom_validation,
+                    replace=True,
+                )
+            except Exception as exc:
+                errors.append(
+                    BuildBundleIssue(
+                        code="source_suite_build_failed",
+                        message=str(exc),
+                        source=source,
+                    )
+                )
+                continue
+            finally:
+                if not keep_suite_intermediates:
+                    pruned_files = _prune_suite_intermediates(suite_dir)
+                    if pruned_files:
+                        pruned_suites.append(
+                            {
+                                "source": source,
+                                "output_dir": str(suite_dir),
+                                "files": pruned_files,
+                            }
+                        )
+
+            if not suite_report.valid:
+                errors.append(
+                    BuildBundleIssue(
+                        code="source_suite_invalid",
+                        message="Nested source-package suite did not pass validation.",
+                        source=source,
+                    )
+                )
+            # The metadata pool is the package's own, so it is freed with its rows.
+            rows = _load_jsonl(
+                Path(suite_report.outputs["consumer_facts"]),
+                shared_metadata={},
+            )
+            _append_jsonl(partial_facts_path, rows)
+            coverage_counts.add(rows)
+            source_reports.append(_bundle_source_report(source, suite_report))
+            label_errors, label_warnings = _dimension_label_reports(source, rows)
+            errors.extend(label_errors)
+            warnings.extend(label_warnings)
+            errors.extend(_geography_name_errors(source, rows))
+            for area, names in _geography_names(rows).items():
+                for name in names:
+                    geography_names.setdefault(area, {}).setdefault(name, []).append(
+                        source
+                    )
+            for pair, labels in _value_labels(rows).items():
+                for label in labels:
+                    value_labels.setdefault(pair, {}).setdefault(label, []).append(
+                        source
+                    )
+            for dimension_id, labels in dimension_labels_by_id(rows).items():
+                for label in labels:
+                    dimension_labels.setdefault(dimension_id, {}).setdefault(
+                        label, []
+                    ).append(source)
+            # Free this package's rows and suite reports before the next one builds.
+            del rows, suite_report
+
+        errors.extend(_cross_package_dimension_label_errors(dimension_labels))
+        errors.extend(_cross_package_value_label_errors(value_labels))
+        warnings.extend(_cross_package_geography_name_warnings(geography_names))
+        aggregate_duplicates = coverage_counts.duplicates("aggregate_fact_key")
+        semantic_duplicates = coverage_counts.duplicates("semantic_fact_key")
+        for duplicate in aggregate_duplicates:
+            errors.append(
+                BuildBundleIssue(
+                    code="duplicate_aggregate_fact_key",
+                    message="Aggregate fact keys must be unique within a bundle.",
+                    key=duplicate["key"],
+                )
+            )
+        if semantic_duplicates:
+            warnings.append(
+                BuildBundleIssue(
+                    code="duplicate_semantic_fact_key",
+                    message=(
+                        "One or more semantic facts appear in multiple rows; "
+                        "downstream consumers should reconcile or select sources."
+                    ),
+                )
+            )
+
+        partial_facts_path.replace(consumer_facts_path)
+    except BaseException:
+        partial_facts_path.unlink(missing_ok=True)
+        raise
+
     source_packages_path = output_path / "source_packages.json"
     coverage_path = output_path / "coverage.json"
     report_path = reports_path / "build_bundle.json"
 
-    _write_jsonl(consumer_facts_path, consumer_rows)
-    coverage = build_bundle_coverage(
-        consumer_rows,
+    coverage = coverage_counts.report(
         aggregate_duplicates=aggregate_duplicates,
         semantic_duplicates=semantic_duplicates,
     )
@@ -720,6 +1047,19 @@ def build_bundle(
         warnings=tuple(warnings),
     )
     _write_report(report_path, report.to_dict())
+    if not keep_suite_intermediates:
+        _write_report(
+            reports_path / PRUNED_INTERMEDIATES_REPORT,
+            {
+                "pruned_file_names": list(SUITE_INTERMEDIATE_FILES),
+                "suite_count": len(pruned_suites),
+                "file_count": sum(len(suite["files"]) for suite in pruned_suites),
+                "bytes": sum(
+                    file["bytes"] for suite in pruned_suites for file in suite["files"]
+                ),
+                "suites": pruned_suites,
+            },
+        )
     return report
 
 
@@ -727,13 +1067,15 @@ def _dimension_label_reports(
     source: str,
     rows: list[dict[str, Any]],
 ) -> tuple[list[BuildBundleIssue], list[BuildBundleIssue]]:
-    """Report one source's dimension-label issues (chronicle#261, #265).
+    """Report one source's dimension-label issues (chronicle#261, #265, #376).
 
     Every package must label every dimension and value it emits, whichever
     country it publishes for: the row contract is one contract, and a consumer
-    reads the labels the same way everywhere. The exception is publisher row
-    labels that differ across the rows of one groupby value: Chronicle keeps
-    that text as published and warns.
+    reads the labels the same way everywhere. A value one package labels two
+    ways, the package's row labels (its record-set rows' ``label:``) that
+    differ across one groupby value's rows included, is an error too: a
+    consumer would see one value under two names (chronicle#376). Nothing
+    about labels is only a warning.
     """
     errors: list[BuildBundleIssue] = []
     warnings: list[BuildBundleIssue] = []
@@ -748,10 +1090,7 @@ def _dimension_label_reports(
                 else f"{issue.dimension_id}={issue.value_id}"
             ),
         )
-        if issue.code == "conflicting_groupby_value_label":
-            warnings.append(report)
-        else:
-            errors.append(report)
+        errors.append(report)
     return errors, warnings
 
 
@@ -866,16 +1205,21 @@ def _value_labels(rows: list[dict[str, Any]]) -> dict[tuple[str, str], set[str]]
     return found
 
 
-def _cross_package_value_label_warnings(
+def _cross_package_value_label_errors(
     labels_by_value: dict[tuple[str, str], dict[str, list[str]]],
 ) -> list[BuildBundleIssue]:
-    """Report a dimension value two packages label differently (chronicle#265).
+    """Refuse a dimension value two packages label differently (chronicle#376).
 
-    One label per dimension id is an error because a consumer selects on the
-    id; one label per value is a warning because the wording belongs to the
-    table the value was read from, and two tables of one publisher may word a
-    band or a total differently. A consumer target that spans both sees both,
-    so the bundle says where that is possible.
+    Microcosm copies each fact's labels into every target it compiles, so a
+    release built from both packages would label one value two ways, and a
+    consumer that groups targets by value cannot show it as one (the IRS
+    filing-season week-47 table labelled adjusted gross income ``under_1`` "No
+    adjusted gross income and deficit" where every other IRS SOI package writes
+    "No adjusted gross income"). Every fact takes the label Chronicle's
+    register gives a value it lists, so this finds values the register does not
+    list yet. There are no accepted exceptions: two packages emit the value,
+    so the one remedy is a register entry, and the message says how to choose
+    its label (or names the register's label, for rows built before it).
     """
     return [
         BuildBundleIssue(
@@ -887,7 +1231,7 @@ def _cross_package_value_label_warnings(
                     f"{label!r} in {sorted(sources)}"
                     for label, sources in sorted(labels.items())
                 )
-                + "."
+                + f". {cross_package_value_label_remedy(dimension_id, value_id)}"
             ),
             key=f"{dimension_id}={value_id}",
         )
@@ -965,46 +1309,12 @@ def build_bundle_coverage(
     semantic_duplicates: list[dict[str, Any]] | None = None,
 ) -> dict[str, Any]:
     """Build source/concept/geography coverage diagnostics for consumer rows."""
-    aggregate_duplicates = (
-        aggregate_duplicates
-        if aggregate_duplicates is not None
-        else _duplicate_key_reports(rows, "aggregate_fact_key")
+    coverage = _BundleCoverage()
+    coverage.add(rows)
+    return coverage.report(
+        aggregate_duplicates=aggregate_duplicates,
+        semantic_duplicates=semantic_duplicates,
     )
-    semantic_duplicates = (
-        semantic_duplicates
-        if semantic_duplicates is not None
-        else _duplicate_key_reports(rows, "semantic_fact_key")
-    )
-    return {
-        "schema_version": BUNDLE_COVERAGE_SCHEMA_VERSION,
-        "fact_count": len(rows),
-        "counts": {
-            "by_source": _counts_by(rows, _source_name),
-            "by_source_table": _counts_by(rows, _source_table_key),
-            "by_period": _counts_by(rows, _period_key),
-            "by_geography": _counts_by(rows, _geography_key),
-            "by_entity": _counts_by(rows, _entity_key),
-            "by_observed_measure": _counts_by(rows, _observed_measure_key),
-            "by_observed_concept": _counts_by(rows, _observed_concept_key),
-            "by_canonical_concept": _counts_by(rows, _canonical_concept_key),
-        },
-        "unique_counts": {
-            "aggregate_fact_key": _unique_count(rows, "aggregate_fact_key"),
-            "semantic_fact_key": _unique_count(rows, "semantic_fact_key"),
-            "source_release_key": _unique_count(rows, "source_release_key"),
-            "source_series_key": _unique_count(rows, "source_series_key"),
-            "observed_measure_key": _unique_count(rows, "observed_measure_key"),
-            "dimension_set_key": _unique_count(rows, "dimension_set_key"),
-            "universe_constraint_set_key": _unique_count(
-                rows,
-                "universe_constraint_set_key",
-            ),
-        },
-        "duplicates": {
-            "aggregate_fact_keys": aggregate_duplicates,
-            "semantic_fact_keys": semantic_duplicates,
-        },
-    }
 
 
 def _resolve_bundle_sources(
@@ -1072,50 +1382,158 @@ def _bundle_source_report(
     )
 
 
-def _duplicate_key_reports(
-    rows: list[dict[str, Any]],
-    key: str,
-) -> list[dict[str, Any]]:
-    grouped: dict[Any, list[dict[str, Any]]] = {}
-    for row in rows:
-        grouped.setdefault(_canonical_key(row[key], key), []).append(row)
-    return [
-        {
-            "key": key_value,
-            "count": len(key_rows),
-            "sources": sorted({_source_table_key(row) for row in key_rows}),
-            "legacy_fact_keys": sorted(
-                {
-                    _canonical_key(legacy_key, "legacy_fact_key")
-                    for row in key_rows
-                    if (legacy_key := row.get("legacy_fact_key"))
-                },
-                key=_identity_sort_key,
-            ),
+class _BundleCoverage:
+    """Coverage diagnostics added up one package's rows at a time.
+
+    It keeps counts, each identity's distinct values and, for each fact key,
+    where its first row came from, never the rows themselves, so build_bundle
+    can free a package's rows once they are added.
+    """
+
+    def __init__(self) -> None:
+        self.fact_count = 0
+        self.count_keys: dict[str, Callable[[dict[str, Any]], str | None]] = {
+            "by_source": _source_name,
+            "by_source_table": _source_table_key,
+            "by_period": _period_key,
+            "by_geography": _geography_key,
+            "by_entity": _entity_key,
+            "by_observed_measure": _observed_measure_key,
+            "by_observed_concept": _observed_concept_key,
+            "by_canonical_concept": _canonical_concept_key,
         }
-        for key_value, key_rows in sorted(
-            grouped.items(),
-            key=lambda item: _identity_sort_key(item[0]),
-        )
-        if len(key_rows) > 1
-    ]
+        self.counts: dict[str, dict[str, int]] = {name: {} for name in self.count_keys}
+        self.fact_keys = {
+            key: _FactKeyIndex(key)
+            for key in ("aggregate_fact_key", "semantic_fact_key")
+        }
+        self.identities: dict[str, set[Any]] = {
+            key: set()
+            for key in (
+                "source_release_key",
+                "source_series_key",
+                "observed_measure_key",
+                "dimension_set_key",
+                "universe_constraint_set_key",
+            )
+        }
+        # One string per source table, however many rows name it.
+        self.source_tables: dict[str | None, str | None] = {}
+
+    def add(self, rows: Iterable[dict[str, Any]]) -> None:
+        for row in rows:
+            self.fact_count += 1
+            for name, key_fn in self.count_keys.items():
+                key = key_fn(row)
+                if key is not None:
+                    counts = self.counts[name]
+                    counts[key] = counts.get(key, 0) + 1
+            for key, values in self.identities.items():
+                if key in row:
+                    values.add(_canonical_key(row[key], key))
+            source_table = _source_table_key(row)
+            origin = (
+                self.source_tables.setdefault(source_table, source_table),
+                row.get("legacy_fact_key") or None,
+            )
+            for index in self.fact_keys.values():
+                index.add(row, origin)
+
+    def duplicates(self, key: str) -> list[dict[str, Any]]:
+        return self.fact_keys[key].duplicates()
+
+    def report(
+        self,
+        *,
+        aggregate_duplicates: list[dict[str, Any]] | None = None,
+        semantic_duplicates: list[dict[str, Any]] | None = None,
+    ) -> dict[str, Any]:
+        if aggregate_duplicates is None:
+            aggregate_duplicates = self.duplicates("aggregate_fact_key")
+        if semantic_duplicates is None:
+            semantic_duplicates = self.duplicates("semantic_fact_key")
+        return {
+            "schema_version": BUNDLE_COVERAGE_SCHEMA_VERSION,
+            "fact_count": self.fact_count,
+            "counts": {
+                name: dict(sorted(counts.items()))
+                for name, counts in self.counts.items()
+            },
+            "unique_counts": {
+                **{key: len(index.first) for key, index in self.fact_keys.items()},
+                **{key: len(values) for key, values in self.identities.items()},
+            },
+            "duplicates": {
+                "aggregate_fact_keys": aggregate_duplicates,
+                "semantic_fact_keys": semantic_duplicates,
+            },
+        }
 
 
-def _counts_by(
-    rows: list[dict[str, Any]],
-    key_fn: Callable[[dict[str, Any]], str | None],
-) -> dict[str, int]:
-    counts: dict[str, int] = {}
-    for row in rows:
-        key = key_fn(row)
-        if key is None:
-            continue
-        counts[key] = counts.get(key, 0) + 1
-    return dict(sorted(counts.items()))
+@dataclass(slots=True)
+class _RepeatedFactKey:
+    count: int
+    source_tables: set[str | None]
+    legacy_fact_keys: set[Any]
 
 
-def _unique_count(rows: list[dict[str, Any]], key: str) -> int:
-    return len({_canonical_key(row[key], key) for row in rows if key in row})
+class _FactKeyIndex:
+    """Each distinct value of one fact key, and where the repeated ones come from.
+
+    A key keeps its first row's source table and legacy fact key; only keys
+    seen again collect the rest, so duplicates are reported without any row.
+    """
+
+    def __init__(self, key: str) -> None:
+        self.key = key
+        self.first: dict[Any, tuple[str | None, Any]] = {}
+        self.repeated: dict[Any, _RepeatedFactKey] = {}
+        self.missing = False
+
+    def add(self, row: dict[str, Any], origin: tuple[str | None, Any]) -> None:
+        if self.key not in row:
+            self.missing = True
+            return
+        value = _canonical_key(row[self.key], self.key)
+        first = self.first.get(value)
+        if first is None:
+            self.first[value] = origin
+            return
+        repeated = self.repeated.get(value)
+        if repeated is None:
+            repeated = self.repeated[value] = _RepeatedFactKey(
+                count=1,
+                source_tables={first[0]},
+                legacy_fact_keys=set() if first[1] is None else {first[1]},
+            )
+        repeated.count += 1
+        repeated.source_tables.add(origin[0])
+        if origin[1] is not None:
+            repeated.legacy_fact_keys.add(origin[1])
+
+    def duplicates(self) -> list[dict[str, Any]]:
+        if self.missing:
+            # A row without the key fails here, as it did when every row was
+            # grouped by it.
+            raise KeyError(self.key)
+        return [
+            {
+                "key": value,
+                "count": repeated.count,
+                "sources": sorted(repeated.source_tables),
+                "legacy_fact_keys": sorted(
+                    {
+                        _canonical_key(legacy_key, "legacy_fact_key")
+                        for legacy_key in repeated.legacy_fact_keys
+                    },
+                    key=_identity_sort_key,
+                ),
+            }
+            for value, repeated in sorted(
+                self.repeated.items(),
+                key=lambda item: _identity_sort_key(item[0]),
+            )
+        ]
 
 
 def _canonical_key(value: Any, field_name: str) -> Any:
@@ -1187,6 +1605,19 @@ def _canonical_concept_key(row: dict[str, Any]) -> str | None:
     return row.get("concept_alignment", {}).get("canonical_concept")
 
 
+def _prune_suite_intermediates(suite_dir: Path) -> list[dict[str, Any]]:
+    """Delete a suite's intermediate files and return each one's name and size."""
+    pruned: list[dict[str, Any]] = []
+    for name in SUITE_INTERMEDIATE_FILES:
+        path = suite_dir / name
+        if not path.is_file():
+            continue
+        size = path.stat().st_size
+        path.unlink()
+        pruned.append({"name": name, "bytes": size})
+    return pruned
+
+
 def _safe_source_dir_name(source: str) -> str:
     safe = re.sub(r"[^A-Za-z0-9._-]+", "-", source).strip("-")
     return safe or "source"
@@ -1246,9 +1677,8 @@ def _load_jsonl(
     return rows
 
 
-def _write_jsonl(path: Path, rows: list[dict[str, Any]]) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    with path.open("w", encoding="utf-8") as file:
+def _append_jsonl(path: Path, rows: Iterable[dict[str, Any]]) -> None:
+    with path.open("a", encoding="utf-8") as file:
         for row in rows:
             file.write(json.dumps(row, sort_keys=True))
             file.write("\n")

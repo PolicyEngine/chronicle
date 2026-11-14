@@ -81358,6 +81358,110 @@ record_sets:
     expected_cell_type: number
     expected_column_header_row: 5
     expected_column_header: Total number of dwellings
+  - measure_id: nrs_dwellings_band_a
+    label: Dwellings, Council Tax band A
+    ordinal: 1
+    column: G
+    source_column_id: council_tax_band_a
+    concept: nrs.dwellings_band_a
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 5
+    expected_column_header: 'Council Tax band:
+
+      A'
+  - measure_id: nrs_dwellings_band_b
+    label: Dwellings, Council Tax band B
+    ordinal: 2
+    column: H
+    source_column_id: council_tax_band_b
+    concept: nrs.dwellings_band_b
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 5
+    expected_column_header: 'Council Tax band:
+
+      B'
+  - measure_id: nrs_dwellings_band_c
+    label: Dwellings, Council Tax band C
+    ordinal: 3
+    column: I
+    source_column_id: council_tax_band_c
+    concept: nrs.dwellings_band_c
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 5
+    expected_column_header: 'Council Tax band:
+
+      C'
+  - measure_id: nrs_dwellings_band_d
+    label: Dwellings, Council Tax band D
+    ordinal: 4
+    column: J
+    source_column_id: council_tax_band_d
+    concept: nrs.dwellings_band_d
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 5
+    expected_column_header: 'Council Tax band:
+
+      D'
+  - measure_id: nrs_dwellings_band_e
+    label: Dwellings, Council Tax band E
+    ordinal: 5
+    column: K
+    source_column_id: council_tax_band_e
+    concept: nrs.dwellings_band_e
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 5
+    expected_column_header: 'Council Tax band:
+
+      E'
+  - measure_id: nrs_dwellings_band_f
+    label: Dwellings, Council Tax band F
+    ordinal: 6
+    column: L
+    source_column_id: council_tax_band_f
+    concept: nrs.dwellings_band_f
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 5
+    expected_column_header: 'Council Tax band:
+
+      F'
+  - measure_id: nrs_dwellings_band_g
+    label: Dwellings, Council Tax band G
+    ordinal: 7
+    column: M
+    source_column_id: council_tax_band_g
+    concept: nrs.dwellings_band_g
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 5
+    expected_column_header: 'Council Tax band:
+
+      G'
+  - measure_id: nrs_dwellings_band_h
+    label: Dwellings, Council Tax band H
+    ordinal: 8
+    column: N
+    source_column_id: council_tax_band_h
+    concept: nrs.dwellings_band_h
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 5
+    expected_column_header: 'Council Tax band:
+
+      H'
   period_coverage:
     start_date: '2024-12-31'
     end_date: '2024-12-31'
@@ -162704,6 +162808,110 @@ record_sets:
     expected_cell_type: number
     expected_column_header_row: 5
     expected_column_header: Total number of dwellings
+  - measure_id: nrs_dwellings_band_a
+    label: Dwellings, Council Tax band A
+    ordinal: 1
+    column: G
+    source_column_id: council_tax_band_a
+    concept: nrs.dwellings_band_a
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 5
+    expected_column_header: 'Council Tax band:
+
+      A'
+  - measure_id: nrs_dwellings_band_b
+    label: Dwellings, Council Tax band B
+    ordinal: 2
+    column: H
+    source_column_id: council_tax_band_b
+    concept: nrs.dwellings_band_b
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 5
+    expected_column_header: 'Council Tax band:
+
+      B'
+  - measure_id: nrs_dwellings_band_c
+    label: Dwellings, Council Tax band C
+    ordinal: 3
+    column: I
+    source_column_id: council_tax_band_c
+    concept: nrs.dwellings_band_c
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 5
+    expected_column_header: 'Council Tax band:
+
+      C'
+  - measure_id: nrs_dwellings_band_d
+    label: Dwellings, Council Tax band D
+    ordinal: 4
+    column: J
+    source_column_id: council_tax_band_d
+    concept: nrs.dwellings_band_d
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 5
+    expected_column_header: 'Council Tax band:
+
+      D'
+  - measure_id: nrs_dwellings_band_e
+    label: Dwellings, Council Tax band E
+    ordinal: 5
+    column: K
+    source_column_id: council_tax_band_e
+    concept: nrs.dwellings_band_e
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 5
+    expected_column_header: 'Council Tax band:
+
+      E'
+  - measure_id: nrs_dwellings_band_f
+    label: Dwellings, Council Tax band F
+    ordinal: 6
+    column: L
+    source_column_id: council_tax_band_f
+    concept: nrs.dwellings_band_f
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 5
+    expected_column_header: 'Council Tax band:
+
+      F'
+  - measure_id: nrs_dwellings_band_g
+    label: Dwellings, Council Tax band G
+    ordinal: 7
+    column: M
+    source_column_id: council_tax_band_g
+    concept: nrs.dwellings_band_g
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 5
+    expected_column_header: 'Council Tax band:
+
+      G'
+  - measure_id: nrs_dwellings_band_h
+    label: Dwellings, Council Tax band H
+    ordinal: 8
+    column: N
+    source_column_id: council_tax_band_h
+    concept: nrs.dwellings_band_h
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 5
+    expected_column_header: 'Council Tax band:
+
+      H'
   period_coverage:
     start_date: '2025-12-31'
     end_date: '2025-12-31'

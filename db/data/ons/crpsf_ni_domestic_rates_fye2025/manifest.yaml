@@ -1,0 +1,27 @@
+source_id: ons
+package_id: ons-crpsf-ni-domestic-rates-fye2025
+dataset: ons_ons-crpsf-ni-domestic-rates-fye2025
+source_page: https://www.ons.gov.uk/economy/governmentpublicsectorandtaxes/publicsectorfinance/datasets/countryandregionalpublicsectorfinancesrevenuetables
+table: 'Country and regional public sector finances revenue tables, financial year
+  ending 2025: Total Public Sector (PS) Current Receipts excluding PS Banks'
+license: Open Government Licence v3.0
+license_url: https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/
+attribution: 'Source: Office for National Statistics, Country and regional public
+  sector finances revenue tables, financial year ending 2025 (published 26 May 2026).
+  Contains public sector information licensed under the Open Government Licence v3.0.'
+license_evidence: 'ONS pages state: ''All content is available under the Open Government
+  Licence v3.0, except where otherwise stated.'' (dataset page)'
+license_verified_at: '2026-10-30'
+files:
+  2025:
+    filename: crpsffye2025totalpublicsectorcurrentreceipts.xlsx
+    source_url: https://www.ons.gov.uk/file?uri=/economy/governmentpublicsectorandtaxes/publicsectorfinance/datasets/countryandregionalpublicsectorfinancesrevenuetables/financialyearending2025/crpsffye2025totalpublicsectorcurrentreceipts.xlsx
+    sha256: 9dbadf3d06a6a835a5f8e00951016caba2ddaa3e2dd9eee1f28feca464044b98
+    size_bytes: 213368
+    fetched_at: '2026-10-30T11:38:59+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/ons/ons-crpsf-ni-domestic-rates-fye2025/2025/9dbadf3d06a6a835a5f8e00951016caba2ddaa3e2dd9eee1f28feca464044b98/crpsffye2025totalpublicsectorcurrentreceipts.xlsx
+        uri: r2://ledger-raw/raw/uk/ons/ons-crpsf-ni-domestic-rates-fye2025/2025/9dbadf3d06a6a835a5f8e00951016caba2ddaa3e2dd9eee1f28feca464044b98/crpsffye2025totalpublicsectorcurrentreceipts.xlsx

@@ -1,0 +1,573 @@
+# ONS public sector finances time series CDDZ (PUSF), 'CG: Current receipts: Other taxes:
+# Vehicle duty paid by households: £m CPNSA', released 21 October 2026, for
+# PolicyEngine/chronicle#395 (comment of 29 October, vehicle excise duty).
+#
+# Annual calendar-year observations, 2018 to 2025, as the series publishes them; its
+# quarters and months are not ported. CDDZ (households, 'Other taxes') and EKED
+# (businesses, 'Taxes on production') are the national accounts' split of vehicle excise
+# duty, which the OBR forecasts as one total. The package derives no total and no
+# financial year. The series' metadata state no accounting basis, while the OBR's VED line
+# is on a cash basis: use the split for the households' and businesses' shares, not as
+# levels against the OBR line.
+schema_version: ledger.source_package.v1
+package_id: ons-pusf-vehicle-duty-households-october-2026
+label: 'ONS PUSF CDDZ: vehicle duty paid by households, calendar years 2018 to 2025'
+dimension_labels:
+  ons.pusf_series: Public sector finances (PUSF) series
+artifact:
+  source_name: ons
+  source_table: 'PUSF time series CDDZ: CG: Current receipts: Other taxes: Vehicle duty paid by households:
+    £m CPNSA'
+  resource_package: db
+  resource_directory: data/ons/pusf_vehicle_duty_households_october_2026
+  manifest: manifest.yaml
+  vintage: pusf_2026_10_21
+  extracted_at: '2026-10-30'
+  extraction_method: delimited text full-row parse of the ONS time series CSV
+  parser: delimited_text_full_rows
+  artifact_year: 2026
+record_sets:
+- record_set_id: ons.pusf_cddz.cy2018
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: ons.pusf_cddz.cy2018.v1
+  source_record_id_prefix: ons.pusf_cddz.cy2018
+  sheet_name: cddz
+  period_type: calendar_year
+  period: 2018
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: household
+  entity_role: vehicle_excise_duty_payer
+  domain: public_sector_finances
+  groupby_dimension: ons.pusf_series
+  rows:
+  - value_id: cddz
+    label: 'CG: Current receipts: Other taxes: Vehicle duty paid by households: £m CPNSA'
+    ordinal: 0
+    row_number: 40
+    expected_row_header_column: A
+    expected_row_header: 2018
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: CDID
+      label: series identifier heading
+    - column: B
+      row: 2
+      expected_value: CDDZ
+      label: series identifier
+    - column: B
+      row: 3
+      expected_value: PUSF
+      label: source dataset
+    - column: B
+      row: 6
+      expected_value: 21-10-2026
+      label: release date
+    - column: B
+      row: 4
+      expected_value: £
+      label: PreUnit cell
+    - column: B
+      row: 5
+      expected_value: m
+      label: Unit cell
+  measures:
+  - measure_id: value
+    label: Vehicle duty paid by households, 2018
+    ordinal: 0
+    column: B
+    source_column_id: value
+    expected_column_header_row: 1
+    expected_column_header: 'CG: Current receipts: Other taxes: Vehicle duty paid by households: £m CPNSA'
+    concept: ons.vehicle_duty_paid_by_households
+    source_concept: ons.pusf_cddz
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/governmentpublicsectorandtaxes/publicsectorfinance/timeseries/cddz/pusf
+    concept_evidence_notes: 'ONS time series CDDZ (PUSF), ''CG: Current receipts: Other taxes: Vehicle
+      duty paid by households: £m CPNSA'', released 21 October 2026; the row labelled ''2018''.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: ons.pusf_cddz.cy2019
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: ons.pusf_cddz.cy2019.v1
+  source_record_id_prefix: ons.pusf_cddz.cy2019
+  sheet_name: cddz
+  period_type: calendar_year
+  period: 2019
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: household
+  entity_role: vehicle_excise_duty_payer
+  domain: public_sector_finances
+  groupby_dimension: ons.pusf_series
+  rows:
+  - value_id: cddz
+    label: 'CG: Current receipts: Other taxes: Vehicle duty paid by households: £m CPNSA'
+    ordinal: 0
+    row_number: 41
+    expected_row_header_column: A
+    expected_row_header: 2019
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: CDID
+      label: series identifier heading
+    - column: B
+      row: 2
+      expected_value: CDDZ
+      label: series identifier
+    - column: B
+      row: 3
+      expected_value: PUSF
+      label: source dataset
+    - column: B
+      row: 6
+      expected_value: 21-10-2026
+      label: release date
+    - column: B
+      row: 4
+      expected_value: £
+      label: PreUnit cell
+    - column: B
+      row: 5
+      expected_value: m
+      label: Unit cell
+  measures:
+  - measure_id: value
+    label: Vehicle duty paid by households, 2019
+    ordinal: 0
+    column: B
+    source_column_id: value
+    expected_column_header_row: 1
+    expected_column_header: 'CG: Current receipts: Other taxes: Vehicle duty paid by households: £m CPNSA'
+    concept: ons.vehicle_duty_paid_by_households
+    source_concept: ons.pusf_cddz
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/governmentpublicsectorandtaxes/publicsectorfinance/timeseries/cddz/pusf
+    concept_evidence_notes: 'ONS time series CDDZ (PUSF), ''CG: Current receipts: Other taxes: Vehicle
+      duty paid by households: £m CPNSA'', released 21 October 2026; the row labelled ''2019''.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: ons.pusf_cddz.cy2020
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: ons.pusf_cddz.cy2020.v1
+  source_record_id_prefix: ons.pusf_cddz.cy2020
+  sheet_name: cddz
+  period_type: calendar_year
+  period: 2020
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: household
+  entity_role: vehicle_excise_duty_payer
+  domain: public_sector_finances
+  groupby_dimension: ons.pusf_series
+  rows:
+  - value_id: cddz
+    label: 'CG: Current receipts: Other taxes: Vehicle duty paid by households: £m CPNSA'
+    ordinal: 0
+    row_number: 42
+    expected_row_header_column: A
+    expected_row_header: 2020
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: CDID
+      label: series identifier heading
+    - column: B
+      row: 2
+      expected_value: CDDZ
+      label: series identifier
+    - column: B
+      row: 3
+      expected_value: PUSF
+      label: source dataset
+    - column: B
+      row: 6
+      expected_value: 21-10-2026
+      label: release date
+    - column: B
+      row: 4
+      expected_value: £
+      label: PreUnit cell
+    - column: B
+      row: 5
+      expected_value: m
+      label: Unit cell
+  measures:
+  - measure_id: value
+    label: Vehicle duty paid by households, 2020
+    ordinal: 0
+    column: B
+    source_column_id: value
+    expected_column_header_row: 1
+    expected_column_header: 'CG: Current receipts: Other taxes: Vehicle duty paid by households: £m CPNSA'
+    concept: ons.vehicle_duty_paid_by_households
+    source_concept: ons.pusf_cddz
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/governmentpublicsectorandtaxes/publicsectorfinance/timeseries/cddz/pusf
+    concept_evidence_notes: 'ONS time series CDDZ (PUSF), ''CG: Current receipts: Other taxes: Vehicle
+      duty paid by households: £m CPNSA'', released 21 October 2026; the row labelled ''2020''.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: ons.pusf_cddz.cy2021
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: ons.pusf_cddz.cy2021.v1
+  source_record_id_prefix: ons.pusf_cddz.cy2021
+  sheet_name: cddz
+  period_type: calendar_year
+  period: 2021
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: household
+  entity_role: vehicle_excise_duty_payer
+  domain: public_sector_finances
+  groupby_dimension: ons.pusf_series
+  rows:
+  - value_id: cddz
+    label: 'CG: Current receipts: Other taxes: Vehicle duty paid by households: £m CPNSA'
+    ordinal: 0
+    row_number: 43
+    expected_row_header_column: A
+    expected_row_header: 2021
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: CDID
+      label: series identifier heading
+    - column: B
+      row: 2
+      expected_value: CDDZ
+      label: series identifier
+    - column: B
+      row: 3
+      expected_value: PUSF
+      label: source dataset
+    - column: B
+      row: 6
+      expected_value: 21-10-2026
+      label: release date
+    - column: B
+      row: 4
+      expected_value: £
+      label: PreUnit cell
+    - column: B
+      row: 5
+      expected_value: m
+      label: Unit cell
+  measures:
+  - measure_id: value
+    label: Vehicle duty paid by households, 2021
+    ordinal: 0
+    column: B
+    source_column_id: value
+    expected_column_header_row: 1
+    expected_column_header: 'CG: Current receipts: Other taxes: Vehicle duty paid by households: £m CPNSA'
+    concept: ons.vehicle_duty_paid_by_households
+    source_concept: ons.pusf_cddz
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/governmentpublicsectorandtaxes/publicsectorfinance/timeseries/cddz/pusf
+    concept_evidence_notes: 'ONS time series CDDZ (PUSF), ''CG: Current receipts: Other taxes: Vehicle
+      duty paid by households: £m CPNSA'', released 21 October 2026; the row labelled ''2021''.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: ons.pusf_cddz.cy2022
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: ons.pusf_cddz.cy2022.v1
+  source_record_id_prefix: ons.pusf_cddz.cy2022
+  sheet_name: cddz
+  period_type: calendar_year
+  period: 2022
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: household
+  entity_role: vehicle_excise_duty_payer
+  domain: public_sector_finances
+  groupby_dimension: ons.pusf_series
+  rows:
+  - value_id: cddz
+    label: 'CG: Current receipts: Other taxes: Vehicle duty paid by households: £m CPNSA'
+    ordinal: 0
+    row_number: 44
+    expected_row_header_column: A
+    expected_row_header: 2022
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: CDID
+      label: series identifier heading
+    - column: B
+      row: 2
+      expected_value: CDDZ
+      label: series identifier
+    - column: B
+      row: 3
+      expected_value: PUSF
+      label: source dataset
+    - column: B
+      row: 6
+      expected_value: 21-10-2026
+      label: release date
+    - column: B
+      row: 4
+      expected_value: £
+      label: PreUnit cell
+    - column: B
+      row: 5
+      expected_value: m
+      label: Unit cell
+  measures:
+  - measure_id: value
+    label: Vehicle duty paid by households, 2022
+    ordinal: 0
+    column: B
+    source_column_id: value
+    expected_column_header_row: 1
+    expected_column_header: 'CG: Current receipts: Other taxes: Vehicle duty paid by households: £m CPNSA'
+    concept: ons.vehicle_duty_paid_by_households
+    source_concept: ons.pusf_cddz
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/governmentpublicsectorandtaxes/publicsectorfinance/timeseries/cddz/pusf
+    concept_evidence_notes: 'ONS time series CDDZ (PUSF), ''CG: Current receipts: Other taxes: Vehicle
+      duty paid by households: £m CPNSA'', released 21 October 2026; the row labelled ''2022''.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: ons.pusf_cddz.cy2023
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: ons.pusf_cddz.cy2023.v1
+  source_record_id_prefix: ons.pusf_cddz.cy2023
+  sheet_name: cddz
+  period_type: calendar_year
+  period: 2023
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: household
+  entity_role: vehicle_excise_duty_payer
+  domain: public_sector_finances
+  groupby_dimension: ons.pusf_series
+  rows:
+  - value_id: cddz
+    label: 'CG: Current receipts: Other taxes: Vehicle duty paid by households: £m CPNSA'
+    ordinal: 0
+    row_number: 45
+    expected_row_header_column: A
+    expected_row_header: 2023
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: CDID
+      label: series identifier heading
+    - column: B
+      row: 2
+      expected_value: CDDZ
+      label: series identifier
+    - column: B
+      row: 3
+      expected_value: PUSF
+      label: source dataset
+    - column: B
+      row: 6
+      expected_value: 21-10-2026
+      label: release date
+    - column: B
+      row: 4
+      expected_value: £
+      label: PreUnit cell
+    - column: B
+      row: 5
+      expected_value: m
+      label: Unit cell
+  measures:
+  - measure_id: value
+    label: Vehicle duty paid by households, 2023
+    ordinal: 0
+    column: B
+    source_column_id: value
+    expected_column_header_row: 1
+    expected_column_header: 'CG: Current receipts: Other taxes: Vehicle duty paid by households: £m CPNSA'
+    concept: ons.vehicle_duty_paid_by_households
+    source_concept: ons.pusf_cddz
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/governmentpublicsectorandtaxes/publicsectorfinance/timeseries/cddz/pusf
+    concept_evidence_notes: 'ONS time series CDDZ (PUSF), ''CG: Current receipts: Other taxes: Vehicle
+      duty paid by households: £m CPNSA'', released 21 October 2026; the row labelled ''2023''.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: ons.pusf_cddz.cy2024
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: ons.pusf_cddz.cy2024.v1
+  source_record_id_prefix: ons.pusf_cddz.cy2024
+  sheet_name: cddz
+  period_type: calendar_year
+  period: 2024
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: household
+  entity_role: vehicle_excise_duty_payer
+  domain: public_sector_finances
+  groupby_dimension: ons.pusf_series
+  rows:
+  - value_id: cddz
+    label: 'CG: Current receipts: Other taxes: Vehicle duty paid by households: £m CPNSA'
+    ordinal: 0
+    row_number: 46
+    expected_row_header_column: A
+    expected_row_header: 2024
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: CDID
+      label: series identifier heading
+    - column: B
+      row: 2
+      expected_value: CDDZ
+      label: series identifier
+    - column: B
+      row: 3
+      expected_value: PUSF
+      label: source dataset
+    - column: B
+      row: 6
+      expected_value: 21-10-2026
+      label: release date
+    - column: B
+      row: 4
+      expected_value: £
+      label: PreUnit cell
+    - column: B
+      row: 5
+      expected_value: m
+      label: Unit cell
+  measures:
+  - measure_id: value
+    label: Vehicle duty paid by households, 2024
+    ordinal: 0
+    column: B
+    source_column_id: value
+    expected_column_header_row: 1
+    expected_column_header: 'CG: Current receipts: Other taxes: Vehicle duty paid by households: £m CPNSA'
+    concept: ons.vehicle_duty_paid_by_households
+    source_concept: ons.pusf_cddz
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/governmentpublicsectorandtaxes/publicsectorfinance/timeseries/cddz/pusf
+    concept_evidence_notes: 'ONS time series CDDZ (PUSF), ''CG: Current receipts: Other taxes: Vehicle
+      duty paid by households: £m CPNSA'', released 21 October 2026; the row labelled ''2024''.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: ons.pusf_cddz.cy2025
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: ons.pusf_cddz.cy2025.v1
+  source_record_id_prefix: ons.pusf_cddz.cy2025
+  sheet_name: cddz
+  period_type: calendar_year
+  period: 2025
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: household
+  entity_role: vehicle_excise_duty_payer
+  domain: public_sector_finances
+  groupby_dimension: ons.pusf_series
+  rows:
+  - value_id: cddz
+    label: 'CG: Current receipts: Other taxes: Vehicle duty paid by households: £m CPNSA'
+    ordinal: 0
+    row_number: 47
+    expected_row_header_column: A
+    expected_row_header: 2025
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: CDID
+      label: series identifier heading
+    - column: B
+      row: 2
+      expected_value: CDDZ
+      label: series identifier
+    - column: B
+      row: 3
+      expected_value: PUSF
+      label: source dataset
+    - column: B
+      row: 6
+      expected_value: 21-10-2026
+      label: release date
+    - column: B
+      row: 4
+      expected_value: £
+      label: PreUnit cell
+    - column: B
+      row: 5
+      expected_value: m
+      label: Unit cell
+  measures:
+  - measure_id: value
+    label: Vehicle duty paid by households, 2025
+    ordinal: 0
+    column: B
+    source_column_id: value
+    expected_column_header_row: 1
+    expected_column_header: 'CG: Current receipts: Other taxes: Vehicle duty paid by households: £m CPNSA'
+    concept: ons.vehicle_duty_paid_by_households
+    source_concept: ons.pusf_cddz
+    concept_relation: source_label
+    concept_authority: ons
+    concept_evidence_url: https://www.ons.gov.uk/economy/governmentpublicsectorandtaxes/publicsectorfinance/timeseries/cddz/pusf
+    concept_evidence_notes: 'ONS time series CDDZ (PUSF), ''CG: Current receipts: Other taxes: Vehicle
+      duty paid by households: £m CPNSA'', released 21 October 2026; the row labelled ''2025''.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number

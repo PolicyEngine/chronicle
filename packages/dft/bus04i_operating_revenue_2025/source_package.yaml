@@ -1,0 +1,395 @@
+# DfT BUS04ai (bus statistics, March 2026 revision of the 26 November 2025 release), for
+# PolicyEngine/chronicle#356 item 5. The request asked for passenger fare receipts and the
+# BUS05 support lines for England, Wales, Scotland and Great Britain. DfT publishes neither by
+# country: BUS05 covers England and its areas only (dft-bus05i-revenue-support-2025), and
+# BUS04ai, the only DfT table with Scotland, Wales and Great Britain, publishes total estimated
+# operating revenue alone (fares, concessionary reimbursement, BSOG and support combined; note
+# 1). This package ports that line for Scotland, Wales and Great Britain, years ending March
+# 2024 and 2025 (FY2023-24 and FY2024-25), GBP million at current prices. DfT labels a year by
+# its March end, a single-year label the period keeps, as the BUS05i package does. England is not
+# repeated: its BUS04ai cells equal BUS05ai's 'Total estimated operating revenue', which the
+# BUS05i package already carries under the same concept.
+schema_version: ledger.source_package.v1
+package_id: dft-bus04i-operating-revenue-2025
+label: DfT BUS04ai local bus total estimated operating revenue, Scotland, Wales and Great Britain, years
+  ending March 2024 and 2025
+dimension_labels:
+  dft.bus_area: Local bus statistics area
+artifact:
+  source_name: dft
+  source_table: BUS04ai operating revenue on local bus services by area, current prices
+  resource_package: db
+  resource_directory: data/dft/bus04i_operating_revenue_2025
+  manifest: manifest.yaml
+  vintage: bus_statistics_2025
+  extracted_at: '2026-10-15'
+  extraction_method: ODS whole-workbook used-range cell parse
+  parser: ods_used_range
+  artifact_year: 2025
+record_sets:
+- record_set_id: dft.bus04ai.operating_revenue.s92000003.fy2024
+  provenance_class: administrative
+  record_set_spec_id: dft.bus04ai.operating_revenue.s92000003.fy2024.v1
+  source_record_id_prefix: dft.bus04ai.operating_revenue.s92000003.fy2024
+  sheet_name: BUS04ai
+  period_type: fiscal_year
+  period: 2024
+  period_coverage:
+    basis: fiscal
+    source_period_label: Year ending March 2024
+    start_date: '2023-04-01'
+    end_date: '2024-03-31'
+    accounting_basis: accrual
+    notes: DfT labels the reporting year by its March end year.
+  geography_id: S92000003
+  geography_level: country
+  geography_name: Scotland
+  geography_vintage: current
+  entity: institutional_sector
+  entity_role: local_bus_service_operators
+  domain: local_bus_finance
+  groupby_dimension: dft.bus_area
+  rows:
+  - value_id: s92000003
+    label: Scotland
+    ordinal: 0
+    row_number: 28
+    expected_row_header_column: A
+    expected_row_header: 2024
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      row: 4
+      expected_value: Table BUS04ai
+      label: table id
+    - column: A
+      row: 7
+      expected_value: £ (millions)
+      label: unit
+  measures:
+  - measure_id: total_estimated_operating_revenue
+    label: Total estimated operating revenue, Scotland, year ending March 2024
+    ordinal: 0
+    column: F
+    source_column_id: total_estimated_operating_revenue
+    expected_column_header_row: 8
+    expected_column_header: Scotland
+    concept: dft.local_bus_total_estimated_operating_revenue
+    source_concept: dft.local_bus_total_estimated_operating_revenue
+    concept_relation: source_label
+    concept_authority: dft
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/bus-statistics-data-tables
+    concept_evidence_notes: 'DfT BUS04ai, operating revenue on local bus services at current prices, GBP
+      million scaled to GBP: passenger fare receipts, concessionary travel reimbursement, Bus Service
+      Operators Grant and public transport support combined (note 1). DfT publishes no split of fares
+      or support for Scotland, Wales or Great Britain; BUS05 is England only. Operator survey with imputation
+      for non-sampled and non-responding operators (quality report).'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: dft.bus04ai.operating_revenue.w92000004.fy2024
+  provenance_class: administrative
+  record_set_spec_id: dft.bus04ai.operating_revenue.w92000004.fy2024.v1
+  source_record_id_prefix: dft.bus04ai.operating_revenue.w92000004.fy2024
+  sheet_name: BUS04ai
+  period_type: fiscal_year
+  period: 2024
+  period_coverage:
+    basis: fiscal
+    source_period_label: Year ending March 2024
+    start_date: '2023-04-01'
+    end_date: '2024-03-31'
+    accounting_basis: accrual
+    notes: DfT labels the reporting year by its March end year.
+  geography_id: W92000004
+  geography_level: country
+  geography_name: Wales
+  geography_vintage: current
+  entity: institutional_sector
+  entity_role: local_bus_service_operators
+  domain: local_bus_finance
+  groupby_dimension: dft.bus_area
+  rows:
+  - value_id: w92000004
+    label: Wales
+    ordinal: 0
+    row_number: 28
+    expected_row_header_column: A
+    expected_row_header: 2024
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      row: 4
+      expected_value: Table BUS04ai
+      label: table id
+    - column: A
+      row: 7
+      expected_value: £ (millions)
+      label: unit
+  measures:
+  - measure_id: total_estimated_operating_revenue
+    label: Total estimated operating revenue, Wales, year ending March 2024
+    ordinal: 0
+    column: G
+    source_column_id: total_estimated_operating_revenue
+    expected_column_header_row: 8
+    expected_column_header: Wales
+    concept: dft.local_bus_total_estimated_operating_revenue
+    source_concept: dft.local_bus_total_estimated_operating_revenue
+    concept_relation: source_label
+    concept_authority: dft
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/bus-statistics-data-tables
+    concept_evidence_notes: 'DfT BUS04ai, operating revenue on local bus services at current prices, GBP
+      million scaled to GBP: passenger fare receipts, concessionary travel reimbursement, Bus Service
+      Operators Grant and public transport support combined (note 1). DfT publishes no split of fares
+      or support for Scotland, Wales or Great Britain; BUS05 is England only. Operator survey with imputation
+      for non-sampled and non-responding operators (quality report).'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: dft.bus04ai.operating_revenue.k03000001.fy2024
+  provenance_class: administrative
+  record_set_spec_id: dft.bus04ai.operating_revenue.k03000001.fy2024.v1
+  source_record_id_prefix: dft.bus04ai.operating_revenue.k03000001.fy2024
+  sheet_name: BUS04ai
+  period_type: fiscal_year
+  period: 2024
+  period_coverage:
+    basis: fiscal
+    source_period_label: Year ending March 2024
+    start_date: '2023-04-01'
+    end_date: '2024-03-31'
+    accounting_basis: accrual
+    notes: DfT labels the reporting year by its March end year.
+  geography_id: K03000001
+  geography_level: country
+  geography_name: Great Britain
+  geography_vintage: current
+  entity: institutional_sector
+  entity_role: local_bus_service_operators
+  domain: local_bus_finance
+  groupby_dimension: dft.bus_area
+  rows:
+  - value_id: k03000001
+    label: Great Britain
+    ordinal: 0
+    row_number: 28
+    expected_row_header_column: A
+    expected_row_header: 2024
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      row: 4
+      expected_value: Table BUS04ai
+      label: table id
+    - column: A
+      row: 7
+      expected_value: £ (millions)
+      label: unit
+  measures:
+  - measure_id: total_estimated_operating_revenue
+    label: Total estimated operating revenue, Great Britain, year ending March 2024
+    ordinal: 0
+    column: H
+    source_column_id: total_estimated_operating_revenue
+    expected_column_header_row: 8
+    expected_column_header: Great Britain
+    concept: dft.local_bus_total_estimated_operating_revenue
+    source_concept: dft.local_bus_total_estimated_operating_revenue
+    concept_relation: source_label
+    concept_authority: dft
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/bus-statistics-data-tables
+    concept_evidence_notes: 'DfT BUS04ai, operating revenue on local bus services at current prices, GBP
+      million scaled to GBP: passenger fare receipts, concessionary travel reimbursement, Bus Service
+      Operators Grant and public transport support combined (note 1). DfT publishes no split of fares
+      or support for Scotland, Wales or Great Britain; BUS05 is England only. Operator survey with imputation
+      for non-sampled and non-responding operators (quality report).'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: dft.bus04ai.operating_revenue.s92000003.fy2025
+  provenance_class: administrative
+  record_set_spec_id: dft.bus04ai.operating_revenue.s92000003.fy2025.v1
+  source_record_id_prefix: dft.bus04ai.operating_revenue.s92000003.fy2025
+  sheet_name: BUS04ai
+  period_type: fiscal_year
+  period: 2025
+  period_coverage:
+    basis: fiscal
+    source_period_label: Year ending March 2025
+    start_date: '2024-04-01'
+    end_date: '2025-03-31'
+    accounting_basis: accrual
+    notes: DfT labels the reporting year by its March end year.
+  geography_id: S92000003
+  geography_level: country
+  geography_name: Scotland
+  geography_vintage: current
+  entity: institutional_sector
+  entity_role: local_bus_service_operators
+  domain: local_bus_finance
+  groupby_dimension: dft.bus_area
+  rows:
+  - value_id: s92000003
+    label: Scotland
+    ordinal: 0
+    row_number: 29
+    expected_row_header_column: A
+    expected_row_header: 2025
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      row: 4
+      expected_value: Table BUS04ai
+      label: table id
+    - column: A
+      row: 7
+      expected_value: £ (millions)
+      label: unit
+  measures:
+  - measure_id: total_estimated_operating_revenue
+    label: Total estimated operating revenue, Scotland, year ending March 2025
+    ordinal: 0
+    column: F
+    source_column_id: total_estimated_operating_revenue
+    expected_column_header_row: 8
+    expected_column_header: Scotland
+    concept: dft.local_bus_total_estimated_operating_revenue
+    source_concept: dft.local_bus_total_estimated_operating_revenue
+    concept_relation: source_label
+    concept_authority: dft
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/bus-statistics-data-tables
+    concept_evidence_notes: 'DfT BUS04ai, operating revenue on local bus services at current prices, GBP
+      million scaled to GBP: passenger fare receipts, concessionary travel reimbursement, Bus Service
+      Operators Grant and public transport support combined (note 1). DfT publishes no split of fares
+      or support for Scotland, Wales or Great Britain; BUS05 is England only. Operator survey with imputation
+      for non-sampled and non-responding operators (quality report).'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: dft.bus04ai.operating_revenue.w92000004.fy2025
+  provenance_class: administrative
+  record_set_spec_id: dft.bus04ai.operating_revenue.w92000004.fy2025.v1
+  source_record_id_prefix: dft.bus04ai.operating_revenue.w92000004.fy2025
+  sheet_name: BUS04ai
+  period_type: fiscal_year
+  period: 2025
+  period_coverage:
+    basis: fiscal
+    source_period_label: Year ending March 2025
+    start_date: '2024-04-01'
+    end_date: '2025-03-31'
+    accounting_basis: accrual
+    notes: DfT labels the reporting year by its March end year.
+  geography_id: W92000004
+  geography_level: country
+  geography_name: Wales
+  geography_vintage: current
+  entity: institutional_sector
+  entity_role: local_bus_service_operators
+  domain: local_bus_finance
+  groupby_dimension: dft.bus_area
+  rows:
+  - value_id: w92000004
+    label: Wales
+    ordinal: 0
+    row_number: 29
+    expected_row_header_column: A
+    expected_row_header: 2025
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      row: 4
+      expected_value: Table BUS04ai
+      label: table id
+    - column: A
+      row: 7
+      expected_value: £ (millions)
+      label: unit
+  measures:
+  - measure_id: total_estimated_operating_revenue
+    label: Total estimated operating revenue, Wales, year ending March 2025
+    ordinal: 0
+    column: G
+    source_column_id: total_estimated_operating_revenue
+    expected_column_header_row: 8
+    expected_column_header: Wales
+    concept: dft.local_bus_total_estimated_operating_revenue
+    source_concept: dft.local_bus_total_estimated_operating_revenue
+    concept_relation: source_label
+    concept_authority: dft
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/bus-statistics-data-tables
+    concept_evidence_notes: 'DfT BUS04ai, operating revenue on local bus services at current prices, GBP
+      million scaled to GBP: passenger fare receipts, concessionary travel reimbursement, Bus Service
+      Operators Grant and public transport support combined (note 1). DfT publishes no split of fares
+      or support for Scotland, Wales or Great Britain; BUS05 is England only. Operator survey with imputation
+      for non-sampled and non-responding operators (quality report).'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: dft.bus04ai.operating_revenue.k03000001.fy2025
+  provenance_class: administrative
+  record_set_spec_id: dft.bus04ai.operating_revenue.k03000001.fy2025.v1
+  source_record_id_prefix: dft.bus04ai.operating_revenue.k03000001.fy2025
+  sheet_name: BUS04ai
+  period_type: fiscal_year
+  period: 2025
+  period_coverage:
+    basis: fiscal
+    source_period_label: Year ending March 2025
+    start_date: '2024-04-01'
+    end_date: '2025-03-31'
+    accounting_basis: accrual
+    notes: DfT labels the reporting year by its March end year.
+  geography_id: K03000001
+  geography_level: country
+  geography_name: Great Britain
+  geography_vintage: current
+  entity: institutional_sector
+  entity_role: local_bus_service_operators
+  domain: local_bus_finance
+  groupby_dimension: dft.bus_area
+  rows:
+  - value_id: k03000001
+    label: Great Britain
+    ordinal: 0
+    row_number: 29
+    expected_row_header_column: A
+    expected_row_header: 2025
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      row: 4
+      expected_value: Table BUS04ai
+      label: table id
+    - column: A
+      row: 7
+      expected_value: £ (millions)
+      label: unit
+  measures:
+  - measure_id: total_estimated_operating_revenue
+    label: Total estimated operating revenue, Great Britain, year ending March 2025
+    ordinal: 0
+    column: H
+    source_column_id: total_estimated_operating_revenue
+    expected_column_header_row: 8
+    expected_column_header: Great Britain
+    concept: dft.local_bus_total_estimated_operating_revenue
+    source_concept: dft.local_bus_total_estimated_operating_revenue
+    concept_relation: source_label
+    concept_authority: dft
+    concept_evidence_url: https://www.gov.uk/government/statistical-data-sets/bus-statistics-data-tables
+    concept_evidence_notes: 'DfT BUS04ai, operating revenue on local bus services at current prices, GBP
+      million scaled to GBP: passenger fare receipts, concessionary travel reimbursement, Bus Service
+      Operators Grant and public transport support combined (note 1). DfT publishes no split of fares
+      or support for Scotland, Wales or Great Britain; BUS05 is England only. Operator survey with imputation
+      for non-sampled and non-responding operators (quality report).'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number

@@ -1,0 +1,18 @@
+source_id: hmrc
+package_id: hmrc-stamp-tax-statistics-2024-25
+dataset: hmrc_hmrc-stamp-tax-statistics-2024-25
+source_page: https://www.gov.uk/government/statistics/uk-stamp-tax-statistics
+table: UK Stamp Tax Statistics 2024 to 2025 - Tables (corrected 11 March 2026)
+files:
+  2025:
+    filename: Annual_Stamps_2024_25_correction.ods
+    source_url: https://assets.publishing.service.gov.uk/media/69aef72fc78869bf8eb8a589/Annual_Stamps_2024_25_correction.ods
+    sha256: ee39163835f66be709ac2a2fc1345c5a536712a57347bcc65ddf471f7339b7b5
+    size_bytes: 395545
+    fetched_at: '2026-10-15T09:02:02+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/hmrc/hmrc-stamp-tax-statistics-2024-25/2025/ee39163835f66be709ac2a2fc1345c5a536712a57347bcc65ddf471f7339b7b5/Annual_Stamps_2024_25_correction.ods
+        uri: r2://ledger-raw/raw/uk/hmrc/hmrc-stamp-tax-statistics-2024-25/2025/ee39163835f66be709ac2a2fc1345c5a536712a57347bcc65ddf471f7339b7b5/Annual_Stamps_2024_25_correction.ods

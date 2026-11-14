@@ -37,6 +37,7 @@ from chronicle.suite import (
     SourceRecordSuiteReport,
     SourceRegionSuiteReport,
     _row_semantic_evidence_issues,
+    _wide_table_constraint_evidenced_by_source_column,
     _wide_table_filter_evidenced_by_source_column,
     build_agent_acceptance_report,
     build_source_cells,
@@ -178,6 +179,95 @@ def test_wide_table_evidence_uses_exact_typed_column_dimension_value():
     )
 
 
+@pytest.mark.parametrize(
+    "operator,dimension,value",
+    [
+        ("==", "household_income", "all"),
+        (">=", "household_income_lower_bound", 10_000),
+        ("<", "household_income_upper_bound", 15_000),
+    ],
+)
+def test_wide_table_constraints_accept_exact_declared_column_dimensions(
+    operator, dimension, value
+):
+    constraint = AggregateConstraint(
+        variable="household_income", operator=operator, value=value
+    )
+
+    assert _wide_table_constraint_evidenced_by_source_column(
+        {dimension: value}, constraint
+    )
+
+
+@pytest.mark.parametrize(
+    "dimension,declared,operator,expected",
+    [
+        ("household_income_lower_bound", 10_000, ">=", 15_000),
+        ("household_income_lower_bound", 10_000, ">=", 10_000.0),
+        ("household_income_lower_bound", "10000", ">=", 10_000),
+        ("household_income_lower_bound", 1, ">=", True),
+        ("household_income_lower_bound", 10_000, ">", 10_000),
+        ("household_income_lower_bound", 10_000, "<", 10_000),
+        ("household_income_lower_bound", 10_000, "==", 10_000),
+        ("household_income_upper_bound", 15_000, "<=", 15_000),
+        ("household_income_upper_bound", 15_000, ">=", 15_000),
+        ("other_income_lower_bound", 10_000, ">=", 10_000),
+        ("household_income", 10_000, ">=", 10_000),
+    ],
+)
+def test_wide_table_constraints_reject_mismatched_or_implicit_column_bounds(
+    dimension, declared, operator, expected
+):
+    constraint = AggregateConstraint(
+        variable="household_income", operator=operator, value=expected
+    )
+
+    assert not _wide_table_constraint_evidenced_by_source_column(
+        {dimension: declared}, constraint
+    )
+
+
+def test_wide_table_constraints_require_explicit_column_bounds():
+    constraint = AggregateConstraint(
+        variable="household_income", operator=">=", value=10_000
+    )
+
+    assert not _wide_table_constraint_evidenced_by_source_column({}, constraint)
+
+
+def test_row_acceptance_uses_column_bounds_without_changing_source_values():
+    fact, row = _sex_row_evidence("female", "Females")
+    fact = replace(
+        fact,
+        filters={},
+        constraints=(
+            AggregateConstraint(
+                variable="household_income", operator=">=", value=10_000
+            ),
+            AggregateConstraint(
+                variable="household_income", operator="<", value=15_000
+            ),
+        ),
+    )
+    dimensions = {
+        "household_income_lower_bound": 10_000,
+        "household_income_upper_bound": 15_000,
+    }
+
+    assert (
+        _row_semantic_evidence_issues(
+            fact, [row], [], source_column_dimensions=dimensions
+        )
+        == []
+    )
+    assert fact.value == row.values["Population"] == 100
+    mismatched = {**dimensions, "household_income_upper_bound": 20_000}
+    issues = _row_semantic_evidence_issues(
+        fact, [row], [], source_column_dimensions=mismatched
+    )
+    assert [issue.code for issue in issues] == ["row_constraint_not_evidenced"]
+
+
 def test_build_source_suite_writes_artifacts_and_reports(tmp_path):
     output_dir = tmp_path / "suite"
 
@@ -276,12 +366,12 @@ def test_build_source_suite_supports_soi_table_1_4(tmp_path):
         "artifact_count": 1,
         "agent_acceptance_error_count": 0,
         "concept_alignment_count": 8,
-        "constraint_count": 1044,
-        "consumer_fact_count": 580,
-        "fact_count": 580,
+        "constraint_count": 1332,
+        "consumer_fact_count": 740,
+        "fact_count": 740,
         "lineage_coverage": 1.0,
         "source_cell_count": 8109,
-        "source_record_count": 580,
+        "source_record_count": 740,
         "source_region_count": 1,
         "source_row_count": 0,
     }

@@ -1,0 +1,28 @@
+source_id: hmrc
+package_id: hmrc-tax-relief-statistics-january-2026
+dataset: hmrc_hmrc-tax-relief-statistics-january-2026
+source_page: https://www.gov.uk/government/statistics/tax-reliefs/tax-relief-statistics-january-2026
+table: 'Tax relief statistics (January 2026): Tables 1 to 5'
+license: Open Government Licence v3.0
+license_url: https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/
+attribution: 'Source: HM Revenue and Customs, Tax relief statistics (January 2026),
+  published 22 January 2026. Contains public sector information licensed under the
+  Open Government Licence v3.0.'
+license_evidence: 'The GOV.UK publication page (https://www.gov.uk/government/statistics/tax-reliefs/tax-relief-statistics-january-2026)
+  states: ''This publication is licensed under the terms of the Open Government Licence
+  v3.0 except where otherwise stated.'' The workbook''s cover sheet adds: ''Bulletin
+  is Crown copyright. Information may be used provided that the source is acknowledged.'''
+license_verified_at: '2026-11-06'
+files:
+  2026:
+    filename: tax_relief_statistics_january_2026.ods
+    source_url: https://assets.publishing.service.gov.uk/media/69a0194e3e672177d0bc76e6/tax_relief_statistics_january_2026.ods
+    sha256: fa94a61fe6b6a02c19b87a656154f27eaf5f00f35f0cce9339b8101b9ac8ee4a
+    size_bytes: 108228
+    fetched_at: '2026-11-06T12:24:52+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/hmrc/hmrc-tax-relief-statistics-january-2026/2026/fa94a61fe6b6a02c19b87a656154f27eaf5f00f35f0cce9339b8101b9ac8ee4a/tax_relief_statistics_january_2026.ods
+        uri: r2://ledger-raw/raw/uk/hmrc/hmrc-tax-relief-statistics-january-2026/2026/fa94a61fe6b6a02c19b87a656154f27eaf5f00f35f0cce9339b8101b9ac8ee4a/tax_relief_statistics_january_2026.ods

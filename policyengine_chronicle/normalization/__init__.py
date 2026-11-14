@@ -11,7 +11,7 @@ __all__ = [
 
 
 def __getattr__(name: str):
-    """Load legacy normalization helpers only when explicitly requested."""
+    """Load normalization helpers only when explicitly requested."""
     if name not in __all__:
         raise AttributeError(name)
     from chronicle import normalization

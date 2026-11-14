@@ -1,0 +1,22 @@
+source_id: ed_fsa
+package_id: ed-fsa-portfolio-by-location-fy2026-q2
+dataset: ed_fsa_portfolio_by_location_fy2026_q2
+source_page: https://studentaid.gov/data-center/student/portfolio
+table: Federal Student Loan Portfolio by Borrower Location (Portfolio-by-Location.xls), data as of Mar.
+  31, 2026
+files:
+  2026:
+    filename: Portfolio-by-Location.xls
+    source_url: https://studentaid.gov/sites/default/files/fsawg/datacenter/library/Portfolio-by-Location.xls
+    sha256: d9e8608a82fa1e130c6a80bc5870d25d6f47c626ed200bd33b8f45a43e262dba
+    size_bytes: 51200
+    fetched_at: '2026-10-12T14:09:14Z'
+    source_table: Federal Student Loan Portfolio by Borrower Location (Portfolio-by-Location.xls), data
+      as of Mar. 31, 2026
+    year: 2026
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/ed_fsa/ed-fsa-portfolio-by-location-fy2026-q2/2026/d9e8608a82fa1e130c6a80bc5870d25d6f47c626ed200bd33b8f45a43e262dba/Portfolio-by-Location.xls
+        uri: r2://ledger-raw/raw/ed_fsa/ed-fsa-portfolio-by-location-fy2026-q2/2026/d9e8608a82fa1e130c6a80bc5870d25d6f47c626ed200bd33b8f45a43e262dba/Portfolio-by-Location.xls

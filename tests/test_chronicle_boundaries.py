@@ -3,7 +3,12 @@
 from __future__ import annotations
 
 import ast
+import importlib.util
+import re
+import sys
 from pathlib import Path
+
+import pytest
 
 
 FORBIDDEN_PACKAGE_ROOTS = {"calibration", "micro"}
@@ -111,3 +116,185 @@ def test_load_cli_no_longer_accepts_retired_uk_legacy_etl_sources():
     assert '"obr",' not in cli_source
     assert '"ons",' not in cli_source
     assert '"hmrc",' not in cli_source
+
+
+# Legacy US loaders, keyed by module name, with the `chronicle load` source each
+# one answered to. The first twelve were retired because their hand-typed values
+# do not trace to publisher bytes; `etl_soi` and `etl_snap` went with the legacy
+# targets table they wrote, which nothing read.
+RETIRED_US_LEGACY_ETLS = {
+    "etl_soi_state": "soi-state",
+    "etl_soi_credits": "soi-credits",
+    "etl_soi_deductions": "soi-deductions",
+    "etl_soi_income_sources": "soi-income-sources",
+    "etl_aca_enrollment": "aca",
+    "etl_bls": "bls",
+    "etl_cbo": "cbo",
+    "etl_census": "census",
+    "etl_cps": "cps",
+    "etl_medicaid": "medicaid",
+    "etl_ssa": "ssa",
+    "etl_ssi": "ssi",
+    "etl_soi": "soi",
+    "etl_snap": "snap",
+}
+LEGACY_TARGET_TABLES = {"strata", "stratum_constraints", "targets"}
+SOURCE_ARTIFACT_TABLES = {
+    "source_artifacts",
+    "source_columns",
+    "source_rows",
+    "source_tables",
+}
+
+
+def test_retired_us_legacy_etl_modules_are_not_shipped():
+    repo_root = Path(__file__).resolve().parents[1]
+
+    for module in RETIRED_US_LEGACY_ETLS:
+        assert not (repo_root / "db" / f"{module}.py").exists()
+        assert not (repo_root / "tests" / f"test_{module}.py").exists()
+        assert importlib.util.find_spec(f"db.{module}") is None
+
+
+def test_no_legacy_db_etl_loaders_remain():
+    db_root = Path(__file__).resolve().parents[1] / "db"
+
+    assert sorted(path.name for path in db_root.glob("etl_*.py")) == []
+
+
+@pytest.mark.parametrize(
+    "argv",
+    [
+        ["load", "all"],
+        *(["load", source] for source in sorted(RETIRED_US_LEGACY_ETLS.values())),
+        ["stats"],
+        ["query", "--variable", "snap_household_count"],
+    ],
+)
+def test_cli_rejects_retired_legacy_target_commands(monkeypatch, capsys, argv):
+    from db import cli
+
+    monkeypatch.setattr(sys, "argv", ["chronicle", *argv])
+    with pytest.raises(SystemExit) as excinfo:
+        cli.main()
+
+    assert excinfo.value.code == 2
+    assert "invalid choice" in capsys.readouterr().err
+
+
+def test_init_creates_only_source_artifact_tables(monkeypatch, tmp_path):
+    import sqlite3
+
+    from db import cli
+
+    db_path = tmp_path / "chronicle.db"
+    monkeypatch.setattr(sys, "argv", ["chronicle", "--db", str(db_path), "init"])
+    cli.main()
+
+    with sqlite3.connect(db_path) as connection:
+        tables = {
+            name
+            for (name,) in connection.execute(
+                "SELECT name FROM sqlite_master WHERE type = 'table'"
+            )
+        }
+
+    assert tables == SOURCE_ARTIFACT_TABLES
+    assert not tables & LEGACY_TARGET_TABLES
+
+
+def test_legacy_target_api_is_retired():
+    import chronicle.jurisdictions.us as us_jurisdiction
+    import chronicle.normalization as chronicle_normalization
+    import chronicle.targets as chronicle_targets
+    import db.schema as schema
+    import db.supabase_client as supabase_client
+    import policyengine_chronicle.targets as public_targets
+
+    repo_root = Path(__file__).resolve().parents[1]
+    legacy_names = {
+        "DEFAULT_DB_PATH",
+        "DataSource",
+        "GeographicLevel",
+        "Jurisdiction",
+        "Stratum",
+        "StratumConstraint",
+        "Target",
+        "TargetType",
+        "get_engine",
+        "get_session",
+        "init_db",
+        "insert_targets_batch",
+        "query_strata",
+        "query_targets",
+    }
+
+    assert us_jurisdiction.__all__ == []
+    assert importlib.util.find_spec("chronicle.targets.loaders") is None
+    assert importlib.util.find_spec("chronicle.targets.client") is None
+    assert not legacy_names & set(chronicle_targets.__all__)
+    assert not legacy_names & set(public_targets.__all__)
+    for name in legacy_names:
+        assert not hasattr(chronicle_targets, name)
+        with pytest.raises(AttributeError):
+            getattr(public_targets, name)
+    for name in (
+        "GeographicLevel",
+        "Stratum",
+        "StratumConstraint",
+        "Target",
+        "TargetType",
+    ):
+        assert not hasattr(schema, name)
+    for name in (
+        "TARGETS_SCHEMA",
+        "insert_targets_batch",
+        "query_strata",
+        "query_targets",
+    ):
+        assert not hasattr(supabase_client, name)
+    for name in ("TargetBlueprint", "as_target", "target_kwargs"):
+        assert not hasattr(chronicle_normalization, name)
+    assert importlib.util.find_spec("chronicle.normalization.targets") is None
+    assert not (repo_root / "scripts" / "export_to_json.py").exists()
+
+
+def test_us_legacy_etl_cleanup_doc_accounts_for_retired_series():
+    repo_root = Path(__file__).resolve().parents[1]
+    doc = (repo_root / "docs" / "us-legacy-etl-cleanup.md").read_text()
+
+    for module in RETIRED_US_LEGACY_ETLS:
+        assert f"`db/{module}.py`" in doc
+
+    required_entries = [
+        "`db/etl_soi_state.py` `tax_unit_count`, `adjusted_gross_income` (state)",
+        "`db/etl_soi_state.py` `income_tax_liability` (state)",
+        "`db/etl_soi_state.py` AGI-band rows",
+        "`db/etl_soi_credits.py` `eitc_claims`, `eitc_amount` (state)",
+        "`db/etl_soi_credits.py` `ctc_claims`, `ctc_amount`, `actc_claims`, `actc_amount` (state)",
+        "`db/etl_soi_credits.py` EITC by number of children (national)",
+        "`db/etl_soi_credits.py` CTC and ACTC by number of children (national)",
+        "`db/etl_soi_deductions.py` `salt_claims`, `salt_amount` (state)",
+        "`db/etl_soi_deductions.py` `mortgage_interest_claims`, `mortgage_interest_amount` (state)",
+        "`db/etl_soi_deductions.py` `charitable_claims`, `charitable_amount` (state)",
+        "`db/etl_soi_deductions.py` `medical_claims`, `medical_amount` (state)",
+        "`db/etl_soi_deductions.py` `qbi_claims`, `qbi_amount` (state)",
+        "`db/etl_soi_income_sources.py` `short_term_capital_gains_*`, `long_term_capital_gains_*`",
+        "`db/etl_soi_income_sources.py` `state_local_refunds_*`",
+        "`db/etl_soi_income_sources.py` `alimony_received_*`",
+    ]
+    for entry in required_entries:
+        assert entry in doc
+
+    # Every replacement the tables name is a package Chronicle ships.
+    package_ids = {
+        line.split(":", 1)[1].strip()
+        for path in (repo_root / "packages").rglob("source_package.yaml")
+        for line in path.read_text().splitlines()
+        if line.startswith("package_id:")
+    }
+    named = set(
+        re.findall(r"`((?:soi|cms|census|ssa|cbo|usda|kff)-[a-z0-9-]+)`", doc)
+    ) - set(RETIRED_US_LEGACY_ETLS.values())
+    assert named
+    assert named <= package_ids

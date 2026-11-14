@@ -1,0 +1,44 @@
+source_id: belgium
+package_id: spf-finances-municipal-tax-rate-ay2026
+source_name: SPF Finances municipal PIT surcharge rates AY2026
+publisher: FPS Finance / SPF Finances / FOD Financiën
+source_page: https://fin.belgium.be/sites/default/files/media/documents/municipal-tax-rate-2026.pdf
+files:
+  2025:
+    filename: spf_finances_municipal_tax_rate_ay2026.csv
+    source_url: https://fin.belgium.be/sites/default/files/media/documents/municipal-tax-rate-2026.pdf
+    source_urls:
+    - https://fin.belgium.be/sites/default/files/media/documents/municipal-tax-rate-2026.pdf
+    - https://finances.belgium.be/sites/default/files/media/documents/municipal-tax-rate-2026.pdf
+    source_table: Municipal tax rates (%) for tax assessment year 2026
+    sha256: 84fd75218ac34f343134dcdcd77272022479a55394ad829975c117c53bf3946a
+    size_bytes: 145657
+    retrieved_at: '2026-10-23'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/belgium/spf-finances-municipal-tax-rate-ay2026/2025/84fd75218ac34f343134dcdcd77272022479a55394ad829975c117c53bf3946a/spf_finances_municipal_tax_rate_ay2026.csv
+        uri: r2://ledger-raw/raw/belgium/spf-finances-municipal-tax-rate-ay2026/2025/84fd75218ac34f343134dcdcd77272022479a55394ad829975c117c53bf3946a/spf_finances_municipal_tax_rate_ay2026.csv
+    notes: Representation-only extract of all 565 PDF cells; exact page/block/text-line locators. Downloaded
+      by HTTP GET from fin.belgium.be; the same path on finances.belgium.be is recorded but was not fetched.
+      Uploaded to R2 ledger-raw and verified by SHA-256 readback on 2026-10-24.
+  source_capture:
+    filename: municipal-tax-rate-2026.pdf
+    source_url: https://fin.belgium.be/sites/default/files/media/documents/municipal-tax-rate-2026.pdf
+    source_urls:
+    - https://fin.belgium.be/sites/default/files/media/documents/municipal-tax-rate-2026.pdf
+    - https://finances.belgium.be/sites/default/files/media/documents/municipal-tax-rate-2026.pdf
+    source_table: Municipal tax rates (%) for tax assessment year 2026
+    sha256: 051211d85f05367002c31ad1879b294af50b8c14119d2127451bc976bd5e1606
+    size_bytes: 182097
+    retrieved_at: '2026-10-23'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/belgium/spf-finances-municipal-tax-rate-ay2026/source_capture/051211d85f05367002c31ad1879b294af50b8c14119d2127451bc976bd5e1606/municipal-tax-rate-2026.pdf
+        uri: r2://ledger-raw/raw/belgium/spf-finances-municipal-tax-rate-ay2026/source_capture/051211d85f05367002c31ad1879b294af50b8c14119d2127451bc976bd5e1606/municipal-tax-rate-2026.pdf
+    notes: Verbatim publisher PDF, created 2026-03-17; title Municipal tax rate | FPS Finance. Downloaded
+      by HTTP GET from fin.belgium.be; the same path on finances.belgium.be is recorded but was not fetched.
+      Uploaded to R2 ledger-raw and verified by SHA-256 readback on 2026-10-24.

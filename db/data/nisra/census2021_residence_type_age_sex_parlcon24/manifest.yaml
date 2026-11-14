@@ -1,0 +1,19 @@
+source_id: nisra
+package_id: nisra-census2021-residence-type-age-sex-parlcon24
+dataset: nisra_nisra-census2021-residence-type-age-sex-parlcon24
+source_page: https://build.nisra.gov.uk/en/custom/data?d=PEOPLE&v=PARLCON24&v=UR_RESIDENCE_TYPE&v=AGE_SYOA&v=UR_SEX
+table: 'NISRA Census 2021 flexible table: residence type by single year of age by
+  sex, PARLCON24'
+files:
+  2021:
+    filename: census2021_residence_type_single_year_age_sex_parlcon24.csv
+    source_url: https://build.nisra.gov.uk/en/custom/table.csv?d=PEOPLE&v=PARLCON24&v=UR_RESIDENCE_TYPE&v=AGE_SYOA&v=UR_SEX
+    sha256: a0622b7f1c8ab46eedf817b81bebfedb583dbf1004aecfe662ad586b5c6126d4
+    size_bytes: 569880
+    fetched_at: '2026-10-15T10:35:23+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/nisra/nisra-census2021-residence-type-age-sex-parlcon24/2021/a0622b7f1c8ab46eedf817b81bebfedb583dbf1004aecfe662ad586b5c6126d4/census2021_residence_type_single_year_age_sex_parlcon24.csv
+        uri: r2://ledger-raw/raw/uk/nisra/nisra-census2021-residence-type-age-sex-parlcon24/2021/a0622b7f1c8ab46eedf817b81bebfedb583dbf1004aecfe662ad586b5c6126d4/census2021_residence_type_single_year_age_sex_parlcon24.csv

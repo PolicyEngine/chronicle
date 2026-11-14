@@ -5,7 +5,7 @@
 # Allowance, applicants awarded in thousands and amounts awarded in GBP
 # million). Academic-year periods store the opening year (AY 2024/25 ->
 # 2024) per the #131/#136 convention; policyengine-uk-data keys the same
-# values to END-year calendars, a populace-side mapping. Cohort detail rows
+# values to END-year calendars, a Microcosm-side mapping. Cohort detail rows
 # (Pre-2012 / Post-2012/13 / Post-2016/17) and the other 4C products
 # (Childcare Grant, Travel Grant, totals) are named exclusions for the
 # backfill lane. uk-data rounds the published GBP-million amounts to whole

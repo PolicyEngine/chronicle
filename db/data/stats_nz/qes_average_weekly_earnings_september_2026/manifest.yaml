@@ -1,0 +1,23 @@
+source_id: stats_nz
+package_id: qes_average_weekly_earnings_september_2026
+dataset: stats_nz_qes_average_weekly_earnings_september_2026
+source_page: https://www.stats.govt.nz/information-releases/labour-market-statistics-september-2026-quarter/
+table: 'Table 7: Average weekly earnings for FTEs, by sector'
+license:
+  name: Creative Commons Attribution 4.0 International
+  url: https://creativecommons.org/licenses/by/4.0/
+  evidence_url: https://www.stats.govt.nz/about-us/copyright/
+  notes: Licence attribution supplied by the hub; unchanged publisher workbook.
+files:
+  2026:
+    filename: quarterly-employment-survey-september-2026-quarter.xlsx
+    source_url: https://www.stats.govt.nz/assets/Uploads/Labour-market-statistics/Labour-market-statistics-September-2026-quarter/Download-data/quarterly-employment-survey-september-2026-quarter.xlsx
+    sha256: d6fb9a947185551292dd6e81a527d994615ae15053b800a11e364ddb915626f3
+    size_bytes: 119004
+    fetched_at: '2026-11-03T21:46:14Z'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/nz/stats_nz/qes_average_weekly_earnings_september_2026/2026/d6fb9a947185551292dd6e81a527d994615ae15053b800a11e364ddb915626f3/quarterly-employment-survey-september-2026-quarter.xlsx
+        uri: r2://ledger-raw/raw/nz/stats_nz/qes_average_weekly_earnings_september_2026/2026/d6fb9a947185551292dd6e81a527d994615ae15053b800a11e364ddb915626f3/quarterly-employment-survey-september-2026-quarter.xlsx

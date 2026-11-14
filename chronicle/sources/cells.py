@@ -151,6 +151,8 @@ def source_cells_from_xlsx(
     artifact: SourceArtifactMetadata,
     *,
     sheets: Sequence[str] = (),
+    read_only: bool = False,
+    coerce_numeric_text: bool = False,
 ) -> list[SourceCell]:
     """Parse all used-range cells from an XLSX workbook.
 
@@ -158,7 +160,23 @@ def source_cells_from_xlsx(
     publisher workbooks carry sheets a package never selects from, and parsing
     them costs a cell record each on every build; naming the sheets a package
     reads keeps that cost proportionate. The default parses everything.
+
+    ``read_only`` streams only the named sheets (openpyxl's read-only mode)
+    instead of loading the whole workbook twice. It emits the same cells, and
+    exists for publisher workbooks too large to load whole on every build, such
+    as DESNZ's 50 MB small-area workbooks of which a package reads two sheets.
+
+    ``coerce_numeric_text`` reads a text cell that holds only a number, such as
+    the "977" that ONS's capital stocks tables store as text, as that number, as
+    the ODS parser's numeric-text mode does. Any other text stays text.
     """
+    if read_only:
+        return _source_cells_from_xlsx_read_only(
+            content,
+            artifact,
+            sheets=sheets,
+            coerce_numeric_text=coerce_numeric_text,
+        )
     value_workbook = openpyxl.load_workbook(BytesIO(content), data_only=True)
     formula_workbook = openpyxl.load_workbook(BytesIO(content), data_only=False)
     if sheets:
@@ -180,6 +198,8 @@ def source_cells_from_xlsx(
                     column=column_index,
                 )
                 raw_value = _xlsx_cell_raw_value(cell.value)
+                if coerce_numeric_text and isinstance(raw_value, str):
+                    raw_value = _coerce_numeric_text(raw_value)
                 formula = (
                     str(formula_cell.value) if formula_cell.data_type == "f" else None
                 )
@@ -197,6 +217,81 @@ def source_cells_from_xlsx(
                     )
                 )
     return cells
+
+
+def _source_cells_from_xlsx_read_only(
+    content: bytes,
+    artifact: SourceArtifactMetadata,
+    *,
+    sheets: Sequence[str],
+    coerce_numeric_text: bool = False,
+) -> list[SourceCell]:
+    """Stream the named worksheets' used ranges, as the full parse would emit them."""
+    if not sheets:
+        raise ValueError("A read-only XLSX parse must name the sheets it reads.")
+    value_workbook = openpyxl.load_workbook(
+        BytesIO(content), data_only=True, read_only=True
+    )
+    formula_workbook = openpyxl.load_workbook(
+        BytesIO(content), data_only=False, read_only=True
+    )
+    try:
+        missing = [name for name in sheets if name not in value_workbook.sheetnames]
+        if missing:
+            raise ValueError(
+                f"Artifact declares sheets that the workbook does not carry: {missing}"
+            )
+        cells: list[SourceCell] = []
+        for title in value_workbook.sheetnames:
+            if title not in sheets:
+                continue
+            value_sheet = value_workbook[title]
+            formula_sheet = formula_workbook[title]
+            # A worksheet's <dimension> element is its writer's claim about the
+            # used range, and a writer can understate it. The full parse measures
+            # the cells themselves, so the streamed parse re-measures too rather
+            # than truncate silently: one extra pass over the sheet.
+            value_sheet.reset_dimensions()
+            formula_sheet.reset_dimensions()
+            value_sheet.calculate_dimension(force=True)
+            max_row, max_column = value_sheet.max_row, value_sheet.max_column
+            value_rows = value_sheet.iter_rows(
+                min_row=1, max_row=max_row, min_col=1, max_col=max_column
+            )
+            formula_rows = formula_sheet.iter_rows(
+                min_row=1, max_row=max_row, min_col=1, max_col=max_column
+            )
+            for row_index, (value_row, formula_row) in enumerate(
+                zip(value_rows, formula_rows, strict=True), start=1
+            ):
+                for column_index, (cell, formula_cell) in enumerate(
+                    zip(value_row, formula_row, strict=True), start=1
+                ):
+                    raw_value = _xlsx_cell_raw_value(cell.value)
+                    if coerce_numeric_text and isinstance(raw_value, str):
+                        raw_value = _coerce_numeric_text(raw_value)
+                    formula = (
+                        str(formula_cell.value)
+                        if getattr(formula_cell, "data_type", None) == "f"
+                        else None
+                    )
+                    cells.append(
+                        SourceCell(
+                            artifact=artifact,
+                            sheet_name=title,
+                            row_number=row_index,
+                            column_number=column_index,
+                            address=f"{_excel_column_name(column_index)}{row_index}",
+                            cell_type=_xlsx_cell_type(raw_value),
+                            raw_value=raw_value,
+                            display_value=None if raw_value is None else str(raw_value),
+                            formula=formula,
+                        )
+                    )
+        return cells
+    finally:
+        value_workbook.close()
+        formula_workbook.close()
 
 
 def source_cells_from_ods(
@@ -612,7 +707,7 @@ def _ods_attr(namespace: str, name: str) -> str:
     return f"{{{_ODS_NAMESPACES[namespace]}}}{name}"
 
 
-_ODS_NUMERIC_TEXT_RE = re.compile(r"-?(?:\d{1,3}(?:,\d{3})+|\d+)(?:\.\d+)?")
+_NUMERIC_TEXT_RE = re.compile(r"-?(?:\d{1,3}(?:,\d{3})+|\d+)(?:\.\d+)?")
 
 
 def _ods_rows(
@@ -645,7 +740,7 @@ def _ods_row_values(
     for cell in row.findall("table:table-cell", _ODS_NAMESPACES):
         raw_value = _ods_cell_raw_value(cell)
         if coerce_numeric_text and isinstance(raw_value, str):
-            raw_value = _coerce_ods_numeric_text(raw_value)
+            raw_value = _coerce_numeric_text(raw_value)
         column_repeat = int(
             cell.attrib.get(_ods_attr("table", "number-columns-repeated"), 1)
         )
@@ -658,9 +753,9 @@ def _ods_row_values(
     return values
 
 
-def _coerce_ods_numeric_text(value: str) -> int | float | str:
+def _coerce_numeric_text(value: str) -> int | float | str:
     stripped = value.strip()
-    if _ODS_NUMERIC_TEXT_RE.fullmatch(stripped) is None:
+    if _NUMERIC_TEXT_RE.fullmatch(stripped) is None:
         return value
     normalized = stripped.replace(",", "")
     if "." in normalized:
@@ -1016,7 +1111,7 @@ def _delimited_scalar(value: str) -> Scalar:
         return None
     if "_" in stripped:
         return stripped
-    numeric = stripped.replace("$", "").replace(",", "")
+    numeric = stripped.replace("$", "").replace("£", "").replace(",", "")
     if numeric.lstrip("-").isdigit():
         return int(numeric)
     try:

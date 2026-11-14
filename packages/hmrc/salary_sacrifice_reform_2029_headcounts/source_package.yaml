@@ -8,7 +8,7 @@
 # administrative source, so the counts carry provenance_class model_output
 # (policy-costing estimates) and the period here is the publication year
 # (2025) with UK geography inferred from the NICs scope; policyengine-uk-data's {2024: ...} keying plus
-# its 2.4%-per-year growth extension are populace-side declarations excluded
+# its 2.4%-per-year growth extension are Microcosm-side declarations excluded
 # per the facts-only ADR. uk-data tags these targets 'obr'; the publisher is
 # HMRC (relabel recorded in docs/pe-uk-source-checklist.md). uk-data's
 # NI-relief companion targets (GBP 1.2bn employee / 2.9bn employer) cite the
@@ -41,7 +41,12 @@ dimension_labels:
   'hmrc.salary_sacrifice_employer_arrangement': 'Employer salary sacrifice arrangement for pension contributions'
 dimension_value_labels:
   'salary_sacrifice_threshold_position':
-    'all': 'Employees using salary sacrifice to make pension contributions'
+    # Chronicle's register gives this label, its own wording (chronicle#376):
+    # the rows' texts for this value, "Employees using salary sacrifice to make
+    # pension contributions" and "National Insurance contributions forgone
+    # through salary sacrifice for pensions", name the measure, and they stay
+    # in the rows.
+    'all': 'All threshold positions'
     'within_2000': 'Employees fully protected by the GBP 2,000 threshold'
   'salary_sacrifice_employer_arrangement':
     'operates': 'Operates salary sacrifice arrangements for pension contributions'

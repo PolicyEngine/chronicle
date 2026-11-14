@@ -2,7 +2,7 @@
 
 from chronicle.facts import DerivationStep, SourceFact
 from chronicle.sources import SourceFile, SourceReference
-from chronicle.targets import DataSource, Jurisdiction
+from db.schema import DataSource, Jurisdiction
 from chronicle.normalization import convert_units
 
 

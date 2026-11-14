@@ -1,0 +1,68 @@
+source_id: tpa
+package_id: tpa-lvt-model-2026
+dataset: tpa_tpa-lvt-model-2026
+source_page: https://github.com/DanNeidle/lvt_model_2026/tree/fef94f9e7a36ada25a9c29f1f6827759a12eed07
+table: Tax Policy Associates, lvt_model_2026, at commit fef94f9e7a36ada25a9c29f1f6827759a12eed07
+license: MIT License
+license_url: https://raw.githubusercontent.com/DanNeidle/lvt_model_2026/fef94f9e7a36ada25a9c29f1f6827759a12eed07/LICENSE
+attribution: Copyright (c) 2026 Tax Policy Associates Limited. MIT License.
+license_evidence: The repository's LICENSE file at the commit is the MIT License, 'Copyright
+  (c) 2026 Tax Policy Associates Limited', permitting use, copying, modification, merger,
+  publication and distribution with the notice included; GitHub reports the repository licence
+  as MIT.
+license_verified_at: '2026-11-04'
+files:
+  preprocessing_config:
+    filename: config.py
+    source_url: https://raw.githubusercontent.com/DanNeidle/lvt_model_2026/fef94f9e7a36ada25a9c29f1f6827759a12eed07/preprocessing/config.py
+    source_table: lvt_model_2026 preprocessing/config.py at commit fef94f9e7a36
+    sha256: 1ca9a253e3fddca1aa7bf97afc15fb833710daaff40c284cb7ec6ea6ae52312e
+    size_bytes: 9951
+    fetched_at: '2026-11-04T12:28:51+00:00'
+    storage:
+      local: false
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/tpa/tpa-lvt-model-2026/preprocessing_config/1ca9a253e3fddca1aa7bf97afc15fb833710daaff40c284cb7ec6ea6ae52312e/config.py
+        uri: r2://ledger-raw/raw/tpa/tpa-lvt-model-2026/preprocessing_config/1ca9a253e3fddca1aa7bf97afc15fb833710daaff40c284cb7ec6ea6ae52312e/config.py
+  webapp_cells:
+    filename: cells.json
+    source_url: https://raw.githubusercontent.com/DanNeidle/lvt_model_2026/fef94f9e7a36ada25a9c29f1f6827759a12eed07/webapp/cells.json
+    source_table: lvt_model_2026 webapp/cells.json at commit fef94f9e7a36
+    sha256: 995ce9b6efabcdd6b2aff9bd5a59ae1d90c9ba7e908ab6dfec192ab7de63b300
+    size_bytes: 926678
+    fetched_at: '2026-11-04T12:28:51+00:00'
+    storage:
+      local: false
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/tpa/tpa-lvt-model-2026/webapp_cells/995ce9b6efabcdd6b2aff9bd5a59ae1d90c9ba7e908ab6dfec192ab7de63b300/cells.json
+        uri: r2://ledger-raw/raw/tpa/tpa-lvt-model-2026/webapp_cells/995ce9b6efabcdd6b2aff9bd5a59ae1d90c9ba7e908ab6dfec192ab7de63b300/cells.json
+  licence:
+    filename: LICENSE
+    source_url: https://raw.githubusercontent.com/DanNeidle/lvt_model_2026/fef94f9e7a36ada25a9c29f1f6827759a12eed07/LICENSE
+    source_table: lvt_model_2026 LICENSE at commit fef94f9e7a36
+    sha256: 4ad0c70a2318b5ce74236310b721e67a8d245826000ee80e958576b9b484abf6
+    size_bytes: 1086
+    fetched_at: '2026-11-04T12:28:51+00:00'
+    storage:
+      local: false
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/tpa/tpa-lvt-model-2026/licence/4ad0c70a2318b5ce74236310b721e67a8d245826000ee80e958576b9b484abf6/LICENSE
+        uri: r2://ledger-raw/raw/tpa/tpa-lvt-model-2026/licence/4ad0c70a2318b5ce74236310b721e67a8d245826000ee80e958576b9b484abf6/LICENSE
+registration_kind: raw_only
+provenance_notes: 'Tax Policy Associates'' open land value tax model, three files at commit
+  fef94f9e7a36ada25a9c29f1f6827759a12eed07 (10 September 2026), still the repository''s latest
+  commit on 4 November 2026. They are a third party''s modelling assumptions and model output,
+  not a publisher''s statistics, so no facts are built from them. preprocessing/config.py
+  holds the model''s constants: the rebuild cost per square metre by property type (BASE_COST_PER_M2,
+  commented ''BCIS/ABI-style, houses vs flats''), the regional factors (REGION_FACTOR, commented
+  ''BCIS regional location factors''), the calibration anchors and the transition settings.
+  webapp/cells.json holds the model''s output for the web app: its run settings under ''meta''
+  and its estimates by local authority under ''las''. LICENSE is the MIT licence the files
+  are published under. The bytes are kept in R2 only: config.py is Python source, which this
+  repository''s lint would otherwise read as its own code.'

@@ -1,0 +1,27 @@
+source_id: ons
+package_id: ons-pusf-vehicle-duty-households-october-2026
+dataset: ons_ons-pusf-vehicle-duty-households-october-2026
+source_page: https://www.ons.gov.uk/economy/governmentpublicsectorandtaxes/publicsectorfinance/timeseries/cddz/pusf
+table: "PUSF time series CDDZ: CG: Current receipts: Other taxes: Vehicle duty paid\
+  \ by households: \xA3m CPNSA"
+license: Open Government Licence v3.0
+license_url: https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/
+attribution: 'Source: Office for National Statistics, time series CDDZ (PUSF), released
+  21 October 2026. Contains public sector information licensed under the Open Government
+  Licence v3.0.'
+license_evidence: 'ONS pages state: ''All content is available under the Open Government
+  Licence v3.0, except where otherwise stated.'' (time series page https://www.ons.gov.uk/economy/governmentpublicsectorandtaxes/publicsectorfinance/timeseries/cddz/pusf)'
+license_verified_at: '2026-10-30'
+files:
+  2026:
+    filename: cddz.csv
+    source_url: https://www.ons.gov.uk/generator?format=csv&uri=/economy/governmentpublicsectorandtaxes/publicsectorfinance/timeseries/cddz/pusf
+    sha256: 57e479c9fbe4758954f69f8d5cca1062d376d007bc9dc59dff66f312e2e77357
+    size_bytes: 9251
+    fetched_at: '2026-10-30T11:38:17+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/ons/ons-pusf-vehicle-duty-households-october-2026/2026/57e479c9fbe4758954f69f8d5cca1062d376d007bc9dc59dff66f312e2e77357/cddz.csv
+        uri: r2://ledger-raw/raw/uk/ons/ons-pusf-vehicle-duty-households-october-2026/2026/57e479c9fbe4758954f69f8d5cca1062d376d007bc9dc59dff66f312e2e77357/cddz.csv

@@ -1,0 +1,26 @@
+source_id: mhclg
+package_id: mhclg-english-indices-of-deprivation-2025-file-1
+dataset: mhclg_mhclg-english-indices-of-deprivation-2025-file-1
+source_page: https://www.gov.uk/government/statistics/english-indices-of-deprivation-2025
+table: 'English indices of deprivation 2025, File 1: Index of Multiple Deprivation'
+files:
+  2025:
+    filename: File_1_IoD2025_Index_of_Multiple_Deprivation.xlsx
+    source_url: https://assets.publishing.service.gov.uk/media/691dece32c6b98ecdbc500d5/File_1_IoD2025_Index_of_Multiple_Deprivation.xlsx
+    sha256: e2b10ed1b4d00c02cba12770a0d854b53f7ba7a103df8125744bedad4779866b
+    size_bytes: 1469027
+    fetched_at: '2026-11-04T18:19:46+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/mhclg/mhclg-english-indices-of-deprivation-2025-file-1/2025/e2b10ed1b4d00c02cba12770a0d854b53f7ba7a103df8125744bedad4779866b/File_1_IoD2025_Index_of_Multiple_Deprivation.xlsx
+        uri: r2://ledger-raw/raw/uk/mhclg/mhclg-english-indices-of-deprivation-2025-file-1/2025/e2b10ed1b4d00c02cba12770a0d854b53f7ba7a103df8125744bedad4779866b/File_1_IoD2025_Index_of_Multiple_Deprivation.xlsx
+registration_kind: raw_only
+provenance_notes: 'English Indices of Deprivation 2025, File 1 (published 30 October
+  2025; Files 1 to 9 were re-issued in November 2025 with no change to the data, after
+  ONS corrected the district of LSOA E01027305): Index of Multiple Deprivation rank
+  (1 most deprived to 33,755) and decile for each of the 33,755 LSOAs in England on
+  2021 boundaries, with the 2024 local authority district. The August 2026 NSPL (ons-nspl-august-2026)
+  carries these ranks as imd25ind. Licence: Open Government Licence v3.0. Raw-only
+  for chronicle#412 item 1.'

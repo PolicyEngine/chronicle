@@ -1,0 +1,29 @@
+source_id: scotgov
+package_id: scotgov-simd-2020v2-data-zone-lookup
+dataset: scotgov_scotgov-simd-2020v2-data-zone-lookup
+source_page: https://www.gov.scot/publications/scottish-index-of-multiple-deprivation-2020v2-data-zone-look-up/
+table: Scottish Index of Multiple Deprivation 2020v2 data zone lookup (updated 2025)
+files:
+  2020:
+    filename: SIMD_2020v2_datazone_lookup_updated_2025.xlsx
+    source_url: https://www.gov.scot/binaries/content/documents/govscot/publications/statistics/2020/01/scottish-index-of-multiple-deprivation-2020-data-zone-look-up-file/documents/scottish-index-of-multiple-deprivation-data-zone-look-up/scottish-index-of-multiple-deprivation-data-zone-look-up/govscot%3Adocument/SIMD%2B2020v2%2B-%2Bdatazone%2Blookup%2B-%2Bupdated%2B2025.xlsx
+    sha256: 0a64937af60fb339a1be85cd2f65b6a3d410a38dc5b6c7f25a72ba2d7060a03e
+    size_bytes: 1339239
+    fetched_at: '2026-11-04T18:21:42+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/scotgov/scotgov-simd-2020v2-data-zone-lookup/2020/0a64937af60fb339a1be85cd2f65b6a3d410a38dc5b6c7f25a72ba2d7060a03e/SIMD_2020v2_datazone_lookup_updated_2025.xlsx
+        uri: r2://ledger-raw/raw/uk/scotgov/scotgov-simd-2020v2-data-zone-lookup/2020/0a64937af60fb339a1be85cd2f65b6a3d410a38dc5b6c7f25a72ba2d7060a03e/SIMD_2020v2_datazone_lookup_updated_2025.xlsx
+registration_kind: raw_only
+provenance_notes: 'SIMD 2020v2 data zone lookup, the file updated in 2025: for each
+  of the 6,976 data zones on 2011 boundaries, the overall SIMD 2020v2 rank, vigintile,
+  decile and quintile, the domain ranks, 2017 population and working-age population,
+  the 2016 six-fold urban rural class and the intermediate zone, council area, health
+  board, multi-member ward and Scottish Parliament constituency (sheet ''SIMD 2020v2
+  DZ lookup data''; the other data sheet is a lookup tool). Its ranks equal scotgov-simd-2020v2-ranks.
+  The NRS Census 2022 index (nrs-census2022-index, Census_2022_Index/OA_TO_HIGHER_AREAS.csv)
+  already assigns each 2022 output area a 2011 data zone and this rank, best fit by
+  output area centroid. Licence: Open Government Licence v3.0. Raw-only for chronicle#412
+  item 1.'

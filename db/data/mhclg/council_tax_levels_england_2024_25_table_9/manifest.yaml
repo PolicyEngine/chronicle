@@ -1,0 +1,30 @@
+source_id: mhclg
+package_id: mhclg-council-tax-levels-england-2024-25-table-9
+dataset: mhclg_mhclg-council-tax-levels-england-2024-25-table-9
+source_page: https://www.gov.uk/government/statistics/council-tax-levels-set-by-local-authorities-in-england-2024-to-2025
+table: 'Council Tax levels set by local authorities in England 2024 to 2025, Table
+  9: Council Tax requirement and chargeable dwelling figures - all authorities, 2024-25
+  (revised)'
+files:
+  2024:
+    filename: Table_9_24-25__revised_.ods
+    source_url: https://assets.publishing.service.gov.uk/media/663a45b51834d96a0aa6d1d4/Table_9_24-25__revised_.ods
+    sha256: ade111fc09ad25d5219cc2c16efa7170255099b2f1d2d884b2f652d0c1e244e6
+    size_bytes: 387852
+    fetched_at: '2026-11-04T18:19:45+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/mhclg/mhclg-council-tax-levels-england-2024-25-table-9/2024/ade111fc09ad25d5219cc2c16efa7170255099b2f1d2d884b2f652d0c1e244e6/Table_9_24-25__revised_.ods
+        uri: r2://ledger-raw/raw/uk/mhclg/mhclg-council-tax-levels-england-2024-25-table-9/2024/ade111fc09ad25d5219cc2c16efa7170255099b2f1d2d884b2f652d0c1e244e6/Table_9_24-25__revised_.ods
+registration_kind: raw_only
+provenance_notes: 'MHCLG, Council Tax levels set by local authorities in England 2024
+  to 2025 (first published 21 March 2024). The 2024-25 release publishes Tables 1
+  to 9 as nine files; this is Table 9. Council tax requirement, taxbase and chargeable
+  dwellings for every billing and precepting authority (sheets Billing_Authorities,
+  Precepting_Authorities, GLA, GMCA_and_WYCA, Data_Billing, Data_Precepting, List2,
+  Precepting_Bodies), revised in May 2024. Its cover calls it Local Authority Level
+  data for 2024-25; later releases publish that as Table 10. Besides its ten data
+  sheets the workbook carries 272 empty sheets named after external file references.
+  Licence: Open Government Licence v3.0. Raw-only for chronicle#412 item 2.'

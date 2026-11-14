@@ -1,0 +1,28 @@
+source_id: ons
+package_id: ons-a06-nsa-october-2026
+dataset: ons_ons-a06-nsa-october-2026
+source_page: https://www.ons.gov.uk/employmentandlabourmarket/peopleinwork/employmentandemployeetypes/datasets/educationalstatusandlabourmarketstatusforpeopleagedfrom16to24notseasonallyadjusteda06nsa
+table: 'A06 NSA: Educational status and labour market status for people aged from
+  16 to 24 (not seasonally adjusted), October 2026'
+license: Open Government Licence v3.0
+license_url: https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/
+attribution: 'Source: Office for National Statistics, Labour Force Survey, table A06
+  NSA (released 20 October 2026). Contains public sector information licensed under
+  the Open Government Licence v3.0.'
+license_evidence: 'ONS pages state: ''All content is available under the Open Government
+  Licence v3.0, except where otherwise stated.'' (dataset page https://www.ons.gov.uk/employmentandlabourmarket/peopleinwork/employmentandemployeetypes/datasets/educationalstatusandlabourmarketstatusforpeopleagedfrom16to24notseasonallyadjusteda06nsa);
+  the workbook states no other terms.'
+license_verified_at: '2026-11-06'
+files:
+  2026:
+    filename: a06nsaoct2026.xls
+    source_url: https://www.ons.gov.uk/file?uri=/employmentandlabourmarket/peopleinwork/employmentandemployeetypes/datasets/educationalstatusandlabourmarketstatusforpeopleagedfrom16to24notseasonallyadjusteda06nsa/current/a06nsaoct2026.xls
+    sha256: e3518e444893eb55bb8eef0efbd71dd235fa1ef4de384b6f2aef5795a83f598b
+    size_bytes: 2616832
+    fetched_at: '2026-11-06T12:20:52+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/ons/ons-a06-nsa-october-2026/2026/e3518e444893eb55bb8eef0efbd71dd235fa1ef4de384b6f2aef5795a83f598b/a06nsaoct2026.xls
+        uri: r2://ledger-raw/raw/uk/ons/ons-a06-nsa-october-2026/2026/e3518e444893eb55bb8eef0efbd71dd235fa1ef4de384b6f2aef5795a83f598b/a06nsaoct2026.xls

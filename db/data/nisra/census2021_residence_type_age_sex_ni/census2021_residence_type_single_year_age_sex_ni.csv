@@ -1,0 +1,405 @@
+Residence Type Code,Residence Type Label,Age Code,Age Label,Sex Code,Sex Label,Count
+1,Person in a household,0,0 years,1,Female,10227
+1,Person in a household,0,0 years,2,Male,10942
+1,Person in a household,1,1 year,1,Female,10869
+1,Person in a household,1,1 year,2,Male,11500
+1,Person in a household,2,2 years,1,Female,11150
+1,Person in a household,2,2 years,2,Male,11758
+1,Person in a household,3,3 years,1,Female,11315
+1,Person in a household,3,3 years,2,Male,11600
+1,Person in a household,4,4 years,1,Female,11723
+1,Person in a household,4,4 years,2,Male,12570
+1,Person in a household,5,5 years,1,Female,11847
+1,Person in a household,5,5 years,2,Male,12587
+1,Person in a household,6,6 years,1,Female,12023
+1,Person in a household,6,6 years,2,Male,12640
+1,Person in a household,7,7 years,1,Female,11976
+1,Person in a household,7,7 years,2,Male,12317
+1,Person in a household,8,8 years,1,Female,12414
+1,Person in a household,8,8 years,2,Male,13072
+1,Person in a household,9,9 years,1,Female,12484
+1,Person in a household,9,9 years,2,Male,13005
+1,Person in a household,10,10 years,1,Female,12724
+1,Person in a household,10,10 years,2,Male,13269
+1,Person in a household,11,11 years,1,Female,12464
+1,Person in a household,11,11 years,2,Male,12973
+1,Person in a household,12,12 years,1,Female,12537
+1,Person in a household,12,12 years,2,Male,13062
+1,Person in a household,13,13 years,1,Female,12349
+1,Person in a household,13,13 years,2,Male,12987
+1,Person in a household,14,14 years,1,Female,11780
+1,Person in a household,14,14 years,2,Male,12547
+1,Person in a household,15,15 years,1,Female,11278
+1,Person in a household,15,15 years,2,Male,11844
+1,Person in a household,16,16 years,1,Female,11447
+1,Person in a household,16,16 years,2,Male,11987
+1,Person in a household,17,17 years,1,Female,11135
+1,Person in a household,17,17 years,2,Male,11739
+1,Person in a household,18,18 years,1,Female,10480
+1,Person in a household,18,18 years,2,Male,10983
+1,Person in a household,19,19 years,1,Female,8906
+1,Person in a household,19,19 years,2,Male,10037
+1,Person in a household,20,20 years,1,Female,9478
+1,Person in a household,20,20 years,2,Male,10394
+1,Person in a household,21,21 years,1,Female,9679
+1,Person in a household,21,21 years,2,Male,10912
+1,Person in a household,22,22 years,1,Female,10523
+1,Person in a household,22,22 years,2,Male,11414
+1,Person in a household,23,23 years,1,Female,10906
+1,Person in a household,23,23 years,2,Male,11288
+1,Person in a household,24,24 years,1,Female,11364
+1,Person in a household,24,24 years,2,Male,11566
+1,Person in a household,25,25 years,1,Female,11124
+1,Person in a household,25,25 years,2,Male,11368
+1,Person in a household,26,26 years,1,Female,11040
+1,Person in a household,26,26 years,2,Male,11376
+1,Person in a household,27,27 years,1,Female,11631
+1,Person in a household,27,27 years,2,Male,11262
+1,Person in a household,28,28 years,1,Female,11873
+1,Person in a household,28,28 years,2,Male,11288
+1,Person in a household,29,29 years,1,Female,12294
+1,Person in a household,29,29 years,2,Male,11575
+1,Person in a household,30,30 years,1,Female,12494
+1,Person in a household,30,30 years,2,Male,11977
+1,Person in a household,31,31 years,1,Female,12659
+1,Person in a household,31,31 years,2,Male,12023
+1,Person in a household,32,32 years,1,Female,12841
+1,Person in a household,32,32 years,2,Male,12148
+1,Person in a household,33,33 years,1,Female,13407
+1,Person in a household,33,33 years,2,Male,12025
+1,Person in a household,34,34 years,1,Female,13226
+1,Person in a household,34,34 years,2,Male,12358
+1,Person in a household,35,35 years,1,Female,13144
+1,Person in a household,35,35 years,2,Male,12445
+1,Person in a household,36,36 years,1,Female,13115
+1,Person in a household,36,36 years,2,Male,12435
+1,Person in a household,37,37 years,1,Female,13114
+1,Person in a household,37,37 years,2,Male,12081
+1,Person in a household,38,38 years,1,Female,13099
+1,Person in a household,38,38 years,2,Male,12172
+1,Person in a household,39,39 years,1,Female,12955
+1,Person in a household,39,39 years,2,Male,12140
+1,Person in a household,40,40 years,1,Female,13232
+1,Person in a household,40,40 years,2,Male,12246
+1,Person in a household,41,41 years,1,Female,13247
+1,Person in a household,41,41 years,2,Male,12518
+1,Person in a household,42,42 years,1,Female,12566
+1,Person in a household,42,42 years,2,Male,11573
+1,Person in a household,43,43 years,1,Female,11930
+1,Person in a household,43,43 years,2,Male,11346
+1,Person in a household,44,44 years,1,Female,11822
+1,Person in a household,44,44 years,2,Male,11137
+1,Person in a household,45,45 years,1,Female,11800
+1,Person in a household,45,45 years,2,Male,11232
+1,Person in a household,46,46 years,1,Female,11865
+1,Person in a household,46,46 years,2,Male,11465
+1,Person in a household,47,47 years,1,Female,12387
+1,Person in a household,47,47 years,2,Male,11998
+1,Person in a household,48,48 years,1,Female,12708
+1,Person in a household,48,48 years,2,Male,12444
+1,Person in a household,49,49 years,1,Female,12681
+1,Person in a household,49,49 years,2,Male,12588
+1,Person in a household,50,50 years,1,Female,13341
+1,Person in a household,50,50 years,2,Male,12564
+1,Person in a household,51,51 years,1,Female,13187
+1,Person in a household,51,51 years,2,Male,12588
+1,Person in a household,52,52 years,1,Female,13327
+1,Person in a household,52,52 years,2,Male,12685
+1,Person in a household,53,53 years,1,Female,13527
+1,Person in a household,53,53 years,2,Male,13024
+1,Person in a household,54,54 years,1,Female,13351
+1,Person in a household,54,54 years,2,Male,12738
+1,Person in a household,55,55 years,1,Female,13192
+1,Person in a household,55,55 years,2,Male,13041
+1,Person in a household,56,56 years,1,Female,13773
+1,Person in a household,56,56 years,2,Male,12941
+1,Person in a household,57,57 years,1,Female,13077
+1,Person in a household,57,57 years,2,Male,12777
+1,Person in a household,58,58 years,1,Female,12621
+1,Person in a household,58,58 years,2,Male,12557
+1,Person in a household,59,59 years,1,Female,12551
+1,Person in a household,59,59 years,2,Male,11960
+1,Person in a household,60,60 years,1,Female,12410
+1,Person in a household,60,60 years,2,Male,11945
+1,Person in a household,61,61 years,1,Female,11791
+1,Person in a household,61,61 years,2,Male,11097
+1,Person in a household,62,62 years,1,Female,11373
+1,Person in a household,62,62 years,2,Male,10945
+1,Person in a household,63,63 years,1,Female,11187
+1,Person in a household,63,63 years,2,Male,10766
+1,Person in a household,64,64 years,1,Female,10585
+1,Person in a household,64,64 years,2,Male,10140
+1,Person in a household,65,65 years,1,Female,10088
+1,Person in a household,65,65 years,2,Male,10056
+1,Person in a household,66,66 years,1,Female,9460
+1,Person in a household,66,66 years,2,Male,9435
+1,Person in a household,67,67 years,1,Female,9313
+1,Person in a household,67,67 years,2,Male,9241
+1,Person in a household,68,68 years,1,Female,9189
+1,Person in a household,68,68 years,2,Male,8762
+1,Person in a household,69,69 years,1,Female,8772
+1,Person in a household,69,69 years,2,Male,8364
+1,Person in a household,70,70 years,1,Female,8608
+1,Person in a household,70,70 years,2,Male,8433
+1,Person in a household,71,71 years,1,Female,8574
+1,Person in a household,71,71 years,2,Male,8203
+1,Person in a household,72,72 years,1,Female,8458
+1,Person in a household,72,72 years,2,Male,7884
+1,Person in a household,73,73 years,1,Female,8489
+1,Person in a household,73,73 years,2,Male,7822
+1,Person in a household,74,74 years,1,Female,8415
+1,Person in a household,74,74 years,2,Male,7482
+1,Person in a household,75,75 years,1,Female,7415
+1,Person in a household,75,75 years,2,Male,6699
+1,Person in a household,76,76 years,1,Female,7547
+1,Person in a household,76,76 years,2,Male,6492
+1,Person in a household,77,77 years,1,Female,7064
+1,Person in a household,77,77 years,2,Male,6335
+1,Person in a household,78,78 years,1,Female,6735
+1,Person in a household,78,78 years,2,Male,5715
+1,Person in a household,79,79 years,1,Female,5746
+1,Person in a household,79,79 years,2,Male,4807
+1,Person in a household,80,80 years,1,Female,5186
+1,Person in a household,80,80 years,2,Male,4166
+1,Person in a household,81,81 years,1,Female,4963
+1,Person in a household,81,81 years,2,Male,3936
+1,Person in a household,82,82 years,1,Female,4734
+1,Person in a household,82,82 years,2,Male,3783
+1,Person in a household,83,83 years,1,Female,4244
+1,Person in a household,83,83 years,2,Male,3240
+1,Person in a household,84,84 years,1,Female,4090
+1,Person in a household,84,84 years,2,Male,2988
+1,Person in a household,85,85 years,1,Female,3522
+1,Person in a household,85,85 years,2,Male,2436
+1,Person in a household,86,86 years,1,Female,3081
+1,Person in a household,86,86 years,2,Male,2140
+1,Person in a household,87,87 years,1,Female,2697
+1,Person in a household,87,87 years,2,Male,1803
+1,Person in a household,88,88 years,1,Female,2428
+1,Person in a household,88,88 years,2,Male,1539
+1,Person in a household,89,89 years,1,Female,1984
+1,Person in a household,89,89 years,2,Male,1232
+1,Person in a household,90,90 years,1,Female,1686
+1,Person in a household,90,90 years,2,Male,964
+1,Person in a household,91,91 years,1,Female,1413
+1,Person in a household,91,91 years,2,Male,693
+1,Person in a household,92,92 years,1,Female,1066
+1,Person in a household,92,92 years,2,Male,521
+1,Person in a household,93,93 years,1,Female,844
+1,Person in a household,93,93 years,2,Male,387
+1,Person in a household,94,94 years,1,Female,671
+1,Person in a household,94,94 years,2,Male,290
+1,Person in a household,95,95 years,1,Female,459
+1,Person in a household,95,95 years,2,Male,188
+1,Person in a household,96,96 years,1,Female,319
+1,Person in a household,96,96 years,2,Male,121
+1,Person in a household,97,97 years,1,Female,235
+1,Person in a household,97,97 years,2,Male,85
+1,Person in a household,98,98 years,1,Female,135
+1,Person in a household,98,98 years,2,Male,45
+1,Person in a household,99,99 years,1,Female,131
+1,Person in a household,99,99 years,2,Male,30
+1,Person in a household,100,100+ years,1,Female,109
+1,Person in a household,100,100+ years,2,Male,31
+2,Person in a communal establishment,0,0 years,1,Female,15
+2,Person in a communal establishment,0,0 years,2,Male,17
+2,Person in a communal establishment,1,1 year,1,Female,28
+2,Person in a communal establishment,1,1 year,2,Male,20
+2,Person in a communal establishment,2,2 years,1,Female,15
+2,Person in a communal establishment,2,2 years,2,Male,16
+2,Person in a communal establishment,3,3 years,1,Female,16
+2,Person in a communal establishment,3,3 years,2,Male,12
+2,Person in a communal establishment,4,4 years,1,Female,13
+2,Person in a communal establishment,4,4 years,2,Male,12
+2,Person in a communal establishment,5,5 years,1,Female,10
+2,Person in a communal establishment,5,5 years,2,Male,16
+2,Person in a communal establishment,6,6 years,1,Female,6
+2,Person in a communal establishment,6,6 years,2,Male,15
+2,Person in a communal establishment,7,7 years,1,Female,8
+2,Person in a communal establishment,7,7 years,2,Male,8
+2,Person in a communal establishment,8,8 years,1,Female,8
+2,Person in a communal establishment,8,8 years,2,Male,8
+2,Person in a communal establishment,9,9 years,1,Female,16
+2,Person in a communal establishment,9,9 years,2,Male,13
+2,Person in a communal establishment,10,10 years,1,Female,7
+2,Person in a communal establishment,10,10 years,2,Male,15
+2,Person in a communal establishment,11,11 years,1,Female,15
+2,Person in a communal establishment,11,11 years,2,Male,17
+2,Person in a communal establishment,12,12 years,1,Female,24
+2,Person in a communal establishment,12,12 years,2,Male,23
+2,Person in a communal establishment,13,13 years,1,Female,24
+2,Person in a communal establishment,13,13 years,2,Male,24
+2,Person in a communal establishment,14,14 years,1,Female,40
+2,Person in a communal establishment,14,14 years,2,Male,36
+2,Person in a communal establishment,15,15 years,1,Female,38
+2,Person in a communal establishment,15,15 years,2,Male,60
+2,Person in a communal establishment,16,16 years,1,Female,69
+2,Person in a communal establishment,16,16 years,2,Male,71
+2,Person in a communal establishment,17,17 years,1,Female,87
+2,Person in a communal establishment,17,17 years,2,Male,106
+2,Person in a communal establishment,18,18 years,1,Female,538
+2,Person in a communal establishment,18,18 years,2,Male,345
+2,Person in a communal establishment,19,19 years,1,Female,1161
+2,Person in a communal establishment,19,19 years,2,Male,892
+2,Person in a communal establishment,20,20 years,1,Female,593
+2,Person in a communal establishment,20,20 years,2,Male,493
+2,Person in a communal establishment,21,21 years,1,Female,390
+2,Person in a communal establishment,21,21 years,2,Male,402
+2,Person in a communal establishment,22,22 years,1,Female,361
+2,Person in a communal establishment,22,22 years,2,Male,371
+2,Person in a communal establishment,23,23 years,1,Female,326
+2,Person in a communal establishment,23,23 years,2,Male,344
+2,Person in a communal establishment,24,24 years,1,Female,255
+2,Person in a communal establishment,24,24 years,2,Male,326
+2,Person in a communal establishment,25,25 years,1,Female,186
+2,Person in a communal establishment,25,25 years,2,Male,285
+2,Person in a communal establishment,26,26 years,1,Female,149
+2,Person in a communal establishment,26,26 years,2,Male,223
+2,Person in a communal establishment,27,27 years,1,Female,106
+2,Person in a communal establishment,27,27 years,2,Male,158
+2,Person in a communal establishment,28,28 years,1,Female,77
+2,Person in a communal establishment,28,28 years,2,Male,191
+2,Person in a communal establishment,29,29 years,1,Female,64
+2,Person in a communal establishment,29,29 years,2,Male,139
+2,Person in a communal establishment,30,30 years,1,Female,59
+2,Person in a communal establishment,30,30 years,2,Male,158
+2,Person in a communal establishment,31,31 years,1,Female,39
+2,Person in a communal establishment,31,31 years,2,Male,124
+2,Person in a communal establishment,32,32 years,1,Female,63
+2,Person in a communal establishment,32,32 years,2,Male,142
+2,Person in a communal establishment,33,33 years,1,Female,41
+2,Person in a communal establishment,33,33 years,2,Male,112
+2,Person in a communal establishment,34,34 years,1,Female,42
+2,Person in a communal establishment,34,34 years,2,Male,112
+2,Person in a communal establishment,35,35 years,1,Female,33
+2,Person in a communal establishment,35,35 years,2,Male,86
+2,Person in a communal establishment,36,36 years,1,Female,33
+2,Person in a communal establishment,36,36 years,2,Male,117
+2,Person in a communal establishment,37,37 years,1,Female,35
+2,Person in a communal establishment,37,37 years,2,Male,86
+2,Person in a communal establishment,38,38 years,1,Female,31
+2,Person in a communal establishment,38,38 years,2,Male,95
+2,Person in a communal establishment,39,39 years,1,Female,29
+2,Person in a communal establishment,39,39 years,2,Male,70
+2,Person in a communal establishment,40,40 years,1,Female,24
+2,Person in a communal establishment,40,40 years,2,Male,105
+2,Person in a communal establishment,41,41 years,1,Female,30
+2,Person in a communal establishment,41,41 years,2,Male,91
+2,Person in a communal establishment,42,42 years,1,Female,38
+2,Person in a communal establishment,42,42 years,2,Male,72
+2,Person in a communal establishment,43,43 years,1,Female,32
+2,Person in a communal establishment,43,43 years,2,Male,68
+2,Person in a communal establishment,44,44 years,1,Female,30
+2,Person in a communal establishment,44,44 years,2,Male,55
+2,Person in a communal establishment,45,45 years,1,Female,25
+2,Person in a communal establishment,45,45 years,2,Male,68
+2,Person in a communal establishment,46,46 years,1,Female,26
+2,Person in a communal establishment,46,46 years,2,Male,72
+2,Person in a communal establishment,47,47 years,1,Female,34
+2,Person in a communal establishment,47,47 years,2,Male,67
+2,Person in a communal establishment,48,48 years,1,Female,33
+2,Person in a communal establishment,48,48 years,2,Male,69
+2,Person in a communal establishment,49,49 years,1,Female,31
+2,Person in a communal establishment,49,49 years,2,Male,76
+2,Person in a communal establishment,50,50 years,1,Female,33
+2,Person in a communal establishment,50,50 years,2,Male,75
+2,Person in a communal establishment,51,51 years,1,Female,45
+2,Person in a communal establishment,51,51 years,2,Male,89
+2,Person in a communal establishment,52,52 years,1,Female,33
+2,Person in a communal establishment,52,52 years,2,Male,96
+2,Person in a communal establishment,53,53 years,1,Female,50
+2,Person in a communal establishment,53,53 years,2,Male,79
+2,Person in a communal establishment,54,54 years,1,Female,55
+2,Person in a communal establishment,54,54 years,2,Male,80
+2,Person in a communal establishment,55,55 years,1,Female,57
+2,Person in a communal establishment,55,55 years,2,Male,87
+2,Person in a communal establishment,56,56 years,1,Female,57
+2,Person in a communal establishment,56,56 years,2,Male,116
+2,Person in a communal establishment,57,57 years,1,Female,56
+2,Person in a communal establishment,57,57 years,2,Male,98
+2,Person in a communal establishment,58,58 years,1,Female,63
+2,Person in a communal establishment,58,58 years,2,Male,104
+2,Person in a communal establishment,59,59 years,1,Female,57
+2,Person in a communal establishment,59,59 years,2,Male,88
+2,Person in a communal establishment,60,60 years,1,Female,72
+2,Person in a communal establishment,60,60 years,2,Male,101
+2,Person in a communal establishment,61,61 years,1,Female,63
+2,Person in a communal establishment,61,61 years,2,Male,110
+2,Person in a communal establishment,62,62 years,1,Female,76
+2,Person in a communal establishment,62,62 years,2,Male,68
+2,Person in a communal establishment,63,63 years,1,Female,71
+2,Person in a communal establishment,63,63 years,2,Male,96
+2,Person in a communal establishment,64,64 years,1,Female,75
+2,Person in a communal establishment,64,64 years,2,Male,78
+2,Person in a communal establishment,65,65 years,1,Female,58
+2,Person in a communal establishment,65,65 years,2,Male,96
+2,Person in a communal establishment,66,66 years,1,Female,66
+2,Person in a communal establishment,66,66 years,2,Male,76
+2,Person in a communal establishment,67,67 years,1,Female,66
+2,Person in a communal establishment,67,67 years,2,Male,77
+2,Person in a communal establishment,68,68 years,1,Female,70
+2,Person in a communal establishment,68,68 years,2,Male,106
+2,Person in a communal establishment,69,69 years,1,Female,71
+2,Person in a communal establishment,69,69 years,2,Male,96
+2,Person in a communal establishment,70,70 years,1,Female,73
+2,Person in a communal establishment,70,70 years,2,Male,84
+2,Person in a communal establishment,71,71 years,1,Female,98
+2,Person in a communal establishment,71,71 years,2,Male,87
+2,Person in a communal establishment,72,72 years,1,Female,113
+2,Person in a communal establishment,72,72 years,2,Male,113
+2,Person in a communal establishment,73,73 years,1,Female,142
+2,Person in a communal establishment,73,73 years,2,Male,106
+2,Person in a communal establishment,74,74 years,1,Female,151
+2,Person in a communal establishment,74,74 years,2,Male,129
+2,Person in a communal establishment,75,75 years,1,Female,152
+2,Person in a communal establishment,75,75 years,2,Male,98
+2,Person in a communal establishment,76,76 years,1,Female,200
+2,Person in a communal establishment,76,76 years,2,Male,147
+2,Person in a communal establishment,77,77 years,1,Female,256
+2,Person in a communal establishment,77,77 years,2,Male,160
+2,Person in a communal establishment,78,78 years,1,Female,252
+2,Person in a communal establishment,78,78 years,2,Male,145
+2,Person in a communal establishment,79,79 years,1,Female,265
+2,Person in a communal establishment,79,79 years,2,Male,148
+2,Person in a communal establishment,80,80 years,1,Female,262
+2,Person in a communal establishment,80,80 years,2,Male,154
+2,Person in a communal establishment,81,81 years,1,Female,290
+2,Person in a communal establishment,81,81 years,2,Male,165
+2,Person in a communal establishment,82,82 years,1,Female,354
+2,Person in a communal establishment,82,82 years,2,Male,176
+2,Person in a communal establishment,83,83 years,1,Female,322
+2,Person in a communal establishment,83,83 years,2,Male,168
+2,Person in a communal establishment,84,84 years,1,Female,366
+2,Person in a communal establishment,84,84 years,2,Male,189
+2,Person in a communal establishment,85,85 years,1,Female,425
+2,Person in a communal establishment,85,85 years,2,Male,202
+2,Person in a communal establishment,86,86 years,1,Female,419
+2,Person in a communal establishment,86,86 years,2,Male,159
+2,Person in a communal establishment,87,87 years,1,Female,444
+2,Person in a communal establishment,87,87 years,2,Male,149
+2,Person in a communal establishment,88,88 years,1,Female,461
+2,Person in a communal establishment,88,88 years,2,Male,155
+2,Person in a communal establishment,89,89 years,1,Female,462
+2,Person in a communal establishment,89,89 years,2,Male,143
+2,Person in a communal establishment,90,90 years,1,Female,393
+2,Person in a communal establishment,90,90 years,2,Male,110
+2,Person in a communal establishment,91,91 years,1,Female,374
+2,Person in a communal establishment,91,91 years,2,Male,120
+2,Person in a communal establishment,92,92 years,1,Female,363
+2,Person in a communal establishment,92,92 years,2,Male,70
+2,Person in a communal establishment,93,93 years,1,Female,292
+2,Person in a communal establishment,93,93 years,2,Male,75
+2,Person in a communal establishment,94,94 years,1,Female,281
+2,Person in a communal establishment,94,94 years,2,Male,53
+2,Person in a communal establishment,95,95 years,1,Female,201
+2,Person in a communal establishment,95,95 years,2,Male,48
+2,Person in a communal establishment,96,96 years,1,Female,168
+2,Person in a communal establishment,96,96 years,2,Male,36
+2,Person in a communal establishment,97,97 years,1,Female,136
+2,Person in a communal establishment,97,97 years,2,Male,29
+2,Person in a communal establishment,98,98 years,1,Female,101
+2,Person in a communal establishment,98,98 years,2,Male,30
+2,Person in a communal establishment,99,99 years,1,Female,82
+2,Person in a communal establishment,99,99 years,2,Male,9
+2,Person in a communal establishment,100,100+ years,1,Female,100
+2,Person in a communal establishment,100,100+ years,2,Male,16

@@ -1,0 +1,1514 @@
+# HMRC Annual savings statistics, September 2026: the Lifetime ISA tables (published
+# 16 September 2026), for PolicyEngine/microcosm#1415. Written by
+# packages/hmrc/isa_statistics_2026/build_package.py from the pinned workbook.
+#
+# The workbook has withdrawals only: Table 1a by tax year and Table 1b by tax month.
+# Lifetime ISA accounts and amounts subscribed are in the ISA tables' Table 9.4
+# (hmrc-isa-statistics-2026); the government bonus is published in neither. Ported: Table
+# 1a's counts and values for 2018-19 to 2025-26. Not ported: Table 1b (the same flows by
+# month) and Table 1a's two average columns (quotients of ported cells). HMRC rounds the
+# numbers of individuals to the nearest 50.
+#
+schema_version: ledger.source_package.v1
+package_id: hmrc-lisa-statistics-2026
+label: 'HMRC Lifetime ISA statistics, September 2026: yearly withdrawals for house purchases and unauthorised
+  withdrawals, 2018-19 to 2025-26 (Table 1a)'
+dimension_labels:
+  hmrc.tax_year: Tax year
+  lisa_withdrawal_reason: Lifetime ISA withdrawal reason
+dimension_value_labels:
+  lisa_withdrawal_reason:
+    house_purchase: Withdrawal for a house purchase
+    unauthorised: Unauthorised withdrawal
+artifact:
+  source_name: hmrc
+  source_table: 'Lifetime Individual Savings Account (LISA) tables: September 2026'
+  resource_package: db
+  resource_directory: data/hmrc/lisa_statistics_2026
+  manifest: manifest.yaml
+  vintage: annual_savings_statistics_2026
+  extracted_at: '2026-10-28'
+  extraction_method: ODS whole-workbook used-range parse with numeric-text coercion
+  parser: ods_numeric_text_used_range
+  artifact_year: 2026
+record_sets:
+- record_set_id: hmrc.lisa_statistics_2026.table1a.ty2018
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: hmrc.lisa_statistics_2026.table1a.ty2018.v1
+  source_record_id_prefix: hmrc.lisa_statistics_2026.table1a.ty2018
+  sheet_name: Lifetime_ISA_sheet
+  period_type: tax_year
+  period: 2018
+  period_coverage:
+    start_date: '2018-04-06'
+    end_date: '2019-04-05'
+    basis: tax
+    source_period_label: 2018 to 2019
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: lisa_holder
+  domain: individual_savings_accounts
+  groupby_dimension: hmrc.tax_year
+  rows:
+  - value_id: tax_year_2018
+    label: Tax year 2018 to 2019
+    ordinal: 0
+    row_number: 14
+    expected_row_header_column: A
+    expected_row_header: 2018 to 2019
+    table_record_kind: detail
+    guard_cells:
+    - column: A
+      row: 12
+      expected_value: 'Table 1a: Yearly LISA withdrawals'
+      label: Table title
+  measures:
+  - measure_id: house_purchase_withdrawers
+    label: Number of individuals withdrawing for a house purchase
+    ordinal: 0
+    column: B
+    source_column_id: house_purchase_withdrawers
+    expected_column_header_row: 13
+    expected_column_header: Number of individuals withdrawing for a house purchase
+    concept: hmrc.lisa_withdrawers
+    source_concept: hmrc.lisa_withdrawers
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/annual-savings-statistics-2026
+    concept_evidence_notes: Lifetime ISA Table 1a, yearly withdrawals. The data underpinning these figures
+      comes from monthly electronic uploads from LISA providers to HM Revenue & Customs. Some individuals
+      may have made withdrawals from their account in multiple months. Therefore, the annual figure for
+      the number of individuals making withdrawals from their accounts may be less than the sum of the
+      monthly figures. The figures for the number of individuals are rounded to the nearest 50, the figures
+      for the total withdrawal values are rounded to the nearest £1000, and the figures for the average
+      withdrawal sizes are rounded to the nearest £1.
+    unit: count
+    aggregation: sum
+    value_scale: 1
+    expected_cell_type: number
+    filters:
+      lisa_withdrawal_reason: house_purchase
+    constraints:
+    - variable: lisa_withdrawal_reason
+      operator: ==
+      value: house_purchase
+      label: Lifetime ISA withdrawal reason
+  - measure_id: house_purchase_withdrawal_value
+    label: Total value of house purchase withdrawals
+    ordinal: 1
+    column: C
+    source_column_id: house_purchase_withdrawal_value
+    expected_column_header_row: 13
+    expected_column_header: Total value of house purchase withdrawals, £
+    concept: hmrc.lisa_withdrawal_value
+    source_concept: hmrc.lisa_withdrawal_value
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/annual-savings-statistics-2026
+    concept_evidence_notes: Lifetime ISA Table 1a, yearly withdrawals. The data underpinning these figures
+      comes from monthly electronic uploads from LISA providers to HM Revenue & Customs. Some individuals
+      may have made withdrawals from their account in multiple months. Therefore, the annual figure for
+      the number of individuals making withdrawals from their accounts may be less than the sum of the
+      monthly figures. The figures for the number of individuals are rounded to the nearest 50, the figures
+      for the total withdrawal values are rounded to the nearest £1000, and the figures for the average
+      withdrawal sizes are rounded to the nearest £1.
+    unit: gbp
+    aggregation: sum
+    value_scale: 1
+    expected_cell_type: number
+    filters:
+      lisa_withdrawal_reason: house_purchase
+    constraints:
+    - variable: lisa_withdrawal_reason
+      operator: ==
+      value: house_purchase
+      label: Lifetime ISA withdrawal reason
+  - measure_id: unauthorised_withdrawers
+    label: Number of individuals making unauthorised withdrawals
+    ordinal: 2
+    column: E
+    source_column_id: unauthorised_withdrawers
+    expected_column_header_row: 13
+    expected_column_header: Number of individuals making unauthorised withdrawals
+    concept: hmrc.lisa_withdrawers
+    source_concept: hmrc.lisa_withdrawers
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/annual-savings-statistics-2026
+    concept_evidence_notes: Lifetime ISA Table 1a, yearly withdrawals. The data underpinning these figures
+      comes from monthly electronic uploads from LISA providers to HM Revenue & Customs. Some individuals
+      may have made withdrawals from their account in multiple months. Therefore, the annual figure for
+      the number of individuals making withdrawals from their accounts may be less than the sum of the
+      monthly figures. The figures for the number of individuals are rounded to the nearest 50, the figures
+      for the total withdrawal values are rounded to the nearest £1000, and the figures for the average
+      withdrawal sizes are rounded to the nearest £1.
+    unit: count
+    aggregation: sum
+    value_scale: 1
+    expected_cell_type: number
+    filters:
+      lisa_withdrawal_reason: unauthorised
+    constraints:
+    - variable: lisa_withdrawal_reason
+      operator: ==
+      value: unauthorised
+      label: Lifetime ISA withdrawal reason
+  - measure_id: unauthorised_withdrawal_value
+    label: Total value of unauthorised withdrawals
+    ordinal: 3
+    column: F
+    source_column_id: unauthorised_withdrawal_value
+    expected_column_header_row: 13
+    expected_column_header: Total value of unauthorised withdrawals, £
+    concept: hmrc.lisa_withdrawal_value
+    source_concept: hmrc.lisa_withdrawal_value
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/annual-savings-statistics-2026
+    concept_evidence_notes: Lifetime ISA Table 1a, yearly withdrawals. The data underpinning these figures
+      comes from monthly electronic uploads from LISA providers to HM Revenue & Customs. Some individuals
+      may have made withdrawals from their account in multiple months. Therefore, the annual figure for
+      the number of individuals making withdrawals from their accounts may be less than the sum of the
+      monthly figures. The figures for the number of individuals are rounded to the nearest 50, the figures
+      for the total withdrawal values are rounded to the nearest £1000, and the figures for the average
+      withdrawal sizes are rounded to the nearest £1.
+    unit: gbp
+    aggregation: sum
+    value_scale: 1
+    expected_cell_type: number
+    filters:
+      lisa_withdrawal_reason: unauthorised
+    constraints:
+    - variable: lisa_withdrawal_reason
+      operator: ==
+      value: unauthorised
+      label: Lifetime ISA withdrawal reason
+  - measure_id: withdrawal_charges
+    label: Total value of withdrawal charges
+    ordinal: 4
+    column: G
+    source_column_id: withdrawal_charges
+    expected_column_header_row: 13
+    expected_column_header: Total value of withdrawal charges, £
+    concept: hmrc.lisa_withdrawal_charges
+    source_concept: hmrc.lisa_withdrawal_charges
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/annual-savings-statistics-2026
+    concept_evidence_notes: Lifetime ISA Table 1a, yearly withdrawals. The data underpinning these figures
+      comes from monthly electronic uploads from LISA providers to HM Revenue & Customs. Some individuals
+      may have made withdrawals from their account in multiple months. Therefore, the annual figure for
+      the number of individuals making withdrawals from their accounts may be less than the sum of the
+      monthly figures. The figures for the number of individuals are rounded to the nearest 50, the figures
+      for the total withdrawal values are rounded to the nearest £1000, and the figures for the average
+      withdrawal sizes are rounded to the nearest £1.
+    unit: gbp
+    aggregation: sum
+    value_scale: 1
+    expected_cell_type: number
+    filters:
+      lisa_withdrawal_reason: unauthorised
+    constraints:
+    - variable: lisa_withdrawal_reason
+      operator: ==
+      value: unauthorised
+      label: Lifetime ISA withdrawal reason
+- record_set_id: hmrc.lisa_statistics_2026.table1a.ty2019
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: hmrc.lisa_statistics_2026.table1a.ty2019.v1
+  source_record_id_prefix: hmrc.lisa_statistics_2026.table1a.ty2019
+  sheet_name: Lifetime_ISA_sheet
+  period_type: tax_year
+  period: 2019
+  period_coverage:
+    start_date: '2019-04-06'
+    end_date: '2020-04-05'
+    basis: tax
+    source_period_label: 2019 to 2020
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: lisa_holder
+  domain: individual_savings_accounts
+  groupby_dimension: hmrc.tax_year
+  rows:
+  - value_id: tax_year_2019
+    label: Tax year 2019 to 2020
+    ordinal: 0
+    row_number: 15
+    expected_row_header_column: A
+    expected_row_header: 2019 to 2020
+    table_record_kind: detail
+    guard_cells:
+    - column: A
+      row: 12
+      expected_value: 'Table 1a: Yearly LISA withdrawals'
+      label: Table title
+  measures:
+  - measure_id: house_purchase_withdrawers
+    label: Number of individuals withdrawing for a house purchase
+    ordinal: 0
+    column: B
+    source_column_id: house_purchase_withdrawers
+    expected_column_header_row: 13
+    expected_column_header: Number of individuals withdrawing for a house purchase
+    concept: hmrc.lisa_withdrawers
+    source_concept: hmrc.lisa_withdrawers
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/annual-savings-statistics-2026
+    concept_evidence_notes: Lifetime ISA Table 1a, yearly withdrawals. The data underpinning these figures
+      comes from monthly electronic uploads from LISA providers to HM Revenue & Customs. Some individuals
+      may have made withdrawals from their account in multiple months. Therefore, the annual figure for
+      the number of individuals making withdrawals from their accounts may be less than the sum of the
+      monthly figures. The figures for the number of individuals are rounded to the nearest 50, the figures
+      for the total withdrawal values are rounded to the nearest £1000, and the figures for the average
+      withdrawal sizes are rounded to the nearest £1.
+    unit: count
+    aggregation: sum
+    value_scale: 1
+    expected_cell_type: number
+    filters:
+      lisa_withdrawal_reason: house_purchase
+    constraints:
+    - variable: lisa_withdrawal_reason
+      operator: ==
+      value: house_purchase
+      label: Lifetime ISA withdrawal reason
+  - measure_id: house_purchase_withdrawal_value
+    label: Total value of house purchase withdrawals
+    ordinal: 1
+    column: C
+    source_column_id: house_purchase_withdrawal_value
+    expected_column_header_row: 13
+    expected_column_header: Total value of house purchase withdrawals, £
+    concept: hmrc.lisa_withdrawal_value
+    source_concept: hmrc.lisa_withdrawal_value
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/annual-savings-statistics-2026
+    concept_evidence_notes: Lifetime ISA Table 1a, yearly withdrawals. The data underpinning these figures
+      comes from monthly electronic uploads from LISA providers to HM Revenue & Customs. Some individuals
+      may have made withdrawals from their account in multiple months. Therefore, the annual figure for
+      the number of individuals making withdrawals from their accounts may be less than the sum of the
+      monthly figures. The figures for the number of individuals are rounded to the nearest 50, the figures
+      for the total withdrawal values are rounded to the nearest £1000, and the figures for the average
+      withdrawal sizes are rounded to the nearest £1.
+    unit: gbp
+    aggregation: sum
+    value_scale: 1
+    expected_cell_type: number
+    filters:
+      lisa_withdrawal_reason: house_purchase
+    constraints:
+    - variable: lisa_withdrawal_reason
+      operator: ==
+      value: house_purchase
+      label: Lifetime ISA withdrawal reason
+  - measure_id: unauthorised_withdrawers
+    label: Number of individuals making unauthorised withdrawals
+    ordinal: 2
+    column: E
+    source_column_id: unauthorised_withdrawers
+    expected_column_header_row: 13
+    expected_column_header: Number of individuals making unauthorised withdrawals
+    concept: hmrc.lisa_withdrawers
+    source_concept: hmrc.lisa_withdrawers
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/annual-savings-statistics-2026
+    concept_evidence_notes: Lifetime ISA Table 1a, yearly withdrawals. The data underpinning these figures
+      comes from monthly electronic uploads from LISA providers to HM Revenue & Customs. Some individuals
+      may have made withdrawals from their account in multiple months. Therefore, the annual figure for
+      the number of individuals making withdrawals from their accounts may be less than the sum of the
+      monthly figures. The figures for the number of individuals are rounded to the nearest 50, the figures
+      for the total withdrawal values are rounded to the nearest £1000, and the figures for the average
+      withdrawal sizes are rounded to the nearest £1.
+    unit: count
+    aggregation: sum
+    value_scale: 1
+    expected_cell_type: number
+    filters:
+      lisa_withdrawal_reason: unauthorised
+    constraints:
+    - variable: lisa_withdrawal_reason
+      operator: ==
+      value: unauthorised
+      label: Lifetime ISA withdrawal reason
+  - measure_id: unauthorised_withdrawal_value
+    label: Total value of unauthorised withdrawals
+    ordinal: 3
+    column: F
+    source_column_id: unauthorised_withdrawal_value
+    expected_column_header_row: 13
+    expected_column_header: Total value of unauthorised withdrawals, £
+    concept: hmrc.lisa_withdrawal_value
+    source_concept: hmrc.lisa_withdrawal_value
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/annual-savings-statistics-2026
+    concept_evidence_notes: Lifetime ISA Table 1a, yearly withdrawals. The data underpinning these figures
+      comes from monthly electronic uploads from LISA providers to HM Revenue & Customs. Some individuals
+      may have made withdrawals from their account in multiple months. Therefore, the annual figure for
+      the number of individuals making withdrawals from their accounts may be less than the sum of the
+      monthly figures. The figures for the number of individuals are rounded to the nearest 50, the figures
+      for the total withdrawal values are rounded to the nearest £1000, and the figures for the average
+      withdrawal sizes are rounded to the nearest £1.
+    unit: gbp
+    aggregation: sum
+    value_scale: 1
+    expected_cell_type: number
+    filters:
+      lisa_withdrawal_reason: unauthorised
+    constraints:
+    - variable: lisa_withdrawal_reason
+      operator: ==
+      value: unauthorised
+      label: Lifetime ISA withdrawal reason
+  - measure_id: withdrawal_charges
+    label: Total value of withdrawal charges
+    ordinal: 4
+    column: G
+    source_column_id: withdrawal_charges
+    expected_column_header_row: 13
+    expected_column_header: Total value of withdrawal charges, £
+    concept: hmrc.lisa_withdrawal_charges
+    source_concept: hmrc.lisa_withdrawal_charges
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/annual-savings-statistics-2026
+    concept_evidence_notes: Lifetime ISA Table 1a, yearly withdrawals. The data underpinning these figures
+      comes from monthly electronic uploads from LISA providers to HM Revenue & Customs. Some individuals
+      may have made withdrawals from their account in multiple months. Therefore, the annual figure for
+      the number of individuals making withdrawals from their accounts may be less than the sum of the
+      monthly figures. The figures for the number of individuals are rounded to the nearest 50, the figures
+      for the total withdrawal values are rounded to the nearest £1000, and the figures for the average
+      withdrawal sizes are rounded to the nearest £1.
+    unit: gbp
+    aggregation: sum
+    value_scale: 1
+    expected_cell_type: number
+    filters:
+      lisa_withdrawal_reason: unauthorised
+    constraints:
+    - variable: lisa_withdrawal_reason
+      operator: ==
+      value: unauthorised
+      label: Lifetime ISA withdrawal reason
+- record_set_id: hmrc.lisa_statistics_2026.table1a.ty2020
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: hmrc.lisa_statistics_2026.table1a.ty2020.v1
+  source_record_id_prefix: hmrc.lisa_statistics_2026.table1a.ty2020
+  sheet_name: Lifetime_ISA_sheet
+  period_type: tax_year
+  period: 2020
+  period_coverage:
+    start_date: '2020-04-06'
+    end_date: '2021-04-05'
+    basis: tax
+    source_period_label: 2020 to 2021
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: lisa_holder
+  domain: individual_savings_accounts
+  groupby_dimension: hmrc.tax_year
+  rows:
+  - value_id: tax_year_2020
+    label: Tax year 2020 to 2021
+    ordinal: 0
+    row_number: 16
+    expected_row_header_column: A
+    expected_row_header: 2020 to 2021
+    table_record_kind: detail
+    guard_cells:
+    - column: A
+      row: 12
+      expected_value: 'Table 1a: Yearly LISA withdrawals'
+      label: Table title
+  measures:
+  - measure_id: house_purchase_withdrawers
+    label: Number of individuals withdrawing for a house purchase
+    ordinal: 0
+    column: B
+    source_column_id: house_purchase_withdrawers
+    expected_column_header_row: 13
+    expected_column_header: Number of individuals withdrawing for a house purchase
+    concept: hmrc.lisa_withdrawers
+    source_concept: hmrc.lisa_withdrawers
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/annual-savings-statistics-2026
+    concept_evidence_notes: Lifetime ISA Table 1a, yearly withdrawals. The data underpinning these figures
+      comes from monthly electronic uploads from LISA providers to HM Revenue & Customs. Some individuals
+      may have made withdrawals from their account in multiple months. Therefore, the annual figure for
+      the number of individuals making withdrawals from their accounts may be less than the sum of the
+      monthly figures. The figures for the number of individuals are rounded to the nearest 50, the figures
+      for the total withdrawal values are rounded to the nearest £1000, and the figures for the average
+      withdrawal sizes are rounded to the nearest £1.
+    unit: count
+    aggregation: sum
+    value_scale: 1
+    expected_cell_type: number
+    filters:
+      lisa_withdrawal_reason: house_purchase
+    constraints:
+    - variable: lisa_withdrawal_reason
+      operator: ==
+      value: house_purchase
+      label: Lifetime ISA withdrawal reason
+  - measure_id: house_purchase_withdrawal_value
+    label: Total value of house purchase withdrawals
+    ordinal: 1
+    column: C
+    source_column_id: house_purchase_withdrawal_value
+    expected_column_header_row: 13
+    expected_column_header: Total value of house purchase withdrawals, £
+    concept: hmrc.lisa_withdrawal_value
+    source_concept: hmrc.lisa_withdrawal_value
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/annual-savings-statistics-2026
+    concept_evidence_notes: Lifetime ISA Table 1a, yearly withdrawals. The data underpinning these figures
+      comes from monthly electronic uploads from LISA providers to HM Revenue & Customs. Some individuals
+      may have made withdrawals from their account in multiple months. Therefore, the annual figure for
+      the number of individuals making withdrawals from their accounts may be less than the sum of the
+      monthly figures. The figures for the number of individuals are rounded to the nearest 50, the figures
+      for the total withdrawal values are rounded to the nearest £1000, and the figures for the average
+      withdrawal sizes are rounded to the nearest £1.
+    unit: gbp
+    aggregation: sum
+    value_scale: 1
+    expected_cell_type: number
+    filters:
+      lisa_withdrawal_reason: house_purchase
+    constraints:
+    - variable: lisa_withdrawal_reason
+      operator: ==
+      value: house_purchase
+      label: Lifetime ISA withdrawal reason
+  - measure_id: unauthorised_withdrawers
+    label: Number of individuals making unauthorised withdrawals
+    ordinal: 2
+    column: E
+    source_column_id: unauthorised_withdrawers
+    expected_column_header_row: 13
+    expected_column_header: Number of individuals making unauthorised withdrawals
+    concept: hmrc.lisa_withdrawers
+    source_concept: hmrc.lisa_withdrawers
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/annual-savings-statistics-2026
+    concept_evidence_notes: Lifetime ISA Table 1a, yearly withdrawals. The data underpinning these figures
+      comes from monthly electronic uploads from LISA providers to HM Revenue & Customs. Some individuals
+      may have made withdrawals from their account in multiple months. Therefore, the annual figure for
+      the number of individuals making withdrawals from their accounts may be less than the sum of the
+      monthly figures. The figures for the number of individuals are rounded to the nearest 50, the figures
+      for the total withdrawal values are rounded to the nearest £1000, and the figures for the average
+      withdrawal sizes are rounded to the nearest £1.
+    unit: count
+    aggregation: sum
+    value_scale: 1
+    expected_cell_type: number
+    filters:
+      lisa_withdrawal_reason: unauthorised
+    constraints:
+    - variable: lisa_withdrawal_reason
+      operator: ==
+      value: unauthorised
+      label: Lifetime ISA withdrawal reason
+  - measure_id: unauthorised_withdrawal_value
+    label: Total value of unauthorised withdrawals
+    ordinal: 3
+    column: F
+    source_column_id: unauthorised_withdrawal_value
+    expected_column_header_row: 13
+    expected_column_header: Total value of unauthorised withdrawals, £
+    concept: hmrc.lisa_withdrawal_value
+    source_concept: hmrc.lisa_withdrawal_value
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/annual-savings-statistics-2026
+    concept_evidence_notes: Lifetime ISA Table 1a, yearly withdrawals. The data underpinning these figures
+      comes from monthly electronic uploads from LISA providers to HM Revenue & Customs. Some individuals
+      may have made withdrawals from their account in multiple months. Therefore, the annual figure for
+      the number of individuals making withdrawals from their accounts may be less than the sum of the
+      monthly figures. The figures for the number of individuals are rounded to the nearest 50, the figures
+      for the total withdrawal values are rounded to the nearest £1000, and the figures for the average
+      withdrawal sizes are rounded to the nearest £1.
+    unit: gbp
+    aggregation: sum
+    value_scale: 1
+    expected_cell_type: number
+    filters:
+      lisa_withdrawal_reason: unauthorised
+    constraints:
+    - variable: lisa_withdrawal_reason
+      operator: ==
+      value: unauthorised
+      label: Lifetime ISA withdrawal reason
+  - measure_id: withdrawal_charges
+    label: Total value of withdrawal charges
+    ordinal: 4
+    column: G
+    source_column_id: withdrawal_charges
+    expected_column_header_row: 13
+    expected_column_header: Total value of withdrawal charges, £
+    concept: hmrc.lisa_withdrawal_charges
+    source_concept: hmrc.lisa_withdrawal_charges
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/annual-savings-statistics-2026
+    concept_evidence_notes: Lifetime ISA Table 1a, yearly withdrawals. The data underpinning these figures
+      comes from monthly electronic uploads from LISA providers to HM Revenue & Customs. Some individuals
+      may have made withdrawals from their account in multiple months. Therefore, the annual figure for
+      the number of individuals making withdrawals from their accounts may be less than the sum of the
+      monthly figures. The figures for the number of individuals are rounded to the nearest 50, the figures
+      for the total withdrawal values are rounded to the nearest £1000, and the figures for the average
+      withdrawal sizes are rounded to the nearest £1.
+    unit: gbp
+    aggregation: sum
+    value_scale: 1
+    expected_cell_type: number
+    filters:
+      lisa_withdrawal_reason: unauthorised
+    constraints:
+    - variable: lisa_withdrawal_reason
+      operator: ==
+      value: unauthorised
+      label: Lifetime ISA withdrawal reason
+- record_set_id: hmrc.lisa_statistics_2026.table1a.ty2021
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: hmrc.lisa_statistics_2026.table1a.ty2021.v1
+  source_record_id_prefix: hmrc.lisa_statistics_2026.table1a.ty2021
+  sheet_name: Lifetime_ISA_sheet
+  period_type: tax_year
+  period: 2021
+  period_coverage:
+    start_date: '2021-04-06'
+    end_date: '2022-04-05'
+    basis: tax
+    source_period_label: 2021 to 2022
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: lisa_holder
+  domain: individual_savings_accounts
+  groupby_dimension: hmrc.tax_year
+  rows:
+  - value_id: tax_year_2021
+    label: Tax year 2021 to 2022
+    ordinal: 0
+    row_number: 17
+    expected_row_header_column: A
+    expected_row_header: 2021 to 2022
+    table_record_kind: detail
+    guard_cells:
+    - column: A
+      row: 12
+      expected_value: 'Table 1a: Yearly LISA withdrawals'
+      label: Table title
+  measures:
+  - measure_id: house_purchase_withdrawers
+    label: Number of individuals withdrawing for a house purchase
+    ordinal: 0
+    column: B
+    source_column_id: house_purchase_withdrawers
+    expected_column_header_row: 13
+    expected_column_header: Number of individuals withdrawing for a house purchase
+    concept: hmrc.lisa_withdrawers
+    source_concept: hmrc.lisa_withdrawers
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/annual-savings-statistics-2026
+    concept_evidence_notes: Lifetime ISA Table 1a, yearly withdrawals. The data underpinning these figures
+      comes from monthly electronic uploads from LISA providers to HM Revenue & Customs. Some individuals
+      may have made withdrawals from their account in multiple months. Therefore, the annual figure for
+      the number of individuals making withdrawals from their accounts may be less than the sum of the
+      monthly figures. The figures for the number of individuals are rounded to the nearest 50, the figures
+      for the total withdrawal values are rounded to the nearest £1000, and the figures for the average
+      withdrawal sizes are rounded to the nearest £1.
+    unit: count
+    aggregation: sum
+    value_scale: 1
+    expected_cell_type: number
+    filters:
+      lisa_withdrawal_reason: house_purchase
+    constraints:
+    - variable: lisa_withdrawal_reason
+      operator: ==
+      value: house_purchase
+      label: Lifetime ISA withdrawal reason
+  - measure_id: house_purchase_withdrawal_value
+    label: Total value of house purchase withdrawals
+    ordinal: 1
+    column: C
+    source_column_id: house_purchase_withdrawal_value
+    expected_column_header_row: 13
+    expected_column_header: Total value of house purchase withdrawals, £
+    concept: hmrc.lisa_withdrawal_value
+    source_concept: hmrc.lisa_withdrawal_value
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/annual-savings-statistics-2026
+    concept_evidence_notes: Lifetime ISA Table 1a, yearly withdrawals. The data underpinning these figures
+      comes from monthly electronic uploads from LISA providers to HM Revenue & Customs. Some individuals
+      may have made withdrawals from their account in multiple months. Therefore, the annual figure for
+      the number of individuals making withdrawals from their accounts may be less than the sum of the
+      monthly figures. The figures for the number of individuals are rounded to the nearest 50, the figures
+      for the total withdrawal values are rounded to the nearest £1000, and the figures for the average
+      withdrawal sizes are rounded to the nearest £1.
+    unit: gbp
+    aggregation: sum
+    value_scale: 1
+    expected_cell_type: number
+    filters:
+      lisa_withdrawal_reason: house_purchase
+    constraints:
+    - variable: lisa_withdrawal_reason
+      operator: ==
+      value: house_purchase
+      label: Lifetime ISA withdrawal reason
+  - measure_id: unauthorised_withdrawers
+    label: Number of individuals making unauthorised withdrawals
+    ordinal: 2
+    column: E
+    source_column_id: unauthorised_withdrawers
+    expected_column_header_row: 13
+    expected_column_header: Number of individuals making unauthorised withdrawals
+    concept: hmrc.lisa_withdrawers
+    source_concept: hmrc.lisa_withdrawers
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/annual-savings-statistics-2026
+    concept_evidence_notes: Lifetime ISA Table 1a, yearly withdrawals. The data underpinning these figures
+      comes from monthly electronic uploads from LISA providers to HM Revenue & Customs. Some individuals
+      may have made withdrawals from their account in multiple months. Therefore, the annual figure for
+      the number of individuals making withdrawals from their accounts may be less than the sum of the
+      monthly figures. The figures for the number of individuals are rounded to the nearest 50, the figures
+      for the total withdrawal values are rounded to the nearest £1000, and the figures for the average
+      withdrawal sizes are rounded to the nearest £1.
+    unit: count
+    aggregation: sum
+    value_scale: 1
+    expected_cell_type: number
+    filters:
+      lisa_withdrawal_reason: unauthorised
+    constraints:
+    - variable: lisa_withdrawal_reason
+      operator: ==
+      value: unauthorised
+      label: Lifetime ISA withdrawal reason
+  - measure_id: unauthorised_withdrawal_value
+    label: Total value of unauthorised withdrawals
+    ordinal: 3
+    column: F
+    source_column_id: unauthorised_withdrawal_value
+    expected_column_header_row: 13
+    expected_column_header: Total value of unauthorised withdrawals, £
+    concept: hmrc.lisa_withdrawal_value
+    source_concept: hmrc.lisa_withdrawal_value
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/annual-savings-statistics-2026
+    concept_evidence_notes: Lifetime ISA Table 1a, yearly withdrawals. The data underpinning these figures
+      comes from monthly electronic uploads from LISA providers to HM Revenue & Customs. Some individuals
+      may have made withdrawals from their account in multiple months. Therefore, the annual figure for
+      the number of individuals making withdrawals from their accounts may be less than the sum of the
+      monthly figures. The figures for the number of individuals are rounded to the nearest 50, the figures
+      for the total withdrawal values are rounded to the nearest £1000, and the figures for the average
+      withdrawal sizes are rounded to the nearest £1.
+    unit: gbp
+    aggregation: sum
+    value_scale: 1
+    expected_cell_type: number
+    filters:
+      lisa_withdrawal_reason: unauthorised
+    constraints:
+    - variable: lisa_withdrawal_reason
+      operator: ==
+      value: unauthorised
+      label: Lifetime ISA withdrawal reason
+  - measure_id: withdrawal_charges
+    label: Total value of withdrawal charges
+    ordinal: 4
+    column: G
+    source_column_id: withdrawal_charges
+    expected_column_header_row: 13
+    expected_column_header: Total value of withdrawal charges, £
+    concept: hmrc.lisa_withdrawal_charges
+    source_concept: hmrc.lisa_withdrawal_charges
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/annual-savings-statistics-2026
+    concept_evidence_notes: Lifetime ISA Table 1a, yearly withdrawals. The data underpinning these figures
+      comes from monthly electronic uploads from LISA providers to HM Revenue & Customs. Some individuals
+      may have made withdrawals from their account in multiple months. Therefore, the annual figure for
+      the number of individuals making withdrawals from their accounts may be less than the sum of the
+      monthly figures. The figures for the number of individuals are rounded to the nearest 50, the figures
+      for the total withdrawal values are rounded to the nearest £1000, and the figures for the average
+      withdrawal sizes are rounded to the nearest £1.
+    unit: gbp
+    aggregation: sum
+    value_scale: 1
+    expected_cell_type: number
+    filters:
+      lisa_withdrawal_reason: unauthorised
+    constraints:
+    - variable: lisa_withdrawal_reason
+      operator: ==
+      value: unauthorised
+      label: Lifetime ISA withdrawal reason
+- record_set_id: hmrc.lisa_statistics_2026.table1a.ty2022
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: hmrc.lisa_statistics_2026.table1a.ty2022.v1
+  source_record_id_prefix: hmrc.lisa_statistics_2026.table1a.ty2022
+  sheet_name: Lifetime_ISA_sheet
+  period_type: tax_year
+  period: 2022
+  period_coverage:
+    start_date: '2022-04-06'
+    end_date: '2023-04-05'
+    basis: tax
+    source_period_label: 2022 to 2023
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: lisa_holder
+  domain: individual_savings_accounts
+  groupby_dimension: hmrc.tax_year
+  rows:
+  - value_id: tax_year_2022
+    label: Tax year 2022 to 2023
+    ordinal: 0
+    row_number: 18
+    expected_row_header_column: A
+    expected_row_header: 2022 to 2023
+    table_record_kind: detail
+    guard_cells:
+    - column: A
+      row: 12
+      expected_value: 'Table 1a: Yearly LISA withdrawals'
+      label: Table title
+  measures:
+  - measure_id: house_purchase_withdrawers
+    label: Number of individuals withdrawing for a house purchase
+    ordinal: 0
+    column: B
+    source_column_id: house_purchase_withdrawers
+    expected_column_header_row: 13
+    expected_column_header: Number of individuals withdrawing for a house purchase
+    concept: hmrc.lisa_withdrawers
+    source_concept: hmrc.lisa_withdrawers
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/annual-savings-statistics-2026
+    concept_evidence_notes: Lifetime ISA Table 1a, yearly withdrawals. The data underpinning these figures
+      comes from monthly electronic uploads from LISA providers to HM Revenue & Customs. Some individuals
+      may have made withdrawals from their account in multiple months. Therefore, the annual figure for
+      the number of individuals making withdrawals from their accounts may be less than the sum of the
+      monthly figures. The figures for the number of individuals are rounded to the nearest 50, the figures
+      for the total withdrawal values are rounded to the nearest £1000, and the figures for the average
+      withdrawal sizes are rounded to the nearest £1.
+    unit: count
+    aggregation: sum
+    value_scale: 1
+    expected_cell_type: number
+    filters:
+      lisa_withdrawal_reason: house_purchase
+    constraints:
+    - variable: lisa_withdrawal_reason
+      operator: ==
+      value: house_purchase
+      label: Lifetime ISA withdrawal reason
+  - measure_id: house_purchase_withdrawal_value
+    label: Total value of house purchase withdrawals
+    ordinal: 1
+    column: C
+    source_column_id: house_purchase_withdrawal_value
+    expected_column_header_row: 13
+    expected_column_header: Total value of house purchase withdrawals, £
+    concept: hmrc.lisa_withdrawal_value
+    source_concept: hmrc.lisa_withdrawal_value
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/annual-savings-statistics-2026
+    concept_evidence_notes: Lifetime ISA Table 1a, yearly withdrawals. The data underpinning these figures
+      comes from monthly electronic uploads from LISA providers to HM Revenue & Customs. Some individuals
+      may have made withdrawals from their account in multiple months. Therefore, the annual figure for
+      the number of individuals making withdrawals from their accounts may be less than the sum of the
+      monthly figures. The figures for the number of individuals are rounded to the nearest 50, the figures
+      for the total withdrawal values are rounded to the nearest £1000, and the figures for the average
+      withdrawal sizes are rounded to the nearest £1.
+    unit: gbp
+    aggregation: sum
+    value_scale: 1
+    expected_cell_type: number
+    filters:
+      lisa_withdrawal_reason: house_purchase
+    constraints:
+    - variable: lisa_withdrawal_reason
+      operator: ==
+      value: house_purchase
+      label: Lifetime ISA withdrawal reason
+  - measure_id: unauthorised_withdrawers
+    label: Number of individuals making unauthorised withdrawals
+    ordinal: 2
+    column: E
+    source_column_id: unauthorised_withdrawers
+    expected_column_header_row: 13
+    expected_column_header: Number of individuals making unauthorised withdrawals
+    concept: hmrc.lisa_withdrawers
+    source_concept: hmrc.lisa_withdrawers
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/annual-savings-statistics-2026
+    concept_evidence_notes: Lifetime ISA Table 1a, yearly withdrawals. The data underpinning these figures
+      comes from monthly electronic uploads from LISA providers to HM Revenue & Customs. Some individuals
+      may have made withdrawals from their account in multiple months. Therefore, the annual figure for
+      the number of individuals making withdrawals from their accounts may be less than the sum of the
+      monthly figures. The figures for the number of individuals are rounded to the nearest 50, the figures
+      for the total withdrawal values are rounded to the nearest £1000, and the figures for the average
+      withdrawal sizes are rounded to the nearest £1.
+    unit: count
+    aggregation: sum
+    value_scale: 1
+    expected_cell_type: number
+    filters:
+      lisa_withdrawal_reason: unauthorised
+    constraints:
+    - variable: lisa_withdrawal_reason
+      operator: ==
+      value: unauthorised
+      label: Lifetime ISA withdrawal reason
+  - measure_id: unauthorised_withdrawal_value
+    label: Total value of unauthorised withdrawals
+    ordinal: 3
+    column: F
+    source_column_id: unauthorised_withdrawal_value
+    expected_column_header_row: 13
+    expected_column_header: Total value of unauthorised withdrawals, £
+    concept: hmrc.lisa_withdrawal_value
+    source_concept: hmrc.lisa_withdrawal_value
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/annual-savings-statistics-2026
+    concept_evidence_notes: Lifetime ISA Table 1a, yearly withdrawals. The data underpinning these figures
+      comes from monthly electronic uploads from LISA providers to HM Revenue & Customs. Some individuals
+      may have made withdrawals from their account in multiple months. Therefore, the annual figure for
+      the number of individuals making withdrawals from their accounts may be less than the sum of the
+      monthly figures. The figures for the number of individuals are rounded to the nearest 50, the figures
+      for the total withdrawal values are rounded to the nearest £1000, and the figures for the average
+      withdrawal sizes are rounded to the nearest £1.
+    unit: gbp
+    aggregation: sum
+    value_scale: 1
+    expected_cell_type: number
+    filters:
+      lisa_withdrawal_reason: unauthorised
+    constraints:
+    - variable: lisa_withdrawal_reason
+      operator: ==
+      value: unauthorised
+      label: Lifetime ISA withdrawal reason
+  - measure_id: withdrawal_charges
+    label: Total value of withdrawal charges
+    ordinal: 4
+    column: G
+    source_column_id: withdrawal_charges
+    expected_column_header_row: 13
+    expected_column_header: Total value of withdrawal charges, £
+    concept: hmrc.lisa_withdrawal_charges
+    source_concept: hmrc.lisa_withdrawal_charges
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/annual-savings-statistics-2026
+    concept_evidence_notes: Lifetime ISA Table 1a, yearly withdrawals. The data underpinning these figures
+      comes from monthly electronic uploads from LISA providers to HM Revenue & Customs. Some individuals
+      may have made withdrawals from their account in multiple months. Therefore, the annual figure for
+      the number of individuals making withdrawals from their accounts may be less than the sum of the
+      monthly figures. The figures for the number of individuals are rounded to the nearest 50, the figures
+      for the total withdrawal values are rounded to the nearest £1000, and the figures for the average
+      withdrawal sizes are rounded to the nearest £1.
+    unit: gbp
+    aggregation: sum
+    value_scale: 1
+    expected_cell_type: number
+    filters:
+      lisa_withdrawal_reason: unauthorised
+    constraints:
+    - variable: lisa_withdrawal_reason
+      operator: ==
+      value: unauthorised
+      label: Lifetime ISA withdrawal reason
+- record_set_id: hmrc.lisa_statistics_2026.table1a.ty2023
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: hmrc.lisa_statistics_2026.table1a.ty2023.v1
+  source_record_id_prefix: hmrc.lisa_statistics_2026.table1a.ty2023
+  sheet_name: Lifetime_ISA_sheet
+  period_type: tax_year
+  period: 2023
+  period_coverage:
+    start_date: '2023-04-06'
+    end_date: '2024-04-05'
+    basis: tax
+    source_period_label: 2023 to 2024
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: lisa_holder
+  domain: individual_savings_accounts
+  groupby_dimension: hmrc.tax_year
+  rows:
+  - value_id: tax_year_2023
+    label: Tax year 2023 to 2024
+    ordinal: 0
+    row_number: 19
+    expected_row_header_column: A
+    expected_row_header: 2023 to 2024
+    table_record_kind: detail
+    guard_cells:
+    - column: A
+      row: 12
+      expected_value: 'Table 1a: Yearly LISA withdrawals'
+      label: Table title
+  measures:
+  - measure_id: house_purchase_withdrawers
+    label: Number of individuals withdrawing for a house purchase
+    ordinal: 0
+    column: B
+    source_column_id: house_purchase_withdrawers
+    expected_column_header_row: 13
+    expected_column_header: Number of individuals withdrawing for a house purchase
+    concept: hmrc.lisa_withdrawers
+    source_concept: hmrc.lisa_withdrawers
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/annual-savings-statistics-2026
+    concept_evidence_notes: Lifetime ISA Table 1a, yearly withdrawals. The data underpinning these figures
+      comes from monthly electronic uploads from LISA providers to HM Revenue & Customs. Some individuals
+      may have made withdrawals from their account in multiple months. Therefore, the annual figure for
+      the number of individuals making withdrawals from their accounts may be less than the sum of the
+      monthly figures. The figures for the number of individuals are rounded to the nearest 50, the figures
+      for the total withdrawal values are rounded to the nearest £1000, and the figures for the average
+      withdrawal sizes are rounded to the nearest £1.
+    unit: count
+    aggregation: sum
+    value_scale: 1
+    expected_cell_type: number
+    filters:
+      lisa_withdrawal_reason: house_purchase
+    constraints:
+    - variable: lisa_withdrawal_reason
+      operator: ==
+      value: house_purchase
+      label: Lifetime ISA withdrawal reason
+  - measure_id: house_purchase_withdrawal_value
+    label: Total value of house purchase withdrawals
+    ordinal: 1
+    column: C
+    source_column_id: house_purchase_withdrawal_value
+    expected_column_header_row: 13
+    expected_column_header: Total value of house purchase withdrawals, £
+    concept: hmrc.lisa_withdrawal_value
+    source_concept: hmrc.lisa_withdrawal_value
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/annual-savings-statistics-2026
+    concept_evidence_notes: Lifetime ISA Table 1a, yearly withdrawals. The data underpinning these figures
+      comes from monthly electronic uploads from LISA providers to HM Revenue & Customs. Some individuals
+      may have made withdrawals from their account in multiple months. Therefore, the annual figure for
+      the number of individuals making withdrawals from their accounts may be less than the sum of the
+      monthly figures. The figures for the number of individuals are rounded to the nearest 50, the figures
+      for the total withdrawal values are rounded to the nearest £1000, and the figures for the average
+      withdrawal sizes are rounded to the nearest £1.
+    unit: gbp
+    aggregation: sum
+    value_scale: 1
+    expected_cell_type: number
+    filters:
+      lisa_withdrawal_reason: house_purchase
+    constraints:
+    - variable: lisa_withdrawal_reason
+      operator: ==
+      value: house_purchase
+      label: Lifetime ISA withdrawal reason
+  - measure_id: unauthorised_withdrawers
+    label: Number of individuals making unauthorised withdrawals
+    ordinal: 2
+    column: E
+    source_column_id: unauthorised_withdrawers
+    expected_column_header_row: 13
+    expected_column_header: Number of individuals making unauthorised withdrawals
+    concept: hmrc.lisa_withdrawers
+    source_concept: hmrc.lisa_withdrawers
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/annual-savings-statistics-2026
+    concept_evidence_notes: Lifetime ISA Table 1a, yearly withdrawals. The data underpinning these figures
+      comes from monthly electronic uploads from LISA providers to HM Revenue & Customs. Some individuals
+      may have made withdrawals from their account in multiple months. Therefore, the annual figure for
+      the number of individuals making withdrawals from their accounts may be less than the sum of the
+      monthly figures. The figures for the number of individuals are rounded to the nearest 50, the figures
+      for the total withdrawal values are rounded to the nearest £1000, and the figures for the average
+      withdrawal sizes are rounded to the nearest £1.
+    unit: count
+    aggregation: sum
+    value_scale: 1
+    expected_cell_type: number
+    filters:
+      lisa_withdrawal_reason: unauthorised
+    constraints:
+    - variable: lisa_withdrawal_reason
+      operator: ==
+      value: unauthorised
+      label: Lifetime ISA withdrawal reason
+  - measure_id: unauthorised_withdrawal_value
+    label: Total value of unauthorised withdrawals
+    ordinal: 3
+    column: F
+    source_column_id: unauthorised_withdrawal_value
+    expected_column_header_row: 13
+    expected_column_header: Total value of unauthorised withdrawals, £
+    concept: hmrc.lisa_withdrawal_value
+    source_concept: hmrc.lisa_withdrawal_value
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/annual-savings-statistics-2026
+    concept_evidence_notes: Lifetime ISA Table 1a, yearly withdrawals. The data underpinning these figures
+      comes from monthly electronic uploads from LISA providers to HM Revenue & Customs. Some individuals
+      may have made withdrawals from their account in multiple months. Therefore, the annual figure for
+      the number of individuals making withdrawals from their accounts may be less than the sum of the
+      monthly figures. The figures for the number of individuals are rounded to the nearest 50, the figures
+      for the total withdrawal values are rounded to the nearest £1000, and the figures for the average
+      withdrawal sizes are rounded to the nearest £1.
+    unit: gbp
+    aggregation: sum
+    value_scale: 1
+    expected_cell_type: number
+    filters:
+      lisa_withdrawal_reason: unauthorised
+    constraints:
+    - variable: lisa_withdrawal_reason
+      operator: ==
+      value: unauthorised
+      label: Lifetime ISA withdrawal reason
+  - measure_id: withdrawal_charges
+    label: Total value of withdrawal charges
+    ordinal: 4
+    column: G
+    source_column_id: withdrawal_charges
+    expected_column_header_row: 13
+    expected_column_header: Total value of withdrawal charges, £
+    concept: hmrc.lisa_withdrawal_charges
+    source_concept: hmrc.lisa_withdrawal_charges
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/annual-savings-statistics-2026
+    concept_evidence_notes: Lifetime ISA Table 1a, yearly withdrawals. The data underpinning these figures
+      comes from monthly electronic uploads from LISA providers to HM Revenue & Customs. Some individuals
+      may have made withdrawals from their account in multiple months. Therefore, the annual figure for
+      the number of individuals making withdrawals from their accounts may be less than the sum of the
+      monthly figures. The figures for the number of individuals are rounded to the nearest 50, the figures
+      for the total withdrawal values are rounded to the nearest £1000, and the figures for the average
+      withdrawal sizes are rounded to the nearest £1.
+    unit: gbp
+    aggregation: sum
+    value_scale: 1
+    expected_cell_type: number
+    filters:
+      lisa_withdrawal_reason: unauthorised
+    constraints:
+    - variable: lisa_withdrawal_reason
+      operator: ==
+      value: unauthorised
+      label: Lifetime ISA withdrawal reason
+- record_set_id: hmrc.lisa_statistics_2026.table1a.ty2024
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: hmrc.lisa_statistics_2026.table1a.ty2024.v1
+  source_record_id_prefix: hmrc.lisa_statistics_2026.table1a.ty2024
+  sheet_name: Lifetime_ISA_sheet
+  period_type: tax_year
+  period: 2024
+  period_coverage:
+    start_date: '2024-04-06'
+    end_date: '2025-04-05'
+    basis: tax
+    source_period_label: 2024 to 2025
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: lisa_holder
+  domain: individual_savings_accounts
+  groupby_dimension: hmrc.tax_year
+  rows:
+  - value_id: tax_year_2024
+    label: Tax year 2024 to 2025
+    ordinal: 0
+    row_number: 20
+    expected_row_header_column: A
+    expected_row_header: 2024 to 2025
+    table_record_kind: detail
+    guard_cells:
+    - column: A
+      row: 12
+      expected_value: 'Table 1a: Yearly LISA withdrawals'
+      label: Table title
+  measures:
+  - measure_id: house_purchase_withdrawers
+    label: Number of individuals withdrawing for a house purchase
+    ordinal: 0
+    column: B
+    source_column_id: house_purchase_withdrawers
+    expected_column_header_row: 13
+    expected_column_header: Number of individuals withdrawing for a house purchase
+    concept: hmrc.lisa_withdrawers
+    source_concept: hmrc.lisa_withdrawers
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/annual-savings-statistics-2026
+    concept_evidence_notes: Lifetime ISA Table 1a, yearly withdrawals. The data underpinning these figures
+      comes from monthly electronic uploads from LISA providers to HM Revenue & Customs. Some individuals
+      may have made withdrawals from their account in multiple months. Therefore, the annual figure for
+      the number of individuals making withdrawals from their accounts may be less than the sum of the
+      monthly figures. The figures for the number of individuals are rounded to the nearest 50, the figures
+      for the total withdrawal values are rounded to the nearest £1000, and the figures for the average
+      withdrawal sizes are rounded to the nearest £1.
+    unit: count
+    aggregation: sum
+    value_scale: 1
+    expected_cell_type: number
+    filters:
+      lisa_withdrawal_reason: house_purchase
+    constraints:
+    - variable: lisa_withdrawal_reason
+      operator: ==
+      value: house_purchase
+      label: Lifetime ISA withdrawal reason
+  - measure_id: house_purchase_withdrawal_value
+    label: Total value of house purchase withdrawals
+    ordinal: 1
+    column: C
+    source_column_id: house_purchase_withdrawal_value
+    expected_column_header_row: 13
+    expected_column_header: Total value of house purchase withdrawals, £
+    concept: hmrc.lisa_withdrawal_value
+    source_concept: hmrc.lisa_withdrawal_value
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/annual-savings-statistics-2026
+    concept_evidence_notes: Lifetime ISA Table 1a, yearly withdrawals. The data underpinning these figures
+      comes from monthly electronic uploads from LISA providers to HM Revenue & Customs. Some individuals
+      may have made withdrawals from their account in multiple months. Therefore, the annual figure for
+      the number of individuals making withdrawals from their accounts may be less than the sum of the
+      monthly figures. The figures for the number of individuals are rounded to the nearest 50, the figures
+      for the total withdrawal values are rounded to the nearest £1000, and the figures for the average
+      withdrawal sizes are rounded to the nearest £1.
+    unit: gbp
+    aggregation: sum
+    value_scale: 1
+    expected_cell_type: number
+    filters:
+      lisa_withdrawal_reason: house_purchase
+    constraints:
+    - variable: lisa_withdrawal_reason
+      operator: ==
+      value: house_purchase
+      label: Lifetime ISA withdrawal reason
+  - measure_id: unauthorised_withdrawers
+    label: Number of individuals making unauthorised withdrawals
+    ordinal: 2
+    column: E
+    source_column_id: unauthorised_withdrawers
+    expected_column_header_row: 13
+    expected_column_header: Number of individuals making unauthorised withdrawals
+    concept: hmrc.lisa_withdrawers
+    source_concept: hmrc.lisa_withdrawers
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/annual-savings-statistics-2026
+    concept_evidence_notes: Lifetime ISA Table 1a, yearly withdrawals. The data underpinning these figures
+      comes from monthly electronic uploads from LISA providers to HM Revenue & Customs. Some individuals
+      may have made withdrawals from their account in multiple months. Therefore, the annual figure for
+      the number of individuals making withdrawals from their accounts may be less than the sum of the
+      monthly figures. The figures for the number of individuals are rounded to the nearest 50, the figures
+      for the total withdrawal values are rounded to the nearest £1000, and the figures for the average
+      withdrawal sizes are rounded to the nearest £1.
+    unit: count
+    aggregation: sum
+    value_scale: 1
+    expected_cell_type: number
+    filters:
+      lisa_withdrawal_reason: unauthorised
+    constraints:
+    - variable: lisa_withdrawal_reason
+      operator: ==
+      value: unauthorised
+      label: Lifetime ISA withdrawal reason
+  - measure_id: unauthorised_withdrawal_value
+    label: Total value of unauthorised withdrawals
+    ordinal: 3
+    column: F
+    source_column_id: unauthorised_withdrawal_value
+    expected_column_header_row: 13
+    expected_column_header: Total value of unauthorised withdrawals, £
+    concept: hmrc.lisa_withdrawal_value
+    source_concept: hmrc.lisa_withdrawal_value
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/annual-savings-statistics-2026
+    concept_evidence_notes: Lifetime ISA Table 1a, yearly withdrawals. The data underpinning these figures
+      comes from monthly electronic uploads from LISA providers to HM Revenue & Customs. Some individuals
+      may have made withdrawals from their account in multiple months. Therefore, the annual figure for
+      the number of individuals making withdrawals from their accounts may be less than the sum of the
+      monthly figures. The figures for the number of individuals are rounded to the nearest 50, the figures
+      for the total withdrawal values are rounded to the nearest £1000, and the figures for the average
+      withdrawal sizes are rounded to the nearest £1.
+    unit: gbp
+    aggregation: sum
+    value_scale: 1
+    expected_cell_type: number
+    filters:
+      lisa_withdrawal_reason: unauthorised
+    constraints:
+    - variable: lisa_withdrawal_reason
+      operator: ==
+      value: unauthorised
+      label: Lifetime ISA withdrawal reason
+  - measure_id: withdrawal_charges
+    label: Total value of withdrawal charges
+    ordinal: 4
+    column: G
+    source_column_id: withdrawal_charges
+    expected_column_header_row: 13
+    expected_column_header: Total value of withdrawal charges, £
+    concept: hmrc.lisa_withdrawal_charges
+    source_concept: hmrc.lisa_withdrawal_charges
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/annual-savings-statistics-2026
+    concept_evidence_notes: Lifetime ISA Table 1a, yearly withdrawals. The data underpinning these figures
+      comes from monthly electronic uploads from LISA providers to HM Revenue & Customs. Some individuals
+      may have made withdrawals from their account in multiple months. Therefore, the annual figure for
+      the number of individuals making withdrawals from their accounts may be less than the sum of the
+      monthly figures. The figures for the number of individuals are rounded to the nearest 50, the figures
+      for the total withdrawal values are rounded to the nearest £1000, and the figures for the average
+      withdrawal sizes are rounded to the nearest £1.
+    unit: gbp
+    aggregation: sum
+    value_scale: 1
+    expected_cell_type: number
+    filters:
+      lisa_withdrawal_reason: unauthorised
+    constraints:
+    - variable: lisa_withdrawal_reason
+      operator: ==
+      value: unauthorised
+      label: Lifetime ISA withdrawal reason
+- record_set_id: hmrc.lisa_statistics_2026.table1a.ty2025
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: hmrc.lisa_statistics_2026.table1a.ty2025.v1
+  source_record_id_prefix: hmrc.lisa_statistics_2026.table1a.ty2025
+  sheet_name: Lifetime_ISA_sheet
+  period_type: tax_year
+  period: 2025
+  period_coverage:
+    start_date: '2025-04-06'
+    end_date: '2026-04-05'
+    basis: tax
+    source_period_label: 2025 to 2026
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: lisa_holder
+  domain: individual_savings_accounts
+  groupby_dimension: hmrc.tax_year
+  rows:
+  - value_id: tax_year_2025
+    label: Tax year 2025 to 2026
+    ordinal: 0
+    row_number: 21
+    expected_row_header_column: A
+    expected_row_header: 2025 to 2026
+    table_record_kind: detail
+    guard_cells:
+    - column: A
+      row: 12
+      expected_value: 'Table 1a: Yearly LISA withdrawals'
+      label: Table title
+  measures:
+  - measure_id: house_purchase_withdrawers
+    label: Number of individuals withdrawing for a house purchase
+    ordinal: 0
+    column: B
+    source_column_id: house_purchase_withdrawers
+    expected_column_header_row: 13
+    expected_column_header: Number of individuals withdrawing for a house purchase
+    concept: hmrc.lisa_withdrawers
+    source_concept: hmrc.lisa_withdrawers
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/annual-savings-statistics-2026
+    concept_evidence_notes: Lifetime ISA Table 1a, yearly withdrawals. The data underpinning these figures
+      comes from monthly electronic uploads from LISA providers to HM Revenue & Customs. Some individuals
+      may have made withdrawals from their account in multiple months. Therefore, the annual figure for
+      the number of individuals making withdrawals from their accounts may be less than the sum of the
+      monthly figures. The figures for the number of individuals are rounded to the nearest 50, the figures
+      for the total withdrawal values are rounded to the nearest £1000, and the figures for the average
+      withdrawal sizes are rounded to the nearest £1.
+    unit: count
+    aggregation: sum
+    value_scale: 1
+    expected_cell_type: number
+    filters:
+      lisa_withdrawal_reason: house_purchase
+    constraints:
+    - variable: lisa_withdrawal_reason
+      operator: ==
+      value: house_purchase
+      label: Lifetime ISA withdrawal reason
+  - measure_id: house_purchase_withdrawal_value
+    label: Total value of house purchase withdrawals
+    ordinal: 1
+    column: C
+    source_column_id: house_purchase_withdrawal_value
+    expected_column_header_row: 13
+    expected_column_header: Total value of house purchase withdrawals, £
+    concept: hmrc.lisa_withdrawal_value
+    source_concept: hmrc.lisa_withdrawal_value
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/annual-savings-statistics-2026
+    concept_evidence_notes: Lifetime ISA Table 1a, yearly withdrawals. The data underpinning these figures
+      comes from monthly electronic uploads from LISA providers to HM Revenue & Customs. Some individuals
+      may have made withdrawals from their account in multiple months. Therefore, the annual figure for
+      the number of individuals making withdrawals from their accounts may be less than the sum of the
+      monthly figures. The figures for the number of individuals are rounded to the nearest 50, the figures
+      for the total withdrawal values are rounded to the nearest £1000, and the figures for the average
+      withdrawal sizes are rounded to the nearest £1.
+    unit: gbp
+    aggregation: sum
+    value_scale: 1
+    expected_cell_type: number
+    filters:
+      lisa_withdrawal_reason: house_purchase
+    constraints:
+    - variable: lisa_withdrawal_reason
+      operator: ==
+      value: house_purchase
+      label: Lifetime ISA withdrawal reason
+  - measure_id: unauthorised_withdrawers
+    label: Number of individuals making unauthorised withdrawals
+    ordinal: 2
+    column: E
+    source_column_id: unauthorised_withdrawers
+    expected_column_header_row: 13
+    expected_column_header: Number of individuals making unauthorised withdrawals
+    concept: hmrc.lisa_withdrawers
+    source_concept: hmrc.lisa_withdrawers
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/annual-savings-statistics-2026
+    concept_evidence_notes: Lifetime ISA Table 1a, yearly withdrawals. The data underpinning these figures
+      comes from monthly electronic uploads from LISA providers to HM Revenue & Customs. Some individuals
+      may have made withdrawals from their account in multiple months. Therefore, the annual figure for
+      the number of individuals making withdrawals from their accounts may be less than the sum of the
+      monthly figures. The figures for the number of individuals are rounded to the nearest 50, the figures
+      for the total withdrawal values are rounded to the nearest £1000, and the figures for the average
+      withdrawal sizes are rounded to the nearest £1.
+    unit: count
+    aggregation: sum
+    value_scale: 1
+    expected_cell_type: number
+    filters:
+      lisa_withdrawal_reason: unauthorised
+    constraints:
+    - variable: lisa_withdrawal_reason
+      operator: ==
+      value: unauthorised
+      label: Lifetime ISA withdrawal reason
+  - measure_id: unauthorised_withdrawal_value
+    label: Total value of unauthorised withdrawals
+    ordinal: 3
+    column: F
+    source_column_id: unauthorised_withdrawal_value
+    expected_column_header_row: 13
+    expected_column_header: Total value of unauthorised withdrawals, £
+    concept: hmrc.lisa_withdrawal_value
+    source_concept: hmrc.lisa_withdrawal_value
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/annual-savings-statistics-2026
+    concept_evidence_notes: Lifetime ISA Table 1a, yearly withdrawals. The data underpinning these figures
+      comes from monthly electronic uploads from LISA providers to HM Revenue & Customs. Some individuals
+      may have made withdrawals from their account in multiple months. Therefore, the annual figure for
+      the number of individuals making withdrawals from their accounts may be less than the sum of the
+      monthly figures. The figures for the number of individuals are rounded to the nearest 50, the figures
+      for the total withdrawal values are rounded to the nearest £1000, and the figures for the average
+      withdrawal sizes are rounded to the nearest £1.
+    unit: gbp
+    aggregation: sum
+    value_scale: 1
+    expected_cell_type: number
+    filters:
+      lisa_withdrawal_reason: unauthorised
+    constraints:
+    - variable: lisa_withdrawal_reason
+      operator: ==
+      value: unauthorised
+      label: Lifetime ISA withdrawal reason
+  - measure_id: withdrawal_charges
+    label: Total value of withdrawal charges
+    ordinal: 4
+    column: G
+    source_column_id: withdrawal_charges
+    expected_column_header_row: 13
+    expected_column_header: Total value of withdrawal charges, £
+    concept: hmrc.lisa_withdrawal_charges
+    source_concept: hmrc.lisa_withdrawal_charges
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/annual-savings-statistics-2026
+    concept_evidence_notes: Lifetime ISA Table 1a, yearly withdrawals. The data underpinning these figures
+      comes from monthly electronic uploads from LISA providers to HM Revenue & Customs. Some individuals
+      may have made withdrawals from their account in multiple months. Therefore, the annual figure for
+      the number of individuals making withdrawals from their accounts may be less than the sum of the
+      monthly figures. The figures for the number of individuals are rounded to the nearest 50, the figures
+      for the total withdrawal values are rounded to the nearest £1000, and the figures for the average
+      withdrawal sizes are rounded to the nearest £1.
+    unit: gbp
+    aggregation: sum
+    value_scale: 1
+    expected_cell_type: number
+    filters:
+      lisa_withdrawal_reason: unauthorised
+    constraints:
+    - variable: lisa_withdrawal_reason
+      operator: ==
+      value: unauthorised
+      label: Lifetime ISA withdrawal reason

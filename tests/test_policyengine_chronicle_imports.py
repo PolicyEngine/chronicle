@@ -83,13 +83,15 @@ def test__given_retired_profile_namespace__then_it_is_not_importable() -> None:
         importlib.import_module("policyengine_chronicle.target_profiles")
 
 
-def test__given_public_chronicle_normalization__then_target_construction_is_hidden() -> (
+def test__given_public_chronicle_normalization__then_target_construction_is_gone() -> (
     None
 ):
     with pytest.raises(AttributeError):
         getattr(chronicle_normalization, "as_target")
     with pytest.raises(AttributeError):
         getattr(chronicle_normalization, "target_kwargs")
+    with pytest.raises(AttributeError):
+        getattr(chronicle_normalization, "TargetBlueprint")
 
 
 def test__given_chronicle_help__then_cli_does_not_eager_load_legacy_clients(
@@ -106,3 +108,5 @@ def test__given_chronicle_help__then_cli_does_not_eager_load_legacy_clients(
     output = capsys.readouterr().out
     assert "Usage: chronicle <command> [options]" in output
     assert "validate-facts" in output
+    assert "  load\n" not in output
+    assert "  stats\n" not in output

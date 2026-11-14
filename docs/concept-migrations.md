@@ -74,3 +74,113 @@ and the congressional-district file still label with different concepts.
 concept, only Table 1.4 may declare the Schedule D gain concept, the retired
 ids may not reappear, and the consumer selector (`source_measure_id`) and
 published values are unchanged.
+
+## 2026-10-12: IRS SOI geographic-file columns follow their documentation guides
+
+Four IRS SOI mappings read a column that the file's documentation guide defines
+as a different item. Extracts of the guides are in
+`tests/data/irs_soi_doc_guides/`, each with its irs.gov URL and sha256.
+
+### Column corrections
+
+Measure ids, concepts and labels stay. Values, `layout.source_column_id` and
+the cell lineage change.
+
+| Packages | Measure ids | Old columns | New columns | TY2022 US, old → new |
+|---|---|---|---|---|
+| `soi-congressional-district-2022` | `limited_state_local_taxes_returns` / `_amount` | `N18425`/`A18425`, "State and local income taxes" (Schedule A line 5a) | `N18460`/`A18460`, "Limited state and local taxes" (line 5e) | 10,842,580 → 14,777,040 returns; $250.4B → $121.2B |
+| same | `premium_tax_credit_returns` / `_amount` | `N85530`/`A85530`, "Additional Medicare tax" (Form 8959 line 24) | `N85770`/`A85770`, "Total premium tax credit" | 6,848,330 → 7,713,000 returns; $14.2B → $53.1B |
+| `soi-historic-table-2`, `soi-historic-table-2-state-broad-2022` | `qbi_claims` / `qbi_amount` | `N03270`/`A03270`, "Self-employment health insurance deduction" (Schedule 1 line 17) | `N04475`/`A04475`, "Qualified business income deduction" (Form 1040 line 13) | 3,711,990 → 25,430,690 returns; $31.3B → $215.7B |
+
+Historic Table 2 already read `N18460` and `N85770` for the same measure ids.
+The TY2022 guides print the premium tax credit's form as "8926"; the TY2023
+Historic Table 2 guide prints 8962 for the same variables.
+
+### Schedule A line 8a relabel
+
+| Packages | Columns | Old measure id / concept | New measure id / concept |
+|---|---|---|---|
+| `soi-congressional-district-2022` | `N19300` | `interest_paid_deduction_returns` / `irs_soi.returns_with_interest_paid_deduction` | `mortgage_interest_paid_returns` / `irs_soi.returns_with_home_mortgage_interest_paid_to_financial_institutions` |
+| same | `A19300` | `interest_paid_deduction_amount` / `irs_soi.interest_paid_deduction` | `mortgage_interest_paid_amount` / `irs_soi.home_mortgage_interest_paid_to_financial_institutions` |
+
+Labels become Table 2.1's: "Returns with home mortgage interest paid to
+financial institutions" and "Home mortgage interest paid to financial
+institutions amount". Unlike the 2026-09-27 rename, `measure_id` and
+`source_record_id` move too, so the consumer selector moves.
+
+**Why.** The guide defines `N19300`/`A19300` as mortgage interest paid,
+Schedule A line 8a. `interest_paid_deduction_*` is Table 2.1's line 10 total,
+and the 2022 Schedule A computes line 10 as lines 8a, 8b, 8c and 9 combined
+(line 8d is reserved). No geographic file publishes line 10. For TY2022 the
+district file's US `A19300` is $140.1B, 0.984 of Table 2.1's line 8a and 0.822
+of its line 10 ($170.5B).
+
+**Added.** The line 8b, 8c and 9 columns, with Table 2.1's ids, concepts and
+labels: `home_mortgage_personal_seller_*` (`N19500`/`A19500`),
+`deductible_points_*` (`N19530`/`A19530`) and `investment_interest_paid_*`
+(`N19570`/`A19570`). The four amounts sum to line 10: $163.7B for the TY2022
+US row, 0.960 of Table 2.1's. Return counts do not add, because one return can
+report more than one line.
+
+**Consumer effect.** Microcosm's SOI compiler (main, 2026-10-12) selects facts
+by `measure_id` and skips ids it does not map. On its next Chronicle feed
+re-pin:
+
+- The district line 8a rows stop mapping to `interest_deduction`. Microcosm
+  leaves `mortgage_interest_paid_*` unmapped on purpose, so those district
+  targets drop, and its `state_cd` bridge entries for `interest_paid_deduction_*`
+  stop matching. The 8b, 8c and 9 ids are unmapped too. How to use the
+  district rows is Microcosm's decision; the line 8a rows keep
+  `layout.source_column_id` `N19300`/`A19300`, so a selector keyed on the IRS
+  column still finds them.
+- The district SALT and PTC rows carry the corrected columns.
+  microcosm#1224's register keyed on `N18425`/`A18425` and `N85530`/`A85530`
+  stops matching them, and its pinned receipt test needs updating.
+- Microcosm maps no Historic Table 2 `qbi_*` measure, so the QBI fix moves no
+  Microcosm target.
+
+**Pinned by** `tests/test_chronicle_soi_doc_guide_columns.py`. It maps every
+`measure_id` declared by a package that reads an IRS-variable file (Historic
+Table 2, congressional-district or county, any vintage) to one guide
+definition. It then checks that every compiled cell selector reads the column
+that definition names. Row-level column overrides and header guards count, as
+the build reads them. Measure ids shared across packages must read one column.
+The line 10 ids may not be read from a geographic file. Two differential checks
+compare published values: the district US row against Historic Table 2's, and
+the line 8a column and four-part sum against Table 2.1. A property check holds
+every limited SALT row to the $10,000 line 5e cap, within publisher rounding.
+
+## 2026-10-12: IRS SOI Schedule A line 14 takes Table 2.1's contributions concept
+
+| Package | Columns | Measure id | Old concept / label | New concept / label |
+|---|---|---|---|---|
+| `soi-congressional-district-2022` | `N19700` | `charitable_returns` | `irs_soi.returns_with_charitable_contributions_deduction` / "Returns with charitable contributions deduction" | `irs_soi.returns_with_contributions_deduction` / "Returns with contributions deduction" |
+| same | `A19700` | `charitable_amount` | `irs_soi.charitable_contributions_deduction` / "Charitable contributions deduction" | `irs_soi.contributions_deduction` / "Contributions deduction amount" |
+
+`measure_id`, `source_record_id`, values and lineage stay.
+
+**Why.** The congressional-district and Historic Table 2 guides define
+`N19700`/`A19700` as "Total charitable contributions", Schedule A line 14 (the
+2022 form's "Add lines 11 through 13"). Table 2.1's `charitable_*` read its
+"Contributions deduction: Total" columns, the same line, under
+`irs_soi.contributions_deduction`. Two ids named one line. For TY2022 the
+district file's US `A19700` is $206.1B and Historic Table 2's is $221.0B,
+0.927 and 0.994 of Table 2.1's $222.4B.
+
+**Added alongside.** `soi-historic-table-2-state-broad-2022` now reads the same
+line 14 columns, and line 8a's `N19300`/`A19300`, for every state under Table
+2.1's ids, concepts and labels. It also reads two columns no package selected
+before, under new ids: `N00700`/`A00700` (Schedule 1 line 1, taxable refunds of
+state and local income taxes) as `taxable_state_local_income_tax_refunds_*`, and
+`N18300`/`A18300` (Schedule A line 7, taxes paid) as `taxes_paid_deduction_*`.
+
+**Consumer effect.** Consumers that select by `measure_id` see no change from
+the rename. The district file's state-total rows and the new Historic Table 2
+state rows publish the same lines 8a and 14 for the same states, so they share
+semantic fact keys, as the other columns of the two files already do.
+
+**Pinned by** `tests/test_chronicle_soi_doc_guide_columns.py`:
+`test_schedule_a_lines_shared_across_grains_carry_table_2_1_ids` holds every
+package that reads `N19300`, `A19300`, `N19700` or `A19700` to Table 2.1's
+measure id, concept and label, and `test_line_7_and_refund_columns_keep_one_identity`
+gives `N00700`, `A00700`, `N18300` and `A18300` one identity in every package.

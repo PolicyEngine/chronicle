@@ -1,10 +1,10 @@
-# Partial #176 source package: 85 directly published counts, not the missing
+# Partial #176 source package: 102 directly published counts, not the missing
 # five-year-age x sex x region table. See README.md for scope and source access.
-# The all-age national total is Table 1!D25, never the sum of the 16 regions.
+# All-age national totals are Table 1!B25/D25, never sums of the 16 regions.
 # REGC codes/names come from the separately pinned Stats NZ REGC2025 attributes.
 schema_version: ledger.source_package.v1
 package_id: stats-nz-subnational-population-estimates-2025
-label: 'Stats NZ 30 June 2025 provisional regional population: all ages and broad age groups (partial)'
+label: 'Stats NZ October 2025 regional population release: 2023 all ages; 2025 provisional all ages and broad age groups (partial)'
 # Chronicle-owned labels (chronicle#261, #265). The age-band values are the
 # publisher's column headers at Table 3!D6:G6. The two dimension labels are
 # Chronicle's wording, not publisher text: the bundle allows one label per
@@ -1082,3 +1082,270 @@ record_sets:
     column: G
     expected_column_header: "65+"
   rows: *broad_age_rows
+
+# Table 1's unmarked 2023 column is a separate reference period in this release.
+# Inherit the same concept/geographies, but never the 2025 provisional status.
+- <<: *population_set
+  record_set_id: stats_nz.cy2023.subnational_population.all_ages
+  provenance_class: census
+  record_set_spec_id: stats_nz.subnational_population.all_ages_2023.v1
+  source_record_id_prefix: stats_nz.cy2023.subnational_population.all_ages
+  period: 2023
+  period_coverage:
+    start_date: '2023-06-30'
+    end_date: '2023-06-30'
+    basis: calendar
+    source_period_label: At 30 June 2023
+    notes: >-
+      Point-in-time estimated resident population in the release's 2023-base
+      series, not the 7 March 2023 census-night count; published 29 October 2025.
+      The numeric 2023 header has no P marker. Contents and Table 1 footnotes
+      do not explicitly label 2023 final or revised.
+  measures:
+  - <<: *population_measure
+    column: B
+    expected_column_header: 2023
+    concept_evidence_notes: >-
+      Table 1 column B publishes all-age population counts at 30 June 2023,
+      using 1 January 2025 boundaries and the 2023 census base. The numeric
+      2023 header has no P marker; Contents and Table 1 footnotes do not
+      explicitly label 2023 final or revised. ERP includes adjustments for net
+      census under/overcount, residents temporarily overseas on census night,
+      and births, deaths, and net migration between census night and the
+      estimate date. These are the release's 2023-base series, not the
+      7 March 2023 census-night count. These counts include all sexes; there
+      is no sex-specific split in these worksheets. Only all ages are admitted
+      for 2023, not five-year or single-year ages. The New Zealand row includes
+      areas outside regions (for example Chatham Islands territory); it is
+      read directly, never constructed from regional counts. Published rounding
+      means component counts need not sum to totals. Source-only facts: no
+      uprating, interpolation, target activation, or calibration.
+  rows:
+  - value_id: regc_01
+    label: Northland region
+    ordinal: 0
+    row_number: 7
+    expected_row_header_column: A
+    expected_row_header: Northland region
+    geography_id: '01'
+    geography_level: region
+    geography_name: Northland Region
+    geography_vintage: regc_2025
+    table_record_kind: total
+    guard_cells: &population_2023_guards
+    - column: A
+      row: 3
+      expected_value: Regional council areas
+      label: regional population scope
+    - column: A
+      row: 4
+      expected_value: At 30 June 2023–2025
+      label: point-in-time release period
+    - column: A
+      row: 5
+      expected_value: Regional council area(2)
+      label: regional row heading
+    - column: B
+      row: 5
+      expected_value: At 30 June
+      label: point-in-time column heading
+    - column: A
+      row: 29
+      expected_value: 2. Boundaries at 1 January 2025.
+      label: regional boundary vintage
+    - column: A
+      row: 34
+      expected_value: P provisional
+      label: P symbol definition; 2023 header has no P
+  - value_id: regc_02
+    label: Auckland region
+    ordinal: 1
+    row_number: 8
+    expected_row_header_column: A
+    expected_row_header: Auckland region
+    geography_id: '02'
+    geography_level: region
+    geography_name: Auckland
+    geography_vintage: regc_2025
+    table_record_kind: total
+    guard_cells: *population_2023_guards
+  - value_id: regc_03
+    label: Waikato region
+    ordinal: 2
+    row_number: 9
+    expected_row_header_column: A
+    expected_row_header: Waikato region
+    geography_id: '03'
+    geography_level: region
+    geography_name: Waikato Region
+    geography_vintage: regc_2025
+    table_record_kind: total
+    guard_cells: *population_2023_guards
+  - value_id: regc_04
+    label: Bay of Plenty region
+    ordinal: 3
+    row_number: 10
+    expected_row_header_column: A
+    expected_row_header: Bay of Plenty region
+    geography_id: '04'
+    geography_level: region
+    geography_name: Bay of Plenty Region
+    geography_vintage: regc_2025
+    table_record_kind: total
+    guard_cells: *population_2023_guards
+  - value_id: regc_05
+    label: Gisborne region
+    ordinal: 4
+    row_number: 11
+    expected_row_header_column: A
+    expected_row_header: Gisborne region
+    geography_id: '05'
+    geography_level: region
+    geography_name: Gisborne Region
+    geography_vintage: regc_2025
+    table_record_kind: total
+    guard_cells: *population_2023_guards
+  - value_id: regc_06
+    label: Hawke's Bay region
+    ordinal: 5
+    row_number: 12
+    expected_row_header_column: A
+    expected_row_header: Hawke's Bay region
+    geography_id: '06'
+    geography_level: region
+    geography_name: Hawke's Bay Region
+    geography_vintage: regc_2025
+    table_record_kind: total
+    guard_cells: *population_2023_guards
+  - value_id: regc_07
+    label: Taranaki region
+    ordinal: 6
+    row_number: 13
+    expected_row_header_column: A
+    expected_row_header: Taranaki region
+    geography_id: '07'
+    geography_level: region
+    geography_name: Taranaki Region
+    geography_vintage: regc_2025
+    table_record_kind: total
+    guard_cells: *population_2023_guards
+  - value_id: regc_08
+    label: Manawatū-Whanganui region
+    ordinal: 7
+    row_number: 14
+    expected_row_header_column: A
+    expected_row_header: Manawatū-Whanganui region
+    geography_id: '08'
+    geography_level: region
+    geography_name: Manawatū-Whanganui Region
+    geography_vintage: regc_2025
+    table_record_kind: total
+    guard_cells: *population_2023_guards
+  - value_id: regc_09
+    label: Wellington region
+    ordinal: 8
+    row_number: 15
+    expected_row_header_column: A
+    expected_row_header: Wellington region
+    geography_id: '09'
+    geography_level: region
+    geography_name: Wellington Region
+    geography_vintage: regc_2025
+    table_record_kind: total
+    guard_cells: *population_2023_guards
+  - value_id: regc_16
+    label: Tasman region
+    ordinal: 9
+    row_number: 16
+    expected_row_header_column: A
+    expected_row_header: Tasman region
+    geography_id: '16'
+    geography_level: region
+    geography_name: Tasman Region
+    geography_vintage: regc_2025
+    table_record_kind: total
+    guard_cells: *population_2023_guards
+  - value_id: regc_17
+    label: Nelson region
+    ordinal: 10
+    row_number: 17
+    expected_row_header_column: A
+    expected_row_header: Nelson region
+    geography_id: '17'
+    geography_level: region
+    geography_name: Nelson Region
+    geography_vintage: regc_2025
+    table_record_kind: total
+    guard_cells: *population_2023_guards
+  - value_id: regc_18
+    label: Marlborough region
+    ordinal: 11
+    row_number: 18
+    expected_row_header_column: A
+    expected_row_header: Marlborough region
+    geography_id: '18'
+    geography_level: region
+    geography_name: Marlborough Region
+    geography_vintage: regc_2025
+    table_record_kind: total
+    guard_cells: *population_2023_guards
+  - value_id: regc_12
+    label: West Coast region
+    ordinal: 12
+    row_number: 19
+    expected_row_header_column: A
+    expected_row_header: West Coast region
+    geography_id: '12'
+    geography_level: region
+    geography_name: West Coast Region
+    geography_vintage: regc_2025
+    table_record_kind: total
+    guard_cells: *population_2023_guards
+  - value_id: regc_13
+    label: Canterbury region
+    ordinal: 13
+    row_number: 20
+    expected_row_header_column: A
+    expected_row_header: Canterbury region
+    geography_id: '13'
+    geography_level: region
+    geography_name: Canterbury Region
+    geography_vintage: regc_2025
+    table_record_kind: total
+    guard_cells: *population_2023_guards
+  - value_id: regc_14
+    label: Otago region
+    ordinal: 14
+    row_number: 21
+    expected_row_header_column: A
+    expected_row_header: Otago region
+    geography_id: '14'
+    geography_level: region
+    geography_name: Otago Region
+    geography_vintage: regc_2025
+    table_record_kind: total
+    guard_cells: *population_2023_guards
+  - value_id: regc_15
+    label: Southland region
+    ordinal: 15
+    row_number: 22
+    expected_row_header_column: A
+    expected_row_header: Southland region
+    geography_id: '15'
+    geography_level: region
+    geography_name: Southland Region
+    geography_vintage: regc_2025
+    table_record_kind: total
+    guard_cells: *population_2023_guards
+  - value_id: nz
+    label: New Zealand
+    ordinal: 16
+    row_number: 25
+    expected_row_header_column: A
+    expected_row_header: New Zealand(3)
+    geography_id: NZ
+    geography_level: country
+    geography_name: New Zealand
+    geography_vintage: current
+    table_record_kind: total
+    guard_cells: *population_2023_guards

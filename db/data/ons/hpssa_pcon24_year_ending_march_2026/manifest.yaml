@@ -1,0 +1,19 @@
+source_id: ons
+package_id: ons-hpssa-pcon24-year-ending-march-2026
+dataset: ons_ons-hpssa-pcon24-year-ending-march-2026
+source_page: https://www.ons.gov.uk/peoplepopulationandcommunity/housing/datasets/parliamentaryconstituencyhousepricestatisticsforsmallareas
+table: House price statistics for small areas by parliamentary constituency, year
+  ending December 1995 to year ending March 2026
+files:
+  2026:
+    filename: housepricestatisticsparlicon.xlsx
+    source_url: https://www.ons.gov.uk/file?uri=/peoplepopulationandcommunity/housing/datasets/parliamentaryconstituencyhousepricestatisticsforsmallareas/yearendingmarch2026/housepricestatisticsparlicon.xlsx
+    sha256: e5a1d593ef1655ff3d0a194dc41e5a8c8d4d34838faddf2faeaabc5b9f9b2516
+    size_bytes: 5935546
+    fetched_at: '2026-10-12T12:41:52+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/ons/ons-hpssa-pcon24-year-ending-march-2026/2026/e5a1d593ef1655ff3d0a194dc41e5a8c8d4d34838faddf2faeaabc5b9f9b2516/housepricestatisticsparlicon.xlsx
+        uri: r2://ledger-raw/raw/uk/ons/ons-hpssa-pcon24-year-ending-march-2026/2026/e5a1d593ef1655ff3d0a194dc41e5a8c8d4d34838faddf2faeaabc5b9f9b2516/housepricestatisticsparlicon.xlsx

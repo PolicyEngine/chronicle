@@ -1,0 +1,42 @@
+source_id: voa
+package_id: voa-ctsop3-1-lsoa-2026
+dataset: voa_voa-ctsop3-1-lsoa-2026
+source_page: https://www.gov.uk/government/statistics/council-tax-stock-of-properties-2026
+table: 'VOA Council Tax stock of properties 2026, table CTSOP3.1: properties by council tax
+  band, property type and area (LSOA, MSOA and above) at 31 March 2026'
+license: Open Government Licence v3.0
+license_url: https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/
+attribution: 'Source: HM Revenue & Customs (Valuation Office), Council Tax: stock of properties
+  2026 (published 24 September 2026). Contains public sector information licensed under the
+  Open Government Licence v3.0.'
+license_evidence: 'GOV.UK statistics page, published by HM Revenue & Customs: ''All content
+  is available under the Open Government Licence v3.0, except where otherwise stated.'' The
+  workbook and the zips'' table notes state no other licence.'
+license_verified_at: '2026-11-04'
+files:
+  2026:
+    filename: CTSOP_3_1__1_.zip
+    source_url: https://assets.publishing.service.gov.uk/media/6ab2566afe72ed1e2b02ee4c/CTSOP_3_1__1_.zip
+    sha256: 9822bd314c2939a49d230d218257f1ed0fed36f962f64ce4e20f926aa768ac65
+    size_bytes: 95521582
+    fetched_at: '2026-11-04T13:12:00+00:00'
+    storage:
+      local: false
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/voa/voa-ctsop3-1-lsoa-2026/2026/9822bd314c2939a49d230d218257f1ed0fed36f962f64ce4e20f926aa768ac65/CTSOP_3_1__1_.zip
+        uri: r2://ledger-raw/raw/uk/voa/voa-ctsop3-1-lsoa-2026/2026/9822bd314c2939a49d230d218257f1ed0fed36f962f64ce4e20f926aa768ac65/CTSOP_3_1__1_.zip
+registration_kind: raw_only
+provenance_notes: 'Published 24 September 2026 with the summary tables, as CTSOP_3_1__1_.zip;
+  members dated 22 September 2026. Members: CTSOP_3_1/CTSOP3_1_2026_03_31.csv (95,493,012
+  bytes) and CTSOP_3_1/CTSOP3_1_CSV_table_notes.xlsx. The CSV has a header row (geography,
+  ba_code, ecode, area_name, band, 43 property-type columns from bungalow_1 to unknown, all_properties)
+  and 392,014 rows, one per area and band (All, A to H, and I in Wales): ENGWAL 10, NATL 19,
+  REGL 81, CTYMET 261, LAUA 2,884, MSOA 65,784, LSOA 322,965 and UNMD 10. Counts are rounded
+  to the nearest 10, with counts between 1 and 4 suppressed as [c]; band I rows are printed
+  only for areas in Wales and for England and Wales and the unmatched row. The zip assigns
+  properties to areas by postcode (ONS NSPL), so its rows can differ from the summary workbook''s
+  billing-authority counts (pinned under voa-council-tax-bands-2026): its England and Wales
+  rows equal table CTSOP3.0''s, its country rows do not, and 2,214 of its 2,884 LAUA rows
+  differ. Open Government Licence v3.0.'

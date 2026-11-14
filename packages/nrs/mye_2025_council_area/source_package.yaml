@@ -7,8 +7,10 @@ dimension_labels:
   sex: Sex
 dimension_value_labels:
   sex:
-    female: Females
-    male: Males
+    # Chronicle's register gives these labels (chronicle#376); NRS's own
+    # "Females" and "Males" are still compared by the guard cells below.
+    female: Female
+    male: Male
   age:
     90_plus: 90 and over
 artifact:

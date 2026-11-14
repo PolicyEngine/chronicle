@@ -115,18 +115,18 @@ def test_non_integral_package_values_keep_their_binary_doubles():
     from chronicle.source_package import load_source_package
 
     expected = {
+        # chronicle#397 left the March 2026 EFO packages with 2024-25 (and a few
+        # 2025-26 lines) only: state pension FY2030-31 and income tax FY2025-26 went
+        # with the years the October 2026 packages publish.
         ("obr-efo-expenditure-march-2026", 2026): {
-            # all-Decimal: 180697298614.88257
-            "obr.efo_2026_03.expenditure.state_pension"
-            ".fy2030.state_pension.amount": "180697298614.8826",
             # all-Decimal: 2938385000.0
             "obr.efo_2026_03.expenditure.council_tax_scotland"
             ".fy2024.council_tax_scotland.amount": "2938385000.0000005",
         },
         ("obr-efo-receipts-march-2026", 2026): {
-            # all-Decimal: 331437583074.4428
-            "obr.efo_2026_03.receipts.income_tax"
-            ".fy2025.income_tax.amount": "331437583074.4429",
+            # all-Decimal: 47375027967.77022
+            "obr.efo_2026_03.receipts.ni_employee"
+            ".fy2024.ni_employee.amount": "47375027967.770226",
             # all-Decimal: 115446805221.42703
             "obr.efo_2026_03.receipts.ni_employer"
             ".fy2024.ni_employer.amount": "115446805221.42705",
