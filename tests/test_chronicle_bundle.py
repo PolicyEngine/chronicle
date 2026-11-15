@@ -607,7 +607,10 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # the 7,264 MSOAs, whose geography keys the MSOA income package already
         # carries. Measured with only its five packages at bundle year 2023: no
         # new geography, period or entity key, duplicate key or warning.
-        "fact_count": 2312453,
+        # IRS SOI Table 1.3 adds 20 TY2023 facts: returns, AGI and the child
+        # and other dependent credit (returns and amount), for all returns and
+        # each filing status (PolicyEngine/microcosm#880).
+        "fact_count": 2312473,
         # The same change adds 82,064 geography keys: 46,363 Scottish 2022
         # output areas (UV404), 35,673 LSOA-level keys from the DESNZ LSOA
         # workbooks (Scotland's data zones already exist), the 26 Northern
@@ -680,7 +683,10 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # bundle skips them (10 -> 17); no fact or key count moves.
         # Seven ACS 2020–2024 county packages also have no 2023 artifact, so
         # they are skipped (17 -> 24) and the built-package count is unchanged.
-        "skipped_source_count": 24,
+        # The four ACS 2024 1-year household and family type packages
+        # (B11001, B11003; national and state) have no 2023 artifact either
+        # (24 -> 28).
+        "skipped_source_count": 28,
         # chronicle#381 adds the Gambling Commission, and chronicle#420 item 13
         # Registers of Scotland.
         "source_count": 63,
@@ -707,7 +713,8 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # Report. SSA's Supplement Tables 7.B3 and 7.B7 add two. chronicle#438 adds
         # five: the two balance sheet dwellings packages, the two capital stocks
         # packages and Census 2021 TS054 by MSOA.
-        "source_package_count": 514,
+        # IRS SOI Table 1.3 adds one.
+        "source_package_count": 515,
         # 1 semantic-duplicate warning, plus the publisher wording Chronicle
         # keeps as published: values two packages word differently, groupby
         # rows that drift inside one package (chronicle#265, #266), and the
@@ -759,21 +766,25 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         if row_count == 1:
             assert row["aggregate_fact_key"].startswith("ledger.aggregate_fact.v2:")
             assert row["semantic_fact_key"].startswith("ledger.semantic_fact.v2:")
-    assert row_count == 2312453
+    assert row_count == 2312473
     assert provenance_classes <= {
         "administrative",
         "census",
         "model_output",
         "survey_aggregate",
     }
-    assert source_packages["source_package_count"] == 514
-    assert source_packages["skipped_source_count"] == 24
+    assert source_packages["source_package_count"] == 515
+    assert source_packages["skipped_source_count"] == 28
     assert sorted(item["source"] for item in source_packages["skipped_sources"]) == [
         "census-acs-s0101-congressional-district-age-2024",
         "census-acs-s0101-national-age-2024",
         "census-acs-s0101-state-age-2024",
         "census-acs-s1501-state-attainment-2024",
         "census-acs-s2201-congressional-district-snap-2024",
+        "census-acs1-b11001-national-2024",
+        "census-acs1-b11001-state-2024",
+        "census-acs1-b11003-national-2024",
+        "census-acs1-b11003-state-2024",
         "census-acs5-b01003-county-2024",
         "census-acs5-b11001-county-2024",
         "census-acs5-b19001-county-2024",
@@ -794,7 +805,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "jct-obbba-revenue-estimates-2025",
         "jct-tax-expenditures-2024",
     ]
-    assert coverage["fact_count"] == 2312453
+    assert coverage["fact_count"] == 2312473
     assert coverage["counts"]["by_source"] == {
         "bea": 446,
         "bfp_economic_outlook": 5,
@@ -821,7 +832,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "hmrc": 40025,
         "ici": 12,
         "ird": 4362,
-        "irs_soi": 44531,
+        "irs_soi": 44551,
         "isc": 4,
         "jrc_euromod_be": 90,
         "kff": 52,
@@ -874,7 +885,8 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     # packages name the balance sheets' Tables 2 to 13, the capital stocks
     # packages Tables 1.1.1 and 2.1.1 of each release, and the MSOA package
     # TS054 by MSOA.
-    assert len(table_counts) == 456
+    # IRS SOI Table 1.3 adds one.
+    assert len(table_counts) == 457
     assert (
         table_counts[
             "hmrc:Benefits in kind statistics: July 2026, Tables 1 to 4: company car "
@@ -2857,6 +2869,8 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     }
     for key, count in chronicle_420_scotland_period_increments.items():
         expected_period_counts[key] = expected_period_counts.get(key, 0) + count
+    # IRS SOI Table 1.3: returns, AGI and the child credit by filing status.
+    expected_period_counts["tax_year:2023"] += 20
     # chronicle#435: six tables x 33 areas at each September, months the CTAXBASE
     # chargeable dwellings packages already stamp.
     for year in (2024, 2025):
@@ -2929,7 +2943,8 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     )
     # SSA's Supplement Tables 7.B3 and 7.B7 add four (two national cells each).
     # IRS SOI Table 1.4's partnership and S corporation net income and loss legs add 160.
-    assert coverage["counts"]["by_geography"]["country:0100000US"] == 2280
+    # IRS SOI Table 1.3 adds 20 national facts.
+    assert coverage["counts"]["by_geography"]["country:0100000US"] == 2300
     # 255, less Vintage 2024's state total (chronicle#397), + 16 Census Vintage
     # 2025 age groups (15 groups and the total), + 6 from SSA's Supplement
     # Tables 7.B3 (four California cells) and 7.B7 (two), + 8 Historic Table 2
@@ -3051,6 +3066,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     # SSA's Supplement Tables 7.B3 and 7.B7 add 193 people.
     # chronicle#438 adds 854 institutional sectors (dwellings by sector and the
     # capital stocks of dwellings) and 65,376 households (TS054 by MSOA).
+    # IRS SOI Table 1.3 adds 20 tax units (PolicyEngine/microcosm#880).
     assert coverage["counts"]["by_entity"] == {
         "benefit_unit": 33645,
         "dwelling": 709104,
@@ -3063,7 +3079,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "person": 734519,
         "return": 16087,
         "social_protection_scheme": 36,
-        "tax_unit": 45836,
+        "tax_unit": 45856,
     }
     assert not coverage["duplicates"]["aggregate_fact_keys"]
     assert len(coverage["duplicates"]["semantic_fact_keys"]) == 4135
