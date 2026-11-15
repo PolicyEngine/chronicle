@@ -98,40 +98,114 @@ def _literal(node: ast.expr | None, kind: type = str):
     return None
 
 
-def _dynamically_imported(call: ast.Call, package: str) -> set[str]:
-    """Modules `call` would import if the string literal it passes first names one.
+# What each import-machinery name refers to before a module rebinds it. The
+# function names count even where nothing imports them, as `__import__` does.
+IMPORT_MACHINERY_NAMES = {
+    "importlib": "importlib",
+    "builtins": "builtins",
+    "import_module": "import_module",
+    "__import__": "__import__",
+}
+# The import functions those two modules carry.
+IMPORT_FUNCTIONS = {
+    ("importlib", "import_module"): "import_module",
+    ("importlib", "__import__"): "__import__",
+    ("builtins", "__import__"): "__import__",
+}
 
-    The called function's own name decides nothing, because an alias hides it
-    (`from importlib import import_module as load`). Every call is read both as
-    `import_module(name, package)` and as
-    `__import__(name, globals, locals, fromlist, level)`.
+
+def _machinery(node: ast.expr, bindings: dict[str, set[str]]) -> set[str]:
+    """What `node` may refer to: `importlib`, `builtins` or an import function."""
+    if isinstance(node, ast.Name):
+        return bindings.get(node.id, set())
+    if isinstance(node, ast.Attribute):
+        owner, attribute = node.value, node.attr
+    elif (
+        isinstance(node, ast.Call)
+        and isinstance(node.func, ast.Name)
+        and node.func.id == "getattr"
+        and len(node.args) >= 2
+    ):
+        owner, attribute = node.args[0], _literal(node.args[1])
+    else:
+        return set()
+    return {
+        IMPORT_FUNCTIONS[(kind, attribute)]
+        for kind in _machinery(owner, bindings)
+        if (kind, attribute) in IMPORT_FUNCTIONS
+    }
+
+
+def _bound_names(node: ast.AST, bindings: dict[str, set[str]]):
+    """(name, what it refers to) for each import-machinery name `node` binds."""
+    if isinstance(node, ast.Import):
+        for alias in node.names:
+            module = alias.name if alias.asname else alias.name.split(".")[0]
+            if module in ("importlib", "builtins"):
+                yield alias.asname or module, module
+    elif isinstance(node, ast.ImportFrom) and node.level == 0:
+        for alias in node.names:
+            function = IMPORT_FUNCTIONS.get((node.module, alias.name))
+            if function:
+                yield alias.asname or alias.name, function
+    elif isinstance(node, (ast.Assign, ast.AnnAssign, ast.NamedExpr)):
+        targets = node.targets if isinstance(node, ast.Assign) else [node.target]
+        kinds = _machinery(node.value, bindings) if node.value else set()
+        for target in targets:
+            if isinstance(target, ast.Name):
+                yield from ((target.id, kind) for kind in kinds)
+
+
+def _machinery_bindings(tree: ast.AST) -> dict[str, set[str]]:
+    """Every name `tree` binds to import machinery, aliases of aliases included.
+
+    The scan ignores scope and order: a name bound to an import function
+    anywhere in the module counts everywhere in it.
+    """
+    bindings = {name: {kind} for name, kind in IMPORT_MACHINERY_NAMES.items()}
+    changed = True
+    while changed:
+        changed = False
+        for node in ast.walk(tree):
+            for name, kind in list(_bound_names(node, bindings)):
+                if kind not in bindings.setdefault(name, set()):
+                    bindings[name].add(kind)
+                    changed = True
+    return bindings
+
+
+def _dynamically_imported(call: ast.Call, function: str, package: str) -> set[str]:
+    """Modules `call` imports through `function` when a string literal names them.
+
+    `function` is `import_module`, called as `import_module(name, package)`,
+    or `__import__`, called as `__import__(name, globals, locals, fromlist,
+    level)`.
     """
     name = _literal(_argument(call, 0, "name"))
     if name is None:
         return set()
-    modules = set()
-    module = _absolute(name, _literal(_argument(call, 1, "package")) or "")
-    if module:
-        modules.add(module)
+    if function == "import_module":
+        module = _absolute(name, _literal(_argument(call, 1, "package")) or "")
+        return {module} if module else set()
     if name.startswith("."):  # `__import__` takes its dots from `level`
-        return modules
+        return set()
     level = _literal(_argument(call, 4, "level"), int) or 0
     # A level above the package's depth cannot resolve. Checking first keeps a
     # large fifth argument, such as a 1_000_000_000 scale factor, from building
     # a string of that many dots.
     if level > (package.count(".") + 1 if package else 0):
-        return modules
+        return set()
     module = _absolute("." * level + name, package)
-    if module:
-        fromlist = _argument(call, 3, "fromlist")
-        items = fromlist.elts if isinstance(fromlist, (ast.List, ast.Tuple)) else []
-        modules.add(module)
-        modules.update(f"{module}.{item}" for item in map(_literal, items) if item)
-    return modules
+    if module is None:
+        return set()
+    fromlist = _argument(call, 3, "fromlist")
+    items = fromlist.elts if isinstance(fromlist, (ast.List, ast.Tuple)) else []
+    return {module, *(f"{module}.{item}" for item in map(_literal, items) if item)}
 
 
 def _imported_modules(tree: ast.AST, package: str) -> set[str]:
-    """Modules that import statements in `tree` name, or that a call could import."""
+    """Modules that import statements or import-function calls in `tree` name."""
+    bindings = _machinery_bindings(tree)
     modules = set()
     for node in ast.walk(tree):
         if isinstance(node, ast.Import):
@@ -143,7 +217,9 @@ def _imported_modules(tree: ast.AST, package: str) -> set[str]:
             modules.add(name)
             modules.update(f"{name}.{alias.name}" for alias in node.names)
         elif isinstance(node, ast.Call):
-            modules.update(_dynamically_imported(node, package))
+            for function in _machinery(node.func, bindings):
+                if function in ("import_module", "__import__"):
+                    modules.update(_dynamically_imported(node, function, package))
     return modules
 
 
@@ -323,28 +399,60 @@ def test_supabase_requirement_detection(requirement, expected):
         ("import gotrue", "chronicle", True),
         ("from supafunc import SyncFunctionsClient", "chronicle", True),
         ("importlib.import_module('postgrest')", "chronicle", True),
-        # An alias hides the importing function's name, so any call that passes
-        # a Supabase module's name first counts.
+        # The scan follows every name bound to an import function.
         ("from importlib import import_module as load\nload('supabase')", "db", True),
         ("load = importlib.import_module\nload('storage3')", "chronicle", True),
-        ("load('.client', package='chronicle')", "db", True),
-        ("getattr(importlib, 'import_module')('supabase')", "chronicle", True),
-        ("imp = __import__\nimp('db', fromlist=['supabase_client'])", "db", True),
-        ("imp('supabase_client', globals(), None, [], 1)", "db", True),
-        ("imp('supabase_client', globals(), None, [], 2)", "db", False),
         (
+            "from importlib import import_module as load\n"
+            "load('.client', package='chronicle')",
+            "db",
+            True,
+        ),
+        ("getattr(importlib, 'import_module')('supabase')", "chronicle", True),
+        ("load = getattr(importlib, 'import_module')\nload('supabase')", "db", True),
+        ("import importlib as il\nil.import_module('supabase')", "chronicle", True),
+        (
+            "def client():\n    import importlib as il\n\n"
+            "    return il.import_module('postgrest')\n",
+            "db",
+            True,
+        ),
+        ("load = importlib.import_module\nfetch = load\nfetch('supabase')", "db", True),
+        ("if load := importlib.import_module:\n    load('supabase')", "db", True),
+        ("from importlib import __import__ as imp\nimp('supabase')", "chronicle", True),
+        ("import builtins as b\nb.__import__('realtime')", "chronicle", True),
+        ("imp = __import__\nimp('db', fromlist=['supabase_client'])", "db", True),
+        (
+            "imp = __import__\nimp('supabase_client', globals(), None, [], 1)",
+            "db",
+            True,
+        ),
+        (
+            "imp = __import__\nimp('supabase_client', globals(), None, [], 2)",
+            "db",
+            False,
+        ),
+        (
+            "imp = __import__\n"
             "imp('supabase_client', None, None, [], 100_000_000_000_000_000_000)",
             "db",
             False,
         ),
-        ("print('supabase')", "chronicle", True),
+        # Any other call imports nothing, whatever string it passes.
+        ("print('supabase')", "chronicle", False),
+        ("importlib.metadata.version('supabase')", "chronicle", False),
+        ("import importlib.metadata as md\nmd.version('supabase')", "chronicle", False),
+        ("logger.warning('supabase')", "chronicle", False),
+        ("host.endswith('supabase.co')", "chronicle", False),
+        ("load = print\nload('supabase')", "chronicle", False),
+        ("def load(name):\n    return name\n\n\nload('supabase')", "chronicle", False),
         ("from .client import helper", "chronicle.sources", False),
         ("from chronicle.sources import SourceFile", "chronicle", False),
         ("supabase = 'a string, not an import'", "chronicle", False),
         ("importlib.import_module('chronicle.sources')", "chronicle", False),
         ("importlib.import_module(module_name)", "chronicle", False),
         ("importlib.import_module('.client')", "chronicle", False),
-        ("load('.client')", "chronicle", False),
+        ("load = importlib.import_module\nload('.client')", "chronicle", False),
         ("print('supabase is retired')", "chronicle", False),
         ("log.info('importing %s', 'supabase')", "chronicle", False),
         ("from .realtime import feed", "chronicle.sources", False),
