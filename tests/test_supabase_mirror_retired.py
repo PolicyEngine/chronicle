@@ -116,6 +116,11 @@ def _dynamically_imported(call: ast.Call, package: str) -> set[str]:
     if name.startswith("."):  # `__import__` takes its dots from `level`
         return modules
     level = _literal(_argument(call, 4, "level"), int) or 0
+    # A level above the package's depth cannot resolve. Checking first keeps a
+    # large fifth argument, such as a 1_000_000_000 scale factor, from building
+    # a string of that many dots.
+    if level > (package.count(".") + 1 if package else 0):
+        return modules
     module = _absolute("." * level + name, package)
     if module:
         fromlist = _argument(call, 3, "fromlist")
@@ -326,6 +331,12 @@ def test_supabase_requirement_detection(requirement, expected):
         ("getattr(importlib, 'import_module')('supabase')", "chronicle", True),
         ("imp = __import__\nimp('db', fromlist=['supabase_client'])", "db", True),
         ("imp('supabase_client', globals(), None, [], 1)", "db", True),
+        ("imp('supabase_client', globals(), None, [], 2)", "db", False),
+        (
+            "imp('supabase_client', None, None, [], 100_000_000_000_000_000_000)",
+            "db",
+            False,
+        ),
         ("print('supabase')", "chronicle", True),
         ("from .client import helper", "chronicle.sources", False),
         ("from chronicle.sources import SourceFile", "chronicle", False),
