@@ -479,6 +479,31 @@ def test_generator_refuses_a_missing_state_dc_or_puerto_rico(tmp_path, state):
         generator.build_package("B11001", "state", root=root)
 
 
+def test_state_row_fips_are_the_50_states_dc_and_puerto_rico():
+    assert len(generator.STATE_FIPS) == 50
+    assert generator.STATE_ROW_COUNT == 52
+    assert generator.STATE_ROW_FIPS == generator.STATE_FIPS | {"11", "72"}
+    for table in generator.TABLES:
+        payload = _raw_table(table, "state")
+        state_column = payload[0].index("state")
+        assert {row[state_column] for row in payload[1:]} == generator.STATE_ROW_FIPS
+
+
+@pytest.mark.parametrize("table", generator.TABLES)
+def test_generator_refuses_a_state_swapped_for_an_unknown_code(tmp_path, table):
+    # 52 rows with consistent GEO_IDs, but Alabama's row now carries FIPS 99.
+    def mutate(payload):
+        state_column = payload[0].index("state")
+        geo_column = payload[0].index("GEO_ID")
+        row = next(row for row in payload[1:] if row[state_column] == "01")
+        row[state_column] = "99"
+        row[geo_column] = "0400000US99"
+
+    root = _mutated_root(tmp_path, table, "state", mutate)
+    with pytest.raises(ValueError, match=r"52 state rows.*missing \['0400000US01'\]"):
+        generator.build_package(table, "state", root=root)
+
+
 def test_generator_refuses_a_second_national_row(tmp_path):
     def mutate(payload):
         payload.append(list(payload[1]))

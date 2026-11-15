@@ -34,10 +34,22 @@ YEAR = 2024
 TABLES = ("B11001", "B11003")
 GEOGRAPHIES = ("national", "state")
 GENERATED_BY = "python -m chronicle.sources.census_acs1_household_type"
-#: The 50 states, DC and Puerto Rico, as the ACS 1-year state endpoint returns them.
-STATE_ROW_COUNT = 52
 DISTRICT_OF_COLUMBIA_FIPS = "11"
 PUERTO_RICO_FIPS = "72"
+#: The 50 states' FIPS codes.
+STATE_FIPS = frozenset(
+    (
+        "01", "02", "04", "05", "06", "08", "09", "10", "12", "13",
+        "15", "16", "17", "18", "19", "20", "21", "22", "23", "24",
+        "25", "26", "27", "28", "29", "30", "31", "32", "33", "34",
+        "35", "36", "37", "38", "39", "40", "41", "42", "44", "45",
+        "46", "47", "48", "49", "50", "51", "53", "54", "55", "56",
+    )
+)  # fmt: skip
+#: The state rows the ACS 1-year state endpoint returns: the 50 states, DC and
+#: Puerto Rico.
+STATE_ROW_FIPS = STATE_FIPS | {DISTRICT_OF_COLUMBIA_FIPS, PUERTO_RICO_FIPS}
+STATE_ROW_COUNT = len(STATE_ROW_FIPS)
 
 TABLE_METADATA = {
     "B11001": (
@@ -283,15 +295,14 @@ def build_package(table: str, geography: str, root: Path = ROOT) -> dict[str, An
         raise ValueError(f"Duplicate geography rows in {table} {geography}")
     if geography == "national" and geo_ids != ["0100000US"]:
         raise ValueError(f"Expected one United States row in {table}")
-    if geography == "state" and (
-        len(geo_ids) != STATE_ROW_COUNT
-        or f"0400000US{DISTRICT_OF_COLUMBIA_FIPS}" not in geo_ids
-        or f"0400000US{PUERTO_RICO_FIPS}" not in geo_ids
-    ):
-        raise ValueError(
-            f"Expected {STATE_ROW_COUNT} state rows (50 states, DC and Puerto Rico) "
-            f"in {table}"
-        )
+    if geography == "state":
+        expected = {f"0400000US{fips}" for fips in STATE_ROW_FIPS}
+        if set(geo_ids) != expected:
+            raise ValueError(
+                f"Expected {STATE_ROW_COUNT} state rows (50 states, DC and Puerto "
+                f"Rico) in {table}; missing {sorted(expected - set(geo_ids))}, "
+                f"unexpected {sorted(set(geo_ids) - expected)}"
+            )
 
     rows = []
     level = "country" if geography == "national" else "state"
