@@ -18,6 +18,8 @@ from chronicle.bundle import (
     BUNDLE_SCHEMA_VERSION,
     BUNDLE_SOURCES_SCHEMA_VERSION,
     NZ_BUNDLE_SOURCES,
+    PRUNED_INTERMEDIATES_REPORT,
+    SUITE_INTERMEDIATE_FILES,
     UK_BUNDLE_SOURCES,
     build_bundle,
     build_bundle_coverage,
@@ -365,31 +367,6 @@ def test_build_bundle_cli_rejects_an_unknown_suite(tmp_path, fake_build_bundle, 
     assert fake_build_bundle == []
 
 
-@pytest.fixture
-def prune_suite_intermediates(monkeypatch):
-    """Delete each source suite's intermediates once the suite is built.
-
-    Every suite in the default bundle writes source_rows.jsonl,
-    source_cells.jsonl, facts.jsonl and a per-source ledger.db, and
-    build_bundle then reads back only its consumer_facts.jsonl. A BEA NIPA
-    suite alone writes a 496 MB source_rows.jsonl and a 1 GB ledger.db for
-    under 100 KB of consumer facts. Suite runs that reached this test left
-    24 GB (2026-09-20) and 19.7 GB (2026-10-07) in pytest's temp directory.
-    The suites are still built, validated and merged exactly as before; only
-    files nothing reads afterwards are removed, so they no longer pile up
-    across the bundle's 268 source packages.
-    """
-    build_source_suite = chronicle.bundle.build_source_suite
-
-    def build_then_prune(*args, **kwargs):
-        report = build_source_suite(*args, **kwargs)
-        for output in ("source_rows", "source_cells", "facts", "database"):
-            Path(report.outputs[output]).unlink(missing_ok=True)
-        return report
-
-    monkeypatch.setattr(chronicle.bundle, "build_source_suite", build_then_prune)
-
-
 def _skip_unless_r2_only_artifacts_available() -> None:
     """The merged bundle reads every package's artifact. Those stored in R2 only come
     from the cache or, with LEDGER_SOURCE_ARTIFACT_FETCH=1 as CI sets, a download;
@@ -402,19 +379,31 @@ def _skip_unless_r2_only_artifacts_available() -> None:
             pytest.skip(f"R2-only source artifact unavailable: {error}")
 
 
-@pytest.mark.usefixtures("prune_suite_intermediates")
 def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     _skip_unless_r2_only_artifacts_available()
     output_dir = tmp_path / "bundle"
 
-    report = build_bundle(output_dir, year=2023)
+    # Slim: a full default bundle keeps tens of GB of per-suite intermediates
+    # this test never reads (24 GB on 2026-09-20). Slim mode changes no file
+    # the bundle keeps (tests/test_chronicle_bundle_slim.py).
+    report = build_bundle(output_dir, year=2023, keep_suite_intermediates=False)
     summary = json.loads((output_dir / "reports" / "build_bundle.json").read_text())
     rows_path = output_dir / "consumer_facts.jsonl"
     source_packages = json.loads((output_dir / "source_packages.json").read_text())
     coverage = json.loads((output_dir / "coverage.json").read_text())
+    pruned = json.loads(
+        (output_dir / "reports" / PRUNED_INTERMEDIATES_REPORT).read_text()
+    )
 
     assert report.valid, _bundle_failure_diagnostics(summary)
     assert summary["valid"]
+    assert pruned["suite_count"] == summary["counts"]["source_package_count"]
+    assert pruned["file_count"] == pruned["suite_count"] * len(SUITE_INTERMEDIATE_FILES)
+    assert not [
+        path
+        for name in SUITE_INTERMEDIATE_FILES
+        for path in (output_dir / "sources").glob(f"*/{name}")
+    ]
     # chronicle#209's NZ WFF package adds 330 TY2024 facts: 329 families and 1
     # person, in one new publisher, package, source table and country.
     # MBIE adds 5,663 August 2025–July 2026 dwelling/bond-record facts, one
@@ -467,6 +456,13 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     # year 2023: no new geography, period or entity keys, duplicate keys or
     # warnings. Its SALT and PTC column fixes, its line 8a relabel and the
     # Historic Table 2 QBI column fix change no count.
+    # Historic Table 2's state package adds Schedule 1 line 1 and Schedule A
+    # lines 7, 8a and 14: 408 TY2022 tax-unit facts (eight measures at 51
+    # states), eight at each state geography. The district file's state-total
+    # rows publish lines 8a and 14 under the same concepts, so 51 states x four
+    # measures add 204 semantic duplicate keys. Measured with the 20 IRS SOI
+    # packages at bundle year 2023, with and without these measures: no new
+    # geography, period or entity keys and no new warnings.
     # G8-d2: one-source build at year 2023 measured 67 CY2025 person facts,
     # one package/table and 67 TA geography keys; only nz-ta-067 is new to
     # the default bundle. Publisher, period and entity keys already exist.
@@ -504,6 +500,16 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     # person, 2 benefit_unit premium payments, 14 government expenditure) and
     # one statistical_scope geography, the German-speaking Community; no
     # warnings.
+    # SSA's Supplement 2025 Tables 7.B3 (December 2024 recipients and average
+    # monthly payments, 128 facts) and 7.B7 (calendar 2024 payment amounts, 65
+    # facts) add 193 person facts in two packages and source tables. Table
+    # 7.B7's Total column repeats Table 7.B1's payment totals, so its package
+    # leaves that column out. Measured with the three SSA packages already in
+    # the bundle, at bundle year 2023: the publisher, geography, period and
+    # entity keys already exist, and Table 7.B3's national federal SSI recipient
+    # count adds the one duplicate key (SSI Monthly Statistics Table 1 prints
+    # the same December 2024 figure, 7,289,843). The bundle already carries the
+    # one duplicate-key warning, so the warning count holds.
     assert summary["counts"] == {
         "aggregate_duplicate_key_count": 0,
         "entity_count": 12,
@@ -582,10 +588,29 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # outturn 2024-25 (1,652) and Social Security Scotland's caseloads of Adult
         # Disability Payment (1,885), Carer Support Payment (282), Child Disability
         # Payment (81) and Pension Age Disability Payment (66).
+        # chronicle#435 adds 396: gov.scot's second homes, empty and long-term empty
+        # properties and unoccupied exemptions, six tables for Scotland and its 32
+        # council areas at September 2024 and September 2025. With them come
+        # chronicle#420's items 12 and 13 (1,823): DESNZ QEP tables 2.4.2, 2.4.3 and
+        # 2.5.2's payment-method shares (627, 627 and 561) and the Scottish
+        # Government's Band I and J estimates (8), and Registers of Scotland's sales
+        # over £1 million (168).
+        # SSA's Supplement Tables 7.B3 and 7.B7 add 193 (128 and 65).
+        # Historic Table 2's state Schedule 1 line 1 and Schedule A lines 7, 8a
+        # and 14 add 408 (see above).
+        # IRS SOI Table 1.4's partnership and S corporation net income and loss legs
+        # add 160 (eight measures in 20 AGI ranges, TY2023).
+        # chronicle#438 adds 66,230. 854 are institutional sector facts:
+        # dwellings by sector from the two balance sheet workbooks (360 and 12)
+        # and ONS's gross and net capital stock of dwellings (480 and 2). 65,376
+        # are Census 2021 TS054 households by tenure, nine categories for each of
+        # the 7,264 MSOAs, whose geography keys the MSOA income package already
+        # carries. Measured with only its five packages at bundle year 2023: no
+        # new geography, period or entity key, duplicate key or warning.
         # IRS SOI Table 1.3 adds 20 TY2023 facts: returns, AGI and the child
         # and other dependent credit (returns and amount), for all returns and
         # each filing status (PolicyEngine/microcosm#880).
-        "fact_count": 2243095,
+        "fact_count": 2312473,
         # The same change adds 82,064 geography keys: 46,363 Scottish 2022
         # output areas (UV404), 35,673 LSOA-level keys from the DESNZ LSOA
         # workbooks (Scotland's data zones already exist), the 26 Northern
@@ -648,7 +673,11 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # chronicle#420's Pathways to Work package adds 14: its age and condition
         # tables' all-claimants rows describe one caseload on bases DWP prints
         # differently (3,627,000 and 3,701,000 for daily living), both kept.
-        "semantic_duplicate_key_count": 3930,
+        # SSA's Table 7.B3 adds one: its national federal SSI recipient count for
+        # December 2024 is SSI Monthly Statistics Table 1's all-ages figure, and
+        # Chronicle keeps both as published.
+        # Historic Table 2's state lines 8a and 14 add 204 (see above).
+        "semantic_duplicate_key_count": 4135,
         # chronicle#310's six FSA portfolio packages (FY2026 files) and the
         # ACS 2024 S1501 state package have no 2023 artifact, so the 2023
         # bundle skips them (10 -> 17); no fact or key count moves.
@@ -658,8 +687,9 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # (B11001, B11003; national and state) have no 2023 artifact either
         # (24 -> 28).
         "skipped_source_count": 28,
-        # chronicle#381 adds the Gambling Commission.
-        "source_count": 62,
+        # chronicle#381 adds the Gambling Commission, and chronicle#420 item 13
+        # Registers of Scotland.
+        "source_count": 63,
         # chronicle#326/#339/#356/#357/#358 add 28 packages and retire the three
         # all-claims UC area packages. chronicle#381 adds four and replaces the
         # 30 June Consumer Trends package with the 30 September one. GSGB 2025
@@ -677,8 +707,14 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # PIP batch adds seven: six Stat-Xplore PIP cases packages and the Pathways
         # to Work evidence pack's points tables; and its Scottish batch adds five:
         # HMRC's Scottish income tax outturn and four Social Security Scotland
-        # caseload packages. IRS SOI Table 1.3 adds one.
-        "source_package_count": 502,
+        # caseload packages. chronicle#435 adds gov.scot's second homes and empty
+        # properties, and with them chronicle#420's three QEP payment-method packages
+        # and the Band I and J estimates, and Registers of Scotland's Property Market
+        # Report. SSA's Supplement Tables 7.B3 and 7.B7 add two. chronicle#438 adds
+        # five: the two balance sheet dwellings packages, the two capital stocks
+        # packages and Census 2021 TS054 by MSOA.
+        # IRS SOI Table 1.3 adds one.
+        "source_package_count": 515,
         # 1 semantic-duplicate warning, plus the publisher wording Chronicle
         # keeps as published: values two packages word differently, groupby
         # rows that drift inside one package (chronicle#265, #266), and the
@@ -730,14 +766,14 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         if row_count == 1:
             assert row["aggregate_fact_key"].startswith("ledger.aggregate_fact.v2:")
             assert row["semantic_fact_key"].startswith("ledger.semantic_fact.v2:")
-    assert row_count == 2243095
+    assert row_count == 2312473
     assert provenance_classes <= {
         "administrative",
         "census",
         "model_output",
         "survey_aggregate",
     }
-    assert source_packages["source_package_count"] == 502
+    assert source_packages["source_package_count"] == 515
     assert source_packages["skipped_source_count"] == 28
     assert sorted(item["source"] for item in source_packages["skipped_sources"]) == [
         "census-acs-s0101-congressional-district-age-2024",
@@ -769,7 +805,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "jct-obbba-revenue-estimates-2025",
         "jct-tax-expenditures-2024",
     ]
-    assert coverage["fact_count"] == 2243095
+    assert coverage["fact_count"] == 2312473
     assert coverage["counts"]["by_source"] == {
         "bea": 446,
         "bfp_economic_outlook": 5,
@@ -781,7 +817,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "cms_medicaid": 515,
         "cms_medicare": 1,
         "cms_nhe": 3,
-        "desnz": 352584,
+        "desnz": 354399,
         "dfe": 770,
         "dfc_ni": 1700,
         "dfi_ni": 33,
@@ -796,7 +832,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "hmrc": 40025,
         "ici": 12,
         "ird": 4362,
-        "irs_soi": 43983,
+        "irs_soi": 44551,
         "isc": 4,
         "jrc_euromod_be": 90,
         "kff": 52,
@@ -811,20 +847,21 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "obr": 4539,
         "ofgem": 3640,
         "onem_rva_unemployment": 1,
-        "ons": 437810,
+        "ons": 504040,
         "onss_contributions": 1,
         "opgroeien_groeipakket": 11,
         "orr": 99,
         "ostbelgien_kindergeld": 35,
+        "ros": 168,
         "rsz_annual_wages_key_figures": 252,
         "rsz_employment_daily_wage_class": 34629,
-        "scotgov": 6654,
+        "scotgov": 7058,
         "sfpd_pension_amount_bands": 10239,
         "sfpd_pensions": 20954,
         "slc": 343,
         "spf_finances_municipal_tax_rate": 565,
         "spf_finances_pit": 1,
-        "ssa": 426,
+        "ssa": 619,
         "statbel_fiscal_income": 565,
         "statbel_fiscal_income_distribution": 14600,
         "statbel_population_structure": 3991,
@@ -840,8 +877,16 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     # package adds one (SC-EST2025-ALLDATA6) and 816 census_pep facts, and the
     # Vintage 2024 package gives up its 51 state totals (chronicle#397).
     # chronicle#420's young people batch adds 18, its PIP batch seven and its Scottish
-    # batch five, one per package. IRS SOI Table 1.3 adds one.
-    assert len(table_counts) == 444
+    # batch five, one per package. chronicle#435 adds five, one per package: the
+    # second homes and empty properties web table, QEP tables 2.4.2, 2.4.3 and 2.5.2,
+    # and the Band I and J consultation's figures; and one more for Registers of
+    # Scotland's tables 9 and 10. SSA's Supplement Tables 7.B3 and 7.B7 add two,
+    # one per package. chronicle#438 adds five, one per package: the dwellings
+    # packages name the balance sheets' Tables 2 to 13, the capital stocks
+    # packages Tables 1.1.1 and 2.1.1 of each release, and the MSOA package
+    # TS054 by MSOA.
+    # IRS SOI Table 1.3 adds one.
+    assert len(table_counts) == 457
     assert (
         table_counts[
             "hmrc:Benefits in kind statistics: July 2026, Tables 1 to 4: company car "
@@ -1356,6 +1401,8 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         == 515
     )
     assert table_counts["ssa:SSA Annual Statistical Supplement 2025 Table 7.B1"] == 416
+    assert table_counts["ssa:SSA Annual Statistical Supplement 2025 Table 7.B3"] == 128
+    assert table_counts["ssa:SSA Annual Statistical Supplement 2025 Table 7.B7"] == 65
     assert (
         table_counts[
             "ons:UK Business, Activity, Size and Location 2025 enterprise "
@@ -2215,6 +2262,9 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     # The congressional-district file's Schedule A line 8b, 8c and 9 columns:
     # six measures at its 480 rows.
     expected_period_counts["tax_year:2022"] += 2880
+    # Historic Table 2's state Schedule 1 line 1 and Schedule A lines 7, 8a
+    # and 14: eight measures at 51 states.
+    expected_period_counts["tax_year:2022"] += 408
     # BEA NIPA Table 7.8 line 17 (B4923C): the bundle year's own column.
     expected_period_counts["calendar_year:2023"] += 1
     # chronicle#343: ONS constituency sales and medians for the years ending
@@ -2389,6 +2439,8 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         expected_period_counts[key] = expected_period_counts.get(key, 0) + count
     # PolicyEngine/microcosm#1418: SPI 2023-24 Table 3.10.
     expected_period_counts["tax_year:2023"] += 159
+    # IRS SOI Table 1.4's partnership and S corporation net income and loss legs, TY2023.
+    expected_period_counts["tax_year:2023"] += 160
     # chronicle#393: the OBR October 2026 EFO packages, by fiscal and calendar year.
     for key, count in {
         "calendar_year:2024": 1,
@@ -2584,6 +2636,15 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     }
     for key, count in chronicle_408_period_increments.items():
         expected_period_counts[key] = expected_period_counts.get(key, 0) + count
+    # chronicle#438: each year from 1995 to 2024 gains the 2025 balance sheet's 12
+    # dwellings facts and the 2025 capital stocks release's 16 (eight rows, gross and
+    # net); end-2025 gains the preliminary balance sheet's 12 and the preliminary
+    # capital stocks release's two.
+    for year in range(1995, 2025):
+        expected_period_counts[f"calendar_year:{year}"] += 12 + 16
+    expected_period_counts["calendar_year:2025"] += 12 + 2
+    # Census Day 2021 gains TS054's nine categories for each of the 7,264 MSOAs.
+    expected_period_counts["calendar_year:2021"] += 9 * 7264
     # chronicle#419: NRS's eight council tax bands for each of the 7,392 data
     # zones, at December 2024 and December 2025.
     for year in (2024, 2025):
@@ -2810,6 +2871,30 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         expected_period_counts[key] = expected_period_counts.get(key, 0) + count
     # IRS SOI Table 1.3: returns, AGI and the child credit by filing status.
     expected_period_counts["tax_year:2023"] += 20
+    # chronicle#435: six tables x 33 areas at each September, months the CTAXBASE
+    # chargeable dwellings packages already stamp.
+    for year in (2024, 2025):
+        expected_period_counts[f"month:{year}-09"] += 6 * 33
+    # chronicle#420 item 12 with it: QEP tables 2.4.2 and 2.4.3 (19 areas) and 2.5.2
+    # (17), three payment methods each, every quarter from April 2024 to June 2026
+    # and in 2024 and 2025; item 13: the Band I and J estimates, 4 properties at
+    # April 2026 values and 4 revenue figures for 2026-27.
+    qep_periods = [f"quarter:2024-Q{quarter}" for quarter in (2, 3, 4)]
+    qep_periods += [f"quarter:2025-Q{quarter}" for quarter in (1, 2, 3, 4)]
+    qep_periods += ["quarter:2026-Q1", "quarter:2026-Q2"]
+    qep_periods += ["calendar_year:2024", "calendar_year:2025"]
+    for key in qep_periods:
+        expected_period_counts[key] += (19 + 19 + 17) * 3
+    expected_period_counts["month:2026-04"] += 4
+    expected_period_counts["fiscal_year:2026"] += 4
+    # Item 13's Registers of Scotland sales over £1 million: 28 areas x 2 tables in
+    # each financial year 2023-24 to 2025-26.
+    for year in (2023, 2024, 2025):
+        expected_period_counts[f"fiscal_year:{year}"] += 28 * 2
+    # SSA's Supplement Table 7.B3 counts recipients in December 2024; Table
+    # 7.B7 sums payments over calendar 2024.
+    expected_period_counts["month:2024-12"] += 128
+    expected_period_counts["calendar_year:2024"] += 65
     assert coverage["counts"]["by_period"] == expected_period_counts
     # country:NZ: 330 WFF (#209) + 5 national population (#211) + 27 Treasury
     # (#321) + 3,522 IRD I1 (#318) + 510 IRD I2 (#210) + 103 MSD (#319)
@@ -2856,11 +2941,15 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         ]
         == 35
     )
+    # SSA's Supplement Tables 7.B3 and 7.B7 add four (two national cells each).
+    # IRS SOI Table 1.4's partnership and S corporation net income and loss legs add 160.
     # IRS SOI Table 1.3 adds 20 national facts.
-    assert coverage["counts"]["by_geography"]["country:0100000US"] == 2136
+    assert coverage["counts"]["by_geography"]["country:0100000US"] == 2300
     # 255, less Vintage 2024's state total (chronicle#397), + 16 Census Vintage
-    # 2025 age groups (15 groups and the total).
-    assert coverage["counts"]["by_geography"]["state:0400000US06"] == 270
+    # 2025 age groups (15 groups and the total), + 6 from SSA's Supplement
+    # Tables 7.B3 (four California cells) and 7.B7 (two), + 8 Historic Table 2
+    # state measures (Schedule 1 line 1 and Schedule A lines 7, 8a and 14).
+    assert coverage["counts"]["by_geography"]["state:0400000US06"] == 284
     assert (
         coverage["counts"]["by_geography"]["congressional_district:5001700US0601"] == 62
     )
@@ -2880,8 +2969,9 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     # fact (48,083) and APS218's UK rows (1,908). chronicle#408 adds ONS's 387 land
     # facts. chronicle#420's young people packages add 17,131: NEET, A06, PAYE RTI,
     # ASHE Table 6 and HMRC's NICs reliefs; its Scottish income tax outturn adds
-    # its 429 UK rows.
-    assert coverage["counts"]["by_geography"]["country:K02000001"] == 109018
+    # its 429 UK rows. chronicle#420's QEP electricity payment-method tables add 66.
+    # chronicle#438 adds its 854 facts, all for the United Kingdom.
+    assert coverage["counts"]["by_geography"]["country:K02000001"] == 109938
     # chronicle#343 adds the 63 OBR surcharge-costing facts for England, and
     # chronicle#358 ONS's 606 single-year residence-type rows for England. GSGB
     # 2025's England participation rows add 40. ISA Tables 9.9 and 9.12's
@@ -2899,14 +2989,15 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     # tables (B.1, B.3, B.9 and B.13) add 544. The October 2026 EFO's table 5.9
     # DWP lines add 56 (chronicle#393). chronicle#397 drops the March 2026 table 4.9
     # DWP lines' 48 facts after 2024-25. The people on UC cube's Great Britain rows
-    # add 4,238 (chronicle#420).
-    assert coverage["counts"]["by_geography"]["country:K03000001"] == 27796
+    # add 4,238 (chronicle#420), and its QEP payment-method tables 99.
+    assert coverage["counts"]["by_geography"]["country:K03000001"] == 27895
     # England and Wales gains table 4.9's AA, CA, DLA/PIP and WFP lines (28),
     # and the October 2026 EFO's table 5.9 the same four lines (28, chronicle#393).
     # chronicle#397 drops the March lines' 24 facts after 2024-25. chronicle#408
     # adds 1,033: VOA's council tax stock (766) and EPC D3 (267). chronicle#420's
-    # Pathways to Work package adds 1,240 (England, Wales and abroad).
-    assert coverage["counts"]["by_geography"]["country:K04000001"] == 3453
+    # Pathways to Work package adds 1,240 (England, Wales and abroad), and its QEP
+    # payment-method tables 99.
+    assert coverage["counts"]["by_geography"]["country:K04000001"] == 3552
     assert coverage["counts"]["by_geography"]["statistical_scope:ofgem:london"] == 216
     # PolicyEngine/microcosm#1415 adds HMRC's overseas and unknown scope, and
     # PolicyEngine/uk-autumn-budget-dashboard-2026#316 its unknown recipient region.
@@ -2968,23 +3059,30 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     # employers claiming HMRC's NICs reliefs, and the reliefs' cost).
     # chronicle#420's PIP packages add 23,947 people.
     # chronicle#420's Scottish packages add 3,966 people.
+    # chronicle#435: dwellings +396 (gov.scot's second homes and empty properties).
+    # With it, chronicle#420 items 12 and 13: households +1,815 (QEP payment
+    # methods), and the Band I and J estimates' dwellings +4 and government +4;
+    # Registers of Scotland's sales over £1 million add 168 dwellings.
+    # SSA's Supplement Tables 7.B3 and 7.B7 add 193 people.
+    # chronicle#438 adds 854 institutional sectors (dwellings by sector and the
+    # capital stocks of dwellings) and 65,376 households (TS054 by MSOA).
     # IRS SOI Table 1.3 adds 20 tax units (PolicyEngine/microcosm#880).
     assert coverage["counts"]["by_entity"] == {
         "benefit_unit": 33645,
-        "dwelling": 708536,
+        "dwelling": 709104,
         "family": 1700,
         "firm": 1927,
-        "government": 14071,
-        "household": 678213,
-        "institutional_sector": 9264,
+        "government": 14075,
+        "household": 745404,
+        "institutional_sector": 10118,
         "pension_plan": 2,
-        "person": 734326,
+        "person": 734519,
         "return": 16087,
         "social_protection_scheme": 36,
-        "tax_unit": 45288,
+        "tax_unit": 45856,
     }
     assert not coverage["duplicates"]["aggregate_fact_keys"]
-    assert len(coverage["duplicates"]["semantic_fact_keys"]) == 3930
+    assert len(coverage["duplicates"]["semantic_fact_keys"]) == 4135
     assert Counter(warning["code"] for warning in summary["warnings"]) == {
         "conflicting_geography_name_across_packages": 91,
         "duplicate_semantic_fact_key": 1,
@@ -3199,6 +3297,8 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     assert (
         output_dir / "sources" / "ssa-ssi-table-7b1-2024" / "consumer_facts.jsonl"
     ).exists()
+    for source in ("ssa-ssi-table-7b3-2024", "ssa-ssi-table-7b7-2024"):
+        assert (output_dir / "sources" / source / "consumer_facts.jsonl").exists()
     assert (
         output_dir
         / "sources"

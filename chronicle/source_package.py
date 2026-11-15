@@ -738,6 +738,27 @@ SOURCE_PACKAGE_ALIASES = {
     ),
     "scotgov-padp-caseload-july-2026": Path("scotgov/padp_caseload_july_2026"),
     # end chronicle#420 (Scotland)
+    # chronicle#435: Scotland's second homes and empty dwellings by council area, for
+    # Microcosm's Scottish council tax level (PolicyEngine/microcosm#1095).
+    "scotgov-second-homes-empty-properties-2025": Path(
+        "scotgov/second_homes_empty_properties_2025"
+    ),
+    # and the chronicle#420 items Microcosm's same PR needs: item 12, DESNZ's payment
+    # methods by region (Quarterly Energy Prices tables 2.4.2, 2.4.3 and 2.5.2).
+    "desnz-qep-electricity-payment-methods-2026": Path(
+        "desnz/qep_electricity_payment_methods_2026"
+    ),
+    "desnz-qep-time-of-use-electricity-payment-methods-2026": Path(
+        "desnz/qep_time_of_use_electricity_payment_methods_2026"
+    ),
+    "desnz-qep-gas-payment-methods-2026": Path("desnz/qep_gas_payment_methods_2026"),
+    # Item 13, the Scottish Government's Band I and J estimates and Registers of
+    # Scotland's residential sales over £1 million.
+    "scotgov-council-tax-high-value-bands-consultation-2026": Path(
+        "scotgov/council_tax_high_value_bands_consultation_2026"
+    ),
+    "ros-property-market-report-2025-26": Path("ros/property_market_report_2025_26"),
+    # end chronicle#435
     "hmrc-cgt-age-2026": Path("hmrc/cgt_age_2026"),
     "hmrc-cgt-asset-type-2026": Path("hmrc/cgt_asset_type_2026"),
     "hmrc-cgt-badr-ir-2026": Path("hmrc/cgt_badr_ir_2026"),
@@ -1078,6 +1099,8 @@ SOURCE_PACKAGE_ALIASES = {
     ),
     "ssa-ssi-monthly-statistics-2024-12": Path("ssa/ssi_monthly_statistics_2024_12"),
     "ssa-ssi-table-7b1-2024": Path("ssa/ssi_table_7b1_2024"),
+    "ssa-ssi-table-7b3-2024": Path("ssa/ssi_table_7b3_2024"),
+    "ssa-ssi-table-7b7-2024": Path("ssa/ssi_table_7b7_2024"),
     "hhs-acf-tanf-caseload-2024": Path("hhs_acf/tanf_caseload_2024"),
     "hhs-acf-tanf-financial-2024": Path("hhs_acf/tanf_financial_2024"),
     "hmrc-vat-firm-targets-2024-25": Path("hmrc/vat_firm_targets_2024_25"),
@@ -1278,6 +1301,19 @@ SOURCE_PACKAGE_ALIASES = {
     ),
     "ons-land-underlying-buildings-2022": Path("ons/land_underlying_buildings_2022"),
     # end PolicyEngine/chronicle#408
+    # PolicyEngine/chronicle#438: dwellings by sector and ONS's capital stocks
+    "ons-national-balance-sheet-dwellings-2025": Path(
+        "ons/national_balance_sheet_dwellings_2025"
+    ),
+    "ons-national-balance-sheet-dwellings-preliminary-2026": Path(
+        "ons/national_balance_sheet_dwellings_preliminary_2026"
+    ),
+    "ons-capital-stocks-dwellings-2025": Path("ons/capital_stocks_dwellings_2025"),
+    "ons-capital-stocks-dwellings-preliminary-2026": Path(
+        "ons/capital_stocks_dwellings_preliminary_2026"
+    ),
+    "ons-census2021-ts054-tenure-msoa": Path("ons/census2021_ts054_tenure_msoa"),
+    # end PolicyEngine/chronicle#438
     "obr-fuel-duty-receipts-by-vehicle-april-2024": Path(
         "obr/fuel_duty_receipts_by_vehicle_april_2024"
     ),
@@ -1477,6 +1513,10 @@ class SourceArtifactSpec:
         if self.parser == "xlsx_read_only_used_range":
             return source_cells_from_xlsx(
                 content, artifact, sheets=self.sheets, read_only=True
+            )
+        if self.parser == "xlsx_numeric_text_used_range":
+            return source_cells_from_xlsx(
+                content, artifact, sheets=self.sheets, coerce_numeric_text=True
             )
         if self.parser == "zip_xlsx_used_range":
             member_content, member_name = self._archive_member_content(
@@ -2021,6 +2061,7 @@ class DeclarativeRecordSet:
         measures = tuple(
             _measure_from_mapping(measure, year=year)
             for measure in _required(self.payload, "measures", "record_set")
+            if _mapping_applies_to_year(measure, year=year, context="measure")
         )
         return SourceRecordSetSpec(
             record_set_id=_render_required_string(
@@ -3844,6 +3885,55 @@ def _required(payload: dict[str, Any], key: str, context: str) -> Any:
     if key not in payload:
         raise ValueError(f"Missing required {context} field: {key}")
     return payload[key]
+
+
+def _mapping_applies_to_year(
+    payload: dict[str, Any],
+    *,
+    year: int,
+    context: str,
+) -> bool:
+    """Return whether a declarative mapping applies to the requested year."""
+    years = payload.get("years")
+    if years is None:
+        return True
+    identifier = payload.get(f"{context}_id")
+    context_label = f"{context} {identifier!r}" if identifier else context
+    if not isinstance(years, list) or not years:
+        raise ValueError(f"{context_label} years must be a non-empty list")
+    if any(isinstance(item, bool) or not isinstance(item, int) for item in years):
+        raise ValueError(f"{context_label} years entries must be integers")
+    if len(set(years)) != len(years):
+        raise ValueError(f"{context_label} years entries must be unique")
+    # Every per-year map must cover exactly the declared years: a map year
+    # outside ``years`` would drop the mapping at that year without an error.
+    by_year_keys = sorted(
+        key for key in payload if isinstance(key, str) and key.endswith("_by_year")
+    )
+    if "column_by_year" in by_year_keys:
+        by_year_keys.remove("column_by_year")
+        by_year_keys.insert(0, "column_by_year")
+    for key in by_year_keys:
+        mapped = payload[key]
+        if not isinstance(mapped, dict):
+            raise ValueError(f"{context_label} {key} must map years to values")
+        for declared_year in years:
+            if declared_year not in mapped and str(declared_year) not in mapped:
+                raise ValueError(
+                    f"{context_label} {key} has no entry for "
+                    f"declared year {declared_year}"
+                )
+        extra = sorted(
+            str(mapped_year)
+            for mapped_year in mapped
+            if str(mapped_year) not in {str(item) for item in years}
+        )
+        if extra:
+            raise ValueError(
+                f"{context_label} {key} maps year(s) {', '.join(extra)} "
+                f"outside its years {years}"
+            )
+    return year in years
 
 
 def _year_mapping(files_by_year: dict[Any, Any], year: int) -> dict[str, str]:

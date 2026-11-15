@@ -1,9 +1,10 @@
 """
 Supabase client for Chronicle.
 
-Provides connection to PolicyEngine Supabase database for:
-- Source metadata and dataset registries
-- Target inputs
+Provides connection to PolicyEngine Supabase database for source metadata and
+dataset registries. The legacy Supabase target-input helpers (query_targets,
+query_strata, insert_targets_batch) were retired; see
+docs/us-legacy-etl-cleanup.md.
 """
 
 from __future__ import annotations
@@ -27,7 +28,6 @@ def _env(*names: str) -> str | None:
 
 
 LEDGER_SCHEMA = _env("POLICYENGINE_LEDGER_SCHEMA") or "ledger"
-TARGETS_SCHEMA = _env("POLICYENGINE_TARGETS_SCHEMA") or "targets"
 
 
 @dataclass
@@ -123,103 +123,3 @@ def query_sources(
 
     result = query.execute()
     return result.data
-
-
-# =============================================================================
-# Targets and strata
-# =============================================================================
-
-
-def query_strata(
-    jurisdiction: Optional[str] = None,
-) -> List[Dict[str, Any]]:
-    """
-    Query target input strata with their constraints.
-
-    Args:
-        jurisdiction: Filter by jurisdiction
-
-    Returns:
-        List of strata records with nested constraints
-    """
-    client = get_supabase_client()
-    query = _table(client, TARGETS_SCHEMA, "strata").select("*, stratum_constraints(*)")
-
-    if jurisdiction:
-        query = query.eq("jurisdiction", jurisdiction)
-
-    result = query.execute()
-    return result.data
-
-
-def query_targets(
-    jurisdiction: Optional[str] = None,
-    year: Optional[int] = None,
-    source_id: Optional[str] = None,
-    variable: Optional[str] = None,
-) -> List[Dict[str, Any]]:
-    """
-    Query Chronicle target inputs.
-
-    Args:
-        jurisdiction: Filter by jurisdiction (via stratum join)
-        year: Filter by period/year
-        source_id: Filter by source UUID
-        variable: Filter by variable name
-
-    Returns:
-        List of target records with stratum info
-    """
-    client = get_supabase_client()
-    # Nested join: strata with their stratum_constraints
-    query = _table(client, TARGETS_SCHEMA, "targets").select(
-        "*, strata(*, stratum_constraints(*)), sources(*)"
-    )
-
-    if year:
-        query = query.eq("period", year)
-    if source_id:
-        query = query.eq("source_id", source_id)
-    if variable:
-        query = query.eq("variable", variable)
-
-    result = query.execute()
-
-    # Filter by jurisdiction if specified (post-query since it's on joined table)
-    data = result.data
-    if jurisdiction:
-        data = [
-            t for t in data if t.get("strata", {}).get("jurisdiction") == jurisdiction
-        ]
-
-    return data
-
-
-# =============================================================================
-# Insert operations
-# =============================================================================
-
-
-def insert_targets_batch(
-    targets: List[Dict[str, Any]],
-    chunk_size: int = 100,
-) -> int:
-    """
-    Insert target records in batches.
-
-    Args:
-        targets: List of target dicts
-        chunk_size: Records per batch
-
-    Returns:
-        Number of records inserted
-    """
-    client = get_supabase_client()
-    total = 0
-
-    for i in range(0, len(targets), chunk_size):
-        chunk = targets[i : i + chunk_size]
-        _table(client, TARGETS_SCHEMA, "targets").insert(chunk).execute()
-        total += len(chunk)
-
-    return total

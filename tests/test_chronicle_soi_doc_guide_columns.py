@@ -97,6 +97,16 @@ GUIDE_DEFINITIONS: dict[str, tuple[str, ...]] = {
         "Number of returns with qualified dividends",
     ),
     "qualified_dividends_amount": ("1040:3a", "Qualified dividends amount"),
+    # Schedule 1 line 1 reports only the taxable part of these refunds; the
+    # guides' wording drops "taxable", so the ids and labels carry it.
+    "taxable_state_local_income_tax_refunds_returns": (
+        "Schedule 1:1",
+        "Number of returns with state and local income tax refunds",
+    ),
+    "taxable_state_local_income_tax_refunds_amount": (
+        "Schedule 1:1",
+        "State and local income tax refunds amount",
+    ),
     "schedule_c_income_returns": (
         "Schedule 1:3",
         "Number of returns with business or professional net income (less loss)",
@@ -187,6 +197,11 @@ GUIDE_DEFINITIONS: dict[str, tuple[str, ...]] = {
         "Schedule A:5e",
         "Limited state and local taxes",
     ),
+    "taxes_paid_deduction_returns": (
+        "Schedule A:7",
+        "Number of returns with taxes paid",
+    ),
+    "taxes_paid_deduction_amount": ("Schedule A:7", "Taxes paid amount"),
     "mortgage_interest_paid_returns": (
         "Schedule A:8a",
         "Number of returns with mortgage interest paid",
@@ -753,6 +768,97 @@ def test_congressional_district_interest_parts_share_table_2_1_ids():
             measure_id = f"{part}_{suffix}"
             assert district[measure_id].concept == table_2_1[measure_id]["concept"]
             assert district[measure_id].label == table_2_1[measure_id]["label"]
+
+
+# Schedule A lines that Historic Table 2's state rows, the congressional-district
+# rows and Table 2.1's national rows all publish, by the IRS variables the
+# geographic files read for them.
+SHARED_SCHEDULE_A_LINES = {
+    "mortgage_interest_paid": ("N19300", "A19300"),  # line 8a
+    "charitable": ("N19700", "A19700"),  # line 14
+}
+
+
+def test_schedule_a_lines_shared_across_grains_carry_table_2_1_ids():
+    """A consumer can join state, district and national rows on concept.
+
+    Every package that reads one of these IRS variables declares Table 2.1's
+    measure id, concept and label for the same Schedule A line. The
+    congressional-district file used ``irs_soi.charitable_contributions_
+    deduction`` for line 14 while Table 2.1 used ``irs_soi.contributions_
+    deduction``; docs/concept-migrations.md records the move to Table 2.1's.
+    """
+    table_2_1 = {
+        measure["measure_id"]: measure
+        for record_set in yaml.safe_load(
+            (IRS_SOI_PACKAGES / "table_2_1" / "source_package.yaml").read_text()
+        )["record_sets"]
+        for measure in record_set["measures"]
+    }
+    readers: dict[str, set[str]] = defaultdict(set)
+    for part, variables in SHARED_SCHEDULE_A_LINES.items():
+        for variable, suffix in zip(variables, ("returns", "amount"), strict=True):
+            measure_id = f"{part}_{suffix}"
+            for read in _column_reads():
+                if read.header != variable:
+                    continue
+                where = f"{read.package_dir}:{read.measure_id} ({variable})"
+                assert read.measure_id == measure_id, where
+                assert read.concept == table_2_1[measure_id]["concept"], where
+                assert read.label == table_2_1[measure_id]["label"], where
+                readers[variable].add(read.package_dir)
+
+    for variables in SHARED_SCHEDULE_A_LINES.values():
+        for variable in variables:
+            assert {
+                "congressional_district_2022",
+                "historic_table_2_state_broad_2022",
+            } <= readers[variable], variable
+
+
+# Schedule 1 line 1 and Schedule A line 7, first read by Historic Table 2's
+# state package. One IRS variable carries one measure id, concept and label in
+# every package that reads it, so a later vintage or a district selection cannot
+# fork the identity.
+SINGLE_IDENTITY_COLUMNS = {
+    "N00700": (
+        "taxable_state_local_income_tax_refunds_returns",
+        "irs_soi.returns_with_taxable_state_local_income_tax_refunds",
+        "Returns with taxable refunds of state and local income taxes",
+    ),
+    "A00700": (
+        "taxable_state_local_income_tax_refunds_amount",
+        "irs_soi.taxable_state_local_income_tax_refunds",
+        "Taxable refunds of state and local income taxes",
+    ),
+    "N18300": (
+        "taxes_paid_deduction_returns",
+        "irs_soi.returns_with_taxes_paid_deduction",
+        "Returns with taxes paid deduction",
+    ),
+    "A18300": (
+        "taxes_paid_deduction_amount",
+        "irs_soi.taxes_paid_deduction",
+        "Taxes paid deduction amount",
+    ),
+}
+
+
+def test_line_7_and_refund_columns_keep_one_identity():
+    seen: dict[str, set[str]] = defaultdict(set)
+    for read in _column_reads():
+        if read.header not in SINGLE_IDENTITY_COLUMNS:
+            continue
+        where = f"{read.package_dir}:{read.measure_id} ({read.header})"
+        assert (read.measure_id, read.concept, read.label) == SINGLE_IDENTITY_COLUMNS[
+            read.header
+        ], where
+        seen[read.header].add(read.package_dir)
+
+    # Further readers (a TY2023 twin, a district selection) are welcome once
+    # they pass the identity check above.
+    for header in SINGLE_IDENTITY_COLUMNS:
+        assert "historic_table_2_state_broad_2022" in seen[header], header
 
 
 @cache

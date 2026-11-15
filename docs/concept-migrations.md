@@ -149,3 +149,38 @@ The line 10 ids may not be read from a geographic file. Two differential checks
 compare published values: the district US row against Historic Table 2's, and
 the line 8a column and four-part sum against Table 2.1. A property check holds
 every limited SALT row to the $10,000 line 5e cap, within publisher rounding.
+
+## 2026-10-12: IRS SOI Schedule A line 14 takes Table 2.1's contributions concept
+
+| Package | Columns | Measure id | Old concept / label | New concept / label |
+|---|---|---|---|---|
+| `soi-congressional-district-2022` | `N19700` | `charitable_returns` | `irs_soi.returns_with_charitable_contributions_deduction` / "Returns with charitable contributions deduction" | `irs_soi.returns_with_contributions_deduction` / "Returns with contributions deduction" |
+| same | `A19700` | `charitable_amount` | `irs_soi.charitable_contributions_deduction` / "Charitable contributions deduction" | `irs_soi.contributions_deduction` / "Contributions deduction amount" |
+
+`measure_id`, `source_record_id`, values and lineage stay.
+
+**Why.** The congressional-district and Historic Table 2 guides define
+`N19700`/`A19700` as "Total charitable contributions", Schedule A line 14 (the
+2022 form's "Add lines 11 through 13"). Table 2.1's `charitable_*` read its
+"Contributions deduction: Total" columns, the same line, under
+`irs_soi.contributions_deduction`. Two ids named one line. For TY2022 the
+district file's US `A19700` is $206.1B and Historic Table 2's is $221.0B,
+0.927 and 0.994 of Table 2.1's $222.4B.
+
+**Added alongside.** `soi-historic-table-2-state-broad-2022` now reads the same
+line 14 columns, and line 8a's `N19300`/`A19300`, for every state under Table
+2.1's ids, concepts and labels. It also reads two columns no package selected
+before, under new ids: `N00700`/`A00700` (Schedule 1 line 1, taxable refunds of
+state and local income taxes) as `taxable_state_local_income_tax_refunds_*`, and
+`N18300`/`A18300` (Schedule A line 7, taxes paid) as `taxes_paid_deduction_*`.
+
+**Consumer effect.** Consumers that select by `measure_id` see no change from
+the rename. The district file's state-total rows and the new Historic Table 2
+state rows publish the same lines 8a and 14 for the same states, so they share
+semantic fact keys, as the other columns of the two files already do.
+
+**Pinned by** `tests/test_chronicle_soi_doc_guide_columns.py`:
+`test_schedule_a_lines_shared_across_grains_carry_table_2_1_ids` holds every
+package that reads `N19300`, `A19300`, `N19700` or `A19700` to Table 2.1's
+measure id, concept and label, and `test_line_7_and_refund_columns_keep_one_identity`
+gives `N00700`, `A00700`, `N18300` and `A18300` one identity in every package.

@@ -457,7 +457,9 @@ facts; field contracts and caveats are in
 
 Published inputs for Microcosm's land value work
 ([PolicyEngine/uk-land-value-tax](https://github.com/PolicyEngine/uk-land-value-tax)). Eight of
-the issue's nine items are here: about 326,500 new facts, plus three raw-only registrations.
+the issue's nine items came first: about 326,500 new facts, plus three raw-only registrations.
+The ninth, UCL's house price per square metre, followed once `publish-raw` could upload files
+above 300 MiB ([chronicle#409](https://github.com/PolicyEngine/chronicle/issues/409)).
 Field contracts and caveats are in
 [`docs/data-sources/uk-land-value-inputs-408.md`](data-sources/uk-land-value-inputs-408.md).
 
@@ -484,8 +486,26 @@ Field contracts and caveats are in
   `hmrc-stamp-tax-statistics-2024-25` (1,135 facts).
 - **Tax Policy Associates' model.** Three files pinned raw at one commit, with no facts
   (`tpa-lvt-model-2026`).
-- **Not in this PR.** UCL's house price per square metre file (item 6) is above the 300 MiB that
-  `publish-raw` can upload ([chronicle#409](https://github.com/PolicyEngine/chronicle/issues/409)).
+- **UCL's house price per square metre (item 6).** UK Data Service ReShare 856542's two
+  bundles, 3.2 and 4.4 GB, pinned raw with no facts (`ucl-house-price-per-square-metre-856542`).
+
+## Beyond parity — UK dwellings and tenure inputs (chronicle#438)
+
+Inputs for Microcosm's stock table of homes
+([PolicyEngine/microcosm#1524](https://github.com/PolicyEngine/microcosm/issues/1524)) and its
+base ledger, following chronicle#408's land by sector. Five packages add 66,230 facts; field
+contracts, parity checks and caveats are in
+[`docs/data-sources/uk-dwellings-capital-stocks-438.md`](data-sources/uk-dwellings-capital-stocks-438.md).
+
+- **Dwellings by sector.** Dwellings (AN.111) for the twelve sectors of the two pinned balance
+  sheet workbooks, with no new file: `ons-national-balance-sheet-dwellings-2025` (360 facts,
+  1995 to 2024) and `ons-national-balance-sheet-dwellings-preliminary-2026` (12, end-2025).
+- **ONS capital stocks of dwellings.** The gross and net stock at current prices:
+  `ons-capital-stocks-dwellings-2025` (480 facts, eight sector rows, 1995 to 2024) and
+  `ons-capital-stocks-dwellings-preliminary-2026` (2, the whole economy in 2025).
+- **Tenure by MSOA.** Census 2021 TS054 for the 7,264 MSOAs of England and Wales, in the
+  categories and spec ids of `ons-census2021-ts054-tenure-lad`, from Nomis's bulk download
+  (`ons-census2021-ts054-tenure-msoa`, 65,376 facts).
 
 ## Beyond parity — UK young people and work facts (chronicle#420)
 
@@ -574,6 +594,59 @@ field contracts and caveats are in
   - percentages, ADP's Accessible Vehicles and Equipment counts, months before April 2024,
     and the CDP and PADP award-level, age and council tables (#420 asks for their totals);
   - the "Other" council rows, which have no code.
+
+## Beyond parity — UK Scottish second homes and empty dwellings (chronicle#435)
+
+Published facts for Microcosm's Scottish council tax level (PolicyEngine/microcosm#1095), item 1
+of [chronicle#435](https://github.com/PolicyEngine/chronicle/issues/435). Microcosm levels
+Scotland's bills to the liability of every chargeable dwelling, and these counts let it take
+out the second homes and empty dwellings no survey household lives in. One package adds 396
+facts; field contracts and caveats are in
+[`docs/data-sources/uk-scottish-second-homes-facts-435.md`](data-sources/uk-scottish-second-homes-facts-435.md).
+
+- **Second homes and empty properties, September 2025 edition**
+  (`scotgov-second-homes-empty-properties-2025`, 396 facts): second homes, empty properties
+  (more than 6 months, liable for council tax), long-term empty properties (12 months or more),
+  those with a discount below 10% or an increase, unoccupied exemptions, and second homes plus
+  empty properties, for Scotland and its 32 council areas at September 2024 and September 2025.
+- Not ported:
+  - the years before 2024, which #435 does not ask for;
+  - the "Charts and Tables" workbook, which repeats the September 2025 counts with rates per
+    10,000 dwellings.
+- Not published: any split by council tax band or by discount or premium rate beyond the
+  long-term empty table, or Band D equivalents by class.
+- Item 2, NEET's November 2026 edition, follows ONS's release.
+
+## Beyond parity — UK payment methods and Bands I and J (chronicle#420 items 12 and 13)
+
+Two items of [chronicle#420](https://github.com/PolicyEngine/chronicle/issues/420) that
+Microcosm's next data PR also needs, carried with chronicle#435's package PR. Five packages add
+1,991 facts; field contracts and caveats are in
+[`docs/data-sources/uk-payment-methods-and-high-value-bands-420.md`](data-sources/uk-payment-methods-and-high-value-bands-420.md).
+
+- **Quarterly Energy Prices payment methods** (item 12;
+  `desnz-qep-electricity-payment-methods-2026`, 627 facts;
+  `desnz-qep-time-of-use-electricity-payment-methods-2026`, 627;
+  `desnz-qep-gas-payment-methods-2026`, 561). These are tables 2.4.2, 2.4.3 and 2.5.2: the
+  percentage of domestic customers paying by standard credit, Direct Debit and prepayment.
+  - Standard electricity, Economy 7 and other time of use electricity, and gas.
+  - By former PES region and nation, each quarter from April 2024 to June 2026 and in 2024 and
+    2025.
+- **Bands I and J** (item 13; `scotgov-council-tax-high-value-bands-consultation-2026`, 8),
+  from the Scottish Government's consultation of 6 July 2026. These are the published low and
+  high estimates of properties in the proposed Bands I and J at 1 April 2026 values, and of
+  their additional revenue per year.
+- **Sales over £1 million** (item 13; `ros-property-market-report-2025-26`, 168), from
+  Registers of Scotland's Property Market Report 2025-26 tables 9 and 10. These are the volume
+  and value of residential sales of more than £1 million by local authority, 2023-24 to
+  2025-26.
+  - `ros` is a new UK publisher. The RoS site refuses scripted requests, so the workbook was
+    downloaded in a browser.
+- Not ported:
+  - QEP's earlier periods, its fixed-tariff sheets, and its supplier-type tables 2.4.1 and
+    2.5.1;
+  - RoS's years before 2023-24.
+- Not published: any RoS split of sales above £2 million, which needs an ad hoc table from RoS.
 
 ## Consumer contracts
 

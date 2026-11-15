@@ -108,12 +108,12 @@ chronicle/
 │   ├── sources/             # Source lineage helpers
 │   ├── facts/               # Source-backed facts
 │   ├── normalization/       # Low-assumption representation helpers
-│   ├── targets/             # Target input schema, client, loaders
+│   ├── targets/             # Target source coverage (US poverty/nonfiler)
 │   ├── jurisdictions/       # Temporary in-repo jurisdiction source prototypes
-├── db/                      # SQLModel persistence and source loaders
-│   ├── schema.py            # SQLModel: Target, Stratum, StratumConstraint
+├── db/                      # Source-artifact store and packaged source files
+│   ├── schema.py            # SQLModel: SourceArtifact, SourceTable, SourceRow
 │   ├── supabase_client.py   # Supabase client helpers
-│   └── etl_*.py             # Source-specific ETL pipelines
+│   └── data/                # Publisher files that source packages read
 ├── data/                    # Cached data files
 └── docs/                    # Architecture and source documentation
 ```
@@ -127,23 +127,16 @@ Solver execution and calibrated dataset construction belong in Microcosm.
 
 ### 1. Install
 
+Chronicle is not published on PyPI. Clone this repository into a
+Chronicle-named directory and install it with its development extras:
+
 ```bash
-pip install policyengine-chronicle
-# Or for development, clone this repository into a Chronicle-named directory:
 git clone <current repository URL> chronicle
 cd chronicle
-pip install -e ".[dev]"
+uv sync --all-extras
 ```
 
-### 2. Initialize and Load Legacy Target Inputs
-
-```bash
-chronicle init
-chronicle load soi --years 2021
-chronicle stats
-```
-
-### 3. Validate Fixture Facts
+### 2. Validate Fixture Facts
 
 The standalone Chronicle fact harness validates JSONL aggregate facts and emits a
 JSON report with fact counts, QA counts, warnings, and validation errors:
@@ -200,6 +193,19 @@ This writes queryable Chronicle-owned tables such as `source_rows`,
 `fact_source_rows`. The DB is a deterministic build artifact from source
 manifests, parsers, and checked-in specs; hosted Postgres/Supabase should mirror
 this schema rather than become the unreproducible origin of source-backed facts.
+
+On the same Python and SQLite build, identical inputs write a byte-identical
+`ledger.db`, so a rebuilt suite's `ledger.db`, `datapackage.json` and
+`ro-crate-metadata.json` can be checked against published ones by sha256. (The
+SQLite file header records the library version that wrote it.) Writing
+`ledger.db` never reads the clock:
+`ledger_builds.created_at` is taken from
+[`SOURCE_DATE_EPOCH`](https://reproducible-builds.org/specs/source-date-epoch/)
+(Unix seconds) when it is set and is the Unix epoch otherwise, and a malformed
+value fails the build before any output is touched. To reproduce a build
+stamped with another time, set `SOURCE_DATE_EPOCH` to its `created_at` in Unix
+seconds. Reports record absolute output paths, so compare rebuilds made at the
+same `--out` path.
 
 To run the source-package build suite agents should target, build the source
 rows/cells, source-region spec, selector report, aggregate facts, DB artifact,
@@ -272,15 +278,27 @@ concept alignment evidence, Axiom concept validation status, and stage-report
 validity.
 
 To build the downstream integration artifact Microcosm can inspect, merge
-available source-package suites for a year into one bundle:
+available source-package suites for a year into one bundle. Give each run its
+own output directory: `--replace` deletes the directory first, so runs that
+share an `--out` path delete each other's output.
 
 ```bash
-uv run chronicle build-bundle --year 2023 --out /tmp/ledger-us-2023 --replace
+RUN_DIR="$(mktemp -d)"
+uv run chronicle build-bundle --year 2023 --out "$RUN_DIR/ledger-us-2023" --slim
 ```
 
 This writes a root `consumer_facts.jsonl`, `source_packages.json`,
 `coverage.json`, and `reports/build_bundle.json`. Source-specific suite outputs
-remain nested under `sources/<source-package>/`. The bundle coverage report
+remain nested under `sources/<source-package>/`. `--slim` deletes each suite's
+`source_rows.jsonl`, `source_cells.jsonl`, `facts.jsonl` and `ledger.db` as soon
+as that suite finishes and lists them in `reports/pruned_intermediates.json`.
+Slim changes no file the bundle keeps: the merged and per-suite
+`consumer_facts.jsonl`, `coverage.json`, `source_packages.json` and every
+report match a full build's byte for byte, so `source_packages.json` and each
+suite's `datapackage.json` still name the deleted files. Without `--slim`, the 2023 default bundle keeps tens of GB of
+them: each BEA NIPA suite writes a 496 MB `source_rows.jsonl` and a 1 GB
+`ledger.db` for under 100 KB of consumer facts. Leave `--slim` off only to
+inspect those files, or build the one package with `build-suite`. The bundle coverage report
 includes counts by source, geography, entity, period, observed measure, and
 concept plus duplicate `aggregate_fact_key` and `semantic_fact_key` diagnostics.
 The row-level downstream contract is `consumer_facts.jsonl`; the other bundle
@@ -305,8 +323,9 @@ For the UK source-package feed, build the curated UK suite and then a facts-only
 consumer artifact:
 
 ```bash
-uv run chronicle build-bundle --suite uk --out /tmp/chronicle-uk --replace
-uv run chronicle build-consumer-artifact --facts /tmp/chronicle-uk --out /tmp/chronicle-uk-artifact --replace
+RUN_DIR="$(mktemp -d)"
+uv run chronicle build-bundle --suite uk --out "$RUN_DIR/chronicle-uk" --slim
+uv run chronicle build-consumer-artifact --facts "$RUN_DIR/chronicle-uk" --out "$RUN_DIR/chronicle-uk-artifact"
 ```
 
 The command writes a `policyengine_ledger.consumer_artifact.v2` artifact containing
@@ -320,8 +339,9 @@ The US off-year bundle behavior is unchanged and out of scope here.
 The New Zealand feed builds the same way from the curated NZ suite:
 
 ```bash
-uv run chronicle build-bundle --suite nz --out /tmp/chronicle-nz --replace
-uv run chronicle build-consumer-artifact --facts /tmp/chronicle-nz --out /tmp/chronicle-nz-artifact --replace
+RUN_DIR="$(mktemp -d)"
+uv run chronicle build-bundle --suite nz --out "$RUN_DIR/chronicle-nz" --slim
+uv run chronicle build-consumer-artifact --facts "$RUN_DIR/chronicle-nz" --out "$RUN_DIR/chronicle-nz-artifact"
 ```
 
 `NZ_BUNDLE_SOURCES` in `chronicle/bundle.py` lists every package under
@@ -338,8 +358,9 @@ cannot be combined with `--source`.
 The Belgian feed builds from the curated BE suite:
 
 ```bash
-uv run chronicle build-bundle --suite be --out /tmp/chronicle-be --replace
-uv run chronicle build-consumer-artifact --facts /tmp/chronicle-be --out /tmp/chronicle-be-artifact --replace
+RUN_DIR="$(mktemp -d)"
+uv run chronicle build-bundle --suite be --out "$RUN_DIR/chronicle-be" --slim
+uv run chronicle build-consumer-artifact --facts "$RUN_DIR/chronicle-be" --out "$RUN_DIR/chronicle-be-artifact"
 ```
 
 `BE_BUNDLE_SOURCES` in `chronicle/bundle.py` lists every package under the
@@ -552,7 +573,7 @@ same `--axiom-cli` and `--axiom-root` flags, plus
 `--require-axiom-validation` when skipped concept checks should fail agent
 acceptance.
 
-### 4. Run Chronicle Explorer
+### 3. Run Chronicle Explorer
 
 Chronicle Explorer is a Next/Tailwind app that reads the fixture fact JSONL and
 source-cell JSONL, then shows aggregate facts, source-cell lineage, and
@@ -574,25 +595,19 @@ By default, the workbench reads the current local suite outputs at
 LEDGER_EXPLORER_DATA_DIRS=/tmp/chronicle-build-a,/tmp/chronicle-build-b npm run dev -- --port 3090
 ```
 
-### 5. Query Target Inputs in Python
+## Retired legacy target tables
 
-```python
-from policyengine_chronicle.targets import DataSource, Target, TargetType, query_targets
-
-target_rows = query_targets(jurisdiction="us", year=2024)
-```
-
-## Target Input Schema
-
-Target inputs use a three-table schema:
-
-- **strata**: Population subgroups, such as California filers with AGI between
-  $50k and $75k.
-- **stratum_constraints**: Rules defining each stratum.
-- **targets**: Source-published aggregate values linked to strata.
-
-These are source-backed inputs. Microcosm owns the contracts that select them,
-the active support-aware subset, and calibrated solver execution.
+Chronicle used to load hand-written ETLs into a local SQLite `targets` /
+`strata` / `stratum_constraints` schema (`chronicle load`, `chronicle stats`,
+`chronicle query`) and to read a Supabase copy through
+`policyengine_chronicle.targets.query_targets`. No live consumer read those
+tables, and most of their values did not trace to publisher bytes, so they were
+retired.
+Source-backed facts reach consumers through source packages, the bundle and
+the consumer-fact export. Microcosm owns the contracts that select them, the
+active support-aware subset, and calibrated solver execution. See
+[`docs/us-legacy-etl-cleanup.md`](docs/us-legacy-etl-cleanup.md) for what each
+retired loader held and which package publishes it now.
 
 ## Identifier Epochs
 
@@ -663,7 +678,7 @@ normalized_fact = convert_units(fact, 1000, "count")
 
 ## Current Coverage
 
-### Aggregate Facts And Target Inputs
+### Aggregate facts
 
 | Source | Coverage | Description |
 |--------|----------|-------------|

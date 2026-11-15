@@ -4,12 +4,11 @@ Chronicle source-population agents should fill constrained source packages and l
 the build suite decide whether the package is admissible. Agents should not
 hand-edit Chronicle DB artifacts, generated JSONL outputs, or core schema modules.
 
-The older Python ETL loaders that write directly into the legacy `targets`
-tables are compatibility and migration inputs, not the preferred agent
-population path. They are useful for proving source coverage against Microcosm
-today, but a source family should become agent-ready only after it is expressed
-as a source package with full-document parsing, source-row or source-cell
-lineage, provenance, constraints, and a passing `build-suite` report.
+The older Python ETL loaders that wrote directly into the legacy `targets`
+tables were retired (see `docs/us-legacy-etl-cleanup.md`). A source family
+becomes agent-ready only after it is expressed as a source package with
+full-document parsing, source-row or source-cell lineage, provenance,
+constraints, and a passing `build-suite` report.
 
 The first gate for a new package is source-artifact acquisition. Agents should
 register raw source files with `uv run chronicle fetch-artifact` before authoring
@@ -19,7 +18,13 @@ metadata in `manifest.yaml`, and can upload the exact bytes to the private
 artifact registry with `uv run chronicle inventory-artifacts --root db/data`.
 For already-downloaded manifest artifacts, agents should run
 `uv run chronicle publish-raw --root db/data` to upload checksum-verified bytes to
-R2 and write `storage.r2` metadata back into each manifest entry. A manifest
+R2 and write `storage.r2` metadata back into each manifest entry. A file above the
+300 MiB that `wrangler r2 object put` accepts goes through R2's S3-compatible API
+instead, as a multipart upload in 100 MiB parts
+([chronicle#409](https://github.com/PolicyEngine/chronicle/issues/409)). That path
+signs with `R2_ACCESS_KEY_ID` and `R2_SECRET_ACCESS_KEY` when both are set, and
+otherwise with the S3 key pair Cloudflare derives from `CLOUDFLARE_API_TOKEN`. It
+takes the account from `CLOUDFLARE_ACCOUNT_ID` or `wrangler.toml`. A manifest
 entry marked `storage.local: false` keeps its bytes in R2 only and never in Git:
 both commands accept it without a local copy, so its absence is not an error to
 fix by downloading, and `uv run chronicle verify-raw` checks the R2 object.
@@ -52,6 +57,11 @@ Two parsers suit large or nested publisher files:
 - `zip_ods_used_range` parses an ODS member of a ZIP (`archive_member:`), as
   `zip_xlsx_used_range` does for XLSX; DWP's HBAI confidence intervals are only
   in the release's data-table ZIP.
+
+Some publishers store figures as text. `ods_numeric_text_used_range` and
+`xlsx_numeric_text_used_range` read a text cell that holds only a number, such as
+"977" or "1,234", as that number, and leave every other cell as the plain parse
+reads it. ONS's capital stocks tables need the XLSX one (chronicle#438).
 
 `ons_census_observations_json_rows` unpivots an ONS Census 2021 API
 `census-observations` response into one source row per published cell: the
@@ -683,22 +693,32 @@ aggregate facts, a relational SQLite DB artifact, and per-stage JSON reports und
 `ro-crate-metadata.json` sidecars so the generated artifacts can be described
 with common data-package conventions while Chronicle keeps its native schema strict.
 For downstream integration, agents should use the merged year bundle after
-individual source packages pass:
+individual source packages pass. Build each bundle in its own fresh directory:
+concurrent agents that share an `--out` path delete each other's output.
 
 ```bash
-uv run chronicle build-bundle --year 2023 --out /tmp/ledger-us-2023 --replace
+RUN_DIR="$(mktemp -d)"
+uv run chronicle build-bundle --year 2023 --out "$RUN_DIR/ledger-us-2023" --slim
 ```
 
 The bundle emits a root `consumer_facts.jsonl`, `source_packages.json`,
 `coverage.json`, and `reports/build_bundle.json`, while preserving each
-source-package suite under `sources/<source-package>/`.
+source-package suite under `sources/<source-package>/`. `--slim` deletes each
+suite's `source_rows.jsonl`, `source_cells.jsonl`, `facts.jsonl` and
+`ledger.db` once that suite finishes and lists them in
+`reports/pruned_intermediates.json`; without it the 2023 default bundle keeps
+tens of GB of these files. Slim changes no file the bundle keeps: consumer
+facts, coverage, `source_packages.json` and every report match a full build's
+byte for byte. To inspect one package's intermediates, run `build-suite` on that
+package.
 
 For the UK source-package feed, use the curated UK suite and build a facts-only
 consumer artifact:
 
 ```bash
-uv run chronicle build-bundle --suite uk --out /tmp/chronicle-uk --replace
-uv run chronicle build-consumer-artifact --facts /tmp/chronicle-uk --out /tmp/chronicle-uk-artifact --replace
+RUN_DIR="$(mktemp -d)"
+uv run chronicle build-bundle --suite uk --out "$RUN_DIR/chronicle-uk" --slim
+uv run chronicle build-consumer-artifact --facts "$RUN_DIR/chronicle-uk" --out "$RUN_DIR/chronicle-uk-artifact"
 ```
 
 `--year` is inert for `--suite uk` because the UK packages are year-pinned.
@@ -950,6 +970,20 @@ where HMRC writes "the" — Chronicle's UK register gives one name where it
 carries the identifier (chronicle#281), and the bundle warns about the areas it
 does not carry yet.
 
+### Measures that apply to some years
+
+A measure may list `years`. A build at one of those years includes it; a build
+at any other year compiles the record set without it, so that year's record
+layout, and its hash, match a package without the measure. Table 1.4 uses this
+for its partnership and S corporation legs, which SOI publishes separately from
+TY2021 and combined in TY2020.
+
+The list must be non-empty and hold unique integers, and every `*_by_year` map
+the measure declares (`column_by_year`, `expected_column_header_by_year`) must
+cover exactly those years. A `years` entry with no map entry, or a map entry
+outside `years`, refuses the build, so a new year added to the maps alone
+cannot drop the measure without an error.
+
 ### Pinned artifacts and year labels
 
 `artifact.artifact_year` pins the file. A package with `artifact_year: 2022`
@@ -982,6 +1016,19 @@ Year-selecting pinned packages still build at other years and read that
 year's column, sheet or rows. A year the file does not cover fails with its
 own error, such as `No source artifact for year 2027` or a selected-row
 mismatch.
+
+That check compares one build with another, so it cannot see a literal label
+that is simply the wrong year. `tests/test_chronicle_source_table_year.py`
+covers that case for every pinned package whose `artifact.source_table` names
+exactly one tax year ("…, Tax Year 2020"). The package must build at least
+one fact at its artifact year, and every fact's `source_table` must name that
+same year. Each tax-year fact must have that year as its period. Any
+`tax_year_<year>` in its source vintage or legal vintage must name that year,
+and it must be the only `ty<year>` token in the fact's record id and record
+set id (both tokens are matched in lowercase). A title that names a range or
+abbreviates a year ("tax year 2023-24") is not read as one tax year and is
+not checked. State the table title as the publisher printed it, with its
+year, so the test has something to check.
 
 Agents may add new package directories and YAML specs. They should not modify
 `chronicle.core`, `chronicle.database`, or `chronicle.suite` unless the package cannot be
