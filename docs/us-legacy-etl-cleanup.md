@@ -31,7 +31,7 @@ searched. Inside Chronicle the loaders were reached only through `db/cli.py` (`c
 which CI's surface job ran until the targets table was retired), the re-exports in `chronicle/targets/loaders.py`
 and `chronicle/jurisdictions/us/__init__.py`, and their own tests. The legacy
 `targets` table is not part of the source-package bundle, the consumer-fact
-export or the hosted mirror (`chronicle/mirror.py` exports only the
+export or the table export (`chronicle/mirror.py` exports only the
 source-package tables), so no Microcosm pin carried these values. A search of
 the main branch of every local PolicyEngine, Axiom and CosilicoAI clone, and a
 GitHub code search of those organizations, found no other current reader of

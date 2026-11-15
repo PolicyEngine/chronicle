@@ -37,29 +37,30 @@ sources/
   usda/snap/2023/qc_data.xlsx          # SNAP QC data
 ```
 
-### Supabase Schemas
+### Relational Artifact
 
-| Schema | Purpose | Example Tables |
-|--------|---------|----------------|
-| `chronicle` | Source metadata and lineage | sources, files, content, fetch_log |
-| `indices` | Source time series | series, values (CPI, wage growth) |
-| `microcosm` | Final calibrated data | households, persons, tax_units |
+`build-suite` writes a deterministic SQLite `ledger.db` (schema in
+`chronicle/database.py`), and `publish-derived` can upload it to the
+`ledger-derived` R2 bucket.
+Chronicle has no hosted relational mirror; the Supabase mirror was retired (see
+`docs/supabase-mirror-retirement.md`).
 
 ## Python Namespaces
 
 New code should use the `policyengine_chronicle` namespace:
 
 ```python
-from policyengine_chronicle.sources import SourceFile, SourceReference, query_sources
+from policyengine_chronicle.sources import SourceFile, SourceReference
 from policyengine_chronicle.facts import SourceFact
 from policyengine_chronicle.targets import hard_target_package_aliases
 from policyengine_chronicle.normalization import convert_units
 ```
 
-The `db` package holds the local source-artifact store, the Supabase client
-and the packaged publisher files behind the public `policyengine_chronicle`
-namespace. The legacy `targets` / `strata` / `stratum_constraints` tables and
-their loaders were retired (see `docs/us-legacy-etl-cleanup.md`).
+The `db` package holds the local source-artifact store and the packaged
+publisher files behind the public `policyengine_chronicle` namespace. The
+legacy `targets` / `strata` / `stratum_constraints` tables and their loaders
+were retired (see `docs/us-legacy-etl-cleanup.md`), and so was the Supabase
+client (see `docs/supabase-mirror-retirement.md`).
 
 Jurisdiction source packages should use short import namespaces and published
 distribution names with a PolicyEngine prefix:

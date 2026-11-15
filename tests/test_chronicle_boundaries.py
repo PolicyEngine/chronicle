@@ -210,7 +210,6 @@ def test_legacy_target_api_is_retired():
     import chronicle.normalization as chronicle_normalization
     import chronicle.targets as chronicle_targets
     import db.schema as schema
-    import db.supabase_client as supabase_client
     import policyengine_chronicle.targets as public_targets
 
     repo_root = Path(__file__).resolve().parents[1]
@@ -248,13 +247,8 @@ def test_legacy_target_api_is_retired():
         "TargetType",
     ):
         assert not hasattr(schema, name)
-    for name in (
-        "TARGETS_SCHEMA",
-        "insert_targets_batch",
-        "query_strata",
-        "query_targets",
-    ):
-        assert not hasattr(supabase_client, name)
+    for module in ("db.supabase_client", "chronicle.client"):
+        assert importlib.util.find_spec(module) is None
     for name in ("TargetBlueprint", "as_target", "target_kwargs"):
         assert not hasattr(chronicle_normalization, name)
     assert importlib.util.find_spec("chronicle.normalization.targets") is None
