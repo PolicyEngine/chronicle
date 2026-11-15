@@ -418,6 +418,13 @@ def test_supabase_requirement_detection(requirement, expected):
             True,
         ),
         ("load = importlib.import_module\nfetch = load\nfetch('supabase')", "db", True),
+        # ast.walk reaches `fetch = load` before the guarded import binds `load`.
+        (
+            "try:\n    from importlib import import_module as load\n"
+            "except ImportError:\n    load = None\nfetch = load\nfetch('supabase')",
+            "db",
+            True,
+        ),
         ("if load := importlib.import_module:\n    load('supabase')", "db", True),
         ("from importlib import __import__ as imp\nimp('supabase')", "chronicle", True),
         ("import builtins as b\nb.__import__('realtime')", "chronicle", True),
