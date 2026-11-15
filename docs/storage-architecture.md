@@ -23,8 +23,8 @@ Package metadata, and RO-Crate metadata.
 `ledger.db` is the queryable relational artifact for a build. It holds the rows
 that applications, agents, and downstream systems search and join: source
 artifacts, source rows/cells, source records, aggregate facts, aggregate
-constraints, concept alignments, lineage edges, build metadata, and R2 location
-columns. `build-suite` writes it, `publish-derived` can store it in
+constraints, concept alignments, lineage edges, build metadata, and raw objects'
+R2 locations. `build-suite` writes it, `publish-derived` can store it in
 `ledger-derived`, and `export-db-tables` writes its tables to JSONL for loading
 into other stores.
 
@@ -114,11 +114,22 @@ The artifact exposes:
   filters, units, aggregation semantics, labels, and source provenance;
 - concept alignments, including source concept, canonical concept, relation,
   authority, legal vintage, and evidence;
-- build metadata, validation status, and derived artifact R2 bucket/key/URI.
+- build metadata: build ID, schema version, `created_at` (taken from
+  `SOURCE_DATE_EPOCH`), and row counts.
 
-`source_artifacts` and `build_artifacts` carry R2 bucket, key, and URI columns
-for raw and derived objects. A derived object's R2 location is known only after
-`publish-derived` uploads it; `--build-artifacts-out` writes those rows.
+Validation results live beside the database. `build-suite` writes one JSON
+report per stage under `reports/` in its output directory, and
+`reports/build_summary.json` carries the overall `valid` flag with every stage
+report. `publish-derived` uploads every file under its `--dir` except
+`build_artifacts.jsonl`, so publishing the build directory publishes the
+reports too.
+
+`source_artifacts` carries each raw object's R2 bucket, key, and URI when the
+package manifest records them. The schema also defines a `build_artifacts`
+table with the same columns for derived objects, and no build fills it. A
+derived object's R2 location exists only after `publish-derived` uploads it;
+`--build-artifacts-out` writes those rows to a JSONL file and leaves the
+database's `build_artifacts` table empty.
 
 ## Build And Publish Flow
 
