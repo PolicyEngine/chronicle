@@ -996,6 +996,7 @@ dependencies = [
 [package.optional-dependencies]
 dev = [
     { name = "hypothesis" },
+    { name = "markdown-it-py" },
     { name = "pytest" },
     { name = "ruff" },
 ]
@@ -1003,6 +1004,7 @@ dev = [
 [package.dev-dependencies]
 dev = [
     { name = "hypothesis" },
+    { name = "markdown-it-py" },
     { name = "pytest" },
 ]
 
@@ -1011,6 +1013,7 @@ requires-dist = [
     { name = "httpx", specifier = ">=0.27.0" },
     { name = "hypothesis", marker = "extra == 'dev'", specifier = ">=6" },
     { name = "jsonschema", specifier = ">=4.20.0" },
+    { name = "markdown-it-py", marker = "extra == 'dev'", specifier = ">=3.0.0" },
     { name = "numpy", specifier = ">=1.24.0" },
     { name = "odfpy", specifier = ">=1.4.1" },
     { name = "openpyxl", specifier = ">=3.1.0" },
@@ -1029,6 +1032,7 @@ provides-extras = ["dev"]
 [package.metadata.requires-dev]
 dev = [
     { name = "hypothesis", specifier = ">=6" },
+    { name = "markdown-it-py", specifier = ">=3.0.0" },
     { name = "pytest", specifier = ">=8.0.0,<9" },
 ]
 
