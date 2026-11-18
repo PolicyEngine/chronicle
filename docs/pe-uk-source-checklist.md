@@ -648,6 +648,29 @@ Microcosm's next data PR also needs, carried with chronicle#435's package PR. Fi
   - RoS's years before 2023-24.
 - Not published: any RoS split of sales above £2 million, which needs an ad hoc table from RoS.
 
+## Beyond parity — UK young people and work review facts (chronicle#442)
+
+Facts the benchmarks check of the Milburn review dashboard
+(PolicyEngine/uk-milburn-review-dashboard#1) asks for, from DWP's publications for the Young
+People and Work review. Two packages add 117 facts; field contracts and caveats are in
+[`docs/data-sources/uk-young-people-work-review-442.md`](data-sources/uk-young-people-work-review-442.md).
+
+- **PIP and UC health element by age** (item 1; `dwp-young-people-pip-lcwra-projections-2026`,
+  88 facts). These come from the interim report's analytical annex Table 28: caseloads and
+  spending of 16 to 24 year olds in England and Wales.
+  - Every year 2019-20 to 2040-41.
+  - DWP's projections from 2026-27, as the table's period line says.
+- **The final report's comparators** (item 2; `dwp-welfare-state-to-working-state-tables-2026`,
+  29). These are data tables 2 and 3: the recommended policies' cost or saving in 2036-37 by
+  policy area, and the NEET rate projected with and without them, 2026-27 to 2036-37. The
+  tables carry no caseload or spending series for young people; the review takes those from
+  the interim report.
+- Not packaged:
+  - item 3, because no Stat-Xplore Universal Credit cube crosses LCW entitlement with the
+    claimant's age;
+  - item 4, already in Chronicle as `hmrc-employer-nics-age-reliefs-january-2026` (January 2026
+    is still HMRC's latest edition).
+
 ## Consumer contracts
 
 The UK national, local-geography, and firms selection contracts now live in
