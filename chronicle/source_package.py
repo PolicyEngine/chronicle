@@ -1079,13 +1079,22 @@ SOURCE_PACKAGE_ALIASES = {
     "soi-table-2-5-eitc-agi-children-2023": Path(
         "irs_soi/table_2_5_eitc_agi_children_2023"
     ),
+    **{
+        f"soi-filing-season-week{week}-{year}": Path(
+            f"irs_soi/filing_season_week{week}_{year}"
+        )
+        for week in (21, 30)
+        for year in (2024, 2025)
+    },
     "soi-filing-season-week47-2024-eitc-total": Path(
         "irs_soi/filing_season_week47_2024"
     ),
     "soi-table-4-3": Path("irs_soi/table_4_3"),
     "soi-state-2022": Path("irs_soi/state_2022"),
     "soi-county-2022": Path("irs_soi/county_2022"),
+    "soi-county-2023": Path("irs_soi/county_2023"),
     "soi-congressional-district-2022": Path("irs_soi/congressional_district_2022"),
+    "soi-congressional-district-2023": Path("irs_soi/congressional_district_2023"),
     "soi-historic-table-2": Path("irs_soi/historic_table_2"),
     "soi-historic-table-2-state-agi-2022": Path(
         "irs_soi/historic_table_2_state_agi_2022"
@@ -1099,6 +1108,7 @@ SOURCE_PACKAGE_ALIASES = {
     "soi-historic-table-2-state-eitc-2022": Path(
         "irs_soi/historic_table_2_state_eitc_2022"
     ),
+    "soi-w2-statistics": Path("irs_soi/w2_statistics"),
     "soi-w2-statistics-2020": Path("irs_soi/w2_statistics_2020"),
     "soi-ira-traditional-contributions-2022": Path(
         "irs_soi/ira_traditional_contributions_2022"

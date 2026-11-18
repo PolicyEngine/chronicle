@@ -13,6 +13,7 @@ import argparse
 import csv
 from datetime import datetime
 from decimal import Decimal, InvalidOperation
+from functools import partial
 from io import BytesIO, StringIO
 from pathlib import Path
 import re
@@ -48,11 +49,13 @@ class _NoAliasDumper(yaml.SafeDumper):
         return True
 
 
-def build_irs_soi_county_package(root: Path = REPO_ROOT) -> dict[str, Any]:
-    """Build the TY2022 IRS SOI county package mapping from its CSV rows."""
-    data_dir = root / "db/data/irs_soi/county_2022"
+def build_irs_soi_county_package(
+    root: Path = REPO_ROOT, *, year: int = 2022
+) -> dict[str, Any]:
+    """Build the annual IRS SOI county package mapping from its CSV rows."""
+    data_dir = root / f"db/data/irs_soi/county_{year}"
     manifest = _load_yaml(data_dir / "manifest.yaml")
-    artifact = _year_file(manifest, 2022)
+    artifact = _year_file(manifest, year)
     fixture = bool(artifact.get("fixture"))
     headers, source_rows = _read_csv(data_dir / artifact["filename"])
     _require_headers(
@@ -110,7 +113,7 @@ def build_irs_soi_county_package(root: Path = REPO_ROOT) -> dict[str, Any]:
                 "geography_id": f"0500000US{county_fips}",
                 "geography_level": "county",
                 "geography_name": county_name,
-                "geography_vintage": "2022",
+                "geography_vintage": str(year),
                 "expected_row_header_column": name_column,
                 "expected_row_header": county_name,
                 "filters": {"filing_status": "all", "income_range": "all"},
@@ -140,11 +143,11 @@ def build_irs_soi_county_package(root: Path = REPO_ROOT) -> dict[str, Any]:
         if fixture
         else "full publisher CSV row parse with selected county source-row lineage"
     )
-    record_set_id = "irs_soi.ty2022.county_totals"
+    record_set_id = f"irs_soi.ty{year}.county_totals"
     return {
         "schema_version": schema_id("source_package"),
-        "package_id": IRS_PACKAGE_ID,
-        "label": f"{fixture_prefix}IRS SOI 2022 county return and AGI totals",
+        "package_id": f"soi-county-{year}",
+        "label": f"{fixture_prefix}IRS SOI {year} county return and AGI totals",
         "fixture": fixture,
         "generated_by": GENERATED_BY,
         "dimension_labels": {
@@ -158,17 +161,17 @@ def build_irs_soi_county_package(root: Path = REPO_ROOT) -> dict[str, Any]:
         },
         "artifact": {
             "source_name": source_name,
-            "source_table": f"{fixture_prefix}IRS SOI County Data 2022",
+            "source_table": f"{fixture_prefix}IRS SOI County Data {year}",
             "resource_package": "db",
-            "resource_directory": "data/irs_soi/county_2022",
+            "resource_directory": f"data/irs_soi/county_{year}",
             "manifest": "manifest.yaml",
-            "vintage": "tax_year_2022",
+            "vintage": f"tax_year_{year}",
             "extracted_at": _artifact_extracted_date(artifact),
             "extraction_method": extraction_method,
             "parser": "delimited_text_full_rows",
-            "sheet_name": "22incyallnoagi",
+            "sheet_name": f"{year % 100:02d}incyallnoagi",
             "selected_rows": selected_rows,
-            **({} if fixture else {"artifact_year": 2022}),
+            **({} if fixture else {"artifact_year": year}),
         },
         "record_sets": [
             {
@@ -176,13 +179,13 @@ def build_irs_soi_county_package(root: Path = REPO_ROOT) -> dict[str, Any]:
                 "provenance_class": "administrative",
                 "record_set_spec_id": "irs_soi.county_totals.v1",
                 "source_record_id_prefix": record_set_id,
-                "sheet_name": "22incyallnoagi",
+                "sheet_name": f"{year % 100:02d}incyallnoagi",
                 "period_type": "tax_year",
-                "period": "2022",
+                "period": str(year),
                 "geography_id": "0100000US",
                 "geography_level": "country",
                 "geography_name": "United States",
-                "geography_vintage": "2022",
+                "geography_vintage": str(year),
                 "entity": "tax_unit",
                 "entity_role": "filing_unit",
                 "domain": "all_individual_income_tax_returns",
@@ -223,7 +226,7 @@ def build_irs_soi_county_package(root: Path = REPO_ROOT) -> dict[str, Any]:
                             "for individual income tax returns; IRC section 62 "
                             "defines adjusted gross income."
                         ),
-                        "legal_vintage": "tax_year_2022",
+                        "legal_vintage": f"tax_year_{year}",
                         "unit": "usd",
                         "aggregation": "sum",
                         "value_scale": 1000,
@@ -589,6 +592,10 @@ def build_usda_snap_monthly_package(root: Path = REPO_ROOT) -> dict[str, Any]:
 
 PACKAGE_BUILDERS: dict[str, tuple[Path, Callable[[Path], dict[str, Any]]]] = {
     IRS_PACKAGE_ID: (IRS_PACKAGE_PATH, build_irs_soi_county_package),
+    "soi-county-2023": (
+        Path("packages/irs_soi/county_2023/source_package.yaml"),
+        partial(build_irs_soi_county_package, year=2023),
+    ),
     PEP_PACKAGE_ID: (PEP_PACKAGE_PATH, build_census_pep_county_package),
     SNAP_PACKAGE_ID: (SNAP_PACKAGE_PATH, build_usda_snap_monthly_package),
 }
