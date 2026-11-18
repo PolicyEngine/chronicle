@@ -20,17 +20,19 @@
 # receiving a LCWRA WCA outcome'. Expenditure is entity government, role payer, scaled
 # from £ million to pounds. The workbook's other 57 tables are not ported.
 #
-# Outturn and projection: the table's period line reads 'Period: 2026-27 to 2040-41' and
-# the annex describes 'fifteen-year caseload projections', so 2026-27 to 2040-41 are DWP's
-# projections (provenance model_output, assertion source_projection), and 2019-20 to
-# 2025-26, which 'Source: DWP administrative data' and the annex's 'based on data from
-# Stat-Xplore and Autumn Budget 2025 benefit caseload and expenditure tables' describe,
-# are the series' history (administrative, observation). The annex: 'The forecast outputs
-# are compared to final Autumn Budget 2025 forecasts for PIP and DLA to 2031 and an
-# average uplift is assumed for the years 2031 to 2042. Forecast outputs have used a
-# simple methodology and should be treated as an indication only. Forecast estimates are
-# based on the proportion of young people and therefore may not align with published
-# benefit expenditure and caseload tables.'
+# Outturn and projection: the table's period line reads 'Period: 2026-27 to 2040-41', the
+# annex's 'fifteen-year caseload projections'. The annex: 'PIP and UC-H / LCWRA caseload
+# and expenditure forecasts for 16 to 24 year olds are based on data from Stat-Xplore and
+# Autumn Budget 2025 benefit caseload and expenditure tables', and those tables still
+# forecast 2025-26 (dwp-benefit-expenditure-caseload-spring-2026 types the year the same
+# way). So 2025-26 to 2040-41 are DWP's projections (provenance model_output, assertion
+# source_projection), and 2019-20 to 2024-25, outturn years in those tables, are the
+# series' history (administrative, observation; 'Source: DWP administrative data'). The
+# annex: 'The forecast outputs are compared to final Autumn Budget 2025 forecasts for PIP
+# and DLA to 2031 and an average uplift is assumed for the years 2031 to 2042. Forecast
+# outputs have used a simple methodology and should be treated as an indication only.
+# Forecast estimates are based on the proportion of young people and therefore may not
+# align with published benefit expenditure and caseload tables.'
 #
 # Rounding (the table's notes): 'Note 1: Caseloads have been rounded to the nearest
 # 1,000.' 'Note 2: Expenditure has been expressed in millions and has been rounded to the
@@ -82,9 +84,9 @@ record_sets:
     end_date: '2020-03-31'
     basis: fiscal
     source_period_label: 2019-20
-    notes: 'A year before Table 28''s projection period (''Period: 2026-27 to 2040-41''); the annex bases
-      the series on Stat-Xplore and the Autumn Budget 2025 benefit caseload and expenditure tables. The
-      period value stores the opening year.'
+    notes: 'A year before Table 28''s projection period (''Period: 2026-27 to 2040-41''), and an outturn
+      year in the Autumn Budget 2025 benefit caseload and expenditure tables. The period value stores
+      the opening year.'
   geography_id: K04000001
   geography_level: country
   geography_name: England and Wales
@@ -176,9 +178,9 @@ record_sets:
     end_date: '2021-03-31'
     basis: fiscal
     source_period_label: 2020-21
-    notes: 'A year before Table 28''s projection period (''Period: 2026-27 to 2040-41''); the annex bases
-      the series on Stat-Xplore and the Autumn Budget 2025 benefit caseload and expenditure tables. The
-      period value stores the opening year.'
+    notes: 'A year before Table 28''s projection period (''Period: 2026-27 to 2040-41''), and an outturn
+      year in the Autumn Budget 2025 benefit caseload and expenditure tables. The period value stores
+      the opening year.'
   geography_id: K04000001
   geography_level: country
   geography_name: England and Wales
@@ -270,9 +272,9 @@ record_sets:
     end_date: '2022-03-31'
     basis: fiscal
     source_period_label: 2021-22
-    notes: 'A year before Table 28''s projection period (''Period: 2026-27 to 2040-41''); the annex bases
-      the series on Stat-Xplore and the Autumn Budget 2025 benefit caseload and expenditure tables. The
-      period value stores the opening year.'
+    notes: 'A year before Table 28''s projection period (''Period: 2026-27 to 2040-41''), and an outturn
+      year in the Autumn Budget 2025 benefit caseload and expenditure tables. The period value stores
+      the opening year.'
   geography_id: K04000001
   geography_level: country
   geography_name: England and Wales
@@ -364,9 +366,9 @@ record_sets:
     end_date: '2023-03-31'
     basis: fiscal
     source_period_label: 2022-23
-    notes: 'A year before Table 28''s projection period (''Period: 2026-27 to 2040-41''); the annex bases
-      the series on Stat-Xplore and the Autumn Budget 2025 benefit caseload and expenditure tables. The
-      period value stores the opening year.'
+    notes: 'A year before Table 28''s projection period (''Period: 2026-27 to 2040-41''), and an outturn
+      year in the Autumn Budget 2025 benefit caseload and expenditure tables. The period value stores
+      the opening year.'
   geography_id: K04000001
   geography_level: country
   geography_name: England and Wales
@@ -458,9 +460,9 @@ record_sets:
     end_date: '2024-03-31'
     basis: fiscal
     source_period_label: 2023-24
-    notes: 'A year before Table 28''s projection period (''Period: 2026-27 to 2040-41''); the annex bases
-      the series on Stat-Xplore and the Autumn Budget 2025 benefit caseload and expenditure tables. The
-      period value stores the opening year.'
+    notes: 'A year before Table 28''s projection period (''Period: 2026-27 to 2040-41''), and an outturn
+      year in the Autumn Budget 2025 benefit caseload and expenditure tables. The period value stores
+      the opening year.'
   geography_id: K04000001
   geography_level: country
   geography_name: England and Wales
@@ -552,9 +554,9 @@ record_sets:
     end_date: '2025-03-31'
     basis: fiscal
     source_period_label: 2024-25
-    notes: 'A year before Table 28''s projection period (''Period: 2026-27 to 2040-41''); the annex bases
-      the series on Stat-Xplore and the Autumn Budget 2025 benefit caseload and expenditure tables. The
-      period value stores the opening year.'
+    notes: 'A year before Table 28''s projection period (''Period: 2026-27 to 2040-41''), and an outturn
+      year in the Autumn Budget 2025 benefit caseload and expenditure tables. The period value stores
+      the opening year.'
   geography_id: K04000001
   geography_level: country
   geography_name: England and Wales
@@ -634,8 +636,8 @@ record_sets:
     aggregation: sum
     expected_cell_type: number
 - record_set_id: dwp.young_people_work_interim_2026.table_28.caseload.fy2025
-  provenance_class: administrative
-  assertion: observation
+  provenance_class: model_output
+  assertion: source_projection
   record_set_spec_id: dwp.young_people_work_interim_2026.table_28.caseload.fy2025.v1
   source_record_id_prefix: dwp.young_people_work_interim_2026.table_28.caseload.fy2025
   sheet_name: Table_28
@@ -646,9 +648,11 @@ record_sets:
     end_date: '2026-03-31'
     basis: fiscal
     source_period_label: 2025-26
-    notes: 'A year before Table 28''s projection period (''Period: 2026-27 to 2040-41''); the annex bases
-      the series on Stat-Xplore and the Autumn Budget 2025 benefit caseload and expenditure tables. The
-      period value stores the opening year.'
+    notes: 'The year before Table 28''s projection period (''Period: 2026-27 to 2040-41''). The annex:
+      ''PIP and UC-H / LCWRA caseload and expenditure forecasts for 16 to 24 year olds are based on data
+      from Stat-Xplore and Autumn Budget 2025 benefit caseload and expenditure tables'', and those tables
+      still forecast 2025-26 (dwp-benefit-expenditure-caseload-spring-2026 types the year the same way),
+      so it is typed as DWP''s projection. The period value stores the opening year.'
   geography_id: K04000001
   geography_level: country
   geography_name: England and Wales
@@ -2135,9 +2139,9 @@ record_sets:
     end_date: '2020-03-31'
     basis: fiscal
     source_period_label: 2019-20
-    notes: 'A year before Table 28''s projection period (''Period: 2026-27 to 2040-41''); the annex bases
-      the series on Stat-Xplore and the Autumn Budget 2025 benefit caseload and expenditure tables. The
-      period value stores the opening year.'
+    notes: 'A year before Table 28''s projection period (''Period: 2026-27 to 2040-41''), and an outturn
+      year in the Autumn Budget 2025 benefit caseload and expenditure tables. The period value stores
+      the opening year.'
   geography_id: K04000001
   geography_level: country
   geography_name: England and Wales
@@ -2229,9 +2233,9 @@ record_sets:
     end_date: '2021-03-31'
     basis: fiscal
     source_period_label: 2020-21
-    notes: 'A year before Table 28''s projection period (''Period: 2026-27 to 2040-41''); the annex bases
-      the series on Stat-Xplore and the Autumn Budget 2025 benefit caseload and expenditure tables. The
-      period value stores the opening year.'
+    notes: 'A year before Table 28''s projection period (''Period: 2026-27 to 2040-41''), and an outturn
+      year in the Autumn Budget 2025 benefit caseload and expenditure tables. The period value stores
+      the opening year.'
   geography_id: K04000001
   geography_level: country
   geography_name: England and Wales
@@ -2323,9 +2327,9 @@ record_sets:
     end_date: '2022-03-31'
     basis: fiscal
     source_period_label: 2021-22
-    notes: 'A year before Table 28''s projection period (''Period: 2026-27 to 2040-41''); the annex bases
-      the series on Stat-Xplore and the Autumn Budget 2025 benefit caseload and expenditure tables. The
-      period value stores the opening year.'
+    notes: 'A year before Table 28''s projection period (''Period: 2026-27 to 2040-41''), and an outturn
+      year in the Autumn Budget 2025 benefit caseload and expenditure tables. The period value stores
+      the opening year.'
   geography_id: K04000001
   geography_level: country
   geography_name: England and Wales
@@ -2417,9 +2421,9 @@ record_sets:
     end_date: '2023-03-31'
     basis: fiscal
     source_period_label: 2022-23
-    notes: 'A year before Table 28''s projection period (''Period: 2026-27 to 2040-41''); the annex bases
-      the series on Stat-Xplore and the Autumn Budget 2025 benefit caseload and expenditure tables. The
-      period value stores the opening year.'
+    notes: 'A year before Table 28''s projection period (''Period: 2026-27 to 2040-41''), and an outturn
+      year in the Autumn Budget 2025 benefit caseload and expenditure tables. The period value stores
+      the opening year.'
   geography_id: K04000001
   geography_level: country
   geography_name: England and Wales
@@ -2511,9 +2515,9 @@ record_sets:
     end_date: '2024-03-31'
     basis: fiscal
     source_period_label: 2023-24
-    notes: 'A year before Table 28''s projection period (''Period: 2026-27 to 2040-41''); the annex bases
-      the series on Stat-Xplore and the Autumn Budget 2025 benefit caseload and expenditure tables. The
-      period value stores the opening year.'
+    notes: 'A year before Table 28''s projection period (''Period: 2026-27 to 2040-41''), and an outturn
+      year in the Autumn Budget 2025 benefit caseload and expenditure tables. The period value stores
+      the opening year.'
   geography_id: K04000001
   geography_level: country
   geography_name: England and Wales
@@ -2605,9 +2609,9 @@ record_sets:
     end_date: '2025-03-31'
     basis: fiscal
     source_period_label: 2024-25
-    notes: 'A year before Table 28''s projection period (''Period: 2026-27 to 2040-41''); the annex bases
-      the series on Stat-Xplore and the Autumn Budget 2025 benefit caseload and expenditure tables. The
-      period value stores the opening year.'
+    notes: 'A year before Table 28''s projection period (''Period: 2026-27 to 2040-41''), and an outturn
+      year in the Autumn Budget 2025 benefit caseload and expenditure tables. The period value stores
+      the opening year.'
   geography_id: K04000001
   geography_level: country
   geography_name: England and Wales
@@ -2687,8 +2691,8 @@ record_sets:
     value_scale: 1000000
     expected_cell_type: number
 - record_set_id: dwp.young_people_work_interim_2026.table_28.expenditure.fy2025
-  provenance_class: administrative
-  assertion: observation
+  provenance_class: model_output
+  assertion: source_projection
   record_set_spec_id: dwp.young_people_work_interim_2026.table_28.expenditure.fy2025.v1
   source_record_id_prefix: dwp.young_people_work_interim_2026.table_28.expenditure.fy2025
   sheet_name: Table_28
@@ -2699,9 +2703,11 @@ record_sets:
     end_date: '2026-03-31'
     basis: fiscal
     source_period_label: 2025-26
-    notes: 'A year before Table 28''s projection period (''Period: 2026-27 to 2040-41''); the annex bases
-      the series on Stat-Xplore and the Autumn Budget 2025 benefit caseload and expenditure tables. The
-      period value stores the opening year.'
+    notes: 'The year before Table 28''s projection period (''Period: 2026-27 to 2040-41''). The annex:
+      ''PIP and UC-H / LCWRA caseload and expenditure forecasts for 16 to 24 year olds are based on data
+      from Stat-Xplore and Autumn Budget 2025 benefit caseload and expenditure tables'', and those tables
+      still forecast 2025-26 (dwp-benefit-expenditure-caseload-spring-2026 types the year the same way),
+      so it is typed as DWP''s projection. The period value stores the opening year.'
   geography_id: K04000001
   geography_level: country
   geography_name: England and Wales

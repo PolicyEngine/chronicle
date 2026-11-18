@@ -52,13 +52,16 @@ How the facts are typed:
   to work' element, also known as the 'health element', which is offered to claimants receiving
   a LCWRA WCA outcome". Microcosm's bound row `dwp.uc.households_lcwra_element` counts
   households, so the two differ in unit as well as in age.
-- **Outturn and projection.** The table's period line reads "Period: 2026-27 to 2040-41", and
-  the annex describes "fifteen-year caseload projections". So:
-  - 2026-27 to 2040-41 are DWP's projections (`model_output`, `source_projection`);
-  - 2019-20 to 2025-26 are the series' history (`administrative`, `observation`).
-
-  The annex bases the history on "Stat-Xplore and Autumn Budget 2025 benefit caseload and
-  expenditure tables".
+- **Outturn and projection.** The table's period line reads "Period: 2026-27 to 2040-41", the
+  annex's "fifteen-year caseload projections". The annex adds: "PIP and UC-H / LCWRA caseload
+  and expenditure forecasts for 16 to 24 year olds are based on data from Stat-Xplore and
+  Autumn Budget 2025 benefit caseload and expenditure tables". Those tables still forecast
+  2025-26, and `dwp-benefit-expenditure-caseload-spring-2026` types the year the same way.
+  So:
+  - 2025-26 to 2040-41 are DWP's projections (`model_output`, `source_projection`), 2025-26
+    included although the period line starts a year later;
+  - 2019-20 to 2024-25, outturn years in those tables, are the series' history
+    (`administrative`, `observation`).
 - **Price basis.** Neither the table nor the annex names one, so none is asserted. The annex
   projects average awards "capped so that weekly amounts cannot exceed maximum award levels".
 

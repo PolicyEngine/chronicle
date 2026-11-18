@@ -659,7 +659,7 @@ People and Work review. Two packages add 117 facts; field contracts and caveats 
   88 facts). These come from the interim report's analytical annex Table 28: caseloads and
   spending of 16 to 24 year olds in England and Wales.
   - Every year 2019-20 to 2040-41.
-  - DWP's projections from 2026-27, as the table's period line says.
+  - DWP's projections from 2025-26, the first year the Autumn Budget 2025 tables forecast.
 - **The final report's comparators** (item 2; `dwp-welfare-state-to-working-state-tables-2026`,
   29). These are data tables 2 and 3: the recommended policies' cost or saving in 2036-37 by
   policy area, and the NEET rate projected with and without them, 2026-27 to 2036-37. The

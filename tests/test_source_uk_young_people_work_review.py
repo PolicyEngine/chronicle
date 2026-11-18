@@ -206,7 +206,9 @@ def test_table_28_splits_history_from_projections_and_carries_its_semantics(buil
             f"{year}-04-01",
             f"{year + 1}-03-31",
         )
-        if year >= 2026:  # 'Period: 2026-27 to 2040-41'
+        # 'Period: 2026-27 to 2040-41', and 2025-26 is still a forecast year in the
+        # Autumn Budget 2025 tables the annex's forecasts rest on.
+        if year >= 2025:
             assert (fact.provenance_class, fact.assertion) == (
                 "model_output",
                 "source_projection",
@@ -228,7 +230,7 @@ def test_table_28_splits_history_from_projections_and_carries_its_semantics(buil
             assert fact.measure.concept == EXPENDITURE
             assert (fact.entity.name, fact.measure.unit) == ("government", "gbp")
             assert "Neither the table nor the annex names a price basis" in notes
-    assert sum(1 for fact in facts if int(fact.period.value) < 2026) == 4 * 7
+    assert sum(1 for fact in facts if int(fact.period.value) < 2025) == 4 * 6
 
 
 def test_table_28_matches_the_annex_findings(built):

@@ -352,6 +352,11 @@ T28_BENEFITS = (
 )
 T28_KINDS = {"caseload": "Caseload", "expenditure": "Expenditure (£m)"}
 T28_FIRST_YEAR, T28_LAST_YEAR = 2019, 2040  # columns C (2019-20) to X (2040-41)
+# The annex's forecasts rest on the Autumn Budget 2025 benefit caseload and expenditure
+# tables, which still forecast 2025-26 (dwp-benefit-expenditure-caseload-spring-2026
+# types the year the same way), so DWP's projections start there: a year before the
+# table's period line, which names 2026-27 to 2040-41.
+T28_FIRST_FORECAST = 2025
 # The annex's findings (section 18.5) quote these cells of the table; the generator
 # asserts them, so the table cannot drift from the text DWP wrote about it.
 T28_ANNEX_FINDINGS = {
@@ -445,6 +450,7 @@ def build_interim() -> str:
     assert match, period_line
     first_projection, last_projection = int(match[1]), int(match[2])
     assert (first_projection, last_projection) == (2026, T28_LAST_YEAR)
+    assert T28_FIRST_FORECAST == first_projection - 1
     assert grid[(T28, 5, "A")] == "Source: DWP administrative data"
     assert grid[(T28, 6, "A")] == "Health and Disability benefit"
     assert grid[(T28, 6, "B")] == "Caseload or expenditure"
@@ -483,7 +489,7 @@ def build_interim() -> str:
     for kind in T28_KINDS:
         caseload = kind == "caseload"
         for year, column in columns.items():
-            projection = year >= first_projection
+            projection = year >= T28_FIRST_FORECAST
             record_set_id = (
                 f"dwp.young_people_work_interim_2026.table_28.{kind}.fy{year}"
             )
@@ -508,18 +514,25 @@ def build_interim() -> str:
                         guards=guards,
                     )
                 )
-            if projection:
+            if year >= first_projection:
                 period_notes = (
                     f"DWP's projection for the review: Table 28's '{period_line}' is "
                     "the annex's 'fifteen-year caseload projections'. The period value "
                     "stores the opening year."
                 )
+            elif projection:
+                period_notes = (
+                    f"The year before Table 28's projection period ('{period_line}'). "
+                    f"The annex: '{T28_DATA_SOURCE}', and those tables still forecast "
+                    "2025-26 (dwp-benefit-expenditure-caseload-spring-2026 types the "
+                    "year the same way), so it is typed as DWP's projection. The period "
+                    "value stores the opening year."
+                )
             else:
                 period_notes = (
-                    f"A year before Table 28's projection period ('{period_line}'); the "
-                    "annex bases the series on Stat-Xplore and the Autumn Budget 2025 "
-                    "benefit caseload and expenditure tables. The period value stores "
-                    "the opening year."
+                    f"A year before Table 28's projection period ('{period_line}'), and "
+                    "an outturn year in the Autumn Budget 2025 benefit caseload and "
+                    "expenditure tables. The period value stores the opening year."
                 )
             record_sets.append(
                 {
@@ -589,7 +602,7 @@ def build_interim() -> str:
             "artifact_year": 2026,
         },
     )
-    history = [year for year in columns if year < first_projection]
+    history = [year for year in columns if year < T28_FIRST_FORECAST]
     header = f"""
     DWP, 'Young people and work: interim report' ({INTERIM_PAGE}), analytical annex
     data tables (ODS; published with the report on 28 May 2026, the file replaced on 10
@@ -608,14 +621,15 @@ def build_interim() -> str:
     '{T28_DEFINITION}'. Expenditure is entity government, role payer, scaled from £
     million to pounds. The workbook's other 57 tables are not ported.
 
-    Outturn and projection: the table's period line reads '{period_line}' and the annex
-    describes 'fifteen-year caseload projections', so {dash_year(first_projection)} to
+    Outturn and projection: the table's period line reads '{period_line}', the annex's
+    'fifteen-year caseload projections'. The annex: '{T28_DATA_SOURCE}', and those
+    tables still forecast 2025-26 (dwp-benefit-expenditure-caseload-spring-2026 types
+    the year the same way). So {dash_year(T28_FIRST_FORECAST)} to
     {dash_year(last_projection)} are DWP's projections (provenance model_output,
     assertion source_projection), and {dash_year(history[0])} to
-    {dash_year(history[-1])}, which 'Source: DWP administrative data' and the annex's
-    'based on data from Stat-Xplore and Autumn Budget 2025 benefit caseload and
-    expenditure tables' describe, are the series' history (administrative,
-    observation). The annex: '{T28_CAVEATS}'
+    {dash_year(history[-1])}, outturn years in those tables, are the series' history
+    (administrative, observation; 'Source: DWP administrative data'). The annex:
+    '{T28_CAVEATS}'
 
     Rounding (the table's notes): '{T28_NOTES[11]}' '{T28_NOTES[12]}'. Neither the
     table nor the annex names a price basis, so none is asserted.
