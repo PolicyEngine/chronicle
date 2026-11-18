@@ -1,0 +1,43 @@
+source_id: irs_soi
+package_id: soi-w2-statistics
+dataset: irs_soi_w2_statistics
+source_page: https://www.irs.gov/statistics/soi-tax-stats-individual-information-return-form-w2-statistics
+table: Table 4.B. Summary of Items for Taxpayers with Form W-2, by Return and Earner
+  Type
+files:
+  2021:
+    filename: 21in04w2all.xlsx
+    source_url: https://www.irs.gov/pub/irs-soi/21in04w2all.xlsx
+    sha256: 8a04be2b4bec1e45687c36005cc7fee442cb6dbb1b00633ba4862a344b377db8
+    size_bytes: 25320
+    fetched_at: '2026-11-18T12:52:26+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/irs_soi/soi-w2-statistics/2021/8a04be2b4bec1e45687c36005cc7fee442cb6dbb1b00633ba4862a344b377db8/21in04w2all.xlsx
+        uri: r2://ledger-raw/raw/irs_soi/soi-w2-statistics/2021/8a04be2b4bec1e45687c36005cc7fee442cb6dbb1b00633ba4862a344b377db8/21in04w2all.xlsx
+  2022:
+    filename: 22in04w2all.xlsx
+    source_url: https://www.irs.gov/pub/irs-soi/22in04w2all.xlsx
+    sha256: faca5f781845905f1a3ca6ab2e211eb1225fd05e230c46612de4f719ce92736a
+    size_bytes: 26250
+    fetched_at: '2026-11-18T12:52:44+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/irs_soi/soi-w2-statistics/2022/faca5f781845905f1a3ca6ab2e211eb1225fd05e230c46612de4f719ce92736a/22in04w2all.xlsx
+        uri: r2://ledger-raw/raw/irs_soi/soi-w2-statistics/2022/faca5f781845905f1a3ca6ab2e211eb1225fd05e230c46612de4f719ce92736a/22in04w2all.xlsx
+  2023:
+    filename: 23in04w2all.xlsx
+    source_url: https://www.irs.gov/pub/irs-soi/23in04w2all.xlsx
+    sha256: f8fda7757188d19c97f3ff47ad85d92e6808dfdbc504e066751685346eca8e20
+    size_bytes: 25601
+    fetched_at: '2026-11-18T12:53:16+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/irs_soi/soi-w2-statistics/2023/f8fda7757188d19c97f3ff47ad85d92e6808dfdbc504e066751685346eca8e20/23in04w2all.xlsx
+        uri: r2://ledger-raw/raw/irs_soi/soi-w2-statistics/2023/f8fda7757188d19c97f3ff47ad85d92e6808dfdbc504e066751685346eca8e20/23in04w2all.xlsx

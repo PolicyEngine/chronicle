@@ -1,0 +1,20 @@
+source_id: irs_soi
+package_id: soi-county-2023
+dataset: irs_soi_county_2023
+source_page: https://www.irs.gov/statistics/soi-tax-stats-county-data-2023
+table: County Data 2023, all returns without AGI classes
+files:
+  2023:
+    filename: 23incyallnoagi.csv
+    source_url: https://www.irs.gov/pub/irs-soi/23incyallnoagi.csv
+    sha256: f5cfc2b9bd4ed26e1e07d3405e2f167842b8463fb2201c652aa70c47847f4374
+    size_bytes: 5133854
+    fetched_at: '2026-11-18'
+    source_table: County Data 2023, all returns without AGI classes
+    year: 2023
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/irs_soi/soi-county-2023/2023/f5cfc2b9bd4ed26e1e07d3405e2f167842b8463fb2201c652aa70c47847f4374/23incyallnoagi.csv
+        uri: r2://ledger-raw/raw/irs_soi/soi-county-2023/2023/f5cfc2b9bd4ed26e1e07d3405e2f167842b8463fb2201c652aa70c47847f4374/23incyallnoagi.csv

@@ -28,3 +28,5 @@ db/data/stats_nz/regional_council_2025_codes/regional-council-2025-codes.json bi
 db/data/stats_nz/territorial_authority_2025_codes/territorial-authority-2025-codes.json binary
 db/data/stats_nz/national_population_estimates_2025/national-population-estimates-at-30-june-2025-landing-page.html binary
 db/data/mbie/tenancy_bond_rents_tla_2026/detailed-monthly-tla-tenancy-september.csv binary
+db/data/irs_soi/county_2023/23incyallnoagi.csv binary
+db/data/irs_soi/congressional_district_2023/23incd.csv binary
