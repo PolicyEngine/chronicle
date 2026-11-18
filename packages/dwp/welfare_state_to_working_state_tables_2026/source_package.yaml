@@ -1,0 +1,1402 @@
+# DWP, 'From a Welfare State to a Working State: a new settlement for the next generation'
+# (published 17 November 2026,
+# https://www.gov.uk/government/publications/from-a-welfare-state-to-a-working-state-a-new-settlement-for-the-next-generation),
+# the accompanying data tables (ODS), for PolicyEngine/chronicle#442 item 2
+# (PolicyEngine/uk-milburn-review-dashboard#1). Written by
+# scripts/build_uk_young_people_work_review_packages.py from the pinned workbook; edit
+# that, not this.
+#
+# The workbook holds three tables, and none carries young people's PIP or UC health
+# caseloads or spending: the review's annex (section 9) takes its 2036/37 PIP and DLA
+# caseloads from the interim report's forecasts, which
+# dwp-young-people-pip-lcwra-projections-2026 ports (Table 28). Ported here, as #442 asks,
+# the two comparators:
+#
+# Table 2, 'Annual cost and saving per policy area in 2036/37, £m, 2026/27 prices': the
+# annual cost (positive) or saving (negative) of the review's recommended policies in
+# 2036/37 by policy area, and the 'Total NET Cost', on concept
+# dwp.recommended_policy_package_annual_cost with filters policy_area and price_basis
+# 2026_27_prices, scaled from £ million to pounds. The annex: 'The geographical coverage
+# of the costs vary, in part depending on the devolved responsibilities of the departments
+# involved', so each policy area carries the coverage the annex states for it (Opportunity
+# and Support Guarantees Great Britain; health and education England; welfare savings the
+# United Kingdom). Youth hiring incentives mix Great Britain grants with England-only
+# apprenticeships, the annex names no coverage for the fiscal offsets, and the net total
+# sums them all: those three are stamped Great Britain, the United Kingdom and the United
+# Kingdom, with concept relation approximate. 'Local system reform' is '[low]', '[low]
+# denotes a negligible figure, i.e. a figure that rounds to zero but is not zero' (the
+# annex: 'less than £100m'), and emits no fact; the other rows sum to the total.
+#
+# Table 3, 'Total NEET rate impact profile, UK, 2026/27 to 2036/27' (sic: its columns run
+# 2026/27 to 2036/37): the 'Projected baseline NEET rate' and the 'Projected NEET rate
+# with report recommendations', filter neet_rate_projection, for 16 to 24 year olds in the
+# United Kingdom, on concept dwp.neet_rate_projection, percent. The annex: 'The baseline
+# forecast was derived from a central, seasonally-adjusted NEET projection scenario from
+# Youth Futures Foundation (YFF) SARIMAX modelling using Labour Force Survey data from the
+# Office for National Statistics (ONS) and Office for Budget Responsibility economic
+# projections.' 'DWP and DfE internal analysis informed further adjustments to the
+# baseline for the impacts of some employment programmes and education changes already in
+# train or announced but not captured in the underlying data.' The generator asserts that
+# the two agree in 2026/27, that the recommendations lower the rate every later year, and
+# the annex's 'a NEET rate of around 6.8%' in 2036.
+#
+# Both tables are the review's 'internal modelling' (provenance model_output, assertion
+# source_projection). The data tables' guidance: 'Analysis to inform the From a Welfare
+# State to a Working State report has been led and coordinated by an independent team of
+# government and external analysts.' 'The analysis produced to inform the From a Welfare
+# State to a Working State report, including the material contained in this annex, should
+# not be regarded as official government analysis or as representing agreed government
+# policy.' Not ported: Table 1 ('Average annual investment in major NEET schemes, UK, 2026
+# prices'), whose schemes' periods the table does not give. 29 facts.
+schema_version: ledger.source_package.v1
+package_id: dwp-welfare-state-to-working-state-tables-2026
+label: 'DWP, From a Welfare State to a Working State data tables 2 and 3: the recommended policies'' annual
+  cost and saving by policy area in 2036-37, and the NEET rate projected with and without them, 2026-27
+  to 2036-37'
+dimension_labels:
+  age_band: Age band
+  policy_area: Policy area
+  price_basis: Price basis
+  neet_rate_projection: NEET rate projections
+dimension_value_labels:
+  age_band:
+    16_to_24: Age 16 to 24
+  policy_area:
+    opportunity_and_support_guarantees: Opportunity and Support Guarantees
+    health: Health
+    education: Education
+    youth_hiring_incentives: Youth hiring incentives
+    welfare_savings: Welfare savings
+    fiscal_offsets: Fiscal offsets
+    total_net_cost: Total NET Cost
+  price_basis:
+    2026_27_prices: 2026/27 prices
+  neet_rate_projection:
+    baseline: Projected baseline NEET rate
+    with_report_recommendations: Projected NEET rate with report recommendations
+artifact:
+  source_name: dwp
+  source_table: 'From a Welfare State to a Working State: data tables, Table 2 (annual cost and saving
+    per policy area in 2036/37) and Table 3 (total NEET rate impact profile)'
+  resource_package: db
+  resource_directory: data/dwp/welfare_state_to_working_state_tables_2026
+  manifest: manifest.yaml
+  vintage: welfare_state_to_working_state_2026_11_17
+  extracted_at: '2026-11-18'
+  extraction_method: ODS used-range cell parse (from-a-welfare-state-to-a-working-state-accompanying-data-tables.ods)
+  parser: ods_used_range
+  artifact_year: 2026
+record_sets:
+- record_set_id: dwp.welfare_state_to_working_state_2026.table_2.great_britain.fy2036
+  provenance_class: model_output
+  assertion: source_projection
+  record_set_spec_id: dwp.welfare_state_to_working_state_2026.table_2.great_britain.fy2036.v1
+  source_record_id_prefix: dwp.welfare_state_to_working_state_2026.table_2.great_britain.fy2036
+  sheet_name: '2'
+  period_type: fiscal_year
+  period: 2036
+  period_coverage:
+    start_date: '2036-04-01'
+    end_date: '2037-03-31'
+    basis: fiscal
+    source_period_label: 2036/37
+    notes: The recommended policies' annual cost or saving in 2036/37, in 2026/27 prices; the period value
+      stores the opening year.
+  geography_id: K03000001
+  geography_level: country
+  geography_name: Great Britain
+  geography_vintage: current
+  entity: government
+  entity_role: public_sector
+  domain: public_sector_finances
+  groupby_dimension: policy_area
+  shared_filters:
+    price_basis: 2026_27_prices
+  shared_constraints:
+  - {variable: price_basis, operator: ==, value: 2026_27_prices, label: Price basis}
+  rows:
+  - value_id: opportunity_and_support_guarantees
+    label: Opportunity and Support Guarantees
+    ordinal: 0
+    row_number: 10
+    expected_row_header_column: A
+    expected_row_header: Opportunity and Support Guarantees
+    table_record_kind: detail
+    filters: {policy_area: opportunity_and_support_guarantees}
+    constraints:
+    - {variable: policy_area, operator: ==, value: opportunity_and_support_guarantees, label: Policy area}
+    guard_cells:
+    - {column: A, row: 6, expected_value: 'Table 2: Annual cost and saving per policy area in 2036/37,
+        £m, 2026/27 prices', label: table title}
+  measures:
+  - measure_id: annual_cost_or_saving_2036
+    label: Annual cost/saving, 2036/37, £m, 2026/27 prices
+    ordinal: 0
+    column: B
+    source_column_id: annual_cost_or_saving_2036
+    expected_column_header_row: 8
+    expected_column_header: Annual cost/saving
+    concept: dwp.recommended_policy_package_annual_cost
+    source_concept: dwp.recommended_policy_package_annual_cost
+    concept_relation: source_label
+    concept_authority: dwp
+    concept_evidence_url: https://www.gov.uk/government/publications/from-a-welfare-state-to-a-working-state-a-new-settlement-for-the-next-generation/from-a-welfare-state-to-a-working-state-analytical-annex
+    concept_evidence_notes: 'From a Welfare State to a Working State data tables (DWP, 17 November 2026),
+      Table 2: Annual cost and saving per policy area in 2036/37, £m, 2026/27 prices: ''Source: internal
+      modelling for the From a Welfare State to a Working State, this analysis is explained in sections
+      1 and 3 of the accompanying analytical annex''. Column B (''Annual cost/saving'', £ millions; savings
+      negative), ''rounded to the nearest £100 million'' (Note 1), scaled to pounds. The annex''s Table
+      1 prints the same 2036/37 figures ''in real-terms 2026/27 prices''. Coverage, as the annex states
+      it for each policy area: Opportunity and Support Guarantees: ''Costs are modelled on the assumption
+      of the support being available across Great Britain.'' The data tables'' guidance: ''Analysis to
+      inform the From a Welfare State to a Working State report has been led and coordinated by an independent
+      team of government and external analysts.'' ''The analysis produced to inform the From a Welfare
+      State to a Working State report, including the material contained in this annex, should not be regarded
+      as official government analysis or as representing agreed government policy.'''
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: dwp.welfare_state_to_working_state_2026.table_2.england.fy2036
+  provenance_class: model_output
+  assertion: source_projection
+  record_set_spec_id: dwp.welfare_state_to_working_state_2026.table_2.england.fy2036.v1
+  source_record_id_prefix: dwp.welfare_state_to_working_state_2026.table_2.england.fy2036
+  sheet_name: '2'
+  period_type: fiscal_year
+  period: 2036
+  period_coverage:
+    start_date: '2036-04-01'
+    end_date: '2037-03-31'
+    basis: fiscal
+    source_period_label: 2036/37
+    notes: The recommended policies' annual cost or saving in 2036/37, in 2026/27 prices; the period value
+      stores the opening year.
+  geography_id: E92000001
+  geography_level: country
+  geography_name: England
+  geography_vintage: current
+  entity: government
+  entity_role: public_sector
+  domain: public_sector_finances
+  groupby_dimension: policy_area
+  shared_filters:
+    price_basis: 2026_27_prices
+  shared_constraints:
+  - {variable: price_basis, operator: ==, value: 2026_27_prices, label: Price basis}
+  rows:
+  - value_id: health
+    label: Health
+    ordinal: 0
+    row_number: 11
+    expected_row_header_column: A
+    expected_row_header: Health
+    table_record_kind: detail
+    filters: {policy_area: health}
+    constraints:
+    - {variable: policy_area, operator: ==, value: health, label: Policy area}
+    guard_cells:
+    - {column: A, row: 6, expected_value: 'Table 2: Annual cost and saving per policy area in 2036/37,
+        £m, 2026/27 prices', label: table title}
+  - value_id: education
+    label: Education
+    ordinal: 1
+    row_number: 12
+    expected_row_header_column: A
+    expected_row_header: Education
+    table_record_kind: detail
+    filters: {policy_area: education}
+    constraints:
+    - {variable: policy_area, operator: ==, value: education, label: Policy area}
+  measures:
+  - measure_id: annual_cost_or_saving_2036
+    label: Annual cost/saving, 2036/37, £m, 2026/27 prices
+    ordinal: 0
+    column: B
+    source_column_id: annual_cost_or_saving_2036
+    expected_column_header_row: 8
+    expected_column_header: Annual cost/saving
+    concept: dwp.recommended_policy_package_annual_cost
+    source_concept: dwp.recommended_policy_package_annual_cost
+    concept_relation: source_label
+    concept_authority: dwp
+    concept_evidence_url: https://www.gov.uk/government/publications/from-a-welfare-state-to-a-working-state-a-new-settlement-for-the-next-generation/from-a-welfare-state-to-a-working-state-analytical-annex
+    concept_evidence_notes: 'From a Welfare State to a Working State data tables (DWP, 17 November 2026),
+      Table 2: Annual cost and saving per policy area in 2036/37, £m, 2026/27 prices: ''Source: internal
+      modelling for the From a Welfare State to a Working State, this analysis is explained in sections
+      1 and 3 of the accompanying analytical annex''. Column B (''Annual cost/saving'', £ millions; savings
+      negative), ''rounded to the nearest £100 million'' (Note 1), scaled to pounds. The annex''s Table
+      1 prints the same 2036/37 figures ''in real-terms 2026/27 prices''. Coverage, as the annex states
+      it for each policy area: Health: ''The costs associated with these policies are for England only
+      as health responsibilities outside England are devolved policy.'' Education: ''The costs associated
+      with these policies are for England only as education responsibilities outside England are devolved
+      policy.'' The data tables'' guidance: ''Analysis to inform the From a Welfare State to a Working
+      State report has been led and coordinated by an independent team of government and external analysts.''
+      ''The analysis produced to inform the From a Welfare State to a Working State report, including
+      the material contained in this annex, should not be regarded as official government analysis or
+      as representing agreed government policy.'''
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: dwp.welfare_state_to_working_state_2026.table_2.great_britain_mixed.fy2036
+  provenance_class: model_output
+  assertion: source_projection
+  record_set_spec_id: dwp.welfare_state_to_working_state_2026.table_2.great_britain_mixed.fy2036.v1
+  source_record_id_prefix: dwp.welfare_state_to_working_state_2026.table_2.great_britain_mixed.fy2036
+  sheet_name: '2'
+  period_type: fiscal_year
+  period: 2036
+  period_coverage:
+    start_date: '2036-04-01'
+    end_date: '2037-03-31'
+    basis: fiscal
+    source_period_label: 2036/37
+    notes: The recommended policies' annual cost or saving in 2036/37, in 2026/27 prices; the period value
+      stores the opening year.
+  geography_id: K03000001
+  geography_level: country
+  geography_name: Great Britain
+  geography_vintage: current
+  entity: government
+  entity_role: public_sector
+  domain: public_sector_finances
+  groupby_dimension: policy_area
+  shared_filters:
+    price_basis: 2026_27_prices
+  shared_constraints:
+  - {variable: price_basis, operator: ==, value: 2026_27_prices, label: Price basis}
+  rows:
+  - value_id: youth_hiring_incentives
+    label: Youth hiring incentives
+    ordinal: 0
+    row_number: 13
+    expected_row_header_column: A
+    expected_row_header: Youth hiring incentives
+    table_record_kind: detail
+    filters: {policy_area: youth_hiring_incentives}
+    constraints:
+    - {variable: policy_area, operator: ==, value: youth_hiring_incentives, label: Policy area}
+    guard_cells:
+    - {column: A, row: 6, expected_value: 'Table 2: Annual cost and saving per policy area in 2036/37,
+        £m, 2026/27 prices', label: table title}
+  measures:
+  - measure_id: annual_cost_or_saving_2036
+    label: Annual cost/saving, 2036/37, £m, 2026/27 prices
+    ordinal: 0
+    column: B
+    source_column_id: annual_cost_or_saving_2036
+    expected_column_header_row: 8
+    expected_column_header: Annual cost/saving
+    concept: dwp.recommended_policy_package_annual_cost
+    source_concept: dwp.recommended_policy_package_annual_cost
+    concept_relation: approximate
+    concept_authority: dwp
+    concept_evidence_url: https://www.gov.uk/government/publications/from-a-welfare-state-to-a-working-state-a-new-settlement-for-the-next-generation/from-a-welfare-state-to-a-working-state-analytical-annex
+    concept_evidence_notes: 'From a Welfare State to a Working State data tables (DWP, 17 November 2026),
+      Table 2: Annual cost and saving per policy area in 2036/37, £m, 2026/27 prices: ''Source: internal
+      modelling for the From a Welfare State to a Working State, this analysis is explained in sections
+      1 and 3 of the accompanying analytical annex''. Column B (''Annual cost/saving'', £ millions; savings
+      negative), ''rounded to the nearest £100 million'' (Note 1), scaled to pounds. The annex''s Table
+      1 prints the same 2036/37 figures ''in real-terms 2026/27 prices''. Coverage, as the annex states
+      it for each policy area: Youth hiring incentives: ''The grants will be available to young people
+      not in employment, education or training aged up to 24 years old and in Great Britain. ... The costs
+      associated with this policy are for England only as apprenticeships outside England are devolved
+      policy.'' The data tables'' guidance: ''Analysis to inform the From a Welfare State to a Working
+      State report has been led and coordinated by an independent team of government and external analysts.''
+      ''The analysis produced to inform the From a Welfare State to a Working State report, including
+      the material contained in this annex, should not be regarded as official government analysis or
+      as representing agreed government policy.'''
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: dwp.welfare_state_to_working_state_2026.table_2.united_kingdom.fy2036
+  provenance_class: model_output
+  assertion: source_projection
+  record_set_spec_id: dwp.welfare_state_to_working_state_2026.table_2.united_kingdom.fy2036.v1
+  source_record_id_prefix: dwp.welfare_state_to_working_state_2026.table_2.united_kingdom.fy2036
+  sheet_name: '2'
+  period_type: fiscal_year
+  period: 2036
+  period_coverage:
+    start_date: '2036-04-01'
+    end_date: '2037-03-31'
+    basis: fiscal
+    source_period_label: 2036/37
+    notes: The recommended policies' annual cost or saving in 2036/37, in 2026/27 prices; the period value
+      stores the opening year.
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: government
+  entity_role: public_sector
+  domain: public_sector_finances
+  groupby_dimension: policy_area
+  shared_filters:
+    price_basis: 2026_27_prices
+  shared_constraints:
+  - {variable: price_basis, operator: ==, value: 2026_27_prices, label: Price basis}
+  rows:
+  - value_id: welfare_savings
+    label: Welfare savings
+    ordinal: 0
+    row_number: 14
+    expected_row_header_column: A
+    expected_row_header: Welfare savings
+    table_record_kind: detail
+    filters: {policy_area: welfare_savings}
+    constraints:
+    - {variable: policy_area, operator: ==, value: welfare_savings, label: Policy area}
+    guard_cells:
+    - {column: A, row: 6, expected_value: 'Table 2: Annual cost and saving per policy area in 2036/37,
+        £m, 2026/27 prices', label: table title}
+  measures:
+  - measure_id: annual_cost_or_saving_2036
+    label: Annual cost/saving, 2036/37, £m, 2026/27 prices
+    ordinal: 0
+    column: B
+    source_column_id: annual_cost_or_saving_2036
+    expected_column_header_row: 8
+    expected_column_header: Annual cost/saving
+    concept: dwp.recommended_policy_package_annual_cost
+    source_concept: dwp.recommended_policy_package_annual_cost
+    concept_relation: source_label
+    concept_authority: dwp
+    concept_evidence_url: https://www.gov.uk/government/publications/from-a-welfare-state-to-a-working-state-a-new-settlement-for-the-next-generation/from-a-welfare-state-to-a-working-state-analytical-annex
+    concept_evidence_notes: 'From a Welfare State to a Working State data tables (DWP, 17 November 2026),
+      Table 2: Annual cost and saving per policy area in 2036/37, £m, 2026/27 prices: ''Source: internal
+      modelling for the From a Welfare State to a Working State, this analysis is explained in sections
+      1 and 3 of the accompanying analytical annex''. Column B (''Annual cost/saving'', £ millions; savings
+      negative), ''rounded to the nearest £100 million'' (Note 1), scaled to pounds. The annex''s Table
+      1 prints the same 2036/37 figures ''in real-terms 2026/27 prices''. Coverage, as the annex states
+      it for each policy area: Welfare savings: ''The estimates cover impacts on PIP and UC expenditure
+      across the UK.'' The data tables'' guidance: ''Analysis to inform the From a Welfare State to a
+      Working State report has been led and coordinated by an independent team of government and external
+      analysts.'' ''The analysis produced to inform the From a Welfare State to a Working State report,
+      including the material contained in this annex, should not be regarded as official government analysis
+      or as representing agreed government policy.'''
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: dwp.welfare_state_to_working_state_2026.table_2.united_kingdom_mixed.fy2036
+  provenance_class: model_output
+  assertion: source_projection
+  record_set_spec_id: dwp.welfare_state_to_working_state_2026.table_2.united_kingdom_mixed.fy2036.v1
+  source_record_id_prefix: dwp.welfare_state_to_working_state_2026.table_2.united_kingdom_mixed.fy2036
+  sheet_name: '2'
+  period_type: fiscal_year
+  period: 2036
+  period_coverage:
+    start_date: '2036-04-01'
+    end_date: '2037-03-31'
+    basis: fiscal
+    source_period_label: 2036/37
+    notes: The recommended policies' annual cost or saving in 2036/37, in 2026/27 prices; the period value
+      stores the opening year.
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: government
+  entity_role: public_sector
+  domain: public_sector_finances
+  groupby_dimension: policy_area
+  shared_filters:
+    price_basis: 2026_27_prices
+  shared_constraints:
+  - {variable: price_basis, operator: ==, value: 2026_27_prices, label: Price basis}
+  rows:
+  - value_id: fiscal_offsets
+    label: Fiscal offsets
+    ordinal: 0
+    row_number: 15
+    expected_row_header_column: A
+    expected_row_header: Fiscal offsets
+    table_record_kind: detail
+    filters: {policy_area: fiscal_offsets}
+    constraints:
+    - {variable: policy_area, operator: ==, value: fiscal_offsets, label: Policy area}
+    guard_cells:
+    - {column: A, row: 6, expected_value: 'Table 2: Annual cost and saving per policy area in 2036/37,
+        £m, 2026/27 prices', label: table title}
+  - value_id: total_net_cost
+    label: Total NET Cost
+    ordinal: 1
+    row_number: 16
+    expected_row_header_column: A
+    expected_row_header: Total NET Cost
+    table_record_kind: total
+    filters: {policy_area: total_net_cost}
+    constraints:
+    - {variable: policy_area, operator: ==, value: total_net_cost, label: Policy area}
+  measures:
+  - measure_id: annual_cost_or_saving_2036
+    label: Annual cost/saving, 2036/37, £m, 2026/27 prices
+    ordinal: 0
+    column: B
+    source_column_id: annual_cost_or_saving_2036
+    expected_column_header_row: 8
+    expected_column_header: Annual cost/saving
+    concept: dwp.recommended_policy_package_annual_cost
+    source_concept: dwp.recommended_policy_package_annual_cost
+    concept_relation: approximate
+    concept_authority: dwp
+    concept_evidence_url: https://www.gov.uk/government/publications/from-a-welfare-state-to-a-working-state-a-new-settlement-for-the-next-generation/from-a-welfare-state-to-a-working-state-analytical-annex
+    concept_evidence_notes: 'From a Welfare State to a Working State data tables (DWP, 17 November 2026),
+      Table 2: Annual cost and saving per policy area in 2036/37, £m, 2026/27 prices: ''Source: internal
+      modelling for the From a Welfare State to a Working State, this analysis is explained in sections
+      1 and 3 of the accompanying analytical annex''. Column B (''Annual cost/saving'', £ millions; savings
+      negative), ''rounded to the nearest £100 million'' (Note 1), scaled to pounds. The annex''s Table
+      1 prints the same 2036/37 figures ''in real-terms 2026/27 prices''. Coverage, as the annex states
+      it for each policy area: Fiscal offsets: (section 3 names no coverage) ''As young people stop being
+      NEET and move into employment, this will generate income in the form of tax, National Insurance
+      and indirect tax as they increase their spending. If they were claiming benefits, their claims may
+      reduce or stop resulting in savings for the State.'' Total NET Cost: ''The net cost value is the
+      sum of the gross costs, direct welfare savings from proposed reforms and fiscal offsets'' (section
+      3), whose coverage varies by policy area. The data tables'' guidance: ''Analysis to inform the From
+      a Welfare State to a Working State report has been led and coordinated by an independent team of
+      government and external analysts.'' ''The analysis produced to inform the From a Welfare State to
+      a Working State report, including the material contained in this annex, should not be regarded as
+      official government analysis or as representing agreed government policy.'''
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: dwp.welfare_state_to_working_state_2026.table_3.neet_rate.fy2026
+  provenance_class: model_output
+  assertion: source_projection
+  record_set_spec_id: dwp.welfare_state_to_working_state_2026.table_3.neet_rate.fy2026.v1
+  source_record_id_prefix: dwp.welfare_state_to_working_state_2026.table_3.neet_rate.fy2026
+  sheet_name: '3'
+  period_type: fiscal_year
+  period: 2026
+  period_coverage:
+    start_date: '2026-04-01'
+    end_date: '2027-03-31'
+    basis: fiscal
+    source_period_label: 2026/27
+    notes: A projection by the review's analysts; the period value stores the opening year.
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: young_person
+  domain: employment
+  groupby_dimension: neet_rate_projection
+  shared_filters:
+    age_band: 16_to_24
+  shared_constraints:
+  - {variable: age_band, operator: ==, value: 16_to_24, label: Age band}
+  - {variable: age, operator: '>=', value: 16, unit: years, label: Age lower bound}
+  - {variable: age, operator: <, value: 25, unit: years, label: Age upper bound}
+  rows:
+  - value_id: baseline
+    label: Projected baseline NEET rate
+    ordinal: 0
+    row_number: 9
+    expected_row_header_column: A
+    expected_row_header: Projected baseline NEET rate
+    table_record_kind: detail
+    filters: {neet_rate_projection: baseline}
+    constraints:
+    - {variable: neet_rate_projection, operator: ==, value: baseline, label: NEET rate projections}
+    guard_cells:
+    - {column: A, row: 6, expected_value: 'Table 3: Total NEET rate impact profile, UK, 2026/27 to 2036/27',
+      label: table title}
+  - value_id: with_report_recommendations
+    label: Projected NEET rate with report recommendations
+    ordinal: 1
+    row_number: 10
+    expected_row_header_column: A
+    expected_row_header: Projected NEET rate with report recommendations
+    table_record_kind: detail
+    filters: {neet_rate_projection: with_report_recommendations}
+    constraints:
+    - {variable: neet_rate_projection, operator: ==, value: with_report_recommendations, label: NEET rate
+        projections}
+  measures:
+  - measure_id: neet_rate_2026
+    label: NEET rate, aged 16-24, 2026/27
+    ordinal: 0
+    column: B
+    source_column_id: neet_rate_2026
+    expected_column_header_row: 8
+    expected_column_header: 2026/27
+    concept: dwp.neet_rate_projection
+    source_concept: dwp.neet_rate_projection
+    concept_relation: source_label
+    concept_authority: dwp
+    concept_evidence_url: https://www.gov.uk/government/publications/from-a-welfare-state-to-a-working-state-a-new-settlement-for-the-next-generation/from-a-welfare-state-to-a-working-state-analytical-annex
+    concept_evidence_notes: 'From a Welfare State to a Working State data tables (DWP, 17 November 2026),
+      Table 3: Total NEET rate impact profile, UK, 2026/27 to 2036/27 (sic: the columns run to 2036/37):
+      ''Source: internal modelling for the From a Welfare State to a Working State, this analysis is explained
+      in section 2 of the accompanying analytical annex''. Column B (''2026/27''), percentage, ''rounded
+      to the nearest 1 decimal place'' (Note 3). The analytical annex (section 2): ''Reductions in the
+      headline NEET rates and volumes for 16 to 24 year olds are built up from the individual key policies
+      included in the costs in section 1 above.'' ''The baseline forecast was derived from a central,
+      seasonally-adjusted NEET projection scenario from Youth Futures Foundation (YFF) SARIMAX modelling
+      using Labour Force Survey data from the Office for National Statistics (ONS) and Office for Budget
+      Responsibility economic projections.'' ''DWP and DfE internal analysis informed further adjustments
+      to the baseline for the impacts of some employment programmes and education changes already in train
+      or announced but not captured in the underlying data.'' The data tables'' guidance: ''Analysis to
+      inform the From a Welfare State to a Working State report has been led and coordinated by an independent
+      team of government and external analysts.'' ''The analysis produced to inform the From a Welfare
+      State to a Working State report, including the material contained in this annex, should not be regarded
+      as official government analysis or as representing agreed government policy.'''
+    unit: percent
+    aggregation: share
+    expected_cell_type: number
+- record_set_id: dwp.welfare_state_to_working_state_2026.table_3.neet_rate.fy2027
+  provenance_class: model_output
+  assertion: source_projection
+  record_set_spec_id: dwp.welfare_state_to_working_state_2026.table_3.neet_rate.fy2027.v1
+  source_record_id_prefix: dwp.welfare_state_to_working_state_2026.table_3.neet_rate.fy2027
+  sheet_name: '3'
+  period_type: fiscal_year
+  period: 2027
+  period_coverage:
+    start_date: '2027-04-01'
+    end_date: '2028-03-31'
+    basis: fiscal
+    source_period_label: 2027/28
+    notes: A projection by the review's analysts; the period value stores the opening year.
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: young_person
+  domain: employment
+  groupby_dimension: neet_rate_projection
+  shared_filters:
+    age_band: 16_to_24
+  shared_constraints:
+  - {variable: age_band, operator: ==, value: 16_to_24, label: Age band}
+  - {variable: age, operator: '>=', value: 16, unit: years, label: Age lower bound}
+  - {variable: age, operator: <, value: 25, unit: years, label: Age upper bound}
+  rows:
+  - value_id: baseline
+    label: Projected baseline NEET rate
+    ordinal: 0
+    row_number: 9
+    expected_row_header_column: A
+    expected_row_header: Projected baseline NEET rate
+    table_record_kind: detail
+    filters: {neet_rate_projection: baseline}
+    constraints:
+    - {variable: neet_rate_projection, operator: ==, value: baseline, label: NEET rate projections}
+    guard_cells:
+    - {column: A, row: 6, expected_value: 'Table 3: Total NEET rate impact profile, UK, 2026/27 to 2036/27',
+      label: table title}
+  - value_id: with_report_recommendations
+    label: Projected NEET rate with report recommendations
+    ordinal: 1
+    row_number: 10
+    expected_row_header_column: A
+    expected_row_header: Projected NEET rate with report recommendations
+    table_record_kind: detail
+    filters: {neet_rate_projection: with_report_recommendations}
+    constraints:
+    - {variable: neet_rate_projection, operator: ==, value: with_report_recommendations, label: NEET rate
+        projections}
+  measures:
+  - measure_id: neet_rate_2027
+    label: NEET rate, aged 16-24, 2027/28
+    ordinal: 0
+    column: C
+    source_column_id: neet_rate_2027
+    expected_column_header_row: 8
+    expected_column_header: 2027/28
+    concept: dwp.neet_rate_projection
+    source_concept: dwp.neet_rate_projection
+    concept_relation: source_label
+    concept_authority: dwp
+    concept_evidence_url: https://www.gov.uk/government/publications/from-a-welfare-state-to-a-working-state-a-new-settlement-for-the-next-generation/from-a-welfare-state-to-a-working-state-analytical-annex
+    concept_evidence_notes: 'From a Welfare State to a Working State data tables (DWP, 17 November 2026),
+      Table 3: Total NEET rate impact profile, UK, 2026/27 to 2036/27 (sic: the columns run to 2036/37):
+      ''Source: internal modelling for the From a Welfare State to a Working State, this analysis is explained
+      in section 2 of the accompanying analytical annex''. Column C (''2027/28''), percentage, ''rounded
+      to the nearest 1 decimal place'' (Note 3). The analytical annex (section 2): ''Reductions in the
+      headline NEET rates and volumes for 16 to 24 year olds are built up from the individual key policies
+      included in the costs in section 1 above.'' ''The baseline forecast was derived from a central,
+      seasonally-adjusted NEET projection scenario from Youth Futures Foundation (YFF) SARIMAX modelling
+      using Labour Force Survey data from the Office for National Statistics (ONS) and Office for Budget
+      Responsibility economic projections.'' ''DWP and DfE internal analysis informed further adjustments
+      to the baseline for the impacts of some employment programmes and education changes already in train
+      or announced but not captured in the underlying data.'' The data tables'' guidance: ''Analysis to
+      inform the From a Welfare State to a Working State report has been led and coordinated by an independent
+      team of government and external analysts.'' ''The analysis produced to inform the From a Welfare
+      State to a Working State report, including the material contained in this annex, should not be regarded
+      as official government analysis or as representing agreed government policy.'''
+    unit: percent
+    aggregation: share
+    expected_cell_type: number
+- record_set_id: dwp.welfare_state_to_working_state_2026.table_3.neet_rate.fy2028
+  provenance_class: model_output
+  assertion: source_projection
+  record_set_spec_id: dwp.welfare_state_to_working_state_2026.table_3.neet_rate.fy2028.v1
+  source_record_id_prefix: dwp.welfare_state_to_working_state_2026.table_3.neet_rate.fy2028
+  sheet_name: '3'
+  period_type: fiscal_year
+  period: 2028
+  period_coverage:
+    start_date: '2028-04-01'
+    end_date: '2029-03-31'
+    basis: fiscal
+    source_period_label: 2028/29
+    notes: A projection by the review's analysts; the period value stores the opening year.
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: young_person
+  domain: employment
+  groupby_dimension: neet_rate_projection
+  shared_filters:
+    age_band: 16_to_24
+  shared_constraints:
+  - {variable: age_band, operator: ==, value: 16_to_24, label: Age band}
+  - {variable: age, operator: '>=', value: 16, unit: years, label: Age lower bound}
+  - {variable: age, operator: <, value: 25, unit: years, label: Age upper bound}
+  rows:
+  - value_id: baseline
+    label: Projected baseline NEET rate
+    ordinal: 0
+    row_number: 9
+    expected_row_header_column: A
+    expected_row_header: Projected baseline NEET rate
+    table_record_kind: detail
+    filters: {neet_rate_projection: baseline}
+    constraints:
+    - {variable: neet_rate_projection, operator: ==, value: baseline, label: NEET rate projections}
+    guard_cells:
+    - {column: A, row: 6, expected_value: 'Table 3: Total NEET rate impact profile, UK, 2026/27 to 2036/27',
+      label: table title}
+  - value_id: with_report_recommendations
+    label: Projected NEET rate with report recommendations
+    ordinal: 1
+    row_number: 10
+    expected_row_header_column: A
+    expected_row_header: Projected NEET rate with report recommendations
+    table_record_kind: detail
+    filters: {neet_rate_projection: with_report_recommendations}
+    constraints:
+    - {variable: neet_rate_projection, operator: ==, value: with_report_recommendations, label: NEET rate
+        projections}
+  measures:
+  - measure_id: neet_rate_2028
+    label: NEET rate, aged 16-24, 2028/29
+    ordinal: 0
+    column: D
+    source_column_id: neet_rate_2028
+    expected_column_header_row: 8
+    expected_column_header: 2028/29
+    concept: dwp.neet_rate_projection
+    source_concept: dwp.neet_rate_projection
+    concept_relation: source_label
+    concept_authority: dwp
+    concept_evidence_url: https://www.gov.uk/government/publications/from-a-welfare-state-to-a-working-state-a-new-settlement-for-the-next-generation/from-a-welfare-state-to-a-working-state-analytical-annex
+    concept_evidence_notes: 'From a Welfare State to a Working State data tables (DWP, 17 November 2026),
+      Table 3: Total NEET rate impact profile, UK, 2026/27 to 2036/27 (sic: the columns run to 2036/37):
+      ''Source: internal modelling for the From a Welfare State to a Working State, this analysis is explained
+      in section 2 of the accompanying analytical annex''. Column D (''2028/29''), percentage, ''rounded
+      to the nearest 1 decimal place'' (Note 3). The analytical annex (section 2): ''Reductions in the
+      headline NEET rates and volumes for 16 to 24 year olds are built up from the individual key policies
+      included in the costs in section 1 above.'' ''The baseline forecast was derived from a central,
+      seasonally-adjusted NEET projection scenario from Youth Futures Foundation (YFF) SARIMAX modelling
+      using Labour Force Survey data from the Office for National Statistics (ONS) and Office for Budget
+      Responsibility economic projections.'' ''DWP and DfE internal analysis informed further adjustments
+      to the baseline for the impacts of some employment programmes and education changes already in train
+      or announced but not captured in the underlying data.'' The data tables'' guidance: ''Analysis to
+      inform the From a Welfare State to a Working State report has been led and coordinated by an independent
+      team of government and external analysts.'' ''The analysis produced to inform the From a Welfare
+      State to a Working State report, including the material contained in this annex, should not be regarded
+      as official government analysis or as representing agreed government policy.'''
+    unit: percent
+    aggregation: share
+    expected_cell_type: number
+- record_set_id: dwp.welfare_state_to_working_state_2026.table_3.neet_rate.fy2029
+  provenance_class: model_output
+  assertion: source_projection
+  record_set_spec_id: dwp.welfare_state_to_working_state_2026.table_3.neet_rate.fy2029.v1
+  source_record_id_prefix: dwp.welfare_state_to_working_state_2026.table_3.neet_rate.fy2029
+  sheet_name: '3'
+  period_type: fiscal_year
+  period: 2029
+  period_coverage:
+    start_date: '2029-04-01'
+    end_date: '2030-03-31'
+    basis: fiscal
+    source_period_label: 2029/30
+    notes: A projection by the review's analysts; the period value stores the opening year.
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: young_person
+  domain: employment
+  groupby_dimension: neet_rate_projection
+  shared_filters:
+    age_band: 16_to_24
+  shared_constraints:
+  - {variable: age_band, operator: ==, value: 16_to_24, label: Age band}
+  - {variable: age, operator: '>=', value: 16, unit: years, label: Age lower bound}
+  - {variable: age, operator: <, value: 25, unit: years, label: Age upper bound}
+  rows:
+  - value_id: baseline
+    label: Projected baseline NEET rate
+    ordinal: 0
+    row_number: 9
+    expected_row_header_column: A
+    expected_row_header: Projected baseline NEET rate
+    table_record_kind: detail
+    filters: {neet_rate_projection: baseline}
+    constraints:
+    - {variable: neet_rate_projection, operator: ==, value: baseline, label: NEET rate projections}
+    guard_cells:
+    - {column: A, row: 6, expected_value: 'Table 3: Total NEET rate impact profile, UK, 2026/27 to 2036/27',
+      label: table title}
+  - value_id: with_report_recommendations
+    label: Projected NEET rate with report recommendations
+    ordinal: 1
+    row_number: 10
+    expected_row_header_column: A
+    expected_row_header: Projected NEET rate with report recommendations
+    table_record_kind: detail
+    filters: {neet_rate_projection: with_report_recommendations}
+    constraints:
+    - {variable: neet_rate_projection, operator: ==, value: with_report_recommendations, label: NEET rate
+        projections}
+  measures:
+  - measure_id: neet_rate_2029
+    label: NEET rate, aged 16-24, 2029/30
+    ordinal: 0
+    column: E
+    source_column_id: neet_rate_2029
+    expected_column_header_row: 8
+    expected_column_header: 2029/30
+    concept: dwp.neet_rate_projection
+    source_concept: dwp.neet_rate_projection
+    concept_relation: source_label
+    concept_authority: dwp
+    concept_evidence_url: https://www.gov.uk/government/publications/from-a-welfare-state-to-a-working-state-a-new-settlement-for-the-next-generation/from-a-welfare-state-to-a-working-state-analytical-annex
+    concept_evidence_notes: 'From a Welfare State to a Working State data tables (DWP, 17 November 2026),
+      Table 3: Total NEET rate impact profile, UK, 2026/27 to 2036/27 (sic: the columns run to 2036/37):
+      ''Source: internal modelling for the From a Welfare State to a Working State, this analysis is explained
+      in section 2 of the accompanying analytical annex''. Column E (''2029/30''), percentage, ''rounded
+      to the nearest 1 decimal place'' (Note 3). The analytical annex (section 2): ''Reductions in the
+      headline NEET rates and volumes for 16 to 24 year olds are built up from the individual key policies
+      included in the costs in section 1 above.'' ''The baseline forecast was derived from a central,
+      seasonally-adjusted NEET projection scenario from Youth Futures Foundation (YFF) SARIMAX modelling
+      using Labour Force Survey data from the Office for National Statistics (ONS) and Office for Budget
+      Responsibility economic projections.'' ''DWP and DfE internal analysis informed further adjustments
+      to the baseline for the impacts of some employment programmes and education changes already in train
+      or announced but not captured in the underlying data.'' The data tables'' guidance: ''Analysis to
+      inform the From a Welfare State to a Working State report has been led and coordinated by an independent
+      team of government and external analysts.'' ''The analysis produced to inform the From a Welfare
+      State to a Working State report, including the material contained in this annex, should not be regarded
+      as official government analysis or as representing agreed government policy.'''
+    unit: percent
+    aggregation: share
+    expected_cell_type: number
+- record_set_id: dwp.welfare_state_to_working_state_2026.table_3.neet_rate.fy2030
+  provenance_class: model_output
+  assertion: source_projection
+  record_set_spec_id: dwp.welfare_state_to_working_state_2026.table_3.neet_rate.fy2030.v1
+  source_record_id_prefix: dwp.welfare_state_to_working_state_2026.table_3.neet_rate.fy2030
+  sheet_name: '3'
+  period_type: fiscal_year
+  period: 2030
+  period_coverage:
+    start_date: '2030-04-01'
+    end_date: '2031-03-31'
+    basis: fiscal
+    source_period_label: 2030/31
+    notes: A projection by the review's analysts; the period value stores the opening year.
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: young_person
+  domain: employment
+  groupby_dimension: neet_rate_projection
+  shared_filters:
+    age_band: 16_to_24
+  shared_constraints:
+  - {variable: age_band, operator: ==, value: 16_to_24, label: Age band}
+  - {variable: age, operator: '>=', value: 16, unit: years, label: Age lower bound}
+  - {variable: age, operator: <, value: 25, unit: years, label: Age upper bound}
+  rows:
+  - value_id: baseline
+    label: Projected baseline NEET rate
+    ordinal: 0
+    row_number: 9
+    expected_row_header_column: A
+    expected_row_header: Projected baseline NEET rate
+    table_record_kind: detail
+    filters: {neet_rate_projection: baseline}
+    constraints:
+    - {variable: neet_rate_projection, operator: ==, value: baseline, label: NEET rate projections}
+    guard_cells:
+    - {column: A, row: 6, expected_value: 'Table 3: Total NEET rate impact profile, UK, 2026/27 to 2036/27',
+      label: table title}
+  - value_id: with_report_recommendations
+    label: Projected NEET rate with report recommendations
+    ordinal: 1
+    row_number: 10
+    expected_row_header_column: A
+    expected_row_header: Projected NEET rate with report recommendations
+    table_record_kind: detail
+    filters: {neet_rate_projection: with_report_recommendations}
+    constraints:
+    - {variable: neet_rate_projection, operator: ==, value: with_report_recommendations, label: NEET rate
+        projections}
+  measures:
+  - measure_id: neet_rate_2030
+    label: NEET rate, aged 16-24, 2030/31
+    ordinal: 0
+    column: F
+    source_column_id: neet_rate_2030
+    expected_column_header_row: 8
+    expected_column_header: 2030/31
+    concept: dwp.neet_rate_projection
+    source_concept: dwp.neet_rate_projection
+    concept_relation: source_label
+    concept_authority: dwp
+    concept_evidence_url: https://www.gov.uk/government/publications/from-a-welfare-state-to-a-working-state-a-new-settlement-for-the-next-generation/from-a-welfare-state-to-a-working-state-analytical-annex
+    concept_evidence_notes: 'From a Welfare State to a Working State data tables (DWP, 17 November 2026),
+      Table 3: Total NEET rate impact profile, UK, 2026/27 to 2036/27 (sic: the columns run to 2036/37):
+      ''Source: internal modelling for the From a Welfare State to a Working State, this analysis is explained
+      in section 2 of the accompanying analytical annex''. Column F (''2030/31''), percentage, ''rounded
+      to the nearest 1 decimal place'' (Note 3). The analytical annex (section 2): ''Reductions in the
+      headline NEET rates and volumes for 16 to 24 year olds are built up from the individual key policies
+      included in the costs in section 1 above.'' ''The baseline forecast was derived from a central,
+      seasonally-adjusted NEET projection scenario from Youth Futures Foundation (YFF) SARIMAX modelling
+      using Labour Force Survey data from the Office for National Statistics (ONS) and Office for Budget
+      Responsibility economic projections.'' ''DWP and DfE internal analysis informed further adjustments
+      to the baseline for the impacts of some employment programmes and education changes already in train
+      or announced but not captured in the underlying data.'' The data tables'' guidance: ''Analysis to
+      inform the From a Welfare State to a Working State report has been led and coordinated by an independent
+      team of government and external analysts.'' ''The analysis produced to inform the From a Welfare
+      State to a Working State report, including the material contained in this annex, should not be regarded
+      as official government analysis or as representing agreed government policy.'''
+    unit: percent
+    aggregation: share
+    expected_cell_type: number
+- record_set_id: dwp.welfare_state_to_working_state_2026.table_3.neet_rate.fy2031
+  provenance_class: model_output
+  assertion: source_projection
+  record_set_spec_id: dwp.welfare_state_to_working_state_2026.table_3.neet_rate.fy2031.v1
+  source_record_id_prefix: dwp.welfare_state_to_working_state_2026.table_3.neet_rate.fy2031
+  sheet_name: '3'
+  period_type: fiscal_year
+  period: 2031
+  period_coverage:
+    start_date: '2031-04-01'
+    end_date: '2032-03-31'
+    basis: fiscal
+    source_period_label: 2031/32
+    notes: A projection by the review's analysts; the period value stores the opening year.
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: young_person
+  domain: employment
+  groupby_dimension: neet_rate_projection
+  shared_filters:
+    age_band: 16_to_24
+  shared_constraints:
+  - {variable: age_band, operator: ==, value: 16_to_24, label: Age band}
+  - {variable: age, operator: '>=', value: 16, unit: years, label: Age lower bound}
+  - {variable: age, operator: <, value: 25, unit: years, label: Age upper bound}
+  rows:
+  - value_id: baseline
+    label: Projected baseline NEET rate
+    ordinal: 0
+    row_number: 9
+    expected_row_header_column: A
+    expected_row_header: Projected baseline NEET rate
+    table_record_kind: detail
+    filters: {neet_rate_projection: baseline}
+    constraints:
+    - {variable: neet_rate_projection, operator: ==, value: baseline, label: NEET rate projections}
+    guard_cells:
+    - {column: A, row: 6, expected_value: 'Table 3: Total NEET rate impact profile, UK, 2026/27 to 2036/27',
+      label: table title}
+  - value_id: with_report_recommendations
+    label: Projected NEET rate with report recommendations
+    ordinal: 1
+    row_number: 10
+    expected_row_header_column: A
+    expected_row_header: Projected NEET rate with report recommendations
+    table_record_kind: detail
+    filters: {neet_rate_projection: with_report_recommendations}
+    constraints:
+    - {variable: neet_rate_projection, operator: ==, value: with_report_recommendations, label: NEET rate
+        projections}
+  measures:
+  - measure_id: neet_rate_2031
+    label: NEET rate, aged 16-24, 2031/32
+    ordinal: 0
+    column: G
+    source_column_id: neet_rate_2031
+    expected_column_header_row: 8
+    expected_column_header: 2031/32
+    concept: dwp.neet_rate_projection
+    source_concept: dwp.neet_rate_projection
+    concept_relation: source_label
+    concept_authority: dwp
+    concept_evidence_url: https://www.gov.uk/government/publications/from-a-welfare-state-to-a-working-state-a-new-settlement-for-the-next-generation/from-a-welfare-state-to-a-working-state-analytical-annex
+    concept_evidence_notes: 'From a Welfare State to a Working State data tables (DWP, 17 November 2026),
+      Table 3: Total NEET rate impact profile, UK, 2026/27 to 2036/27 (sic: the columns run to 2036/37):
+      ''Source: internal modelling for the From a Welfare State to a Working State, this analysis is explained
+      in section 2 of the accompanying analytical annex''. Column G (''2031/32''), percentage, ''rounded
+      to the nearest 1 decimal place'' (Note 3). The analytical annex (section 2): ''Reductions in the
+      headline NEET rates and volumes for 16 to 24 year olds are built up from the individual key policies
+      included in the costs in section 1 above.'' ''The baseline forecast was derived from a central,
+      seasonally-adjusted NEET projection scenario from Youth Futures Foundation (YFF) SARIMAX modelling
+      using Labour Force Survey data from the Office for National Statistics (ONS) and Office for Budget
+      Responsibility economic projections.'' ''DWP and DfE internal analysis informed further adjustments
+      to the baseline for the impacts of some employment programmes and education changes already in train
+      or announced but not captured in the underlying data.'' The data tables'' guidance: ''Analysis to
+      inform the From a Welfare State to a Working State report has been led and coordinated by an independent
+      team of government and external analysts.'' ''The analysis produced to inform the From a Welfare
+      State to a Working State report, including the material contained in this annex, should not be regarded
+      as official government analysis or as representing agreed government policy.'''
+    unit: percent
+    aggregation: share
+    expected_cell_type: number
+- record_set_id: dwp.welfare_state_to_working_state_2026.table_3.neet_rate.fy2032
+  provenance_class: model_output
+  assertion: source_projection
+  record_set_spec_id: dwp.welfare_state_to_working_state_2026.table_3.neet_rate.fy2032.v1
+  source_record_id_prefix: dwp.welfare_state_to_working_state_2026.table_3.neet_rate.fy2032
+  sheet_name: '3'
+  period_type: fiscal_year
+  period: 2032
+  period_coverage:
+    start_date: '2032-04-01'
+    end_date: '2033-03-31'
+    basis: fiscal
+    source_period_label: 2032/33
+    notes: A projection by the review's analysts; the period value stores the opening year.
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: young_person
+  domain: employment
+  groupby_dimension: neet_rate_projection
+  shared_filters:
+    age_band: 16_to_24
+  shared_constraints:
+  - {variable: age_band, operator: ==, value: 16_to_24, label: Age band}
+  - {variable: age, operator: '>=', value: 16, unit: years, label: Age lower bound}
+  - {variable: age, operator: <, value: 25, unit: years, label: Age upper bound}
+  rows:
+  - value_id: baseline
+    label: Projected baseline NEET rate
+    ordinal: 0
+    row_number: 9
+    expected_row_header_column: A
+    expected_row_header: Projected baseline NEET rate
+    table_record_kind: detail
+    filters: {neet_rate_projection: baseline}
+    constraints:
+    - {variable: neet_rate_projection, operator: ==, value: baseline, label: NEET rate projections}
+    guard_cells:
+    - {column: A, row: 6, expected_value: 'Table 3: Total NEET rate impact profile, UK, 2026/27 to 2036/27',
+      label: table title}
+  - value_id: with_report_recommendations
+    label: Projected NEET rate with report recommendations
+    ordinal: 1
+    row_number: 10
+    expected_row_header_column: A
+    expected_row_header: Projected NEET rate with report recommendations
+    table_record_kind: detail
+    filters: {neet_rate_projection: with_report_recommendations}
+    constraints:
+    - {variable: neet_rate_projection, operator: ==, value: with_report_recommendations, label: NEET rate
+        projections}
+  measures:
+  - measure_id: neet_rate_2032
+    label: NEET rate, aged 16-24, 2032/33
+    ordinal: 0
+    column: H
+    source_column_id: neet_rate_2032
+    expected_column_header_row: 8
+    expected_column_header: 2032/33
+    concept: dwp.neet_rate_projection
+    source_concept: dwp.neet_rate_projection
+    concept_relation: source_label
+    concept_authority: dwp
+    concept_evidence_url: https://www.gov.uk/government/publications/from-a-welfare-state-to-a-working-state-a-new-settlement-for-the-next-generation/from-a-welfare-state-to-a-working-state-analytical-annex
+    concept_evidence_notes: 'From a Welfare State to a Working State data tables (DWP, 17 November 2026),
+      Table 3: Total NEET rate impact profile, UK, 2026/27 to 2036/27 (sic: the columns run to 2036/37):
+      ''Source: internal modelling for the From a Welfare State to a Working State, this analysis is explained
+      in section 2 of the accompanying analytical annex''. Column H (''2032/33''), percentage, ''rounded
+      to the nearest 1 decimal place'' (Note 3). The analytical annex (section 2): ''Reductions in the
+      headline NEET rates and volumes for 16 to 24 year olds are built up from the individual key policies
+      included in the costs in section 1 above.'' ''The baseline forecast was derived from a central,
+      seasonally-adjusted NEET projection scenario from Youth Futures Foundation (YFF) SARIMAX modelling
+      using Labour Force Survey data from the Office for National Statistics (ONS) and Office for Budget
+      Responsibility economic projections.'' ''DWP and DfE internal analysis informed further adjustments
+      to the baseline for the impacts of some employment programmes and education changes already in train
+      or announced but not captured in the underlying data.'' The data tables'' guidance: ''Analysis to
+      inform the From a Welfare State to a Working State report has been led and coordinated by an independent
+      team of government and external analysts.'' ''The analysis produced to inform the From a Welfare
+      State to a Working State report, including the material contained in this annex, should not be regarded
+      as official government analysis or as representing agreed government policy.'''
+    unit: percent
+    aggregation: share
+    expected_cell_type: number
+- record_set_id: dwp.welfare_state_to_working_state_2026.table_3.neet_rate.fy2033
+  provenance_class: model_output
+  assertion: source_projection
+  record_set_spec_id: dwp.welfare_state_to_working_state_2026.table_3.neet_rate.fy2033.v1
+  source_record_id_prefix: dwp.welfare_state_to_working_state_2026.table_3.neet_rate.fy2033
+  sheet_name: '3'
+  period_type: fiscal_year
+  period: 2033
+  period_coverage:
+    start_date: '2033-04-01'
+    end_date: '2034-03-31'
+    basis: fiscal
+    source_period_label: 2033/34
+    notes: A projection by the review's analysts; the period value stores the opening year.
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: young_person
+  domain: employment
+  groupby_dimension: neet_rate_projection
+  shared_filters:
+    age_band: 16_to_24
+  shared_constraints:
+  - {variable: age_band, operator: ==, value: 16_to_24, label: Age band}
+  - {variable: age, operator: '>=', value: 16, unit: years, label: Age lower bound}
+  - {variable: age, operator: <, value: 25, unit: years, label: Age upper bound}
+  rows:
+  - value_id: baseline
+    label: Projected baseline NEET rate
+    ordinal: 0
+    row_number: 9
+    expected_row_header_column: A
+    expected_row_header: Projected baseline NEET rate
+    table_record_kind: detail
+    filters: {neet_rate_projection: baseline}
+    constraints:
+    - {variable: neet_rate_projection, operator: ==, value: baseline, label: NEET rate projections}
+    guard_cells:
+    - {column: A, row: 6, expected_value: 'Table 3: Total NEET rate impact profile, UK, 2026/27 to 2036/27',
+      label: table title}
+  - value_id: with_report_recommendations
+    label: Projected NEET rate with report recommendations
+    ordinal: 1
+    row_number: 10
+    expected_row_header_column: A
+    expected_row_header: Projected NEET rate with report recommendations
+    table_record_kind: detail
+    filters: {neet_rate_projection: with_report_recommendations}
+    constraints:
+    - {variable: neet_rate_projection, operator: ==, value: with_report_recommendations, label: NEET rate
+        projections}
+  measures:
+  - measure_id: neet_rate_2033
+    label: NEET rate, aged 16-24, 2033/34
+    ordinal: 0
+    column: I
+    source_column_id: neet_rate_2033
+    expected_column_header_row: 8
+    expected_column_header: 2033/34
+    concept: dwp.neet_rate_projection
+    source_concept: dwp.neet_rate_projection
+    concept_relation: source_label
+    concept_authority: dwp
+    concept_evidence_url: https://www.gov.uk/government/publications/from-a-welfare-state-to-a-working-state-a-new-settlement-for-the-next-generation/from-a-welfare-state-to-a-working-state-analytical-annex
+    concept_evidence_notes: 'From a Welfare State to a Working State data tables (DWP, 17 November 2026),
+      Table 3: Total NEET rate impact profile, UK, 2026/27 to 2036/27 (sic: the columns run to 2036/37):
+      ''Source: internal modelling for the From a Welfare State to a Working State, this analysis is explained
+      in section 2 of the accompanying analytical annex''. Column I (''2033/34''), percentage, ''rounded
+      to the nearest 1 decimal place'' (Note 3). The analytical annex (section 2): ''Reductions in the
+      headline NEET rates and volumes for 16 to 24 year olds are built up from the individual key policies
+      included in the costs in section 1 above.'' ''The baseline forecast was derived from a central,
+      seasonally-adjusted NEET projection scenario from Youth Futures Foundation (YFF) SARIMAX modelling
+      using Labour Force Survey data from the Office for National Statistics (ONS) and Office for Budget
+      Responsibility economic projections.'' ''DWP and DfE internal analysis informed further adjustments
+      to the baseline for the impacts of some employment programmes and education changes already in train
+      or announced but not captured in the underlying data.'' The data tables'' guidance: ''Analysis to
+      inform the From a Welfare State to a Working State report has been led and coordinated by an independent
+      team of government and external analysts.'' ''The analysis produced to inform the From a Welfare
+      State to a Working State report, including the material contained in this annex, should not be regarded
+      as official government analysis or as representing agreed government policy.'''
+    unit: percent
+    aggregation: share
+    expected_cell_type: number
+- record_set_id: dwp.welfare_state_to_working_state_2026.table_3.neet_rate.fy2034
+  provenance_class: model_output
+  assertion: source_projection
+  record_set_spec_id: dwp.welfare_state_to_working_state_2026.table_3.neet_rate.fy2034.v1
+  source_record_id_prefix: dwp.welfare_state_to_working_state_2026.table_3.neet_rate.fy2034
+  sheet_name: '3'
+  period_type: fiscal_year
+  period: 2034
+  period_coverage:
+    start_date: '2034-04-01'
+    end_date: '2035-03-31'
+    basis: fiscal
+    source_period_label: 2034/35
+    notes: A projection by the review's analysts; the period value stores the opening year.
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: young_person
+  domain: employment
+  groupby_dimension: neet_rate_projection
+  shared_filters:
+    age_band: 16_to_24
+  shared_constraints:
+  - {variable: age_band, operator: ==, value: 16_to_24, label: Age band}
+  - {variable: age, operator: '>=', value: 16, unit: years, label: Age lower bound}
+  - {variable: age, operator: <, value: 25, unit: years, label: Age upper bound}
+  rows:
+  - value_id: baseline
+    label: Projected baseline NEET rate
+    ordinal: 0
+    row_number: 9
+    expected_row_header_column: A
+    expected_row_header: Projected baseline NEET rate
+    table_record_kind: detail
+    filters: {neet_rate_projection: baseline}
+    constraints:
+    - {variable: neet_rate_projection, operator: ==, value: baseline, label: NEET rate projections}
+    guard_cells:
+    - {column: A, row: 6, expected_value: 'Table 3: Total NEET rate impact profile, UK, 2026/27 to 2036/27',
+      label: table title}
+  - value_id: with_report_recommendations
+    label: Projected NEET rate with report recommendations
+    ordinal: 1
+    row_number: 10
+    expected_row_header_column: A
+    expected_row_header: Projected NEET rate with report recommendations
+    table_record_kind: detail
+    filters: {neet_rate_projection: with_report_recommendations}
+    constraints:
+    - {variable: neet_rate_projection, operator: ==, value: with_report_recommendations, label: NEET rate
+        projections}
+  measures:
+  - measure_id: neet_rate_2034
+    label: NEET rate, aged 16-24, 2034/35
+    ordinal: 0
+    column: J
+    source_column_id: neet_rate_2034
+    expected_column_header_row: 8
+    expected_column_header: 2034/35
+    concept: dwp.neet_rate_projection
+    source_concept: dwp.neet_rate_projection
+    concept_relation: source_label
+    concept_authority: dwp
+    concept_evidence_url: https://www.gov.uk/government/publications/from-a-welfare-state-to-a-working-state-a-new-settlement-for-the-next-generation/from-a-welfare-state-to-a-working-state-analytical-annex
+    concept_evidence_notes: 'From a Welfare State to a Working State data tables (DWP, 17 November 2026),
+      Table 3: Total NEET rate impact profile, UK, 2026/27 to 2036/27 (sic: the columns run to 2036/37):
+      ''Source: internal modelling for the From a Welfare State to a Working State, this analysis is explained
+      in section 2 of the accompanying analytical annex''. Column J (''2034/35''), percentage, ''rounded
+      to the nearest 1 decimal place'' (Note 3). The analytical annex (section 2): ''Reductions in the
+      headline NEET rates and volumes for 16 to 24 year olds are built up from the individual key policies
+      included in the costs in section 1 above.'' ''The baseline forecast was derived from a central,
+      seasonally-adjusted NEET projection scenario from Youth Futures Foundation (YFF) SARIMAX modelling
+      using Labour Force Survey data from the Office for National Statistics (ONS) and Office for Budget
+      Responsibility economic projections.'' ''DWP and DfE internal analysis informed further adjustments
+      to the baseline for the impacts of some employment programmes and education changes already in train
+      or announced but not captured in the underlying data.'' The data tables'' guidance: ''Analysis to
+      inform the From a Welfare State to a Working State report has been led and coordinated by an independent
+      team of government and external analysts.'' ''The analysis produced to inform the From a Welfare
+      State to a Working State report, including the material contained in this annex, should not be regarded
+      as official government analysis or as representing agreed government policy.'''
+    unit: percent
+    aggregation: share
+    expected_cell_type: number
+- record_set_id: dwp.welfare_state_to_working_state_2026.table_3.neet_rate.fy2035
+  provenance_class: model_output
+  assertion: source_projection
+  record_set_spec_id: dwp.welfare_state_to_working_state_2026.table_3.neet_rate.fy2035.v1
+  source_record_id_prefix: dwp.welfare_state_to_working_state_2026.table_3.neet_rate.fy2035
+  sheet_name: '3'
+  period_type: fiscal_year
+  period: 2035
+  period_coverage:
+    start_date: '2035-04-01'
+    end_date: '2036-03-31'
+    basis: fiscal
+    source_period_label: 2035/36
+    notes: A projection by the review's analysts; the period value stores the opening year.
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: young_person
+  domain: employment
+  groupby_dimension: neet_rate_projection
+  shared_filters:
+    age_band: 16_to_24
+  shared_constraints:
+  - {variable: age_band, operator: ==, value: 16_to_24, label: Age band}
+  - {variable: age, operator: '>=', value: 16, unit: years, label: Age lower bound}
+  - {variable: age, operator: <, value: 25, unit: years, label: Age upper bound}
+  rows:
+  - value_id: baseline
+    label: Projected baseline NEET rate
+    ordinal: 0
+    row_number: 9
+    expected_row_header_column: A
+    expected_row_header: Projected baseline NEET rate
+    table_record_kind: detail
+    filters: {neet_rate_projection: baseline}
+    constraints:
+    - {variable: neet_rate_projection, operator: ==, value: baseline, label: NEET rate projections}
+    guard_cells:
+    - {column: A, row: 6, expected_value: 'Table 3: Total NEET rate impact profile, UK, 2026/27 to 2036/27',
+      label: table title}
+  - value_id: with_report_recommendations
+    label: Projected NEET rate with report recommendations
+    ordinal: 1
+    row_number: 10
+    expected_row_header_column: A
+    expected_row_header: Projected NEET rate with report recommendations
+    table_record_kind: detail
+    filters: {neet_rate_projection: with_report_recommendations}
+    constraints:
+    - {variable: neet_rate_projection, operator: ==, value: with_report_recommendations, label: NEET rate
+        projections}
+  measures:
+  - measure_id: neet_rate_2035
+    label: NEET rate, aged 16-24, 2035/36
+    ordinal: 0
+    column: K
+    source_column_id: neet_rate_2035
+    expected_column_header_row: 8
+    expected_column_header: 2035/36
+    concept: dwp.neet_rate_projection
+    source_concept: dwp.neet_rate_projection
+    concept_relation: source_label
+    concept_authority: dwp
+    concept_evidence_url: https://www.gov.uk/government/publications/from-a-welfare-state-to-a-working-state-a-new-settlement-for-the-next-generation/from-a-welfare-state-to-a-working-state-analytical-annex
+    concept_evidence_notes: 'From a Welfare State to a Working State data tables (DWP, 17 November 2026),
+      Table 3: Total NEET rate impact profile, UK, 2026/27 to 2036/27 (sic: the columns run to 2036/37):
+      ''Source: internal modelling for the From a Welfare State to a Working State, this analysis is explained
+      in section 2 of the accompanying analytical annex''. Column K (''2035/36''), percentage, ''rounded
+      to the nearest 1 decimal place'' (Note 3). The analytical annex (section 2): ''Reductions in the
+      headline NEET rates and volumes for 16 to 24 year olds are built up from the individual key policies
+      included in the costs in section 1 above.'' ''The baseline forecast was derived from a central,
+      seasonally-adjusted NEET projection scenario from Youth Futures Foundation (YFF) SARIMAX modelling
+      using Labour Force Survey data from the Office for National Statistics (ONS) and Office for Budget
+      Responsibility economic projections.'' ''DWP and DfE internal analysis informed further adjustments
+      to the baseline for the impacts of some employment programmes and education changes already in train
+      or announced but not captured in the underlying data.'' The data tables'' guidance: ''Analysis to
+      inform the From a Welfare State to a Working State report has been led and coordinated by an independent
+      team of government and external analysts.'' ''The analysis produced to inform the From a Welfare
+      State to a Working State report, including the material contained in this annex, should not be regarded
+      as official government analysis or as representing agreed government policy.'''
+    unit: percent
+    aggregation: share
+    expected_cell_type: number
+- record_set_id: dwp.welfare_state_to_working_state_2026.table_3.neet_rate.fy2036
+  provenance_class: model_output
+  assertion: source_projection
+  record_set_spec_id: dwp.welfare_state_to_working_state_2026.table_3.neet_rate.fy2036.v1
+  source_record_id_prefix: dwp.welfare_state_to_working_state_2026.table_3.neet_rate.fy2036
+  sheet_name: '3'
+  period_type: fiscal_year
+  period: 2036
+  period_coverage:
+    start_date: '2036-04-01'
+    end_date: '2037-03-31'
+    basis: fiscal
+    source_period_label: 2036/37
+    notes: A projection by the review's analysts; the period value stores the opening year.
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: person
+  entity_role: young_person
+  domain: employment
+  groupby_dimension: neet_rate_projection
+  shared_filters:
+    age_band: 16_to_24
+  shared_constraints:
+  - {variable: age_band, operator: ==, value: 16_to_24, label: Age band}
+  - {variable: age, operator: '>=', value: 16, unit: years, label: Age lower bound}
+  - {variable: age, operator: <, value: 25, unit: years, label: Age upper bound}
+  rows:
+  - value_id: baseline
+    label: Projected baseline NEET rate
+    ordinal: 0
+    row_number: 9
+    expected_row_header_column: A
+    expected_row_header: Projected baseline NEET rate
+    table_record_kind: detail
+    filters: {neet_rate_projection: baseline}
+    constraints:
+    - {variable: neet_rate_projection, operator: ==, value: baseline, label: NEET rate projections}
+    guard_cells:
+    - {column: A, row: 6, expected_value: 'Table 3: Total NEET rate impact profile, UK, 2026/27 to 2036/27',
+      label: table title}
+  - value_id: with_report_recommendations
+    label: Projected NEET rate with report recommendations
+    ordinal: 1
+    row_number: 10
+    expected_row_header_column: A
+    expected_row_header: Projected NEET rate with report recommendations
+    table_record_kind: detail
+    filters: {neet_rate_projection: with_report_recommendations}
+    constraints:
+    - {variable: neet_rate_projection, operator: ==, value: with_report_recommendations, label: NEET rate
+        projections}
+  measures:
+  - measure_id: neet_rate_2036
+    label: NEET rate, aged 16-24, 2036/37
+    ordinal: 0
+    column: L
+    source_column_id: neet_rate_2036
+    expected_column_header_row: 8
+    expected_column_header: 2036/37
+    concept: dwp.neet_rate_projection
+    source_concept: dwp.neet_rate_projection
+    concept_relation: source_label
+    concept_authority: dwp
+    concept_evidence_url: https://www.gov.uk/government/publications/from-a-welfare-state-to-a-working-state-a-new-settlement-for-the-next-generation/from-a-welfare-state-to-a-working-state-analytical-annex
+    concept_evidence_notes: 'From a Welfare State to a Working State data tables (DWP, 17 November 2026),
+      Table 3: Total NEET rate impact profile, UK, 2026/27 to 2036/27 (sic: the columns run to 2036/37):
+      ''Source: internal modelling for the From a Welfare State to a Working State, this analysis is explained
+      in section 2 of the accompanying analytical annex''. Column L (''2036/37''), percentage, ''rounded
+      to the nearest 1 decimal place'' (Note 3). The analytical annex (section 2): ''Reductions in the
+      headline NEET rates and volumes for 16 to 24 year olds are built up from the individual key policies
+      included in the costs in section 1 above.'' ''The baseline forecast was derived from a central,
+      seasonally-adjusted NEET projection scenario from Youth Futures Foundation (YFF) SARIMAX modelling
+      using Labour Force Survey data from the Office for National Statistics (ONS) and Office for Budget
+      Responsibility economic projections.'' ''DWP and DfE internal analysis informed further adjustments
+      to the baseline for the impacts of some employment programmes and education changes already in train
+      or announced but not captured in the underlying data.'' The data tables'' guidance: ''Analysis to
+      inform the From a Welfare State to a Working State report has been led and coordinated by an independent
+      team of government and external analysts.'' ''The analysis produced to inform the From a Welfare
+      State to a Working State report, including the material contained in this annex, should not be regarded
+      as official government analysis or as representing agreed government policy.'''
+    unit: percent
+    aggregation: share
+    expected_cell_type: number
