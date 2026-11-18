@@ -258,8 +258,8 @@ class AggregateFact:
     claim the publisher made: ``observation`` for measured or administered
     outcomes as published, ``source_projection`` for the publisher's own
     forward-looking estimate (CBO baselines, BFP outlooks, SSA trustees
-    tables, TPC/JCT scores). PolicyEngine-computed values are never facts;
-    aged, uprated, or reconciled levels belong in downstream builds.
+    tables). PolicyEngine-computed values are never facts; aged, uprated,
+    or reconciled levels belong in downstream builds.
 
     ``provenance_class`` records the publisher's measurement basis and has no
     default. Survey aggregates additionally require ``survey_instrument``;
