@@ -613,7 +613,10 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # IRS SOI Table 1.3 adds 20 TY2023 facts: returns, AGI and the child
         # and other dependent credit (returns and amount), for all returns and
         # each filing status (PolicyEngine/microcosm#880).
-        "fact_count": 2356474,
+        # chronicle#442 adds 117: the young people and work interim report's Table 28
+        # (88: PIP and UC health element caseloads and spending at 16 to 24, England
+        # and Wales, 2019-20 to 2040-41) and the final report's Tables 2 (7) and 3 (22).
+        "fact_count": 2356591,
         # The same change adds 82,064 geography keys: 46,363 Scottish 2022
         # output areas (UV404), 35,673 LSOA-level keys from the DESNZ LSOA
         # workbooks (Scotland's data zones already exist), the 26 Northern
@@ -644,7 +647,9 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # chronicle#420 adds month 2026-09, PAYE RTI's early estimate, and nine
         # months from April 2016 to March 2017, the start of HMRC's in-year RTI
         # income tax series (Table 4 of the Scottish outturn).
-        "period_count": 610,
+        # chronicle#442 adds nine financial years, 2032-33 to 2040-41: Table 28's
+        # projections run further than any other package's.
+        "period_count": 619,
         # 467 before chronicle#292 moved the congressional-district and
         # state_2022 rows from their ty2023 restamp to TY2022. There the CD
         # file's state-total and US rows share semantic keys with the Historic
@@ -719,8 +724,9 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # Report. SSA's Supplement Tables 7.B3 and 7.B7 add two. chronicle#438 adds
         # five: the two balance sheet dwellings packages, the two capital stocks
         # packages and Census 2021 TS054 by MSOA.
-        # IRS SOI Table 1.3 adds one.
-        "source_package_count": 522,
+        # IRS SOI Table 1.3 adds one. chronicle#442 adds two: DWP's young people PIP
+        # and LCWRA projections and the final report's data tables.
+        "source_package_count": 524,
         # 1 semantic-duplicate warning, plus the publisher wording Chronicle
         # keeps as published: values two packages word differently, groupby
         # rows that drift inside one package (chronicle#265, #266), and the
@@ -772,14 +778,14 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         if row_count == 1:
             assert row["aggregate_fact_key"].startswith("ledger.aggregate_fact.v2:")
             assert row["semantic_fact_key"].startswith("ledger.semantic_fact.v2:")
-    assert row_count == 2356474
+    assert row_count == 2356591
     assert provenance_classes <= {
         "administrative",
         "census",
         "model_output",
         "survey_aggregate",
     }
-    assert source_packages["source_package_count"] == 522
+    assert source_packages["source_package_count"] == 524
     assert source_packages["skipped_source_count"] == 28
     assert sorted(item["source"] for item in source_packages["skipped_sources"]) == [
         "census-acs-s0101-congressional-district-age-2024",
@@ -811,7 +817,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "jct-obbba-revenue-estimates-2025",
         "jct-tax-expenditures-2024",
     ]
-    assert coverage["fact_count"] == 2356474
+    assert coverage["fact_count"] == 2356591
     assert coverage["counts"]["by_source"] == {
         "bea": 446,
         "bfp_economic_outlook": 5,
@@ -828,7 +834,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "dfc_ni": 1700,
         "dfi_ni": 33,
         "dft": 2834,
-        "dwp": 274535,
+        "dwp": 274652,
         "eurostat": 262,
         "federal_reserve": 1,
         "fpb_economic_outlook": 1000,
@@ -891,10 +897,11 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     # packages name the balance sheets' Tables 2 to 13, the capital stocks
     # packages Tables 1.1.1 and 2.1.1 of each release, and the MSOA package
     # TS054 by MSOA.
-    # IRS SOI Table 1.3 adds one.
+    # IRS SOI Table 1.3 adds one. chronicle#442 adds two, one per package: the
+    # interim report's Table 28 and the final report's Tables 2 and 3.
     # The district, county and W-2 tables are new. The filing snapshots share
     # their source-table key with the existing 2024 week-47 EITC package.
-    assert len(table_counts) == 460
+    assert len(table_counts) == 462
     assert (
         table_counts[
             "hmrc:Benefits in kind statistics: July 2026, Tables 1 to 4: company car "
@@ -2917,6 +2924,15 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     expected_period_counts["tax_year:2023"] += 36113
     expected_period_counts["tax_year:2024"] += 3944
     expected_period_counts["tax_year:2025"] += 3944
+    # chronicle#442: Table 28's four rows in every financial year 2019-20 to 2040-41,
+    # and the final report's Table 3 (two NEET rate projections, 2026-27 to 2036-37)
+    # and Table 2 (seven policy-area rows in 2036-37).
+    for year in range(2019, 2041):
+        key = f"fiscal_year:{year}"
+        expected_period_counts[key] = expected_period_counts.get(key, 0) + 4
+    for year in range(2026, 2037):
+        expected_period_counts[f"fiscal_year:{year}"] += 2
+    expected_period_counts["fiscal_year:2036"] += 7
     assert coverage["counts"]["by_period"] == expected_period_counts
     # country:NZ: 330 WFF (#209) + 5 national population (#211) + 27 Treasury
     # (#321) + 3,522 IRD I1 (#318) + 510 IRD I2 (#210) + 103 MSD (#319)
@@ -2998,7 +3014,9 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     # ASHE Table 6 and HMRC's NICs reliefs; its Scottish income tax outturn adds
     # its 429 UK rows. chronicle#420's QEP electricity payment-method tables add 66.
     # chronicle#438 adds its 854 facts, all for the United Kingdom.
-    assert coverage["counts"]["by_geography"]["country:K02000001"] == 109938
+    # chronicle#442 adds 25: the final report's NEET rate projections (22) and
+    # Table 2's welfare savings, fiscal offsets and net total (3).
+    assert coverage["counts"]["by_geography"]["country:K02000001"] == 109963
     # chronicle#343 adds the 63 OBR surcharge-costing facts for England, and
     # chronicle#358 ONS's 606 single-year residence-type rows for England. GSGB
     # 2025's England participation rows add 40. ISA Tables 9.9 and 9.12's
@@ -3007,8 +3025,10 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     # 2,259 (chapters 1, 3 and 4: 1,938, 137 and 184), VOA's council tax stock
     # 693, EPC D3 267, council tax collection 157 (QRC4 133, Table 6 24), HMRC's
     # stamp tax 64 and Live Table 126 15. The people on UC cube's England rows add
-    # 4,238 and the PIP cases packages England's 7,095 (chronicle#420).
-    assert coverage["counts"]["by_geography"]["country:E92000001"] == 23518
+    # 4,238 and the PIP cases packages England's 7,095 (chronicle#420). The final
+    # report's Table 2 adds its England-only health and education costs (2,
+    # chronicle#442).
+    assert coverage["counts"]["by_geography"]["country:E92000001"] == 23520
     # Great Britain gains HBAI's FYE 1995-2002 rows (32), Move to UC (80), the
     # table 4.9 lines DWP counts over Great Britain (56) and BUS04 (2): +170.
     # chronicle#381's 1,435 Gambling Commission facts, the National Lottery's
@@ -3016,15 +3036,17 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     # tables (B.1, B.3, B.9 and B.13) add 544. The October 2026 EFO's table 5.9
     # DWP lines add 56 (chronicle#393). chronicle#397 drops the March 2026 table 4.9
     # DWP lines' 48 facts after 2024-25. The people on UC cube's Great Britain rows
-    # add 4,238 (chronicle#420), and its QEP payment-method tables 99.
-    assert coverage["counts"]["by_geography"]["country:K03000001"] == 27895
+    # add 4,238 (chronicle#420), and its QEP payment-method tables 99. The final
+    # report's Table 2 adds the Opportunity and Support Guarantees and youth hiring
+    # incentives (2, chronicle#442).
+    assert coverage["counts"]["by_geography"]["country:K03000001"] == 27897
     # England and Wales gains table 4.9's AA, CA, DLA/PIP and WFP lines (28),
     # and the October 2026 EFO's table 5.9 the same four lines (28, chronicle#393).
     # chronicle#397 drops the March lines' 24 facts after 2024-25. chronicle#408
     # adds 1,033: VOA's council tax stock (766) and EPC D3 (267). chronicle#420's
     # Pathways to Work package adds 1,240 (England, Wales and abroad), and its QEP
-    # payment-method tables 99.
-    assert coverage["counts"]["by_geography"]["country:K04000001"] == 3552
+    # payment-method tables 99. chronicle#442's Table 28 adds 88.
+    assert coverage["counts"]["by_geography"]["country:K04000001"] == 3640
     assert coverage["counts"]["by_geography"]["statistical_scope:ofgem:london"] == 216
     # PolicyEngine/microcosm#1415 adds HMRC's overseas and unknown scope, and
     # PolicyEngine/uk-autumn-budget-dashboard-2026#316 its unknown recipient region.
@@ -3094,16 +3116,18 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     # chronicle#438 adds 854 institutional sectors (dwellings by sector and the
     # capital stocks of dwellings) and 65,376 households (TS054 by MSOA).
     # IRS SOI Table 1.3 adds 20 tax units (PolicyEngine/microcosm#880).
+    # chronicle#442: people +66 (Table 28's caseloads 44, the NEET rate projections
+    # 22) and government +51 (Table 28's spending 44, Table 2's costs 7).
     assert coverage["counts"]["by_entity"] == {
         "benefit_unit": 33645,
         "dwelling": 709104,
         "family": 1700,
         "firm": 1927,
-        "government": 14075,
+        "government": 14126,
         "household": 745404,
         "institutional_sector": 10118,
         "pension_plan": 2,
-        "person": 734519,
+        "person": 734585,
         "return": 16087,
         "social_protection_scheme": 36,
         "tax_unit": 89857,

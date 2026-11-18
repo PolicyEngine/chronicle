@@ -759,6 +759,16 @@ SOURCE_PACKAGE_ALIASES = {
     ),
     "ros-property-market-report-2025-26": Path("ros/property_market_report_2025_26"),
     # end chronicle#435
+    # chronicle#442: DWP's young people and work review. The interim report's Table 28
+    # (PIP and UC health element caseloads and spending at 16 to 24, England and Wales)
+    # and the final report's data tables 2 and 3.
+    "dwp-young-people-pip-lcwra-projections-2026": Path(
+        "dwp/young_people_pip_lcwra_projections_2026"
+    ),
+    "dwp-welfare-state-to-working-state-tables-2026": Path(
+        "dwp/welfare_state_to_working_state_tables_2026"
+    ),
+    # end chronicle#442
     "hmrc-cgt-age-2026": Path("hmrc/cgt_age_2026"),
     "hmrc-cgt-asset-type-2026": Path("hmrc/cgt_asset_type_2026"),
     "hmrc-cgt-badr-ir-2026": Path("hmrc/cgt_badr_ir_2026"),
