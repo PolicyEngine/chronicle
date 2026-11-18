@@ -59,6 +59,8 @@ GUIDE_BY_DATA_FILE = {
     "22incyallnoagi.csv": "22incydocguide",
     "22in55cmcsv.csv": "22incmdocguide",
     "23in55cmcsv.csv": "23incmdocguide",
+    "23incd.csv": "23incddocguide",
+    "23incyallnoagi.csv": "23incydocguide",
 }
 
 # IRS-variable columns a data file carries that its guide does not define.
@@ -66,10 +68,12 @@ GUIDE_BY_DATA_FILE = {
 UNDOCUMENTED_COLUMNS = {
     "22incd.csv": frozenset({"A00101"}),
     "22incyallnoagi.csv": frozenset({"A00101"}),
+    "23incd.csv": frozenset({"A00101"}),
+    "23incyallnoagi.csv": frozenset({"A00101"}),
 }
 
-# The TY2022 guides print form "8926" for these variables; the TY2023 Historic
-# Table 2 guide prints "8962" for the same variables and descriptions.
+# The TY2022 guides and the TY2023 district and county guides print "8926".
+# The TY2023 Historic Table 2 guide identifies the same lines as Form 8962.
 LINE_ERRATA = {"8926:24": "8962:24", "8926:25": "8962:25"}
 
 # measure_id -> (form line, guide description, later guide wordings ...).
@@ -158,10 +162,12 @@ GUIDE_DEFINITIONS: dict[str, tuple[str, ...]] = {
     "partnership_scorp_income_returns": (
         "Schedule E:32",
         "Number of returns with partnership/S-corp net income (less loss)",
+        "Number of returns with partnership/S-corporation net income (less loss)",
     ),
     "partnership_scorp_income_amount": (
         "Schedule E:32",
         "Partnership/S-corp net income (less loss) amount",
+        "Partnership/S-corporation net income (less loss) amount",
     ),
     "rental_royalty_income_returns": (
         "Schedule E:26",
