@@ -510,6 +510,9 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     # count adds the one duplicate key (SSI Monthly Statistics Table 1 prints
     # the same December 2024 figure, 7,289,843). The bundle already carries the
     # one duplicate-key warning, so the warning count holds.
+    # The four IRS filing-season tables add 7,888 facts. The 2023 district,
+    # county and Form W-2 sources add 29,822, 6,286 and five facts respectively.
+    # Each of the seven packages preserves its publisher period at bundle year 2023.
     assert summary["counts"] == {
         "aggregate_duplicate_key_count": 0,
         "entity_count": 12,
@@ -610,7 +613,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # IRS SOI Table 1.3 adds 20 TY2023 facts: returns, AGI and the child
         # and other dependent credit (returns and amount), for all returns and
         # each filing status (PolicyEngine/microcosm#880).
-        "fact_count": 2312473,
+        "fact_count": 2356474,
         # The same change adds 82,064 geography keys: 46,363 Scottish 2022
         # output areas (UV404), 35,673 LSOA-level keys from the DESNZ LSOA
         # workbooks (Scotland's data zones already exist), the 26 Northern
@@ -626,7 +629,8 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # the districts too); and three scopes: HMRC's England, Wales and
         # Northern Ireland, EPC D3's England area unknown and the Market Value
         # Survey's England excluding London.
-        "geography_count": 102893,
+        # The IRS publishes 429 district rows with 118th Congress GEOIDs.
+        "geography_count": 103322,
         # And 12 period keys: HBAI's FYE 1995 and FYE 1996 (fiscal_year 1994,
         # 1995) and gas_year 2015 to 2024, the period type chronicle#356 adds.
         # chronicle#381 adds 12 more: HMRC's betting and gaming receipts from
@@ -677,7 +681,9 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # December 2024 is SSI Monthly Statistics Table 1's all-ages figure, and
         # Chronicle keeps both as published.
         # Historic Table 2's state lines 8a and 14 add 204 (see above).
-        "semantic_duplicate_key_count": 4135,
+        # Nine national district-file measures overlap other TY2023 IRS tables.
+        # Return count and AGI already had duplicates, leaving seven new duplicate keys.
+        "semantic_duplicate_key_count": 4142,
         # chronicle#310's six FSA portfolio packages (FY2026 files) and the
         # ACS 2024 S1501 state package have no 2023 artifact, so the 2023
         # bundle skips them (10 -> 17); no fact or key count moves.
@@ -714,7 +720,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # five: the two balance sheet dwellings packages, the two capital stocks
         # packages and Census 2021 TS054 by MSOA.
         # IRS SOI Table 1.3 adds one.
-        "source_package_count": 515,
+        "source_package_count": 522,
         # 1 semantic-duplicate warning, plus the publisher wording Chronicle
         # keeps as published: values two packages word differently, groupby
         # rows that drift inside one package (chronicle#265, #266), and the
@@ -766,14 +772,14 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         if row_count == 1:
             assert row["aggregate_fact_key"].startswith("ledger.aggregate_fact.v2:")
             assert row["semantic_fact_key"].startswith("ledger.semantic_fact.v2:")
-    assert row_count == 2312473
+    assert row_count == 2356474
     assert provenance_classes <= {
         "administrative",
         "census",
         "model_output",
         "survey_aggregate",
     }
-    assert source_packages["source_package_count"] == 515
+    assert source_packages["source_package_count"] == 522
     assert source_packages["skipped_source_count"] == 28
     assert sorted(item["source"] for item in source_packages["skipped_sources"]) == [
         "census-acs-s0101-congressional-district-age-2024",
@@ -805,7 +811,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "jct-obbba-revenue-estimates-2025",
         "jct-tax-expenditures-2024",
     ]
-    assert coverage["fact_count"] == 2312473
+    assert coverage["fact_count"] == 2356474
     assert coverage["counts"]["by_source"] == {
         "bea": 446,
         "bfp_economic_outlook": 5,
@@ -832,7 +838,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "hmrc": 40025,
         "ici": 12,
         "ird": 4362,
-        "irs_soi": 44551,
+        "irs_soi": 88552,
         "isc": 4,
         "jrc_euromod_be": 90,
         "kff": 52,
@@ -886,7 +892,9 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     # packages Tables 1.1.1 and 2.1.1 of each release, and the MSOA package
     # TS054 by MSOA.
     # IRS SOI Table 1.3 adds one.
-    assert len(table_counts) == 457
+    # The district, county and W-2 tables are new. The filing snapshots share
+    # their source-table key with the existing 2024 week-47 EITC package.
+    assert len(table_counts) == 460
     assert (
         table_counts[
             "hmrc:Benefits in kind statistics: July 2026, Tables 1 to 4: company car "
@@ -1350,6 +1358,17 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
             "arrears"
         ]
         == 161
+    )
+    assert table_counts["irs_soi:Congressional District Data 2023"] == 29822
+    assert table_counts["irs_soi:IRS SOI County Data 2023"] == 6286
+    # Week 47 already supplies 34 EITC observations across 17 AGI groups.
+    assert table_counts["irs_soi:Filing Season Statistics Table 1"] == 7922
+    assert (
+        table_counts[
+            "irs_soi:Table 4.B. Summary of Items for Taxpayers with Form W-2, "
+            "by Return and Earner Type, Tax Year 2023"
+        ]
+        == 5
     )
     assert table_counts["irs_soi:Congressional District Data 2022"] == 29760
     assert table_counts["irs_soi:IRS SOI County Data 2022"] == 6286
@@ -2895,6 +2914,9 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     # 7.B7 sums payments over calendar 2024.
     expected_period_counts["month:2024-12"] += 128
     expected_period_counts["calendar_year:2024"] += 65
+    expected_period_counts["tax_year:2023"] += 36113
+    expected_period_counts["tax_year:2024"] += 3944
+    expected_period_counts["tax_year:2025"] += 3944
     assert coverage["counts"]["by_period"] == expected_period_counts
     # country:NZ: 330 WFF (#209) + 5 national population (#211) + 27 Treasury
     # (#321) + 3,522 IRD I1 (#318) + 510 IRD I2 (#210) + 103 MSD (#319)
@@ -2944,12 +2966,17 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     # SSA's Supplement Tables 7.B3 and 7.B7 add four (two national cells each).
     # IRS SOI Table 1.4's partnership and S corporation net income and loss legs add 160.
     # IRS SOI Table 1.3 adds 20 national facts.
-    assert coverage["counts"]["by_geography"]["country:0100000US"] == 2300
+    # Plus the four IRS filing-season tables, 2023 district US row and W-2.
+    assert coverage["counts"]["by_geography"]["country:0100000US"] == 10255
     # 255, less Vintage 2024's state total (chronicle#397), + 16 Census Vintage
     # 2025 age groups (15 groups and the total), + 6 from SSA's Supplement
     # Tables 7.B3 (four California cells) and 7.B7 (two), + 8 Historic Table 2
     # state measures (Schedule 1 line 1 and Schedule A lines 7, 8a and 14).
-    assert coverage["counts"]["by_geography"]["state:0400000US06"] == 284
+    # The 2023 district source adds 62 state-level observations.
+    assert coverage["counts"]["by_geography"]["state:0400000US06"] == 346
+    assert (
+        coverage["counts"]["by_geography"]["congressional_district:5001800US0601"] == 62
+    )
     assert (
         coverage["counts"]["by_geography"]["congressional_district:5001700US0601"] == 62
     )
@@ -3002,7 +3029,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     # PolicyEngine/microcosm#1415 adds HMRC's overseas and unknown scope, and
     # PolicyEngine/uk-autumn-budget-dashboard-2026#316 its unknown recipient region.
     # chronicle#408 adds 275 (see geography_count).
-    assert len(coverage["counts"]["by_geography"]) == 102893
+    assert len(coverage["counts"]["by_geography"]) == 103322
     for region in (
         "auckland",
         "bay-of-plenty",
@@ -3079,10 +3106,10 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "person": 734519,
         "return": 16087,
         "social_protection_scheme": 36,
-        "tax_unit": 45856,
+        "tax_unit": 89857,
     }
     assert not coverage["duplicates"]["aggregate_fact_keys"]
-    assert len(coverage["duplicates"]["semantic_fact_keys"]) == 4135
+    assert len(coverage["duplicates"]["semantic_fact_keys"]) == 4142
     assert Counter(warning["code"] for warning in summary["warnings"]) == {
         "conflicting_geography_name_across_packages": 91,
         "duplicate_semantic_fact_key": 1,
