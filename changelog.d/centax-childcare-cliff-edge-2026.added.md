@@ -1,0 +1,1 @@
+Register CenTax's childcare cliff-edge workbook (`centax-childcare-cliff-edge-2026`), the data for the charts of Advani, Flew, Pepin-Hall and Summers (2026), raw-only and held in R2, with the new `centax` publisher, for PolicyEngine/microcosm#1399.

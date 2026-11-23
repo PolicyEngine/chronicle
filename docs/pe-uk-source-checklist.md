@@ -671,6 +671,22 @@ People and Work review. Two packages add 117 facts; field contracts and caveats 
   - item 4, already in Chronicle as `hmrc-employer-nics-age-reliefs-january-2026` (January 2026
     is still HMRC's latest edition).
 
+## Beyond parity — CenTax childcare cliff-edge workbook (PolicyEngine/microcosm#1399)
+
+The data for the charts of CenTax's *Removing the £100,000 childcare cliff-edge* (Advani, Flew,
+Pepin-Hall and Summers, 2026), which microcosm's parent cells for the £100k childcare costing
+derive from. Field notes and the licence position are in
+[`docs/data-sources/uk-centax-childcare-cliff-edge-2026.md`](data-sources/uk-centax-childcare-cliff-edge-2026.md).
+
+- **Raw only** (`centax-childcare-cliff-edge-2026`): the workbook is pinned by its manifest and
+  held in R2. microcosm checks the bytes against the manifest and reads Figures 3.1, 3.3, 3.6 and
+  3.7, and Table A.1 and Figure 3.12 as diagnostics.
+  - `centax` is a new UK publisher.
+  - No licence is stated; Arun Advani (CenTax) has said PolicyEngine may use the published data,
+    so the bytes are git-ignored, as the GSGB tables are.
+- Not ported as facts: every sheet. The figures are chart data for one consumer, and the other
+  sheets are the authors' model outputs (bunching, frictions, elasticities, costs).
+
 ## Consumer contracts
 
 The UK national, local-geography, and firms selection contracts now live in
