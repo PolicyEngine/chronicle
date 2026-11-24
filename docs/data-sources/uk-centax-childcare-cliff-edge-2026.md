@@ -19,15 +19,20 @@ calculations based on HMRC administrative datasets. "2022" is the 2021-22 tax ye
 | Fig. 3.1 | Parents of 3- and 4-year-olds in England by adjusted net income (ANI), 2021-22 | £500 to £200,000 |
 | Fig. 3.3 | The same, employees and non-employees (main source of income) | £1,000 to £150,000 |
 | Fig. 3.6 | The same, by sex | £500 to £150,000 |
-| Fig. 3.7 | The same by region group (London, North and Midlands, South excluding London) and Scotland, pooled over 2018-19 to 2021-22 | £1,000 to £150,000 |
+| Fig. 3.7 | Parents of 3- and 4-year-olds by region group in England (London, North and Midlands, South excluding London) and in Scotland, all four columns pooled over 2018-19 to 2021-22 | £1,000 to £150,000 |
 | Fig. 3.12 | Share of parents with a partner not in work | £2,500 to £150,000 |
 | Tab. A.1 | Sample statistics: parents, partners, sex, age and mean ANI, whole population and £80k-£140k | |
 
 Bins are labelled by their upper edge: Figure 3.1's labels run from 500 to 200,000. The sheets
 of Figures 3.1 and 3.6 say the report's charts aggregate their £500 bins into £1,000 bins. Figure
-3.7's sheet does not say which English regions make up its two groups outside London. The other
-sheets hold the authors' model outputs: bunching, friction parameters, elasticities, notch
-sizes, marginal bunchers and fiscal costs.
+3.7's sheet does not say which English regions make up its two groups outside London. Its note
+pools every column, England's three groups as well as Scotland, over parents with a child
+eligible at some point in the tax years 2018-19 to 2021-22, although the sheet's title says
+2022. Its levels are therefore about four years of counts: at the first £1,000, the English
+groups sum to 4.2 times Figure 3.1's first two £500 bins. Use its shares. Figure 3.12's "Men &
+Women" column repeats its "Men" column in all 60 bins, so use the Men and Women columns
+separately. The other sheets hold the authors' model outputs: bunching, friction parameters,
+elasticities, notch sizes, marginal bunchers and fiscal costs.
 
 ## Registration
 
