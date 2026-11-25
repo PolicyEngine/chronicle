@@ -1,0 +1,28 @@
+source_id: census_acs
+package_id: census-acs1-s1701-district-2024
+dataset: census_acs1_s1701_district_2024
+source_page: https://api.census.gov/data/2024/acs/acs1/subject.html
+vintage: 2024 ACS 1-year subject tables
+reference_period: '2024'
+table: S1701 Poverty Status in the Past 12 Months
+notes: 'Publisher bytes copied unchanged from the 2026-11-25 fetch. The response holds 437
+  rows: the 435 districts of the 119th Congress, DC''s delegate district (1198) and Puerto
+  Rico''s resident commissioner district (7298). The API redirects requests without a key
+  to its missing-key page, so the fetch added a key parameter, which source_url omits. storage.r2
+  is a content-addressed locator; no upload or archival completion is asserted.'
+files:
+  2024:
+    filename: acs1_2024_S1701_district.json
+    source_url: https://api.census.gov/data/2024/acs/acs1/subject?get=group(S1701)&for=congressional%20district:*&in=state:*
+    sha256: 11df1a14dd3f4029b3a9d685fe211d26296ea4eb9c06e435f62ce134e5c2c247
+    size_bytes: 2162998
+    fetched_at: '2026-11-25'
+    source_table: ACS 2024 1-year subject table S1701 congressional district estimates and
+      margins of error
+    year: 2024
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/census_acs/census-acs1-s1701-district-2024/2024/11df1a14dd3f4029b3a9d685fe211d26296ea4eb9c06e435f62ce134e5c2c247/acs1_2024_S1701_district.json
+        uri: r2://ledger-raw/raw/census_acs/census-acs1-s1701-district-2024/2024/11df1a14dd3f4029b3a9d685fe211d26296ea4eb9c06e435f62ce134e5c2c247/acs1_2024_S1701_district.json

@@ -704,10 +704,11 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # The four ACS 2024 1-year household and family type packages
         # (B11001, B11003; national and state) have no 2023 artifact either
         # (24 -> 28).
-        # chronicle#447's ACS 2024 1-year packages (B11001 for congressional
-        # districts; B19001 for the nation, the states and the districts) have
-        # no 2023 artifact either (28 -> 32).
-        "skipped_source_count": 32,
+        # chronicle#447's ACS 2024 1-year packages have no 2023 artifact
+        # either (28 -> 36): B11001 for congressional districts, B19001 for
+        # the nation, the states and the districts, and the B19013 and S1701
+        # check tables for the states and the districts.
+        "skipped_source_count": 36,
         # chronicle#381 adds the Gambling Commission, and chronicle#420 item 13
         # Registers of Scotland.
         "source_count": 63,
@@ -796,7 +797,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "survey_aggregate",
     }
     assert source_packages["source_package_count"] == 517
-    assert source_packages["skipped_source_count"] == 32
+    assert source_packages["skipped_source_count"] == 36
     assert sorted(item["source"] for item in source_packages["skipped_sources"]) == [
         "census-acs-s0101-congressional-district-age-2024",
         "census-acs-s0101-national-age-2024",
@@ -811,6 +812,10 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "census-acs1-b19001-district-2024",
         "census-acs1-b19001-national-2024",
         "census-acs1-b19001-state-2024",
+        "census-acs1-b19013-district-2024",
+        "census-acs1-b19013-state-2024",
+        "census-acs1-s1701-district-2024",
+        "census-acs1-s1701-state-2024",
         "census-acs5-b01003-county-2024",
         "census-acs5-b11001-county-2024",
         "census-acs5-b19001-county-2024",

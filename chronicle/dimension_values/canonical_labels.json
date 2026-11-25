@@ -20,6 +20,10 @@
       "census-acs1-b19001-district-2024": 2024,
       "census-acs1-b19001-national-2024": 2024,
       "census-acs1-b19001-state-2024": 2024,
+      "census-acs1-b19013-district-2024": 2024,
+      "census-acs1-b19013-state-2024": 2024,
+      "census-acs1-s1701-district-2024": 2024,
+      "census-acs1-s1701-state-2024": 2024,
       "census-acs5-b01003-county-2024": 2024,
       "census-acs5-b11001-county-2024": 2024,
       "census-acs5-b19001-county-2024": 2024,
@@ -3470,6 +3474,7 @@
       "16_to_24": "Age 16 to 24",
       "18_to_21": "Age 18 to 21",
       "18_to_24": "Age 18 to 24",
+      "18_to_64": "Age 18 to 64",
       "22 to 29": "22 to 29",
       "22_to_29": "Age 22 to 29",
       "25_to_34": "Age 25 to 34",
@@ -3506,6 +3511,7 @@
       "age_90_plus": "Aged 90 and over",
       "all": "All ages",
       "all_ages": "All",
+      "under_18": "Age under 18",
       "up to 69": "up to 69"
     },
     "age_bands_and_single_year": {
@@ -8976,6 +8982,10 @@
     "population_type": {
       "UR_CE": "All usual residents in communal establishments",
       "UR_HH": "All usual residents in households"
+    },
+    "poverty_status": {
+      "all": "Population for whom poverty status is determined",
+      "below_poverty_level": "Below poverty level"
     },
     "price_basis": {
       "average_2024_25_prices": "Average 2024/25 prices"
