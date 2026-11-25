@@ -4113,7 +4113,9 @@ def test_soi_congressional_district_2022_builds_all_return_facts():
     assert package.package_id == "soi-congressional-district-2022"
     assert len(rows) == 4_791
     assert len(cells) == 79_365
-    assert len(facts) == 29_760
+    # 77 measures at 480 rows: 62, and 15 whose state twin Historic Table 2's
+    # state package reads (chronicle#447 item 2.2).
+    assert len(facts) == 36_960
     assert validate_source_rows(rows).valid
     assert validate_source_cells(cells).valid
     assert validate_facts(facts).valid
@@ -4204,6 +4206,22 @@ def test_soi_congressional_district_2022_builds_all_return_facts():
     assert al_01_taxable_interest.layout.source_column_id == "A00300"
     assert ca_53_returns.value == 383_160
     assert ca_53_returns.geography.id == "5001700US0653"
+    # State-twin columns (chronicle#447 item 2.2), read as the guide defines.
+    assert us_columns["wages_salaries_amount"] == (9_493_040_700_000, "A00200")
+    assert us_columns["taxes_paid_deduction_amount"] == (123_370_088_000, "A18300")
+    twin_cells = {
+        ("al_01", "itemized_deductions_returns"): (21_080, "N04470"),
+        ("ca_total", "real_estate_taxes_claims"): (2_471_650, "N18500"),
+        ("ca_53", "taxable_state_local_income_tax_refunds_amount"): (
+            19_584_000,
+            "A00700",
+        ),
+    }
+    for (row, measure_id), expected in twin_cells.items():
+        fact = values_by_record[
+            f"irs_soi.ty2022.congressional_district_2022.all_returns.{row}.{measure_id}"
+        ]
+        assert (fact.value, fact.layout.source_column_id) == expected
 
 
 def test_soi_historic_table_2_package_builds_2022_national_facts():

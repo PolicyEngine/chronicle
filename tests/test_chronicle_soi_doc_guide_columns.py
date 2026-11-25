@@ -861,6 +861,47 @@ def test_line_7_and_refund_columns_keep_one_identity():
         assert "historic_table_2_state_broad_2022" in seen[header], header
 
 
+# Congressional-district columns whose state twin Historic Table 2's state
+# package already reads (chronicle#447 item 2.2). The district file publishes
+# state rows too, but a district row also nests under the Historic Table 2
+# state row only if both carry one measure id, concept and label.
+DISTRICT_STATE_TWIN_COLUMNS = (
+    "N00200",
+    "A00200",
+    "N02650",
+    "A02650",
+    "N04800",
+    "A04800",
+    "N07225",
+    "A07225",
+    "N18500",
+    "A18500",
+    "N18300",
+    "A18300",
+    "N00700",
+    "A00700",
+    "N04470",
+)
+
+
+def test_district_state_twin_columns_share_the_state_identity():
+    identities: dict[tuple[str, str], set[tuple[str, str, str]]] = defaultdict(set)
+    for read in _column_reads():
+        if read.package_dir in {
+            "congressional_district_2022",
+            "historic_table_2_state_broad_2022",
+        }:
+            identities[(read.package_dir, read.header)].add(
+                (read.measure_id, read.concept, read.label)
+            )
+
+    for column in DISTRICT_STATE_TWIN_COLUMNS:
+        district = identities[("congressional_district_2022", column)]
+        state = identities[("historic_table_2_state_broad_2022", column)]
+        assert len(district) == 1, (column, district)
+        assert district == state, (column, district, state)
+
+
 @cache
 def _facts(package_id: str, year: int) -> dict[str, Any]:
     package = load_source_package(package_id)
@@ -911,8 +952,21 @@ def test_congressional_district_us_row_is_a_subset_of_historic_table_2():
         "premium_tax_credit_amount",
         "qbi_claims",
         "qbi_amount",
+        # State-twin columns (chronicle#447 item 2.2) that Historic Table 2's
+        # US row also publishes.
+        "wages_salaries_returns",
+        "wages_salaries_amount",
+        "total_income_returns",
+        "total_income_amount",
+        "taxable_income_returns",
+        "taxable_income_amount",
+        "ctc_claims",
+        "ctc_amount",
+        "real_estate_taxes_claims",
+        "real_estate_taxes_amount",
+        "itemized_deductions_returns",
     } <= set(pairs)
-    assert len(pairs) == 44
+    assert len(pairs) == 55
     assert {
         measure_id: round(cd / ht2_value, 4)
         for measure_id, (cd, ht2_value) in pairs.items()
