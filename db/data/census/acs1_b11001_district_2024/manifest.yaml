@@ -1,0 +1,28 @@
+source_id: census_acs
+package_id: census-acs1-b11001-district-2024
+dataset: census_acs1_b11001_district_2024
+source_page: https://api.census.gov/data/2024/acs/acs1.html
+vintage: 2024 ACS 1-year detailed tables
+reference_period: '2024'
+table: B11001 Household Type (Including Living Alone)
+notes: 'Publisher bytes copied unchanged from the 2026-11-25 fetch. The response holds 437
+  rows: the 435 districts of the 119th Congress, DC''s delegate district (1198) and Puerto
+  Rico''s resident commissioner district (7298). The API redirects requests without a key
+  to its missing-key page, so the fetch added a key parameter, which source_url omits. storage.r2
+  is a content-addressed locator; no upload or archival completion is asserted.'
+files:
+  2024:
+    filename: acs1_2024_B11001_district.json
+    source_url: https://api.census.gov/data/2024/acs/acs1?get=NAME,group(B11001)&for=congressional%20district:*&in=state:*
+    sha256: 126295f7a684f4da67ae2381fd177861598b45376e85577917f0ae236d6a6d36
+    size_bytes: 161267
+    fetched_at: '2026-11-25'
+    source_table: ACS 2024 1-year detailed table B11001 congressional district estimates and
+      margins of error
+    year: 2024
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/census_acs/census-acs1-b11001-district-2024/2024/126295f7a684f4da67ae2381fd177861598b45376e85577917f0ae236d6a6d36/acs1_2024_B11001_district.json
+        uri: r2://ledger-raw/raw/census_acs/census-acs1-b11001-district-2024/2024/126295f7a684f4da67ae2381fd177861598b45376e85577917f0ae236d6a6d36/acs1_2024_B11001_district.json

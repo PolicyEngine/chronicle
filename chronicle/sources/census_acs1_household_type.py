@@ -1,17 +1,22 @@
-"""Generate ACS 2024 1-year household-type packages from pinned publisher API bytes.
+"""Generate ACS 2024 1-year household packages from pinned publisher API bytes.
 
 Run ``python -m chronicle.sources.census_acs1_household_type [--check]``. It
 declares every estimate and margin-of-error cell of B11001 (household type,
-including living alone) and B11003 (family type by presence and age of own
-children under 18) for the United States, and for each state, DC and Puerto
-Rico, from the Census Bureau's API responses as fetched. It never fetches,
-sums, imputes, reconciles, or aligns values to a consumer year.
+including living alone), B11003 (family type by presence and age of own
+children under 18) and B19001 (household income in the past 12 months) for the
+United States, and for each state, DC and Puerto Rico, and those of B11001 and
+B19001 for each congressional district of the 119th Congress, DC's delegate
+district and Puerto Rico's resident commissioner district, from the Census
+Bureau's API responses as fetched. It never fetches, sums, imputes, reconciles,
+or aligns values to a consumer year.
 
-Both tables name household types with the ``household_type`` values the ACS
-5-year county package uses for B11001 (``all``, ``family``, ``nonfamily``), so
-a consumer reads one vocabulary across them. B11003's universe is families,
+B11001 and B11003 name household types with the ``household_type`` values the
+ACS 5-year county package uses for B11001 (``all``, ``family``, ``nonfamily``),
+so a consumer reads one vocabulary across them. B11003's universe is families,
 one per family household, so its total is ``household_type`` ``family`` and its
-family types are the B11001 family-household types.
+family types are the B11001 family-household types. B19001 takes the county
+package's ``income_range`` values and ``household_income`` bounds for the same
+sixteen brackets (chronicle#447).
 """
 
 from __future__ import annotations
@@ -27,12 +32,19 @@ import yaml
 
 from chronicle.dimension_labels import canonical_value_label
 from chronicle.epoch import schema_id
+from chronicle.sources.census_acs5_county import INCOME_BRACKETS
 from chronicle.yaml_io import safe_load
 
 ROOT = Path(__file__).resolve().parents[2]
 YEAR = 2024
-TABLES = ("B11001", "B11003")
-GEOGRAPHIES = ("national", "state")
+TABLES = ("B11001", "B11003", "B19001")
+GEOGRAPHIES = ("national", "state", "district")
+#: The geographies each table is packaged at.
+TABLE_GEOGRAPHIES = {
+    "B11001": ("national", "state", "district"),
+    "B11003": ("national", "state"),
+    "B19001": ("national", "state", "district"),
+}
 GENERATED_BY = "python -m chronicle.sources.census_acs1_household_type"
 DISTRICT_OF_COLUMBIA_FIPS = "11"
 PUERTO_RICO_FIPS = "72"
@@ -50,6 +62,29 @@ STATE_FIPS = frozenset(
 #: Puerto Rico.
 STATE_ROW_FIPS = STATE_FIPS | {DISTRICT_OF_COLUMBIA_FIPS, PUERTO_RICO_FIPS}
 STATE_ROW_COUNT = len(STATE_ROW_FIPS)
+#: The congressional district rows the ACS 1-year district endpoint returns:
+#: the 435 districts of the 119th Congress, DC's delegate district and Puerto
+#: Rico's resident commissioner district (code 98 for both).
+DISTRICT_ROW_COUNT = 437
+NON_VOTING_DISTRICT = "98"
+AT_LARGE_DISTRICT = "00"
+DISTRICT_VINTAGE = "119th_congress"
+#: Each geography's API column, record-set dimension and wording.
+GEOGRAPHY_KEYS = {
+    "national": "us",
+    "state": "state",
+    "district": "congressional district",
+}
+GEOGRAPHY_DIMENSIONS = {
+    "national": ("census_acs.nation", "Nation"),
+    "state": ("census_acs.state", "State"),
+    "district": ("census_acs.congressional_district", "Congressional district"),
+}
+GEOGRAPHY_WORDING = {
+    "national": "national",
+    "state": "state",
+    "district": "congressional district",
+}
 
 TABLE_METADATA = {
     "B11001": (
@@ -64,6 +99,19 @@ TABLE_METADATA = {
         "family_type",
         "family_count",
     ),
+    "B19001": (
+        "Household income in the past 12 months (in 2024 inflation-adjusted dollars)",
+        "household",
+        "household_income",
+        "household_count",
+    ),
+}
+#: What each table's categories describe, for the record set's period notes.
+TABLE_PERIOD_NOTES = {
+    "B11001": "Household and family type describe the household at the interview",
+    "B11003": "Household and family type describe the household at the interview",
+    "B19001": "Household income refers to the past 12 months at the interview, "
+    "in 2024 inflation-adjusted dollars",
 }
 
 #: Each ``household_type`` value with the wording the ACS 5-year county
@@ -90,7 +138,35 @@ OWN_CHILDREN_LABELS = {
 DIMENSION_LABELS = {
     "household_type": "Household type",
     "own_children": "Own children of the householder under 18",
+    "income_range": "Income range",
 }
+#: Bounded dimensions: their categories are constraints on the bounded
+#: variable, not equality constraints on the category.
+INCOME_RANGE_VARIABLE = "household_income"
+INCOME_RANGE_BOUND_LABEL = "Household income in 2024 dollars"
+
+
+def income_range_categories() -> list[tuple[int, str, str, int | None, int | None]]:
+    """B19001's cells: (variable index, income_range, Census label, lower, upper).
+
+    The value ids and labels are the ACS 5-year county package's for the same
+    variables, and the bounds are its ``INCOME_BRACKETS``: lower inclusive,
+    upper exclusive, the first bracket unbounded below.
+    """
+    categories: list[tuple[int, str, str, int | None, int | None]] = [
+        (1, "all", "Total", None, None)
+    ]
+    for index, (lower, upper) in enumerate(INCOME_BRACKETS, start=2):
+        if lower is None:
+            value_id, label = "under_10000", "Less than $10,000"
+        elif upper is None:
+            value_id, label = "200000_plus", "$200,000 or more"
+        else:
+            value_id = f"{lower}_to_{upper - 1}"
+            label = f"${lower:,} to ${upper - 1:,}"
+        categories.append((index, value_id, label, lower, upper))
+    return categories
+
 
 #: B11001 cells in publisher order: (variable index, household_type).
 B11001_CELLS = (
@@ -150,7 +226,20 @@ def cells(table: str) -> list[tuple[int, dict[str, str], str]]:
                 )
             )
         return result
+    if table == "B19001":
+        return [
+            (index, {"income_range": value}, label)
+            for index, value, label, _lower, _upper in income_range_categories()
+        ]
     raise ValueError(f"Unsupported ACS household table: {table}")
+
+
+def _income_bounds(index: int) -> tuple[int | None, int | None]:
+    """A B19001 cell's household income bounds; (None, None) for the total."""
+    for cell, _value, _label, lower, upper in income_range_categories():
+        if cell == index:
+            return lower, upper
+    raise ValueError(f"Unknown B19001 cell: {index}")
 
 
 def _measure(
@@ -175,7 +264,7 @@ def _measure(
         }
     ]
     for dimension, value in categories.items():
-        if value != "all":
+        if value != "all" and dimension != "income_range":
             constraints.append(
                 {
                     "variable": dimension,
@@ -184,15 +273,32 @@ def _measure(
                     "label": DIMENSION_LABELS[dimension],
                 }
             )
+    # In a wide publisher table the categories and income endpoints belong to
+    # the guarded variable column, rather than to the geography row.
+    column_dimensions: dict[str, Any] = dict(filters)
+    if table == "B19001":
+        # As the ACS 5-year county package declares the same brackets: bounds
+        # on household income, not an equality on the income_range value.
+        lower, upper = _income_bounds(index)
+        for operator, bound, name in ((">=", lower, "lower"), ("<", upper, "upper")):
+            if bound is not None:
+                constraints.append(
+                    {
+                        "variable": INCOME_RANGE_VARIABLE,
+                        "operator": operator,
+                        "value": bound,
+                        "unit": "USD",
+                        "label": INCOME_RANGE_BOUND_LABEL,
+                    }
+                )
+                column_dimensions[f"{INCOME_RANGE_VARIABLE}_{name}_bound"] = bound
     return {
         "measure_id": variable,
         "label": f"{label}: {'Margin of error' if is_moe else 'Estimate'}",
         "ordinal": (index - 1) * 2 + int(is_moe),
         "column": columns[variable],
         "source_column_id": variable,
-        # In a wide publisher table the categories belong to the guarded
-        # variable column, rather than to the geography row.
-        "source_column_dimensions": dict(filters),
+        "source_column_dimensions": column_dimensions,
         "expected_column_header_row": 1,
         "expected_column_header": variable,
         "concept": f"census_acs.{concept}{'_margin_of_error' if is_moe else ''}",
@@ -227,21 +333,60 @@ def package_id(table: str, geography: str) -> str:
 
 
 def _geography_key(geography: str) -> str:
-    return "us" if geography == "national" else "state"
+    return GEOGRAPHY_KEYS[geography]
 
 
 def _expected_geo_id(geography: str, source: dict[str, Any]) -> str:
     if geography == "national":
         return "0100000US"
+    if geography == "district":
+        return f"5001900US{source['state']}{source['congressional district']}"
     return f"0400000US{source['state']}"
+
+
+def _check_district_rows(table: str, source_rows: list[dict[str, Any]]) -> None:
+    """The district rows are the 119th Congress plan, DC and Puerto Rico, once each.
+
+    Each of the 50 states has either one at-large row (code 00) or districts
+    numbered 01 to n without a gap; DC and Puerto Rico have one row each with
+    code 98. The plan's apportionment is not restated here: the tests compare
+    the GEO_IDs with the ACS S0101 and S2201 district packages.
+    """
+    if len(source_rows) != DISTRICT_ROW_COUNT:
+        raise ValueError(
+            f"Expected {DISTRICT_ROW_COUNT} congressional district rows (435 "
+            "districts, DC and Puerto Rico) in "
+            f"{table}; got {len(source_rows)}"
+        )
+    codes: dict[str, list[str]] = {}
+    for source in source_rows:
+        codes.setdefault(source["state"], []).append(source["congressional district"])
+    if set(codes) != STATE_ROW_FIPS:
+        raise ValueError(
+            f"District rows of {table} do not cover the 50 states, DC and Puerto "
+            f"Rico once each: missing {sorted(STATE_ROW_FIPS - set(codes))}, "
+            f"unexpected {sorted(set(codes) - STATE_ROW_FIPS)}"
+        )
+    for state, state_codes in codes.items():
+        state_codes = sorted(state_codes)
+        if state in (DISTRICT_OF_COLUMBIA_FIPS, PUERTO_RICO_FIPS):
+            expected = [NON_VOTING_DISTRICT]
+        elif state_codes == [AT_LARGE_DISTRICT]:
+            expected = [AT_LARGE_DISTRICT]
+        else:
+            expected = [f"{number:02d}" for number in range(1, len(state_codes) + 1)]
+        if state_codes != expected:
+            raise ValueError(
+                f"Unexpected district codes for state {state} in {table}: {state_codes}"
+            )
 
 
 def build_package(table: str, geography: str, root: Path = ROOT) -> dict[str, Any]:
     """Declare every numeric E/M cell of one table at one geography level."""
     if table not in TABLES:
         raise ValueError(f"Unsupported ACS household table: {table}")
-    if geography not in GEOGRAPHIES:
-        raise ValueError(f"Unsupported ACS geography: {geography}")
+    if geography not in TABLE_GEOGRAPHIES[table]:
+        raise ValueError(f"Unsupported ACS geography for {table}: {geography}")
     data_dir = root / "db/data/census" / directory(table, geography)
     manifest = safe_load((data_dir / "manifest.yaml").read_text())
     artifact = manifest["files"][YEAR]
@@ -303,31 +448,46 @@ def build_package(table: str, geography: str, root: Path = ROOT) -> dict[str, An
                 f"Rico) in {table}; missing {sorted(expected - set(geo_ids))}, "
                 f"unexpected {sorted(set(geo_ids) - expected)}"
             )
+    if geography == "district":
+        _check_district_rows(table, source_rows)
 
     rows = []
-    level = "country" if geography == "national" else "state"
+    level = {
+        "national": "country",
+        "state": "state",
+        "district": "congressional_district",
+    }[geography]
     for ordinal, source in enumerate(source_rows):
         for variable in variables:
             raw = source[variable]
             annotation = source[variable + "A"]
-            # These tables publish every cell for the nation and the states.
-            # A future vintage's suppression code or annotation must be added
-            # here on purpose, so an unknown encoding fails closed.
+            # These tables publish every cell for the nation, the states and
+            # the congressional districts. A future vintage's suppression code
+            # or annotation must be added here on purpose, so an unknown
+            # encoding fails closed.
             if raw is None or int(raw) < 0 or annotation is not None:
                 raise ValueError(
                     f"Unknown suppression in {table} {source['GEO_ID']}: "
                     f"{variable}={raw!r} annotation={annotation!r}"
                 )
+        if geography == "national":
+            value_id = "us"
+        elif geography == "district":
+            value_id = source["state"] + source["congressional district"]
+        else:
+            value_id = source["state"]
         rows.append(
             {
-                "value_id": "us" if geography == "national" else source["state"],
+                "value_id": value_id,
                 "label": source["NAME"],
                 "ordinal": ordinal,
                 "row_number": ordinal + 2,
                 "geography_id": source["GEO_ID"],
                 "geography_level": level,
                 "geography_name": source["NAME"],
-                "geography_vintage": str(YEAR),
+                "geography_vintage": (
+                    DISTRICT_VINTAGE if geography == "district" else str(YEAR)
+                ),
                 "expected_row_header_column": columns["NAME"],
                 "expected_row_header": source["NAME"],
                 "guard_cells": [
@@ -342,8 +502,17 @@ def build_package(table: str, geography: str, root: Path = ROOT) -> dict[str, An
         )
 
     title, entity, domain, _concept = TABLE_METADATA[table]
-    groupby = "census_acs.nation" if geography == "national" else "census_acs.state"
+    groupby, groupby_label = GEOGRAPHY_DIMENSIONS[geography]
     record_set_id = f"census_acs.acs1_{YEAR}.{table.lower()}.{geography}"
+    period_notes = (
+        f"Single-year estimate from interviews throughout {YEAR}. "
+        f"{TABLE_PERIOD_NOTES[table]}; "
+        "Puerto Rico's estimate is separate from the United States total."
+    )
+    if geography == "district":
+        period_notes += (
+            f" Districts are those of the 119th Congress, as {YEAR} ACS tabulates."
+        )
     record_set = {
         "record_set_id": record_set_id,
         "provenance_class": "survey_aggregate",
@@ -358,9 +527,7 @@ def build_package(table: str, geography: str, root: Path = ROOT) -> dict[str, An
             "end_date": f"{YEAR}-12-31",
             "basis": "survey_reference",
             "source_period_label": f"{YEAR} ACS 1-year",
-            "notes": f"Single-year estimate from interviews throughout {YEAR}. "
-            "Household and family type describe the household at the interview; "
-            "Puerto Rico's estimate is separate from the United States total.",
+            "notes": period_notes,
         },
         "geography_id": "0100000US",
         "geography_level": "country",
@@ -373,7 +540,7 @@ def build_package(table: str, geography: str, root: Path = ROOT) -> dict[str, An
         "measures": measures,
     }
     dimensions = {
-        groupby: "Nation" if geography == "national" else "State",
+        groupby: groupby_label,
         "statistic": "Statistic",
     }
     values: dict[str, dict[str, str]] = {
@@ -382,6 +549,10 @@ def build_package(table: str, geography: str, root: Path = ROOT) -> dict[str, An
     category_labels = {
         "household_type": HOUSEHOLD_TYPE_LABELS,
         "own_children": OWN_CHILDREN_LABELS,
+        "income_range": {
+            value: label
+            for _index, value, label, _lower, _upper in income_range_categories()
+        },
     }
     for _index, categories, _label in table_cells:
         for dimension, value in categories.items():
@@ -393,15 +564,18 @@ def build_package(table: str, geography: str, root: Path = ROOT) -> dict[str, An
                 canonical_value_label(dimension, value)
                 or category_labels[dimension][value]
             )
-    scope = (
-        "the United States row"
-        if geography == "national"
-        else "all 52 rows (50 states, DC and Puerto Rico)"
-    )
-    return {
+    scope = {
+        "national": "the United States row",
+        "state": "all 52 rows (50 states, DC and Puerto Rico)",
+        "district": f"all {DISTRICT_ROW_COUNT} rows (the 435 districts of the 119th "
+        "Congress, DC's delegate district and Puerto Rico's resident commissioner "
+        "district)",
+    }[geography]
+    payload = {
         "schema_version": schema_id("source_package"),
         "package_id": package_id(table, geography),
-        "label": f"Census ACS {YEAR} 1-year {geography} {table}: {title}",
+        "label": f"Census ACS {YEAR} 1-year {GEOGRAPHY_WORDING[geography]} {table}: "
+        f"{title}",
         "generated_by": GENERATED_BY,
         "dimension_labels": dimensions,
         "dimension_value_labels": values,
@@ -413,7 +587,8 @@ def build_package(table: str, geography: str, root: Path = ROOT) -> dict[str, An
             "resource_directory": f"data/census/{directory(table, geography)}",
             "manifest": "manifest.yaml",
             "vintage": f"acs_1_year_{YEAR}",
-            "extracted_at": "2026-11-08",
+            # The day the publisher bytes were fetched, from the manifest.
+            "extracted_at": str(artifact["fetched_at"]),
             "extraction_method": "Full publisher JSON row parse with guarded E/M source "
             f"cells; {scope} retained; the generator fails on any suppression code "
             "or annotation instead of emitting it",
@@ -423,6 +598,22 @@ def build_package(table: str, geography: str, root: Path = ROOT) -> dict[str, An
         },
         "record_sets": [record_set],
     }
+    if table == "B19001":
+        # The ACS 5-year county package states the same brackets this way.
+        payload["income_brackets"] = [
+            {
+                "variable_id": f"B19001_{index:03d}E",
+                "lower_bound": lower,
+                "upper_bound": upper,
+                "lower_inclusive": lower is not None,
+                "upper_inclusive": False,
+                "unit": "USD",
+                "dollar_year": YEAR,
+            }
+            for index, _value, _label, lower, upper in income_range_categories()
+            if index != 1
+        ]
+    return payload
 
 
 def render_package(table: str, geography: str, root: Path = ROOT) -> str:
@@ -450,6 +641,8 @@ def main() -> None:
     stale = []
     for table in args.table or TABLES:
         for geography in args.geography or GEOGRAPHIES:
+            if geography not in TABLE_GEOGRAPHIES[table]:
+                continue
             output = (
                 ROOT
                 / "packages/census"
