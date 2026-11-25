@@ -706,8 +706,8 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # (24 -> 28).
         # chronicle#447's ACS 2024 1-year packages have no 2023 artifact
         # either (28 -> 36): B11001 for congressional districts, B19001 for
-        # the nation, the states and the districts, and the B19013 and S1701
-        # check tables for the states and the districts.
+        # the nation, the states and the districts, and B19013 and S1701 for
+        # the states and the districts.
         "skipped_source_count": 36,
         # chronicle#381 adds the Gambling Commission, and chronicle#420 item 13
         # Registers of Scotland.

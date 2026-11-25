@@ -1,5 +1,5 @@
-Add four Census ACS 2024 1-year packages for the district fit (chronicle#447
-item 3), from the Census Bureau's API responses, with margins of error:
+Add four Census ACS 2024 1-year packages of household income and household
+type (chronicle#447 item 3), from the Census Bureau's API responses, with margins of error:
 B19001 household income in 16 brackets for the United States
 (`census-acs1-b19001-national-2024`), for each state, DC and Puerto Rico
 (`census-acs1-b19001-state-2024`) and for each congressional district of the

@@ -1,9 +1,9 @@
-"""Publisher-backed ACS 2024 1-year check tables: B19013 and S1701 (chronicle#447).
+"""Publisher-backed ACS 2024 1-year B19013 and S1701 packages (chronicle#447).
 
 Median household income (B19013) and poverty status (S1701) for the states, DC
 and Puerto Rico, and for the 119th Congress districts, DC's delegate district
-and Puerto Rico's resident commissioner district. Microcosm reads them as
-checks of its district build (PolicyEngine/microcosm#1673).
+and Puerto Rico's resident commissioner district (for
+PolicyEngine/microcosm#1673).
 """
 
 from __future__ import annotations
@@ -27,7 +27,7 @@ from chronicle.source_package import (
     load_source_package,
     validate_source_package,
 )
-from chronicle.sources import census_acs1_check_tables as generator
+from chronicle.sources import census_acs1_income_poverty as generator
 from chronicle.sources.cells import (
     SourceCell,
     build_source_cell_key,
@@ -109,7 +109,7 @@ def _scalar(value: Any) -> Any:
 
 
 @dataclass
-class CheckPackage:
+class IncomePovertyPackage:
     table: str
     geography: str
     package: SourcePackage
@@ -119,13 +119,13 @@ class CheckPackage:
 
 
 @pytest.fixture(scope="module", params=PACKAGES, ids=lambda item: "-".join(item))
-def check_package(request) -> CheckPackage:
+def income_poverty_package(request) -> IncomePovertyPackage:
     table, geography = request.param
     package = load_source_package(generator.package_id(table, geography))
     rows = package.build_source_rows(2024)
     cells = package.build_source_cells(2024, source_rows=rows)
     facts = package.build_facts(2024, source_rows=rows, cells=cells)
-    return CheckPackage(table, geography, package, rows, cells, facts)
+    return IncomePovertyPackage(table, geography, package, rows, cells, facts)
 
 
 @pytest.mark.parametrize("table,geography", PACKAGES)
@@ -169,8 +169,8 @@ def test_pinned_bytes_manifests_and_deterministic_generation(table, geography):
     )
 
 
-def test_source_rows_and_cells_preserve_publisher_values(check_package):
-    bundle = check_package
+def test_source_rows_and_cells_preserve_publisher_values(income_poverty_package):
+    bundle = income_poverty_package
     publisher = _publisher_rows(bundle.table, bundle.geography)
     assert len(bundle.rows) == len(publisher) == GEOGRAPHY_COUNTS[bundle.geography]
     assert validate_source_rows(bundle.rows).valid
@@ -184,8 +184,8 @@ def test_source_rows_and_cells_preserve_publisher_values(check_package):
     assert len(bundle.cells) == (len(publisher) + 1) * len(columns)
 
 
-def test_source_package_and_consumer_contracts_validate(check_package):
-    bundle = check_package
+def test_source_package_and_consumer_contracts_validate(income_poverty_package):
+    bundle = income_poverty_package
     package_id = generator.package_id(bundle.table, bundle.geography)
     report = validate_source_package(package_id, year=2024)
     assert report.valid, report.errors
@@ -197,8 +197,8 @@ def test_source_package_and_consumer_contracts_validate(check_package):
     assert contract_report.valid, contract_report.errors
 
 
-def test_agent_acceptance_checks_source_semantics(check_package):
-    bundle = check_package
+def test_agent_acceptance_checks_source_semantics(income_poverty_package):
+    bundle = income_poverty_package
     record_sets = bundle.package.build_source_record_set_specs(2024)
     record_specs = [
         spec
@@ -240,8 +240,10 @@ def test_agent_acceptance_checks_source_semantics(check_package):
     assert report.valid, report.errors
 
 
-def test_every_fact_is_the_exact_publisher_cell_with_its_categories(check_package):
-    bundle = check_package
+def test_every_fact_is_the_exact_publisher_cell_with_its_categories(
+    income_poverty_package,
+):
+    bundle = income_poverty_package
     publisher = {
         row["GEO_ID"]: row for row in _publisher_rows(bundle.table, bundle.geography)
     }
@@ -301,10 +303,10 @@ def test_every_fact_is_the_exact_publisher_cell_with_its_categories(check_packag
     }
 
 
-def test_other_years_cannot_relabel_the_publisher_period(check_package):
+def test_other_years_cannot_relabel_the_publisher_period(income_poverty_package):
     for year in (2023, 2025):
         with pytest.raises(ValueError, match=f"No source artifact for year {year}"):
-            check_package.package.build_facts(year)
+            income_poverty_package.package.build_facts(year)
 
 
 @pytest.mark.parametrize("geography", generator.GEOGRAPHIES)

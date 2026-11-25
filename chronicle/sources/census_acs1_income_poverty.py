@@ -1,14 +1,14 @@
-"""Generate ACS 2024 1-year check-table packages from pinned publisher API bytes.
+"""Generate ACS 2024 1-year median income and poverty packages from pinned API bytes.
 
-Run ``python -m chronicle.sources.census_acs1_check_tables [--check]``. It
+Run ``python -m chronicle.sources.census_acs1_income_poverty [--check]``. It
 declares the estimate and margin-of-error cells of B19013 (median household
 income) and of S1701 (poverty status: the population for whom poverty status
 is determined and the population below the poverty level, for all ages, under
 18, 18 to 64 and 65 and over) for each state, DC and Puerto Rico, and for each
 congressional district of the 119th Congress, DC's delegate district and Puerto
-Rico's resident commissioner district (chronicle#447). Microcosm reads them as
-checks of its district build (PolicyEngine/microcosm#1673). It never fetches,
-sums, imputes, reconciles, or aligns values to a consumer year.
+Rico's resident commissioner district (chronicle#447, for
+PolicyEngine/microcosm#1673). It never fetches, sums, imputes, reconciles, or
+aligns values to a consumer year.
 
 B19013 takes the concept, unit and aggregation of the ACS 5-year county
 package's B19013. S1701's universe is the population for whom poverty status is
@@ -35,7 +35,7 @@ ROOT = Path(__file__).resolve().parents[2]
 YEAR = 2024
 TABLES = ("B19013", "S1701")
 GEOGRAPHIES = ("state", "district")
-GENERATED_BY = "python -m chronicle.sources.census_acs1_check_tables"
+GENERATED_BY = "python -m chronicle.sources.census_acs1_income_poverty"
 DISTRICT_OF_COLUMBIA_FIPS = "11"
 PUERTO_RICO_FIPS = "72"
 #: The 50 states' FIPS codes.

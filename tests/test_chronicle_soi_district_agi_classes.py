@@ -266,8 +266,9 @@ def test_every_measure_nests_from_districts_to_states_to_the_nation():
     For every record set and measure of the package, a state's district rows
     add up exactly to its state row (the 43 states with more than one
     district), and in the all-class record set the 51 state rows add up to the
-    US row. The file publishes every column this way at agi_stub 0, and every
-    class at stubs 1 to 9.
+    US row. Every column the package reads nests this way in the file; SCHF,
+    which it does not read, does not (some state rows differ from their
+    districts' sum by a fraction).
     """
     values = _values()
     for record_set in _record_sets().values():

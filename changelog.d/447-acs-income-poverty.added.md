@@ -1,5 +1,5 @@
-Add four Census ACS 2024 1-year check-table packages (chronicle#447 item 3,
-for PolicyEngine/microcosm#1673), from the Census Bureau's API responses, with
+Add four Census ACS 2024 1-year packages of median household income and
+poverty status (chronicle#447 item 3, for PolicyEngine/microcosm#1673), from the Census Bureau's API responses, with
 margins of error, for each state, DC and Puerto Rico and for each
 congressional district of the 119th Congress, DC's delegate district and
 Puerto Rico's resident commissioner district: B19013 median household income

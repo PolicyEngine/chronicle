@@ -1,6 +1,6 @@
 schema_version: ledger.source_package.v1
 package_id: soi-congressional-district-2022
-label: IRS SOI 2022 congressional district return totals
+label: IRS SOI 2022 congressional district data for all returns and nine AGI classes
 dimension_labels:
   'eitc_child_count': 'EITC qualifying children'
   'filing_status': 'Filing status'
@@ -30,7 +30,9 @@ artifact:
   manifest: manifest.yaml
   vintage: tax_year_2022
   extracted_at: '2026-05-11'
-  extraction_method: full CSV row parse with all-return national, state, and congressional district facts
+  extraction_method: full CSV row parse with national, state and congressional district facts for all
+    returns (agi_stub 0) and state and congressional district facts for the nine AGI classes (agi_stub
+    1 to 9)
   parser: delimited_text_full_rows
   sheet_name: incd2022
   artifact_year: 2022
