@@ -5,10 +5,11 @@ source_page: https://api.census.gov/data/2024/acs/acs1.html
 vintage: 2024 ACS 1-year detailed tables
 reference_period: '2024'
 table: B19001 Household Income in the Past 12 Months (in 2024 Inflation-Adjusted Dollars)
-notes: Publisher bytes copied unchanged from the 2026-11-25 fetch. The response holds one
-  row, the United States. The API redirects requests without a key to its missing-key page,
-  so the fetch added a key parameter, which source_url omits. storage.r2 is a content-addressed
-  locator; no upload or archival completion is asserted.
+notes: Publisher bytes copied unchanged from the 2026-11-25 fetch. The response holds
+  one row, the United States. The API redirects requests without a key to its missing-key
+  page, so the fetch added a key parameter, which source_url omits. The bytes were
+  uploaded to storage.r2 on 2026-11-25 with chronicle publish-raw and checked there
+  with chronicle verify-raw.
 files:
   2024:
     filename: acs1_2024_B19001_us.json
@@ -16,8 +17,8 @@ files:
     sha256: a25ad30d2cc3000c83d30142320a187883e5c0d87dd9ebbabec16b6f2f79b358
     size_bytes: 1552
     fetched_at: '2026-11-25'
-    source_table: ACS 2024 1-year detailed table B19001 national estimates and margins of
-      error
+    source_table: ACS 2024 1-year detailed table B19001 national estimates and margins
+      of error
     year: 2024
     storage:
       r2:

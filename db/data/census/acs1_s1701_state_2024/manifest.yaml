@@ -5,10 +5,11 @@ source_page: https://api.census.gov/data/2024/acs/acs1/subject.html
 vintage: 2024 ACS 1-year subject tables
 reference_period: '2024'
 table: S1701 Poverty Status in the Past 12 Months
-notes: Publisher bytes copied unchanged from the 2026-11-25 fetch. The response holds 52 rows,
-  for the 50 states, DC and Puerto Rico (state 72). The API redirects requests without a key
-  to its missing-key page, so the fetch added a key parameter, which source_url omits. storage.r2
-  is a content-addressed locator; no upload or archival completion is asserted.
+notes: Publisher bytes copied unchanged from the 2026-11-25 fetch. The response holds
+  52 rows, for the 50 states, DC and Puerto Rico (state 72). The API redirects requests
+  without a key to its missing-key page, so the fetch added a key parameter, which
+  source_url omits. The bytes were uploaded to storage.r2 on 2026-11-25 with chronicle
+  publish-raw and checked there with chronicle verify-raw.
 files:
   2024:
     filename: acs1_2024_S1701_state.json
@@ -16,7 +17,8 @@ files:
     sha256: 952d1d327d07f7a367fc7ef419179415ed71072367321b7757fdb3c9b452f1e0
     size_bytes: 270255
     fetched_at: '2026-11-25'
-    source_table: ACS 2024 1-year subject table S1701 state estimates and margins of error
+    source_table: ACS 2024 1-year subject table S1701 state estimates and margins
+      of error
     year: 2024
     storage:
       r2:
