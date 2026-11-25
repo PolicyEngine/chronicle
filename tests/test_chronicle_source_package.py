@@ -4116,10 +4116,10 @@ def test_soi_congressional_district_2022_builds_all_return_facts():
     # 480 all-class rows, then agi_stub 1 to 9 for the 479 state and district
     # rows (chronicle#447 item 2.1).
     assert len(cells) == 790_680
-    # 77 measures at 480 rows: 62, and 15 whose state twin Historic Table 2's
-    # state package reads (chronicle#447 item 2.2); then 2 measures at 9 x 479
-    # AGI class rows (item 2.1).
-    assert len(facts) == 36_960 + 8_622
+    # 107 measures at 480 rows: 62, 15 whose state twin Historic Table 2's state
+    # package reads (chronicle#447 item 2.2) and 30 without one (item 2.3);
+    # then 2 measures at 9 x 479 AGI class rows (item 2.1).
+    assert len(facts) == 107 * 480 + 8_622
     assert validate_source_rows(rows).valid
     assert validate_source_cells(cells).valid
     assert validate_facts(facts).valid
@@ -4222,6 +4222,20 @@ def test_soi_congressional_district_2022_builds_all_return_facts():
         ),
     }
     for (row, measure_id), expected in twin_cells.items():
+        fact = values_by_record[
+            f"irs_soi.ty2022.congressional_district_2022.all_returns.{row}.{measure_id}"
+        ]
+        assert (fact.value, fact.layout.source_column_id) == expected
+    # First columns without a state twin (chronicle#447 item 2.3).
+    assert us_columns["standard_deduction_amount"] == (2_545_798_792_000, "A04450")
+    assert us_columns["total_tax_liability_returns"] == (121_275_340, "N10300")
+    assert us_columns["total_tax_liability_amount"] == (2_191_736_663_000, "A10300")
+    no_twin_cells = {
+        ("al_01", "net_investment_income_tax_amount"): (35_246_000, "A85300"),
+        ("ca_total", "child_dependent_care_credit_returns"): (561_690, "N07180"),
+        ("ca_53", "self_employed_health_insurance_ald"): (62_106_000, "A03270"),
+    }
+    for (row, measure_id), expected in no_twin_cells.items():
         fact = values_by_record[
             f"irs_soi.ty2022.congressional_district_2022.all_returns.{row}.{measure_id}"
         ]

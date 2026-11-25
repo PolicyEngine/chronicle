@@ -27873,6 +27873,351 @@ record_sets:
     unit: count
     aggregation: sum
     expected_cell_type: number
+  - measure_id: standard_deduction_returns
+    label: Returns with standard deduction
+    ordinal: 77
+    column: BM
+    source_column_id: N04450
+    expected_column_header_row: 1
+    expected_column_header: N04450
+    concept: irs_soi.returns_with_standard_deduction
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+  - measure_id: standard_deduction_amount
+    label: Standard deduction amount
+    ordinal: 78
+    column: BN
+    source_column_id: A04450
+    expected_column_header_row: 1
+    expected_column_header: A04450
+    concept: irs_soi.standard_deduction
+    unit: usd
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+  - measure_id: self_employment_tax_returns
+    label: Returns with self-employment tax
+    ordinal: 79
+    column: DT
+    source_column_id: N09400
+    expected_column_header_row: 1
+    expected_column_header: N09400
+    concept: irs_soi.returns_with_self_employment_tax
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+  - measure_id: self_employment_tax_amount
+    label: Self-employment tax
+    ordinal: 80
+    column: DU
+    source_column_id: A09400
+    expected_column_header_row: 1
+    expected_column_header: A09400
+    concept: irs_soi.self_employment_tax
+    unit: usd
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+  - measure_id: net_investment_income_tax_returns
+    label: Returns with net investment income tax
+    ordinal: 81
+    column: EZ
+    source_column_id: N85300
+    expected_column_header_row: 1
+    expected_column_header: N85300
+    concept: irs_soi.returns_with_net_investment_income_tax
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+  - measure_id: net_investment_income_tax_amount
+    label: Net investment income tax
+    ordinal: 82
+    column: FA
+    source_column_id: A85300
+    expected_column_header_row: 1
+    expected_column_header: A85300
+    concept: irs_soi.net_investment_income_tax
+    unit: usd
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+  - measure_id: alternative_minimum_tax_returns
+    label: Returns with alternative minimum tax
+    ordinal: 83
+    column: DB
+    source_column_id: N09600
+    expected_column_header_row: 1
+    expected_column_header: N09600
+    concept: irs_soi.returns_with_alternative_minimum_tax
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+  - measure_id: alternative_minimum_tax_amount
+    label: Alternative minimum tax
+    ordinal: 84
+    column: DC
+    source_column_id: A09600
+    expected_column_header_row: 1
+    expected_column_header: A09600
+    concept: irs_soi.alternative_minimum_tax
+    unit: usd
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+  - measure_id: advance_premium_tax_credit_returns
+    label: Returns with advance premium tax credit
+    ordinal: 85
+    column: DX
+    source_column_id: N85775
+    expected_column_header_row: 1
+    expected_column_header: N85775
+    concept: irs_soi.returns_with_advance_premium_tax_credit
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+  - measure_id: advance_premium_tax_credit_amount
+    label: Advance premium tax credit
+    ordinal: 86
+    column: DY
+    source_column_id: A85775
+    expected_column_header_row: 1
+    expected_column_header: A85775
+    concept: irs_soi.advance_premium_tax_credit
+    unit: usd
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+  - measure_id: net_premium_tax_credit_returns
+    label: Returns with net premium tax credit
+    ordinal: 87
+    column: ER
+    source_column_id: N11560
+    expected_column_header_row: 1
+    expected_column_header: N11560
+    concept: irs_soi.returns_with_net_premium_tax_credit
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+  - measure_id: net_premium_tax_credit_amount
+    label: Net premium tax credit
+    ordinal: 88
+    column: ES
+    source_column_id: A11560
+    expected_column_header_row: 1
+    expected_column_header: A11560
+    concept: irs_soi.net_premium_tax_credit
+    unit: usd
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+  - measure_id: child_dependent_care_credit_returns
+    label: Returns with child and dependent care credit
+    ordinal: 89
+    column: DJ
+    source_column_id: N07180
+    expected_column_header_row: 1
+    expected_column_header: N07180
+    concept: irs_soi.returns_with_child_and_dependent_care_credit
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+  - measure_id: child_dependent_care_credit_amount
+    label: Child and dependent care credit
+    ordinal: 90
+    column: DK
+    source_column_id: A07180
+    expected_column_header_row: 1
+    expected_column_header: A07180
+    concept: irs_soi.child_and_dependent_care_credit
+    unit: usd
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+  - measure_id: nonrefundable_education_credit_returns
+    label: Returns with nonrefundable education credit
+    ordinal: 91
+    column: DL
+    source_column_id: N07230
+    expected_column_header_row: 1
+    expected_column_header: N07230
+    concept: irs_soi.returns_with_nonrefundable_education_credit
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+  - measure_id: nonrefundable_education_credit_amount
+    label: Nonrefundable education credit
+    ordinal: 92
+    column: DM
+    source_column_id: A07230
+    expected_column_header_row: 1
+    expected_column_header: A07230
+    concept: irs_soi.nonrefundable_education_credit
+    unit: usd
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+  - measure_id: refundable_education_credit_returns
+    label: Returns with refundable education credit
+    ordinal: 93
+    column: EP
+    source_column_id: N10960
+    expected_column_header_row: 1
+    expected_column_header: N10960
+    concept: irs_soi.returns_with_refundable_education_credit
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+  - measure_id: refundable_education_credit_amount
+    label: Refundable education credit
+    ordinal: 94
+    column: EQ
+    source_column_id: A10960
+    expected_column_header_row: 1
+    expected_column_header: A10960
+    concept: irs_soi.refundable_education_credit
+    unit: usd
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+  - measure_id: retirement_savings_contribution_credit_returns
+    label: Returns with retirement savings contribution credit
+    ordinal: 95
+    column: DN
+    source_column_id: N07240
+    expected_column_header_row: 1
+    expected_column_header: N07240
+    concept: irs_soi.returns_with_retirement_savings_contribution_credit
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+  - measure_id: retirement_savings_contribution_credit_amount
+    label: Retirement savings contribution credit
+    ordinal: 96
+    column: DO
+    source_column_id: A07240
+    expected_column_header_row: 1
+    expected_column_header: A07240
+    concept: irs_soi.retirement_savings_contribution_credit
+    unit: usd
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+  - measure_id: self_employed_health_insurance_ald_returns
+    label: Returns with self-employed health insurance deduction
+    ordinal: 97
+    column: BG
+    source_column_id: N03270
+    expected_column_header_row: 1
+    expected_column_header: N03270
+    concept: irs_soi.returns_with_self_employed_health_insurance_deduction
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+  - measure_id: self_employed_health_insurance_ald
+    label: Self-employed health insurance deduction
+    ordinal: 98
+    column: BH
+    source_column_id: A03270
+    expected_column_header_row: 1
+    expected_column_header: A03270
+    concept: irs_soi.self_employed_health_insurance_deduction
+    unit: usd
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+  - measure_id: self_employed_retirement_plans_returns
+    label: Returns with self-employed SEP, SIMPLE and qualified plans deduction
+    ordinal: 99
+    column: BE
+    source_column_id: N03300
+    expected_column_header_row: 1
+    expected_column_header: N03300
+    concept: irs_soi.returns_with_self_employed_retirement_plans_deduction
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+  - measure_id: self_employed_retirement_plans_amount
+    label: Self-employed SEP, SIMPLE and qualified plans deduction
+    ordinal: 100
+    column: BF
+    source_column_id: A03300
+    expected_column_header_row: 1
+    expected_column_header: A03300
+    concept: irs_soi.self_employed_retirement_plans_deduction
+    unit: usd
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+  - measure_id: ira_deduction_returns
+    label: Returns with IRA deduction
+    ordinal: 101
+    column: BI
+    source_column_id: N03150
+    expected_column_header_row: 1
+    expected_column_header: N03150
+    concept: irs_soi.returns_with_ira_deduction
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+  - measure_id: ira_deduction_amount
+    label: IRA deduction
+    ordinal: 102
+    column: BJ
+    source_column_id: A03150
+    expected_column_header_row: 1
+    expected_column_header: A03150
+    concept: irs_soi.ira_deduction
+    unit: usd
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+  - measure_id: student_loan_interest_deduction_returns
+    label: Returns with student loan interest deduction
+    ordinal: 103
+    column: BK
+    source_column_id: N03210
+    expected_column_header_row: 1
+    expected_column_header: N03210
+    concept: irs_soi.returns_with_student_loan_interest_deduction
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+  - measure_id: student_loan_interest_deduction_amount
+    label: Student loan interest deduction
+    ordinal: 104
+    column: BL
+    source_column_id: A03210
+    expected_column_header_row: 1
+    expected_column_header: A03210
+    concept: irs_soi.student_loan_interest_deduction
+    unit: usd
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+  - measure_id: total_tax_liability_returns
+    label: Returns with total tax liability
+    ordinal: 105
+    column: EV
+    source_column_id: N10300
+    expected_column_header_row: 1
+    expected_column_header: N10300
+    concept: irs_soi.returns_with_total_tax_liability
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+  - measure_id: total_tax_liability_amount
+    label: Total tax liability
+    ordinal: 106
+    column: EW
+    source_column_id: A10300
+    expected_column_header_row: 1
+    expected_column_header: A10300
+    concept: irs_soi.total_tax_liability
+    unit: usd
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
 - record_set_id: irs_soi.ty2022.congressional_district_2022.agi_under_1
   provenance_class: administrative
   record_set_spec_id: irs_soi.congressional_district_2022.agi_class.v1

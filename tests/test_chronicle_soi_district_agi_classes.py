@@ -258,3 +258,39 @@ def test_classes_follow_the_guide_with_its_top_two_classes_together():
         > 1_000_000 * values[f"{PREFIX}.agi_500k_plus.{row['value_id']}.return_count"]
     ]
     assert len(above_one_million) == 474
+
+
+def test_every_measure_nests_from_districts_to_states_to_the_nation():
+    """A district row sits under the state row of the same file (chronicle#447).
+
+    For every record set and measure of the package, a state's district rows
+    add up exactly to its state row (the 43 states with more than one
+    district), and in the all-class record set the 51 state rows add up to the
+    US row. The file publishes every column this way at agi_stub 0, and every
+    class at stubs 1 to 9.
+    """
+    values = _values()
+    for record_set in _record_sets().values():
+        prefix = record_set["record_set_id"]
+        row_ids = [row["value_id"] for row in record_set["rows"]]
+        districts: dict[str, list[str]] = {}
+        for row_id in row_ids:
+            if row_id != "us" and not row_id.endswith("_total"):
+                districts.setdefault(row_id.rsplit("_", 1)[0], []).append(row_id)
+        assert len(districts) == 43, prefix
+        for measure in record_set["measures"]:
+            measure_id = measure["measure_id"]
+            for state, members in districts.items():
+                total = sum(values[f"{prefix}.{row}.{measure_id}"] for row in members)
+                assert total == values[f"{prefix}.{state}_total.{measure_id}"], (
+                    prefix,
+                    state,
+                    measure_id,
+                )
+            if "us" in row_ids:
+                states = sum(
+                    values[f"{prefix}.{row}.{measure_id}"]
+                    for row in row_ids
+                    if row.endswith("_total")
+                )
+                assert states == values[f"{prefix}.us.{measure_id}"], measure_id

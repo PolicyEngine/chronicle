@@ -319,6 +319,104 @@ GUIDE_DEFINITIONS: dict[str, tuple[str, ...]] = {
         "Number of returns with income tax after credits",
     ),
     "income_tax_liability_amount": ("1040:22", "Income tax after credits amount"),
+    # The first district-file columns without a state twin (chronicle#447
+    # item 2.3). Lines 12 and 17 keep Table 1.2's and Table 1.4's ids.
+    "standard_deduction_returns": (
+        "1040:12",
+        "Number of returns with total standard deduction",
+    ),
+    "standard_deduction_amount": ("1040:12", "Total standard deduction amount"),
+    "self_employment_tax_returns": (
+        "Schedule 2:4",
+        "Number of returns with self-employment tax",
+    ),
+    "self_employment_tax_amount": ("Schedule 2:4", "Self-employment tax amount"),
+    "net_investment_income_tax_returns": (
+        "8960:17",
+        "Number of returns with net investment income tax",
+    ),
+    "net_investment_income_tax_amount": ("8960:17", "Net investment income tax"),
+    "alternative_minimum_tax_returns": (
+        "Schedule 2:1",
+        "Number of returns with alternative minimum tax",
+    ),
+    "alternative_minimum_tax_amount": (
+        "Schedule 2:1",
+        "Alternative minimum tax amount",
+    ),
+    "advance_premium_tax_credit_returns": (
+        "8962:25",
+        "Number of returns with advance premium tax credit",
+    ),
+    "advance_premium_tax_credit_amount": (
+        "8962:25",
+        "Advance premium tax credit amount",
+    ),
+    "net_premium_tax_credit_returns": (
+        "Schedule 3:9",
+        "Number of returns with net premium tax credit",
+    ),
+    "net_premium_tax_credit_amount": ("Schedule 3:9", "Net premium tax credit amount"),
+    "child_dependent_care_credit_returns": (
+        "Schedule 3:2",
+        "Number of returns with child and dependent care credit",
+    ),
+    "child_dependent_care_credit_amount": (
+        "Schedule 3:2",
+        "Child and dependent care credit amount",
+    ),
+    "nonrefundable_education_credit_returns": (
+        "Schedule 3:3",
+        "Number of returns with nonrefundable education credit",
+    ),
+    "nonrefundable_education_credit_amount": (
+        "Schedule 3:3",
+        "Nonrefundable education credit amount",
+    ),
+    "refundable_education_credit_returns": (
+        "1040:29",
+        "Number of returns with refundable education credit",
+    ),
+    "refundable_education_credit_amount": (
+        "1040:29",
+        "Refundable education credit amount",
+    ),
+    "retirement_savings_contribution_credit_returns": (
+        "Schedule 3:4",
+        "Number of returns with retirement savings contribution credit",
+    ),
+    "retirement_savings_contribution_credit_amount": (
+        "Schedule 3:4",
+        "Retirement savings contribution credit amount",
+    ),
+    "self_employed_health_insurance_ald_returns": (
+        "Schedule 1:17",
+        "Number of returns with self-employment health insurance deduction",
+    ),
+    "self_employed_health_insurance_ald": (
+        "Schedule 1:17",
+        "Self-employment health insurance deduction amount",
+    ),
+    "self_employed_retirement_plans_returns": (
+        "Schedule 1:16",
+        "Number of returns with self-employment retirement plans",
+    ),
+    "self_employed_retirement_plans_amount": (
+        "Schedule 1:16",
+        "Self-employment retirement plans amount",
+    ),
+    "ira_deduction_returns": ("Schedule 1:20", "Number of returns with IRA payments"),
+    "ira_deduction_amount": ("Schedule 1:20", "IRA payments amount"),
+    "student_loan_interest_deduction_returns": (
+        "Schedule 1:21",
+        "Number of returns with student loan interest deduction",
+    ),
+    "student_loan_interest_deduction_amount": (
+        "Schedule 1:21",
+        "Student loan interest deduction amount",
+    ),
+    "total_tax_liability_returns": ("1040:24", "Number of returns with tax liability"),
+    "total_tax_liability_amount": ("1040:24", "Total tax liability amount"),
 }
 
 # Measure ids that mean a line no geographic file publishes. No package that

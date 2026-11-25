@@ -347,6 +347,9 @@ lineage. The state-grain packages are:
 - `soi-congressional-district-2022`: national, state and congressional district
   (117th Congress) totals; the 15 columns whose state twin
   `soi-historic-table-2-state-broad-2022` reads, under the twin's measure ids;
+  30 more columns without a state twin (deductions, credits and taxes such as
+  the standard deduction, self-employment tax, the education credits and total
+  tax liability), which nest in the file's own state rows;
   and returns and AGI in the nine AGI classes of
   `soi-historic-table-2-state-agi-2022`, for every state and district row
   (chronicle#447)
