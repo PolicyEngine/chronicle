@@ -344,7 +344,13 @@ lineage. The state-grain packages are:
   returns and AGI by state and AGI band
 - `soi-historic-table-2-state-eitc-2022`: EITC claims and amounts by state and
   number of qualifying children
-- `soi-congressional-district-2022` and `soi-county-2022`: sub-state totals
+- `soi-congressional-district-2022`: national, state and congressional district
+  (117th Congress) totals; the 15 columns whose state twin
+  `soi-historic-table-2-state-broad-2022` reads, under the twin's measure ids;
+  and returns and AGI in the nine AGI classes of
+  `soi-historic-table-2-state-agi-2022`, for every state and district row
+  (chronicle#447)
+- `soi-county-2022`: county totals
 
 The legacy `db/etl_soi_state.py`, `db/etl_soi_credits.py`,
 `db/etl_soi_deductions.py` and `db/etl_soi_income_sources.py` loaders were
