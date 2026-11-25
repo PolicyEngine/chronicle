@@ -4112,10 +4112,14 @@ def test_soi_congressional_district_2022_builds_all_return_facts():
 
     assert package.package_id == "soi-congressional-district-2022"
     assert len(rows) == 4_791
-    assert len(cells) == 79_365
+    # 165 header cells and 165 cells for each of the 4,791 selected rows: the
+    # 480 all-class rows, then agi_stub 1 to 9 for the 479 state and district
+    # rows (chronicle#447 item 2.1).
+    assert len(cells) == 790_680
     # 77 measures at 480 rows: 62, and 15 whose state twin Historic Table 2's
-    # state package reads (chronicle#447 item 2.2).
-    assert len(facts) == 36_960
+    # state package reads (chronicle#447 item 2.2); then 2 measures at 9 x 479
+    # AGI class rows (item 2.1).
+    assert len(facts) == 36_960 + 8_622
     assert validate_source_rows(rows).valid
     assert validate_source_cells(cells).valid
     assert validate_facts(facts).valid
@@ -4222,6 +4226,38 @@ def test_soi_congressional_district_2022_builds_all_return_facts():
             f"irs_soi.ty2022.congressional_district_2022.all_returns.{row}.{measure_id}"
         ]
         assert (fact.value, fact.layout.source_column_id) == expected
+    # AGI classes (chronicle#447 item 2.1): agi_stub 1 is under $1 of AGI and
+    # agi_stub 9 is $500,000 or more.
+    al_under_1 = values_by_record[
+        "irs_soi.ty2022.congressional_district_2022.agi_under_1.al_total.return_count"
+    ]
+    assert al_under_1.value == 31_530
+    assert al_under_1.filters["income_range"] == "under_1"
+    assert {
+        (constraint.variable, constraint.operator, constraint.value)
+        for constraint in al_under_1.constraints
+    } == {("us:statutes/26/62#adjusted_gross_income", "<", 1)}
+    assert (
+        values_by_record[
+            "irs_soi.ty2022.congressional_district_2022.agi_under_1.al_total."
+            "adjusted_gross_income"
+        ].value
+        == -1_042_232_000
+    )
+    ca_12_top = values_by_record[
+        "irs_soi.ty2022.congressional_district_2022.agi_500k_plus.ca_12.return_count"
+    ]
+    assert ca_12_top.value == 23_670
+    assert ca_12_top.geography.id == "5001700US0612"
+    assert {
+        (constraint.variable, constraint.operator, constraint.value)
+        for constraint in ca_12_top.constraints
+    } == {("us:statutes/26/62#adjusted_gross_income", ">=", 500_000)}
+    assert not any(
+        record_id.startswith("irs_soi.ty2022.congressional_district_2022.agi_")
+        and ".us." in record_id
+        for record_id in values_by_record
+    )
 
 
 def test_soi_historic_table_2_package_builds_2022_national_facts():
