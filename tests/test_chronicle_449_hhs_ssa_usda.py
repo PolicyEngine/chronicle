@@ -11,8 +11,9 @@ archive and the TANF caseload workbook (chronicle#449).
 - ``hhs-acf-tanf-caseload-2025`` reads ``fy2025-tanf-caseload.xlsx``, the
   edition after ``hhs-acf-tanf-caseload-2024``. The workbook covers October
   2024 to December 2025: its FYCY2025 sheets hold the fiscal year 2025 block in
-  columns B:E (D:G in FY2024), with the states in column A (C in FY2024),
-  beside a calendar year 2025 block that the package does not read.
+  columns B:E of the families sheet and B:D of the recipients sheet (D:G and
+  D:F in FY2024), with the states in column A (C in FY2024), beside a calendar
+  year 2025 block that the package does not read.
 
 The expected values are read from the publisher files directly (pypdf for the
 PDF, zipfile and openpyxl for the workbooks), not through Chronicle's parsers.
@@ -563,7 +564,8 @@ LIHEAP_MOVED = {
     ),
 }
 # The FY2025 TANF workbook moved the states from column C to A and the
-# fiscal-year block from D:G to B:E; its titles now span Oct. 2024 - Dec. 2025.
+# fiscal-year block from D:G to B:E (families) and from D:F to B:D
+# (recipients); its titles now span Oct. 2024 - Dec. 2025.
 TANF_MOVED_COLUMNS = {"C": "A", "D": "B", "E": "C", "F": "D", "G": "E"}
 TANF_COLUMN_FIELDS = {
     ("record_sets", "*", "rows", "*", "expected_row_header_column"),
@@ -571,7 +573,10 @@ TANF_COLUMN_FIELDS = {
     ("record_sets", "*", "measures", "*", "column"),
 }
 # Guards the TANF package adds to each U.S. row: the fiscal-year block's
-# heading and its note, which tell it from the calendar-year block.
+# heading (B4) and its note (A64). They check the sheet's layout only; the
+# calendar-year block repeats the column headers, so the measure columns are
+# tied to the fiscal-year block by test_tanf_facts_are_their_fiscal_year_cells
+# and by the predecessor mirror test.
 TANF_ADDED_GUARDS = [
     {
         "column": "B",

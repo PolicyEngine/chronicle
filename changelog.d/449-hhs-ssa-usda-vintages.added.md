@@ -14,5 +14,6 @@ concepts, units, labels, rows, filters and constraints. The FY2025 profile
 prints the households line on text line 10, so the package's row and guards
 move with it; no SNAP cell moved. The FY2025 TANF workbook covers October 2024
 to December 2025 and puts a calendar year 2025 block beside the fiscal-year
-block, which moved from columns D:G to B:E (the states from C to A); the
-package reads the fiscal-year block and guards its heading and note.
+block, which moved from columns D:G to B:E on the families sheet and from D:F
+to B:D on the recipients sheet (the states from C to A); the package reads the
+fiscal-year block and guards its heading and note.
