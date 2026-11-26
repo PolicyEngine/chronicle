@@ -1,10 +1,13 @@
 """BEA new-vintage packages (chronicle#449).
 
-``bea-nipa-total-wages-salaries-2026-11-25`` reads ``NipaDataA.txt`` as BEA
-served it after its 2026-11-25 release, the next edition of
-``bea-nipa-total-wages-salaries`` (the 2026-04-30 file). Series A034RC differs
-from the earlier file for 2021 to 2025, the years BEA's 2026-09-30 annual
-update revised, so the 2023 and 2024 cells moved and the 2018 cell did not.
+Four packages read ``NipaDataA.txt`` as BEA served it after its 2026-11-25
+release, the next editions of the four packages that read the 2026-04-30 file:
+``bea-nipa-total-wages-salaries-2026-11-25``,
+``bea-nipa-personal-income-components-2026-11-25``,
+``bea-nipa-personal-income-disposition-2026-11-25`` and
+``bea-nipa-pension-contributions-2026-11-25``. Against the earlier file, every
+series they read keeps its years, and its values change only for 2021 to
+2025, the years BEA's 2026-09-30 annual update revised.
 
 ``bea-regional-state-personal-income-components-2026-09-30`` reads
 ``SAINC.zip`` from BEA's 2026-09-30 release, which carries the annual update of
@@ -48,21 +51,32 @@ PACKAGES_ROOT = REPO_ROOT / "packages"
 DATA = REPO_ROOT / "db" / "data" / "bea"
 
 NIPA = "bea-nipa-total-wages-salaries-2026-11-25"
+COMPONENTS = "bea-nipa-personal-income-components-2026-11-25"
+DISPOSITION = "bea-nipa-personal-income-disposition-2026-11-25"
+PENSION = "bea-nipa-pension-contributions-2026-11-25"
 REGIONAL = "bea-regional-state-personal-income-components-2026-09-30"
+NIPA_FILE_PACKAGES = (NIPA, COMPONENTS, DISPOSITION, PENSION)
+NEW_PACKAGES = (*NIPA_FILE_PACKAGES, REGIONAL)
 PREDECESSOR = {
     NIPA: "bea-nipa-total-wages-salaries",
+    COMPONENTS: "bea-nipa-personal-income-components",
+    DISPOSITION: "bea-nipa-personal-income-disposition",
+    PENSION: "bea-nipa-pension-contributions",
     REGIONAL: "bea-regional-state-personal-income-components-2024",
 }
 # The record id segment each new edition adds after the source namespace.
+NIPA_SEGMENT = ("bea_nipa.", "bea_nipa.release_2026_11_25.")
 RELEASE_SEGMENT = {
-    NIPA: ("bea_nipa.", "bea_nipa.release_2026_11_25."),
+    **dict.fromkeys(NIPA_FILE_PACKAGES, NIPA_SEGMENT),
     REGIONAL: ("bea_regional.", "bea_regional.release_2026_09_30."),
 }
 VINTAGE = {
-    NIPA: "bea_nipa_annual_release_2026_11_25",
+    **dict.fromkeys(NIPA_FILE_PACKAGES, "bea_nipa_annual_release_2026_11_25"),
     REGIONAL: "bea_regional_state_personal_income_2026_09_30",
 }
-# package -> (raw directory, file name, sha256, size, URL, source page, table)
+# manifest owner -> (raw directory, file name, sha256, size, URL, source page,
+# table). The four NIPA packages share the first package's directory, as their
+# predecessors share theirs.
 ARTIFACT = {
     NIPA: (
         DATA / "nipa_total_wages_salaries_2026_11_25",
@@ -83,12 +97,41 @@ ARTIFACT = {
         "Annual Personal Income by State",
     ),
 }
+ARTIFACT_OF = {**dict.fromkeys(NIPA_FILE_PACKAGES, NIPA), REGIONAL: REGIONAL}
 NIPA_FILE = ARTIFACT[NIPA][0] / ARTIFACT[NIPA][1]
 SAINC_ZIP = ARTIFACT[REGIONAL][0] / ARTIFACT[REGIONAL][1]
 OLD_NIPA_FILE = DATA / "nipa_total_wages_salaries" / "NipaDataA.txt"
 OLD_SAINC_ZIP = DATA / "regional_personal_income_state" / "SAINC.zip"
 SAINC5N_MEMBER = "SAINC5N__ALL_AREAS_1998_2025.csv"
-NIPA_PERIODS = (2018, 2023, 2024)
+# The NIPA series each package selects, in declaration order.
+NIPA_SERIES = {
+    NIPA: ("A034RC",),
+    COMPONENTS: (
+        "A041RC",
+        "A048RC",
+        "A064RC",
+        "B703RC",
+        "A038RC",
+        "B040RC",
+        "B039RC",
+        "B042RC",
+        "A045RC",
+        "A063RC",
+        "W823RC",
+        "W824RC",
+        "W729RC",
+        "W825RC",
+        "W826RC",
+        "W827RC",
+        "B931RC",
+        "A577RC",
+    ),
+    DISPOSITION: ("A065RC", "W055RC", "A067RC", "A068RC", "A071RC", "A072RC"),
+    PENSION: ("W351RC", "Y351RC"),
+}
+# Total wages and salaries names its three years; the others read the year
+# they are built for.
+WAGES_PERIODS = (2018, 2023, 2024)
 # SAINC5N line code of each regional record set.
 LINE_CODE = {
     "state_personal_income": 10,
@@ -101,14 +144,23 @@ LINE_CODE = {
     "state_proprietors_income": 70,
 }
 PUBLISHED = {
-    # Spot values from the publisher files, as printed: millions of dollars in
-    # NipaDataA.txt, thousands of dollars in SAINC5N.
+    # Spot values from the publisher files, as printed: millions of dollars
+    # (and one percentage) in NipaDataA.txt, thousands of dollars in SAINC5N.
     "bea_nipa.release_2026_11_25.cy2018.total_wages_salaries.a034rc."
     "wages_salaries_amount": 8_899_824 * 1_000_000,
     "bea_nipa.release_2026_11_25.cy2023.total_wages_salaries.a034rc."
     "wages_salaries_amount": 11_735_097 * 1_000_000,
     "bea_nipa.release_2026_11_25.cy2024.total_wages_salaries.a034rc."
     "wages_salaries_amount": 12_410_601 * 1_000_000,
+    "bea_nipa.release_2026_11_25.cy2023.personal_interest_income.a064rc.amount": (
+        2_079_352 * 1_000_000
+    ),
+    "bea_nipa.release_2026_11_25.cy2023.personal_income.a065rc.amount": (
+        23_642_338 * 1_000_000
+    ),
+    "bea_nipa.release_2026_11_25.cy2023.personal_saving_rate.a072rc.rate": 6.1,
+    "bea_nipa.release_2026_11_25.cy2023.defined_contribution_employer_contributions."
+    "w351rc.employer_contributions": 269_697 * 1_000_000,
     "bea_regional.release_2026_09_30.cy2023.state_personal_income.us.amount": (
         23_637_147_000 * 1000
     ),
@@ -126,20 +178,21 @@ def _build(package_id: str, year: int):
     return rows, records, facts
 
 
+def _built(package_id: str, year: int) -> dict:
+    rows, records, facts = _build(package_id, year)
+    return {
+        "facts": facts,
+        "records": {record.source_record_id: record for record in records},
+        "line_by_row_key": {build_source_row_key(row): row.row_number for row in rows},
+    }
+
+
 @pytest.fixture(scope="module")
 def built():
     """Each new package built at 2023, the default bundle's year."""
-    out = {}
-    for package_id in (NIPA, REGIONAL):
-        rows, records, facts = _build(package_id, 2023)
-        assert validate_consumer_fact_contract(facts).valid
-        out[package_id] = {
-            "facts": facts,
-            "records": {record.source_record_id: record for record in records},
-            "line_by_row_key": {
-                build_source_row_key(row): row.row_number for row in rows
-            },
-        }
+    out = {package_id: _built(package_id, 2023) for package_id in NEW_PACKAGES}
+    for package in out.values():
+        assert validate_consumer_fact_contract(package["facts"]).valid
     return out
 
 
@@ -152,14 +205,22 @@ def _nipa_rows(path: Path) -> list[list[str]]:
     return _csv_rows(path.read_bytes().decode("utf-8-sig"))
 
 
-def _nipa_series(path: Path, series: str) -> dict[int, tuple[int, str]]:
-    """Period -> (file line, Value) for one series code."""
-    found: dict[int, tuple[int, str]] = {}
+def _nipa_cells(path: Path) -> dict[tuple[str, int], tuple[int, str]]:
+    """(series code, year) -> (file line, Value) for the series the packages read."""
+    wanted = {code for codes in NIPA_SERIES.values() for code in codes}
+    found: dict[tuple[str, int], tuple[int, str]] = {}
     for line, row in enumerate(_nipa_rows(path), start=1):
-        if line > 1 and row[0] == series:
-            assert int(row[1]) not in found, row
-            found[int(row[1])] = (line, row[2])
+        if line == 1 or row[0] not in wanted:
+            continue
+        key = (row[0], int(row[1]))
+        assert key not in found, row
+        found[key] = (line, row[2])
     return found
+
+
+@pytest.fixture(scope="module")
+def nipa_cells():
+    return {"new": _nipa_cells(NIPA_FILE), "old": _nipa_cells(OLD_NIPA_FILE)}
 
 
 def _sainc5n(path: Path) -> list[list[str]]:
@@ -193,6 +254,55 @@ def _file_line(built_package: dict, fact) -> int:
     return built_package["line_by_row_key"][row_key]
 
 
+def _nipa_value(printed: str, unit: str):
+    # NipaDataA.txt prints dollar series in millions with thousands
+    # separators, and the saving rate as a percentage.
+    if unit == "percent":
+        return float(printed)
+    assert unit == "usd"
+    return int(printed.replace(",", "")) * 1_000_000
+
+
+def _selected(package_id: str, year: int) -> list[tuple[str, int]]:
+    """The (series, year) cells a build selects, in their virtual-row order."""
+    if package_id == NIPA:
+        return [("A034RC", period) for period in WAGES_PERIODS]
+    return [(series, year) for series in NIPA_SERIES[package_id]]
+
+
+def _assert_nipa_facts(package_id: str, built_package: dict, cells: dict, year: int):
+    selected = _selected(package_id, year)
+    facts = {
+        (_constraint(fact, "bea_nipa.series_code"), fact.period.value): fact
+        for fact in built_package["facts"]
+    }
+    assert len(built_package["facts"]) == len(selected)
+    assert sorted(facts) == sorted(selected)
+    _, filename, sha256, _, url, _, _ = ARTIFACT[NIPA]
+    for virtual_row, key in enumerate(selected, start=2):
+        fact = facts[key]
+        line, printed = cells[key]
+        assert _file_line(built_package, fact) == line
+        addresses = built_package["records"][
+            fact.source_record_id
+        ].source_cell_addresses
+        # Column C (Value) of the selected row; B is its year, C1 the header.
+        assert addresses[0] == f"C{virtual_row}"
+        assert f"B{virtual_row}" in addresses
+        assert fact.value == _nipa_value(printed, fact.measure.unit)
+        assert fact.source_record_id.startswith(
+            f"bea_nipa.release_2026_11_25.cy{key[1]}."
+        )
+        assert fact.period.type == "calendar_year"
+        assert fact.geography.id == "0100000US"
+        assert fact.source.vintage == VINTAGE[package_id]
+        assert fact.source.source_sha256 == sha256
+        assert fact.source.source_file == filename
+        assert fact.source.url == url
+        if fact.source_record_id in PUBLISHED:
+            assert fact.value == PUBLISHED[fact.source_record_id]
+
+
 @pytest.mark.parametrize("package_id", [NIPA, REGIONAL])
 def test_manifest_registers_the_publisher_file(package_id):
     directory, filename, sha256, size, url, source_page, table = ARTIFACT[package_id]
@@ -219,39 +329,22 @@ def test_manifest_registers_the_publisher_file(package_id):
     }
 
 
-def test_nipa_facts_are_their_publisher_cells(built):
-    _, filename, sha256, _, url, _, _ = ARTIFACT[NIPA]
-    published = _nipa_series(NIPA_FILE, "A034RC")
-    facts = {fact.period.value: fact for fact in built[NIPA]["facts"]}
+@pytest.mark.parametrize("package_id", NIPA_FILE_PACKAGES)
+def test_nipa_package_reads_the_shared_2026_11_25_file(package_id):
+    artifact = load_source_package(package_id).artifact
+    predecessor = load_source_package(PREDECESSOR[package_id]).artifact
 
-    assert len(built[NIPA]["facts"]) == 3
-    assert sorted(facts) == list(NIPA_PERIODS)
-    for virtual_row, period in enumerate(NIPA_PERIODS, start=2):
-        fact = facts[period]
-        line, value = published[period]
-        assert _file_line(built[NIPA], fact) == line
-        # Column C (Value) of the selected row; C1 is its header, B its period.
-        assert built[NIPA]["records"][fact.source_record_id].source_cell_addresses == (
-            f"C{virtual_row}",
-            "C1",
-            f"B{virtual_row}",
-        )
-        # NipaDataA.txt prints millions of dollars with thousands separators.
-        assert fact.value == int(value.replace(",", "")) * 1_000_000
-        assert fact.value == PUBLISHED[fact.source_record_id]
-        assert fact.source_record_id == (
-            f"bea_nipa.release_2026_11_25.cy{period}.total_wages_salaries."
-            "a034rc.wages_salaries_amount"
-        )
-        assert fact.period.type == "calendar_year"
-        assert fact.geography.id == "0100000US"
-        assert _constraint(fact, "bea_nipa.series_code") == "A034RC"
-        assert fact.measure.concept == "bea_nipa.wages_and_salaries"
-        assert fact.measure.unit == "usd"
-        assert fact.source.vintage == VINTAGE[NIPA]
-        assert fact.source.source_sha256 == sha256
-        assert fact.source.source_file == filename
-        assert fact.source.url == url
+    assert (
+        artifact.resource_directory == "data/bea/nipa_total_wages_salaries_2026_11_25"
+    )
+    assert predecessor.resource_directory == "data/bea/nipa_total_wages_salaries"
+    assert artifact.manifest == predecessor.manifest == "manifest.yaml"
+    assert artifact.artifact_year == predecessor.artifact_year == 2024
+
+
+@pytest.mark.parametrize("package_id", NIPA_FILE_PACKAGES)
+def test_nipa_facts_are_their_publisher_cells(built, nipa_cells, package_id):
+    _assert_nipa_facts(package_id, built[package_id], nipa_cells["new"], 2023)
 
 
 def test_regional_facts_are_their_publisher_cells(built):
@@ -299,9 +392,32 @@ def test_every_published_spot_value_belongs_to_a_package(built):
     assert set(PUBLISHED) <= ids
 
 
-def test_nipa_package_reads_the_same_three_cells_at_every_year(built):
-    """The NIPA package names its periods literally, so each build year reads
-    the same three cells and labels them the same way."""
+def test_fact_counts_and_periods_at_the_bundle_year(built):
+    counts = {package_id: len(built[package_id]["facts"]) for package_id in built}
+    periods = {
+        package_id: sorted({fact.period.value for fact in built[package_id]["facts"]})
+        for package_id in built
+    }
+
+    assert counts == {
+        NIPA: 3,
+        COMPONENTS: 18,
+        DISPOSITION: 6,
+        PENSION: 2,
+        REGIONAL: 416,
+    }
+    assert periods == {
+        NIPA: [2018, 2023, 2024],
+        COMPONENTS: [2023],
+        DISPOSITION: [2023],
+        PENSION: [2023],
+        REGIONAL: [2023],
+    }
+
+
+def test_wages_package_reads_the_same_three_cells_at_every_year(built):
+    """Total wages and salaries names its periods literally, so each build year
+    reads the same three cells and labels them the same way."""
     expected = sorted(
         (f.source_record_id, f.value, f.period.value) for f in built[NIPA]["facts"]
     )
@@ -310,6 +426,14 @@ def test_nipa_package_reads_the_same_three_cells_at_every_year(built):
         assert sorted((f.source_record_id, f.value, f.period.value) for f in other) == (
             expected
         )
+
+
+@pytest.mark.parametrize("year", [2024, 2025])
+@pytest.mark.parametrize("package_id", [COMPONENTS, DISPOSITION, PENSION])
+def test_year_selecting_nipa_packages_read_the_requested_year(
+    nipa_cells, package_id, year
+):
+    _assert_nipa_facts(package_id, _built(package_id, year), nipa_cells["new"], year)
 
 
 @pytest.mark.parametrize("year", [2009, 2024, 2025])
@@ -347,18 +471,47 @@ def test_the_regional_file_is_the_2026_09_30_release():
     ]
 
 
-def test_the_cells_keep_their_meaning_between_editions():
-    """Differential across the two editions of each file: the header, and for
-    every row the package selects its labels, codes and unit, are unchanged."""
-    old_nipa, new_nipa = _nipa_rows(OLD_NIPA_FILE), _nipa_rows(NIPA_FILE)
-    assert new_nipa[0] == old_nipa[0] == ["%SeriesCode", "Period", "Value"]
-    old_series = {p: v for p, (_, v) in _nipa_series(OLD_NIPA_FILE, "A034RC").items()}
-    new_series = {p: v for p, (_, v) in _nipa_series(NIPA_FILE, "A034RC").items()}
-    assert set(old_series) == set(new_series) == set(range(1929, 2026))
-    # The edition differs for 2021 to 2025 and leaves earlier years alone.
-    revised = {year for year in new_series if new_series[year] != old_series[year]}
-    assert revised == {2021, 2022, 2023, 2024, 2025}
+def test_every_nipa_series_keeps_its_years_and_changes_only_2021_to_2025(
+    nipa_cells,
+):
+    """Differential across the two NipaDataA.txt editions for every series the
+    four packages read: no year is dropped, and only 2021 to 2025 change. The
+    defined contribution series gain 2025."""
+    assert (
+        _nipa_rows(NIPA_FILE)[0]
+        == _nipa_rows(OLD_NIPA_FILE)[0]
+        == [
+            "%SeriesCode",
+            "Period",
+            "Value",
+        ]
+    )
+    old, new = nipa_cells["old"], nipa_cells["new"]
+    added = {}
+    for series in {code for codes in NIPA_SERIES.values() for code in codes}:
+        old_years = {year for code, year in old if code == series}
+        new_years = {year for code, year in new if code == series}
+        assert old_years <= new_years, series
+        added[series] = new_years - old_years
+        revised = {
+            year
+            for year in old_years
+            if old[(series, year)][1] != new[(series, year)][1]
+        }
+        assert revised <= set(range(2021, 2026)), (series, revised)
+    assert {series: years for series, years in added.items() if years} == {
+        "W351RC": {2025},
+        "Y351RC": {2025},
+    }
+    # The edition moves the 2023 and 2024 wages and salaries and keeps 2018.
+    assert new[("A034RC", 2018)][1] == old[("A034RC", 2018)][1]
+    assert new[("A034RC", 2023)][1] != old[("A034RC", 2023)][1]
+    assert new[("A034RC", 2024)][1] != old[("A034RC", 2024)][1]
 
+
+def test_the_sainc5n_cells_keep_their_meaning_between_editions():
+    """Differential across the two SAINC.zip editions: the header, and for
+    every row the package selects its labels, codes and unit, are unchanged."""
     old_rows, new_rows = _sainc5n(OLD_SAINC_ZIP), _sainc5n(SAINC_ZIP)
     assert new_rows[0] == old_rows[0]
     assert new_rows[0][:8] == [
@@ -409,7 +562,7 @@ def _declarations(package_id: str) -> dict:
     return yaml.safe_load(path.read_text())
 
 
-@pytest.mark.parametrize("package_id", [NIPA, REGIONAL])
+@pytest.mark.parametrize("package_id", NEW_PACKAGES)
 def test_new_packages_mirror_their_predecessors(package_id):
     """Differential: apart from the package id, label, vintage, extraction
     date, raw directory and the release segment of the record ids, the
@@ -420,14 +573,16 @@ def test_new_packages_mirror_their_predecessors(package_id):
 
     assert new.pop("package_id") == package_id
     assert old.pop("package_id") == PREDECESSOR[package_id]
-    new.pop("label")
-    old.pop("label")
+    # The label names the release; the regional predecessor's named a year.
+    release = "2026-09-30" if package_id == REGIONAL else "2026-11-25"
+    old_label = old.pop("label").replace("BEA Regional 2024 ", "BEA Regional ")
+    assert new.pop("label") == f"{old_label}, {release} release"
     assert new["artifact"].pop("vintage") == VINTAGE[package_id]
     old["artifact"].pop("vintage")
     assert new["artifact"].pop("extracted_at") == "2026-11-26"
     old["artifact"].pop("extracted_at")
     assert new["artifact"].pop("resource_directory") == (
-        f"data/bea/{ARTIFACT[package_id][0].name}"
+        f"data/bea/{ARTIFACT[ARTIFACT_OF[package_id]][0].name}"
     )
     old["artifact"].pop("resource_directory")
     for record_set in old["record_sets"]:
@@ -437,7 +592,7 @@ def test_new_packages_mirror_their_predecessors(package_id):
     assert json.loads(json.dumps(new)) == json.loads(json.dumps(old))
 
 
-@pytest.mark.parametrize("package_id", [NIPA, REGIONAL])
+@pytest.mark.parametrize("package_id", NEW_PACKAGES)
 def test_new_editions_share_their_predecessors_semantic_keys(built, package_id):
     """The two editions form one source series: each 2023-build fact has its
     predecessor's semantic key and source series key, and its own aggregate
@@ -458,8 +613,8 @@ def test_new_editions_share_their_predecessors_semantic_keys(built, package_id):
         assert build_aggregate_fact_key(fact) != build_aggregate_fact_key(old)
 
 
-# The NIPA suite writes all 561,888 rows of NipaDataA.txt, about a minute; the
-# default bundle test builds it at 2023 with every other package.
+# A NIPA suite writes all 561,888 rows of NipaDataA.txt, about a minute each;
+# the default bundle test builds the four at 2023 with every other package.
 @pytest.mark.parametrize("package_id", [REGIONAL])
 def test_source_suite_passes_agent_acceptance(package_id, tmp_path):
     suite = build_source_suite(package_id, tmp_path / package_id, year=2023)
