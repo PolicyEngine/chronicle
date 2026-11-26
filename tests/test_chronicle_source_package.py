@@ -2033,6 +2033,36 @@ def test_census_stc_income_tax_package_builds_state_tax_facts():
     )
 
 
+def test_census_stc_income_tax_package_builds_fy2025_facts():
+    # tests/test_chronicle_449_census.py checks every value against the file.
+    report = validate_source_package("census-stc-individual-income-tax", year=2025)
+    package = load_source_package("census-stc-individual-income-tax")
+    rows = package.build_source_rows(2025)
+    cells = package.build_source_cells(2025, source_rows=rows)
+    facts = package.build_facts(2025, cells=cells, source_rows=rows)
+
+    assert report.valid
+    assert report.counts == {
+        "record_set_count": 46,
+        "row_count": 46,
+        "measure_count": 46,
+        "source_record_count": 46,
+        "source_region_count": 46,
+    }
+    assert len(rows) == 25
+    assert validate_source_rows(rows).valid
+    assert validate_source_cells(cells).valid
+    assert validate_facts(facts).valid
+    assert len(cells) == 106
+    assert len(facts) == 46
+    assert all(fact.source_row_keys for fact in facts)
+    assert all(fact.source.raw_r2_uri for fact in facts)
+    assert {fact.source.source_file for fact in facts} == {"FY2025-Flat-File.txt"}
+    assert {fact.source.source_table for fact in facts} == {
+        "FY2025 STC Flat File item T40 Individual Income Taxes"
+    }
+
+
 def test_federal_reserve_z1_package_builds_net_worth_fact():
     report = validate_source_package(
         "federal-reserve-z1-household-net-worth",
@@ -3184,8 +3214,34 @@ def test_census_pep_source_package_alias_validates_fixture_counts():
     }
 
 
+def test_census_pep_2025_national_source_package_validates_counts():
+    report = validate_source_package("census-pep-2025-national-age-sex", year=2023)
+
+    assert report.valid
+    assert report.counts == {
+        "record_set_count": 1,
+        "row_count": 19,
+        "measure_count": 1,
+        "source_record_count": 19,
+        "source_region_count": 1,
+    }
+
+
 def test_census_pep_state_source_package_alias_validates_fixture_counts():
     report = validate_source_package("census-pep-2024-state-age-sex", year=2023)
+
+    assert report.valid
+    assert report.counts == {
+        "record_set_count": 51,
+        "row_count": 918,
+        "measure_count": 51,
+        "source_record_count": 918,
+        "source_region_count": 51,
+    }
+
+
+def test_census_pep_2025_state_source_package_validates_counts():
+    report = validate_source_package("census-pep-2025-state-age-sex", year=2023)
 
     assert report.valid
     assert report.counts == {
@@ -3563,6 +3619,29 @@ def test_census_b01001_female_age_source_package_builds_state_facts():
     assert ca_age_40_to_44.geography.name == "California"
     assert pr_age_40_to_44.value == 110_768
     assert pr_age_40_to_44.geography.id == "0400000US72"
+
+
+@pytest.mark.parametrize("year", [2024, 2025])
+def test_census_b01001_female_age_later_editions_build_state_facts(year):
+    # tests/test_chronicle_449_census.py checks every value against the file.
+    package = load_source_package(f"census-b01001-female-age-{year}")
+    rows = package.build_source_rows(year)
+    cells = package.build_source_cells(year, source_rows=rows)
+    facts = package.build_facts(year, cells=cells, source_rows=rows)
+
+    assert package.package_id == f"census-b01001-female-age-{year}"
+    assert len(rows) == 468
+    assert validate_source_rows(rows).valid
+    assert validate_source_cells(cells).valid
+    assert validate_facts(facts).valid
+    assert len(cells) == 3_752
+    assert len(facts) == 468
+    assert {fact.geography.level for fact in facts} == {"state"}
+    assert all(fact.source_row_keys for fact in facts)
+    assert all(fact.source.raw_r2_uri for fact in facts)
+    assert {fact.source.source_file for fact in facts} == {
+        f"census_b01001_female_15_44_{year}.json"
+    }
 
 
 def test_census_acs_s2201_source_package_alias_validates_fixture_counts():
