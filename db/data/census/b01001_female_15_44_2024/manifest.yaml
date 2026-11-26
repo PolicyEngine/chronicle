@@ -4,10 +4,9 @@ dataset: census_acs_b01001_female_age_2024
 source_page: https://api.census.gov/data/2024/acs/acs1.html
 vintage: 2024 ACS 1-year detailed tables
 table: B01001 Sex by Age
-notes: Publisher bytes saved unchanged from the 2026-11-26 API response. It holds 52 rows,
-  for the 50 states, DC and Puerto Rico (state 72). The request carried an API key, which
-  source_url omits. storage.r2 is a content-addressed locator; no upload or archival
-  completion is asserted.
+notes: Publisher bytes saved unchanged from the 2026-11-26 API response. It holds
+  52 rows, for the 50 states, DC and Puerto Rico (state 72). The request carried an
+  API key, which source_url omits. The bytes were uploaded to storage.r2 on 2026-11-26 with chronicle publish-raw and checked there with chronicle verify-raw.
 files:
   2024:
     filename: census_b01001_female_15_44_2024.json
@@ -15,7 +14,8 @@ files:
     sha256: 1093323db79893d23672bcf1626957493c1b8f827aa35520fd0f3eb4cec65ad6
     size_bytes: 4475
     fetched_at: '2026-11-26'
-    source_table: ACS 2024 1-year detailed table B01001 female age bands 15-44 by state
+    source_table: ACS 2024 1-year detailed table B01001 female age bands 15-44 by
+      state
     year: 2024
     storage:
       r2:

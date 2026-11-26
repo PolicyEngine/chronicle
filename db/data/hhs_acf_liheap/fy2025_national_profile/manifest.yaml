@@ -2,11 +2,9 @@ source: HHS ACF Office of Community Services
 dataset: LIHEAP FY2025 National Profile (All States)
 vintage: FY 2025
 retrieved: 2026-11-26
-notes: >-
-  Full publisher PDF downloaded from the HHS ACF LIHEAP Performance Management
-  site with chronicle fetch-artifact and parsed with the Ledger PDF
-  document-number parser. storage.r2 is a content-addressed locator; no upload
-  or archival completion is asserted.
+notes: Full publisher PDF downloaded from the HHS ACF LIHEAP Performance Management
+  site with chronicle fetch-artifact and parsed with the Ledger PDF document-number
+  parser. The bytes were uploaded to storage.r2 on 2026-11-26 with chronicle publish-raw and checked there with chronicle verify-raw.
 files:
   2025:
     filename: acf_liheap_fy2025_all_states_national_profile.pdf

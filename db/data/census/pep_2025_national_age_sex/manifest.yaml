@@ -6,7 +6,7 @@ vintage: Vintage 2025
 table: Annual Estimates of the Resident Population by Single Year of Age and Sex for
   the United States
 notes: Publisher bytes saved unchanged by chronicle fetch-artifact on 2026-11-26.
-  storage.r2 is a content-addressed locator; no upload or archival completion is asserted.
+  The bytes were uploaded to storage.r2 on 2026-11-26 with chronicle publish-raw and checked there with chronicle verify-raw.
 files:
   2025:
     filename: nc-est2025-agesex-res.csv

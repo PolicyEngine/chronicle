@@ -3,12 +3,9 @@ package_id: usda-snap-fy69-to-current-fy2025
 dataset: usda_snap_usda-snap-fy69-to-current-fy2025
 source_page: https://www.fna.usda.gov/pd/supplemental-nutrition-assistance-program-snap
 table: SNAP Monthly State Participation and Benefit Summary FY69 to current
-notes: >-
-  Publisher zip downloaded unchanged with chronicle fetch-artifact. The package
-  reads its member FY25.xlsx, whose sheets are dated 11/13/2026 and hold all
-  twelve months of fiscal year 2025, October 2024 to September 2025.
-  storage.r2 is a content-addressed locator; no upload or archival completion
-  is asserted.
+notes: Publisher zip downloaded unchanged with chronicle fetch-artifact. The package
+  reads its member FY25.xlsx, whose sheets are dated 11/13/2026 and hold all twelve
+  months of fiscal year 2025, October 2024 to September 2025. The bytes were uploaded to storage.r2 on 2026-11-26 with chronicle publish-raw and checked there with chronicle verify-raw.
 files:
   2025:
     filename: snap-zip-fy69tocurrent-11.zip

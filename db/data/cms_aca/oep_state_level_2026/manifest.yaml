@@ -4,8 +4,7 @@ dataset: cms_marketplace_oep_state_level_2026_puf
 source_page: https://www.cms.gov/data-research/statistics-trends-reports/marketplace-products/2026-marketplace-open-enrollment-period-public-use-files
 table: 2026 OEP State-Level Public Use File
 notes: Publisher bytes unchanged from the 2026-11-26 fetch. The zip holds the CSV
-  and the XLSX in a folder, 2026 OEP State-Level PUF/. storage.r2 is a content-addressed
-  locator; no upload or archival completion is asserted.
+  and the XLSX in a folder, 2026 OEP State-Level PUF/. The bytes were uploaded to storage.r2 on 2026-11-26 with chronicle publish-raw and checked there with chronicle verify-raw.
 files:
   2026:
     filename: 2026-oep-state-level-public-use-file.zip
