@@ -86,6 +86,9 @@ The all-household column is the same in the three blocks. The package reads it o
   - Total expenditure includes net rent rather than gross rent (the tables' notes).
   - Category 13, "Other expenditure items", is outside consumption. Total expenditure is
     categories 1 to 12 plus 13.
+  - The twelve divisions together are `coicop_01_to_12` ("All expenditure groups"), not
+    `total_expenditure`, which also includes category 13. In the lowest equivalised decile on
+    the updated scale they are £335.50 and £377.10.
 - **Counts.** Weighted households are printed in thousands. The households in the sample are
   unweighted and printed to the nearest ten.
 
