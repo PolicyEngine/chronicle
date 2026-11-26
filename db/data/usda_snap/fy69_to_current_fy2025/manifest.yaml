@@ -5,7 +5,11 @@ source_page: https://www.fna.usda.gov/pd/supplemental-nutrition-assistance-progr
 table: SNAP Monthly State Participation and Benefit Summary FY69 to current
 notes: Publisher zip downloaded unchanged with chronicle fetch-artifact. The package
   reads its member FY25.xlsx, whose sheets are dated 11/13/2026 and hold all twelve
-  months of fiscal year 2025, October 2024 to September 2025. The bytes were uploaded to storage.r2 on 2026-11-26 with chronicle publish-raw and checked there with chronicle verify-raw.
+  months of fiscal year 2025, October 2024 to September 2025. USDA's pages moved from
+  www.fns.usda.gov to www.fna.usda.gov. On 2026-11-26 the old host answered this
+  file's URL and source_page with a 301 redirect to the new host, from which the
+  file was fetched. The bytes were uploaded to storage.r2 on 2026-11-26 with chronicle
+  publish-raw and checked there with chronicle verify-raw.
 files:
   2025:
     filename: snap-zip-fy69tocurrent-11.zip
