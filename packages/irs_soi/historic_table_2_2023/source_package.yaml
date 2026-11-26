@@ -72,8 +72,10 @@ record_sets:
     domain: all_individual_income_tax_returns
     groupby_dimension: us:statutes/26/62#adjusted_gross_income
     rows:
+      # The CSV has no text for AGI_STUB 0, so the label is Chronicle's: the
+      # one its register gives adjusted gross income all (chronicle#376).
       - value_id: all
-        label: All returns
+        label: All returns, total
         ordinal: 0
         row_number: 2
         expected_row_header_column: B
@@ -611,11 +613,11 @@ record_sets:
         value_scale: 1000
 
       - measure_id: net_capital_gains_returns
-        label: Returns with taxable net capital gains
+        label: Returns with net capital gain (less loss)
         ordinal: 27
         column: AK
         source_column_id: N01000
-        concept: irs_soi.returns_with_taxable_net_capital_gains
+        concept: irs_soi.returns_with_form_1040_capital_gain_or_loss
         unit: count
         aggregation: sum
         expected_cell_type: number
@@ -623,11 +625,11 @@ record_sets:
         expected_column_header: N01000
 
       - measure_id: net_capital_gains_amount
-        label: Taxable net capital gains
+        label: Net capital gain (less loss)
         ordinal: 28
         column: AL
         source_column_id: A01000
-        concept: irs_soi.taxable_net_capital_gains
+        concept: irs_soi.form_1040_capital_gain_or_loss
         unit: usd
         aggregation: sum
         expected_cell_type: number

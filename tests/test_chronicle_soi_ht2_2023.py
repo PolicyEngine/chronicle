@@ -38,7 +38,7 @@ PACKAGES = {
     "soi-historic-table-2-2023": ("soi-historic-table-2", 605),
     "soi-historic-table-2-state-broad-2023": (
         "soi-historic-table-2-state-broad-2022",
-        2703,
+        3111,
     ),
     "soi-historic-table-2-state-eitc-2023": (
         "soi-historic-table-2-state-eitc-2022",
@@ -125,6 +125,14 @@ DOCUMENTED_VARIABLE = {
     "ctc_amount": "A07225",
     "actc_claims": "N11070",
     "actc_amount": "A11070",
+    "taxable_state_local_income_tax_refunds_returns": "N00700",
+    "taxable_state_local_income_tax_refunds_amount": "A00700",
+    "taxes_paid_deduction_returns": "N18300",
+    "taxes_paid_deduction_amount": "A18300",
+    "mortgage_interest_paid_returns": "N19300",
+    "mortgage_interest_paid_amount": "A19300",
+    "charitable_returns": "N19700",
+    "charitable_amount": "A19700",
     "eitc_no_children_claims": "N59661",
     "eitc_no_children_amount": "A59661",
     "eitc_one_child_claims": "N59662",
@@ -133,13 +141,6 @@ DOCUMENTED_VARIABLE = {
     "eitc_two_children_amount": "A59663",
     "eitc_three_or_more_children_claims": "N59664",
     "eitc_three_or_more_children_amount": "A59664",
-}
-# TY2022's QBI measures read N03270/A03270, which both guides define as the
-# self-employment health insurance deduction; the QBI deduction is
-# N04475/A04475. The TY2023 packages read the documented variables.
-TY2022_QBI_CORRECTION = {
-    "qbi_claims": ("N03270", "N04475"),
-    "qbi_amount": ("A03270", "A04475"),
 }
 # The publisher rounds return counts to tens, so a sum of n count cells can
 # miss its published total by up to 5n.
@@ -228,7 +229,7 @@ def test_packages_emit_their_fact_counts_and_published_totals(built):
     assert by_id[f"{prefix}.eitc_claims"].value == 23_923_110
     assert by_id[f"{prefix}.eitc_amount"].value == 65_006_308_000
     # The qualified business income deduction (N04475/A04475), not the
-    # self-employment health insurance deduction TY2022 reads.
+    # self-employment health insurance deduction (N03270/A03270).
     assert by_id[f"{prefix}.qbi_claims"].value == 26_391_030
     assert by_id[f"{prefix}.qbi_amount"].value == 213_733_168_000
 
@@ -315,10 +316,6 @@ def test_packages_mirror_their_2022_twins(package_id):
             for measure in record_set["measures"]:
                 column = measure.pop("column")
                 variable = headers[year][column_index_from_string(column) - 1]
-                if year == 2022 and measure["measure_id"] in TY2022_QBI_CORRECTION:
-                    wrong, right = TY2022_QBI_CORRECTION[measure["measure_id"]]
-                    assert variable == wrong
-                    variable = right
                 measure["variable"] = variable
                 measure.pop("legal_vintage", None)
                 for key in (
