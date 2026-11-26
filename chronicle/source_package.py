@@ -1072,6 +1072,9 @@ SOURCE_PACKAGE_ALIASES = {
     "hhs-acf-liheap-fy2024-national-profile": Path(
         "hhs_acf_liheap/fy2024_national_profile"
     ),
+    "hhs-acf-liheap-fy2025-national-profile": Path(
+        "hhs_acf_liheap/fy2025_national_profile"
+    ),
     "jct-obbba-revenue-estimates-2025": Path("jct/obbba_revenue_estimates_2025"),
     "jct-tax-expenditures-2024": Path("jct/tax_expenditures_2024"),
     "slc-student-loan-borrower-forecasts-england-2025": Path(
@@ -1383,6 +1386,7 @@ SOURCE_PACKAGE_ALIASES = {
         "ons/uk_business_firm_sector_targets_2025"
     ),
     "usda-snap-fy69-to-current": Path("usda_snap/fy69_to_current"),
+    "usda-snap-fy69-to-current-fy2025": Path("usda_snap/fy69_to_current_fy2025"),
     "usda-snap-fy2025-monthly-state-caseloads": Path(
         "usda_snap/fy2025_monthly_state_caseloads"
     ),

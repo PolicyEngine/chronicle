@@ -9821,6 +9821,9 @@
       "wv": "West Virginia",
       "wy": "Wyoming"
     },
+    "usda_snap.summary_scope": {
+      "national_total": "US Summary total"
+    },
     "use_frequency_band": {
       "3 or more times a week (%)": "3 or more times a week",
       "Less than once a year or never (%)": "Less than once a year or never",

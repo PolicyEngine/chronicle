@@ -2628,6 +2628,14 @@ def test_jct_obbba_package_builds_no_tax_provision_projection_facts():
             ("E3", "E1", "A3", "B3", "D3", "F3"),
             "acf_liheap_fy2024_all_states_national_profile.pdf",
         ),
+        (
+            "hhs-acf-liheap-fy2025-national-profile",
+            2025,
+            372,
+            5_703_340,
+            ("E5", "E1", "A5", "B5", "D5", "F5"),
+            "acf_liheap_fy2025_all_states_national_profile.pdf",
+        ),
     ],
 )
 def test_hhs_acf_liheap_package_builds_household_count_fact(
@@ -4023,6 +4031,19 @@ def test_cms_medicaid_monthly_dataset_builds_december_2025_state_enrollment_fact
 
 def test_usda_snap_source_package_alias_validates_fixture_counts():
     report = validate_source_package("usda-snap-fy69-to-current", year=2023)
+
+    assert report.valid
+    assert report.counts == {
+        "record_set_count": 24,
+        "row_count": 162,
+        "measure_count": 32,
+        "source_record_count": 216,
+        "source_region_count": 24,
+    }
+
+
+def test_usda_snap_fy2025_source_package_alias_validates_counts():
+    report = validate_source_package("usda-snap-fy69-to-current-fy2025", year=2023)
 
     assert report.valid
     assert report.counts == {

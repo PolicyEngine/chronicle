@@ -1,0 +1,25 @@
+source: HHS ACF Office of Community Services
+dataset: LIHEAP FY2025 National Profile (All States)
+vintage: FY 2025
+retrieved: 2026-11-26
+notes: >-
+  Full publisher PDF downloaded from the HHS ACF LIHEAP Performance Management
+  site with chronicle fetch-artifact and parsed with the Ledger PDF
+  document-number parser. storage.r2 is a content-addressed locator; no upload
+  or archival completion is asserted.
+files:
+  2025:
+    filename: acf_liheap_fy2025_all_states_national_profile.pdf
+    sha256: 8843728772d541c4560d48565371fe9f4915f7142e6ce58fe2b3c7d836c2e762
+    source_url: https://liheappm.acf.gov/sites/default/files/private/congress/profiles/2025/FY%202025%20AllStates(National)%20Profile.pdf
+    source_table: LIHEAP FY2025 National Profile (All States)
+    size_bytes: 125216
+    fetched_at: '2026-11-26T14:03:06+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/hhs_acf_liheap/hhs-acf-liheap-fy2025-national-profile/2025/8843728772d541c4560d48565371fe9f4915f7142e6ce58fe2b3c7d836c2e762/acf_liheap_fy2025_all_states_national_profile.pdf
+        uri: r2://ledger-raw/raw/hhs_acf_liheap/hhs-acf-liheap-fy2025-national-profile/2025/8843728772d541c4560d48565371fe9f4915f7142e6ce58fe2b3c7d836c2e762/acf_liheap_fy2025_all_states_national_profile.pdf
+source_id: hhs_acf_liheap
+package_id: hhs-acf-liheap-fy2025-national-profile

@@ -40,9 +40,9 @@ them to model variables.
 | NIPA personal income, transfers, taxes, and pensions | BEA NIPA full-population aggregates | `bea-nipa-total-wages-salaries`, `bea-nipa-personal-income-components`, `bea-nipa-personal-income-disposition`, `bea-nipa-pension-contributions` |
 | SOI filer income, taxes, deductions, and credits | IRS SOI administrative totals | `soi-table-1-1`, `soi-table-1-2`, `soi-table-1-3`, `soi-table-1-4`, `soi-table-2-1`, `soi-table-2-5`, `soi-table-2-5-eitc-agi-children-2023`, `soi-table-4-3`, `soi-state-2022`, `soi-state-2023`, `soi-historic-table-2`, `soi-historic-table-2-2023`, `soi-historic-table-2-state-agi-2022`, `soi-historic-table-2-state-agi-2023`, `soi-historic-table-2-state-broad-2022`, `soi-historic-table-2-state-broad-2023`, `soi-historic-table-2-state-eitc-2022`, `soi-historic-table-2-state-eitc-2023`, `soi-w2-statistics-2020` |
 | Social Security and SSI | SSA administrative totals | `ssa-annual-statistical-supplement-2025`, `ssa-ssi-table-7b1-2024` |
-| SNAP | USDA FNS administrative totals | `usda-snap-fy69-to-current` |
+| SNAP | USDA FNS administrative totals | `usda-snap-fy69-to-current`, `usda-snap-fy69-to-current-fy2025` |
 | TANF | HHS ACF caseload and financial totals | `hhs-acf-tanf-caseload-2024`, `hhs-acf-tanf-financial-2024` |
-| LIHEAP | HHS ACF LIHEAP profiles | `hhs-acf-liheap-fy2023-national-profile`, `hhs-acf-liheap-fy2024-national-profile` |
+| LIHEAP | HHS ACF LIHEAP profiles | `hhs-acf-liheap-fy2023-national-profile`, `hhs-acf-liheap-fy2024-national-profile`, `hhs-acf-liheap-fy2025-national-profile` |
 | Health programs | CMS administrative enrollment and spending totals | `cms-medicaid-chip-monthly-enrollment-dataset`, `cms-medicaid-chip-monthly-enrollment-december-2024`, `cms-nhe-historical-service-source`, `cms-aca-oep-state-level`, `cms-aca-oep-state-level-2022`, `cms-aca-oep-state-level-2025`, `cms-aca-oep-state-level-2026`, `cms-aca-effectuated-enrollment-2022`, `cms-medicare-trustees-report-2025-part-b-premium-income`, `cms-medicare-trustees-report-2026-part-b-premium-income` |
 | State individual income taxes | Census state tax collections | `census-stc-individual-income-tax` |
 
