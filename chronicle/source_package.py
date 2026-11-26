@@ -1034,9 +1034,13 @@ SOURCE_PACKAGE_ALIASES = {
         "census/acs_s2201_district_2024"
     ),
     "census-b01001-female-age-2023": Path("census/b01001_female_15_44_2023"),
+    "census-b01001-female-age-2024": Path("census/b01001_female_15_44_2024"),
+    "census-b01001-female-age-2025": Path("census/b01001_female_15_44_2025"),
     "census-pep-county-population-2024": Path("census/pep_county_2024"),
     "census-pep-2024-national-age-sex": Path("census/pep_2024_national_age_sex"),
+    "census-pep-2025-national-age-sex": Path("census/pep_2025_national_age_sex"),
     "census-pep-2024-state-age-sex": Path("census/pep_2024_state_age_sex"),
+    "census-pep-2025-state-age-sex": Path("census/pep_2025_state_age_sex"),
     "census-pep-2025-state-age-bands": Path("census/pep_2025_state_age_bands"),
     "census-population-projections-2023": Path("census/population_projections_2023"),
     "census-stc-individual-income-tax": Path("census/stc_individual_income_tax"),

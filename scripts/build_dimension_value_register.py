@@ -90,6 +90,8 @@ BUILD_YEARS = {
     "census-acs5-b19025-county-2024": 2024,
     "census-acs5-b19051-county-2024": 2024,
     "census-acs5-b19061-county-2024": 2024,
+    "census-b01001-female-age-2024": 2024,
+    "census-b01001-female-age-2025": 2025,
     "cms-aca-effectuated-enrollment-2022": 2022,
     "cms-aca-oep-state-level": 2024,
     "cms-aca-oep-state-level-2022": 2022,
