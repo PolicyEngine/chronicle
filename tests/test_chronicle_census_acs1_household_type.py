@@ -1,4 +1,9 @@
-"""Publisher-backed ACS 2024 1-year household and family types, nation and states."""
+"""Publisher-backed ACS 2024 1-year household tables: nation, states and districts.
+
+B11001 (household type) and B11003 (family type) for the nation and the states,
+and B11001 and B19001 (household income) for the 119th Congress districts too
+(chronicle#447).
+"""
 
 from __future__ import annotations
 
@@ -46,8 +51,8 @@ from chronicle.yaml_io import safe_load as safe_load_yaml
 ROOT = Path(__file__).resolve().parents[1]
 PACKAGES = tuple(
     (table, geography)
-    for table in ("B11001", "B11003")
-    for geography in ("national", "state")
+    for table in generator.TABLES
+    for geography in generator.TABLE_GEOGRAPHIES[table]
 )
 SHA256 = {
     ("B11001", "national"): (
@@ -62,9 +67,27 @@ SHA256 = {
     ("B11003", "state"): (
         "8b73454674d25d07daac44f75e5478e1612ef31e9334a4bd5d2e84b9e421ed40"
     ),
+    ("B11001", "district"): (
+        "126295f7a684f4da67ae2381fd177861598b45376e85577917f0ae236d6a6d36"
+    ),
+    ("B19001", "national"): (
+        "a25ad30d2cc3000c83d30142320a187883e5c0d87dd9ebbabec16b6f2f79b358"
+    ),
+    ("B19001", "state"): (
+        "4a4a73c4f9f798678e0cb6a444850604ddb20aace82f5d5ac163635b68c58d8e"
+    ),
+    ("B19001", "district"): (
+        "eea9d2a6e8b77f979da35c137f8d10835d9779a559637ba087f3188579722ddc"
+    ),
 }
-CELL_COUNTS = {"B11001": 9, "B11003": 20}
-GEOGRAPHY_COUNTS = {"national": 1, "state": 52}
+CELL_COUNTS = {"B11001": 9, "B11003": 20, "B19001": 17}
+#: The district endpoint returns the 435 districts, DC's and Puerto Rico's.
+GEOGRAPHY_COUNTS = {"national": 1, "state": 52, "district": 437}
+GEOGRAPHY_LEVELS = {
+    "national": "country",
+    "state": "state",
+    "district": "congressional_district",
+}
 #: Published national estimates, read off data.census.gov's B11001 and B11003.
 NATIONAL_ESTIMATES = {
     "B11001_001E": 132_737_146,
@@ -73,6 +96,8 @@ NATIONAL_ESTIMATES = {
     "B11001_007E": 47_770_607,
     "B11003_001E": 84_966_539,
     "B11003_003E": 22_978_636,
+    # B19001's universe is households too, so its total is B11001's.
+    "B19001_001E": 132_737_146,
 }
 #: Each published total and the cells that partition it.
 PARTITIONS = {
@@ -87,13 +112,23 @@ PARTITIONS = {
         15: (16, 20),
         16: (17, 18, 19),
     },
+    "B19001": {1: tuple(range(2, 18))},
 }
 #: B11003 family types that B11001 also counts, as (B11003 cell, B11001 cell).
 CROSS_TABLE = ((1, 2), (2, 3), (8, 4), (9, 5), (15, 6))
 
 
 def _api_geography(geography: str) -> str:
-    return "us" if geography == "national" else "state"
+    """The geography part of the data file's name."""
+    return {"national": "us", "state": "state", "district": "district"}[geography]
+
+
+def _api_clause(geography: str) -> str:
+    return {
+        "national": "us:1",
+        "state": "state:*",
+        "district": "congressional%20district:*&in=state:*",
+    }[geography]
 
 
 def _data_directory(table: str, geography: str) -> Path:
@@ -166,10 +201,9 @@ def test_pinned_bytes_manifests_and_deterministic_generation(table, geography):
     assert artifact["sha256"] == SHA256[table, geography]
     assert len(content) == artifact["size_bytes"]
     url = artifact["source_url"]
-    geography_clause = "us:1" if geography == "national" else "state:*"
     assert url == (
         "https://api.census.gov/data/2024/acs/acs1"
-        f"?get=NAME,group({table})&for={geography_clause}"
+        f"?get=NAME,group({table})&for={_api_clause(geography)}"
     )
     assert "key" not in parse_qs(urlparse(url).query)
     key = artifact["storage"]["r2"]["key"]
@@ -285,9 +319,7 @@ def test_every_fact_is_the_exact_publisher_cell_with_its_categories(
         row = publisher[fact.geography.id]
         assert fact.value == int(row[variable]) >= 0
         assert fact.geography.name == row["NAME"]
-        assert fact.geography.level == (
-            "country" if bundle.geography == "national" else "state"
-        )
+        assert fact.geography.level == GEOGRAPHY_LEVELS[bundle.geography]
         assert len(fact.source_row_keys) == 1
         source_row = rows_by_key[fact.source_row_keys[0]]
         assert source_row.values["GEO_ID"] == fact.geography.id
@@ -318,6 +350,11 @@ def test_every_fact_is_the_exact_publisher_cell_with_its_categories(
         }
         assert ("statistic", "==", statistic) in constraints
         for dimension, value in categories[index].items():
+            if dimension == "income_range":
+                # Brackets are bounds on household income, as in the ACS
+                # 5-year county package, not an equality on the value id.
+                assert (dimension, "==", value) not in constraints
+                continue
             assert ((dimension, "==", value) in constraints) == (value != "all")
         assert fact.measure.concept.endswith("_margin_of_error") == is_moe
         if is_moe:
@@ -366,7 +403,7 @@ def test_b11003_family_types_are_b11001_family_households(geography):
             assert families[geo_id, family_cell] == households[geo_id, household_cell]
 
 
-@pytest.mark.parametrize("table", ("B11001", "B11003"))
+@pytest.mark.parametrize("table", ("B11001", "B11003", "B19001"))
 def test_national_estimates_equal_the_states_and_dc(table):
     national = _estimates(table, "national")
     states = _estimates(table, "state")
@@ -393,6 +430,8 @@ def test_both_tables_share_the_county_package_household_types():
     )
     county_labels = county["dimension_value_labels"]["household_type"]
     for table, geography in PACKAGES:
+        if table == "B19001":
+            continue
         payload = generator.build_package(table, geography, root=ROOT)
         labels = payload["dimension_value_labels"]["household_type"]
         for value, label in labels.items():
@@ -522,3 +561,116 @@ def test_generator_refuses_conflicting_duplicate_names(tmp_path):
     root = _mutated_root(tmp_path, "B11001", "state", mutate)
     with pytest.raises(ValueError, match="Conflicting duplicate"):
         generator.build_package("B11001", "state", root=root)
+
+
+@pytest.mark.parametrize("table", ("B11001", "B19001"))
+def test_district_estimates_add_up_to_their_state(table):
+    """The district rows of a state add up exactly to its state row.
+
+    ACS tabulates every geography from the same weighted records, so no
+    rounding gap appears: all 52 states (with DC and Puerto Rico, one
+    district each) and every cell agree exactly in the 2024 1-year files.
+    """
+    states = _estimates(table, "state")
+    sums: dict[tuple[str, int], int] = {}
+    for (geo_id, index), value in _estimates(table, "district").items():
+        key = (f"0400000US{geo_id.removeprefix('5001900US')[:2]}", index)
+        sums[key] = sums.get(key, 0) + value
+    assert sums == states
+
+
+def test_district_rows_are_the_s0101_district_package_rows():
+    s0101 = json.loads(
+        (
+            ROOT / "db/data/census/acs_s0101_district_2024/acs_S0101_district_2024.json"
+        ).read_text(encoding="utf-8")
+    )
+    geo_column = s0101[0].index("GEO_ID")
+    s0101_ids = {row[geo_column] for row in s0101[1:]}
+    assert len(s0101_ids) == generator.DISTRICT_ROW_COUNT
+    for table in ("B11001", "B19001"):
+        assert {row["GEO_ID"] for row in _publisher_rows(table, "district")} == (
+            s0101_ids
+        )
+
+
+@pytest.mark.parametrize("geography", ("national", "state", "district"))
+def test_b19001_households_are_b11001_households(geography):
+    income = {row["GEO_ID"]: row for row in _publisher_rows("B19001", geography)}
+    households = {row["GEO_ID"]: row for row in _publisher_rows("B11001", geography)}
+    assert income.keys() == households.keys()
+    for geo_id, row in income.items():
+        for suffix in "EM":
+            assert (
+                row[f"B19001_001{suffix}"] == households[geo_id][f"B11001_001{suffix}"]
+            )
+
+
+def test_b19001_brackets_are_the_county_package_brackets():
+    county = safe_load_yaml(
+        (
+            ROOT / "packages/census/acs5_b19001_county_2024/source_package.yaml"
+        ).read_text()
+    )
+    county_measures = {
+        measure["measure_id"]: measure
+        for record_set in county["record_sets"]
+        for measure in record_set["measures"]
+    }
+    for geography in generator.TABLE_GEOGRAPHIES["B19001"]:
+        payload = generator.build_package("B19001", geography, root=ROOT)
+        assert payload["income_brackets"] == county["income_brackets"]
+        assert (
+            payload["dimension_value_labels"]["income_range"]
+            == (county["dimension_value_labels"]["income_range"])
+        )
+        for measure in payload["record_sets"][0]["measures"]:
+            twin = county_measures[measure["measure_id"]]
+            for field in ("filters", "constraints", "source_column_dimensions"):
+                assert measure[field] == twin[field], (geography, measure["measure_id"])
+
+
+def _drop_district(payload, state, district):
+    state_column = payload[0].index("state")
+    district_column = payload[0].index("congressional district")
+    row = next(
+        row
+        for row in payload[1:]
+        if row[state_column] == state and row[district_column] == district
+    )
+    payload.remove(row)
+
+
+def test_generator_refuses_a_missing_district(tmp_path):
+    root = _mutated_root(
+        tmp_path,
+        "B19001",
+        "district",
+        lambda payload: _drop_district(payload, "06", "52"),
+    )
+    with pytest.raises(ValueError, match="437 congressional district rows"):
+        generator.build_package("B19001", "district", root=root)
+
+
+def test_generator_refuses_a_gap_in_a_states_district_codes(tmp_path):
+    # 437 rows with consistent GEO_IDs, but California's district 52 is now 53.
+    def mutate(payload):
+        state_column = payload[0].index("state")
+        district_column = payload[0].index("congressional district")
+        geo_column = payload[0].index("GEO_ID")
+        row = next(
+            row
+            for row in payload[1:]
+            if row[state_column] == "06" and row[district_column] == "52"
+        )
+        row[district_column] = "53"
+        row[geo_column] = "5001900US0653"
+
+    root = _mutated_root(tmp_path, "B11001", "district", mutate)
+    with pytest.raises(ValueError, match="Unexpected district codes for state 06"):
+        generator.build_package("B11001", "district", root=root)
+
+
+def test_generator_refuses_a_district_table_for_b11003():
+    with pytest.raises(ValueError, match="Unsupported ACS geography for B11003"):
+        generator.build_package("B11003", "district", root=ROOT)

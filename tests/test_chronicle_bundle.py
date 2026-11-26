@@ -613,7 +613,15 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # chronicle#442 adds 117: the young people and work interim report's Table 28
         # (88: PIP and UC health element caseloads and spending at 16 to 24, England
         # and Wales, 2019-20 to 2040-41) and the final report's Tables 2 (7) and 3 (22).
-        "fact_count": 2312590,
+        # chronicle#447 item 2.2 adds 7,200 TY2022 tax-unit facts: 15 columns of
+        # the congressional-district file whose state twin Historic Table 2's
+        # state package reads, at the file's 480 rows. Measured with the IRS SOI
+        # packages at bundle year 2023: no new geography, period or entity key,
+        # and no new warning. Item 2.1 adds 8,622 more: the return count and
+        # AGI of the file's nine AGI classes at its 479 state and district rows.
+        # Item 2.3 adds 14,400: 30 columns without a state twin at 480 rows,
+        # with no new duplicate key or warning.
+        "fact_count": 2342812,
         # The same change adds 82,064 geography keys: 46,363 Scottish 2022
         # output areas (UV404), 35,673 LSOA-level keys from the DESNZ LSOA
         # workbooks (Scotland's data zones already exist), the 26 Northern
@@ -682,7 +690,12 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # December 2024 is SSI Monthly Statistics Table 1's all-ages figure, and
         # Chronicle keeps both as published.
         # Historic Table 2's state lines 8a and 14 add 204 (see above).
-        "semantic_duplicate_key_count": 4135,
+        # chronicle#447 item 2.2 adds 776: the district file's state-total rows
+        # publish its 15 state-twin columns under the state package's concepts
+        # (51 x 15), and its US row 11 of them as Historic Table 2's US row does.
+        # Item 2.1 adds 918: the file's state rows publish the return count and
+        # AGI of Historic Table 2's nine TY2022 state AGI classes (51 x 9 x 2).
+        "semantic_duplicate_key_count": 5829,
         # chronicle#310's six FSA portfolio packages (FY2026 files) and the
         # ACS 2024 S1501 state package have no 2023 artifact, so the 2023
         # bundle skips them (10 -> 17); no fact or key count moves.
@@ -691,7 +704,11 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # The four ACS 2024 1-year household and family type packages
         # (B11001, B11003; national and state) have no 2023 artifact either
         # (24 -> 28).
-        "skipped_source_count": 28,
+        # chronicle#447's ACS 2024 1-year packages have no 2023 artifact
+        # either (28 -> 36): B11001 for congressional districts, B19001 for
+        # the nation, the states and the districts, and B19013 and S1701 for
+        # the states and the districts.
+        "skipped_source_count": 36,
         # chronicle#381 adds the Gambling Commission, and chronicle#420 item 13
         # Registers of Scotland.
         "source_count": 63,
@@ -772,7 +789,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         if row_count == 1:
             assert row["aggregate_fact_key"].startswith("ledger.aggregate_fact.v2:")
             assert row["semantic_fact_key"].startswith("ledger.semantic_fact.v2:")
-    assert row_count == 2312590
+    assert row_count == 2342812
     assert provenance_classes <= {
         "administrative",
         "census",
@@ -780,17 +797,25 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "survey_aggregate",
     }
     assert source_packages["source_package_count"] == 517
-    assert source_packages["skipped_source_count"] == 28
+    assert source_packages["skipped_source_count"] == 36
     assert sorted(item["source"] for item in source_packages["skipped_sources"]) == [
         "census-acs-s0101-congressional-district-age-2024",
         "census-acs-s0101-national-age-2024",
         "census-acs-s0101-state-age-2024",
         "census-acs-s1501-state-attainment-2024",
         "census-acs-s2201-congressional-district-snap-2024",
+        "census-acs1-b11001-district-2024",
         "census-acs1-b11001-national-2024",
         "census-acs1-b11001-state-2024",
         "census-acs1-b11003-national-2024",
         "census-acs1-b11003-state-2024",
+        "census-acs1-b19001-district-2024",
+        "census-acs1-b19001-national-2024",
+        "census-acs1-b19001-state-2024",
+        "census-acs1-b19013-district-2024",
+        "census-acs1-b19013-state-2024",
+        "census-acs1-s1701-district-2024",
+        "census-acs1-s1701-state-2024",
         "census-acs5-b01003-county-2024",
         "census-acs5-b11001-county-2024",
         "census-acs5-b19001-county-2024",
@@ -811,7 +836,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "jct-obbba-revenue-estimates-2025",
         "jct-tax-expenditures-2024",
     ]
-    assert coverage["fact_count"] == 2312590
+    assert coverage["fact_count"] == 2342812
     assert coverage["counts"]["by_source"] == {
         "bea": 446,
         "bfp_economic_outlook": 5,
@@ -838,7 +863,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "hmrc": 40025,
         "ici": 12,
         "ird": 4362,
-        "irs_soi": 44551,
+        "irs_soi": 74773,
         "isc": 4,
         "jrc_euromod_be": 90,
         "kff": 52,
@@ -1358,7 +1383,10 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         ]
         == 161
     )
-    assert table_counts["irs_soi:Congressional District Data 2022"] == 29760
+    # chronicle#447 item 2.2 adds 7,200: 15 state-twin columns at 480 rows;
+    # item 2.1 adds 8,622: two measures for nine AGI classes at 479 rows;
+    # item 2.3 adds 14,400: 30 columns without a state twin at 480 rows.
+    assert table_counts["irs_soi:Congressional District Data 2022"] == 59982
     assert table_counts["irs_soi:IRS SOI County Data 2022"] == 6286
     assert table_counts["census_pep:Vintage 2024 County Population Totals"] == 3144
     assert (
@@ -2272,6 +2300,14 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     # Historic Table 2's state Schedule 1 line 1 and Schedule A lines 7, 8a
     # and 14: eight measures at 51 states.
     expected_period_counts["tax_year:2022"] += 408
+    # chronicle#447 item 2.2: the congressional-district file's 15 state-twin
+    # columns at its 480 rows.
+    expected_period_counts["tax_year:2022"] += 7200
+    # chronicle#447 item 2.1: the return count and AGI of the file's nine AGI
+    # classes at its 479 state and district rows.
+    expected_period_counts["tax_year:2022"] += 8622
+    # chronicle#447 item 2.3: 30 columns without a state twin at 480 rows.
+    expected_period_counts["tax_year:2022"] += 14400
     # BEA NIPA Table 7.8 line 17 (B4923C): the bundle year's own column.
     expected_period_counts["calendar_year:2023"] += 1
     # chronicle#343: ONS constituency sales and medians for the years ending
@@ -2960,14 +2996,21 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     # SSA's Supplement Tables 7.B3 and 7.B7 add four (two national cells each).
     # IRS SOI Table 1.4's partnership and S corporation net income and loss legs add 160.
     # IRS SOI Table 1.3 adds 20 national facts.
-    assert coverage["counts"]["by_geography"]["country:0100000US"] == 2300
+    # The congressional-district file's 15 state-twin columns (chronicle#447
+    # item 2.2) and 30 columns without a twin (item 2.3) add 45 at its US row,
+    # and 45 at each state and district below.
+    assert coverage["counts"]["by_geography"]["country:0100000US"] == 2345
     # 255, less Vintage 2024's state total (chronicle#397), + 16 Census Vintage
     # 2025 age groups (15 groups and the total), + 6 from SSA's Supplement
     # Tables 7.B3 (four California cells) and 7.B7 (two), + 8 Historic Table 2
-    # state measures (Schedule 1 line 1 and Schedule A lines 7, 8a and 14).
-    assert coverage["counts"]["by_geography"]["state:0400000US06"] == 284
+    # state measures (Schedule 1 line 1 and Schedule A lines 7, 8a and 14),
+    # + 15 district-file state-twin columns (chronicle#447 item 2.2), + 18
+    # district-file AGI class facts (item 2.1: nine classes x two measures),
+    # + 30 district-file columns without a state twin (item 2.3).
+    assert coverage["counts"]["by_geography"]["state:0400000US06"] == 347
     assert (
-        coverage["counts"]["by_geography"]["congressional_district:5001700US0601"] == 62
+        coverage["counts"]["by_geography"]["congressional_district:5001700US0601"]
+        == 125
     )
     # chronicle#357 adds HBAI's FYE 2003-2025 rows (92) and FYE 2025 bounds (8)
     # and the EFO sheet 3.7 SDLT lines (35), and moves table 4.9's DWP lines (84)
@@ -3103,10 +3146,12 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "person": 734585,
         "return": 16087,
         "social_protection_scheme": 36,
-        "tax_unit": 45856,
+        # chronicle#447 adds 30,222 district-file tax units: 7,200 (item 2.2),
+        # 8,622 (item 2.1) and 14,400 (item 2.3).
+        "tax_unit": 76078,
     }
     assert not coverage["duplicates"]["aggregate_fact_keys"]
-    assert len(coverage["duplicates"]["semantic_fact_keys"]) == 4135
+    assert len(coverage["duplicates"]["semantic_fact_keys"]) == 5829
     assert Counter(warning["code"] for warning in summary["warnings"]) == {
         "conflicting_geography_name_across_packages": 91,
         "duplicate_semantic_fact_key": 1,

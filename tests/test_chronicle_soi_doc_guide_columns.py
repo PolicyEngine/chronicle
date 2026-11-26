@@ -319,6 +319,104 @@ GUIDE_DEFINITIONS: dict[str, tuple[str, ...]] = {
         "Number of returns with income tax after credits",
     ),
     "income_tax_liability_amount": ("1040:22", "Income tax after credits amount"),
+    # The first district-file columns without a state twin (chronicle#447
+    # item 2.3). Lines 12 and 17 keep Table 1.2's and Table 1.4's ids.
+    "standard_deduction_returns": (
+        "1040:12",
+        "Number of returns with total standard deduction",
+    ),
+    "standard_deduction_amount": ("1040:12", "Total standard deduction amount"),
+    "self_employment_tax_returns": (
+        "Schedule 2:4",
+        "Number of returns with self-employment tax",
+    ),
+    "self_employment_tax_amount": ("Schedule 2:4", "Self-employment tax amount"),
+    "net_investment_income_tax_returns": (
+        "8960:17",
+        "Number of returns with net investment income tax",
+    ),
+    "net_investment_income_tax_amount": ("8960:17", "Net investment income tax"),
+    "alternative_minimum_tax_returns": (
+        "Schedule 2:1",
+        "Number of returns with alternative minimum tax",
+    ),
+    "alternative_minimum_tax_amount": (
+        "Schedule 2:1",
+        "Alternative minimum tax amount",
+    ),
+    "advance_premium_tax_credit_returns": (
+        "8962:25",
+        "Number of returns with advance premium tax credit",
+    ),
+    "advance_premium_tax_credit_amount": (
+        "8962:25",
+        "Advance premium tax credit amount",
+    ),
+    "net_premium_tax_credit_returns": (
+        "Schedule 3:9",
+        "Number of returns with net premium tax credit",
+    ),
+    "net_premium_tax_credit_amount": ("Schedule 3:9", "Net premium tax credit amount"),
+    "child_dependent_care_credit_returns": (
+        "Schedule 3:2",
+        "Number of returns with child and dependent care credit",
+    ),
+    "child_dependent_care_credit_amount": (
+        "Schedule 3:2",
+        "Child and dependent care credit amount",
+    ),
+    "nonrefundable_education_credit_returns": (
+        "Schedule 3:3",
+        "Number of returns with nonrefundable education credit",
+    ),
+    "nonrefundable_education_credit_amount": (
+        "Schedule 3:3",
+        "Nonrefundable education credit amount",
+    ),
+    "refundable_education_credit_returns": (
+        "1040:29",
+        "Number of returns with refundable education credit",
+    ),
+    "refundable_education_credit_amount": (
+        "1040:29",
+        "Refundable education credit amount",
+    ),
+    "retirement_savings_contribution_credit_returns": (
+        "Schedule 3:4",
+        "Number of returns with retirement savings contribution credit",
+    ),
+    "retirement_savings_contribution_credit_amount": (
+        "Schedule 3:4",
+        "Retirement savings contribution credit amount",
+    ),
+    "self_employed_health_insurance_ald_returns": (
+        "Schedule 1:17",
+        "Number of returns with self-employment health insurance deduction",
+    ),
+    "self_employed_health_insurance_ald": (
+        "Schedule 1:17",
+        "Self-employment health insurance deduction amount",
+    ),
+    "self_employed_retirement_plans_returns": (
+        "Schedule 1:16",
+        "Number of returns with self-employment retirement plans",
+    ),
+    "self_employed_retirement_plans_amount": (
+        "Schedule 1:16",
+        "Self-employment retirement plans amount",
+    ),
+    "ira_deduction_returns": ("Schedule 1:20", "Number of returns with IRA payments"),
+    "ira_deduction_amount": ("Schedule 1:20", "IRA payments amount"),
+    "student_loan_interest_deduction_returns": (
+        "Schedule 1:21",
+        "Number of returns with student loan interest deduction",
+    ),
+    "student_loan_interest_deduction_amount": (
+        "Schedule 1:21",
+        "Student loan interest deduction amount",
+    ),
+    "total_tax_liability_returns": ("1040:24", "Number of returns with tax liability"),
+    "total_tax_liability_amount": ("1040:24", "Total tax liability amount"),
 }
 
 # Measure ids that mean a line no geographic file publishes. No package that
@@ -861,6 +959,47 @@ def test_line_7_and_refund_columns_keep_one_identity():
         assert "historic_table_2_state_broad_2022" in seen[header], header
 
 
+# Congressional-district columns whose state twin Historic Table 2's state
+# package already reads (chronicle#447 item 2.2). The district file publishes
+# state rows too, but a district row also nests under the Historic Table 2
+# state row only if both carry one measure id, concept and label.
+DISTRICT_STATE_TWIN_COLUMNS = (
+    "N00200",
+    "A00200",
+    "N02650",
+    "A02650",
+    "N04800",
+    "A04800",
+    "N07225",
+    "A07225",
+    "N18500",
+    "A18500",
+    "N18300",
+    "A18300",
+    "N00700",
+    "A00700",
+    "N04470",
+)
+
+
+def test_district_state_twin_columns_share_the_state_identity():
+    identities: dict[tuple[str, str], set[tuple[str, str, str]]] = defaultdict(set)
+    for read in _column_reads():
+        if read.package_dir in {
+            "congressional_district_2022",
+            "historic_table_2_state_broad_2022",
+        }:
+            identities[(read.package_dir, read.header)].add(
+                (read.measure_id, read.concept, read.label)
+            )
+
+    for column in DISTRICT_STATE_TWIN_COLUMNS:
+        district = identities[("congressional_district_2022", column)]
+        state = identities[("historic_table_2_state_broad_2022", column)]
+        assert len(district) == 1, (column, district)
+        assert district == state, (column, district, state)
+
+
 @cache
 def _facts(package_id: str, year: int) -> dict[str, Any]:
     package = load_source_package(package_id)
@@ -911,8 +1050,21 @@ def test_congressional_district_us_row_is_a_subset_of_historic_table_2():
         "premium_tax_credit_amount",
         "qbi_claims",
         "qbi_amount",
+        # State-twin columns (chronicle#447 item 2.2) that Historic Table 2's
+        # US row also publishes.
+        "wages_salaries_returns",
+        "wages_salaries_amount",
+        "total_income_returns",
+        "total_income_amount",
+        "taxable_income_returns",
+        "taxable_income_amount",
+        "ctc_claims",
+        "ctc_amount",
+        "real_estate_taxes_claims",
+        "real_estate_taxes_amount",
+        "itemized_deductions_returns",
     } <= set(pairs)
-    assert len(pairs) == 44
+    assert len(pairs) == 55
     assert {
         measure_id: round(cd / ht2_value, 4)
         for measure_id, (cd, ht2_value) in pairs.items()

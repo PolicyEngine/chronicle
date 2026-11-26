@@ -1,0 +1,29 @@
+source_id: census_acs
+package_id: census-acs1-b19013-state-2024
+dataset: census_acs1_b19013_state_2024
+source_page: https://api.census.gov/data/2024/acs/acs1.html
+vintage: 2024 ACS 1-year detailed tables
+reference_period: '2024'
+table: B19013 Median Household Income in the Past 12 Months (in 2024 Inflation-Adjusted
+  Dollars)
+notes: Publisher bytes copied unchanged from the 2026-11-25 fetch. The response holds
+  52 rows, for the 50 states, DC and Puerto Rico (state 72). The API redirects requests
+  without a key to its missing-key page, so the fetch added a key parameter, which
+  source_url omits. The bytes were uploaded to storage.r2 on 2026-11-25 with chronicle
+  publish-raw and checked there with chronicle verify-raw.
+files:
+  2024:
+    filename: acs1_2024_B19013_state.json
+    source_url: https://api.census.gov/data/2024/acs/acs1?get=NAME,group(B19013)&for=state:*
+    sha256: 8e285c2cc594cd16e5a64dca4f49e3dc2a21f43ed33e8fd66abf1956c1a87384
+    size_bytes: 3735
+    fetched_at: '2026-11-25'
+    source_table: ACS 2024 1-year detailed table B19013 state estimates and margins
+      of error
+    year: 2024
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/census_acs/census-acs1-b19013-state-2024/2024/8e285c2cc594cd16e5a64dca4f49e3dc2a21f43ed33e8fd66abf1956c1a87384/acs1_2024_B19013_state.json
+        uri: r2://ledger-raw/raw/census_acs/census-acs1-b19013-state-2024/2024/8e285c2cc594cd16e5a64dca4f49e3dc2a21f43ed33e8fd66abf1956c1a87384/acs1_2024_B19013_state.json

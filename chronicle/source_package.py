@@ -1012,8 +1012,23 @@ SOURCE_PACKAGE_ALIASES = {
         f"census-acs1-{table}-{geography}-2024": Path(
             f"census/acs1_{table}_{geography}_2024"
         )
-        for table in ("b11001", "b11003")
-        for geography in ("national", "state")
+        for table, geography in (
+            ("b11001", "national"),
+            ("b11001", "state"),
+            ("b11001", "district"),
+            ("b11003", "national"),
+            ("b11003", "state"),
+            ("b19001", "national"),
+            ("b19001", "state"),
+            ("b19001", "district"),
+        )
+    },
+    **{
+        f"census-acs1-{table}-{geography}-2024": Path(
+            f"census/acs1_{table}_{geography}_2024"
+        )
+        for table in ("b19013", "s1701")
+        for geography in ("state", "district")
     },
     "census-acs-s2201-congressional-district-snap-2024": Path(
         "census/acs_s2201_district_2024"
