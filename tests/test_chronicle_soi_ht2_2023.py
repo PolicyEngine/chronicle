@@ -368,9 +368,10 @@ def test_national_agi_bands_add_up_to_the_all_returns_row(built):
 
 
 def test_state_totals_add_up_to_the_national_total(built):
-    """Invariant: for every measure the state broad and state EITC packages
-    share with the national package, the 50 states and DC plus the file's two
-    non-state rows (OA, PR) sum to the national all-returns fact."""
+    """Invariant: for every measure of the state broad and state EITC
+    packages, the 50 states and DC plus the file's two non-state rows (OA, PR)
+    sum to the national all-returns fact, or, for a measure the national
+    package does not carry, to the file's US row."""
     publisher = _publisher_rows()
     national = {
         fact.layout.source_column_id: fact
@@ -380,20 +381,26 @@ def test_state_totals_add_up_to_the_national_total(built):
     for package_id in (BROAD, EITC):
         sums: dict[str, int] = {}
         states: dict[str, set[str]] = {}
+        units: dict[str, str] = {}
         for fact in built[package_id]:
             variable = fact.layout.source_column_id
             sums[variable] = sums.get(variable, 0) + fact.value
             states.setdefault(variable, set()).add(_state(fact))
-        shared = set(sums) & set(national)
-        assert shared, package_id
-        for variable in shared:
+            units[variable] = fact.measure.unit
+        assert set(sums) & set(national), package_id
+        for variable, state_sum in sums.items():
             assert len(states[variable]) == 51
-            total = national[variable]
-            scale = _scale(total)
+            unit = units[variable]
+            scale = 1000 if unit == "usd" else 1
             other = sum(publisher[(row, 0)][variable] * scale for row in ("OA", "PR"))
-            assert _gap_ok(
-                sums[variable] + other, total.value, 54, total.measure.unit
-            ), (package_id, variable)
+            if variable in national:
+                published = national[variable].value
+            else:
+                published = publisher[("US", 0)][variable] * scale
+            assert _gap_ok(state_sum + other, published, 54, unit), (
+                package_id,
+                variable,
+            )
 
 
 def test_eitc_child_counts_add_up_to_each_states_eitc_total(built):

@@ -702,7 +702,8 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # AGI of Historic Table 2's nine TY2022 state AGI classes (51 x 9 x 2).
         # chronicle#295 adds 90: the TY2023 national package's US rows share
         # semantic keys with Publication 1304's TY2023 Tables 1.4 (70), 1.1
-        # (18) and 1.2 (2), which publish the same totals.
+        # (18) and 1.2 (2). Those tables publish totals for the same concepts
+        # with different values, and Chronicle keeps both.
         "semantic_duplicate_key_count": 5919,
         # chronicle#310's six FSA portfolio packages (FY2026 files) and the
         # ACS 2024 S1501 state package have no 2023 artifact, so the 2023
