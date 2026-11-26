@@ -5,8 +5,7 @@ source_page: https://apps.bea.gov/regional/downloadzip.htm
 table: Annual Personal Income by State
 notes: 'Publisher bytes copied unchanged from the 2026-11-26 fetch. The server dated
   the file 30 Sep 2026 12:51:42 GMT (Last-Modified), and the footer of SAINC5N__ALL_AREAS_1998_2025.csv
-  reads "Last updated: September 30, 2026-- revised statistics for 2009-2025." storage.r2
-  is a content-addressed locator; no upload or archival completion is asserted.'
+  reads "Last updated: September 30, 2026-- revised statistics for 2009-2025." The bytes were uploaded to storage.r2 on 2026-11-26 with chronicle publish-raw and checked there with chronicle verify-raw.'
 files:
   2024:
     filename: SAINC.zip
