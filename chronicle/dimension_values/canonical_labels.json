@@ -8067,6 +8067,9 @@
     "irs_soi.ira_contribution_size": {
       "all_taxpayers": "All taxpayers"
     },
+    "irs_soi.state_table_measure": {
+      "all_returns": "All returns"
+    },
     "isc.census_line": {
       "pupils_at_isc_schools": "Pupils at ISC member schools"
     },
@@ -9638,6 +9641,9 @@
     },
     "unit": {
       "MIO_EUR": "MIO_EUR"
+    },
+    "us.tax.earned_income_credit_qualifying_children": {
+      "three_or_more_qualifying_children": "Three or more qualifying children"
     },
     "us:statutes/26/62#adjusted_gross_income": {
       "100k_to_200k": "$100,000 under $200,000",
