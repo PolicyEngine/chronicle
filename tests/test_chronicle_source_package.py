@@ -1670,6 +1670,27 @@ def test_bea_regional_state_personal_income_components_validate_counts():
     }
 
 
+@pytest.mark.parametrize("year", [2023, 2024])
+def test_bea_regional_state_personal_income_components_2026_09_30_validate_counts(
+    year,
+):
+    # The next edition of bea-regional-state-personal-income-components-2024
+    # (chronicle#449): the same declarations over the 2026-09-30 SAINC.zip.
+    report = validate_source_package(
+        "bea-regional-state-personal-income-components-2026-09-30",
+        year=year,
+    )
+
+    assert report.valid
+    assert report.counts == {
+        "measure_count": 8,
+        "record_set_count": 8,
+        "row_count": 416,
+        "source_record_count": 416,
+        "source_region_count": 8,
+    }
+
+
 def test_cbo_income_by_source_package_preserves_cbo_projection_concepts():
     package = load_source_package("cbo-revenue-projections-income-by-source-2026-02")
     rows = package.build_source_rows(2024)

@@ -386,6 +386,9 @@ SOURCE_PACKAGE_ALIASES = {
     "bea-regional-state-personal-income-components-2024": Path(
         "bea/regional_personal_income_state"
     ),
+    "bea-regional-state-personal-income-components-2026-09-30": Path(
+        "bea/regional_personal_income_state_2026_09_30"
+    ),
     "hmrc-spi-income-bands-2023-24": Path("hmrc/spi_income_bands_2023_24"),
     "hmrc-spi-income-by-region-2023-24": Path("hmrc/spi_income_by_region_2023_24"),
     "hmrc-income-tax-liabilities-july-2026": Path(
