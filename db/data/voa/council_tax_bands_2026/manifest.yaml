@@ -1,0 +1,27 @@
+source_id: voa
+package_id: voa-council-tax-bands-2026
+dataset: voa_voa-council-tax-bands-2026
+source_page: https://www.gov.uk/government/statistics/council-tax-stock-of-properties-2026
+table: 'Council Tax: stock of properties 2026, summary tables CTSOP1.0 to CTSOP4.0'
+license: Open Government Licence v3.0
+license_url: https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/
+attribution: 'Source: HM Revenue & Customs (Valuation Office), Council Tax: stock
+  of properties 2026 (published 24 September 2026). Contains public sector information
+  licensed under the Open Government Licence v3.0.'
+license_evidence: 'GOV.UK statistics page, published by HM Revenue & Customs: ''All
+  content is available under the Open Government Licence v3.0, except where otherwise
+  stated.'' The workbook and the zips'' table notes state no other licence.'
+license_verified_at: '2026-11-04'
+files:
+  2026:
+    filename: 2026_CT_SoP_Summary_Tables.ods
+    source_url: https://assets.publishing.service.gov.uk/media/6aa926a2086ce7c57b818495/2026_CT_SoP_Summary_Tables.ods
+    sha256: 9e9be6944fb8c23a8cdb9491527ebf545072b8f38e8575308d84e595246029d9
+    size_bytes: 1391108
+    fetched_at: '2026-11-04T13:06:34+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/voa/voa-council-tax-bands-2026/2026/9e9be6944fb8c23a8cdb9491527ebf545072b8f38e8575308d84e595246029d9/2026_CT_SoP_Summary_Tables.ods
+        uri: r2://ledger-raw/raw/uk/voa/voa-council-tax-bands-2026/2026/9e9be6944fb8c23a8cdb9491527ebf545072b8f38e8575308d84e595246029d9/2026_CT_SoP_Summary_Tables.ods

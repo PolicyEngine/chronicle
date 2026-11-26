@@ -1,0 +1,18 @@
+source_id: dwp
+package_id: dwp-winter-fuel-payment-statistics-winter-2024-25
+dataset: dwp_dwp-winter-fuel-payment-statistics-winter-2024-25
+source_page: https://www.gov.uk/government/statistics/winter-fuel-payment-statistics-for-winter-2024-to-2025
+table: Winter Fuel Payment statistics for winter 2024 to 2025
+files:
+  2026:
+    filename: winter-fuel-payment-england-and-wales-winter-2024-to-2025.ods
+    source_url: https://assets.publishing.service.gov.uk/media/68c42545d65a1a2a5172aa7b/winter-fuel-payment-england-and-wales-winter-2024-to-2025.ods
+    sha256: edd22f8e76616c4883390faf77d9bb42c5d6aca384ec3ec01d0ea47a6993be8b
+    size_bytes: 173149
+    fetched_at: '2026-09-29T11:54:23+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/dwp/dwp-winter-fuel-payment-statistics-winter-2024-25/2026/edd22f8e76616c4883390faf77d9bb42c5d6aca384ec3ec01d0ea47a6993be8b/winter-fuel-payment-england-and-wales-winter-2024-to-2025.ods
+        uri: r2://ledger-raw/raw/uk/dwp/dwp-winter-fuel-payment-statistics-winter-2024-25/2026/edd22f8e76616c4883390faf77d9bb42c5d6aca384ec3ec01d0ea47a6993be8b/winter-fuel-payment-england-and-wales-winter-2024-to-2025.ods

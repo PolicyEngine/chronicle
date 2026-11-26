@@ -42,10 +42,11 @@
 # Table 3.6 splits; it keeps its own concept rather than being mapped onto
 # either half.
 #
-# Not ported from this workbook here: Tables 3.1, 3.1a, 3.2, 3.9 and 3.10
-# (percentile points, medians and means by age and sex, and self-employment
-# by industry and by range of self-employment income). No consumer declares
-# them, and 3.10 bands on self-employment income rather than total income.
+# Not ported from this workbook: Tables 3.1, 3.1a, 3.2 and 3.9 (percentile
+# points, medians and means by age and sex, and self-employment by industry).
+# No consumer declares them. Table 3.10, which bands individuals with a
+# self-employment source by self-employment income rather than total income,
+# is in hmrc-spi-income-bands-2023-24.
 schema_version: ledger.source_package.v1
 package_id: hmrc-spi-income-by-region-2023-24
 label: 'HMRC Survey of Personal Incomes 2023-24: income and tax by sex, region and country

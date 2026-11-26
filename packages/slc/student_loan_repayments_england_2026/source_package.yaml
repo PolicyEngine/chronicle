@@ -1,0 +1,215 @@
+schema_version: ledger.source_package.v1
+package_id: slc-student-loan-repayments-england-2026
+label: 'SLC student loans in England FY2025-26: net repayments by plan, corrected 2 July 2026'
+dimension_labels:
+  slc.repayment_plan: Repayment plan
+artifact:
+  source_name: slc
+  source_table: Student loans in England, financial year 2025-26 (corrected 2 July 2026), Table 1A
+  resource_package: db
+  resource_directory: data/slc/student_loan_repayments_england_2026
+  manifest: manifest.yaml
+  vintage: slcsp01_2026_corrected_2026_07_02
+  extracted_at: '2026-10-07'
+  extraction_method: xlsx whole-workbook used-range cell parse
+  parser: xlsx_used_range
+  artifact_year: 2026
+  sheets:
+  - Table 1A
+  - Footnotes
+record_sets:
+- record_set_id: slc.repayments_2026.table_1a.fy2025
+  provenance_class: administrative
+  record_set_spec_id: slc.repayments_2026.table_1a.fy2025.v1
+  source_record_id_prefix: slc.repayments_2026.table_1a.fy2025
+  sheet_name: Table 1A
+  period_type: fiscal_year
+  period: 2025
+  geography_id: E92000001
+  geography_level: country
+  geography_name: England
+  geography_vintage: current
+  entity: person
+  entity_role: student_loan_borrower
+  domain: student_loans
+  groupby_dimension: slc.repayment_plan
+  rows:
+  - value_id: net_repayments
+    label: Net repayments posted during the financial year
+    ordinal: 0
+    row_number: 27
+    expected_row_header_column: B
+    expected_row_header: Net repayments posted during the financial year [1][3]
+    table_record_kind: total
+    guard_cells:
+    - column: BK
+      row: 5
+      expected_value: 2025-26
+      label: Financial-year block
+    - column: B
+      row: 26
+      expected_value: REPAYMENTS
+      label: Repayments section
+  measures:
+  - measure_id: plan_1
+    label: Net repayments FY2025-26, Plan 1
+    ordinal: 0
+    column: BK
+    source_column_id: plan_1
+    expected_column_header_row: 6
+    expected_column_header: Plan 1
+    concept: slc.student_loan_net_repayments_plan_1
+    source_concept: slc.student_loan_net_repayments_plan_1
+    concept_relation: source_label
+    concept_authority: slc
+    concept_evidence_url: https://www.gov.uk/government/statistics/student-loans-in-england-2025-to-2026
+    concept_evidence_notes: Corrected 2 July 2026 edition, Table 1A, net repayments posted during FY2025-26,
+      Plan 1; GBP million, effective 31 March 2026. No plan columns are summed in Chronicle.
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+  - measure_id: plan_2_full_time
+    label: Net repayments FY2025-26, Plan 2 Full-time
+    ordinal: 1
+    column: BL
+    source_column_id: plan_2_full_time
+    expected_column_header_row: 6
+    expected_column_header: Plan 2 Full-time
+    concept: slc.student_loan_net_repayments_plan_2_full_time
+    source_concept: slc.student_loan_net_repayments_plan_2_full_time
+    concept_relation: source_label
+    concept_authority: slc
+    concept_evidence_url: https://www.gov.uk/government/statistics/student-loans-in-england-2025-to-2026
+    concept_evidence_notes: Corrected 2 July 2026 edition, Table 1A, net repayments posted during FY2025-26,
+      Plan 2 Full-time; GBP million, effective 31 March 2026. No plan columns are summed in Chronicle.
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+  - measure_id: plan_2_part_time
+    label: Net repayments FY2025-26, Plan 2 Part-time
+    ordinal: 2
+    column: BM
+    source_column_id: plan_2_part_time
+    expected_column_header_row: 6
+    expected_column_header: Plan 2 Part-time
+    concept: slc.student_loan_net_repayments_plan_2_part_time
+    source_concept: slc.student_loan_net_repayments_plan_2_part_time
+    concept_relation: source_label
+    concept_authority: slc
+    concept_evidence_url: https://www.gov.uk/government/statistics/student-loans-in-england-2025-to-2026
+    concept_evidence_notes: Corrected 2 July 2026 edition, Table 1A, net repayments posted during FY2025-26,
+      Plan 2 Part-time; GBP million, effective 31 March 2026. No plan columns are summed in Chronicle.
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+  - measure_id: plan_3_postgraduate_masters
+    label: Net repayments FY2025-26, Plan 3 Postgraduate Masters
+    ordinal: 3
+    column: BN
+    source_column_id: plan_3_postgraduate_masters
+    expected_column_header_row: 6
+    expected_column_header: Plan 3 Postgraduate Masters
+    concept: slc.student_loan_net_repayments_plan_3_postgraduate_masters
+    source_concept: slc.student_loan_net_repayments_plan_3_postgraduate_masters
+    concept_relation: source_label
+    concept_authority: slc
+    concept_evidence_url: https://www.gov.uk/government/statistics/student-loans-in-england-2025-to-2026
+    concept_evidence_notes: Corrected 2 July 2026 edition, Table 1A, net repayments posted during FY2025-26,
+      Plan 3 Postgraduate Masters; GBP million, effective 31 March 2026. No plan columns are summed in
+      Chronicle.
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+  - measure_id: plan_3_postgraduate_doctoral
+    label: Net repayments FY2025-26, Plan 3 Postgraduate Doctoral
+    ordinal: 4
+    column: BO
+    source_column_id: plan_3_postgraduate_doctoral
+    expected_column_header_row: 6
+    expected_column_header: Plan 3 Postgraduate Doctoral
+    concept: slc.student_loan_net_repayments_plan_3_postgraduate_doctoral
+    source_concept: slc.student_loan_net_repayments_plan_3_postgraduate_doctoral
+    concept_relation: source_label
+    concept_authority: slc
+    concept_evidence_url: https://www.gov.uk/government/statistics/student-loans-in-england-2025-to-2026
+    concept_evidence_notes: Corrected 2 July 2026 edition, Table 1A, net repayments posted during FY2025-26,
+      Plan 3 Postgraduate Doctoral; GBP million, effective 31 March 2026. No plan columns are summed in
+      Chronicle.
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+  - measure_id: plan_5_full_time
+    label: Net repayments FY2025-26, Plan 5 Full-time
+    ordinal: 5
+    column: BP
+    source_column_id: plan_5_full_time
+    expected_column_header_row: 6
+    expected_column_header: 'Plan 5 Full-time
+
+      [29]'
+    concept: slc.student_loan_net_repayments_plan_5_full_time
+    source_concept: slc.student_loan_net_repayments_plan_5_full_time
+    concept_relation: source_label
+    concept_authority: slc
+    concept_evidence_url: https://www.gov.uk/government/statistics/student-loans-in-england-2025-to-2026
+    concept_evidence_notes: 'Corrected 2 July 2026 edition, Table 1A, net repayments posted during FY2025-26,
+      Plan 5 Full-time
+
+      [29]; GBP million, effective 31 March 2026. No plan columns are summed in Chronicle.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+  - measure_id: plan_5_part_time
+    label: Net repayments FY2025-26, Plan 5 Part-time
+    ordinal: 6
+    column: BQ
+    source_column_id: plan_5_part_time
+    expected_column_header_row: 6
+    expected_column_header: 'Plan 5 Part-time
+
+      [29]'
+    concept: slc.student_loan_net_repayments_plan_5_part_time
+    source_concept: slc.student_loan_net_repayments_plan_5_part_time
+    concept_relation: source_label
+    concept_authority: slc
+    concept_evidence_url: https://www.gov.uk/government/statistics/student-loans-in-england-2025-to-2026
+    concept_evidence_notes: 'Corrected 2 July 2026 edition, Table 1A, net repayments posted during FY2025-26,
+      Plan 5 Part-time
+
+      [29]; GBP million, effective 31 March 2026. No plan columns are summed in Chronicle.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+  - measure_id: total_higher_education
+    label: Net repayments FY2025-26, Total Higher Education
+    ordinal: 7
+    column: BR
+    source_column_id: total_higher_education
+    expected_column_header_row: 6
+    expected_column_header: Total Higher Education
+    concept: slc.student_loan_net_repayments_total_higher_education
+    source_concept: slc.student_loan_net_repayments_total_higher_education
+    concept_relation: source_label
+    concept_authority: slc
+    concept_evidence_url: https://www.gov.uk/government/statistics/student-loans-in-england-2025-to-2026
+    concept_evidence_notes: Corrected 2 July 2026 edition, Table 1A, net repayments posted during FY2025-26,
+      Total Higher Education; GBP million, effective 31 March 2026. No plan columns are summed in Chronicle.
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+  period_coverage:
+    start_date: '2025-04-01'
+    end_date: '2026-03-31'
+    basis: fiscal
+    source_period_label: 2025-26
+    notes: Net repayments posted during the financial year, effective 31 March 2026. Posting-year basis,
+      not income-earned tax-year repayments. England-domiciled borrowers studying in the UK and EU-domiciled
+      borrowers studying in England.

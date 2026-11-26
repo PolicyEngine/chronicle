@@ -1,0 +1,19 @@
+source_id: ons
+package_id: ons-public-sector-employment-june-2026
+dataset: ons_ons-public-sector-employment-june-2026
+source_page: https://www.ons.gov.uk/employmentandlabourmarket/peopleinwork/publicsectorpersonnel/datasets/publicsectoremploymentreferencetable
+table: public_sector_employment_june_2026
+files:
+  2026:
+    filename: datasets3.xlsx
+    source_url: https://www.ons.gov.uk/file?uri=/employmentandlabourmarket/peopleinwork/publicsectorpersonnel/datasets/publicsectoremploymentreferencetable/june2026/datasets3.xlsx
+    sha256: 99c92dd12ca0dcd6641e5d18a4ce8c97c8135b2f16a9aa7b7f547caf2f827c5e
+    size_bytes: 228246
+    fetched_at: '2026-10-07T16:07:14+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/ons/ons-public-sector-employment-june-2026/2026/99c92dd12ca0dcd6641e5d18a4ce8c97c8135b2f16a9aa7b7f547caf2f827c5e/datasets3.xlsx
+        uri: r2://ledger-raw/raw/uk/ons/ons-public-sector-employment-june-2026/2026/99c92dd12ca0dcd6641e5d18a4ce8c97c8135b2f16a9aa7b7f547caf2f827c5e/datasets3.xlsx
+registration_kind: source_facts

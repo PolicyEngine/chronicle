@@ -689,6 +689,14 @@ def _consumer_fact_row(
             dimension_id: dict(value_labels)
             for dimension_id, value_labels in fact.dimension_value_labels.items()
         },
+        # The package's own wording where Chronicle's register relabels a value
+        # (chronicle#376); display metadata, like the labels, never in a key.
+        "package_dimension_value_labels": {
+            dimension_id: dict(value_labels)
+            for dimension_id, value_labels in (
+                fact.package_dimension_value_labels.items()
+            )
+        },
         "universe_constraints": _universe_constraint_set_payload(fact),
         "source": _clean(fact_to_mapping(fact)["source"]),
         "lineage": {

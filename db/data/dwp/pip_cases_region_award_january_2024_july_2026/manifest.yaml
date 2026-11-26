@@ -1,0 +1,28 @@
+source_id: dwp
+package_id: dwp-pip-cases-region-award-january-2024-july-2026
+dataset: dwp_dwp-pip-cases-region-award-january-2024-july-2026
+source_page: https://stat-xplore.dwp.gov.uk/
+table: PIP cases with entitlement by English region, daily living award and mobility
+  award, January 2024 to July 2026
+license: Open Government Licence v3.0
+license_url: https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/
+attribution: 'Source: Department for Work and Pensions, Stat-Xplore, PIP Cases with
+  Entitlement from 2019 (extracted 6 November 2026). Contains public sector information
+  licensed under the Open Government Licence v3.0.'
+license_evidence: 'Stat-Xplore''s terms (https://stat-xplore.dwp.gov.uk/webapi/public/terms.html):
+  ''Information within Stat-Xplore is made available under the Open Government Licence''.'
+license_verified_at: '2026-11-06'
+files:
+  2026:
+    filename: pip_cases_region_award_january_2024_july_2026.json
+    source_url: https://stat-xplore.dwp.gov.uk/webapi/rest/v1/table
+    sha256: 4fd09fa2c36480019c13d73eafb77425bc9ec33938fae37e35172395a2f5ed72
+    size_bytes: 28596
+    fetched_at: '2026-11-06T12:35:57+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/dwp/dwp-pip-cases-region-award-january-2024-july-2026/2026/4fd09fa2c36480019c13d73eafb77425bc9ec33938fae37e35172395a2f5ed72/pip_cases_region_award_january_2024_july_2026.json
+        uri: r2://ledger-raw/raw/uk/dwp/dwp-pip-cases-region-award-january-2024-july-2026/2026/4fd09fa2c36480019c13d73eafb77425bc9ec33938fae37e35172395a2f5ed72/pip_cases_region_award_january_2024_july_2026.json
+registration_kind: source_facts

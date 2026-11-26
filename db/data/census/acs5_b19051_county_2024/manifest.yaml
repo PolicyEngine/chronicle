@@ -1,0 +1,27 @@
+source_id: census_acs
+package_id: census-acs5-b19051-county-2024
+dataset: census_acs5_b19051_county_2024
+source_page: https://api.census.gov/data/2024/acs/acs5.html
+vintage: 2024 ACS 5-year detailed tables (2020–2024)
+reference_period: 2020–2024
+table: B19051 Earnings in the Past 12 Months for Households
+notes: Publisher bytes copied unchanged from the supplied 2026-10-24 fetch. The response
+  includes all 3,222 county-equivalents, retained by the packages, comprising 3,144
+  counties in the 50 states and DC plus 78 Puerto Rico municipios (state 72). storage.r2
+  is a content-addressed locator; no upload or archival completion is asserted.
+files:
+  2024:
+    filename: acs5_2024_B19051_county.json
+    source_url: https://api.census.gov/data/2024/acs/acs5?get=NAME,group(B19051)&for=county:*
+    sha256: 919b6abbf7e46452761a04b1051a3e6bf085808b2d251a554d10f82940c4f5d3
+    size_bytes: 501413
+    fetched_at: '2026-10-24'
+    source_table: ACS 2020–2024 5-year detailed table B19051 county estimates and margins
+      of error
+    year: 2024
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/census_acs/census-acs5-b19051-county-2024/2024/919b6abbf7e46452761a04b1051a3e6bf085808b2d251a554d10f82940c4f5d3/acs5_2024_B19051_county.json
+        uri: r2://ledger-raw/raw/census_acs/census-acs5-b19051-county-2024/2024/919b6abbf7e46452761a04b1051a3e6bf085808b2d251a554d10f82940c4f5d3/acs5_2024_B19051_county.json

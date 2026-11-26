@@ -1,0 +1,1 @@
+Add the Scottish Government's estimates for the proposed council tax Bands I and J that chronicle#420 item 13 asks for, from the Council Tax High-Value Property Bands (Mansion Tax) consultation: the low and high estimates of properties at 1 April 2026 values and of the additional revenue per year at its illustrative rates.

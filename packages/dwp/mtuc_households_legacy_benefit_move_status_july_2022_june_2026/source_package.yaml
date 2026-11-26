@@ -1,0 +1,3161 @@
+# DWP Stat-Xplore 'Households invited to Move to Universal Credit' (official statistics in
+# development): households sent a managed migration notice, by combination of legacy
+# benefits and move status, cumulative over the notice months July 2022 to June 2026,
+# extracted 15 October 2026, for PolicyEngine/chronicle#357 item 3
+# (PolicyEngine/microcosm#1095). policyengine-uk-data#534 draws its claim rates from this
+# table ('MtUC Households 3').
+#
+# Move status, as DWP's background information defines it:
+# - Claimed UC: a UC claim dated no earlier than the notice (or flagged in the Move to UC
+#   system as made through managed migration) and made within one month after the deadline
+#   or any extension, so a claim after the legacy award closed, inside that month, counts.
+# - Did not claim UC - Legacy benefit closed: no such claim, and the legacy award ended.
+# - In Progress: no claim yet, and the deadline (or extension) has not passed.
+# Statuses are as at DWP's extract, so a later release can move a household from 'did not
+# claim' to 'claimed', and DWP removes households later found out of scope; each release
+# supersedes the last. From August 2026 DWP summarises the series inside its Universal Credit
+# quarterly statistics (18 August 2026: 1.8 million households sent a notice to end June 2026,
+# 87% claimed), with the tables on Stat-Xplore only. Stat-Xplore serves only the current
+# release, so the package names the extraction date; later extracts land beside it.
+#
+# Coverage: the areas of Great Britain where notices were sent. Stat-Xplore adds random
+# error to every cell, so parts need not sum to DWP's totals; the totals are DWP's own
+# (total: true) and sit in the .total record set.
+# Not ported, zero in every cell: the 'Legacy non-customer' row and the 'Unknown/Missing'
+# status.
+schema_version: ledger.source_package.v1
+package_id: dwp-mtuc-households-legacy-benefit-move-status-july-2022-june-2026
+label: 'DWP Stat-Xplore: households sent a Move to UC migration notice by legacy benefit combination and
+  move status, Great Britain, notices July 2022 to June 2026'
+dimension_labels:
+  dwp.mtuc_legacy_benefit_move_status: Legacy benefit combination by move status
+  legacy_benefit: Legacy Benefit
+  move_status: Move Status
+artifact:
+  source_name: dwp
+  source_table: Households invited to Move to Universal Credit by Legacy Benefit and Move Status, notices
+    July 2022 to June 2026
+  resource_package: db
+  resource_directory: data/dwp/mtuc_households_legacy_benefit_move_status_july_2022_june_2026
+  manifest: manifest.yaml
+  vintage: stat_xplore_extracted_2026_10_15
+  extracted_at: '2026-10-15'
+  extraction_method: 'Stat-Xplore Open Data API table response parsed and unpivoted to one row per cube
+    cell; database str:database:MtUC_Households; measure str:count:MtUC_Households:V_F_MtUC_Households;
+    fields in response order: str:field:MtUC_Households:V_F_MtUC_Households:Legacy_Ben_Code; str:field:MtUC_Households:V_F_MtUC_Households:Claim_Status_Code;
+    value sets C_MtUC_Legacy_Benefit_Claimed, C_MtUC_Claim_Status; recode total: true on both; the notice-month
+    field is not requested, so each cell covers every notice month'
+  parser: statxplore_table_json_rows
+  sheet_name: api_response
+  artifact_year: 2026
+record_sets:
+- record_set_id: dwp.statx.mtuc_households.legacy_benefit_move_status.2026-06
+  provenance_class: administrative
+  record_set_spec_id: dwp.statx.mtuc_households.legacy_benefit_move_status.2026-06.v1
+  source_record_id_prefix: dwp.statx.mtuc_households.legacy_benefit_move_status.2026-06
+  sheet_name: api_response
+  period_type: month
+  period: 2026-06
+  period_coverage:
+    start_date: '2022-07-01'
+    end_date: '2026-06-30'
+    basis: calendar
+    source_period_label: 'Month Migration Notice Sent: Jul-22 to Jun-26'
+    notes: 'Cumulative: households sent a migration notice in any month from July 2022 to June 2026, the
+      notice months Stat-Xplore held at extraction on 15 October 2026; period.value is the latest notice
+      month. Each household is counted once, in the move status it held at DWP''s extract, which DWP takes
+      about a month before each release. It is the release DWP summarises in its Universal Credit quarterly
+      statistics of 18 August 2026 (1.8 million households sent a notice to end June 2026, 87% claimed).'
+  geography_id: K03000001
+  geography_level: country
+  geography_name: Great Britain
+  geography_vintage: current
+  entity: household
+  entity_role: migration_notice_household
+  domain: universal_credit
+  groupby_dimension: dwp.mtuc_legacy_benefit_move_status
+  rows:
+  - value_id: child_tax_credit_only__claimed_uc
+    label: Child Tax Credit only, Claimed UC
+    ordinal: 0
+    row_number: 2
+    expected_row_header_column: F
+    expected_row_header: str:value:MtUC_Households:V_F_MtUC_Households:Claim_Status_Code:C_MtUC_Claim_Status:1
+    table_record_kind: detail
+    filters:
+      legacy_benefit: Child Tax Credit only
+      move_status: Claimed UC
+    constraints:
+    - variable: legacy_benefit
+      operator: ==
+      value: Child Tax Credit only
+      label: Legacy Benefit
+    - variable: move_status
+      operator: ==
+      value: Claimed UC
+      label: Move Status
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: Move to UC - Households
+      label: measure
+    - column: C
+      row: 2
+      expected_value: Child Tax Credit only
+      label: Legacy Benefit
+    - column: E
+      row: 2
+      expected_value: Claimed UC
+      label: Move Status
+    - column: D
+      row: 2
+      expected_value: str:value:MtUC_Households:V_F_MtUC_Households:Legacy_Ben_Code:C_MtUC_Legacy_Benefit_Claimed:1
+      label: Legacy Benefit URI
+    - column: F
+      row: 2
+      expected_value: str:value:MtUC_Households:V_F_MtUC_Households:Claim_Status_Code:C_MtUC_Claim_Status:1
+      label: Move Status URI
+  - value_id: child_tax_credit_only__did_not_claim_uc___legacy_benefit_closed
+    label: Child Tax Credit only, Did not claim UC - Legacy benefit closed
+    ordinal: 1
+    row_number: 3
+    expected_row_header_column: F
+    expected_row_header: str:value:MtUC_Households:V_F_MtUC_Households:Claim_Status_Code:C_MtUC_Claim_Status:2
+    table_record_kind: detail
+    filters:
+      legacy_benefit: Child Tax Credit only
+      move_status: Did not claim UC - Legacy benefit closed
+    constraints:
+    - variable: legacy_benefit
+      operator: ==
+      value: Child Tax Credit only
+      label: Legacy Benefit
+    - variable: move_status
+      operator: ==
+      value: Did not claim UC - Legacy benefit closed
+      label: Move Status
+    guard_cells:
+    - column: A
+      row: 3
+      expected_value: Move to UC - Households
+      label: measure
+    - column: C
+      row: 3
+      expected_value: Child Tax Credit only
+      label: Legacy Benefit
+    - column: E
+      row: 3
+      expected_value: Did not claim UC - Legacy benefit closed
+      label: Move Status
+    - column: D
+      row: 3
+      expected_value: str:value:MtUC_Households:V_F_MtUC_Households:Legacy_Ben_Code:C_MtUC_Legacy_Benefit_Claimed:1
+      label: Legacy Benefit URI
+    - column: F
+      row: 3
+      expected_value: str:value:MtUC_Households:V_F_MtUC_Households:Claim_Status_Code:C_MtUC_Claim_Status:2
+      label: Move Status URI
+  - value_id: child_tax_credit_only__in_progress
+    label: Child Tax Credit only, In Progress
+    ordinal: 2
+    row_number: 4
+    expected_row_header_column: F
+    expected_row_header: str:value:MtUC_Households:V_F_MtUC_Households:Claim_Status_Code:C_MtUC_Claim_Status:3
+    table_record_kind: detail
+    filters:
+      legacy_benefit: Child Tax Credit only
+      move_status: In Progress
+    constraints:
+    - variable: legacy_benefit
+      operator: ==
+      value: Child Tax Credit only
+      label: Legacy Benefit
+    - variable: move_status
+      operator: ==
+      value: In Progress
+      label: Move Status
+    guard_cells:
+    - column: A
+      row: 4
+      expected_value: Move to UC - Households
+      label: measure
+    - column: C
+      row: 4
+      expected_value: Child Tax Credit only
+      label: Legacy Benefit
+    - column: E
+      row: 4
+      expected_value: In Progress
+      label: Move Status
+    - column: D
+      row: 4
+      expected_value: str:value:MtUC_Households:V_F_MtUC_Households:Legacy_Ben_Code:C_MtUC_Legacy_Benefit_Claimed:1
+      label: Legacy Benefit URI
+    - column: F
+      row: 4
+      expected_value: str:value:MtUC_Households:V_F_MtUC_Households:Claim_Status_Code:C_MtUC_Claim_Status:3
+      label: Move Status URI
+  - value_id: working_tax_credit_only__claimed_uc
+    label: Working Tax Credit only, Claimed UC
+    ordinal: 3
+    row_number: 7
+    expected_row_header_column: F
+    expected_row_header: str:value:MtUC_Households:V_F_MtUC_Households:Claim_Status_Code:C_MtUC_Claim_Status:1
+    table_record_kind: detail
+    filters:
+      legacy_benefit: Working Tax Credit only
+      move_status: Claimed UC
+    constraints:
+    - variable: legacy_benefit
+      operator: ==
+      value: Working Tax Credit only
+      label: Legacy Benefit
+    - variable: move_status
+      operator: ==
+      value: Claimed UC
+      label: Move Status
+    guard_cells:
+    - column: A
+      row: 7
+      expected_value: Move to UC - Households
+      label: measure
+    - column: C
+      row: 7
+      expected_value: Working Tax Credit only
+      label: Legacy Benefit
+    - column: E
+      row: 7
+      expected_value: Claimed UC
+      label: Move Status
+    - column: D
+      row: 7
+      expected_value: str:value:MtUC_Households:V_F_MtUC_Households:Legacy_Ben_Code:C_MtUC_Legacy_Benefit_Claimed:2
+      label: Legacy Benefit URI
+    - column: F
+      row: 7
+      expected_value: str:value:MtUC_Households:V_F_MtUC_Households:Claim_Status_Code:C_MtUC_Claim_Status:1
+      label: Move Status URI
+  - value_id: working_tax_credit_only__did_not_claim_uc___legacy_benefit_closed
+    label: Working Tax Credit only, Did not claim UC - Legacy benefit closed
+    ordinal: 4
+    row_number: 8
+    expected_row_header_column: F
+    expected_row_header: str:value:MtUC_Households:V_F_MtUC_Households:Claim_Status_Code:C_MtUC_Claim_Status:2
+    table_record_kind: detail
+    filters:
+      legacy_benefit: Working Tax Credit only
+      move_status: Did not claim UC - Legacy benefit closed
+    constraints:
+    - variable: legacy_benefit
+      operator: ==
+      value: Working Tax Credit only
+      label: Legacy Benefit
+    - variable: move_status
+      operator: ==
+      value: Did not claim UC - Legacy benefit closed
+      label: Move Status
+    guard_cells:
+    - column: A
+      row: 8
+      expected_value: Move to UC - Households
+      label: measure
+    - column: C
+      row: 8
+      expected_value: Working Tax Credit only
+      label: Legacy Benefit
+    - column: E
+      row: 8
+      expected_value: Did not claim UC - Legacy benefit closed
+      label: Move Status
+    - column: D
+      row: 8
+      expected_value: str:value:MtUC_Households:V_F_MtUC_Households:Legacy_Ben_Code:C_MtUC_Legacy_Benefit_Claimed:2
+      label: Legacy Benefit URI
+    - column: F
+      row: 8
+      expected_value: str:value:MtUC_Households:V_F_MtUC_Households:Claim_Status_Code:C_MtUC_Claim_Status:2
+      label: Move Status URI
+  - value_id: working_tax_credit_only__in_progress
+    label: Working Tax Credit only, In Progress
+    ordinal: 5
+    row_number: 9
+    expected_row_header_column: F
+    expected_row_header: str:value:MtUC_Households:V_F_MtUC_Households:Claim_Status_Code:C_MtUC_Claim_Status:3
+    table_record_kind: detail
+    filters:
+      legacy_benefit: Working Tax Credit only
+      move_status: In Progress
+    constraints:
+    - variable: legacy_benefit
+      operator: ==
+      value: Working Tax Credit only
+      label: Legacy Benefit
+    - variable: move_status
+      operator: ==
+      value: In Progress
+      label: Move Status
+    guard_cells:
+    - column: A
+      row: 9
+      expected_value: Move to UC - Households
+      label: measure
+    - column: C
+      row: 9
+      expected_value: Working Tax Credit only
+      label: Legacy Benefit
+    - column: E
+      row: 9
+      expected_value: In Progress
+      label: Move Status
+    - column: D
+      row: 9
+      expected_value: str:value:MtUC_Households:V_F_MtUC_Households:Legacy_Ben_Code:C_MtUC_Legacy_Benefit_Claimed:2
+      label: Legacy Benefit URI
+    - column: F
+      row: 9
+      expected_value: str:value:MtUC_Households:V_F_MtUC_Households:Claim_Status_Code:C_MtUC_Claim_Status:3
+      label: Move Status URI
+  - value_id: child_tax_credit_and_working_tax_credit__claimed_uc
+    label: Child Tax Credit and Working Tax Credit, Claimed UC
+    ordinal: 6
+    row_number: 12
+    expected_row_header_column: F
+    expected_row_header: str:value:MtUC_Households:V_F_MtUC_Households:Claim_Status_Code:C_MtUC_Claim_Status:1
+    table_record_kind: detail
+    filters:
+      legacy_benefit: Child Tax Credit and Working Tax Credit
+      move_status: Claimed UC
+    constraints:
+    - variable: legacy_benefit
+      operator: ==
+      value: Child Tax Credit and Working Tax Credit
+      label: Legacy Benefit
+    - variable: move_status
+      operator: ==
+      value: Claimed UC
+      label: Move Status
+    guard_cells:
+    - column: A
+      row: 12
+      expected_value: Move to UC - Households
+      label: measure
+    - column: C
+      row: 12
+      expected_value: Child Tax Credit and Working Tax Credit
+      label: Legacy Benefit
+    - column: E
+      row: 12
+      expected_value: Claimed UC
+      label: Move Status
+    - column: D
+      row: 12
+      expected_value: str:value:MtUC_Households:V_F_MtUC_Households:Legacy_Ben_Code:C_MtUC_Legacy_Benefit_Claimed:7
+      label: Legacy Benefit URI
+    - column: F
+      row: 12
+      expected_value: str:value:MtUC_Households:V_F_MtUC_Households:Claim_Status_Code:C_MtUC_Claim_Status:1
+      label: Move Status URI
+  - value_id: child_tax_credit_and_working_tax_credit__did_not_claim_uc___legacy_benefit_closed
+    label: Child Tax Credit and Working Tax Credit, Did not claim UC - Legacy benefit closed
+    ordinal: 7
+    row_number: 13
+    expected_row_header_column: F
+    expected_row_header: str:value:MtUC_Households:V_F_MtUC_Households:Claim_Status_Code:C_MtUC_Claim_Status:2
+    table_record_kind: detail
+    filters:
+      legacy_benefit: Child Tax Credit and Working Tax Credit
+      move_status: Did not claim UC - Legacy benefit closed
+    constraints:
+    - variable: legacy_benefit
+      operator: ==
+      value: Child Tax Credit and Working Tax Credit
+      label: Legacy Benefit
+    - variable: move_status
+      operator: ==
+      value: Did not claim UC - Legacy benefit closed
+      label: Move Status
+    guard_cells:
+    - column: A
+      row: 13
+      expected_value: Move to UC - Households
+      label: measure
+    - column: C
+      row: 13
+      expected_value: Child Tax Credit and Working Tax Credit
+      label: Legacy Benefit
+    - column: E
+      row: 13
+      expected_value: Did not claim UC - Legacy benefit closed
+      label: Move Status
+    - column: D
+      row: 13
+      expected_value: str:value:MtUC_Households:V_F_MtUC_Households:Legacy_Ben_Code:C_MtUC_Legacy_Benefit_Claimed:7
+      label: Legacy Benefit URI
+    - column: F
+      row: 13
+      expected_value: str:value:MtUC_Households:V_F_MtUC_Households:Claim_Status_Code:C_MtUC_Claim_Status:2
+      label: Move Status URI
+  - value_id: child_tax_credit_and_working_tax_credit__in_progress
+    label: Child Tax Credit and Working Tax Credit, In Progress
+    ordinal: 8
+    row_number: 14
+    expected_row_header_column: F
+    expected_row_header: str:value:MtUC_Households:V_F_MtUC_Households:Claim_Status_Code:C_MtUC_Claim_Status:3
+    table_record_kind: detail
+    filters:
+      legacy_benefit: Child Tax Credit and Working Tax Credit
+      move_status: In Progress
+    constraints:
+    - variable: legacy_benefit
+      operator: ==
+      value: Child Tax Credit and Working Tax Credit
+      label: Legacy Benefit
+    - variable: move_status
+      operator: ==
+      value: In Progress
+      label: Move Status
+    guard_cells:
+    - column: A
+      row: 14
+      expected_value: Move to UC - Households
+      label: measure
+    - column: C
+      row: 14
+      expected_value: Child Tax Credit and Working Tax Credit
+      label: Legacy Benefit
+    - column: E
+      row: 14
+      expected_value: In Progress
+      label: Move Status
+    - column: D
+      row: 14
+      expected_value: str:value:MtUC_Households:V_F_MtUC_Households:Legacy_Ben_Code:C_MtUC_Legacy_Benefit_Claimed:7
+      label: Legacy Benefit URI
+    - column: F
+      row: 14
+      expected_value: str:value:MtUC_Households:V_F_MtUC_Households:Claim_Status_Code:C_MtUC_Claim_Status:3
+      label: Move Status URI
+  - value_id: housing_benefit_only__claimed_uc
+    label: Housing Benefit only, Claimed UC
+    ordinal: 9
+    row_number: 17
+    expected_row_header_column: F
+    expected_row_header: str:value:MtUC_Households:V_F_MtUC_Households:Claim_Status_Code:C_MtUC_Claim_Status:1
+    table_record_kind: detail
+    filters:
+      legacy_benefit: Housing Benefit only
+      move_status: Claimed UC
+    constraints:
+    - variable: legacy_benefit
+      operator: ==
+      value: Housing Benefit only
+      label: Legacy Benefit
+    - variable: move_status
+      operator: ==
+      value: Claimed UC
+      label: Move Status
+    guard_cells:
+    - column: A
+      row: 17
+      expected_value: Move to UC - Households
+      label: measure
+    - column: C
+      row: 17
+      expected_value: Housing Benefit only
+      label: Legacy Benefit
+    - column: E
+      row: 17
+      expected_value: Claimed UC
+      label: Move Status
+    - column: D
+      row: 17
+      expected_value: str:value:MtUC_Households:V_F_MtUC_Households:Legacy_Ben_Code:C_MtUC_Legacy_Benefit_Claimed:3
+      label: Legacy Benefit URI
+    - column: F
+      row: 17
+      expected_value: str:value:MtUC_Households:V_F_MtUC_Households:Claim_Status_Code:C_MtUC_Claim_Status:1
+      label: Move Status URI
+  - value_id: housing_benefit_only__did_not_claim_uc___legacy_benefit_closed
+    label: Housing Benefit only, Did not claim UC - Legacy benefit closed
+    ordinal: 10
+    row_number: 18
+    expected_row_header_column: F
+    expected_row_header: str:value:MtUC_Households:V_F_MtUC_Households:Claim_Status_Code:C_MtUC_Claim_Status:2
+    table_record_kind: detail
+    filters:
+      legacy_benefit: Housing Benefit only
+      move_status: Did not claim UC - Legacy benefit closed
+    constraints:
+    - variable: legacy_benefit
+      operator: ==
+      value: Housing Benefit only
+      label: Legacy Benefit
+    - variable: move_status
+      operator: ==
+      value: Did not claim UC - Legacy benefit closed
+      label: Move Status
+    guard_cells:
+    - column: A
+      row: 18
+      expected_value: Move to UC - Households
+      label: measure
+    - column: C
+      row: 18
+      expected_value: Housing Benefit only
+      label: Legacy Benefit
+    - column: E
+      row: 18
+      expected_value: Did not claim UC - Legacy benefit closed
+      label: Move Status
+    - column: D
+      row: 18
+      expected_value: str:value:MtUC_Households:V_F_MtUC_Households:Legacy_Ben_Code:C_MtUC_Legacy_Benefit_Claimed:3
+      label: Legacy Benefit URI
+    - column: F
+      row: 18
+      expected_value: str:value:MtUC_Households:V_F_MtUC_Households:Claim_Status_Code:C_MtUC_Claim_Status:2
+      label: Move Status URI
+  - value_id: housing_benefit_only__in_progress
+    label: Housing Benefit only, In Progress
+    ordinal: 11
+    row_number: 19
+    expected_row_header_column: F
+    expected_row_header: str:value:MtUC_Households:V_F_MtUC_Households:Claim_Status_Code:C_MtUC_Claim_Status:3
+    table_record_kind: detail
+    filters:
+      legacy_benefit: Housing Benefit only
+      move_status: In Progress
+    constraints:
+    - variable: legacy_benefit
+      operator: ==
+      value: Housing Benefit only
+      label: Legacy Benefit
+    - variable: move_status
+      operator: ==
+      value: In Progress
+      label: Move Status
+    guard_cells:
+    - column: A
+      row: 19
+      expected_value: Move to UC - Households
+      label: measure
+    - column: C
+      row: 19
+      expected_value: Housing Benefit only
+      label: Legacy Benefit
+    - column: E
+      row: 19
+      expected_value: In Progress
+      label: Move Status
+    - column: D
+      row: 19
+      expected_value: str:value:MtUC_Households:V_F_MtUC_Households:Legacy_Ben_Code:C_MtUC_Legacy_Benefit_Claimed:3
+      label: Legacy Benefit URI
+    - column: F
+      row: 19
+      expected_value: str:value:MtUC_Households:V_F_MtUC_Households:Claim_Status_Code:C_MtUC_Claim_Status:3
+      label: Move Status URI
+  - value_id: employment_support_allowance_only__claimed_uc
+    label: Employment Support Allowance only, Claimed UC
+    ordinal: 12
+    row_number: 22
+    expected_row_header_column: F
+    expected_row_header: str:value:MtUC_Households:V_F_MtUC_Households:Claim_Status_Code:C_MtUC_Claim_Status:1
+    table_record_kind: detail
+    filters:
+      legacy_benefit: Employment Support Allowance only
+      move_status: Claimed UC
+    constraints:
+    - variable: legacy_benefit
+      operator: ==
+      value: Employment Support Allowance only
+      label: Legacy Benefit
+    - variable: move_status
+      operator: ==
+      value: Claimed UC
+      label: Move Status
+    guard_cells:
+    - column: A
+      row: 22
+      expected_value: Move to UC - Households
+      label: measure
+    - column: C
+      row: 22
+      expected_value: Employment Support Allowance only
+      label: Legacy Benefit
+    - column: E
+      row: 22
+      expected_value: Claimed UC
+      label: Move Status
+    - column: D
+      row: 22
+      expected_value: str:value:MtUC_Households:V_F_MtUC_Households:Legacy_Ben_Code:C_MtUC_Legacy_Benefit_Claimed:4
+      label: Legacy Benefit URI
+    - column: F
+      row: 22
+      expected_value: str:value:MtUC_Households:V_F_MtUC_Households:Claim_Status_Code:C_MtUC_Claim_Status:1
+      label: Move Status URI
+  - value_id: employment_support_allowance_only__did_not_claim_uc___legacy_benefit_closed
+    label: Employment Support Allowance only, Did not claim UC - Legacy benefit closed
+    ordinal: 13
+    row_number: 23
+    expected_row_header_column: F
+    expected_row_header: str:value:MtUC_Households:V_F_MtUC_Households:Claim_Status_Code:C_MtUC_Claim_Status:2
+    table_record_kind: detail
+    filters:
+      legacy_benefit: Employment Support Allowance only
+      move_status: Did not claim UC - Legacy benefit closed
+    constraints:
+    - variable: legacy_benefit
+      operator: ==
+      value: Employment Support Allowance only
+      label: Legacy Benefit
+    - variable: move_status
+      operator: ==
+      value: Did not claim UC - Legacy benefit closed
+      label: Move Status
+    guard_cells:
+    - column: A
+      row: 23
+      expected_value: Move to UC - Households
+      label: measure
+    - column: C
+      row: 23
+      expected_value: Employment Support Allowance only
+      label: Legacy Benefit
+    - column: E
+      row: 23
+      expected_value: Did not claim UC - Legacy benefit closed
+      label: Move Status
+    - column: D
+      row: 23
+      expected_value: str:value:MtUC_Households:V_F_MtUC_Households:Legacy_Ben_Code:C_MtUC_Legacy_Benefit_Claimed:4
+      label: Legacy Benefit URI
+    - column: F
+      row: 23
+      expected_value: str:value:MtUC_Households:V_F_MtUC_Households:Claim_Status_Code:C_MtUC_Claim_Status:2
+      label: Move Status URI
+  - value_id: employment_support_allowance_only__in_progress
+    label: Employment Support Allowance only, In Progress
+    ordinal: 14
+    row_number: 24
+    expected_row_header_column: F
+    expected_row_header: str:value:MtUC_Households:V_F_MtUC_Households:Claim_Status_Code:C_MtUC_Claim_Status:3
+    table_record_kind: detail
+    filters:
+      legacy_benefit: Employment Support Allowance only
+      move_status: In Progress
+    constraints:
+    - variable: legacy_benefit
+      operator: ==
+      value: Employment Support Allowance only
+      label: Legacy Benefit
+    - variable: move_status
+      operator: ==
+      value: In Progress
+      label: Move Status
+    guard_cells:
+    - column: A
+      row: 24
+      expected_value: Move to UC - Households
+      label: measure
+    - column: C
+      row: 24
+      expected_value: Employment Support Allowance only
+      label: Legacy Benefit
+    - column: E
+      row: 24
+      expected_value: In Progress
+      label: Move Status
+    - column: D
+      row: 24
+      expected_value: str:value:MtUC_Households:V_F_MtUC_Households:Legacy_Ben_Code:C_MtUC_Legacy_Benefit_Claimed:4
+      label: Legacy Benefit URI
+    - column: F
+      row: 24
+      expected_value: str:value:MtUC_Households:V_F_MtUC_Households:Claim_Status_Code:C_MtUC_Claim_Status:3
+      label: Move Status URI
+  - value_id: income_support_only__claimed_uc
+    label: Income Support only, Claimed UC
+    ordinal: 15
+    row_number: 27
+    expected_row_header_column: F
+    expected_row_header: str:value:MtUC_Households:V_F_MtUC_Households:Claim_Status_Code:C_MtUC_Claim_Status:1
+    table_record_kind: detail
+    filters:
+      legacy_benefit: Income Support only
+      move_status: Claimed UC
+    constraints:
+    - variable: legacy_benefit
+      operator: ==
+      value: Income Support only
+      label: Legacy Benefit
+    - variable: move_status
+      operator: ==
+      value: Claimed UC
+      label: Move Status
+    guard_cells:
+    - column: A
+      row: 27
+      expected_value: Move to UC - Households
+      label: measure
+    - column: C
+      row: 27
+      expected_value: Income Support only
+      label: Legacy Benefit
+    - column: E
+      row: 27
+      expected_value: Claimed UC
+      label: Move Status
+    - column: D
+      row: 27
+      expected_value: str:value:MtUC_Households:V_F_MtUC_Households:Legacy_Ben_Code:C_MtUC_Legacy_Benefit_Claimed:5
+      label: Legacy Benefit URI
+    - column: F
+      row: 27
+      expected_value: str:value:MtUC_Households:V_F_MtUC_Households:Claim_Status_Code:C_MtUC_Claim_Status:1
+      label: Move Status URI
+  - value_id: income_support_only__did_not_claim_uc___legacy_benefit_closed
+    label: Income Support only, Did not claim UC - Legacy benefit closed
+    ordinal: 16
+    row_number: 28
+    expected_row_header_column: F
+    expected_row_header: str:value:MtUC_Households:V_F_MtUC_Households:Claim_Status_Code:C_MtUC_Claim_Status:2
+    table_record_kind: detail
+    filters:
+      legacy_benefit: Income Support only
+      move_status: Did not claim UC - Legacy benefit closed
+    constraints:
+    - variable: legacy_benefit
+      operator: ==
+      value: Income Support only
+      label: Legacy Benefit
+    - variable: move_status
+      operator: ==
+      value: Did not claim UC - Legacy benefit closed
+      label: Move Status
+    guard_cells:
+    - column: A
+      row: 28
+      expected_value: Move to UC - Households
+      label: measure
+    - column: C
+      row: 28
+      expected_value: Income Support only
+      label: Legacy Benefit
+    - column: E
+      row: 28
+      expected_value: Did not claim UC - Legacy benefit closed
+      label: Move Status
+    - column: D
+      row: 28
+      expected_value: str:value:MtUC_Households:V_F_MtUC_Households:Legacy_Ben_Code:C_MtUC_Legacy_Benefit_Claimed:5
+      label: Legacy Benefit URI
+    - column: F
+      row: 28
+      expected_value: str:value:MtUC_Households:V_F_MtUC_Households:Claim_Status_Code:C_MtUC_Claim_Status:2
+      label: Move Status URI
+  - value_id: income_support_only__in_progress
+    label: Income Support only, In Progress
+    ordinal: 17
+    row_number: 29
+    expected_row_header_column: F
+    expected_row_header: str:value:MtUC_Households:V_F_MtUC_Households:Claim_Status_Code:C_MtUC_Claim_Status:3
+    table_record_kind: detail
+    filters:
+      legacy_benefit: Income Support only
+      move_status: In Progress
+    constraints:
+    - variable: legacy_benefit
+      operator: ==
+      value: Income Support only
+      label: Legacy Benefit
+    - variable: move_status
+      operator: ==
+      value: In Progress
+      label: Move Status
+    guard_cells:
+    - column: A
+      row: 29
+      expected_value: Move to UC - Households
+      label: measure
+    - column: C
+      row: 29
+      expected_value: Income Support only
+      label: Legacy Benefit
+    - column: E
+      row: 29
+      expected_value: In Progress
+      label: Move Status
+    - column: D
+      row: 29
+      expected_value: str:value:MtUC_Households:V_F_MtUC_Households:Legacy_Ben_Code:C_MtUC_Legacy_Benefit_Claimed:5
+      label: Legacy Benefit URI
+    - column: F
+      row: 29
+      expected_value: str:value:MtUC_Households:V_F_MtUC_Households:Claim_Status_Code:C_MtUC_Claim_Status:3
+      label: Move Status URI
+  - value_id: jobseekers_allowance_only__claimed_uc
+    label: Jobseekers Allowance only, Claimed UC
+    ordinal: 18
+    row_number: 32
+    expected_row_header_column: F
+    expected_row_header: str:value:MtUC_Households:V_F_MtUC_Households:Claim_Status_Code:C_MtUC_Claim_Status:1
+    table_record_kind: detail
+    filters:
+      legacy_benefit: Jobseekers Allowance only
+      move_status: Claimed UC
+    constraints:
+    - variable: legacy_benefit
+      operator: ==
+      value: Jobseekers Allowance only
+      label: Legacy Benefit
+    - variable: move_status
+      operator: ==
+      value: Claimed UC
+      label: Move Status
+    guard_cells:
+    - column: A
+      row: 32
+      expected_value: Move to UC - Households
+      label: measure
+    - column: C
+      row: 32
+      expected_value: Jobseekers Allowance only
+      label: Legacy Benefit
+    - column: E
+      row: 32
+      expected_value: Claimed UC
+      label: Move Status
+    - column: D
+      row: 32
+      expected_value: str:value:MtUC_Households:V_F_MtUC_Households:Legacy_Ben_Code:C_MtUC_Legacy_Benefit_Claimed:6
+      label: Legacy Benefit URI
+    - column: F
+      row: 32
+      expected_value: str:value:MtUC_Households:V_F_MtUC_Households:Claim_Status_Code:C_MtUC_Claim_Status:1
+      label: Move Status URI
+  - value_id: jobseekers_allowance_only__did_not_claim_uc___legacy_benefit_closed
+    label: Jobseekers Allowance only, Did not claim UC - Legacy benefit closed
+    ordinal: 19
+    row_number: 33
+    expected_row_header_column: F
+    expected_row_header: str:value:MtUC_Households:V_F_MtUC_Households:Claim_Status_Code:C_MtUC_Claim_Status:2
+    table_record_kind: detail
+    filters:
+      legacy_benefit: Jobseekers Allowance only
+      move_status: Did not claim UC - Legacy benefit closed
+    constraints:
+    - variable: legacy_benefit
+      operator: ==
+      value: Jobseekers Allowance only
+      label: Legacy Benefit
+    - variable: move_status
+      operator: ==
+      value: Did not claim UC - Legacy benefit closed
+      label: Move Status
+    guard_cells:
+    - column: A
+      row: 33
+      expected_value: Move to UC - Households
+      label: measure
+    - column: C
+      row: 33
+      expected_value: Jobseekers Allowance only
+      label: Legacy Benefit
+    - column: E
+      row: 33
+      expected_value: Did not claim UC - Legacy benefit closed
+      label: Move Status
+    - column: D
+      row: 33
+      expected_value: str:value:MtUC_Households:V_F_MtUC_Households:Legacy_Ben_Code:C_MtUC_Legacy_Benefit_Claimed:6
+      label: Legacy Benefit URI
+    - column: F
+      row: 33
+      expected_value: str:value:MtUC_Households:V_F_MtUC_Households:Claim_Status_Code:C_MtUC_Claim_Status:2
+      label: Move Status URI
+  - value_id: jobseekers_allowance_only__in_progress
+    label: Jobseekers Allowance only, In Progress
+    ordinal: 20
+    row_number: 34
+    expected_row_header_column: F
+    expected_row_header: str:value:MtUC_Households:V_F_MtUC_Households:Claim_Status_Code:C_MtUC_Claim_Status:3
+    table_record_kind: detail
+    filters:
+      legacy_benefit: Jobseekers Allowance only
+      move_status: In Progress
+    constraints:
+    - variable: legacy_benefit
+      operator: ==
+      value: Jobseekers Allowance only
+      label: Legacy Benefit
+    - variable: move_status
+      operator: ==
+      value: In Progress
+      label: Move Status
+    guard_cells:
+    - column: A
+      row: 34
+      expected_value: Move to UC - Households
+      label: measure
+    - column: C
+      row: 34
+      expected_value: Jobseekers Allowance only
+      label: Legacy Benefit
+    - column: E
+      row: 34
+      expected_value: In Progress
+      label: Move Status
+    - column: D
+      row: 34
+      expected_value: str:value:MtUC_Households:V_F_MtUC_Households:Legacy_Ben_Code:C_MtUC_Legacy_Benefit_Claimed:6
+      label: Legacy Benefit URI
+    - column: F
+      row: 34
+      expected_value: str:value:MtUC_Households:V_F_MtUC_Households:Claim_Status_Code:C_MtUC_Claim_Status:3
+      label: Move Status URI
+  - value_id: child_tax_credit_and_housing_benefit__claimed_uc
+    label: Child Tax Credit and Housing Benefit, Claimed UC
+    ordinal: 21
+    row_number: 37
+    expected_row_header_column: F
+    expected_row_header: str:value:MtUC_Households:V_F_MtUC_Households:Claim_Status_Code:C_MtUC_Claim_Status:1
+    table_record_kind: detail
+    filters:
+      legacy_benefit: Child Tax Credit and Housing Benefit
+      move_status: Claimed UC
+    constraints:
+    - variable: legacy_benefit
+      operator: ==
+      value: Child Tax Credit and Housing Benefit
+      label: Legacy Benefit
+    - variable: move_status
+      operator: ==
+      value: Claimed UC
+      label: Move Status
+    guard_cells:
+    - column: A
+      row: 37
+      expected_value: Move to UC - Households
+      label: measure
+    - column: C
+      row: 37
+      expected_value: Child Tax Credit and Housing Benefit
+      label: Legacy Benefit
+    - column: E
+      row: 37
+      expected_value: Claimed UC
+      label: Move Status
+    - column: D
+      row: 37
+      expected_value: str:value:MtUC_Households:V_F_MtUC_Households:Legacy_Ben_Code:C_MtUC_Legacy_Benefit_Claimed:8
+      label: Legacy Benefit URI
+    - column: F
+      row: 37
+      expected_value: str:value:MtUC_Households:V_F_MtUC_Households:Claim_Status_Code:C_MtUC_Claim_Status:1
+      label: Move Status URI
+  - value_id: child_tax_credit_and_housing_benefit__did_not_claim_uc___legacy_benefit_closed
+    label: Child Tax Credit and Housing Benefit, Did not claim UC - Legacy benefit closed
+    ordinal: 22
+    row_number: 38
+    expected_row_header_column: F
+    expected_row_header: str:value:MtUC_Households:V_F_MtUC_Households:Claim_Status_Code:C_MtUC_Claim_Status:2
+    table_record_kind: detail
+    filters:
+      legacy_benefit: Child Tax Credit and Housing Benefit
+      move_status: Did not claim UC - Legacy benefit closed
+    constraints:
+    - variable: legacy_benefit
+      operator: ==
+      value: Child Tax Credit and Housing Benefit
+      label: Legacy Benefit
+    - variable: move_status
+      operator: ==
+      value: Did not claim UC - Legacy benefit closed
+      label: Move Status
+    guard_cells:
+    - column: A
+      row: 38
+      expected_value: Move to UC - Households
+      label: measure
+    - column: C
+      row: 38
+      expected_value: Child Tax Credit and Housing Benefit
+      label: Legacy Benefit
+    - column: E
+      row: 38
+      expected_value: Did not claim UC - Legacy benefit closed
+      label: Move Status
+    - column: D
+      row: 38
+      expected_value: str:value:MtUC_Households:V_F_MtUC_Households:Legacy_Ben_Code:C_MtUC_Legacy_Benefit_Claimed:8
+      label: Legacy Benefit URI
+    - column: F
+      row: 38
+      expected_value: str:value:MtUC_Households:V_F_MtUC_Households:Claim_Status_Code:C_MtUC_Claim_Status:2
+      label: Move Status URI
+  - value_id: child_tax_credit_and_housing_benefit__in_progress
+    label: Child Tax Credit and Housing Benefit, In Progress
+    ordinal: 23
+    row_number: 39
+    expected_row_header_column: F
+    expected_row_header: str:value:MtUC_Households:V_F_MtUC_Households:Claim_Status_Code:C_MtUC_Claim_Status:3
+    table_record_kind: detail
+    filters:
+      legacy_benefit: Child Tax Credit and Housing Benefit
+      move_status: In Progress
+    constraints:
+    - variable: legacy_benefit
+      operator: ==
+      value: Child Tax Credit and Housing Benefit
+      label: Legacy Benefit
+    - variable: move_status
+      operator: ==
+      value: In Progress
+      label: Move Status
+    guard_cells:
+    - column: A
+      row: 39
+      expected_value: Move to UC - Households
+      label: measure
+    - column: C
+      row: 39
+      expected_value: Child Tax Credit and Housing Benefit
+      label: Legacy Benefit
+    - column: E
+      row: 39
+      expected_value: In Progress
+      label: Move Status
+    - column: D
+      row: 39
+      expected_value: str:value:MtUC_Households:V_F_MtUC_Households:Legacy_Ben_Code:C_MtUC_Legacy_Benefit_Claimed:8
+      label: Legacy Benefit URI
+    - column: F
+      row: 39
+      expected_value: str:value:MtUC_Households:V_F_MtUC_Households:Claim_Status_Code:C_MtUC_Claim_Status:3
+      label: Move Status URI
+  - value_id: child_tax_credit_and_employment_support_allowance__claimed_uc
+    label: Child Tax Credit and Employment Support Allowance, Claimed UC
+    ordinal: 24
+    row_number: 42
+    expected_row_header_column: F
+    expected_row_header: str:value:MtUC_Households:V_F_MtUC_Households:Claim_Status_Code:C_MtUC_Claim_Status:1
+    table_record_kind: detail
+    filters:
+      legacy_benefit: Child Tax Credit and Employment Support Allowance
+      move_status: Claimed UC
+    constraints:
+    - variable: legacy_benefit
+      operator: ==
+      value: Child Tax Credit and Employment Support Allowance
+      label: Legacy Benefit
+    - variable: move_status
+      operator: ==
+      value: Claimed UC
+      label: Move Status
+    guard_cells:
+    - column: A
+      row: 42
+      expected_value: Move to UC - Households
+      label: measure
+    - column: C
+      row: 42
+      expected_value: Child Tax Credit and Employment Support Allowance
+      label: Legacy Benefit
+    - column: E
+      row: 42
+      expected_value: Claimed UC
+      label: Move Status
+    - column: D
+      row: 42
+      expected_value: str:value:MtUC_Households:V_F_MtUC_Households:Legacy_Ben_Code:C_MtUC_Legacy_Benefit_Claimed:9
+      label: Legacy Benefit URI
+    - column: F
+      row: 42
+      expected_value: str:value:MtUC_Households:V_F_MtUC_Households:Claim_Status_Code:C_MtUC_Claim_Status:1
+      label: Move Status URI
+  - value_id: child_tax_credit_and_employment_support_allowance__did_not_claim_uc___legacy_benefit_closed
+    label: Child Tax Credit and Employment Support Allowance, Did not claim UC - Legacy benefit closed
+    ordinal: 25
+    row_number: 43
+    expected_row_header_column: F
+    expected_row_header: str:value:MtUC_Households:V_F_MtUC_Households:Claim_Status_Code:C_MtUC_Claim_Status:2
+    table_record_kind: detail
+    filters:
+      legacy_benefit: Child Tax Credit and Employment Support Allowance
+      move_status: Did not claim UC - Legacy benefit closed
+    constraints:
+    - variable: legacy_benefit
+      operator: ==
+      value: Child Tax Credit and Employment Support Allowance
+      label: Legacy Benefit
+    - variable: move_status
+      operator: ==
+      value: Did not claim UC - Legacy benefit closed
+      label: Move Status
+    guard_cells:
+    - column: A
+      row: 43
+      expected_value: Move to UC - Households
+      label: measure
+    - column: C
+      row: 43
+      expected_value: Child Tax Credit and Employment Support Allowance
+      label: Legacy Benefit
+    - column: E
+      row: 43
+      expected_value: Did not claim UC - Legacy benefit closed
+      label: Move Status
+    - column: D
+      row: 43
+      expected_value: str:value:MtUC_Households:V_F_MtUC_Households:Legacy_Ben_Code:C_MtUC_Legacy_Benefit_Claimed:9
+      label: Legacy Benefit URI
+    - column: F
+      row: 43
+      expected_value: str:value:MtUC_Households:V_F_MtUC_Households:Claim_Status_Code:C_MtUC_Claim_Status:2
+      label: Move Status URI
+  - value_id: child_tax_credit_and_employment_support_allowance__in_progress
+    label: Child Tax Credit and Employment Support Allowance, In Progress
+    ordinal: 26
+    row_number: 44
+    expected_row_header_column: F
+    expected_row_header: str:value:MtUC_Households:V_F_MtUC_Households:Claim_Status_Code:C_MtUC_Claim_Status:3
+    table_record_kind: detail
+    filters:
+      legacy_benefit: Child Tax Credit and Employment Support Allowance
+      move_status: In Progress
+    constraints:
+    - variable: legacy_benefit
+      operator: ==
+      value: Child Tax Credit and Employment Support Allowance
+      label: Legacy Benefit
+    - variable: move_status
+      operator: ==
+      value: In Progress
+      label: Move Status
+    guard_cells:
+    - column: A
+      row: 44
+      expected_value: Move to UC - Households
+      label: measure
+    - column: C
+      row: 44
+      expected_value: Child Tax Credit and Employment Support Allowance
+      label: Legacy Benefit
+    - column: E
+      row: 44
+      expected_value: In Progress
+      label: Move Status
+    - column: D
+      row: 44
+      expected_value: str:value:MtUC_Households:V_F_MtUC_Households:Legacy_Ben_Code:C_MtUC_Legacy_Benefit_Claimed:9
+      label: Legacy Benefit URI
+    - column: F
+      row: 44
+      expected_value: str:value:MtUC_Households:V_F_MtUC_Households:Claim_Status_Code:C_MtUC_Claim_Status:3
+      label: Move Status URI
+  - value_id: child_tax_credit_and_income_support__claimed_uc
+    label: Child Tax Credit and Income Support, Claimed UC
+    ordinal: 27
+    row_number: 47
+    expected_row_header_column: F
+    expected_row_header: str:value:MtUC_Households:V_F_MtUC_Households:Claim_Status_Code:C_MtUC_Claim_Status:1
+    table_record_kind: detail
+    filters:
+      legacy_benefit: Child Tax Credit and Income Support
+      move_status: Claimed UC
+    constraints:
+    - variable: legacy_benefit
+      operator: ==
+      value: Child Tax Credit and Income Support
+      label: Legacy Benefit
+    - variable: move_status
+      operator: ==
+      value: Claimed UC
+      label: Move Status
+    guard_cells:
+    - column: A
+      row: 47
+      expected_value: Move to UC - Households
+      label: measure
+    - column: C
+      row: 47
+      expected_value: Child Tax Credit and Income Support
+      label: Legacy Benefit
+    - column: E
+      row: 47
+      expected_value: Claimed UC
+      label: Move Status
+    - column: D
+      row: 47
+      expected_value: str:value:MtUC_Households:V_F_MtUC_Households:Legacy_Ben_Code:C_MtUC_Legacy_Benefit_Claimed:10
+      label: Legacy Benefit URI
+    - column: F
+      row: 47
+      expected_value: str:value:MtUC_Households:V_F_MtUC_Households:Claim_Status_Code:C_MtUC_Claim_Status:1
+      label: Move Status URI
+  - value_id: child_tax_credit_and_income_support__did_not_claim_uc___legacy_benefit_closed
+    label: Child Tax Credit and Income Support, Did not claim UC - Legacy benefit closed
+    ordinal: 28
+    row_number: 48
+    expected_row_header_column: F
+    expected_row_header: str:value:MtUC_Households:V_F_MtUC_Households:Claim_Status_Code:C_MtUC_Claim_Status:2
+    table_record_kind: detail
+    filters:
+      legacy_benefit: Child Tax Credit and Income Support
+      move_status: Did not claim UC - Legacy benefit closed
+    constraints:
+    - variable: legacy_benefit
+      operator: ==
+      value: Child Tax Credit and Income Support
+      label: Legacy Benefit
+    - variable: move_status
+      operator: ==
+      value: Did not claim UC - Legacy benefit closed
+      label: Move Status
+    guard_cells:
+    - column: A
+      row: 48
+      expected_value: Move to UC - Households
+      label: measure
+    - column: C
+      row: 48
+      expected_value: Child Tax Credit and Income Support
+      label: Legacy Benefit
+    - column: E
+      row: 48
+      expected_value: Did not claim UC - Legacy benefit closed
+      label: Move Status
+    - column: D
+      row: 48
+      expected_value: str:value:MtUC_Households:V_F_MtUC_Households:Legacy_Ben_Code:C_MtUC_Legacy_Benefit_Claimed:10
+      label: Legacy Benefit URI
+    - column: F
+      row: 48
+      expected_value: str:value:MtUC_Households:V_F_MtUC_Households:Claim_Status_Code:C_MtUC_Claim_Status:2
+      label: Move Status URI
+  - value_id: child_tax_credit_and_income_support__in_progress
+    label: Child Tax Credit and Income Support, In Progress
+    ordinal: 29
+    row_number: 49
+    expected_row_header_column: F
+    expected_row_header: str:value:MtUC_Households:V_F_MtUC_Households:Claim_Status_Code:C_MtUC_Claim_Status:3
+    table_record_kind: detail
+    filters:
+      legacy_benefit: Child Tax Credit and Income Support
+      move_status: In Progress
+    constraints:
+    - variable: legacy_benefit
+      operator: ==
+      value: Child Tax Credit and Income Support
+      label: Legacy Benefit
+    - variable: move_status
+      operator: ==
+      value: In Progress
+      label: Move Status
+    guard_cells:
+    - column: A
+      row: 49
+      expected_value: Move to UC - Households
+      label: measure
+    - column: C
+      row: 49
+      expected_value: Child Tax Credit and Income Support
+      label: Legacy Benefit
+    - column: E
+      row: 49
+      expected_value: In Progress
+      label: Move Status
+    - column: D
+      row: 49
+      expected_value: str:value:MtUC_Households:V_F_MtUC_Households:Legacy_Ben_Code:C_MtUC_Legacy_Benefit_Claimed:10
+      label: Legacy Benefit URI
+    - column: F
+      row: 49
+      expected_value: str:value:MtUC_Households:V_F_MtUC_Households:Claim_Status_Code:C_MtUC_Claim_Status:3
+      label: Move Status URI
+  - value_id: child_tax_credit_and_jobseekers_allowance__claimed_uc
+    label: Child Tax Credit and Jobseekers Allowance, Claimed UC
+    ordinal: 30
+    row_number: 52
+    expected_row_header_column: F
+    expected_row_header: str:value:MtUC_Households:V_F_MtUC_Households:Claim_Status_Code:C_MtUC_Claim_Status:1
+    table_record_kind: detail
+    filters:
+      legacy_benefit: Child Tax Credit and Jobseekers Allowance
+      move_status: Claimed UC
+    constraints:
+    - variable: legacy_benefit
+      operator: ==
+      value: Child Tax Credit and Jobseekers Allowance
+      label: Legacy Benefit
+    - variable: move_status
+      operator: ==
+      value: Claimed UC
+      label: Move Status
+    guard_cells:
+    - column: A
+      row: 52
+      expected_value: Move to UC - Households
+      label: measure
+    - column: C
+      row: 52
+      expected_value: Child Tax Credit and Jobseekers Allowance
+      label: Legacy Benefit
+    - column: E
+      row: 52
+      expected_value: Claimed UC
+      label: Move Status
+    - column: D
+      row: 52
+      expected_value: str:value:MtUC_Households:V_F_MtUC_Households:Legacy_Ben_Code:C_MtUC_Legacy_Benefit_Claimed:11
+      label: Legacy Benefit URI
+    - column: F
+      row: 52
+      expected_value: str:value:MtUC_Households:V_F_MtUC_Households:Claim_Status_Code:C_MtUC_Claim_Status:1
+      label: Move Status URI
+  - value_id: child_tax_credit_and_jobseekers_allowance__did_not_claim_uc___legacy_benefit_closed
+    label: Child Tax Credit and Jobseekers Allowance, Did not claim UC - Legacy benefit closed
+    ordinal: 31
+    row_number: 53
+    expected_row_header_column: F
+    expected_row_header: str:value:MtUC_Households:V_F_MtUC_Households:Claim_Status_Code:C_MtUC_Claim_Status:2
+    table_record_kind: detail
+    filters:
+      legacy_benefit: Child Tax Credit and Jobseekers Allowance
+      move_status: Did not claim UC - Legacy benefit closed
+    constraints:
+    - variable: legacy_benefit
+      operator: ==
+      value: Child Tax Credit and Jobseekers Allowance
+      label: Legacy Benefit
+    - variable: move_status
+      operator: ==
+      value: Did not claim UC - Legacy benefit closed
+      label: Move Status
+    guard_cells:
+    - column: A
+      row: 53
+      expected_value: Move to UC - Households
+      label: measure
+    - column: C
+      row: 53
+      expected_value: Child Tax Credit and Jobseekers Allowance
+      label: Legacy Benefit
+    - column: E
+      row: 53
+      expected_value: Did not claim UC - Legacy benefit closed
+      label: Move Status
+    - column: D
+      row: 53
+      expected_value: str:value:MtUC_Households:V_F_MtUC_Households:Legacy_Ben_Code:C_MtUC_Legacy_Benefit_Claimed:11
+      label: Legacy Benefit URI
+    - column: F
+      row: 53
+      expected_value: str:value:MtUC_Households:V_F_MtUC_Households:Claim_Status_Code:C_MtUC_Claim_Status:2
+      label: Move Status URI
+  - value_id: child_tax_credit_and_jobseekers_allowance__in_progress
+    label: Child Tax Credit and Jobseekers Allowance, In Progress
+    ordinal: 32
+    row_number: 54
+    expected_row_header_column: F
+    expected_row_header: str:value:MtUC_Households:V_F_MtUC_Households:Claim_Status_Code:C_MtUC_Claim_Status:3
+    table_record_kind: detail
+    filters:
+      legacy_benefit: Child Tax Credit and Jobseekers Allowance
+      move_status: In Progress
+    constraints:
+    - variable: legacy_benefit
+      operator: ==
+      value: Child Tax Credit and Jobseekers Allowance
+      label: Legacy Benefit
+    - variable: move_status
+      operator: ==
+      value: In Progress
+      label: Move Status
+    guard_cells:
+    - column: A
+      row: 54
+      expected_value: Move to UC - Households
+      label: measure
+    - column: C
+      row: 54
+      expected_value: Child Tax Credit and Jobseekers Allowance
+      label: Legacy Benefit
+    - column: E
+      row: 54
+      expected_value: In Progress
+      label: Move Status
+    - column: D
+      row: 54
+      expected_value: str:value:MtUC_Households:V_F_MtUC_Households:Legacy_Ben_Code:C_MtUC_Legacy_Benefit_Claimed:11
+      label: Legacy Benefit URI
+    - column: F
+      row: 54
+      expected_value: str:value:MtUC_Households:V_F_MtUC_Households:Claim_Status_Code:C_MtUC_Claim_Status:3
+      label: Move Status URI
+  - value_id: working_tax_credit_and_housing_benefit__claimed_uc
+    label: Working Tax Credit and Housing Benefit, Claimed UC
+    ordinal: 33
+    row_number: 57
+    expected_row_header_column: F
+    expected_row_header: str:value:MtUC_Households:V_F_MtUC_Households:Claim_Status_Code:C_MtUC_Claim_Status:1
+    table_record_kind: detail
+    filters:
+      legacy_benefit: Working Tax Credit and Housing Benefit
+      move_status: Claimed UC
+    constraints:
+    - variable: legacy_benefit
+      operator: ==
+      value: Working Tax Credit and Housing Benefit
+      label: Legacy Benefit
+    - variable: move_status
+      operator: ==
+      value: Claimed UC
+      label: Move Status
+    guard_cells:
+    - column: A
+      row: 57
+      expected_value: Move to UC - Households
+      label: measure
+    - column: C
+      row: 57
+      expected_value: Working Tax Credit and Housing Benefit
+      label: Legacy Benefit
+    - column: E
+      row: 57
+      expected_value: Claimed UC
+      label: Move Status
+    - column: D
+      row: 57
+      expected_value: str:value:MtUC_Households:V_F_MtUC_Households:Legacy_Ben_Code:C_MtUC_Legacy_Benefit_Claimed:12
+      label: Legacy Benefit URI
+    - column: F
+      row: 57
+      expected_value: str:value:MtUC_Households:V_F_MtUC_Households:Claim_Status_Code:C_MtUC_Claim_Status:1
+      label: Move Status URI
+  - value_id: working_tax_credit_and_housing_benefit__did_not_claim_uc___legacy_benefit_closed
+    label: Working Tax Credit and Housing Benefit, Did not claim UC - Legacy benefit closed
+    ordinal: 34
+    row_number: 58
+    expected_row_header_column: F
+    expected_row_header: str:value:MtUC_Households:V_F_MtUC_Households:Claim_Status_Code:C_MtUC_Claim_Status:2
+    table_record_kind: detail
+    filters:
+      legacy_benefit: Working Tax Credit and Housing Benefit
+      move_status: Did not claim UC - Legacy benefit closed
+    constraints:
+    - variable: legacy_benefit
+      operator: ==
+      value: Working Tax Credit and Housing Benefit
+      label: Legacy Benefit
+    - variable: move_status
+      operator: ==
+      value: Did not claim UC - Legacy benefit closed
+      label: Move Status
+    guard_cells:
+    - column: A
+      row: 58
+      expected_value: Move to UC - Households
+      label: measure
+    - column: C
+      row: 58
+      expected_value: Working Tax Credit and Housing Benefit
+      label: Legacy Benefit
+    - column: E
+      row: 58
+      expected_value: Did not claim UC - Legacy benefit closed
+      label: Move Status
+    - column: D
+      row: 58
+      expected_value: str:value:MtUC_Households:V_F_MtUC_Households:Legacy_Ben_Code:C_MtUC_Legacy_Benefit_Claimed:12
+      label: Legacy Benefit URI
+    - column: F
+      row: 58
+      expected_value: str:value:MtUC_Households:V_F_MtUC_Households:Claim_Status_Code:C_MtUC_Claim_Status:2
+      label: Move Status URI
+  - value_id: working_tax_credit_and_housing_benefit__in_progress
+    label: Working Tax Credit and Housing Benefit, In Progress
+    ordinal: 35
+    row_number: 59
+    expected_row_header_column: F
+    expected_row_header: str:value:MtUC_Households:V_F_MtUC_Households:Claim_Status_Code:C_MtUC_Claim_Status:3
+    table_record_kind: detail
+    filters:
+      legacy_benefit: Working Tax Credit and Housing Benefit
+      move_status: In Progress
+    constraints:
+    - variable: legacy_benefit
+      operator: ==
+      value: Working Tax Credit and Housing Benefit
+      label: Legacy Benefit
+    - variable: move_status
+      operator: ==
+      value: In Progress
+      label: Move Status
+    guard_cells:
+    - column: A
+      row: 59
+      expected_value: Move to UC - Households
+      label: measure
+    - column: C
+      row: 59
+      expected_value: Working Tax Credit and Housing Benefit
+      label: Legacy Benefit
+    - column: E
+      row: 59
+      expected_value: In Progress
+      label: Move Status
+    - column: D
+      row: 59
+      expected_value: str:value:MtUC_Households:V_F_MtUC_Households:Legacy_Ben_Code:C_MtUC_Legacy_Benefit_Claimed:12
+      label: Legacy Benefit URI
+    - column: F
+      row: 59
+      expected_value: str:value:MtUC_Households:V_F_MtUC_Households:Claim_Status_Code:C_MtUC_Claim_Status:3
+      label: Move Status URI
+  - value_id: housing_benefit_and_employment_support_allowance__claimed_uc
+    label: Housing Benefit and Employment Support Allowance, Claimed UC
+    ordinal: 36
+    row_number: 62
+    expected_row_header_column: F
+    expected_row_header: str:value:MtUC_Households:V_F_MtUC_Households:Claim_Status_Code:C_MtUC_Claim_Status:1
+    table_record_kind: detail
+    filters:
+      legacy_benefit: Housing Benefit and Employment Support Allowance
+      move_status: Claimed UC
+    constraints:
+    - variable: legacy_benefit
+      operator: ==
+      value: Housing Benefit and Employment Support Allowance
+      label: Legacy Benefit
+    - variable: move_status
+      operator: ==
+      value: Claimed UC
+      label: Move Status
+    guard_cells:
+    - column: A
+      row: 62
+      expected_value: Move to UC - Households
+      label: measure
+    - column: C
+      row: 62
+      expected_value: Housing Benefit and Employment Support Allowance
+      label: Legacy Benefit
+    - column: E
+      row: 62
+      expected_value: Claimed UC
+      label: Move Status
+    - column: D
+      row: 62
+      expected_value: str:value:MtUC_Households:V_F_MtUC_Households:Legacy_Ben_Code:C_MtUC_Legacy_Benefit_Claimed:13
+      label: Legacy Benefit URI
+    - column: F
+      row: 62
+      expected_value: str:value:MtUC_Households:V_F_MtUC_Households:Claim_Status_Code:C_MtUC_Claim_Status:1
+      label: Move Status URI
+  - value_id: housing_benefit_and_employment_support_allowance__did_not_claim_uc___legacy_benefit_closed
+    label: Housing Benefit and Employment Support Allowance, Did not claim UC - Legacy benefit closed
+    ordinal: 37
+    row_number: 63
+    expected_row_header_column: F
+    expected_row_header: str:value:MtUC_Households:V_F_MtUC_Households:Claim_Status_Code:C_MtUC_Claim_Status:2
+    table_record_kind: detail
+    filters:
+      legacy_benefit: Housing Benefit and Employment Support Allowance
+      move_status: Did not claim UC - Legacy benefit closed
+    constraints:
+    - variable: legacy_benefit
+      operator: ==
+      value: Housing Benefit and Employment Support Allowance
+      label: Legacy Benefit
+    - variable: move_status
+      operator: ==
+      value: Did not claim UC - Legacy benefit closed
+      label: Move Status
+    guard_cells:
+    - column: A
+      row: 63
+      expected_value: Move to UC - Households
+      label: measure
+    - column: C
+      row: 63
+      expected_value: Housing Benefit and Employment Support Allowance
+      label: Legacy Benefit
+    - column: E
+      row: 63
+      expected_value: Did not claim UC - Legacy benefit closed
+      label: Move Status
+    - column: D
+      row: 63
+      expected_value: str:value:MtUC_Households:V_F_MtUC_Households:Legacy_Ben_Code:C_MtUC_Legacy_Benefit_Claimed:13
+      label: Legacy Benefit URI
+    - column: F
+      row: 63
+      expected_value: str:value:MtUC_Households:V_F_MtUC_Households:Claim_Status_Code:C_MtUC_Claim_Status:2
+      label: Move Status URI
+  - value_id: housing_benefit_and_employment_support_allowance__in_progress
+    label: Housing Benefit and Employment Support Allowance, In Progress
+    ordinal: 38
+    row_number: 64
+    expected_row_header_column: F
+    expected_row_header: str:value:MtUC_Households:V_F_MtUC_Households:Claim_Status_Code:C_MtUC_Claim_Status:3
+    table_record_kind: detail
+    filters:
+      legacy_benefit: Housing Benefit and Employment Support Allowance
+      move_status: In Progress
+    constraints:
+    - variable: legacy_benefit
+      operator: ==
+      value: Housing Benefit and Employment Support Allowance
+      label: Legacy Benefit
+    - variable: move_status
+      operator: ==
+      value: In Progress
+      label: Move Status
+    guard_cells:
+    - column: A
+      row: 64
+      expected_value: Move to UC - Households
+      label: measure
+    - column: C
+      row: 64
+      expected_value: Housing Benefit and Employment Support Allowance
+      label: Legacy Benefit
+    - column: E
+      row: 64
+      expected_value: In Progress
+      label: Move Status
+    - column: D
+      row: 64
+      expected_value: str:value:MtUC_Households:V_F_MtUC_Households:Legacy_Ben_Code:C_MtUC_Legacy_Benefit_Claimed:13
+      label: Legacy Benefit URI
+    - column: F
+      row: 64
+      expected_value: str:value:MtUC_Households:V_F_MtUC_Households:Claim_Status_Code:C_MtUC_Claim_Status:3
+      label: Move Status URI
+  - value_id: housing_benefit_and_income_support__claimed_uc
+    label: Housing Benefit and Income Support, Claimed UC
+    ordinal: 39
+    row_number: 67
+    expected_row_header_column: F
+    expected_row_header: str:value:MtUC_Households:V_F_MtUC_Households:Claim_Status_Code:C_MtUC_Claim_Status:1
+    table_record_kind: detail
+    filters:
+      legacy_benefit: Housing Benefit and Income Support
+      move_status: Claimed UC
+    constraints:
+    - variable: legacy_benefit
+      operator: ==
+      value: Housing Benefit and Income Support
+      label: Legacy Benefit
+    - variable: move_status
+      operator: ==
+      value: Claimed UC
+      label: Move Status
+    guard_cells:
+    - column: A
+      row: 67
+      expected_value: Move to UC - Households
+      label: measure
+    - column: C
+      row: 67
+      expected_value: Housing Benefit and Income Support
+      label: Legacy Benefit
+    - column: E
+      row: 67
+      expected_value: Claimed UC
+      label: Move Status
+    - column: D
+      row: 67
+      expected_value: str:value:MtUC_Households:V_F_MtUC_Households:Legacy_Ben_Code:C_MtUC_Legacy_Benefit_Claimed:14
+      label: Legacy Benefit URI
+    - column: F
+      row: 67
+      expected_value: str:value:MtUC_Households:V_F_MtUC_Households:Claim_Status_Code:C_MtUC_Claim_Status:1
+      label: Move Status URI
+  - value_id: housing_benefit_and_income_support__did_not_claim_uc___legacy_benefit_closed
+    label: Housing Benefit and Income Support, Did not claim UC - Legacy benefit closed
+    ordinal: 40
+    row_number: 68
+    expected_row_header_column: F
+    expected_row_header: str:value:MtUC_Households:V_F_MtUC_Households:Claim_Status_Code:C_MtUC_Claim_Status:2
+    table_record_kind: detail
+    filters:
+      legacy_benefit: Housing Benefit and Income Support
+      move_status: Did not claim UC - Legacy benefit closed
+    constraints:
+    - variable: legacy_benefit
+      operator: ==
+      value: Housing Benefit and Income Support
+      label: Legacy Benefit
+    - variable: move_status
+      operator: ==
+      value: Did not claim UC - Legacy benefit closed
+      label: Move Status
+    guard_cells:
+    - column: A
+      row: 68
+      expected_value: Move to UC - Households
+      label: measure
+    - column: C
+      row: 68
+      expected_value: Housing Benefit and Income Support
+      label: Legacy Benefit
+    - column: E
+      row: 68
+      expected_value: Did not claim UC - Legacy benefit closed
+      label: Move Status
+    - column: D
+      row: 68
+      expected_value: str:value:MtUC_Households:V_F_MtUC_Households:Legacy_Ben_Code:C_MtUC_Legacy_Benefit_Claimed:14
+      label: Legacy Benefit URI
+    - column: F
+      row: 68
+      expected_value: str:value:MtUC_Households:V_F_MtUC_Households:Claim_Status_Code:C_MtUC_Claim_Status:2
+      label: Move Status URI
+  - value_id: housing_benefit_and_income_support__in_progress
+    label: Housing Benefit and Income Support, In Progress
+    ordinal: 41
+    row_number: 69
+    expected_row_header_column: F
+    expected_row_header: str:value:MtUC_Households:V_F_MtUC_Households:Claim_Status_Code:C_MtUC_Claim_Status:3
+    table_record_kind: detail
+    filters:
+      legacy_benefit: Housing Benefit and Income Support
+      move_status: In Progress
+    constraints:
+    - variable: legacy_benefit
+      operator: ==
+      value: Housing Benefit and Income Support
+      label: Legacy Benefit
+    - variable: move_status
+      operator: ==
+      value: In Progress
+      label: Move Status
+    guard_cells:
+    - column: A
+      row: 69
+      expected_value: Move to UC - Households
+      label: measure
+    - column: C
+      row: 69
+      expected_value: Housing Benefit and Income Support
+      label: Legacy Benefit
+    - column: E
+      row: 69
+      expected_value: In Progress
+      label: Move Status
+    - column: D
+      row: 69
+      expected_value: str:value:MtUC_Households:V_F_MtUC_Households:Legacy_Ben_Code:C_MtUC_Legacy_Benefit_Claimed:14
+      label: Legacy Benefit URI
+    - column: F
+      row: 69
+      expected_value: str:value:MtUC_Households:V_F_MtUC_Households:Claim_Status_Code:C_MtUC_Claim_Status:3
+      label: Move Status URI
+  - value_id: housing_benefit_and_jobseekers_allowance__claimed_uc
+    label: Housing Benefit and Jobseekers Allowance, Claimed UC
+    ordinal: 42
+    row_number: 72
+    expected_row_header_column: F
+    expected_row_header: str:value:MtUC_Households:V_F_MtUC_Households:Claim_Status_Code:C_MtUC_Claim_Status:1
+    table_record_kind: detail
+    filters:
+      legacy_benefit: Housing Benefit and Jobseekers Allowance
+      move_status: Claimed UC
+    constraints:
+    - variable: legacy_benefit
+      operator: ==
+      value: Housing Benefit and Jobseekers Allowance
+      label: Legacy Benefit
+    - variable: move_status
+      operator: ==
+      value: Claimed UC
+      label: Move Status
+    guard_cells:
+    - column: A
+      row: 72
+      expected_value: Move to UC - Households
+      label: measure
+    - column: C
+      row: 72
+      expected_value: Housing Benefit and Jobseekers Allowance
+      label: Legacy Benefit
+    - column: E
+      row: 72
+      expected_value: Claimed UC
+      label: Move Status
+    - column: D
+      row: 72
+      expected_value: str:value:MtUC_Households:V_F_MtUC_Households:Legacy_Ben_Code:C_MtUC_Legacy_Benefit_Claimed:15
+      label: Legacy Benefit URI
+    - column: F
+      row: 72
+      expected_value: str:value:MtUC_Households:V_F_MtUC_Households:Claim_Status_Code:C_MtUC_Claim_Status:1
+      label: Move Status URI
+  - value_id: housing_benefit_and_jobseekers_allowance__did_not_claim_uc___legacy_benefit_closed
+    label: Housing Benefit and Jobseekers Allowance, Did not claim UC - Legacy benefit closed
+    ordinal: 43
+    row_number: 73
+    expected_row_header_column: F
+    expected_row_header: str:value:MtUC_Households:V_F_MtUC_Households:Claim_Status_Code:C_MtUC_Claim_Status:2
+    table_record_kind: detail
+    filters:
+      legacy_benefit: Housing Benefit and Jobseekers Allowance
+      move_status: Did not claim UC - Legacy benefit closed
+    constraints:
+    - variable: legacy_benefit
+      operator: ==
+      value: Housing Benefit and Jobseekers Allowance
+      label: Legacy Benefit
+    - variable: move_status
+      operator: ==
+      value: Did not claim UC - Legacy benefit closed
+      label: Move Status
+    guard_cells:
+    - column: A
+      row: 73
+      expected_value: Move to UC - Households
+      label: measure
+    - column: C
+      row: 73
+      expected_value: Housing Benefit and Jobseekers Allowance
+      label: Legacy Benefit
+    - column: E
+      row: 73
+      expected_value: Did not claim UC - Legacy benefit closed
+      label: Move Status
+    - column: D
+      row: 73
+      expected_value: str:value:MtUC_Households:V_F_MtUC_Households:Legacy_Ben_Code:C_MtUC_Legacy_Benefit_Claimed:15
+      label: Legacy Benefit URI
+    - column: F
+      row: 73
+      expected_value: str:value:MtUC_Households:V_F_MtUC_Households:Claim_Status_Code:C_MtUC_Claim_Status:2
+      label: Move Status URI
+  - value_id: housing_benefit_and_jobseekers_allowance__in_progress
+    label: Housing Benefit and Jobseekers Allowance, In Progress
+    ordinal: 44
+    row_number: 74
+    expected_row_header_column: F
+    expected_row_header: str:value:MtUC_Households:V_F_MtUC_Households:Claim_Status_Code:C_MtUC_Claim_Status:3
+    table_record_kind: detail
+    filters:
+      legacy_benefit: Housing Benefit and Jobseekers Allowance
+      move_status: In Progress
+    constraints:
+    - variable: legacy_benefit
+      operator: ==
+      value: Housing Benefit and Jobseekers Allowance
+      label: Legacy Benefit
+    - variable: move_status
+      operator: ==
+      value: In Progress
+      label: Move Status
+    guard_cells:
+    - column: A
+      row: 74
+      expected_value: Move to UC - Households
+      label: measure
+    - column: C
+      row: 74
+      expected_value: Housing Benefit and Jobseekers Allowance
+      label: Legacy Benefit
+    - column: E
+      row: 74
+      expected_value: In Progress
+      label: Move Status
+    - column: D
+      row: 74
+      expected_value: str:value:MtUC_Households:V_F_MtUC_Households:Legacy_Ben_Code:C_MtUC_Legacy_Benefit_Claimed:15
+      label: Legacy Benefit URI
+    - column: F
+      row: 74
+      expected_value: str:value:MtUC_Households:V_F_MtUC_Households:Claim_Status_Code:C_MtUC_Claim_Status:3
+      label: Move Status URI
+  - value_id: child_tax_credit_and_working_tax_credit_and_housing_benefit__claimed_uc
+    label: Child Tax Credit and Working Tax Credit and Housing Benefit, Claimed UC
+    ordinal: 45
+    row_number: 77
+    expected_row_header_column: F
+    expected_row_header: str:value:MtUC_Households:V_F_MtUC_Households:Claim_Status_Code:C_MtUC_Claim_Status:1
+    table_record_kind: detail
+    filters:
+      legacy_benefit: Child Tax Credit and Working Tax Credit and Housing Benefit
+      move_status: Claimed UC
+    constraints:
+    - variable: legacy_benefit
+      operator: ==
+      value: Child Tax Credit and Working Tax Credit and Housing Benefit
+      label: Legacy Benefit
+    - variable: move_status
+      operator: ==
+      value: Claimed UC
+      label: Move Status
+    guard_cells:
+    - column: A
+      row: 77
+      expected_value: Move to UC - Households
+      label: measure
+    - column: C
+      row: 77
+      expected_value: Child Tax Credit and Working Tax Credit and Housing Benefit
+      label: Legacy Benefit
+    - column: E
+      row: 77
+      expected_value: Claimed UC
+      label: Move Status
+    - column: D
+      row: 77
+      expected_value: str:value:MtUC_Households:V_F_MtUC_Households:Legacy_Ben_Code:C_MtUC_Legacy_Benefit_Claimed:16
+      label: Legacy Benefit URI
+    - column: F
+      row: 77
+      expected_value: str:value:MtUC_Households:V_F_MtUC_Households:Claim_Status_Code:C_MtUC_Claim_Status:1
+      label: Move Status URI
+  - value_id: child_tax_credit_and_working_tax_credit_and_housing_benefit__did_not_claim_uc___legacy_benefit_closed
+    label: Child Tax Credit and Working Tax Credit and Housing Benefit, Did not claim UC - Legacy benefit
+      closed
+    ordinal: 46
+    row_number: 78
+    expected_row_header_column: F
+    expected_row_header: str:value:MtUC_Households:V_F_MtUC_Households:Claim_Status_Code:C_MtUC_Claim_Status:2
+    table_record_kind: detail
+    filters:
+      legacy_benefit: Child Tax Credit and Working Tax Credit and Housing Benefit
+      move_status: Did not claim UC - Legacy benefit closed
+    constraints:
+    - variable: legacy_benefit
+      operator: ==
+      value: Child Tax Credit and Working Tax Credit and Housing Benefit
+      label: Legacy Benefit
+    - variable: move_status
+      operator: ==
+      value: Did not claim UC - Legacy benefit closed
+      label: Move Status
+    guard_cells:
+    - column: A
+      row: 78
+      expected_value: Move to UC - Households
+      label: measure
+    - column: C
+      row: 78
+      expected_value: Child Tax Credit and Working Tax Credit and Housing Benefit
+      label: Legacy Benefit
+    - column: E
+      row: 78
+      expected_value: Did not claim UC - Legacy benefit closed
+      label: Move Status
+    - column: D
+      row: 78
+      expected_value: str:value:MtUC_Households:V_F_MtUC_Households:Legacy_Ben_Code:C_MtUC_Legacy_Benefit_Claimed:16
+      label: Legacy Benefit URI
+    - column: F
+      row: 78
+      expected_value: str:value:MtUC_Households:V_F_MtUC_Households:Claim_Status_Code:C_MtUC_Claim_Status:2
+      label: Move Status URI
+  - value_id: child_tax_credit_and_working_tax_credit_and_housing_benefit__in_progress
+    label: Child Tax Credit and Working Tax Credit and Housing Benefit, In Progress
+    ordinal: 47
+    row_number: 79
+    expected_row_header_column: F
+    expected_row_header: str:value:MtUC_Households:V_F_MtUC_Households:Claim_Status_Code:C_MtUC_Claim_Status:3
+    table_record_kind: detail
+    filters:
+      legacy_benefit: Child Tax Credit and Working Tax Credit and Housing Benefit
+      move_status: In Progress
+    constraints:
+    - variable: legacy_benefit
+      operator: ==
+      value: Child Tax Credit and Working Tax Credit and Housing Benefit
+      label: Legacy Benefit
+    - variable: move_status
+      operator: ==
+      value: In Progress
+      label: Move Status
+    guard_cells:
+    - column: A
+      row: 79
+      expected_value: Move to UC - Households
+      label: measure
+    - column: C
+      row: 79
+      expected_value: Child Tax Credit and Working Tax Credit and Housing Benefit
+      label: Legacy Benefit
+    - column: E
+      row: 79
+      expected_value: In Progress
+      label: Move Status
+    - column: D
+      row: 79
+      expected_value: str:value:MtUC_Households:V_F_MtUC_Households:Legacy_Ben_Code:C_MtUC_Legacy_Benefit_Claimed:16
+      label: Legacy Benefit URI
+    - column: F
+      row: 79
+      expected_value: str:value:MtUC_Households:V_F_MtUC_Households:Claim_Status_Code:C_MtUC_Claim_Status:3
+      label: Move Status URI
+  - value_id: child_tax_credit_and_housing_benefit_and_employment_support_allowance__claimed_uc
+    label: Child Tax Credit and Housing Benefit and Employment Support Allowance, Claimed UC
+    ordinal: 48
+    row_number: 82
+    expected_row_header_column: F
+    expected_row_header: str:value:MtUC_Households:V_F_MtUC_Households:Claim_Status_Code:C_MtUC_Claim_Status:1
+    table_record_kind: detail
+    filters:
+      legacy_benefit: Child Tax Credit and Housing Benefit and Employment Support Allowance
+      move_status: Claimed UC
+    constraints:
+    - variable: legacy_benefit
+      operator: ==
+      value: Child Tax Credit and Housing Benefit and Employment Support Allowance
+      label: Legacy Benefit
+    - variable: move_status
+      operator: ==
+      value: Claimed UC
+      label: Move Status
+    guard_cells:
+    - column: A
+      row: 82
+      expected_value: Move to UC - Households
+      label: measure
+    - column: C
+      row: 82
+      expected_value: Child Tax Credit and Housing Benefit and Employment Support Allowance
+      label: Legacy Benefit
+    - column: E
+      row: 82
+      expected_value: Claimed UC
+      label: Move Status
+    - column: D
+      row: 82
+      expected_value: str:value:MtUC_Households:V_F_MtUC_Households:Legacy_Ben_Code:C_MtUC_Legacy_Benefit_Claimed:17
+      label: Legacy Benefit URI
+    - column: F
+      row: 82
+      expected_value: str:value:MtUC_Households:V_F_MtUC_Households:Claim_Status_Code:C_MtUC_Claim_Status:1
+      label: Move Status URI
+  - value_id: child_tax_credit_and_housing_benefit_and_employment_support_allowance__did_not_claim_uc___legacy_benefit_closed
+    label: Child Tax Credit and Housing Benefit and Employment Support Allowance, Did not claim UC - Legacy
+      benefit closed
+    ordinal: 49
+    row_number: 83
+    expected_row_header_column: F
+    expected_row_header: str:value:MtUC_Households:V_F_MtUC_Households:Claim_Status_Code:C_MtUC_Claim_Status:2
+    table_record_kind: detail
+    filters:
+      legacy_benefit: Child Tax Credit and Housing Benefit and Employment Support Allowance
+      move_status: Did not claim UC - Legacy benefit closed
+    constraints:
+    - variable: legacy_benefit
+      operator: ==
+      value: Child Tax Credit and Housing Benefit and Employment Support Allowance
+      label: Legacy Benefit
+    - variable: move_status
+      operator: ==
+      value: Did not claim UC - Legacy benefit closed
+      label: Move Status
+    guard_cells:
+    - column: A
+      row: 83
+      expected_value: Move to UC - Households
+      label: measure
+    - column: C
+      row: 83
+      expected_value: Child Tax Credit and Housing Benefit and Employment Support Allowance
+      label: Legacy Benefit
+    - column: E
+      row: 83
+      expected_value: Did not claim UC - Legacy benefit closed
+      label: Move Status
+    - column: D
+      row: 83
+      expected_value: str:value:MtUC_Households:V_F_MtUC_Households:Legacy_Ben_Code:C_MtUC_Legacy_Benefit_Claimed:17
+      label: Legacy Benefit URI
+    - column: F
+      row: 83
+      expected_value: str:value:MtUC_Households:V_F_MtUC_Households:Claim_Status_Code:C_MtUC_Claim_Status:2
+      label: Move Status URI
+  - value_id: child_tax_credit_and_housing_benefit_and_employment_support_allowance__in_progress
+    label: Child Tax Credit and Housing Benefit and Employment Support Allowance, In Progress
+    ordinal: 50
+    row_number: 84
+    expected_row_header_column: F
+    expected_row_header: str:value:MtUC_Households:V_F_MtUC_Households:Claim_Status_Code:C_MtUC_Claim_Status:3
+    table_record_kind: detail
+    filters:
+      legacy_benefit: Child Tax Credit and Housing Benefit and Employment Support Allowance
+      move_status: In Progress
+    constraints:
+    - variable: legacy_benefit
+      operator: ==
+      value: Child Tax Credit and Housing Benefit and Employment Support Allowance
+      label: Legacy Benefit
+    - variable: move_status
+      operator: ==
+      value: In Progress
+      label: Move Status
+    guard_cells:
+    - column: A
+      row: 84
+      expected_value: Move to UC - Households
+      label: measure
+    - column: C
+      row: 84
+      expected_value: Child Tax Credit and Housing Benefit and Employment Support Allowance
+      label: Legacy Benefit
+    - column: E
+      row: 84
+      expected_value: In Progress
+      label: Move Status
+    - column: D
+      row: 84
+      expected_value: str:value:MtUC_Households:V_F_MtUC_Households:Legacy_Ben_Code:C_MtUC_Legacy_Benefit_Claimed:17
+      label: Legacy Benefit URI
+    - column: F
+      row: 84
+      expected_value: str:value:MtUC_Households:V_F_MtUC_Households:Claim_Status_Code:C_MtUC_Claim_Status:3
+      label: Move Status URI
+  - value_id: child_tax_credit_and_housing_benefit_and_income_support__claimed_uc
+    label: Child Tax Credit and Housing Benefit and Income Support, Claimed UC
+    ordinal: 51
+    row_number: 87
+    expected_row_header_column: F
+    expected_row_header: str:value:MtUC_Households:V_F_MtUC_Households:Claim_Status_Code:C_MtUC_Claim_Status:1
+    table_record_kind: detail
+    filters:
+      legacy_benefit: Child Tax Credit and Housing Benefit and Income Support
+      move_status: Claimed UC
+    constraints:
+    - variable: legacy_benefit
+      operator: ==
+      value: Child Tax Credit and Housing Benefit and Income Support
+      label: Legacy Benefit
+    - variable: move_status
+      operator: ==
+      value: Claimed UC
+      label: Move Status
+    guard_cells:
+    - column: A
+      row: 87
+      expected_value: Move to UC - Households
+      label: measure
+    - column: C
+      row: 87
+      expected_value: Child Tax Credit and Housing Benefit and Income Support
+      label: Legacy Benefit
+    - column: E
+      row: 87
+      expected_value: Claimed UC
+      label: Move Status
+    - column: D
+      row: 87
+      expected_value: str:value:MtUC_Households:V_F_MtUC_Households:Legacy_Ben_Code:C_MtUC_Legacy_Benefit_Claimed:18
+      label: Legacy Benefit URI
+    - column: F
+      row: 87
+      expected_value: str:value:MtUC_Households:V_F_MtUC_Households:Claim_Status_Code:C_MtUC_Claim_Status:1
+      label: Move Status URI
+  - value_id: child_tax_credit_and_housing_benefit_and_income_support__did_not_claim_uc___legacy_benefit_closed
+    label: Child Tax Credit and Housing Benefit and Income Support, Did not claim UC - Legacy benefit
+      closed
+    ordinal: 52
+    row_number: 88
+    expected_row_header_column: F
+    expected_row_header: str:value:MtUC_Households:V_F_MtUC_Households:Claim_Status_Code:C_MtUC_Claim_Status:2
+    table_record_kind: detail
+    filters:
+      legacy_benefit: Child Tax Credit and Housing Benefit and Income Support
+      move_status: Did not claim UC - Legacy benefit closed
+    constraints:
+    - variable: legacy_benefit
+      operator: ==
+      value: Child Tax Credit and Housing Benefit and Income Support
+      label: Legacy Benefit
+    - variable: move_status
+      operator: ==
+      value: Did not claim UC - Legacy benefit closed
+      label: Move Status
+    guard_cells:
+    - column: A
+      row: 88
+      expected_value: Move to UC - Households
+      label: measure
+    - column: C
+      row: 88
+      expected_value: Child Tax Credit and Housing Benefit and Income Support
+      label: Legacy Benefit
+    - column: E
+      row: 88
+      expected_value: Did not claim UC - Legacy benefit closed
+      label: Move Status
+    - column: D
+      row: 88
+      expected_value: str:value:MtUC_Households:V_F_MtUC_Households:Legacy_Ben_Code:C_MtUC_Legacy_Benefit_Claimed:18
+      label: Legacy Benefit URI
+    - column: F
+      row: 88
+      expected_value: str:value:MtUC_Households:V_F_MtUC_Households:Claim_Status_Code:C_MtUC_Claim_Status:2
+      label: Move Status URI
+  - value_id: child_tax_credit_and_housing_benefit_and_income_support__in_progress
+    label: Child Tax Credit and Housing Benefit and Income Support, In Progress
+    ordinal: 53
+    row_number: 89
+    expected_row_header_column: F
+    expected_row_header: str:value:MtUC_Households:V_F_MtUC_Households:Claim_Status_Code:C_MtUC_Claim_Status:3
+    table_record_kind: detail
+    filters:
+      legacy_benefit: Child Tax Credit and Housing Benefit and Income Support
+      move_status: In Progress
+    constraints:
+    - variable: legacy_benefit
+      operator: ==
+      value: Child Tax Credit and Housing Benefit and Income Support
+      label: Legacy Benefit
+    - variable: move_status
+      operator: ==
+      value: In Progress
+      label: Move Status
+    guard_cells:
+    - column: A
+      row: 89
+      expected_value: Move to UC - Households
+      label: measure
+    - column: C
+      row: 89
+      expected_value: Child Tax Credit and Housing Benefit and Income Support
+      label: Legacy Benefit
+    - column: E
+      row: 89
+      expected_value: In Progress
+      label: Move Status
+    - column: D
+      row: 89
+      expected_value: str:value:MtUC_Households:V_F_MtUC_Households:Legacy_Ben_Code:C_MtUC_Legacy_Benefit_Claimed:18
+      label: Legacy Benefit URI
+    - column: F
+      row: 89
+      expected_value: str:value:MtUC_Households:V_F_MtUC_Households:Claim_Status_Code:C_MtUC_Claim_Status:3
+      label: Move Status URI
+  - value_id: child_tax_credit_and_housing_benefit_and_jobseekers_allowance__claimed_uc
+    label: Child Tax Credit and Housing Benefit and Jobseekers Allowance, Claimed UC
+    ordinal: 54
+    row_number: 92
+    expected_row_header_column: F
+    expected_row_header: str:value:MtUC_Households:V_F_MtUC_Households:Claim_Status_Code:C_MtUC_Claim_Status:1
+    table_record_kind: detail
+    filters:
+      legacy_benefit: Child Tax Credit and Housing Benefit and Jobseekers Allowance
+      move_status: Claimed UC
+    constraints:
+    - variable: legacy_benefit
+      operator: ==
+      value: Child Tax Credit and Housing Benefit and Jobseekers Allowance
+      label: Legacy Benefit
+    - variable: move_status
+      operator: ==
+      value: Claimed UC
+      label: Move Status
+    guard_cells:
+    - column: A
+      row: 92
+      expected_value: Move to UC - Households
+      label: measure
+    - column: C
+      row: 92
+      expected_value: Child Tax Credit and Housing Benefit and Jobseekers Allowance
+      label: Legacy Benefit
+    - column: E
+      row: 92
+      expected_value: Claimed UC
+      label: Move Status
+    - column: D
+      row: 92
+      expected_value: str:value:MtUC_Households:V_F_MtUC_Households:Legacy_Ben_Code:C_MtUC_Legacy_Benefit_Claimed:19
+      label: Legacy Benefit URI
+    - column: F
+      row: 92
+      expected_value: str:value:MtUC_Households:V_F_MtUC_Households:Claim_Status_Code:C_MtUC_Claim_Status:1
+      label: Move Status URI
+  - value_id: child_tax_credit_and_housing_benefit_and_jobseekers_allowance__did_not_claim_uc___legacy_benefit_closed
+    label: Child Tax Credit and Housing Benefit and Jobseekers Allowance, Did not claim UC - Legacy benefit
+      closed
+    ordinal: 55
+    row_number: 93
+    expected_row_header_column: F
+    expected_row_header: str:value:MtUC_Households:V_F_MtUC_Households:Claim_Status_Code:C_MtUC_Claim_Status:2
+    table_record_kind: detail
+    filters:
+      legacy_benefit: Child Tax Credit and Housing Benefit and Jobseekers Allowance
+      move_status: Did not claim UC - Legacy benefit closed
+    constraints:
+    - variable: legacy_benefit
+      operator: ==
+      value: Child Tax Credit and Housing Benefit and Jobseekers Allowance
+      label: Legacy Benefit
+    - variable: move_status
+      operator: ==
+      value: Did not claim UC - Legacy benefit closed
+      label: Move Status
+    guard_cells:
+    - column: A
+      row: 93
+      expected_value: Move to UC - Households
+      label: measure
+    - column: C
+      row: 93
+      expected_value: Child Tax Credit and Housing Benefit and Jobseekers Allowance
+      label: Legacy Benefit
+    - column: E
+      row: 93
+      expected_value: Did not claim UC - Legacy benefit closed
+      label: Move Status
+    - column: D
+      row: 93
+      expected_value: str:value:MtUC_Households:V_F_MtUC_Households:Legacy_Ben_Code:C_MtUC_Legacy_Benefit_Claimed:19
+      label: Legacy Benefit URI
+    - column: F
+      row: 93
+      expected_value: str:value:MtUC_Households:V_F_MtUC_Households:Claim_Status_Code:C_MtUC_Claim_Status:2
+      label: Move Status URI
+  - value_id: child_tax_credit_and_housing_benefit_and_jobseekers_allowance__in_progress
+    label: Child Tax Credit and Housing Benefit and Jobseekers Allowance, In Progress
+    ordinal: 56
+    row_number: 94
+    expected_row_header_column: F
+    expected_row_header: str:value:MtUC_Households:V_F_MtUC_Households:Claim_Status_Code:C_MtUC_Claim_Status:3
+    table_record_kind: detail
+    filters:
+      legacy_benefit: Child Tax Credit and Housing Benefit and Jobseekers Allowance
+      move_status: In Progress
+    constraints:
+    - variable: legacy_benefit
+      operator: ==
+      value: Child Tax Credit and Housing Benefit and Jobseekers Allowance
+      label: Legacy Benefit
+    - variable: move_status
+      operator: ==
+      value: In Progress
+      label: Move Status
+    guard_cells:
+    - column: A
+      row: 94
+      expected_value: Move to UC - Households
+      label: measure
+    - column: C
+      row: 94
+      expected_value: Child Tax Credit and Housing Benefit and Jobseekers Allowance
+      label: Legacy Benefit
+    - column: E
+      row: 94
+      expected_value: In Progress
+      label: Move Status
+    - column: D
+      row: 94
+      expected_value: str:value:MtUC_Households:V_F_MtUC_Households:Legacy_Ben_Code:C_MtUC_Legacy_Benefit_Claimed:19
+      label: Legacy Benefit URI
+    - column: F
+      row: 94
+      expected_value: str:value:MtUC_Households:V_F_MtUC_Households:Claim_Status_Code:C_MtUC_Claim_Status:3
+      label: Move Status URI
+  measures:
+  - measure_id: households_sent_migration_notice
+    label: Households sent a Move to UC migration notice
+    ordinal: 0
+    column: B
+    source_column_id: value
+    expected_column_header_row: 1
+    expected_column_header: value
+    concept: dwp.mtuc_households_sent_migration_notice
+    source_concept: dwp.mtuc_households_sent_migration_notice
+    concept_relation: source_label
+    concept_authority: dwp
+    concept_evidence_url: https://www.gov.uk/government/publications/move-to-universal-credit-statistics-background-information/move-to-universal-credit-statistics-background-information
+    concept_evidence_notes: 'Official statistics in development. DWP Move to UC statistics (Stat-Xplore
+      ''Households invited to Move to Universal Credit'', extracted 15 October 2026): households sent
+      a managed migration notice from July 2022 to June 2026, Great Britain, by the legacy benefits the
+      household received and its move status at DWP''s extract. Claimed UC: a claim made within one month
+      after the deadline or any extension, including after the legacy award closed. Did not claim: no
+      such claim, legacy award ended. In Progress: deadline not yet passed. Each release supersedes the
+      last; cells carry Stat-Xplore''s random error.'
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+- record_set_id: dwp.statx.mtuc_households.legacy_benefit_move_status.2026-06.total
+  provenance_class: administrative
+  record_set_spec_id: dwp.statx.mtuc_households.legacy_benefit_move_status.2026-06.total.v1
+  source_record_id_prefix: dwp.statx.mtuc_households.legacy_benefit_move_status.2026-06.total
+  sheet_name: api_response
+  period_type: month
+  period: 2026-06
+  period_coverage:
+    start_date: '2022-07-01'
+    end_date: '2026-06-30'
+    basis: calendar
+    source_period_label: 'Month Migration Notice Sent: Jul-22 to Jun-26'
+    notes: 'Cumulative: households sent a migration notice in any month from July 2022 to June 2026, the
+      notice months Stat-Xplore held at extraction on 15 October 2026; period.value is the latest notice
+      month. Each household is counted once, in the move status it held at DWP''s extract, which DWP takes
+      about a month before each release. It is the release DWP summarises in its Universal Credit quarterly
+      statistics of 18 August 2026 (1.8 million households sent a notice to end June 2026, 87% claimed).'
+  geography_id: K03000001
+  geography_level: country
+  geography_name: Great Britain
+  geography_vintage: current
+  entity: household
+  entity_role: migration_notice_household
+  domain: universal_credit
+  groupby_dimension: dwp.mtuc_legacy_benefit_move_status
+  rows:
+  - value_id: child_tax_credit_only__all_statuses
+    label: Child Tax Credit only, all move statuses
+    ordinal: 0
+    row_number: 6
+    expected_row_header_column: E
+    expected_row_header: Total
+    table_record_kind: total
+    filters:
+      legacy_benefit: Child Tax Credit only
+      move_status: all
+    constraints:
+    - variable: legacy_benefit
+      operator: ==
+      value: Child Tax Credit only
+      label: Legacy Benefit
+    guard_cells:
+    - column: A
+      row: 6
+      expected_value: Move to UC - Households
+      label: measure
+    - column: C
+      row: 6
+      expected_value: Child Tax Credit only
+      label: Legacy Benefit
+    - column: E
+      row: 6
+      expected_value: Total
+      label: Move Status
+    - column: D
+      row: 6
+      expected_value: str:value:MtUC_Households:V_F_MtUC_Households:Legacy_Ben_Code:C_MtUC_Legacy_Benefit_Claimed:1
+      label: Legacy Benefit URI
+  - value_id: working_tax_credit_only__all_statuses
+    label: Working Tax Credit only, all move statuses
+    ordinal: 1
+    row_number: 11
+    expected_row_header_column: E
+    expected_row_header: Total
+    table_record_kind: total
+    filters:
+      legacy_benefit: Working Tax Credit only
+      move_status: all
+    constraints:
+    - variable: legacy_benefit
+      operator: ==
+      value: Working Tax Credit only
+      label: Legacy Benefit
+    guard_cells:
+    - column: A
+      row: 11
+      expected_value: Move to UC - Households
+      label: measure
+    - column: C
+      row: 11
+      expected_value: Working Tax Credit only
+      label: Legacy Benefit
+    - column: E
+      row: 11
+      expected_value: Total
+      label: Move Status
+    - column: D
+      row: 11
+      expected_value: str:value:MtUC_Households:V_F_MtUC_Households:Legacy_Ben_Code:C_MtUC_Legacy_Benefit_Claimed:2
+      label: Legacy Benefit URI
+  - value_id: child_tax_credit_and_working_tax_credit__all_statuses
+    label: Child Tax Credit and Working Tax Credit, all move statuses
+    ordinal: 2
+    row_number: 16
+    expected_row_header_column: E
+    expected_row_header: Total
+    table_record_kind: total
+    filters:
+      legacy_benefit: Child Tax Credit and Working Tax Credit
+      move_status: all
+    constraints:
+    - variable: legacy_benefit
+      operator: ==
+      value: Child Tax Credit and Working Tax Credit
+      label: Legacy Benefit
+    guard_cells:
+    - column: A
+      row: 16
+      expected_value: Move to UC - Households
+      label: measure
+    - column: C
+      row: 16
+      expected_value: Child Tax Credit and Working Tax Credit
+      label: Legacy Benefit
+    - column: E
+      row: 16
+      expected_value: Total
+      label: Move Status
+    - column: D
+      row: 16
+      expected_value: str:value:MtUC_Households:V_F_MtUC_Households:Legacy_Ben_Code:C_MtUC_Legacy_Benefit_Claimed:7
+      label: Legacy Benefit URI
+  - value_id: housing_benefit_only__all_statuses
+    label: Housing Benefit only, all move statuses
+    ordinal: 3
+    row_number: 21
+    expected_row_header_column: E
+    expected_row_header: Total
+    table_record_kind: total
+    filters:
+      legacy_benefit: Housing Benefit only
+      move_status: all
+    constraints:
+    - variable: legacy_benefit
+      operator: ==
+      value: Housing Benefit only
+      label: Legacy Benefit
+    guard_cells:
+    - column: A
+      row: 21
+      expected_value: Move to UC - Households
+      label: measure
+    - column: C
+      row: 21
+      expected_value: Housing Benefit only
+      label: Legacy Benefit
+    - column: E
+      row: 21
+      expected_value: Total
+      label: Move Status
+    - column: D
+      row: 21
+      expected_value: str:value:MtUC_Households:V_F_MtUC_Households:Legacy_Ben_Code:C_MtUC_Legacy_Benefit_Claimed:3
+      label: Legacy Benefit URI
+  - value_id: employment_support_allowance_only__all_statuses
+    label: Employment Support Allowance only, all move statuses
+    ordinal: 4
+    row_number: 26
+    expected_row_header_column: E
+    expected_row_header: Total
+    table_record_kind: total
+    filters:
+      legacy_benefit: Employment Support Allowance only
+      move_status: all
+    constraints:
+    - variable: legacy_benefit
+      operator: ==
+      value: Employment Support Allowance only
+      label: Legacy Benefit
+    guard_cells:
+    - column: A
+      row: 26
+      expected_value: Move to UC - Households
+      label: measure
+    - column: C
+      row: 26
+      expected_value: Employment Support Allowance only
+      label: Legacy Benefit
+    - column: E
+      row: 26
+      expected_value: Total
+      label: Move Status
+    - column: D
+      row: 26
+      expected_value: str:value:MtUC_Households:V_F_MtUC_Households:Legacy_Ben_Code:C_MtUC_Legacy_Benefit_Claimed:4
+      label: Legacy Benefit URI
+  - value_id: income_support_only__all_statuses
+    label: Income Support only, all move statuses
+    ordinal: 5
+    row_number: 31
+    expected_row_header_column: E
+    expected_row_header: Total
+    table_record_kind: total
+    filters:
+      legacy_benefit: Income Support only
+      move_status: all
+    constraints:
+    - variable: legacy_benefit
+      operator: ==
+      value: Income Support only
+      label: Legacy Benefit
+    guard_cells:
+    - column: A
+      row: 31
+      expected_value: Move to UC - Households
+      label: measure
+    - column: C
+      row: 31
+      expected_value: Income Support only
+      label: Legacy Benefit
+    - column: E
+      row: 31
+      expected_value: Total
+      label: Move Status
+    - column: D
+      row: 31
+      expected_value: str:value:MtUC_Households:V_F_MtUC_Households:Legacy_Ben_Code:C_MtUC_Legacy_Benefit_Claimed:5
+      label: Legacy Benefit URI
+  - value_id: jobseekers_allowance_only__all_statuses
+    label: Jobseekers Allowance only, all move statuses
+    ordinal: 6
+    row_number: 36
+    expected_row_header_column: E
+    expected_row_header: Total
+    table_record_kind: total
+    filters:
+      legacy_benefit: Jobseekers Allowance only
+      move_status: all
+    constraints:
+    - variable: legacy_benefit
+      operator: ==
+      value: Jobseekers Allowance only
+      label: Legacy Benefit
+    guard_cells:
+    - column: A
+      row: 36
+      expected_value: Move to UC - Households
+      label: measure
+    - column: C
+      row: 36
+      expected_value: Jobseekers Allowance only
+      label: Legacy Benefit
+    - column: E
+      row: 36
+      expected_value: Total
+      label: Move Status
+    - column: D
+      row: 36
+      expected_value: str:value:MtUC_Households:V_F_MtUC_Households:Legacy_Ben_Code:C_MtUC_Legacy_Benefit_Claimed:6
+      label: Legacy Benefit URI
+  - value_id: child_tax_credit_and_housing_benefit__all_statuses
+    label: Child Tax Credit and Housing Benefit, all move statuses
+    ordinal: 7
+    row_number: 41
+    expected_row_header_column: E
+    expected_row_header: Total
+    table_record_kind: total
+    filters:
+      legacy_benefit: Child Tax Credit and Housing Benefit
+      move_status: all
+    constraints:
+    - variable: legacy_benefit
+      operator: ==
+      value: Child Tax Credit and Housing Benefit
+      label: Legacy Benefit
+    guard_cells:
+    - column: A
+      row: 41
+      expected_value: Move to UC - Households
+      label: measure
+    - column: C
+      row: 41
+      expected_value: Child Tax Credit and Housing Benefit
+      label: Legacy Benefit
+    - column: E
+      row: 41
+      expected_value: Total
+      label: Move Status
+    - column: D
+      row: 41
+      expected_value: str:value:MtUC_Households:V_F_MtUC_Households:Legacy_Ben_Code:C_MtUC_Legacy_Benefit_Claimed:8
+      label: Legacy Benefit URI
+  - value_id: child_tax_credit_and_employment_support_allowance__all_statuses
+    label: Child Tax Credit and Employment Support Allowance, all move statuses
+    ordinal: 8
+    row_number: 46
+    expected_row_header_column: E
+    expected_row_header: Total
+    table_record_kind: total
+    filters:
+      legacy_benefit: Child Tax Credit and Employment Support Allowance
+      move_status: all
+    constraints:
+    - variable: legacy_benefit
+      operator: ==
+      value: Child Tax Credit and Employment Support Allowance
+      label: Legacy Benefit
+    guard_cells:
+    - column: A
+      row: 46
+      expected_value: Move to UC - Households
+      label: measure
+    - column: C
+      row: 46
+      expected_value: Child Tax Credit and Employment Support Allowance
+      label: Legacy Benefit
+    - column: E
+      row: 46
+      expected_value: Total
+      label: Move Status
+    - column: D
+      row: 46
+      expected_value: str:value:MtUC_Households:V_F_MtUC_Households:Legacy_Ben_Code:C_MtUC_Legacy_Benefit_Claimed:9
+      label: Legacy Benefit URI
+  - value_id: child_tax_credit_and_income_support__all_statuses
+    label: Child Tax Credit and Income Support, all move statuses
+    ordinal: 9
+    row_number: 51
+    expected_row_header_column: E
+    expected_row_header: Total
+    table_record_kind: total
+    filters:
+      legacy_benefit: Child Tax Credit and Income Support
+      move_status: all
+    constraints:
+    - variable: legacy_benefit
+      operator: ==
+      value: Child Tax Credit and Income Support
+      label: Legacy Benefit
+    guard_cells:
+    - column: A
+      row: 51
+      expected_value: Move to UC - Households
+      label: measure
+    - column: C
+      row: 51
+      expected_value: Child Tax Credit and Income Support
+      label: Legacy Benefit
+    - column: E
+      row: 51
+      expected_value: Total
+      label: Move Status
+    - column: D
+      row: 51
+      expected_value: str:value:MtUC_Households:V_F_MtUC_Households:Legacy_Ben_Code:C_MtUC_Legacy_Benefit_Claimed:10
+      label: Legacy Benefit URI
+  - value_id: child_tax_credit_and_jobseekers_allowance__all_statuses
+    label: Child Tax Credit and Jobseekers Allowance, all move statuses
+    ordinal: 10
+    row_number: 56
+    expected_row_header_column: E
+    expected_row_header: Total
+    table_record_kind: total
+    filters:
+      legacy_benefit: Child Tax Credit and Jobseekers Allowance
+      move_status: all
+    constraints:
+    - variable: legacy_benefit
+      operator: ==
+      value: Child Tax Credit and Jobseekers Allowance
+      label: Legacy Benefit
+    guard_cells:
+    - column: A
+      row: 56
+      expected_value: Move to UC - Households
+      label: measure
+    - column: C
+      row: 56
+      expected_value: Child Tax Credit and Jobseekers Allowance
+      label: Legacy Benefit
+    - column: E
+      row: 56
+      expected_value: Total
+      label: Move Status
+    - column: D
+      row: 56
+      expected_value: str:value:MtUC_Households:V_F_MtUC_Households:Legacy_Ben_Code:C_MtUC_Legacy_Benefit_Claimed:11
+      label: Legacy Benefit URI
+  - value_id: working_tax_credit_and_housing_benefit__all_statuses
+    label: Working Tax Credit and Housing Benefit, all move statuses
+    ordinal: 11
+    row_number: 61
+    expected_row_header_column: E
+    expected_row_header: Total
+    table_record_kind: total
+    filters:
+      legacy_benefit: Working Tax Credit and Housing Benefit
+      move_status: all
+    constraints:
+    - variable: legacy_benefit
+      operator: ==
+      value: Working Tax Credit and Housing Benefit
+      label: Legacy Benefit
+    guard_cells:
+    - column: A
+      row: 61
+      expected_value: Move to UC - Households
+      label: measure
+    - column: C
+      row: 61
+      expected_value: Working Tax Credit and Housing Benefit
+      label: Legacy Benefit
+    - column: E
+      row: 61
+      expected_value: Total
+      label: Move Status
+    - column: D
+      row: 61
+      expected_value: str:value:MtUC_Households:V_F_MtUC_Households:Legacy_Ben_Code:C_MtUC_Legacy_Benefit_Claimed:12
+      label: Legacy Benefit URI
+  - value_id: housing_benefit_and_employment_support_allowance__all_statuses
+    label: Housing Benefit and Employment Support Allowance, all move statuses
+    ordinal: 12
+    row_number: 66
+    expected_row_header_column: E
+    expected_row_header: Total
+    table_record_kind: total
+    filters:
+      legacy_benefit: Housing Benefit and Employment Support Allowance
+      move_status: all
+    constraints:
+    - variable: legacy_benefit
+      operator: ==
+      value: Housing Benefit and Employment Support Allowance
+      label: Legacy Benefit
+    guard_cells:
+    - column: A
+      row: 66
+      expected_value: Move to UC - Households
+      label: measure
+    - column: C
+      row: 66
+      expected_value: Housing Benefit and Employment Support Allowance
+      label: Legacy Benefit
+    - column: E
+      row: 66
+      expected_value: Total
+      label: Move Status
+    - column: D
+      row: 66
+      expected_value: str:value:MtUC_Households:V_F_MtUC_Households:Legacy_Ben_Code:C_MtUC_Legacy_Benefit_Claimed:13
+      label: Legacy Benefit URI
+  - value_id: housing_benefit_and_income_support__all_statuses
+    label: Housing Benefit and Income Support, all move statuses
+    ordinal: 13
+    row_number: 71
+    expected_row_header_column: E
+    expected_row_header: Total
+    table_record_kind: total
+    filters:
+      legacy_benefit: Housing Benefit and Income Support
+      move_status: all
+    constraints:
+    - variable: legacy_benefit
+      operator: ==
+      value: Housing Benefit and Income Support
+      label: Legacy Benefit
+    guard_cells:
+    - column: A
+      row: 71
+      expected_value: Move to UC - Households
+      label: measure
+    - column: C
+      row: 71
+      expected_value: Housing Benefit and Income Support
+      label: Legacy Benefit
+    - column: E
+      row: 71
+      expected_value: Total
+      label: Move Status
+    - column: D
+      row: 71
+      expected_value: str:value:MtUC_Households:V_F_MtUC_Households:Legacy_Ben_Code:C_MtUC_Legacy_Benefit_Claimed:14
+      label: Legacy Benefit URI
+  - value_id: housing_benefit_and_jobseekers_allowance__all_statuses
+    label: Housing Benefit and Jobseekers Allowance, all move statuses
+    ordinal: 14
+    row_number: 76
+    expected_row_header_column: E
+    expected_row_header: Total
+    table_record_kind: total
+    filters:
+      legacy_benefit: Housing Benefit and Jobseekers Allowance
+      move_status: all
+    constraints:
+    - variable: legacy_benefit
+      operator: ==
+      value: Housing Benefit and Jobseekers Allowance
+      label: Legacy Benefit
+    guard_cells:
+    - column: A
+      row: 76
+      expected_value: Move to UC - Households
+      label: measure
+    - column: C
+      row: 76
+      expected_value: Housing Benefit and Jobseekers Allowance
+      label: Legacy Benefit
+    - column: E
+      row: 76
+      expected_value: Total
+      label: Move Status
+    - column: D
+      row: 76
+      expected_value: str:value:MtUC_Households:V_F_MtUC_Households:Legacy_Ben_Code:C_MtUC_Legacy_Benefit_Claimed:15
+      label: Legacy Benefit URI
+  - value_id: child_tax_credit_and_working_tax_credit_and_housing_benefit__all_statuses
+    label: Child Tax Credit and Working Tax Credit and Housing Benefit, all move statuses
+    ordinal: 15
+    row_number: 81
+    expected_row_header_column: E
+    expected_row_header: Total
+    table_record_kind: total
+    filters:
+      legacy_benefit: Child Tax Credit and Working Tax Credit and Housing Benefit
+      move_status: all
+    constraints:
+    - variable: legacy_benefit
+      operator: ==
+      value: Child Tax Credit and Working Tax Credit and Housing Benefit
+      label: Legacy Benefit
+    guard_cells:
+    - column: A
+      row: 81
+      expected_value: Move to UC - Households
+      label: measure
+    - column: C
+      row: 81
+      expected_value: Child Tax Credit and Working Tax Credit and Housing Benefit
+      label: Legacy Benefit
+    - column: E
+      row: 81
+      expected_value: Total
+      label: Move Status
+    - column: D
+      row: 81
+      expected_value: str:value:MtUC_Households:V_F_MtUC_Households:Legacy_Ben_Code:C_MtUC_Legacy_Benefit_Claimed:16
+      label: Legacy Benefit URI
+  - value_id: child_tax_credit_and_housing_benefit_and_employment_support_allowance__all_statuses
+    label: Child Tax Credit and Housing Benefit and Employment Support Allowance, all move statuses
+    ordinal: 16
+    row_number: 86
+    expected_row_header_column: E
+    expected_row_header: Total
+    table_record_kind: total
+    filters:
+      legacy_benefit: Child Tax Credit and Housing Benefit and Employment Support Allowance
+      move_status: all
+    constraints:
+    - variable: legacy_benefit
+      operator: ==
+      value: Child Tax Credit and Housing Benefit and Employment Support Allowance
+      label: Legacy Benefit
+    guard_cells:
+    - column: A
+      row: 86
+      expected_value: Move to UC - Households
+      label: measure
+    - column: C
+      row: 86
+      expected_value: Child Tax Credit and Housing Benefit and Employment Support Allowance
+      label: Legacy Benefit
+    - column: E
+      row: 86
+      expected_value: Total
+      label: Move Status
+    - column: D
+      row: 86
+      expected_value: str:value:MtUC_Households:V_F_MtUC_Households:Legacy_Ben_Code:C_MtUC_Legacy_Benefit_Claimed:17
+      label: Legacy Benefit URI
+  - value_id: child_tax_credit_and_housing_benefit_and_income_support__all_statuses
+    label: Child Tax Credit and Housing Benefit and Income Support, all move statuses
+    ordinal: 17
+    row_number: 91
+    expected_row_header_column: E
+    expected_row_header: Total
+    table_record_kind: total
+    filters:
+      legacy_benefit: Child Tax Credit and Housing Benefit and Income Support
+      move_status: all
+    constraints:
+    - variable: legacy_benefit
+      operator: ==
+      value: Child Tax Credit and Housing Benefit and Income Support
+      label: Legacy Benefit
+    guard_cells:
+    - column: A
+      row: 91
+      expected_value: Move to UC - Households
+      label: measure
+    - column: C
+      row: 91
+      expected_value: Child Tax Credit and Housing Benefit and Income Support
+      label: Legacy Benefit
+    - column: E
+      row: 91
+      expected_value: Total
+      label: Move Status
+    - column: D
+      row: 91
+      expected_value: str:value:MtUC_Households:V_F_MtUC_Households:Legacy_Ben_Code:C_MtUC_Legacy_Benefit_Claimed:18
+      label: Legacy Benefit URI
+  - value_id: child_tax_credit_and_housing_benefit_and_jobseekers_allowance__all_statuses
+    label: Child Tax Credit and Housing Benefit and Jobseekers Allowance, all move statuses
+    ordinal: 18
+    row_number: 96
+    expected_row_header_column: E
+    expected_row_header: Total
+    table_record_kind: total
+    filters:
+      legacy_benefit: Child Tax Credit and Housing Benefit and Jobseekers Allowance
+      move_status: all
+    constraints:
+    - variable: legacy_benefit
+      operator: ==
+      value: Child Tax Credit and Housing Benefit and Jobseekers Allowance
+      label: Legacy Benefit
+    guard_cells:
+    - column: A
+      row: 96
+      expected_value: Move to UC - Households
+      label: measure
+    - column: C
+      row: 96
+      expected_value: Child Tax Credit and Housing Benefit and Jobseekers Allowance
+      label: Legacy Benefit
+    - column: E
+      row: 96
+      expected_value: Total
+      label: Move Status
+    - column: D
+      row: 96
+      expected_value: str:value:MtUC_Households:V_F_MtUC_Households:Legacy_Ben_Code:C_MtUC_Legacy_Benefit_Claimed:19
+      label: Legacy Benefit URI
+  - value_id: all_households__claimed_uc
+    label: All households, Claimed UC
+    ordinal: 19
+    row_number: 102
+    expected_row_header_column: F
+    expected_row_header: str:value:MtUC_Households:V_F_MtUC_Households:Claim_Status_Code:C_MtUC_Claim_Status:1
+    table_record_kind: total
+    filters:
+      legacy_benefit: all
+      move_status: Claimed UC
+    constraints:
+    - variable: move_status
+      operator: ==
+      value: Claimed UC
+      label: Move Status
+    guard_cells:
+    - column: A
+      row: 102
+      expected_value: Move to UC - Households
+      label: measure
+    - column: C
+      row: 102
+      expected_value: Total
+      label: Legacy Benefit
+    - column: E
+      row: 102
+      expected_value: Claimed UC
+      label: Move Status
+    - column: F
+      row: 102
+      expected_value: str:value:MtUC_Households:V_F_MtUC_Households:Claim_Status_Code:C_MtUC_Claim_Status:1
+      label: Move Status URI
+  - value_id: all_households__did_not_claim_uc___legacy_benefit_closed
+    label: All households, Did not claim UC - Legacy benefit closed
+    ordinal: 20
+    row_number: 103
+    expected_row_header_column: F
+    expected_row_header: str:value:MtUC_Households:V_F_MtUC_Households:Claim_Status_Code:C_MtUC_Claim_Status:2
+    table_record_kind: total
+    filters:
+      legacy_benefit: all
+      move_status: Did not claim UC - Legacy benefit closed
+    constraints:
+    - variable: move_status
+      operator: ==
+      value: Did not claim UC - Legacy benefit closed
+      label: Move Status
+    guard_cells:
+    - column: A
+      row: 103
+      expected_value: Move to UC - Households
+      label: measure
+    - column: C
+      row: 103
+      expected_value: Total
+      label: Legacy Benefit
+    - column: E
+      row: 103
+      expected_value: Did not claim UC - Legacy benefit closed
+      label: Move Status
+    - column: F
+      row: 103
+      expected_value: str:value:MtUC_Households:V_F_MtUC_Households:Claim_Status_Code:C_MtUC_Claim_Status:2
+      label: Move Status URI
+  - value_id: all_households__in_progress
+    label: All households, In Progress
+    ordinal: 21
+    row_number: 104
+    expected_row_header_column: F
+    expected_row_header: str:value:MtUC_Households:V_F_MtUC_Households:Claim_Status_Code:C_MtUC_Claim_Status:3
+    table_record_kind: total
+    filters:
+      legacy_benefit: all
+      move_status: In Progress
+    constraints:
+    - variable: move_status
+      operator: ==
+      value: In Progress
+      label: Move Status
+    guard_cells:
+    - column: A
+      row: 104
+      expected_value: Move to UC - Households
+      label: measure
+    - column: C
+      row: 104
+      expected_value: Total
+      label: Legacy Benefit
+    - column: E
+      row: 104
+      expected_value: In Progress
+      label: Move Status
+    - column: F
+      row: 104
+      expected_value: str:value:MtUC_Households:V_F_MtUC_Households:Claim_Status_Code:C_MtUC_Claim_Status:3
+      label: Move Status URI
+  - value_id: all_households__all_statuses
+    label: All households, all move statuses
+    ordinal: 22
+    row_number: 106
+    expected_row_header_column: E
+    expected_row_header: Total
+    table_record_kind: total
+    filters:
+      legacy_benefit: all
+      move_status: all
+    constraints: []
+    guard_cells:
+    - column: A
+      row: 106
+      expected_value: Move to UC - Households
+      label: measure
+    - column: C
+      row: 106
+      expected_value: Total
+      label: Legacy Benefit
+    - column: E
+      row: 106
+      expected_value: Total
+      label: Move Status
+  measures:
+  - measure_id: households_sent_migration_notice
+    label: Households sent a Move to UC migration notice
+    ordinal: 0
+    column: B
+    source_column_id: value
+    expected_column_header_row: 1
+    expected_column_header: value
+    concept: dwp.mtuc_households_sent_migration_notice
+    source_concept: dwp.mtuc_households_sent_migration_notice
+    concept_relation: source_label
+    concept_authority: dwp
+    concept_evidence_url: https://www.gov.uk/government/publications/move-to-universal-credit-statistics-background-information/move-to-universal-credit-statistics-background-information
+    concept_evidence_notes: 'Official statistics in development. DWP Move to UC statistics (Stat-Xplore
+      ''Households invited to Move to Universal Credit'', extracted 15 October 2026): households sent
+      a managed migration notice from July 2022 to June 2026, Great Britain, by the legacy benefits the
+      household received and its move status at DWP''s extract. Claimed UC: a claim made within one month
+      after the deadline or any extension, including after the legacy award closed. Did not claim: no
+      such claim, legacy award ended. In Progress: deadline not yet passed. Each release supersedes the
+      last; cells carry Stat-Xplore''s random error.'
+    unit: count
+    aggregation: sum
+    expected_cell_type: number

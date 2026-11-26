@@ -1,0 +1,25 @@
+source_id: stats_nz
+package_id: census_2023_place_summaries
+dataset: census_2023_place_summaries
+source_page: https://tools.summaries.stats.govt.nz/places/RC/canterbury-region
+table: '2023 Census Place summaries: families and households'
+license: CC BY 4.0
+attribution: Stats NZ
+files:
+  2023:
+    filename: place-summaries-rc-13.csv
+    source_url: https://tools.summaries.stats.govt.nz/api/export-csv/rkTah6u2O2VYyP4Y/13/
+    final_url: https://tools.summaries.stats.govt.nz/api/export-csv/rkTah6u2O2VYyP4Y/13/
+    http_status: 200
+    sha256: a4d8c4b9eaff633904419ed95dccc4e1bf5f64fd964020af06a006b269c9e8af
+    size_bytes: 415340
+    fetched_at: '2026-10-10T20:12:10Z'
+    content_disposition_filename: place-summaries-canterbury-region-20261011-091209.csv
+    place_code: '13'
+    place: Canterbury Region
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/nz/stats_nz/census_2023_place_summaries/2023/a4d8c4b9eaff633904419ed95dccc4e1bf5f64fd964020af06a006b269c9e8af/place-summaries-rc-13.csv
+        uri: r2://ledger-raw/raw/nz/stats_nz/census_2023_place_summaries/2023/a4d8c4b9eaff633904419ed95dccc4e1bf5f64fd964020af06a006b269c9e8af/place-summaries-rc-13.csv

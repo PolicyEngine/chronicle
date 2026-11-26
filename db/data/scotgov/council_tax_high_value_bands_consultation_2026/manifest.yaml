@@ -1,0 +1,30 @@
+source_id: scotgov
+package_id: scotgov-council-tax-high-value-bands-consultation-2026
+dataset: scotgov_scotgov-council-tax-high-value-bands-consultation-2026
+source_page: https://www.gov.scot/publications/consultation-council-tax-high-value-property-bands-mansion-tax/
+table: 'Scottish Government, Council Tax High-Value Property Bands (Mansion Tax):
+  consultation (published 6 July 2026), consultation paper'
+publisher: Scottish Government (Local Government and Housing Directorate)
+license: Open Government Licence v3.0
+license_url: https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/
+attribution: 'Source: Scottish Government (Local Government and Housing Directorate),
+  Council Tax High-Value Property Bands (Mansion Tax): consultation (published 6 July
+  2026). Contains public sector information licensed under the Open Government Licence
+  v3.0.'
+license_evidence: "The consultation paper states on its last page: '\xA9 Crown copyright\
+  \ 2026 This publication is licensed under the terms of the Open Government Licence\
+  \ v3.0 except where otherwise stated'; it states no other terms."
+license_verified_at: '2026-11-10'
+files:
+  2026:
+    filename: consultation-council-tax-high-value-property-bands-mansion-tax.pdf
+    source_url: https://www.gov.scot/binaries/content/documents/govscot/publications/consultation-paper/2026/07/consultation-council-tax-high-value-property-bands-mansion-tax/documents/consultation-council-tax-high-value-property-bands-mansion-tax/consultation-council-tax-high-value-property-bands-mansion-tax/govscot%3Adocument/consultation-council-tax-high-value-property-bands-mansion-tax.pdf
+    sha256: 024fb42d64d00ecd0a642913d236605f3e9561a70831f87b436d5da92f06c36b
+    size_bytes: 369794
+    fetched_at: '2026-11-10T16:50:38+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/scotgov/scotgov-council-tax-high-value-bands-consultation-2026/2026/024fb42d64d00ecd0a642913d236605f3e9561a70831f87b436d5da92f06c36b/consultation-council-tax-high-value-property-bands-mansion-tax.pdf
+        uri: r2://ledger-raw/raw/uk/scotgov/scotgov-council-tax-high-value-bands-consultation-2026/2026/024fb42d64d00ecd0a642913d236605f3e9561a70831f87b436d5da92f06c36b/consultation-council-tax-high-value-property-bands-mansion-tax.pdf

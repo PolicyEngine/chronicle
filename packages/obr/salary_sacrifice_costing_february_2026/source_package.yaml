@@ -1,0 +1,1475 @@
+# OBR supplementary forecast information release 'Costing of charging NICs on
+# salary-sacrificed pension contributions' (5 February 2026), Table 1.1 'Tax base and static
+# costing', for PolicyEngine/chronicle#302 section 5. The measure (announced at Budget 2025)
+# ends the NICs exemption for salary-sacrificed and bonus-sacrificed pension contributions
+# above an annual GBP 2,000 threshold from April 2029. No later OBR update of this costing
+# was found (March 2026 EFO, policy measures database, forecast evaluation and fiscal risks
+# reports checked on 2026-09-29), so this is the newest release for every year it covers.
+#
+# Every cell of Table 1.1 is ported, 2027-28 to 2030-31 (the table's columns; the costing's
+# Table 1.6 behavioural lines are not asked for and are not ported):
+# - the tax base - salary-sacrificed and bonus-sacrificed pension contributions above the
+#   GBP 2,000 annual threshold (paragraphs 1.6 and 1.9 define the base as the contributions
+#   above the threshold; the row labels do not repeat it, so it rides on the
+#   contribution_portion filter). Salary-sacrifice base: HMRC's 2024 ASHE-based estimate grown
+#   at 0.9 per cent a year faster than employment, plus OBR employment and wage growth;
+#   bonus-sacrifice base: historic APSS107 returns grown with employment and wages. HMRC
+#   holds no administrative salary-sacrifice data (paragraph 1.4);
+# - the increase in the average employee and employer NICs rates on each base (percentage
+#   points, zero before April 2029);
+# - the static yield of each base and the total static yield, GBP billion, positive = an
+#   increase in receipts. The table labels the salary-sacrifice yield row '(GBP m)' while its
+#   values are GBP billion (in 2029-30 its 2.5 and the bonus row's 2.3 make the total row's
+#   GBP 4.9 billion, to rounding); the facts carry GBP with a billion scale and the guard
+#   keeps the publisher's text.
+#
+# All are OBR-certified HMRC projections: provenance model_output, assertion
+# source_projection. UK geography (NICs are UK-wide).
+schema_version: ledger.source_package.v1
+package_id: obr-salary-sacrifice-costing-february-2026
+label: 'OBR costing of charging NICs on salary-sacrificed pension contributions: tax base, NICs rate increases
+  and static yield, 2027-28 to 2030-31'
+dimension_labels:
+  obr.salary_sacrifice_costing_line: Salary-sacrifice costing line
+  sacrifice_route: Sacrifice route
+  contribution_portion: Contribution portion
+  nics_payer: NICs payer
+dimension_value_labels:
+  sacrifice_route:
+    salary_sacrifice: Salary sacrifice
+    bonus_sacrifice: Bonus sacrifice
+    all: Salary and bonus sacrifice
+  contribution_portion:
+    above_2000_annual_threshold: Contributions above the GBP 2,000 annual threshold
+  nics_payer:
+    employee: Employee NICs
+    employer: Employer NICs
+artifact:
+  source_name: obr
+  source_table: 'Costing of charging NICs on salary-sacrificed pension contributions, Table 1.1: tax base
+    and static costing'
+  resource_package: db
+  resource_directory: data/obr/salary_sacrifice_costing_february_2026
+  manifest: manifest.yaml
+  vintage: supplementary_forecast_information_2026_02_05
+  extracted_at: '2026-09-29'
+  extraction_method: PDF text-line number extraction
+  parser: pdf_text_numbers
+  artifact_year: 2026
+record_sets:
+  - record_set_id: obr.salary_sacrifice_costing_2026_02.tax_base.fy2027
+    provenance_class: model_output
+    assertion: source_projection
+    record_set_spec_id: obr.salary_sacrifice_costing_2026_02.tax_base.fy2027.v1
+    source_record_id_prefix: obr.salary_sacrifice_costing_2026_02.tax_base.fy2027
+    sheet_name: document_numbers
+    period_type: fiscal_year
+    period: 2027
+    period_coverage:
+      start_date: '2027-04-01'
+      end_date: '2028-03-31'
+      basis: fiscal
+      source_period_label: 2027-28
+      notes: period.value stores the opening year of the publisher fiscal-year label.
+    geography_id: K02000001
+    geography_level: country
+    geography_name: United Kingdom
+    geography_vintage: current
+    entity: person
+    entity_role: salary_sacrifice_pension_contributor
+    domain: national_insurance_contributions
+    groupby_dimension: obr.salary_sacrifice_costing_line
+    rows:
+      - value_id: salary_sacrifice__above_2000
+        label: Salary-sacrificed pension contributions above the GBP 2,000 threshold
+        ordinal: 0
+        row_number: 37
+        table_record_kind: detail
+        expected_row_header_column: C
+        expected_row_header: Salary-sacrificed pension contributions (£b) 12.9 13.6 14.3 15.1
+        filters:
+          sacrifice_route: salary_sacrifice
+          contribution_portion: above_2000_annual_threshold
+        constraints:
+          - variable: sacrifice_route
+            operator: ==
+            value: salary_sacrifice
+            label: Sacrifice route
+          - variable: contribution_portion
+            operator: ==
+            value: above_2000_annual_threshold
+            label: Contribution portion
+        guard_cells:
+          - column: A
+            row: 37
+            expected_value: 2
+            label: PDF page
+          - column: D
+            row: 37
+            expected_value: '12.9'
+            label: number 1 of 4 on the line
+      - value_id: bonus_sacrifice__above_2000
+        label: Bonus-sacrificed pension contributions above the GBP 2,000 threshold
+        ordinal: 1
+        row_number: 53
+        table_record_kind: detail
+        expected_row_header_column: C
+        expected_row_header: Bonus-sacrificed pension contributions (£b) 13.0 13.4 13.8 14.2
+        filters:
+          sacrifice_route: bonus_sacrifice
+          contribution_portion: above_2000_annual_threshold
+        constraints:
+          - variable: sacrifice_route
+            operator: ==
+            value: bonus_sacrifice
+            label: Sacrifice route
+          - variable: contribution_portion
+            operator: ==
+            value: above_2000_annual_threshold
+            label: Contribution portion
+        guard_cells:
+          - column: A
+            row: 53
+            expected_value: 2
+            label: PDF page
+          - column: D
+            row: 53
+            expected_value: '13.0'
+            label: number 1 of 4 on the line
+    measures:
+      - measure_id: contributions
+        label: Pension contributions above the GBP 2,000 threshold
+        ordinal: 0
+        column: E
+        source_column_id: numeric_value
+        concept: obr.salary_sacrifice_costing.tax_base
+        source_concept: obr.salary_sacrifice_costing.tax_base
+        concept_relation: source_label
+        concept_authority: obr
+        concept_evidence_url: https://obr.uk/supplementary-forecast-information-on-salary-sacrifice-pension-contributions-and-send-spending/
+        concept_evidence_notes: 'OBR Table 1.1 tax base (GBP billion): salary- and bonus-sacrificed pension
+          contributions above the GBP 2,000 annual threshold (paragraphs 1.6 and 1.9).'
+        unit: gbp
+        aggregation: sum
+        expected_cell_type: number
+        value_scale: 1000000000
+  - record_set_id: obr.salary_sacrifice_costing_2026_02.nics_rate_increase.fy2027
+    provenance_class: model_output
+    assertion: source_projection
+    record_set_spec_id: obr.salary_sacrifice_costing_2026_02.nics_rate_increase.fy2027.v1
+    source_record_id_prefix: obr.salary_sacrifice_costing_2026_02.nics_rate_increase.fy2027
+    sheet_name: document_numbers
+    period_type: fiscal_year
+    period: 2027
+    period_coverage:
+      start_date: '2027-04-01'
+      end_date: '2028-03-31'
+      basis: fiscal
+      source_period_label: 2027-28
+      notes: period.value stores the opening year of the publisher fiscal-year label.
+    geography_id: K02000001
+    geography_level: country
+    geography_name: United Kingdom
+    geography_vintage: current
+    entity: person
+    entity_role: salary_sacrifice_pension_contributor
+    domain: national_insurance_contributions
+    groupby_dimension: obr.salary_sacrifice_costing_line
+    rows:
+      - value_id: salary_sacrifice__employee
+        label: Increase in average employee NICs rate on salary-sacrificed contributions
+        ordinal: 0
+        row_number: 41
+        table_record_kind: detail
+        expected_row_header_column: C
+        expected_row_header: Increase in average employee NICs rate (per cent) 0.0 0.0 2.7 2.7
+        filters:
+          sacrifice_route: salary_sacrifice
+          nics_payer: employee
+        constraints:
+          - variable: sacrifice_route
+            operator: ==
+            value: salary_sacrifice
+            label: Sacrifice route
+          - variable: nics_payer
+            operator: ==
+            value: employee
+            label: NICs payer
+        guard_cells:
+          - column: A
+            row: 41
+            expected_value: 2
+            label: PDF page
+          - column: D
+            row: 41
+            expected_value: '0.0'
+            label: number 1 of 4 on the line
+      - value_id: salary_sacrifice__employer
+        label: Increase in average employer NICs rate on salary-sacrificed contributions
+        ordinal: 1
+        row_number: 45
+        table_record_kind: detail
+        expected_row_header_column: C
+        expected_row_header: Increase in average employer NICs rate (per cent) 0.0 0.0 15.0 15.0
+        filters:
+          sacrifice_route: salary_sacrifice
+          nics_payer: employer
+        constraints:
+          - variable: sacrifice_route
+            operator: ==
+            value: salary_sacrifice
+            label: Sacrifice route
+          - variable: nics_payer
+            operator: ==
+            value: employer
+            label: NICs payer
+        guard_cells:
+          - column: A
+            row: 45
+            expected_value: 2
+            label: PDF page
+          - column: D
+            row: 45
+            expected_value: '0.0'
+            label: number 1 of 4 on the line
+      - value_id: bonus_sacrifice__employee
+        label: Increase in average employee NICs rate on bonus-sacrificed contributions
+        ordinal: 2
+        row_number: 57
+        table_record_kind: detail
+        expected_row_header_column: C
+        expected_row_header: Increase in average employee NICs rate (per cent) 0.0 0.0 2.0 2.0
+        filters:
+          sacrifice_route: bonus_sacrifice
+          nics_payer: employee
+        constraints:
+          - variable: sacrifice_route
+            operator: ==
+            value: bonus_sacrifice
+            label: Sacrifice route
+          - variable: nics_payer
+            operator: ==
+            value: employee
+            label: NICs payer
+        guard_cells:
+          - column: A
+            row: 57
+            expected_value: 2
+            label: PDF page
+          - column: D
+            row: 57
+            expected_value: '0.0'
+            label: number 1 of 4 on the line
+      - value_id: bonus_sacrifice__employer
+        label: Increase in average employer NICs rate on bonus-sacrificed contributions
+        ordinal: 3
+        row_number: 61
+        table_record_kind: detail
+        expected_row_header_column: C
+        expected_row_header: Increase in average employer NICs rate (per cent) 0.0 0.0 15.0 15.0
+        filters:
+          sacrifice_route: bonus_sacrifice
+          nics_payer: employer
+        constraints:
+          - variable: sacrifice_route
+            operator: ==
+            value: bonus_sacrifice
+            label: Sacrifice route
+          - variable: nics_payer
+            operator: ==
+            value: employer
+            label: NICs payer
+        guard_cells:
+          - column: A
+            row: 61
+            expected_value: 2
+            label: PDF page
+          - column: D
+            row: 61
+            expected_value: '0.0'
+            label: number 1 of 4 on the line
+    measures:
+      - measure_id: rate_increase
+        label: Increase in the average NICs rate
+        ordinal: 0
+        column: E
+        source_column_id: numeric_value
+        concept: obr.salary_sacrifice_costing.nics_rate_increase
+        source_concept: obr.salary_sacrifice_costing.nics_rate_increase
+        concept_relation: source_label
+        concept_authority: obr
+        concept_evidence_url: https://obr.uk/supplementary-forecast-information-on-salary-sacrifice-pension-contributions-and-send-spending/
+        concept_evidence_notes: 'OBR Table 1.1: increase in the average employee or employer NICs rate
+          on each tax base, per cent (percentage points).'
+        unit: percent
+        aggregation: rate
+        expected_cell_type: number
+  - record_set_id: obr.salary_sacrifice_costing_2026_02.static_yield.fy2027
+    provenance_class: model_output
+    assertion: source_projection
+    record_set_spec_id: obr.salary_sacrifice_costing_2026_02.static_yield.fy2027.v1
+    source_record_id_prefix: obr.salary_sacrifice_costing_2026_02.static_yield.fy2027
+    sheet_name: document_numbers
+    period_type: fiscal_year
+    period: 2027
+    period_coverage:
+      start_date: '2027-04-01'
+      end_date: '2028-03-31'
+      basis: fiscal
+      source_period_label: 2027-28
+      notes: period.value stores the opening year of the publisher fiscal-year label.
+    geography_id: K02000001
+    geography_level: country
+    geography_name: United Kingdom
+    geography_vintage: current
+    entity: government
+    entity_role: central_government
+    domain: national_insurance_contributions
+    groupby_dimension: obr.salary_sacrifice_costing_line
+    rows:
+      - value_id: salary_sacrifice
+        label: Static yield from salary-sacrificed pension contributions
+        ordinal: 0
+        row_number: 49
+        table_record_kind: detail
+        expected_row_header_column: C
+        expected_row_header: Static yield from salary-sacrificed pension contributions (£m) 0.0 0.0 2.5
+          2.7
+        filters:
+          sacrifice_route: salary_sacrifice
+        constraints:
+          - variable: sacrifice_route
+            operator: ==
+            value: salary_sacrifice
+            label: Sacrifice route
+        guard_cells:
+          - column: A
+            row: 49
+            expected_value: 2
+            label: PDF page
+          - column: D
+            row: 49
+            expected_value: '0.0'
+            label: number 1 of 4 on the line
+      - value_id: bonus_sacrifice
+        label: Static yield from bonus-sacrificed pension contributions
+        ordinal: 1
+        row_number: 65
+        table_record_kind: detail
+        expected_row_header_column: C
+        expected_row_header: Static yield from bonus-sacrificed pension contributions (£b) 0.0 0.0 2.3
+          2.4
+        filters:
+          sacrifice_route: bonus_sacrifice
+        constraints:
+          - variable: sacrifice_route
+            operator: ==
+            value: bonus_sacrifice
+            label: Sacrifice route
+        guard_cells:
+          - column: A
+            row: 65
+            expected_value: 2
+            label: PDF page
+          - column: D
+            row: 65
+            expected_value: '0.0'
+            label: number 1 of 4 on the line
+      - value_id: total
+        label: Total static yield
+        ordinal: 2
+        row_number: 69
+        table_record_kind: total
+        expected_row_header_column: C
+        expected_row_header: Total static yield (£b) 0.0 0.0 4.9 5.1
+        filters:
+          sacrifice_route: all
+        guard_cells:
+          - column: A
+            row: 69
+            expected_value: 2
+            label: PDF page
+          - column: D
+            row: 69
+            expected_value: '0.0'
+            label: number 1 of 4 on the line
+    measures:
+      - measure_id: static_yield
+        label: Static NICs yield
+        ordinal: 0
+        column: E
+        source_column_id: numeric_value
+        concept: obr.salary_sacrifice_costing.static_yield
+        source_concept: obr.salary_sacrifice_costing.static_yield
+        concept_relation: source_label
+        concept_authority: obr
+        concept_evidence_url: https://obr.uk/supplementary-forecast-information-on-salary-sacrifice-pension-contributions-and-send-spending/
+        concept_evidence_notes: OBR Table 1.1 static yield, GBP billion, positive = increase in receipts.
+          The salary-sacrifice row is labelled '(GBP m)' by the publisher; its values are GBP billion
+          (they sum with the bonus-sacrifice row to the total row).
+        unit: gbp
+        aggregation: sum
+        expected_cell_type: number
+        value_scale: 1000000000
+  - record_set_id: obr.salary_sacrifice_costing_2026_02.tax_base.fy2028
+    provenance_class: model_output
+    assertion: source_projection
+    record_set_spec_id: obr.salary_sacrifice_costing_2026_02.tax_base.fy2028.v1
+    source_record_id_prefix: obr.salary_sacrifice_costing_2026_02.tax_base.fy2028
+    sheet_name: document_numbers
+    period_type: fiscal_year
+    period: 2028
+    period_coverage:
+      start_date: '2028-04-01'
+      end_date: '2029-03-31'
+      basis: fiscal
+      source_period_label: 2028-29
+      notes: period.value stores the opening year of the publisher fiscal-year label.
+    geography_id: K02000001
+    geography_level: country
+    geography_name: United Kingdom
+    geography_vintage: current
+    entity: person
+    entity_role: salary_sacrifice_pension_contributor
+    domain: national_insurance_contributions
+    groupby_dimension: obr.salary_sacrifice_costing_line
+    rows:
+      - value_id: salary_sacrifice__above_2000
+        label: Salary-sacrificed pension contributions above the GBP 2,000 threshold
+        ordinal: 0
+        row_number: 38
+        table_record_kind: detail
+        expected_row_header_column: C
+        expected_row_header: Salary-sacrificed pension contributions (£b) 12.9 13.6 14.3 15.1
+        filters:
+          sacrifice_route: salary_sacrifice
+          contribution_portion: above_2000_annual_threshold
+        constraints:
+          - variable: sacrifice_route
+            operator: ==
+            value: salary_sacrifice
+            label: Sacrifice route
+          - variable: contribution_portion
+            operator: ==
+            value: above_2000_annual_threshold
+            label: Contribution portion
+        guard_cells:
+          - column: A
+            row: 38
+            expected_value: 2
+            label: PDF page
+          - column: D
+            row: 38
+            expected_value: '13.6'
+            label: number 2 of 4 on the line
+      - value_id: bonus_sacrifice__above_2000
+        label: Bonus-sacrificed pension contributions above the GBP 2,000 threshold
+        ordinal: 1
+        row_number: 54
+        table_record_kind: detail
+        expected_row_header_column: C
+        expected_row_header: Bonus-sacrificed pension contributions (£b) 13.0 13.4 13.8 14.2
+        filters:
+          sacrifice_route: bonus_sacrifice
+          contribution_portion: above_2000_annual_threshold
+        constraints:
+          - variable: sacrifice_route
+            operator: ==
+            value: bonus_sacrifice
+            label: Sacrifice route
+          - variable: contribution_portion
+            operator: ==
+            value: above_2000_annual_threshold
+            label: Contribution portion
+        guard_cells:
+          - column: A
+            row: 54
+            expected_value: 2
+            label: PDF page
+          - column: D
+            row: 54
+            expected_value: '13.4'
+            label: number 2 of 4 on the line
+    measures:
+      - measure_id: contributions
+        label: Pension contributions above the GBP 2,000 threshold
+        ordinal: 0
+        column: E
+        source_column_id: numeric_value
+        concept: obr.salary_sacrifice_costing.tax_base
+        source_concept: obr.salary_sacrifice_costing.tax_base
+        concept_relation: source_label
+        concept_authority: obr
+        concept_evidence_url: https://obr.uk/supplementary-forecast-information-on-salary-sacrifice-pension-contributions-and-send-spending/
+        concept_evidence_notes: 'OBR Table 1.1 tax base (GBP billion): salary- and bonus-sacrificed pension
+          contributions above the GBP 2,000 annual threshold (paragraphs 1.6 and 1.9).'
+        unit: gbp
+        aggregation: sum
+        expected_cell_type: number
+        value_scale: 1000000000
+  - record_set_id: obr.salary_sacrifice_costing_2026_02.nics_rate_increase.fy2028
+    provenance_class: model_output
+    assertion: source_projection
+    record_set_spec_id: obr.salary_sacrifice_costing_2026_02.nics_rate_increase.fy2028.v1
+    source_record_id_prefix: obr.salary_sacrifice_costing_2026_02.nics_rate_increase.fy2028
+    sheet_name: document_numbers
+    period_type: fiscal_year
+    period: 2028
+    period_coverage:
+      start_date: '2028-04-01'
+      end_date: '2029-03-31'
+      basis: fiscal
+      source_period_label: 2028-29
+      notes: period.value stores the opening year of the publisher fiscal-year label.
+    geography_id: K02000001
+    geography_level: country
+    geography_name: United Kingdom
+    geography_vintage: current
+    entity: person
+    entity_role: salary_sacrifice_pension_contributor
+    domain: national_insurance_contributions
+    groupby_dimension: obr.salary_sacrifice_costing_line
+    rows:
+      - value_id: salary_sacrifice__employee
+        label: Increase in average employee NICs rate on salary-sacrificed contributions
+        ordinal: 0
+        row_number: 42
+        table_record_kind: detail
+        expected_row_header_column: C
+        expected_row_header: Increase in average employee NICs rate (per cent) 0.0 0.0 2.7 2.7
+        filters:
+          sacrifice_route: salary_sacrifice
+          nics_payer: employee
+        constraints:
+          - variable: sacrifice_route
+            operator: ==
+            value: salary_sacrifice
+            label: Sacrifice route
+          - variable: nics_payer
+            operator: ==
+            value: employee
+            label: NICs payer
+        guard_cells:
+          - column: A
+            row: 42
+            expected_value: 2
+            label: PDF page
+          - column: D
+            row: 42
+            expected_value: '0.0'
+            label: number 2 of 4 on the line
+      - value_id: salary_sacrifice__employer
+        label: Increase in average employer NICs rate on salary-sacrificed contributions
+        ordinal: 1
+        row_number: 46
+        table_record_kind: detail
+        expected_row_header_column: C
+        expected_row_header: Increase in average employer NICs rate (per cent) 0.0 0.0 15.0 15.0
+        filters:
+          sacrifice_route: salary_sacrifice
+          nics_payer: employer
+        constraints:
+          - variable: sacrifice_route
+            operator: ==
+            value: salary_sacrifice
+            label: Sacrifice route
+          - variable: nics_payer
+            operator: ==
+            value: employer
+            label: NICs payer
+        guard_cells:
+          - column: A
+            row: 46
+            expected_value: 2
+            label: PDF page
+          - column: D
+            row: 46
+            expected_value: '0.0'
+            label: number 2 of 4 on the line
+      - value_id: bonus_sacrifice__employee
+        label: Increase in average employee NICs rate on bonus-sacrificed contributions
+        ordinal: 2
+        row_number: 58
+        table_record_kind: detail
+        expected_row_header_column: C
+        expected_row_header: Increase in average employee NICs rate (per cent) 0.0 0.0 2.0 2.0
+        filters:
+          sacrifice_route: bonus_sacrifice
+          nics_payer: employee
+        constraints:
+          - variable: sacrifice_route
+            operator: ==
+            value: bonus_sacrifice
+            label: Sacrifice route
+          - variable: nics_payer
+            operator: ==
+            value: employee
+            label: NICs payer
+        guard_cells:
+          - column: A
+            row: 58
+            expected_value: 2
+            label: PDF page
+          - column: D
+            row: 58
+            expected_value: '0.0'
+            label: number 2 of 4 on the line
+      - value_id: bonus_sacrifice__employer
+        label: Increase in average employer NICs rate on bonus-sacrificed contributions
+        ordinal: 3
+        row_number: 62
+        table_record_kind: detail
+        expected_row_header_column: C
+        expected_row_header: Increase in average employer NICs rate (per cent) 0.0 0.0 15.0 15.0
+        filters:
+          sacrifice_route: bonus_sacrifice
+          nics_payer: employer
+        constraints:
+          - variable: sacrifice_route
+            operator: ==
+            value: bonus_sacrifice
+            label: Sacrifice route
+          - variable: nics_payer
+            operator: ==
+            value: employer
+            label: NICs payer
+        guard_cells:
+          - column: A
+            row: 62
+            expected_value: 2
+            label: PDF page
+          - column: D
+            row: 62
+            expected_value: '0.0'
+            label: number 2 of 4 on the line
+    measures:
+      - measure_id: rate_increase
+        label: Increase in the average NICs rate
+        ordinal: 0
+        column: E
+        source_column_id: numeric_value
+        concept: obr.salary_sacrifice_costing.nics_rate_increase
+        source_concept: obr.salary_sacrifice_costing.nics_rate_increase
+        concept_relation: source_label
+        concept_authority: obr
+        concept_evidence_url: https://obr.uk/supplementary-forecast-information-on-salary-sacrifice-pension-contributions-and-send-spending/
+        concept_evidence_notes: 'OBR Table 1.1: increase in the average employee or employer NICs rate
+          on each tax base, per cent (percentage points).'
+        unit: percent
+        aggregation: rate
+        expected_cell_type: number
+  - record_set_id: obr.salary_sacrifice_costing_2026_02.static_yield.fy2028
+    provenance_class: model_output
+    assertion: source_projection
+    record_set_spec_id: obr.salary_sacrifice_costing_2026_02.static_yield.fy2028.v1
+    source_record_id_prefix: obr.salary_sacrifice_costing_2026_02.static_yield.fy2028
+    sheet_name: document_numbers
+    period_type: fiscal_year
+    period: 2028
+    period_coverage:
+      start_date: '2028-04-01'
+      end_date: '2029-03-31'
+      basis: fiscal
+      source_period_label: 2028-29
+      notes: period.value stores the opening year of the publisher fiscal-year label.
+    geography_id: K02000001
+    geography_level: country
+    geography_name: United Kingdom
+    geography_vintage: current
+    entity: government
+    entity_role: central_government
+    domain: national_insurance_contributions
+    groupby_dimension: obr.salary_sacrifice_costing_line
+    rows:
+      - value_id: salary_sacrifice
+        label: Static yield from salary-sacrificed pension contributions
+        ordinal: 0
+        row_number: 50
+        table_record_kind: detail
+        expected_row_header_column: C
+        expected_row_header: Static yield from salary-sacrificed pension contributions (£m) 0.0 0.0 2.5
+          2.7
+        filters:
+          sacrifice_route: salary_sacrifice
+        constraints:
+          - variable: sacrifice_route
+            operator: ==
+            value: salary_sacrifice
+            label: Sacrifice route
+        guard_cells:
+          - column: A
+            row: 50
+            expected_value: 2
+            label: PDF page
+          - column: D
+            row: 50
+            expected_value: '0.0'
+            label: number 2 of 4 on the line
+      - value_id: bonus_sacrifice
+        label: Static yield from bonus-sacrificed pension contributions
+        ordinal: 1
+        row_number: 66
+        table_record_kind: detail
+        expected_row_header_column: C
+        expected_row_header: Static yield from bonus-sacrificed pension contributions (£b) 0.0 0.0 2.3
+          2.4
+        filters:
+          sacrifice_route: bonus_sacrifice
+        constraints:
+          - variable: sacrifice_route
+            operator: ==
+            value: bonus_sacrifice
+            label: Sacrifice route
+        guard_cells:
+          - column: A
+            row: 66
+            expected_value: 2
+            label: PDF page
+          - column: D
+            row: 66
+            expected_value: '0.0'
+            label: number 2 of 4 on the line
+      - value_id: total
+        label: Total static yield
+        ordinal: 2
+        row_number: 70
+        table_record_kind: total
+        expected_row_header_column: C
+        expected_row_header: Total static yield (£b) 0.0 0.0 4.9 5.1
+        filters:
+          sacrifice_route: all
+        guard_cells:
+          - column: A
+            row: 70
+            expected_value: 2
+            label: PDF page
+          - column: D
+            row: 70
+            expected_value: '0.0'
+            label: number 2 of 4 on the line
+    measures:
+      - measure_id: static_yield
+        label: Static NICs yield
+        ordinal: 0
+        column: E
+        source_column_id: numeric_value
+        concept: obr.salary_sacrifice_costing.static_yield
+        source_concept: obr.salary_sacrifice_costing.static_yield
+        concept_relation: source_label
+        concept_authority: obr
+        concept_evidence_url: https://obr.uk/supplementary-forecast-information-on-salary-sacrifice-pension-contributions-and-send-spending/
+        concept_evidence_notes: OBR Table 1.1 static yield, GBP billion, positive = increase in receipts.
+          The salary-sacrifice row is labelled '(GBP m)' by the publisher; its values are GBP billion
+          (they sum with the bonus-sacrifice row to the total row).
+        unit: gbp
+        aggregation: sum
+        expected_cell_type: number
+        value_scale: 1000000000
+  - record_set_id: obr.salary_sacrifice_costing_2026_02.tax_base.fy2029
+    provenance_class: model_output
+    assertion: source_projection
+    record_set_spec_id: obr.salary_sacrifice_costing_2026_02.tax_base.fy2029.v1
+    source_record_id_prefix: obr.salary_sacrifice_costing_2026_02.tax_base.fy2029
+    sheet_name: document_numbers
+    period_type: fiscal_year
+    period: 2029
+    period_coverage:
+      start_date: '2029-04-01'
+      end_date: '2030-03-31'
+      basis: fiscal
+      source_period_label: 2029-30
+      notes: period.value stores the opening year of the publisher fiscal-year label.
+    geography_id: K02000001
+    geography_level: country
+    geography_name: United Kingdom
+    geography_vintage: current
+    entity: person
+    entity_role: salary_sacrifice_pension_contributor
+    domain: national_insurance_contributions
+    groupby_dimension: obr.salary_sacrifice_costing_line
+    rows:
+      - value_id: salary_sacrifice__above_2000
+        label: Salary-sacrificed pension contributions above the GBP 2,000 threshold
+        ordinal: 0
+        row_number: 39
+        table_record_kind: detail
+        expected_row_header_column: C
+        expected_row_header: Salary-sacrificed pension contributions (£b) 12.9 13.6 14.3 15.1
+        filters:
+          sacrifice_route: salary_sacrifice
+          contribution_portion: above_2000_annual_threshold
+        constraints:
+          - variable: sacrifice_route
+            operator: ==
+            value: salary_sacrifice
+            label: Sacrifice route
+          - variable: contribution_portion
+            operator: ==
+            value: above_2000_annual_threshold
+            label: Contribution portion
+        guard_cells:
+          - column: A
+            row: 39
+            expected_value: 2
+            label: PDF page
+          - column: D
+            row: 39
+            expected_value: '14.3'
+            label: number 3 of 4 on the line
+      - value_id: bonus_sacrifice__above_2000
+        label: Bonus-sacrificed pension contributions above the GBP 2,000 threshold
+        ordinal: 1
+        row_number: 55
+        table_record_kind: detail
+        expected_row_header_column: C
+        expected_row_header: Bonus-sacrificed pension contributions (£b) 13.0 13.4 13.8 14.2
+        filters:
+          sacrifice_route: bonus_sacrifice
+          contribution_portion: above_2000_annual_threshold
+        constraints:
+          - variable: sacrifice_route
+            operator: ==
+            value: bonus_sacrifice
+            label: Sacrifice route
+          - variable: contribution_portion
+            operator: ==
+            value: above_2000_annual_threshold
+            label: Contribution portion
+        guard_cells:
+          - column: A
+            row: 55
+            expected_value: 2
+            label: PDF page
+          - column: D
+            row: 55
+            expected_value: '13.8'
+            label: number 3 of 4 on the line
+    measures:
+      - measure_id: contributions
+        label: Pension contributions above the GBP 2,000 threshold
+        ordinal: 0
+        column: E
+        source_column_id: numeric_value
+        concept: obr.salary_sacrifice_costing.tax_base
+        source_concept: obr.salary_sacrifice_costing.tax_base
+        concept_relation: source_label
+        concept_authority: obr
+        concept_evidence_url: https://obr.uk/supplementary-forecast-information-on-salary-sacrifice-pension-contributions-and-send-spending/
+        concept_evidence_notes: 'OBR Table 1.1 tax base (GBP billion): salary- and bonus-sacrificed pension
+          contributions above the GBP 2,000 annual threshold (paragraphs 1.6 and 1.9).'
+        unit: gbp
+        aggregation: sum
+        expected_cell_type: number
+        value_scale: 1000000000
+  - record_set_id: obr.salary_sacrifice_costing_2026_02.nics_rate_increase.fy2029
+    provenance_class: model_output
+    assertion: source_projection
+    record_set_spec_id: obr.salary_sacrifice_costing_2026_02.nics_rate_increase.fy2029.v1
+    source_record_id_prefix: obr.salary_sacrifice_costing_2026_02.nics_rate_increase.fy2029
+    sheet_name: document_numbers
+    period_type: fiscal_year
+    period: 2029
+    period_coverage:
+      start_date: '2029-04-01'
+      end_date: '2030-03-31'
+      basis: fiscal
+      source_period_label: 2029-30
+      notes: period.value stores the opening year of the publisher fiscal-year label.
+    geography_id: K02000001
+    geography_level: country
+    geography_name: United Kingdom
+    geography_vintage: current
+    entity: person
+    entity_role: salary_sacrifice_pension_contributor
+    domain: national_insurance_contributions
+    groupby_dimension: obr.salary_sacrifice_costing_line
+    rows:
+      - value_id: salary_sacrifice__employee
+        label: Increase in average employee NICs rate on salary-sacrificed contributions
+        ordinal: 0
+        row_number: 43
+        table_record_kind: detail
+        expected_row_header_column: C
+        expected_row_header: Increase in average employee NICs rate (per cent) 0.0 0.0 2.7 2.7
+        filters:
+          sacrifice_route: salary_sacrifice
+          nics_payer: employee
+        constraints:
+          - variable: sacrifice_route
+            operator: ==
+            value: salary_sacrifice
+            label: Sacrifice route
+          - variable: nics_payer
+            operator: ==
+            value: employee
+            label: NICs payer
+        guard_cells:
+          - column: A
+            row: 43
+            expected_value: 2
+            label: PDF page
+          - column: D
+            row: 43
+            expected_value: '2.7'
+            label: number 3 of 4 on the line
+      - value_id: salary_sacrifice__employer
+        label: Increase in average employer NICs rate on salary-sacrificed contributions
+        ordinal: 1
+        row_number: 47
+        table_record_kind: detail
+        expected_row_header_column: C
+        expected_row_header: Increase in average employer NICs rate (per cent) 0.0 0.0 15.0 15.0
+        filters:
+          sacrifice_route: salary_sacrifice
+          nics_payer: employer
+        constraints:
+          - variable: sacrifice_route
+            operator: ==
+            value: salary_sacrifice
+            label: Sacrifice route
+          - variable: nics_payer
+            operator: ==
+            value: employer
+            label: NICs payer
+        guard_cells:
+          - column: A
+            row: 47
+            expected_value: 2
+            label: PDF page
+          - column: D
+            row: 47
+            expected_value: '15.0'
+            label: number 3 of 4 on the line
+      - value_id: bonus_sacrifice__employee
+        label: Increase in average employee NICs rate on bonus-sacrificed contributions
+        ordinal: 2
+        row_number: 59
+        table_record_kind: detail
+        expected_row_header_column: C
+        expected_row_header: Increase in average employee NICs rate (per cent) 0.0 0.0 2.0 2.0
+        filters:
+          sacrifice_route: bonus_sacrifice
+          nics_payer: employee
+        constraints:
+          - variable: sacrifice_route
+            operator: ==
+            value: bonus_sacrifice
+            label: Sacrifice route
+          - variable: nics_payer
+            operator: ==
+            value: employee
+            label: NICs payer
+        guard_cells:
+          - column: A
+            row: 59
+            expected_value: 2
+            label: PDF page
+          - column: D
+            row: 59
+            expected_value: '2.0'
+            label: number 3 of 4 on the line
+      - value_id: bonus_sacrifice__employer
+        label: Increase in average employer NICs rate on bonus-sacrificed contributions
+        ordinal: 3
+        row_number: 63
+        table_record_kind: detail
+        expected_row_header_column: C
+        expected_row_header: Increase in average employer NICs rate (per cent) 0.0 0.0 15.0 15.0
+        filters:
+          sacrifice_route: bonus_sacrifice
+          nics_payer: employer
+        constraints:
+          - variable: sacrifice_route
+            operator: ==
+            value: bonus_sacrifice
+            label: Sacrifice route
+          - variable: nics_payer
+            operator: ==
+            value: employer
+            label: NICs payer
+        guard_cells:
+          - column: A
+            row: 63
+            expected_value: 2
+            label: PDF page
+          - column: D
+            row: 63
+            expected_value: '15.0'
+            label: number 3 of 4 on the line
+    measures:
+      - measure_id: rate_increase
+        label: Increase in the average NICs rate
+        ordinal: 0
+        column: E
+        source_column_id: numeric_value
+        concept: obr.salary_sacrifice_costing.nics_rate_increase
+        source_concept: obr.salary_sacrifice_costing.nics_rate_increase
+        concept_relation: source_label
+        concept_authority: obr
+        concept_evidence_url: https://obr.uk/supplementary-forecast-information-on-salary-sacrifice-pension-contributions-and-send-spending/
+        concept_evidence_notes: 'OBR Table 1.1: increase in the average employee or employer NICs rate
+          on each tax base, per cent (percentage points).'
+        unit: percent
+        aggregation: rate
+        expected_cell_type: number
+  - record_set_id: obr.salary_sacrifice_costing_2026_02.static_yield.fy2029
+    provenance_class: model_output
+    assertion: source_projection
+    record_set_spec_id: obr.salary_sacrifice_costing_2026_02.static_yield.fy2029.v1
+    source_record_id_prefix: obr.salary_sacrifice_costing_2026_02.static_yield.fy2029
+    sheet_name: document_numbers
+    period_type: fiscal_year
+    period: 2029
+    period_coverage:
+      start_date: '2029-04-01'
+      end_date: '2030-03-31'
+      basis: fiscal
+      source_period_label: 2029-30
+      notes: period.value stores the opening year of the publisher fiscal-year label.
+    geography_id: K02000001
+    geography_level: country
+    geography_name: United Kingdom
+    geography_vintage: current
+    entity: government
+    entity_role: central_government
+    domain: national_insurance_contributions
+    groupby_dimension: obr.salary_sacrifice_costing_line
+    rows:
+      - value_id: salary_sacrifice
+        label: Static yield from salary-sacrificed pension contributions
+        ordinal: 0
+        row_number: 51
+        table_record_kind: detail
+        expected_row_header_column: C
+        expected_row_header: Static yield from salary-sacrificed pension contributions (£m) 0.0 0.0 2.5
+          2.7
+        filters:
+          sacrifice_route: salary_sacrifice
+        constraints:
+          - variable: sacrifice_route
+            operator: ==
+            value: salary_sacrifice
+            label: Sacrifice route
+        guard_cells:
+          - column: A
+            row: 51
+            expected_value: 2
+            label: PDF page
+          - column: D
+            row: 51
+            expected_value: '2.5'
+            label: number 3 of 4 on the line
+      - value_id: bonus_sacrifice
+        label: Static yield from bonus-sacrificed pension contributions
+        ordinal: 1
+        row_number: 67
+        table_record_kind: detail
+        expected_row_header_column: C
+        expected_row_header: Static yield from bonus-sacrificed pension contributions (£b) 0.0 0.0 2.3
+          2.4
+        filters:
+          sacrifice_route: bonus_sacrifice
+        constraints:
+          - variable: sacrifice_route
+            operator: ==
+            value: bonus_sacrifice
+            label: Sacrifice route
+        guard_cells:
+          - column: A
+            row: 67
+            expected_value: 2
+            label: PDF page
+          - column: D
+            row: 67
+            expected_value: '2.3'
+            label: number 3 of 4 on the line
+      - value_id: total
+        label: Total static yield
+        ordinal: 2
+        row_number: 71
+        table_record_kind: total
+        expected_row_header_column: C
+        expected_row_header: Total static yield (£b) 0.0 0.0 4.9 5.1
+        filters:
+          sacrifice_route: all
+        guard_cells:
+          - column: A
+            row: 71
+            expected_value: 2
+            label: PDF page
+          - column: D
+            row: 71
+            expected_value: '4.9'
+            label: number 3 of 4 on the line
+    measures:
+      - measure_id: static_yield
+        label: Static NICs yield
+        ordinal: 0
+        column: E
+        source_column_id: numeric_value
+        concept: obr.salary_sacrifice_costing.static_yield
+        source_concept: obr.salary_sacrifice_costing.static_yield
+        concept_relation: source_label
+        concept_authority: obr
+        concept_evidence_url: https://obr.uk/supplementary-forecast-information-on-salary-sacrifice-pension-contributions-and-send-spending/
+        concept_evidence_notes: OBR Table 1.1 static yield, GBP billion, positive = increase in receipts.
+          The salary-sacrifice row is labelled '(GBP m)' by the publisher; its values are GBP billion
+          (they sum with the bonus-sacrifice row to the total row).
+        unit: gbp
+        aggregation: sum
+        expected_cell_type: number
+        value_scale: 1000000000
+  - record_set_id: obr.salary_sacrifice_costing_2026_02.tax_base.fy2030
+    provenance_class: model_output
+    assertion: source_projection
+    record_set_spec_id: obr.salary_sacrifice_costing_2026_02.tax_base.fy2030.v1
+    source_record_id_prefix: obr.salary_sacrifice_costing_2026_02.tax_base.fy2030
+    sheet_name: document_numbers
+    period_type: fiscal_year
+    period: 2030
+    period_coverage:
+      start_date: '2030-04-01'
+      end_date: '2031-03-31'
+      basis: fiscal
+      source_period_label: 2030-31
+      notes: period.value stores the opening year of the publisher fiscal-year label.
+    geography_id: K02000001
+    geography_level: country
+    geography_name: United Kingdom
+    geography_vintage: current
+    entity: person
+    entity_role: salary_sacrifice_pension_contributor
+    domain: national_insurance_contributions
+    groupby_dimension: obr.salary_sacrifice_costing_line
+    rows:
+      - value_id: salary_sacrifice__above_2000
+        label: Salary-sacrificed pension contributions above the GBP 2,000 threshold
+        ordinal: 0
+        row_number: 40
+        table_record_kind: detail
+        expected_row_header_column: C
+        expected_row_header: Salary-sacrificed pension contributions (£b) 12.9 13.6 14.3 15.1
+        filters:
+          sacrifice_route: salary_sacrifice
+          contribution_portion: above_2000_annual_threshold
+        constraints:
+          - variable: sacrifice_route
+            operator: ==
+            value: salary_sacrifice
+            label: Sacrifice route
+          - variable: contribution_portion
+            operator: ==
+            value: above_2000_annual_threshold
+            label: Contribution portion
+        guard_cells:
+          - column: A
+            row: 40
+            expected_value: 2
+            label: PDF page
+          - column: D
+            row: 40
+            expected_value: '15.1'
+            label: number 4 of 4 on the line
+      - value_id: bonus_sacrifice__above_2000
+        label: Bonus-sacrificed pension contributions above the GBP 2,000 threshold
+        ordinal: 1
+        row_number: 56
+        table_record_kind: detail
+        expected_row_header_column: C
+        expected_row_header: Bonus-sacrificed pension contributions (£b) 13.0 13.4 13.8 14.2
+        filters:
+          sacrifice_route: bonus_sacrifice
+          contribution_portion: above_2000_annual_threshold
+        constraints:
+          - variable: sacrifice_route
+            operator: ==
+            value: bonus_sacrifice
+            label: Sacrifice route
+          - variable: contribution_portion
+            operator: ==
+            value: above_2000_annual_threshold
+            label: Contribution portion
+        guard_cells:
+          - column: A
+            row: 56
+            expected_value: 2
+            label: PDF page
+          - column: D
+            row: 56
+            expected_value: '14.2'
+            label: number 4 of 4 on the line
+    measures:
+      - measure_id: contributions
+        label: Pension contributions above the GBP 2,000 threshold
+        ordinal: 0
+        column: E
+        source_column_id: numeric_value
+        concept: obr.salary_sacrifice_costing.tax_base
+        source_concept: obr.salary_sacrifice_costing.tax_base
+        concept_relation: source_label
+        concept_authority: obr
+        concept_evidence_url: https://obr.uk/supplementary-forecast-information-on-salary-sacrifice-pension-contributions-and-send-spending/
+        concept_evidence_notes: 'OBR Table 1.1 tax base (GBP billion): salary- and bonus-sacrificed pension
+          contributions above the GBP 2,000 annual threshold (paragraphs 1.6 and 1.9).'
+        unit: gbp
+        aggregation: sum
+        expected_cell_type: number
+        value_scale: 1000000000
+  - record_set_id: obr.salary_sacrifice_costing_2026_02.nics_rate_increase.fy2030
+    provenance_class: model_output
+    assertion: source_projection
+    record_set_spec_id: obr.salary_sacrifice_costing_2026_02.nics_rate_increase.fy2030.v1
+    source_record_id_prefix: obr.salary_sacrifice_costing_2026_02.nics_rate_increase.fy2030
+    sheet_name: document_numbers
+    period_type: fiscal_year
+    period: 2030
+    period_coverage:
+      start_date: '2030-04-01'
+      end_date: '2031-03-31'
+      basis: fiscal
+      source_period_label: 2030-31
+      notes: period.value stores the opening year of the publisher fiscal-year label.
+    geography_id: K02000001
+    geography_level: country
+    geography_name: United Kingdom
+    geography_vintage: current
+    entity: person
+    entity_role: salary_sacrifice_pension_contributor
+    domain: national_insurance_contributions
+    groupby_dimension: obr.salary_sacrifice_costing_line
+    rows:
+      - value_id: salary_sacrifice__employee
+        label: Increase in average employee NICs rate on salary-sacrificed contributions
+        ordinal: 0
+        row_number: 44
+        table_record_kind: detail
+        expected_row_header_column: C
+        expected_row_header: Increase in average employee NICs rate (per cent) 0.0 0.0 2.7 2.7
+        filters:
+          sacrifice_route: salary_sacrifice
+          nics_payer: employee
+        constraints:
+          - variable: sacrifice_route
+            operator: ==
+            value: salary_sacrifice
+            label: Sacrifice route
+          - variable: nics_payer
+            operator: ==
+            value: employee
+            label: NICs payer
+        guard_cells:
+          - column: A
+            row: 44
+            expected_value: 2
+            label: PDF page
+          - column: D
+            row: 44
+            expected_value: '2.7'
+            label: number 4 of 4 on the line
+      - value_id: salary_sacrifice__employer
+        label: Increase in average employer NICs rate on salary-sacrificed contributions
+        ordinal: 1
+        row_number: 48
+        table_record_kind: detail
+        expected_row_header_column: C
+        expected_row_header: Increase in average employer NICs rate (per cent) 0.0 0.0 15.0 15.0
+        filters:
+          sacrifice_route: salary_sacrifice
+          nics_payer: employer
+        constraints:
+          - variable: sacrifice_route
+            operator: ==
+            value: salary_sacrifice
+            label: Sacrifice route
+          - variable: nics_payer
+            operator: ==
+            value: employer
+            label: NICs payer
+        guard_cells:
+          - column: A
+            row: 48
+            expected_value: 2
+            label: PDF page
+          - column: D
+            row: 48
+            expected_value: '15.0'
+            label: number 4 of 4 on the line
+      - value_id: bonus_sacrifice__employee
+        label: Increase in average employee NICs rate on bonus-sacrificed contributions
+        ordinal: 2
+        row_number: 60
+        table_record_kind: detail
+        expected_row_header_column: C
+        expected_row_header: Increase in average employee NICs rate (per cent) 0.0 0.0 2.0 2.0
+        filters:
+          sacrifice_route: bonus_sacrifice
+          nics_payer: employee
+        constraints:
+          - variable: sacrifice_route
+            operator: ==
+            value: bonus_sacrifice
+            label: Sacrifice route
+          - variable: nics_payer
+            operator: ==
+            value: employee
+            label: NICs payer
+        guard_cells:
+          - column: A
+            row: 60
+            expected_value: 2
+            label: PDF page
+          - column: D
+            row: 60
+            expected_value: '2.0'
+            label: number 4 of 4 on the line
+      - value_id: bonus_sacrifice__employer
+        label: Increase in average employer NICs rate on bonus-sacrificed contributions
+        ordinal: 3
+        row_number: 64
+        table_record_kind: detail
+        expected_row_header_column: C
+        expected_row_header: Increase in average employer NICs rate (per cent) 0.0 0.0 15.0 15.0
+        filters:
+          sacrifice_route: bonus_sacrifice
+          nics_payer: employer
+        constraints:
+          - variable: sacrifice_route
+            operator: ==
+            value: bonus_sacrifice
+            label: Sacrifice route
+          - variable: nics_payer
+            operator: ==
+            value: employer
+            label: NICs payer
+        guard_cells:
+          - column: A
+            row: 64
+            expected_value: 2
+            label: PDF page
+          - column: D
+            row: 64
+            expected_value: '15.0'
+            label: number 4 of 4 on the line
+    measures:
+      - measure_id: rate_increase
+        label: Increase in the average NICs rate
+        ordinal: 0
+        column: E
+        source_column_id: numeric_value
+        concept: obr.salary_sacrifice_costing.nics_rate_increase
+        source_concept: obr.salary_sacrifice_costing.nics_rate_increase
+        concept_relation: source_label
+        concept_authority: obr
+        concept_evidence_url: https://obr.uk/supplementary-forecast-information-on-salary-sacrifice-pension-contributions-and-send-spending/
+        concept_evidence_notes: 'OBR Table 1.1: increase in the average employee or employer NICs rate
+          on each tax base, per cent (percentage points).'
+        unit: percent
+        aggregation: rate
+        expected_cell_type: number
+  - record_set_id: obr.salary_sacrifice_costing_2026_02.static_yield.fy2030
+    provenance_class: model_output
+    assertion: source_projection
+    record_set_spec_id: obr.salary_sacrifice_costing_2026_02.static_yield.fy2030.v1
+    source_record_id_prefix: obr.salary_sacrifice_costing_2026_02.static_yield.fy2030
+    sheet_name: document_numbers
+    period_type: fiscal_year
+    period: 2030
+    period_coverage:
+      start_date: '2030-04-01'
+      end_date: '2031-03-31'
+      basis: fiscal
+      source_period_label: 2030-31
+      notes: period.value stores the opening year of the publisher fiscal-year label.
+    geography_id: K02000001
+    geography_level: country
+    geography_name: United Kingdom
+    geography_vintage: current
+    entity: government
+    entity_role: central_government
+    domain: national_insurance_contributions
+    groupby_dimension: obr.salary_sacrifice_costing_line
+    rows:
+      - value_id: salary_sacrifice
+        label: Static yield from salary-sacrificed pension contributions
+        ordinal: 0
+        row_number: 52
+        table_record_kind: detail
+        expected_row_header_column: C
+        expected_row_header: Static yield from salary-sacrificed pension contributions (£m) 0.0 0.0 2.5
+          2.7
+        filters:
+          sacrifice_route: salary_sacrifice
+        constraints:
+          - variable: sacrifice_route
+            operator: ==
+            value: salary_sacrifice
+            label: Sacrifice route
+        guard_cells:
+          - column: A
+            row: 52
+            expected_value: 2
+            label: PDF page
+          - column: D
+            row: 52
+            expected_value: '2.7'
+            label: number 4 of 4 on the line
+      - value_id: bonus_sacrifice
+        label: Static yield from bonus-sacrificed pension contributions
+        ordinal: 1
+        row_number: 68
+        table_record_kind: detail
+        expected_row_header_column: C
+        expected_row_header: Static yield from bonus-sacrificed pension contributions (£b) 0.0 0.0 2.3
+          2.4
+        filters:
+          sacrifice_route: bonus_sacrifice
+        constraints:
+          - variable: sacrifice_route
+            operator: ==
+            value: bonus_sacrifice
+            label: Sacrifice route
+        guard_cells:
+          - column: A
+            row: 68
+            expected_value: 2
+            label: PDF page
+          - column: D
+            row: 68
+            expected_value: '2.4'
+            label: number 4 of 4 on the line
+      - value_id: total
+        label: Total static yield
+        ordinal: 2
+        row_number: 72
+        table_record_kind: total
+        expected_row_header_column: C
+        expected_row_header: Total static yield (£b) 0.0 0.0 4.9 5.1
+        filters:
+          sacrifice_route: all
+        guard_cells:
+          - column: A
+            row: 72
+            expected_value: 2
+            label: PDF page
+          - column: D
+            row: 72
+            expected_value: '5.1'
+            label: number 4 of 4 on the line
+    measures:
+      - measure_id: static_yield
+        label: Static NICs yield
+        ordinal: 0
+        column: E
+        source_column_id: numeric_value
+        concept: obr.salary_sacrifice_costing.static_yield
+        source_concept: obr.salary_sacrifice_costing.static_yield
+        concept_relation: source_label
+        concept_authority: obr
+        concept_evidence_url: https://obr.uk/supplementary-forecast-information-on-salary-sacrifice-pension-contributions-and-send-spending/
+        concept_evidence_notes: OBR Table 1.1 static yield, GBP billion, positive = increase in receipts.
+          The salary-sacrifice row is labelled '(GBP m)' by the publisher; its values are GBP billion
+          (they sum with the bonus-sacrifice row to the total row).
+        unit: gbp
+        aggregation: sum
+        expected_cell_type: number
+        value_scale: 1000000000

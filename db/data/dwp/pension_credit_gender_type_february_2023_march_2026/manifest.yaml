@@ -1,0 +1,19 @@
+source_id: dwp
+package_id: dwp-pension-credit-gender-type-february-2023-march-2026
+dataset: dwp_dwp-pension-credit-gender-type-february-2023-march-2026
+source_page: https://stat-xplore.dwp.gov.uk/
+table: Pension Credit caseload and mean weekly award by gender and type of Pension
+  Credit, February 2023 to March 2026
+files:
+  2026:
+    filename: pension_credit_caseload_by_gender_and_type_february_2023_march_2026.json
+    source_url: https://stat-xplore.dwp.gov.uk/webapi/rest/v1/table
+    sha256: 88edc2888adf44d68c4be4e14375bd9015f154065fd248e01680ffc33fff408e
+    size_bytes: 12706
+    fetched_at: '2026-09-29T12:31:03+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/dwp/dwp-pension-credit-gender-type-february-2023-march-2026/2026/88edc2888adf44d68c4be4e14375bd9015f154065fd248e01680ffc33fff408e/pension_credit_caseload_by_gender_and_type_february_2023_march_2026.json
+        uri: r2://ledger-raw/raw/uk/dwp/dwp-pension-credit-gender-type-february-2023-march-2026/2026/88edc2888adf44d68c4be4e14375bd9015f154065fd248e01680ffc33fff408e/pension_credit_caseload_by_gender_and_type_february_2023_march_2026.json

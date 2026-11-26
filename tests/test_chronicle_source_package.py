@@ -3,9 +3,11 @@
 from __future__ import annotations
 
 from copy import deepcopy
+import csv
 import hashlib
 from io import BytesIO
 from pathlib import Path
+import re
 from zipfile import ZipFile
 
 import openpyxl
@@ -24,6 +26,7 @@ from chronicle.source_package import (
     SOURCE_PACKAGE_SCHEMA_VERSION,
     DeclarativeRecordSet,
     SourceArtifactSpec,
+    _mapping_applies_to_year,
     _read_source_artifact_content,
     _render_string,
     _source_artifact_cache_path,
@@ -35,6 +38,7 @@ from chronicle.sources.cells import build_source_cell_key, validate_source_cells
 from chronicle.sources.rows import validate_source_rows
 from chronicle.sources.specs import resolve_source_record
 from chronicle.suite import build_source_suite
+from chronicle.yaml_io import safe_load as safe_load_yaml
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 ALLOWED_PROVENANCE_CLASSES = {
@@ -217,6 +221,145 @@ def test_source_package_rejects_unknown_schema_and_names_both_epochs(tmp_path):
     assert schema_pair.chronicle in message
 
 
+def test_record_set_measure_year_scope_preserves_legacy_layout():
+    package_path = REPO_ROOT / "packages" / "irs_soi" / "table_1_4"
+    package = load_source_package(package_path)
+    legacy_set = package.build_source_record_set_specs(2020)[0]
+    current_set = package.build_source_record_set_specs(2023)[0]
+    legacy_record = package.build_source_record_specs(2020)[0]
+
+    assert len(legacy_set.measures) == 29
+    assert len(current_set.measures) == 37
+    assert legacy_record.layout is not None
+    assert legacy_record.layout.record_set_spec_hash == "22ed3e367531f2331f744623"
+    assert "partnership_net_income_amount" not in {
+        measure.measure_id for measure in legacy_set.measures
+    }
+    assert "partnership_net_income_amount" in {
+        measure.measure_id for measure in current_set.measures
+    }
+
+
+@pytest.mark.parametrize(
+    ("years", "message"),
+    [
+        ([], "non-empty list"),
+        ("2023", "non-empty list"),
+        ([2023, "2024"], "must be integers"),
+        ([True, 2023], "must be integers"),
+        ([2023, 2023], "must be unique"),
+    ],
+)
+def test_record_set_measure_year_scope_rejects_malformed_values(years, message):
+    source_path = REPO_ROOT / "packages" / "irs_soi" / "table_1_4"
+    payload = yaml.safe_load((source_path / "source_package.yaml").read_text())
+    record_set = payload["record_sets"][0]
+    record_set["measures"][-1]["years"] = years
+
+    with pytest.raises(ValueError, match=message):
+        DeclarativeRecordSet(record_set).to_record_set_spec(2020)
+
+
+def test_record_set_measure_year_scope_requires_every_column_mapping():
+    source_path = REPO_ROOT / "packages" / "irs_soi" / "table_1_4"
+    payload = yaml.safe_load((source_path / "source_package.yaml").read_text())
+    record_set = payload["record_sets"][0]
+    record_set["measures"][-1]["years"].append(2024)
+
+    with pytest.raises(ValueError, match="no entry for declared year 2024"):
+        DeclarativeRecordSet(record_set).to_record_set_spec(2020)
+
+
+def test_record_set_measure_year_scope_refuses_a_by_year_map_beyond_its_years():
+    source_path = REPO_ROOT / "packages" / "irs_soi" / "table_1_4"
+    payload = yaml.safe_load((source_path / "source_package.yaml").read_text())
+    record_set = payload["record_sets"][0]
+    record_set["measures"][-1]["years"].remove(2022)
+
+    with pytest.raises(ValueError, match=r"column_by_year maps year\(s\) 2022"):
+        DeclarativeRecordSet(record_set).to_record_set_spec(2023)
+
+
+def test_record_set_measure_year_scope_requires_every_header_year():
+    source_path = REPO_ROOT / "packages" / "irs_soi" / "table_1_4"
+    payload = yaml.safe_load((source_path / "source_package.yaml").read_text())
+    record_set = payload["record_sets"][0]
+    del record_set["measures"][-1]["expected_column_header_by_year"][2022]
+
+    with pytest.raises(
+        ValueError,
+        match="expected_column_header_by_year has no entry for declared year 2022",
+    ):
+        DeclarativeRecordSet(record_set).to_record_set_spec(2023)
+
+
+def test_record_set_measure_year_scope_reads_string_year_keys_and_refuses_bad_maps():
+    payload = {
+        "measure_id": "m",
+        "years": [2021, 2022],
+        "column_by_year": {"2021": "A", "2022": "B"},
+        7: "a key the year scope ignores",
+    }
+    assert _mapping_applies_to_year(payload, year=2021, context="measure")
+    assert not _mapping_applies_to_year(payload, year=2020, context="measure")
+
+    payload["column_by_year"]["2023"] = "C"
+    with pytest.raises(ValueError, match=r"column_by_year maps year\(s\) 2023"):
+        _mapping_applies_to_year(payload, year=2021, context="measure")
+
+    payload["column_by_year"] = ["A", "B"]
+    with pytest.raises(ValueError, match="column_by_year must map years to values"):
+        _mapping_applies_to_year(payload, year=2021, context="measure")
+
+
+def test_record_set_measure_year_scope_is_membership_for_every_small_year_set():
+    """For every non-empty set of 2020-2024 and every year 2019-2025, a measure
+    with ``years`` applies exactly when the year is in the set, and a measure
+    without ``years`` applies to every year."""
+    domain = (2020, 2021, 2022, 2023, 2024)
+    for mask in range(1, 2 ** len(domain)):
+        years = [year for bit, year in enumerate(domain) if mask >> bit & 1]
+        payload = {
+            "measure_id": "m",
+            "years": years,
+            "column_by_year": {year: "A" for year in years},
+        }
+        for year in range(2019, 2026):
+            assert _mapping_applies_to_year(payload, year=year, context="measure") == (
+                year in years
+            )
+    for year in range(2019, 2026):
+        assert _mapping_applies_to_year(
+            {"measure_id": "m"}, year=year, context="measure"
+        )
+
+
+@pytest.mark.parametrize("year", [2021, 2022, 2023])
+def test_table_1_4_entity_legs_sum_over_income_ranges_to_all_returns(year):
+    """Each partnership and S corporation leg's 19 AGI ranges add up to its
+    all-returns row within SOI's rounding: amounts publish in thousands of
+    dollars (at most $500 per row) and return counts as whole numbers."""
+    package = load_source_package(REPO_ROOT / "packages" / "irs_soi" / "table_1_4")
+    facts = package.build_facts(year, cells=package.build_source_cells(year))
+    legs = (
+        "partnership_net_income",
+        "partnership_net_loss",
+        "s_corporation_net_income",
+        "s_corporation_net_loss",
+    )
+    by_measure = {}
+    for fact in facts:
+        *_, income_range, measure = fact.source_record_id.split(".")
+        if measure.startswith(legs):
+            by_measure.setdefault(measure, {})[income_range] = fact.value
+    assert len(by_measure) == 8
+    for measure, by_range in by_measure.items():
+        assert len(by_range) == 20, measure
+        total = by_range.pop("all")
+        tolerance = 10_000 if measure.endswith("_amount") else 10
+        assert abs(sum(by_range.values()) - total) <= tolerance, measure
+
+
 def test_hmrc_packages_preserve_provenance_and_definition_year_metadata():
     """HMRC facts must retain the axes needed to distinguish source claims."""
     hmrc_packages = sorted(
@@ -225,7 +368,7 @@ def test_hmrc_packages_preserve_provenance_and_definition_year_metadata():
 
     assert hmrc_packages
     for path in hmrc_packages:
-        payload = yaml.safe_load(path.read_text())
+        payload = safe_load_yaml(path.read_text())
         artifact = payload["artifact"]
         assert artifact["vintage"]
         assert isinstance(artifact["artifact_year"], int)
@@ -743,7 +886,7 @@ def test_every_source_package_record_set_declares_provenance_class():
             for line in text.splitlines()
             if line.lstrip().startswith("provenance_class:")
         )
-        payload = yaml.safe_load(text)
+        payload = safe_load_yaml(text)
         for index, record_set in enumerate(payload["record_sets"]):
             record_set_count += 1
             record_set_id = record_set.get("record_set_id", f"index {index}")
@@ -1233,9 +1376,14 @@ def test_source_package_path_builds_valid_soi_table_1_4_facts():
 
     assert package.package_id == "soi-table-1-4"
     assert len(cells) == 8109
-    assert len(facts) == 580
+    assert len(facts) == 740
     assert validate_facts(facts).valid
     assert facts[0].source.source_table == "Publication 1304 Table 1.4"
+    assert facts[0].source.url == "https://www.irs.gov/pub/irs-soi/23in14ar.xls"
+    assert (
+        facts[0].source.source_sha256
+        == "b6c1f87fbb5533417e195f6938538e5de09b6a0825a6a54346bf9363a18d96af"
+    )
     assert (
         values_by_record["irs_soi.ty2023.table_1_4.all.alimony_received_amount"].value
         == 6_686_429_000
@@ -1243,6 +1391,54 @@ def test_source_package_path_builds_valid_soi_table_1_4_facts():
     assert (
         values_by_record["irs_soi.ty2023.table_1_4.all.alimony_paid_amount"].value
         == 7_497_135_000
+    )
+    assert (
+        values_by_record[
+            "irs_soi.ty2023.table_1_4.all.partnership_net_income_returns"
+        ].value
+        == 3_266_345
+    )
+    assert (
+        values_by_record[
+            "irs_soi.ty2023.table_1_4.all.partnership_net_income_amount"
+        ].value
+        == 452_077_038_000
+    )
+    assert (
+        values_by_record[
+            "irs_soi.ty2023.table_1_4.all.partnership_net_loss_returns"
+        ].value
+        == 2_103_634
+    )
+    assert (
+        values_by_record[
+            "irs_soi.ty2023.table_1_4.all.partnership_net_loss_amount"
+        ].value
+        == 168_884_100_000
+    )
+    assert (
+        values_by_record[
+            "irs_soi.ty2023.table_1_4.all.s_corporation_net_income_returns"
+        ].value
+        == 4_138_040
+    )
+    assert (
+        values_by_record[
+            "irs_soi.ty2023.table_1_4.all.s_corporation_net_income_amount"
+        ].value
+        == 797_450_861_000
+    )
+    assert (
+        values_by_record[
+            "irs_soi.ty2023.table_1_4.all.s_corporation_net_loss_returns"
+        ].value
+        == 1_415_974
+    )
+    assert (
+        values_by_record[
+            "irs_soi.ty2023.table_1_4.all.s_corporation_net_loss_amount"
+        ].value
+        == 89_543_715_000
     )
 
 
@@ -1573,6 +1769,13 @@ def test_national_soi_source_package_aliases_validate_fixture_counts():
             "source_record_count": 7,
             "source_region_count": 1,
         },
+        "soi-table-1-3": {
+            "record_set_count": 4,
+            "row_count": 20,
+            "measure_count": 4,
+            "source_record_count": 20,
+            "source_region_count": 4,
+        },
         "soi-table-2-1": {
             "record_set_count": 1,
             "row_count": 1,
@@ -1622,11 +1825,18 @@ def test_national_soi_source_package_aliases_validate_fixture_counts():
             "source_record_count": 1836,
             "source_region_count": 51,
         },
+        "soi-historic-table-2-state-agi-2023": {
+            "record_set_count": 51,
+            "row_count": 510,
+            "measure_count": 102,
+            "source_record_count": 1020,
+            "source_region_count": 51,
+        },
         "soi-historic-table-2-state-broad-2022": {
             "record_set_count": 51,
             "row_count": 51,
-            "measure_count": 2703,
-            "source_record_count": 2703,
+            "measure_count": 3111,
+            "source_record_count": 3111,
             "source_region_count": 51,
         },
         "soi-historic-table-2-state-eitc-2022": {
@@ -2496,7 +2706,7 @@ def test_ssa_ssi_table_7b1_source_package_builds_area_category_facts():
     assert package.package_id == "ssa-ssi-table-7b1-2024"
     assert validate_source_cells(cells).valid
     assert validate_facts(facts).valid
-    assert len(cells) == 1_672
+    assert len(cells) == 715
     assert len(facts) == 416
     assert all(fact.source.raw_r2_uri for fact in facts)
 
@@ -2517,7 +2727,7 @@ def test_ssa_ssi_table_7b1_source_package_builds_area_category_facts():
     assert us_payments.measure.concept == "ssa.ssi_payment_amount"
     assert us_payments.constraints == ()
 
-    assert ca_disabled_recipients.value == 849_834
+    assert ca_disabled_recipients.value == 753_206
     assert ca_disabled_recipients.geography.id == "0400000US06"
     assert ca_disabled_recipients.measure.concept == "ssa.ssi_recipient_count"
     assert {
@@ -2525,7 +2735,7 @@ def test_ssa_ssi_table_7b1_source_package_builds_area_category_facts():
         for constraint in ca_disabled_recipients.constraints
     } == {("ssi_category", "==", "disabled")}
 
-    assert ca_disabled_payments.value == 9_834_761_000
+    assert ca_disabled_payments.value == 8_036_411_000
     assert ca_disabled_payments.geography.id == "0400000US06"
 
 
@@ -2568,7 +2778,7 @@ def test_ssa_ssi_monthly_2024_12_package_builds_federal_payment_age_facts():
     # SSA SSI Monthly Statistics, December 2024, Table 1, "Total with—
     # Federal payment" row: persons receiving a federal SSI payment in
     # December 2024, by the three published age groups. These are the
-    # PolicyEngine/populace#470 age-band take-up count targets.
+    # PolicyEngine/microcosm#470 age-band take-up count targets.
     assert all_ages.value == 7_289_843
     assert under_18.value == 1_001_922
     assert aged_18_to_64.value == 3_905_779
@@ -2959,11 +3169,185 @@ def test_census_pep_state_source_package_alias_validates_fixture_counts():
     assert report.valid
     assert report.counts == {
         "record_set_count": 51,
-        "row_count": 969,
+        "row_count": 918,
         "measure_count": 51,
-        "source_record_count": 969,
+        "source_record_count": 918,
         "source_region_count": 51,
     }
+
+
+def test_census_pep_2025_state_age_bands_source_package_validates_counts():
+    report = validate_source_package("census-pep-2025-state-age-bands", year=2023)
+
+    assert report.valid
+    assert report.counts == {
+        "record_set_count": 51,
+        "row_count": 816,
+        "measure_count": 51,
+        "source_record_count": 816,
+        "source_region_count": 51,
+    }
+
+
+def test_census_pep_2025_state_age_bands_partition_each_state():
+    package = load_source_package("census-pep-2025-state-age-bands")
+    rows = package.build_source_rows(2024)
+    cells = package.build_source_cells(2024, source_rows=rows)
+    facts = package.build_facts(2024, cells=cells, source_rows=rows)
+
+    assert validate_facts(facts).valid
+    assert {fact.period.value for fact in facts} == {2024}
+    values: dict[str, dict[str, float]] = {}
+    bounds: dict[str, dict[str, tuple[int, float]]] = {}
+    for fact in facts:
+        prefix, state, value_id, measure = fact.source_record_id.rsplit(".", 3)
+        assert prefix == "census_pep.v2025.cy2024.state_resident_population_age_bands"
+        assert measure == "population"
+        assert fact.geography.id == f"0400000US{state}"
+        values.setdefault(state, {})[value_id] = float(fact.value)
+        if value_id == "all":
+            continue
+        lower = upper = None
+        for constraint in fact.constraints:
+            if constraint.variable == "age" and constraint.operator == ">=":
+                lower = int(constraint.value)
+            if constraint.variable == "age" and constraint.operator == "<":
+                upper = int(constraint.value)
+        bounds.setdefault(state, {})[value_id] = (
+            lower,
+            float("inf") if upper is None else upper,
+        )
+    assert len(values) == 51
+    for state, state_values in values.items():
+        assert len(state_values) == 16
+        # The state's fifteen age groups tile [0, inf) without a gap or an overlap.
+        edges = sorted(bounds[state].values())
+        assert edges[0][0] == 0 and edges[-1][1] == float("inf")
+        assert all(edges[i][1] == edges[i + 1][0] for i in range(len(edges) - 1))
+        groups_total = sum(v for k, v in state_values.items() if k != "all")
+        assert groups_total == state_values["all"]
+    # SC-EST2025-ALLDATA6, POPESTIMATE2024, SEX 0 and ORIGIN 0 summed over the
+    # six race groups.
+    indiana = values["18"]
+    assert [indiana[f"age_{age}"] for age in range(6)] == [
+        79070,
+        80279,
+        82196,
+        80483,
+        84136,
+        84966,
+    ]
+    assert indiana["6_to_11"] == 532317
+    assert indiana["12_to_17"] == 560707
+    assert indiana["18_to_24"] == 683990
+    assert indiana["75_plus"] == 518414
+    assert indiana["all"] == 6934754
+    assert values["06"]["all"] == 39364774
+    assert sum(state_values["all"] for state_values in values.values()) == 340003797
+
+
+def _census_pep_state_age_ranges(package_id: str) -> dict[tuple, float]:
+    package = load_source_package(package_id)
+    rows = package.build_source_rows(2024)
+    cells = package.build_source_cells(2024, source_rows=rows)
+    ranges: dict[tuple, float] = {}
+    for fact in package.build_facts(2024, cells=cells, source_rows=rows):
+        # A total and a fact bounded only by age >= 0 cover the same range.
+        lower, upper = 0, None
+        for constraint in fact.constraints:
+            if constraint.variable == "age" and constraint.operator == ">=":
+                lower = int(constraint.value)
+            if constraint.variable == "age" and constraint.operator == "<":
+                upper = int(constraint.value)
+        key = (fact.geography.id, fact.period.value, lower, upper)
+        assert key not in ranges
+        ranges[key] = float(fact.value)
+    return ranges
+
+
+def test_census_pep_vintages_give_each_state_age_range_one_number():
+    # Of two vintages' numbers for a line and year, Chronicle keeps the later
+    # (chronicle#397). Vintages 2024 and 2025 both estimate July 1, 2024, so
+    # Vintage 2024 leaves out each state's total, which Vintage 2025 also gives.
+    earlier = _census_pep_state_age_ranges("census-pep-2024-state-age-sex")
+    later = _census_pep_state_age_ranges("census-pep-2025-state-age-bands")
+
+    assert not earlier.keys() & later.keys()
+    assert (len(earlier), len(later)) == (918, 816)
+
+
+def _assert_census_pep_state_facts_equal_direct_csv_sums(
+    package_id: str, csv_path: str, age_groups: dict[str, tuple[int, int]]
+) -> None:
+    # Sum the state ALLDATA6 file with the csv module, apart from Chronicle's
+    # parser and selectors, and compare every fact with that sum. AGE 85 holds
+    # everyone 85 and over.
+    by_age: dict[str, list[int]] = {}
+    with (REPO_ROOT / csv_path).open(newline="", encoding="utf-8") as stream:
+        for row in csv.DictReader(stream):
+            if (row["SUMLEV"], row["SEX"], row["ORIGIN"]) != ("040", "0", "0"):
+                continue
+            ages = by_age.setdefault(f"{int(row['STATE']):02d}", [0] * 86)
+            ages[int(row["AGE"])] += int(row["POPESTIMATE2024"])
+    package = load_source_package(package_id)
+    rows = package.build_source_rows(2024)
+    cells = package.build_source_cells(2024, source_rows=rows)
+    facts = package.build_facts(2024, cells=cells, source_rows=rows)
+
+    compared = set()
+    for fact in facts:
+        _prefix, state, value_id, _measure = fact.source_record_id.rsplit(".", 3)
+        first, last = age_groups[value_id]
+        expected = sum(by_age[state][first : last + 1])
+        assert float(fact.value) == expected, fact.source_record_id
+        # The fact's age bounds name the ages its value sums.
+        bounds = {
+            constraint.operator: int(constraint.value)
+            for constraint in fact.constraints
+            if constraint.variable == "age"
+        }
+        if value_id == "all":
+            assert not bounds, fact.source_record_id
+        elif last == 85:
+            assert bounds == {">=": first}, fact.source_record_id
+        else:
+            assert bounds == {">=": first, "<": last + 1}, fact.source_record_id
+        compared.add((state, value_id))
+    assert len(by_age) == 51
+    assert len(compared) == len(facts) == 51 * len(age_groups)
+
+
+def test_census_pep_2025_state_age_bands_equal_direct_csv_sums():
+    _assert_census_pep_state_facts_equal_direct_csv_sums(
+        "census-pep-2025-state-age-bands",
+        "db/data/census/pep_2025_age_sex/sc-est2025-alldata6.csv",
+        {
+            "all": (0, 85),
+            **{f"age_{age}": (age, age) for age in range(6)},
+            "6_to_11": (6, 11),
+            "12_to_17": (12, 17),
+            "18_to_24": (18, 24),
+            "25_to_34": (25, 34),
+            "35_to_44": (35, 44),
+            "45_to_54": (45, 54),
+            "55_to_64": (55, 64),
+            "65_to_74": (65, 74),
+            "75_plus": (75, 85),
+        },
+    )
+
+
+def test_census_pep_2024_state_age_sex_equal_direct_csv_sums():
+    # Vintage 2024 keeps its eighteen five-year groups. A state total would
+    # fail the lookup below, since Vintage 2025 gives the totals (chronicle#397).
+    _assert_census_pep_state_facts_equal_direct_csv_sums(
+        "census-pep-2024-state-age-sex",
+        "db/data/census/pep_2024_age_sex/sc-est2024-alldata6.csv",
+        {
+            **{f"{age}_to_{age + 4}": (age, age + 4) for age in range(0, 85, 5)},
+            "85_plus": (85, 85),
+        },
+    )
 
 
 def test_census_population_projections_source_package_alias_validates_counts():
@@ -3742,8 +4126,14 @@ def test_soi_congressional_district_2022_builds_all_return_facts():
 
     assert package.package_id == "soi-congressional-district-2022"
     assert len(rows) == 4_791
-    assert len(cells) == 79_365
-    assert len(facts) == 26_880
+    # 165 header cells and 165 cells for each of the 4,791 selected rows: the
+    # 480 all-class rows, then agi_stub 1 to 9 for the 479 state and district
+    # rows (chronicle#447 item 2.1).
+    assert len(cells) == 790_680
+    # 107 measures at 480 rows: 62, 15 whose state twin Historic Table 2's state
+    # package reads (chronicle#447 item 2.2) and 30 without one (item 2.3);
+    # then 2 measures at 9 x 479 AGI class rows (item 2.1).
+    assert len(facts) == 107 * 480 + 8_622
     assert validate_source_rows(rows).valid
     assert validate_source_cells(cells).valid
     assert validate_facts(facts).valid
@@ -3773,6 +4163,33 @@ def test_soi_congressional_district_2022_builds_all_return_facts():
         "us.eitc_three_or_more_children_amount"
     ]
     assert eitc_three_or_more_amount.value == 13_600_954_503
+    # The IRS guide's columns: limited SALT is Schedule A line 5e (not 5a),
+    # the PTC is the total premium tax credit (not additional Medicare tax),
+    # and N19300/A19300 is line 8a mortgage interest (not the line 10 total).
+    us_columns = {
+        measure_id: (fact.value, fact.layout.source_column_id)
+        for record_id, fact in values_by_record.items()
+        if record_id.startswith(
+            "irs_soi.ty2022.congressional_district_2022.all_returns.us."
+        )
+        for measure_id in [record_id.rsplit(".", 1)[1]]
+    }
+    assert us_columns["limited_state_local_taxes_returns"] == (14_777_040, "N18460")
+    assert us_columns["limited_state_local_taxes_amount"] == (
+        121_189_294_000,
+        "A18460",
+    )
+    assert us_columns["premium_tax_credit_returns"] == (7_713_000, "N85770")
+    assert us_columns["premium_tax_credit_amount"] == (53_073_341_000, "A85770")
+    assert us_columns["mortgage_interest_paid_returns"] == (11_352_500, "N19300")
+    assert us_columns["mortgage_interest_paid_amount"] == (140_135_155_000, "A19300")
+    assert us_columns["home_mortgage_personal_seller_amount"] == (
+        2_583_705_000,
+        "A19500",
+    )
+    assert us_columns["deductible_points_amount"] == (1_014_806_000, "A19530")
+    assert us_columns["investment_interest_paid_amount"] == (19_977_693_000, "A19570")
+    assert "interest_paid_deduction_amount" not in us_columns
     assert eitc_three_or_more_amount.layout.source_column_id == "A59664"
     assert eitc_three_or_more_amount.filters["eitc_child_count"] == "3plus"
     assert {
@@ -3807,6 +4224,68 @@ def test_soi_congressional_district_2022_builds_all_return_facts():
     assert al_01_taxable_interest.layout.source_column_id == "A00300"
     assert ca_53_returns.value == 383_160
     assert ca_53_returns.geography.id == "5001700US0653"
+    # State-twin columns (chronicle#447 item 2.2), read as the guide defines.
+    assert us_columns["wages_salaries_amount"] == (9_493_040_700_000, "A00200")
+    assert us_columns["taxes_paid_deduction_amount"] == (123_370_088_000, "A18300")
+    twin_cells = {
+        ("al_01", "itemized_deductions_returns"): (21_080, "N04470"),
+        ("ca_total", "real_estate_taxes_claims"): (2_471_650, "N18500"),
+        ("ca_53", "taxable_state_local_income_tax_refunds_amount"): (
+            19_584_000,
+            "A00700",
+        ),
+    }
+    for (row, measure_id), expected in twin_cells.items():
+        fact = values_by_record[
+            f"irs_soi.ty2022.congressional_district_2022.all_returns.{row}.{measure_id}"
+        ]
+        assert (fact.value, fact.layout.source_column_id) == expected
+    # First columns without a state twin (chronicle#447 item 2.3).
+    assert us_columns["standard_deduction_amount"] == (2_545_798_792_000, "A04450")
+    assert us_columns["total_tax_liability_returns"] == (121_275_340, "N10300")
+    assert us_columns["total_tax_liability_amount"] == (2_191_736_663_000, "A10300")
+    no_twin_cells = {
+        ("al_01", "net_investment_income_tax_amount"): (35_246_000, "A85300"),
+        ("ca_total", "child_dependent_care_credit_returns"): (561_690, "N07180"),
+        ("ca_53", "self_employed_health_insurance_ald"): (62_106_000, "A03270"),
+    }
+    for (row, measure_id), expected in no_twin_cells.items():
+        fact = values_by_record[
+            f"irs_soi.ty2022.congressional_district_2022.all_returns.{row}.{measure_id}"
+        ]
+        assert (fact.value, fact.layout.source_column_id) == expected
+    # AGI classes (chronicle#447 item 2.1): agi_stub 1 is under $1 of AGI and
+    # agi_stub 9 is $500,000 or more.
+    al_under_1 = values_by_record[
+        "irs_soi.ty2022.congressional_district_2022.agi_under_1.al_total.return_count"
+    ]
+    assert al_under_1.value == 31_530
+    assert al_under_1.filters["income_range"] == "under_1"
+    assert {
+        (constraint.variable, constraint.operator, constraint.value)
+        for constraint in al_under_1.constraints
+    } == {("us:statutes/26/62#adjusted_gross_income", "<", 1)}
+    assert (
+        values_by_record[
+            "irs_soi.ty2022.congressional_district_2022.agi_under_1.al_total."
+            "adjusted_gross_income"
+        ].value
+        == -1_042_232_000
+    )
+    ca_12_top = values_by_record[
+        "irs_soi.ty2022.congressional_district_2022.agi_500k_plus.ca_12.return_count"
+    ]
+    assert ca_12_top.value == 23_670
+    assert ca_12_top.geography.id == "5001700US0612"
+    assert {
+        (constraint.variable, constraint.operator, constraint.value)
+        for constraint in ca_12_top.constraints
+    } == {("us:statutes/26/62#adjusted_gross_income", ">=", 500_000)}
+    assert not any(
+        record_id.startswith("irs_soi.ty2022.congressional_district_2022.agi_")
+        and ".us." in record_id
+        for record_id in values_by_record
+    )
 
 
 def test_soi_historic_table_2_package_builds_2022_national_facts():
@@ -3867,7 +4346,10 @@ def test_soi_historic_table_2_package_builds_2022_national_facts():
     assert schedule_c_returns.value == 30_354_680
     assert partnership_scorp.value == 1_033_254_282_000
     assert medical_dental.value == 80_235_875_000
-    assert qbi.value == 31_307_205_000
+    # A04475, the QBI deduction; A03270 (self-employed health insurance) is
+    # 31_307_205_000.
+    assert qbi.value == 215_679_578_000
+    assert qbi.layout.source_column_id == "A04475"
     assert rental.value == 85_642_801_000
     assert ctc.value == 82_862_736_000
     assert actc.value == 33_857_987_000
@@ -3893,7 +4375,7 @@ def test_soi_historic_table_2_state_broad_package_builds_2022_state_facts():
     assert validate_source_cells(cells).valid
     assert validate_facts(facts).valid
     assert len(cells) == 8_476
-    assert len(facts) == 2_703
+    assert len(facts) == 3_111
 
     ca_returns = values_by_record[
         "irs_soi.ty2022.historic_table_2.state_broad.ca.all.return_count"
@@ -3928,12 +4410,30 @@ def test_soi_historic_table_2_state_broad_package_builds_2022_state_facts():
     assert ca_ptc.value == 6_379_623_000
     assert ca_partnership.value == 125_930_370_000
     assert ca_medical.value == 11_456_144_000
-    assert ca_qbi.value == 4_400_400_000
+    assert ca_qbi.value == 25_995_054_000
+    assert ca_qbi.layout.source_column_id == "A04475"
     assert ca_rental.value == 14_331_993_000
     assert ca_ctc.value == 9_724_583_000
     assert ca_actc.value == 3_605_628_000
     assert ca_returns.geography.id == "0400000US06"
     assert ca_partnership.layout.source_column_id == "A26270"
+
+    # Schedule 1 line 1 and Schedule A lines 7, 8a and 14: the CA cells of
+    # 22in55cmcsv.csv, amounts in thousands of dollars.
+    ca_prefix = "irs_soi.ty2022.historic_table_2.state_broad.ca.all."
+    for measure_id, column, value in (
+        ("taxable_state_local_income_tax_refunds_returns", "N00700", 638_320),
+        ("taxable_state_local_income_tax_refunds_amount", "A00700", 1_061_330_000),
+        ("taxes_paid_deduction_returns", "N18300", 2_836_990),
+        ("taxes_paid_deduction_amount", "A18300", 25_884_637_000),
+        ("mortgage_interest_paid_returns", "N19300", 2_327_780),
+        ("mortgage_interest_paid_amount", "A19300", 35_409_552_000),
+        ("charitable_returns", "N19700", 2_287_850),
+        ("charitable_amount", "A19700", 34_813_548_000),
+    ):
+        fact = values_by_record[ca_prefix + measure_id]
+        assert fact.value == value, measure_id
+        assert fact.layout.source_column_id == column, measure_id
 
 
 def test_soi_historic_table_2_state_agi_package_builds_taxable_interest_facts(
@@ -4041,6 +4541,14 @@ def test_usda_snap_source_package_builds_fy24_national_and_state_facts():
     assert len(cells) == 6_288
     assert len(facts) == 216
     assert all(fact.source.raw_r2_uri for fact in facts)
+    # The package artifact is the FY2024 workbook: every fact refers to fiscal
+    # 2024 and cites the workbook's checksum.
+    assert {(fact.period.type, fact.period.value) for fact in facts} == {
+        ("fiscal_year", 2024)
+    }
+    assert all(
+        re.fullmatch(r"[0-9a-f]{64}", fact.source.source_sha256 or "") for fact in facts
+    )
 
     households = (
         "usda_snap.fy2024.national_average_monthly_households."
@@ -4280,13 +4788,14 @@ def test_kff_marketplace_effectuated_enrollment_builds_2024_state_facts():
 def test_obr_efo_economy_package_validates_macro_series_counts():
     report = validate_source_package("obr-efo-economy-march-2026", year=2026)
 
+    # chronicle#397: calendar 2024 only; the October 2026 EFO carries 2025 on.
     assert report.valid
     assert report.counts == {
-        "record_set_count": 36,
-        "row_count": 36,
-        "measure_count": 36,
-        "source_record_count": 36,
-        "source_region_count": 36,
+        "record_set_count": 6,
+        "row_count": 6,
+        "measure_count": 6,
+        "source_record_count": 6,
+        "source_region_count": 6,
     }
 
 
@@ -4298,37 +4807,40 @@ def test_obr_efo_economy_package_builds_cell_faithful_macro_facts():
 
     assert validate_source_cells(cells).valid
     assert validate_facts(facts).valid
-    assert len(facts) == 36
+    assert len(facts) == 6
 
     nominal_gdp_2024 = values_by_record[
         "obr.efo_2026_03.economy.nominal_gdp_nsa.cy2024.nominal_gdp_nsa.nominal_gdp_nsa"
     ]
-    cpi_2025 = values_by_record[
-        "obr.efo_2026_03.economy.cpi_inflation.cy2025.cpi_inflation.cpi_inflation"
+    cpi_2024 = values_by_record[
+        "obr.efo_2026_03.economy.cpi_inflation.cy2024.cpi_inflation.cpi_inflation"
     ]
-    bank_rate_2029 = values_by_record[
-        "obr.efo_2026_03.economy.bank_rate.cy2029.bank_rate.bank_rate"
+    bank_rate_2024 = values_by_record[
+        "obr.efo_2026_03.economy.bank_rate.cy2024.bank_rate.bank_rate"
     ]
 
+    assert {fact.period.value for fact in facts} == {2024}
     assert nominal_gdp_2024.value == 2_890_664_000_000
     assert nominal_gdp_2024.period.type == "calendar_year"
     assert nominal_gdp_2024.assertion == "observation"
     assert nominal_gdp_2024.measure.concept == "obr.nominal_gdp_nsa"
-    assert cpi_2025.value == pytest.approx(3.3730368724933735)
-    assert cpi_2025.assertion == "source_projection"
-    assert bank_rate_2029.value == pytest.approx(3.741552661678499)
+    assert cpi_2024.value == pytest.approx(2.5301927741606)
+    assert cpi_2024.assertion == "observation"
+    assert bank_rate_2024.value == pytest.approx(5.111)
 
 
 def test_obr_efo_aggregates_package_validates_fiscal_series_counts():
     report = validate_source_package("obr-efo-aggregates-march-2026", year=2026)
 
+    # chronicle#397: net debt's 2024-25 and the other three lines' 2025-26, the
+    # years the October 2026 EFO does not print.
     assert report.valid
     assert report.counts == {
-        "record_set_count": 21,
-        "row_count": 21,
-        "measure_count": 21,
-        "source_record_count": 21,
-        "source_region_count": 21,
+        "record_set_count": 4,
+        "row_count": 4,
+        "measure_count": 4,
+        "source_record_count": 4,
+        "source_region_count": 4,
     }
 
 
@@ -4340,7 +4852,7 @@ def test_obr_efo_aggregates_package_builds_cell_faithful_fiscal_facts():
 
     assert validate_source_cells(cells).valid
     assert validate_facts(facts).valid
-    assert len(facts) == 21
+    assert len(facts) == 4
 
     psnb_2025 = values_by_record[
         "obr.efo_2026_03.aggregates.public_sector_net_borrowing.fy2025."
@@ -4459,13 +4971,13 @@ def test_render_string_treats_non_integer_year_as_label():
 def test_build_facts_with_label_year_does_not_crash():
     """Building a package with a label year yields facts, not a TypeError.
 
-    The SSA Table 7.B1 manifest carries an ``extracted_targets`` label key in
+    The SSA Table 7.B1 manifest carries a ``source_capture`` label key in
     ``files:`` alongside the numeric ``2024`` key. Building with that label
     must not raise ``year + 1`` TypeError; the package has no label-scoped
     record sets, so it simply builds what it can (see PolicyEngine/chronicle#79).
     """
     package = load_source_package("packages/ssa/ssi_table_7b1_2024")
-    facts = package.build_facts("extracted_targets")
+    facts = package.build_facts("source_capture")
     # Record-set periods are literal 2024, so a label build still resolves them.
     assert facts
     assert all(fact.period.value == 2024 for fact in facts)

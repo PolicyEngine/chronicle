@@ -196,6 +196,7 @@ record_sets:
         concept: jct.individual_tax_expenditure_revenue_loss
         source_concept: jct.individual_income_tax_revenue_loss
         concept_relation: source_label
+        concept_authority: jct
         unit: usd
         aggregation: sum
         expected_cell_type: number

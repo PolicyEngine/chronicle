@@ -1,0 +1,28 @@
+source_id: dwp
+package_id: dwp-welfare-state-to-working-state-tables-2026
+dataset: dwp_dwp-welfare-state-to-working-state-tables-2026
+source_page: https://www.gov.uk/government/publications/from-a-welfare-state-to-a-working-state-a-new-settlement-for-the-next-generation
+table: 'From a Welfare State to a Working State: data tables, Tables 1 to 3'
+license: Open Government Licence v3.0
+license_url: https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/
+attribution: 'Source: Department for Work and Pensions, From a Welfare State to a
+  Working State: a new settlement for the next generation, accompanying data tables,
+  published 17 November 2026. Contains public sector information licensed under the
+  Open Government Licence v3.0.'
+license_evidence: "The GOV.UK analytical annex page (https://www.gov.uk/government/publications/from-a-welfare-state-to-a-working-state-a-new-settlement-for-the-next-generation/from-a-welfare-state-to-a-working-state-analytical-annex)\
+  \ states: '\xA9 Crown copyright 2026 This publication is licensed under the terms\
+  \ of the Open Government Licence v3.0 except where otherwise stated.'"
+license_verified_at: '2026-11-18'
+files:
+  2026:
+    filename: from-a-welfare-state-to-a-working-state-accompanying-data-tables.ods
+    source_url: https://assets.publishing.service.gov.uk/media/6af74c9b9be17c68c69ca838/from-a-welfare-state-to-a-working-state-accompanying-data-tables.ods
+    sha256: eb182010d434929f0c0f0b409de4bdc45ddb174e34aca44c4c98edeffd51a04f
+    size_bytes: 12240
+    fetched_at: '2026-11-18T10:31:17+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/dwp/dwp-welfare-state-to-working-state-tables-2026/2026/eb182010d434929f0c0f0b409de4bdc45ddb174e34aca44c4c98edeffd51a04f/from-a-welfare-state-to-a-working-state-accompanying-data-tables.ods
+        uri: r2://ledger-raw/raw/uk/dwp/dwp-welfare-state-to-working-state-tables-2026/2026/eb182010d434929f0c0f0b409de4bdc45ddb174e34aca44c4c98edeffd51a04f/from-a-welfare-state-to-a-working-state-accompanying-data-tables.ods

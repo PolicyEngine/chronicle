@@ -1,0 +1,62 @@
+source_id: centax
+package_id: centax-childcare-cliff-edge-2026
+dataset: centax_centax-childcare-cliff-edge-2026
+source_name: 'Removing the £100,000 childcare cliff-edge: Impacts and cost of reform, data
+  for the charts'
+publisher: CenTax (Centre for the Analysis of Taxation)
+source_page: https://arunadvani.com/policy.html#ChildcareCliffEdge
+table: AdvaniFlewPepinhallSummers2026_ChildcareThreshold_data.xlsx, the report's tables and
+  figures
+license: None stated
+attribution: 'Advani, A., Flew, J., Pepin-Hall, J. and Summers, A. (2026), Removing the £100,000
+  childcare cliff-edge: Impacts and cost of reform, CenTax Policy Report; data for the charts.
+  Authors'' calculations based on HMRC administrative datasets.'
+license_evidence: 'Neither the page that links the workbook (https://arunadvani.com/policy.html#ChildcareCliffEdge,
+  "Data for the charts", beside the report) nor CenTax''s report page (https://centax.org.uk/removing-the-childcare-cliff-edge-impacts-and-cost-of-reform/,
+  which links only the PDF) nor the workbook states a licence; every sheet cites the authors''
+  calculations based on HMRC administrative datasets. Arun Advani (CenTax) has said he is
+  open to PolicyEngine using the data published at source_url (relayed by María Juaristi,
+  PolicyEngine, 23 November 2026). With no licence stated, the bytes stay out of this public
+  repository: the workbook is git-ignored and the private ledger-raw bucket holds it.'
+license_verified_at: '2026-11-23'
+files:
+  2026:
+    filename: AdvaniFlewPepinhallSummers2026_ChildcareThreshold_data.xlsx
+    source_url: https://arunadvani.com/data/AdvaniFlewPepinhallSummers2026_ChildcareThreshold_data.xlsx
+    source_table: 'Data for the charts of Removing the £100,000 childcare cliff-edge (CenTax,
+      2026): Tables 3.1 to 4.3, A.1 to A.5, B.1, B.2 and C.1 to C.11, and Figures 1.1, 2.1,
+      3.1 to 3.12, A.1 to A.4 and B.1'
+    sha256: 8c23855745154a601064e766552c64bc2e88de51e043b4df1397c580e969354b
+    size_bytes: 194075
+    fetched_at: '2026-11-23T22:43:41+00:00'
+    retrieved_at: '2026-11-23'
+    vintage: centax_2026_09
+    vintages:
+    - centax_2026_09
+    storage:
+      local: false
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/centax/centax-childcare-cliff-edge-2026/2026/8c23855745154a601064e766552c64bc2e88de51e043b4df1397c580e969354b/AdvaniFlewPepinhallSummers2026_ChildcareThreshold_data.xlsx
+        uri: r2://ledger-raw/raw/uk/centax/centax-childcare-cliff-edge-2026/2026/8c23855745154a601064e766552c64bc2e88de51e043b4df1397c580e969354b/AdvaniFlewPepinhallSummers2026_ChildcareThreshold_data.xlsx
+registration_kind: raw_only
+provenance_notes: 'The data for the charts of Advani, Flew, Pepin-Hall and Summers (2026),
+  Removing the £100,000 childcare cliff-edge: Impacts and cost of reform, a CenTax Policy
+  Report published in September 2026 (https://centax.org.uk/wp-content/uploads/2026/09/AdvaniFlewPepin-HallSummers2026_Removing-the-childcare-cliff-edge.pdf).
+  The server reported the file last modified on 10 November 2026; its bytes are those of the
+  copy CenTax shared with PolicyEngine on 21 October 2026 (the same sha256). Its 45 sheets,
+  two of them section dividers, hold the report''s tables and figures from HMRC administrative
+  data on parents in England and Scotland: income distributions of parents of 3- and 4-year-olds
+  by adjusted net income in 2021-22, the tax year CenTax labels 2022 (Figure 3.1, £500 bins
+  to £200,000; by main source of income, Figure 3.3, £1,000 bins to £150,000; by sex, Figure
+  3.6, £500 bins to £150,000; by region, Figure 3.7, £1,000 bins to £150,000, pooled over
+  the tax years 2018-19 to 2021-22), sample statistics (Table A.1), the
+  share with a partner not in work (Figure 3.12), and the authors'' model outputs (bunching,
+  frictions, elasticities, notch sizes and fiscal costs). Registered raw-only: no Chronicle
+  build parses it. PolicyEngine/microcosm#1399 derives its CenTax parent cells from Figures
+  3.1, 3.3, 3.6 and 3.7 and reads Table A.1 and Figure 3.12 as diagnostics, verifying the
+  bytes against this manifest; no consumer binds the model outputs. Stored in R2 only (storage.local:
+  false) and not committed, because no licence is stated (see license_evidence); a build
+  that needs it reads it from the source-artifact cache, or with LEDGER_SOURCE_ARTIFACT_FETCH=1
+  from source_url.'

@@ -1,0 +1,27 @@
+source_id: desnz
+package_id: desnz-msoa-domestic-electricity-consumption-2010-2024
+dataset: desnz_desnz-msoa-domestic-electricity-consumption-2010-2024
+source_page: https://www.gov.uk/government/statistics/lower-and-middle-super-output-areas-electricity-consumption
+table: Domestic electricity consumption by MSOA and Scottish intermediate zone, Great
+  Britain, 2010 to 2024
+files:
+  2025:
+    filename: MSOA_domestic_elec_2010-2024.xlsx
+    source_url: https://assets.publishing.service.gov.uk/media/69427a872fd325caf841934e/MSOA_domestic_elec_2010-2024.xlsx
+    sha256: 9b880e6985d90fa7dbab7e67041fa0dc32948193f2dedcf2459ef59b99b0a40a
+    size_bytes: 9512418
+    fetched_at: '2026-10-15T10:02:09+00:00'
+    storage:
+      local: false
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/desnz/desnz-msoa-domestic-electricity-consumption-2010-2024/2025/9b880e6985d90fa7dbab7e67041fa0dc32948193f2dedcf2459ef59b99b0a40a/MSOA_domestic_elec_2010-2024.xlsx
+        uri: r2://ledger-raw/raw/uk/desnz/desnz-msoa-domestic-electricity-consumption-2010-2024/2025/9b880e6985d90fa7dbab7e67041fa0dc32948193f2dedcf2459ef59b99b0a40a/MSOA_domestic_elec_2010-2024.xlsx
+registration_kind: raw_only
+provenance_notes: 'DESNZ domestic electricity consumption by Middle Layer Super Output
+  Area (MSOA, 2021 boundaries) and Scottish intermediate zone (2022 boundaries), Great
+  Britain, 2010 to 2024, published 18 December 2025: number of meters, total consumption
+  (kWh), mean and median kWh per meter, one sheet per year (non-half-hourly meters
+  February to January, half-hourly January to December; not weather corrected). Registered
+  raw-only for chronicle#356: the LSOA/data-zone workbook carries the facts.'

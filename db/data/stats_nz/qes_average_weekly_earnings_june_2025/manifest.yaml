@@ -1,0 +1,23 @@
+source_id: stats_nz
+package_id: qes_average_weekly_earnings_june_2025
+dataset: stats_nz_qes_average_weekly_earnings_june_2025
+source_page: https://www.stats.govt.nz/information-releases/labour-market-statistics-june-2025-quarter/
+table: 'Table 7: Average weekly earnings for FTEs, by sector'
+license:
+  name: Creative Commons Attribution 4.0 International
+  url: https://creativecommons.org/licenses/by/4.0/
+  evidence_url: https://www.stats.govt.nz/about-us/copyright/
+  notes: Licence attribution supplied by the hub; unchanged publisher workbook.
+files:
+  2025:
+    filename: quarterly-employment-survey-june-2025-quarter.xlsx
+    source_url: https://www.stats.govt.nz/assets/Uploads/Labour-market-statistics/Labour-market-statistics-June-2025-quarter/Download-data/quarterly-employment-survey-june-2025-quarter.xlsx
+    sha256: 25053dcbd343320cad72e2896475eaebaf5f5bb0b5965ca788506ca15efcea30
+    size_bytes: 135784
+    fetched_at: '2026-10-22T07:57:28Z'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/nz/stats_nz/qes_average_weekly_earnings_june_2025/2025/25053dcbd343320cad72e2896475eaebaf5f5bb0b5965ca788506ca15efcea30/quarterly-employment-survey-june-2025-quarter.xlsx
+        uri: r2://ledger-raw/raw/nz/stats_nz/qes_average_weekly_earnings_june_2025/2025/25053dcbd343320cad72e2896475eaebaf5f5bb0b5965ca788506ca15efcea30/quarterly-employment-survey-june-2025-quarter.xlsx

@@ -1,0 +1,21 @@
+source_id: hmrc
+package_id: hmrc-winter-fuel-payment-charge-2025
+dataset: hmrc_hmrc-winter-fuel-payment-charge-2025
+source_page: https://www.gov.uk/government/publications/income-tax-charge-on-winter-fuel-payments
+table: 'Winter Fuel Payments charge: tax information and impact note'
+files:
+  2025:
+    filename: winter-fuel-payments-charge.html
+    source_url: https://www.gov.uk/government/publications/income-tax-charge-on-winter-fuel-payments/winter-fuel-payments-charge
+    sha256: 0b25f29fa4ff96bc25a1576eebc663c417e8221d0a7913cf73131d753c2a6a3e
+    size_bytes: 91689
+    fetched_at: '2026-09-29T11:57:22+00:00'
+    notes: GOV.UK serves a fresh security nonce in every HTML response, so a re-fetch
+      differs in bytes; the text is unchanged since 8 January 2026 (one silent wording
+      edit, no numbers).
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/hmrc/hmrc-winter-fuel-payment-charge-2025/2025/0b25f29fa4ff96bc25a1576eebc663c417e8221d0a7913cf73131d753c2a6a3e/winter-fuel-payments-charge.html
+        uri: r2://ledger-raw/raw/uk/hmrc/hmrc-winter-fuel-payment-charge-2025/2025/0b25f29fa4ff96bc25a1576eebc663c417e8221d0a7913cf73131d753c2a6a3e/winter-fuel-payments-charge.html

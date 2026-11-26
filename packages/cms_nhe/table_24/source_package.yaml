@@ -24,7 +24,7 @@ record_sets:
   # filings into a constructed account (same genus as BEA NIPA): model
   # output, not source records. Note the standing tension with
   # cms-nhe-historical-service-source (classified administrative for its
-  # Medicaid Title XIX line) — revisit both in the populace gate review.
+  # Medicaid Title XIX line) — revisit both in the Microcosm gate review.
   provenance_class: model_output
   record_set_spec_id: cms_nhe.esi_employer_contribution_premiums.v1
   source_record_id_prefix: cms_nhe.cy{year}.esi_employer_contribution_premiums
@@ -98,7 +98,7 @@ record_sets:
   # filings into a constructed account (same genus as BEA NIPA): model
   # output, not source records. Note the standing tension with
   # cms-nhe-historical-service-source (classified administrative for its
-  # Medicaid Title XIX line) — revisit both in the populace gate review.
+  # Medicaid Title XIX line) — revisit both in the Microcosm gate review.
   provenance_class: model_output
   record_set_spec_id: cms_nhe.esi_private_employer_contribution_premiums.v1
   source_record_id_prefix: cms_nhe.cy{year}.esi_private_employer_contribution_premiums

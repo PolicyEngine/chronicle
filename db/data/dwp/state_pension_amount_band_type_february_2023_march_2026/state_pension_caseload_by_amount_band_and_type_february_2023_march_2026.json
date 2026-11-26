@@ -1,0 +1,188 @@
+{
+  "query" : {
+    "database" : "str:database:SP_New",
+    "measures" : [ "str:count:SP_New:V_F_SP_CASELOAD_New" ],
+    "recodes" : {
+      "str:field:SP_New:V_F_SP_CASELOAD_New:CAT" : {
+        "map" : [ [ "str:value:SP_New:V_F_SP_CASELOAD_New:CAT:C_SP_TYPE_OF_PENSION:1" ], [ "str:value:SP_New:V_F_SP_CASELOAD_New:CAT:C_SP_TYPE_OF_PENSION:2" ], [ "str:value:SP_New:V_F_SP_CASELOAD_New:CAT:C_SP_TYPE_OF_PENSION:3" ] ],
+        "total" : true
+      },
+      "str:field:SP_New:F_SP_QTR_New:DATE_NAME" : {
+        "map" : [ [ "str:value:SP_New:F_SP_QTR_New:DATE_NAME:C_SP_QTR_New:202302" ], [ "str:value:SP_New:F_SP_QTR_New:DATE_NAME:C_SP_QTR_New:202305" ], [ "str:value:SP_New:F_SP_QTR_New:DATE_NAME:C_SP_QTR_New:202308" ], [ "str:value:SP_New:F_SP_QTR_New:DATE_NAME:C_SP_QTR_New:202311" ], [ "str:value:SP_New:F_SP_QTR_New:DATE_NAME:C_SP_QTR_New:202402" ], [ "str:value:SP_New:F_SP_QTR_New:DATE_NAME:C_SP_QTR_New:202405" ], [ "str:value:SP_New:F_SP_QTR_New:DATE_NAME:C_SP_QTR_New:202408" ], [ "str:value:SP_New:F_SP_QTR_New:DATE_NAME:C_SP_QTR_New:202411" ], [ "str:value:SP_New:F_SP_QTR_New:DATE_NAME:C_SP_QTR_New:202502" ], [ "str:value:SP_New:F_SP_QTR_New:DATE_NAME:C_SP_QTR_New:202505" ], [ "str:value:SP_New:F_SP_QTR_New:DATE_NAME:C_SP_QTR_New:202508" ], [ "str:value:SP_New:F_SP_QTR_New:DATE_NAME:C_SP_QTR_New:202511" ], [ "str:value:SP_New:F_SP_QTR_New:DATE_NAME:C_SP_QTR_New:202603" ] ],
+        "total" : false
+      },
+      "str:field:SP_New:V_F_SP_CASELOAD_New:AMTGP" : {
+        "map" : [ [ "str:value:SP_New:V_F_SP_CASELOAD_New:AMTGP:C_SP_AMTGP:0" ], [ "str:value:SP_New:V_F_SP_CASELOAD_New:AMTGP:C_SP_AMTGP:1" ], [ "str:value:SP_New:V_F_SP_CASELOAD_New:AMTGP:C_SP_AMTGP:2" ], [ "str:value:SP_New:V_F_SP_CASELOAD_New:AMTGP:C_SP_AMTGP:3" ], [ "str:value:SP_New:V_F_SP_CASELOAD_New:AMTGP:C_SP_AMTGP:4" ], [ "str:value:SP_New:V_F_SP_CASELOAD_New:AMTGP:C_SP_AMTGP:5" ], [ "str:value:SP_New:V_F_SP_CASELOAD_New:AMTGP:C_SP_AMTGP:6" ], [ "str:value:SP_New:V_F_SP_CASELOAD_New:AMTGP:C_SP_AMTGP:7" ], [ "str:value:SP_New:V_F_SP_CASELOAD_New:AMTGP:C_SP_AMTGP:8" ], [ "str:value:SP_New:V_F_SP_CASELOAD_New:AMTGP:C_SP_AMTGP:9" ], [ "str:value:SP_New:V_F_SP_CASELOAD_New:AMTGP:C_SP_AMTGP:10" ], [ "str:value:SP_New:V_F_SP_CASELOAD_New:AMTGP:C_SP_AMTGP:999" ] ],
+        "total" : true
+      },
+      "str:field:SP_New:V_F_SP_CASELOAD_New:COA_CODE" : {
+        "map" : [ [ "str:value:SP_New:V_F_SP_CASELOAD_New:COA_CODE:V_C_MASTERGEOG21_GB:K03000001" ] ],
+        "total" : false
+      }
+    },
+    "dimensions" : [ [ "str:field:SP_New:F_SP_QTR_New:DATE_NAME" ], [ "str:field:SP_New:V_F_SP_CASELOAD_New:COA_CODE" ], [ "str:field:SP_New:V_F_SP_CASELOAD_New:AMTGP" ], [ "str:field:SP_New:V_F_SP_CASELOAD_New:CAT" ] ]
+  },
+  "database" : {
+    "id" : "SP_New",
+    "uri" : "str:database:SP_New",
+    "label" : "State Pension - Data from May 2018",
+    "annotationKeys" : [ "IV", "V" ]
+  },
+  "measures" : [ {
+    "uri" : "str:count:SP_New:V_F_SP_CASELOAD_New",
+    "label" : "State Pension caseload - 2021 Geographies",
+    "measure" : "str:count:SP_New:V_F_SP_CASELOAD_New",
+    "function" : "COUNT"
+  } ],
+  "fields" : [ {
+    "uri" : "str:field:SP_New:F_SP_QTR_New:DATE_NAME",
+    "label" : "Quarter",
+    "items" : [ {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:SP_New:F_SP_QTR_New:DATE_NAME:C_SP_QTR_New:202302" ],
+      "labels" : [ "Feb-23" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:SP_New:F_SP_QTR_New:DATE_NAME:C_SP_QTR_New:202305" ],
+      "labels" : [ "May-23" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:SP_New:F_SP_QTR_New:DATE_NAME:C_SP_QTR_New:202308" ],
+      "labels" : [ "Aug-23" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:SP_New:F_SP_QTR_New:DATE_NAME:C_SP_QTR_New:202311" ],
+      "labels" : [ "Nov-23" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:SP_New:F_SP_QTR_New:DATE_NAME:C_SP_QTR_New:202402" ],
+      "labels" : [ "Feb-24" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:SP_New:F_SP_QTR_New:DATE_NAME:C_SP_QTR_New:202405" ],
+      "labels" : [ "May-24" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:SP_New:F_SP_QTR_New:DATE_NAME:C_SP_QTR_New:202408" ],
+      "labels" : [ "Aug-24" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:SP_New:F_SP_QTR_New:DATE_NAME:C_SP_QTR_New:202411" ],
+      "labels" : [ "Nov-24" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:SP_New:F_SP_QTR_New:DATE_NAME:C_SP_QTR_New:202502" ],
+      "labels" : [ "Feb-25" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:SP_New:F_SP_QTR_New:DATE_NAME:C_SP_QTR_New:202505" ],
+      "labels" : [ "May-25" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:SP_New:F_SP_QTR_New:DATE_NAME:C_SP_QTR_New:202508" ],
+      "labels" : [ "Aug-25" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:SP_New:F_SP_QTR_New:DATE_NAME:C_SP_QTR_New:202511" ],
+      "labels" : [ "Nov-25" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:SP_New:F_SP_QTR_New:DATE_NAME:C_SP_QTR_New:202603" ],
+      "labels" : [ "Mar-26" ]
+    } ]
+  }, {
+    "uri" : "str:field:SP_New:V_F_SP_CASELOAD_New:COA_CODE",
+    "label" : "National - Regional - LA - OAs",
+    "annotationKeys" : [ "VI" ],
+    "items" : [ {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:SP_New:V_F_SP_CASELOAD_New:COA_CODE:V_C_MASTERGEOG21_GB:K03000001" ],
+      "labels" : [ "Great Britain" ]
+    } ]
+  }, {
+    "uri" : "str:field:SP_New:V_F_SP_CASELOAD_New:AMTGP",
+    "label" : "Grouped Amount of Benefit",
+    "items" : [ {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:SP_New:V_F_SP_CASELOAD_New:AMTGP:C_SP_AMTGP:0" ],
+      "labels" : [ "Nil payment" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:SP_New:V_F_SP_CASELOAD_New:AMTGP:C_SP_AMTGP:1" ],
+      "labels" : [ "Under £20.00" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:SP_New:V_F_SP_CASELOAD_New:AMTGP:C_SP_AMTGP:2" ],
+      "labels" : [ "£20.00 to under £40.00" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:SP_New:V_F_SP_CASELOAD_New:AMTGP:C_SP_AMTGP:3" ],
+      "labels" : [ "£40.00 to under £60.00" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:SP_New:V_F_SP_CASELOAD_New:AMTGP:C_SP_AMTGP:4" ],
+      "labels" : [ "£60.00 to under £80.00" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:SP_New:V_F_SP_CASELOAD_New:AMTGP:C_SP_AMTGP:5" ],
+      "labels" : [ "£80.00 to under £100.00" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:SP_New:V_F_SP_CASELOAD_New:AMTGP:C_SP_AMTGP:6" ],
+      "labels" : [ "£100.00 to under £150.00" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:SP_New:V_F_SP_CASELOAD_New:AMTGP:C_SP_AMTGP:7" ],
+      "labels" : [ "£150.00 to under £200.00" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:SP_New:V_F_SP_CASELOAD_New:AMTGP:C_SP_AMTGP:8" ],
+      "labels" : [ "£200.00 to under £250.00" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:SP_New:V_F_SP_CASELOAD_New:AMTGP:C_SP_AMTGP:9" ],
+      "labels" : [ "£250.00 to under £300.00" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:SP_New:V_F_SP_CASELOAD_New:AMTGP:C_SP_AMTGP:10" ],
+      "labels" : [ "£300.00 and over" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:SP_New:V_F_SP_CASELOAD_New:AMTGP:C_SP_AMTGP:999" ],
+      "labels" : [ "Unknown" ]
+    }, {
+      "type" : "Total",
+      "labels" : [ "Total" ]
+    } ]
+  }, {
+    "uri" : "str:field:SP_New:V_F_SP_CASELOAD_New:CAT",
+    "label" : "Category of Pension",
+    "items" : [ {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:SP_New:V_F_SP_CASELOAD_New:CAT:C_SP_TYPE_OF_PENSION:1" ],
+      "labels" : [ "Pre-2016 State Pension" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:SP_New:V_F_SP_CASELOAD_New:CAT:C_SP_TYPE_OF_PENSION:2" ],
+      "labels" : [ "New State Pension" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:SP_New:V_F_SP_CASELOAD_New:CAT:C_SP_TYPE_OF_PENSION:3" ],
+      "labels" : [ "Unknown" ]
+    }, {
+      "type" : "Total",
+      "labels" : [ "Total" ]
+    } ]
+  } ],
+  "cubes" : {
+    "str:count:SP_New:V_F_SP_CASELOAD_New" : {
+      "values" : [ [ [ [ 0, 0, 0, 0 ], [ 18283, 1710, 0, 19988 ], [ 14869, 1759, 0, 16630 ], [ 29793, 9881, 0, 39676 ], [ 46451, 25459, 0, 71910 ], [ 792547, 34075, 0, 826623 ], [ 1461124, 320055, 0, 1781178 ], [ 3894671, 2243802, 0, 6138475 ], [ 1587583, 362630, 0, 1950208 ], [ 490998, 33674, 0, 524673 ], [ 140638, 3602, 0, 144236 ], [ 0, 0, 0, 0 ], [ 8476949, 3036650, 0, 11513597 ] ] ], [ [ [ 0, 0, 0, 0 ], [ 16240, 1799, 0, 18041 ], [ 12051, 1641, 0, 13692 ], [ 22670, 5639, 0, 28310 ], [ 34176, 20514, 0, 54691 ], [ 608884, 31902, 0, 640783 ], [ 770160, 122778, 0, 892945 ], [ 3347615, 1168132, 0, 4515740 ], [ 2320787, 1748588, 0, 4069373 ], [ 878621, 97301, 0, 975926 ], [ 347603, 13943, 0, 361548 ], [ 0, 0, 0, 0 ], [ 8358810, 3212236, 0, 11571050 ] ] ], [ [ [ 0, 0, 0, 0 ], [ 15728, 2054, 0, 17781 ], [ 11772, 1914, 0, 13688 ], [ 21253, 6282, 0, 27538 ], [ 31716, 21842, 0, 53555 ], [ 590719, 33578, 0, 624298 ], [ 756611, 129968, 0, 886578 ], [ 3308095, 1202100, 0, 4510194 ], [ 2296415, 1874820, 0, 4171239 ], [ 873987, 100711, 0, 974700 ], [ 346575, 14503, 0, 361078 ], [ 0, 0, 0, 0 ], [ 8252865, 3387777, 0, 11640641 ] ] ], [ [ [ 0, 0, 0, 0 ], [ 15239, 1884, 0, 17123 ], [ 11435, 1764, 0, 13199 ], [ 20376, 6420, 0, 26795 ], [ 30282, 22637, 0, 52914 ], [ 575453, 34675, 0, 610122 ], [ 743605, 135485, 0, 879089 ], [ 3267152, 1234997, 0, 4502154 ], [ 2267409, 1989393, 0, 4256811 ], [ 865936, 103087, 0, 969021 ], [ 344299, 14822, 0, 359121 ], [ 0, 0, 0, 0 ], [ 8141189, 3545166, 0, 11686358 ] ] ], [ [ [ 0, 0, 0, 0 ], [ 14768, 1970, 0, 16742 ], [ 11128, 1870, 0, 13002 ], [ 19638, 6795, 0, 26429 ], [ 29155, 23755, 0, 52913 ], [ 558713, 36184, 0, 594898 ], [ 728918, 142060, 0, 870981 ], [ 3221336, 1269637, 0, 4490968 ], [ 2233132, 2107612, 0, 4340748 ], [ 855786, 105722, 0, 961512 ], [ 341051, 15226, 0, 356278 ], [ 0, 0, 0, 0 ], [ 8013634, 3710829, 0, 11724462 ] ] ], [ [ [ 0, 0, 0, 0 ], [ 14133, 2073, 0, 16203 ], [ 9858, 2050, 0, 11911 ], [ 15707, 2314, 0, 18016 ], [ 23378, 21531, 0, 44913 ], [ 33606, 27777, 0, 61388 ], [ 1055075, 121390, 0, 1176458 ], [ 2148808, 776241, 0, 2925054 ], [ 2742582, 2647436, 0, 5390011 ], [ 1234452, 255648, 0, 1490104 ], [ 622599, 39200, 0, 661800 ], [ 0, 0, 0, 0 ], [ 7900199, 3895658, 0, 11795859 ] ] ], [ [ [ 0, 0, 0, 0 ], [ 13928, 2047, 0, 15975 ], [ 9712, 2010, 0, 11719 ], [ 15150, 2417, 0, 17566 ], [ 22422, 22542, 0, 44967 ], [ 31965, 28850, 0, 60814 ], [ 1034019, 126077, 0, 1160097 ], [ 2122147, 791760, 0, 2913905 ], [ 2710430, 2777875, 0, 5488303 ], [ 1220453, 261755, 0, 1482207 ], [ 617502, 40156, 0, 657657 ], [ 0, 0, 0, 0 ], [ 7797728, 4055486, 0, 11853217 ] ] ], [ [ [ 0, 0, 0, 0 ], [ 13494, 2089, 0, 15577 ], [ 9346, 2051, 0, 11393 ], [ 14316, 2529, 0, 16846 ], [ 20982, 23518, 0, 44496 ], [ 29485, 29804, 0, 59286 ], [ 1007075, 130399, 0, 1137471 ], [ 2092827, 807651, 0, 2900481 ], [ 2679201, 2913762, 0, 5592969 ], [ 1208639, 267929, 0, 1476567 ], [ 614036, 41020, 0, 655058 ], [ 0, 0, 0, 0 ], [ 7689402, 4220747, 0, 11910147 ] ] ], [ [ [ 0, 0, 0, 0 ], [ 13224, 2205, 0, 15434 ], [ 9174, 2155, 0, 11332 ], [ 13821, 2681, 0, 16503 ], [ 20049, 24691, 0, 44742 ], [ 27897, 30973, 0, 58865 ], [ 982900, 135103, 0, 1118004 ], [ 2060703, 823089, 0, 2883795 ], [ 2638077, 3050599, 0, 5688674 ], [ 1188830, 273766, 0, 1462601 ], [ 605954, 41844, 0, 647802 ], [ 0, 0, 0, 0 ], [ 7560643, 4387109, 0, 11947745 ] ] ], [ [ [ 0, 0, 0, 0 ], [ 12791, 2304, 0, 15096 ], [ 8237, 2343, 0, 10583 ], [ 12551, 2698, 0, 15244 ], [ 17790, 23204, 0, 40987 ], [ 24012, 30073, 0, 54086 ], [ 900294, 120882, 0, 1021173 ], [ 1612260, 649948, 0, 2262209 ], [ 2762866, 3245226, 0, 6008090 ], [ 1354961, 423410, 0, 1778374 ], [ 745442, 63600, 0, 809036 ], [ 0, 0, 0, 0 ], [ 7451199, 4563682, 0, 12014878 ] ] ], [ [ [ 0, 0, 0, 0 ], [ 12621, 2439, 0, 15060 ], [ 8069, 2530, 0, 10595 ], [ 12108, 2928, 0, 15035 ], [ 17158, 24453, 0, 41612 ], [ 23030, 31220, 0, 54244 ], [ 879973, 125025, 0, 1004994 ], [ 1589706, 662674, 0, 2252380 ], [ 2731558, 3398235, 0, 6129793 ], [ 1339173, 434620, 0, 1773793 ], [ 738793, 64940, 0, 803735 ], [ 0, 0, 0, 0 ], [ 7352182, 4749059, 0, 12101242 ] ] ], [ [ [ 0, 0, 0, 0 ], [ 12452, 2461, 0, 14911 ], [ 7883, 2571, 0, 10456 ], [ 11748, 3083, 0, 14830 ], [ 16517, 25331, 0, 41845 ], [ 22102, 32110, 0, 54210 ], [ 860265, 128505, 0, 988771 ], [ 1566263, 672540, 0, 2238806 ], [ 2696780, 3528923, 0, 6225703 ], [ 1319957, 442621, 0, 1762577 ], [ 729752, 65770, 0, 795522 ], [ 0, 0, 0, 0 ], [ 7243720, 4903910, 0, 12147631 ] ] ], [ [ [ 0, 0, 0, 0 ], [ 12096, 2486, 0, 14585 ], [ 7603, 2661, 0, 10264 ], [ 11187, 3354, 0, 14547 ], [ 15574, 27113, 0, 42693 ], [ 20778, 33860, 0, 54637 ], [ 827431, 134609, 0, 962041 ], [ 1530654, 693134, 0, 2223792 ], [ 2646525, 3723175, 0, 6369707 ], [ 1294014, 439663, 0, 1733669 ], [ 718290, 63083, 0, 781371 ], [ 0, 0, 0, 0 ], [ 7084158, 5123141, 0, 12207303 ] ] ] ],
+      "precision" : 0
+    }
+  },
+  "annotationMap" : {
+    "IV" : "\"..\" denotes a nil or negligible number of claimants or award amount based on a nil or negligible number of claimants.",
+    "V" : "From November 2017 State Pension data excludes persons with a ‘suspended’ account and should be treated as a break in series. A suspended account, when the department suspends payment, can occur for a number of reasons. Suspended cases may end and pensions put back into payment, at which point they will be shown in the next extract of data, or the suspension may end and the case terminated.",
+    "VI" : "Due to data quality issues, State Pension statistics for the Shetland Islands from August 2023 to August 2024 have been mapped into the 'Unknown' category. Overall caseload totals are not impacted. This category has been populated from November 2024 data onwards."
+  }
+}

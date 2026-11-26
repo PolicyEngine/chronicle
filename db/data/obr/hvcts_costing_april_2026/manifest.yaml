@@ -1,0 +1,19 @@
+source_id: obr
+package_id: obr-hvcts-costing-april-2026
+dataset: obr_obr-hvcts-costing-april-2026
+source_page: https://obr.uk/efo/economic-and-fiscal-outlook-november-2025/
+table: 'Supplementary forecast information release: costing of high value council
+  tax surcharge, Tables 1.1, 1.2 and 1.5'
+files:
+  2026:
+    filename: Supplementary-forecast-information-high-value-council-tax-surcharge-costing.pdf
+    source_url: https://obr.uk/docs/dlm_uploads/Supplementary-forecast-information-high-value-council-tax-surcharge-costing.pdf
+    sha256: dfc648399bd968623206bf55ca88fc7e312108413ee7a266cc45d7971a4bb373
+    size_bytes: 126847
+    fetched_at: '2026-10-12T12:41:09+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/obr/obr-hvcts-costing-april-2026/2026/dfc648399bd968623206bf55ca88fc7e312108413ee7a266cc45d7971a4bb373/Supplementary-forecast-information-high-value-council-tax-surcharge-costing.pdf
+        uri: r2://ledger-raw/raw/uk/obr/obr-hvcts-costing-april-2026/2026/dfc648399bd968623206bf55ca88fc7e312108413ee7a266cc45d7971a4bb373/Supplementary-forecast-information-high-value-council-tax-surcharge-costing.pdf

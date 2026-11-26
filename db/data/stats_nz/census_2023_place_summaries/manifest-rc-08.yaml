@@ -1,0 +1,25 @@
+source_id: stats_nz
+package_id: census_2023_place_summaries
+dataset: census_2023_place_summaries
+source_page: https://tools.summaries.stats.govt.nz/places/RC/manawatu-whanganui-region
+table: '2023 Census Place summaries: families and households'
+license: CC BY 4.0
+attribution: Stats NZ
+files:
+  2023:
+    filename: place-summaries-rc-08.csv
+    source_url: https://tools.summaries.stats.govt.nz/api/export-csv/rkTah6u2O2VYyP4Y/8/
+    final_url: https://tools.summaries.stats.govt.nz/api/export-csv/rkTah6u2O2VYyP4Y/8/
+    http_status: 200
+    sha256: c693e64b4194d507647b5ba35af4675df9fb44af64de40fd1ce399a37af396b5
+    size_bytes: 431319
+    fetched_at: '2026-10-10T20:12:05Z'
+    content_disposition_filename: place-summaries-manawatu-whanganui-region-20261011-072623.csv
+    place_code: '8'
+    place: Manawatū-Whanganui Region
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/nz/stats_nz/census_2023_place_summaries/2023/c693e64b4194d507647b5ba35af4675df9fb44af64de40fd1ce399a37af396b5/place-summaries-rc-08.csv
+        uri: r2://ledger-raw/raw/nz/stats_nz/census_2023_place_summaries/2023/c693e64b4194d507647b5ba35af4675df9fb44af64de40fd1ce399a37af396b5/place-summaries-rc-08.csv

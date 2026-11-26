@@ -1,0 +1,19 @@
+source_id: ons
+package_id: ons-household-projections-2022-based
+dataset: ons_ons-household-projections-2022-based
+source_page: https://www.ons.gov.uk/peoplepopulationandcommunity/populationandmigration/populationprojections/datasets/householdprojectionsforengland
+table: household_projections_2022_based
+files:
+  2025:
+    filename: 2022basedhhpsmigrationcategoryvariant.xlsx
+    source_url: https://www.ons.gov.uk/file?uri=/peoplepopulationandcommunity/populationandmigration/populationprojections/datasets/householdprojectionsforengland/2022basedmigrationcategoryvariantprojection/2022basedhhpsmigrationcategoryvariant.xlsx
+    sha256: dbdc8176da3d5c2ed96d8eeba870ad524a2081021d227aad954d6e79baeaba8c
+    size_bytes: 338561
+    fetched_at: '2026-10-07T13:34:58+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/ons/ons-household-projections-2022-based/2025/dbdc8176da3d5c2ed96d8eeba870ad524a2081021d227aad954d6e79baeaba8c/2022basedhhpsmigrationcategoryvariant.xlsx
+        uri: r2://ledger-raw/raw/uk/ons/ons-household-projections-2022-based/2025/dbdc8176da3d5c2ed96d8eeba870ad524a2081021d227aad954d6e79baeaba8c/2022basedhhpsmigrationcategoryvariant.xlsx
+registration_kind: source_facts

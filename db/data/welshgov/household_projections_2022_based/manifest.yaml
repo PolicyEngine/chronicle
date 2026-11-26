@@ -1,0 +1,19 @@
+source_id: welshgov
+package_id: welshgov-household-projections-2022-based
+dataset: welshgov_welshgov-household-projections-2022-based
+source_page: https://stats.gov.wales/en-GB/a2102ed7-52ff-4f58-a7eb-750b06bb8fa8
+table: household_projections_2022_based
+files:
+  2025:
+    filename: wales_household_projections.csv
+    source_url: https://stats.gov.wales/en-GB/a2102ed7-52ff-4f58-a7eb-750b06bb8fa8/download
+    sha256: 4ef55b030eaf840361d88ca32b6a54404305e8744429c9661861b0abd9be9d7c
+    size_bytes: 12129111
+    fetched_at: '2026-10-07T13:42:27+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/welshgov/welshgov-household-projections-2022-based/2025/4ef55b030eaf840361d88ca32b6a54404305e8744429c9661861b0abd9be9d7c/wales_household_projections.csv
+        uri: r2://ledger-raw/raw/uk/welshgov/welshgov-household-projections-2022-based/2025/4ef55b030eaf840361d88ca32b6a54404305e8744429c9661861b0abd9be9d7c/wales_household_projections.csv
+registration_kind: source_facts

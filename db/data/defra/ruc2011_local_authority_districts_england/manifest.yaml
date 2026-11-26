@@ -1,0 +1,25 @@
+source_id: defra
+package_id: defra-ruc2011-local-authority-districts-england
+dataset: defra_defra-ruc2011-local-authority-districts-england
+source_page: https://www.gov.uk/government/statistics/2011-rural-urban-classification-of-local-authority-and-other-higher-level-geographies-for-statistical-purposes
+table: Lookup for 2011 Rural Urban Classification of Local Authority Districts in
+  England (the classification DfT BUS01 cites)
+files:
+  2011:
+    filename: RUC11_LAD11_ENv2.ods
+    source_url: https://assets.publishing.service.gov.uk/media/5a7f5a8c40f0b62305b86a20/RUC11_LAD11_ENv2.ods
+    sha256: 26115b18425b99f69693627ffe26917ac804937cde0e5d2523b0791e771a073e
+    size_bytes: 27863
+    fetched_at: '2026-10-15T10:02:53+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/defra/defra-ruc2011-local-authority-districts-england/2011/26115b18425b99f69693627ffe26917ac804937cde0e5d2523b0791e771a073e/RUC11_LAD11_ENv2.ods
+        uri: r2://ledger-raw/raw/uk/defra/defra-ruc2011-local-authority-districts-england/2011/26115b18425b99f69693627ffe26917ac804937cde0e5d2523b0791e771a073e/RUC11_LAD11_ENv2.ods
+registration_kind: raw_only
+provenance_notes: 'DEFRA lookup for the 2011 Rural-Urban Classification of local authority
+  districts in England (326 2011 districts, six classes from Mainly Rural to Urban
+  with Major Conurbation), the classification DfT''s BUS01 tables cite for their urban-rural
+  scopes (BUS01 Notes, note 1). Licence: Open Government Licence. Raw-only for chronicle#356
+  item 4.'

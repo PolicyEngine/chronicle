@@ -1,0 +1,1381 @@
+# Inland Revenue's September 2025 workbook reports administrative Working for
+# Families entitlements for the 2024 New Zealand income tax year. This first NZ
+# package keeps the non-derived 2024 WFF/IWTC statistics in the
+# workbook: recipient families and aggregate entitlement by current credit,
+# supported children and family size, and the full published family-income
+# distribution. The publisher's average-entitlement table is parsed but is
+# outside this package's emitted count-and-total-amount scope. CTC/PTC are
+# obsolete and blank in 2024. The income table's
+# explicit "Rounding adjustment" row is not a population stratum; it is parsed,
+# excluded from facts, and pinned in package tests. Numeric income-band labels
+# are preserved as labels, not silently interpreted as interval boundaries.
+schema_version: ledger.source_package.v1
+package_id: ird-working-for-families-statistics-sept-2025
+label: Inland Revenue Working for Families administrative statistics, tax year 2024
+# Chronicle-owned labels (chronicle#261, #265). The income-band values are the
+# publisher's row text at AO48, AO49 and AO51 of the income sheet; numeric bands
+# label themselves. The credit names are this package's constraint labels for the
+# credits the workbook's Explanatory notes abbreviate as FTC, MFTC, IWTC and BSTC.
+# The dimension labels and the 'any' and 'nonzero' value labels are Chronicle's
+# wording; no publisher cell names them.
+dimension_labels:
+  'ird_wff_statistics.family_income_band_source_label': 'Published family income band'
+  'ird_wff_statistics.tax_year': 'Tax year'
+  'wff_credit_component': 'Working for Families credit type'
+  'wff_entitlement_status': 'Working for Families entitlement status'
+dimension_value_labels:
+  'family_scheme_income_band_source_label':
+    '180,000+': '180,000+'
+    'All': 'All'
+    'Unknown**': 'Unknown**'
+  'wff_credit_component':
+    'any': 'Any Working for Families credit'
+    'bstc': 'Best Start Tax Credit'
+    'ftc': 'Family Tax Credit'
+    'iwtc': 'In-work Tax Credit'
+    'mftc': 'Minimum Family Tax Credit'
+  'wff_entitlement_status':
+    'nonzero': 'Non-zero entitlement'
+artifact:
+  source_name: ird
+  source_table: Working for Families statistics - September 2025
+  resource_package: db
+  resource_directory: data/ird/working_for_families_statistics_sept_2025
+  manifest: manifest.yaml
+  vintage: september_2025_release
+  extracted_at: '2026-08-29'
+  extraction_method: xlsx used-range cell parse of the two publisher data worksheets
+  parser: xlsx_used_range
+  artifact_year: 2024
+  sheets:
+  - Working for families data
+  - Working for families income
+record_sets:
+- record_set_id: ird_wff_statistics.ty2024.recipient_families
+  provenance_class: administrative
+  record_set_spec_id: ird_wff_statistics.recipient_families.v1
+  source_record_id_prefix: ird_wff_statistics.ty2024.recipient_families
+  sheet_name: Working for families data
+  period_type: tax_year
+  period: 2024
+  period_coverage: &tax_year_coverage
+    basis: tax
+    source_period_label: '2024 Tax Year / 2023-24 Tax Year'
+    start_date: '2023-04-01'
+    end_date: '2024-03-31'
+    notes: >-
+      Inland Revenue describes these as entitlements during an income tax year.
+      The workbook displays 2024 on the aggregate sheet and 2023-24 on the
+      income-distribution sheet. These are administrative claims with non-zero
+      entitlement, not an estimate of all eligible families or cash paid during
+      the financial year.
+  geography_id: NZ
+  geography_level: country
+  geography_name: New Zealand
+  geography_vintage: current
+  entity: family
+  entity_role: wff_entitled_family
+  domain: working_for_families
+  groupby_dimension: ird_wff_statistics.tax_year
+  shared_filters:
+    wff_entitlement_status: nonzero
+  shared_constraints:
+  - variable: wff_entitlement_status
+    operator: ==
+    value: nonzero
+    label: Non-zero Working for Families entitlement
+  rows:
+  - value_id: all
+    label: 2024 tax year
+    ordinal: 0
+    row_number: 27
+    expected_row_header_column: A
+    expected_row_header: '2024-03-01T00:00:00'
+    guard_cells:
+    - column: A
+      row: 3
+      expected_value: Tax Year
+      label: table year header
+    - column: A
+      row: 1
+      expected_value: Working for Families Tax Credits - number of WFF claims with non-zero entitlement (000s)
+      label: table title
+    table_record_kind: total
+  measures:
+  - measure_id: ftc_recipient_families
+    label: Families with non-zero Family Tax Credit entitlement
+    ordinal: 0
+    column: B
+    source_column_id: FTC
+    expected_column_header_row: 3
+    expected_column_header: FTC
+    concept: ird_wff_statistics.recipient_families
+    source_concept: ird_wff_statistics.recipient_families
+    concept_relation: source_label
+    concept_authority: ird
+    concept_evidence_url: https://www.ird.govt.nz/about-us/tax-statistics/working-for-families-statistics/working-for-families-statistics-datasets
+    concept_evidence_notes: >-
+      Workbook table "number of WFF claims with non-zero entitlement (000s)",
+      FTC column, 2024 tax year. Inland Revenue calls the total families and
+      explains that a family may receive more than one credit.
+    unit: count
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+    filters: {wff_credit_component: ftc}
+    constraints:
+    - {variable: wff_credit_component, operator: '==', value: ftc, label: Family Tax Credit}
+  - measure_id: mftc_recipient_families
+    label: Families with non-zero Minimum Family Tax Credit entitlement
+    ordinal: 1
+    column: D
+    source_column_id: MFTC
+    expected_column_header_row: 3
+    expected_column_header: MFTC
+    concept: ird_wff_statistics.recipient_families
+    source_concept: ird_wff_statistics.recipient_families
+    concept_relation: source_label
+    concept_authority: ird
+    concept_evidence_url: https://www.ird.govt.nz/about-us/tax-statistics/working-for-families-statistics/working-for-families-statistics-datasets
+    concept_evidence_notes: Workbook non-zero entitlement table, MFTC column, 2024 tax year.
+    unit: count
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+    filters: {wff_credit_component: mftc}
+    constraints:
+    - {variable: wff_credit_component, operator: '==', value: mftc, label: Minimum Family Tax Credit}
+  - measure_id: iwtc_recipient_families
+    label: Families with non-zero In-work Tax Credit entitlement
+    ordinal: 2
+    column: F
+    source_column_id: IWTC
+    expected_column_header_row: 3
+    expected_column_header: IWTC
+    concept: ird_wff_statistics.recipient_families
+    source_concept: ird_wff_statistics.recipient_families
+    concept_relation: source_label
+    concept_authority: ird
+    concept_evidence_url: https://www.ird.govt.nz/about-us/tax-statistics/working-for-families-statistics/working-for-families-statistics-datasets
+    concept_evidence_notes: Workbook non-zero entitlement table, IWTC column, 2024 tax year.
+    unit: count
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+    filters: {wff_credit_component: iwtc}
+    constraints:
+    - {variable: wff_credit_component, operator: '==', value: iwtc, label: In-work Tax Credit}
+  - measure_id: bstc_recipient_families
+    label: Families with non-zero Best Start Tax Credit entitlement
+    ordinal: 3
+    column: G
+    source_column_id: BSTC
+    expected_column_header_row: 3
+    expected_column_header: BSTC
+    concept: ird_wff_statistics.recipient_families
+    source_concept: ird_wff_statistics.recipient_families
+    concept_relation: source_label
+    concept_authority: ird
+    concept_evidence_url: https://www.ird.govt.nz/about-us/tax-statistics/working-for-families-statistics/working-for-families-statistics-datasets
+    concept_evidence_notes: Workbook non-zero entitlement table, BSTC column, 2024 tax year.
+    unit: count
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+    filters: {wff_credit_component: bstc}
+    constraints:
+    - {variable: wff_credit_component, operator: '==', value: bstc, label: Best Start Tax Credit}
+  - measure_id: wff_recipient_families
+    label: Families receiving at least one Working for Families credit
+    ordinal: 4
+    column: H
+    source_column_id: total_number_of_families
+    expected_column_header_row: 3
+    expected_column_header: Total number of families*
+    concept: ird_wff_statistics.recipient_families
+    source_concept: ird_wff_statistics.recipient_families
+    concept_relation: source_label
+    concept_authority: ird
+    concept_evidence_url: https://www.ird.govt.nz/about-us/tax-statistics/working-for-families-statistics/working-for-families-statistics-datasets
+    concept_evidence_notes: >-
+      Workbook total number of families receiving at least one tax credit,
+      2024 tax year; families receiving multiple credits are counted once.
+    unit: count
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+    filters: {wff_credit_component: any}
+    constraints:
+    - {variable: wff_credit_component, operator: '==', value: any, label: At least one Working for Families credit}
+
+- record_set_id: ird_wff_statistics.ty2024.aggregate_entitlements
+  provenance_class: administrative
+  record_set_spec_id: ird_wff_statistics.aggregate_entitlements.v1
+  source_record_id_prefix: ird_wff_statistics.ty2024.aggregate_entitlements
+  sheet_name: Working for families data
+  period_type: tax_year
+  period: 2024
+  period_coverage: *tax_year_coverage
+  geography_id: NZ
+  geography_level: country
+  geography_name: New Zealand
+  geography_vintage: current
+  entity: family
+  entity_role: wff_entitled_family
+  domain: working_for_families
+  groupby_dimension: ird_wff_statistics.tax_year
+  rows:
+  - value_id: all
+    label: 2024 tax year
+    ordinal: 0
+    row_number: 87
+    expected_row_header_column: A
+    expected_row_header: '2024-03-01T00:00:00'
+    guard_cells:
+    - column: A
+      row: 63
+      expected_value: Tax Year
+      label: table year header
+    - column: A
+      row: 61
+      expected_value: Working for Families Tax Credits - aggregate entitlements ($ million)
+      label: table title
+    table_record_kind: total
+  measures:
+  - measure_id: ftc_entitlement_nzd
+    label: Aggregate Family Tax Credit entitlement
+    ordinal: 0
+    column: B
+    source_column_id: FTC
+    expected_column_header_row: 63
+    expected_column_header: FTC
+    concept: ird_wff_statistics.aggregate_entitlement
+    source_concept: ird_wff_statistics.aggregate_entitlement
+    concept_relation: source_label
+    concept_authority: ird
+    concept_evidence_url: https://www.ird.govt.nz/about-us/tax-statistics/working-for-families-statistics/working-for-families-statistics-datasets
+    concept_evidence_notes: Workbook aggregate entitlements ($ million), FTC column, 2024 tax year.
+    unit: nzd
+    aggregation: sum
+    value_scale: 1000000
+    filters: {wff_credit_component: ftc}
+    constraints:
+    - {variable: wff_credit_component, operator: '==', value: ftc, label: Family Tax Credit}
+  - measure_id: mftc_entitlement_nzd
+    label: Aggregate Minimum Family Tax Credit entitlement
+    ordinal: 1
+    column: D
+    source_column_id: MFTC
+    expected_column_header_row: 63
+    expected_column_header: MFTC
+    concept: ird_wff_statistics.aggregate_entitlement
+    source_concept: ird_wff_statistics.aggregate_entitlement
+    concept_relation: source_label
+    concept_authority: ird
+    concept_evidence_url: https://www.ird.govt.nz/about-us/tax-statistics/working-for-families-statistics/working-for-families-statistics-datasets
+    concept_evidence_notes: Workbook aggregate entitlements ($ million), MFTC column, 2024 tax year.
+    unit: nzd
+    aggregation: sum
+    value_scale: 1000000
+    filters: {wff_credit_component: mftc}
+    constraints:
+    - {variable: wff_credit_component, operator: '==', value: mftc, label: Minimum Family Tax Credit}
+  - measure_id: iwtc_entitlement_nzd
+    label: Aggregate In-work Tax Credit entitlement
+    ordinal: 2
+    column: F
+    source_column_id: IWTC
+    expected_column_header_row: 63
+    expected_column_header: IWTC
+    concept: ird_wff_statistics.aggregate_entitlement
+    source_concept: ird_wff_statistics.aggregate_entitlement
+    concept_relation: source_label
+    concept_authority: ird
+    concept_evidence_url: https://www.ird.govt.nz/about-us/tax-statistics/working-for-families-statistics/working-for-families-statistics-datasets
+    concept_evidence_notes: Workbook aggregate entitlements ($ million), IWTC column, 2024 tax year.
+    unit: nzd
+    aggregation: sum
+    value_scale: 1000000
+    filters: {wff_credit_component: iwtc}
+    constraints:
+    - {variable: wff_credit_component, operator: '==', value: iwtc, label: In-work Tax Credit}
+  - measure_id: bstc_entitlement_nzd
+    label: Aggregate Best Start Tax Credit entitlement
+    ordinal: 3
+    column: G
+    source_column_id: BSTC
+    expected_column_header_row: 63
+    expected_column_header: BSTC
+    concept: ird_wff_statistics.aggregate_entitlement
+    source_concept: ird_wff_statistics.aggregate_entitlement
+    concept_relation: source_label
+    concept_authority: ird
+    concept_evidence_url: https://www.ird.govt.nz/about-us/tax-statistics/working-for-families-statistics/working-for-families-statistics-datasets
+    concept_evidence_notes: Workbook aggregate entitlements ($ million), BSTC column, 2024 tax year.
+    unit: nzd
+    aggregation: sum
+    value_scale: 1000000
+    filters: {wff_credit_component: bstc}
+    constraints:
+    - {variable: wff_credit_component, operator: '==', value: bstc, label: Best Start Tax Credit}
+  - measure_id: wff_entitlement_nzd
+    label: Aggregate Working for Families entitlement
+    ordinal: 4
+    column: H
+    source_column_id: total
+    expected_column_header_row: 63
+    expected_column_header: Total
+    concept: ird_wff_statistics.aggregate_entitlement
+    source_concept: ird_wff_statistics.aggregate_entitlement
+    concept_relation: source_label
+    concept_authority: ird
+    concept_evidence_url: https://www.ird.govt.nz/about-us/tax-statistics/working-for-families-statistics/working-for-families-statistics-datasets
+    concept_evidence_notes: Workbook aggregate entitlements ($ million), Total column, 2024 tax year.
+    unit: nzd
+    aggregation: sum
+    value_scale: 1000000
+    filters: {wff_credit_component: any}
+    constraints:
+    - {variable: wff_credit_component, operator: '==', value: any, label: All Working for Families credits}
+
+- record_set_id: ird_wff_statistics.ty2024.supported_children
+  provenance_class: administrative
+  record_set_spec_id: ird_wff_statistics.supported_children.v1
+  source_record_id_prefix: ird_wff_statistics.ty2024.supported_children
+  sheet_name: Working for families data
+  period_type: tax_year
+  period: 2024
+  period_coverage: *tax_year_coverage
+  geography_id: NZ
+  geography_level: country
+  geography_name: New Zealand
+  geography_vintage: current
+  entity: person
+  entity_role: wff_supported_child
+  domain: working_for_families
+  groupby_dimension: ird_wff_statistics.tax_year
+  rows:
+  - value_id: all
+    label: 2024 tax year
+    ordinal: 0
+    row_number: 99
+    expected_row_header_column: A
+    expected_row_header: '2024-03-01T00:00:00'
+    guard_cells:
+    - column: A
+      row: 90
+      expected_value: Working for Families Tax Credits - number of children supported
+      label: table title
+    table_record_kind: total
+  measures:
+  - measure_id: wff_supported_children
+    label: Children supported by Working for Families
+    ordinal: 0
+    column: B
+    source_column_id: total_number_of_children
+    expected_column_header_row: 92
+    expected_column_header: Total number of children (000's)
+    concept: ird_wff_statistics.supported_children
+    source_concept: ird_wff_statistics.supported_children
+    concept_relation: source_label
+    concept_authority: ird
+    concept_evidence_url: https://www.ird.govt.nz/about-us/tax-statistics/working-for-families-statistics/working-for-families-statistics-datasets
+    concept_evidence_notes: >-
+      Workbook total number of children supported, 2024 tax year. The workbook
+      Explanatory notes state that child counts are adjusted for known shared care, may retain
+      unknown shared-care double counting, and use the maximum family child count
+      at the start or end of the year.
+    unit: count
+    aggregation: sum
+    value_scale: 1000
+
+- record_set_id: ird_wff_statistics.ty2024.recipient_families_by_child_count
+  provenance_class: administrative
+  record_set_spec_id: ird_wff_statistics.recipient_families_by_child_count.v1
+  source_record_id_prefix: ird_wff_statistics.ty2024.recipient_families_by_child_count
+  sheet_name: Working for families data
+  period_type: tax_year
+  period: 2024
+  period_coverage: *tax_year_coverage
+  geography_id: NZ
+  geography_level: country
+  geography_name: New Zealand
+  geography_vintage: current
+  entity: family
+  entity_role: wff_entitled_family
+  domain: working_for_families
+  groupby_dimension: ird_wff_statistics.tax_year
+  rows:
+  - value_id: all
+    label: 2024 tax year
+    ordinal: 0
+    row_number: 99
+    expected_row_header_column: A
+    expected_row_header: '2024-03-01T00:00:00'
+    guard_cells:
+    - column: C
+      row: 92
+      expected_value: Number children per family (count of families 000's)
+      label: family-size table header
+    table_record_kind: total
+  measures:
+  - measure_id: wff_families_1_child
+    label: Working for Families families with 1 supported child
+    ordinal: 0
+    column: C
+    source_column_id: 1_child
+    expected_column_header_row: 93
+    expected_column_header: 1 Child
+    concept: ird_wff_statistics.recipient_families
+    source_concept: ird_wff_statistics.recipient_families
+    concept_relation: source_label
+    concept_authority: ird
+    concept_evidence_url: https://www.ird.govt.nz/about-us/tax-statistics/working-for-families-statistics/working-for-families-statistics-datasets
+    concept_evidence_notes: Workbook number of families by supported child count, 2024 tax year (see the workbook Explanatory notes).
+    unit: count
+    aggregation: sum
+    value_scale: 1000
+    constraints:
+    - {variable: supported_child_count, operator: '==', value: 1, unit: children, label: One supported child}
+  - measure_id: wff_families_2_children
+    label: Working for Families families with 2 supported children
+    ordinal: 1
+    column: D
+    source_column_id: 2_children
+    expected_column_header_row: 93
+    expected_column_header: 2 Children
+    concept: ird_wff_statistics.recipient_families
+    source_concept: ird_wff_statistics.recipient_families
+    concept_relation: source_label
+    concept_authority: ird
+    concept_evidence_url: https://www.ird.govt.nz/about-us/tax-statistics/working-for-families-statistics/working-for-families-statistics-datasets
+    concept_evidence_notes: Workbook number of families by supported child count, 2024 tax year (see the workbook Explanatory notes).
+    unit: count
+    aggregation: sum
+    value_scale: 1000
+    constraints:
+    - {variable: supported_child_count, operator: '==', value: 2, unit: children, label: Two supported children}
+  - measure_id: wff_families_3_children
+    label: Working for Families families with 3 supported children
+    ordinal: 2
+    column: E
+    source_column_id: 3_children
+    expected_column_header_row: 93
+    expected_column_header: 3 Children
+    concept: ird_wff_statistics.recipient_families
+    source_concept: ird_wff_statistics.recipient_families
+    concept_relation: source_label
+    concept_authority: ird
+    concept_evidence_url: https://www.ird.govt.nz/about-us/tax-statistics/working-for-families-statistics/working-for-families-statistics-datasets
+    concept_evidence_notes: Workbook number of families by supported child count, 2024 tax year (see the workbook Explanatory notes).
+    unit: count
+    aggregation: sum
+    value_scale: 1000
+    constraints:
+    - {variable: supported_child_count, operator: '==', value: 3, unit: children, label: Three supported children}
+  - measure_id: wff_families_4_children
+    label: Working for Families families with 4 supported children
+    ordinal: 3
+    column: F
+    source_column_id: 4_children
+    expected_column_header_row: 93
+    expected_column_header: 4 Children
+    concept: ird_wff_statistics.recipient_families
+    source_concept: ird_wff_statistics.recipient_families
+    concept_relation: source_label
+    concept_authority: ird
+    concept_evidence_url: https://www.ird.govt.nz/about-us/tax-statistics/working-for-families-statistics/working-for-families-statistics-datasets
+    concept_evidence_notes: Workbook number of families by supported child count, 2024 tax year (see the workbook Explanatory notes).
+    unit: count
+    aggregation: sum
+    value_scale: 1000
+    constraints:
+    - {variable: supported_child_count, operator: '==', value: 4, unit: children, label: Four supported children}
+  - measure_id: wff_families_5_children
+    label: Working for Families families with 5 supported children
+    ordinal: 4
+    column: G
+    source_column_id: 5_children
+    expected_column_header_row: 93
+    expected_column_header: 5 Children
+    concept: ird_wff_statistics.recipient_families
+    source_concept: ird_wff_statistics.recipient_families
+    concept_relation: source_label
+    concept_authority: ird
+    concept_evidence_url: https://www.ird.govt.nz/about-us/tax-statistics/working-for-families-statistics/working-for-families-statistics-datasets
+    concept_evidence_notes: Workbook number of families by supported child count, 2024 tax year (see the workbook Explanatory notes).
+    unit: count
+    aggregation: sum
+    value_scale: 1000
+    constraints:
+    - {variable: supported_child_count, operator: '==', value: 5, unit: children, label: Five supported children}
+  - measure_id: wff_families_6_children
+    label: Working for Families families with 6 supported children
+    ordinal: 5
+    column: H
+    source_column_id: 6_children
+    expected_column_header_row: 93
+    expected_column_header: 6 Children
+    concept: ird_wff_statistics.recipient_families
+    source_concept: ird_wff_statistics.recipient_families
+    concept_relation: source_label
+    concept_authority: ird
+    concept_evidence_url: https://www.ird.govt.nz/about-us/tax-statistics/working-for-families-statistics/working-for-families-statistics-datasets
+    concept_evidence_notes: Workbook number of families by supported child count, 2024 tax year (see the workbook Explanatory notes).
+    unit: count
+    aggregation: sum
+    value_scale: 1000
+    constraints:
+    - {variable: supported_child_count, operator: '==', value: 6, unit: children, label: Six supported children}
+  - measure_id: wff_families_7_plus_children
+    label: Working for Families families with 7 or more supported children
+    ordinal: 6
+    column: I
+    source_column_id: 7_plus_children
+    expected_column_header_row: 93
+    expected_column_header: 7+ Children
+    concept: ird_wff_statistics.recipient_families
+    source_concept: ird_wff_statistics.recipient_families
+    concept_relation: source_label
+    concept_authority: ird
+    concept_evidence_url: https://www.ird.govt.nz/about-us/tax-statistics/working-for-families-statistics/working-for-families-statistics-datasets
+    concept_evidence_notes: Workbook number of families by supported child count, 2024 tax year (see the workbook Explanatory notes).
+    unit: count
+    aggregation: sum
+    value_scale: 1000
+    constraints:
+    - {variable: supported_child_count, operator: '>=', value: 7, unit: children, label: Seven or more supported children}
+
+- record_set_id: ird_wff_statistics.ty2024.income_distribution
+  provenance_class: administrative
+  record_set_spec_id: ird_wff_statistics.income_distribution.v1
+  source_record_id_prefix: ird_wff_statistics.ty2024.income_distribution
+  sheet_name: Working for families income
+  period_type: tax_year
+  period: 2024
+  period_coverage: *tax_year_coverage
+  geography_id: NZ
+  geography_level: country
+  geography_name: New Zealand
+  geography_vintage: current
+  entity: family
+  entity_role: wff_entitled_family
+  domain: working_for_families
+  groupby_dimension: ird_wff_statistics.family_income_band_source_label
+  rows:
+  - value_id: income_label_5000
+    label: 'Published family income band 5000'
+    ordinal: 0
+    row_number: 12
+    expected_row_header_column: AO
+    expected_row_header: 5000
+    table_record_kind: detail
+    filters:
+      family_scheme_income_band_source_label: 5000
+    constraints:
+    - variable: family_scheme_income_band_source_label
+      operator: ==
+      value: 5000
+      label: Published Working for Families family-income band label
+    guard_cells: &income_table_guards
+    - column: AO
+      row: 10
+      expected_value: 2023-24 Tax Year
+      label: income table tax-year label
+    - column: AO
+      row: 11
+      expected_value: Family income band ($)*
+      label: income table band header
+    - column: AO
+      row: 52
+      expected_value: '* The tables only include information for families eligible for Working for Families tax credits in that tax year. Families not eligible are excluded.'
+      label: income table population footnote
+  - value_id: income_label_10000
+    label: 'Published family income band 10000'
+    ordinal: 1
+    row_number: 13
+    expected_row_header_column: AO
+    expected_row_header: 10000
+    table_record_kind: detail
+    filters:
+      family_scheme_income_band_source_label: 10000
+    constraints:
+    - variable: family_scheme_income_band_source_label
+      operator: ==
+      value: 10000
+      label: Published Working for Families family-income band label
+    guard_cells: *income_table_guards
+  - value_id: income_label_15000
+    label: 'Published family income band 15000'
+    ordinal: 2
+    row_number: 14
+    expected_row_header_column: AO
+    expected_row_header: 15000
+    table_record_kind: detail
+    filters:
+      family_scheme_income_band_source_label: 15000
+    constraints:
+    - variable: family_scheme_income_band_source_label
+      operator: ==
+      value: 15000
+      label: Published Working for Families family-income band label
+    guard_cells: *income_table_guards
+  - value_id: income_label_20000
+    label: 'Published family income band 20000'
+    ordinal: 3
+    row_number: 15
+    expected_row_header_column: AO
+    expected_row_header: 20000
+    table_record_kind: detail
+    filters:
+      family_scheme_income_band_source_label: 20000
+    constraints:
+    - variable: family_scheme_income_band_source_label
+      operator: ==
+      value: 20000
+      label: Published Working for Families family-income band label
+    guard_cells: *income_table_guards
+  - value_id: income_label_25000
+    label: 'Published family income band 25000'
+    ordinal: 4
+    row_number: 16
+    expected_row_header_column: AO
+    expected_row_header: 25000
+    table_record_kind: detail
+    filters:
+      family_scheme_income_band_source_label: 25000
+    constraints:
+    - variable: family_scheme_income_band_source_label
+      operator: ==
+      value: 25000
+      label: Published Working for Families family-income band label
+    guard_cells: *income_table_guards
+  - value_id: income_label_30000
+    label: 'Published family income band 30000'
+    ordinal: 5
+    row_number: 17
+    expected_row_header_column: AO
+    expected_row_header: 30000
+    table_record_kind: detail
+    filters:
+      family_scheme_income_band_source_label: 30000
+    constraints:
+    - variable: family_scheme_income_band_source_label
+      operator: ==
+      value: 30000
+      label: Published Working for Families family-income band label
+    guard_cells: *income_table_guards
+  - value_id: income_label_35000
+    label: 'Published family income band 35000'
+    ordinal: 6
+    row_number: 18
+    expected_row_header_column: AO
+    expected_row_header: 35000
+    table_record_kind: detail
+    filters:
+      family_scheme_income_band_source_label: 35000
+    constraints:
+    - variable: family_scheme_income_band_source_label
+      operator: ==
+      value: 35000
+      label: Published Working for Families family-income band label
+    guard_cells: *income_table_guards
+  - value_id: income_label_40000
+    label: 'Published family income band 40000'
+    ordinal: 7
+    row_number: 19
+    expected_row_header_column: AO
+    expected_row_header: 40000
+    table_record_kind: detail
+    filters:
+      family_scheme_income_band_source_label: 40000
+    constraints:
+    - variable: family_scheme_income_band_source_label
+      operator: ==
+      value: 40000
+      label: Published Working for Families family-income band label
+    guard_cells: *income_table_guards
+  - value_id: income_label_45000
+    label: 'Published family income band 45000'
+    ordinal: 8
+    row_number: 20
+    expected_row_header_column: AO
+    expected_row_header: 45000
+    table_record_kind: detail
+    filters:
+      family_scheme_income_band_source_label: 45000
+    constraints:
+    - variable: family_scheme_income_band_source_label
+      operator: ==
+      value: 45000
+      label: Published Working for Families family-income band label
+    guard_cells: *income_table_guards
+  - value_id: income_label_50000
+    label: 'Published family income band 50000'
+    ordinal: 9
+    row_number: 21
+    expected_row_header_column: AO
+    expected_row_header: 50000
+    table_record_kind: detail
+    filters:
+      family_scheme_income_band_source_label: 50000
+    constraints:
+    - variable: family_scheme_income_band_source_label
+      operator: ==
+      value: 50000
+      label: Published Working for Families family-income band label
+    guard_cells: *income_table_guards
+  - value_id: income_label_55000
+    label: 'Published family income band 55000'
+    ordinal: 10
+    row_number: 22
+    expected_row_header_column: AO
+    expected_row_header: 55000
+    table_record_kind: detail
+    filters:
+      family_scheme_income_band_source_label: 55000
+    constraints:
+    - variable: family_scheme_income_band_source_label
+      operator: ==
+      value: 55000
+      label: Published Working for Families family-income band label
+    guard_cells: *income_table_guards
+  - value_id: income_label_60000
+    label: 'Published family income band 60000'
+    ordinal: 11
+    row_number: 23
+    expected_row_header_column: AO
+    expected_row_header: 60000
+    table_record_kind: detail
+    filters:
+      family_scheme_income_band_source_label: 60000
+    constraints:
+    - variable: family_scheme_income_band_source_label
+      operator: ==
+      value: 60000
+      label: Published Working for Families family-income band label
+    guard_cells: *income_table_guards
+  - value_id: income_label_65000
+    label: 'Published family income band 65000'
+    ordinal: 12
+    row_number: 24
+    expected_row_header_column: AO
+    expected_row_header: 65000
+    table_record_kind: detail
+    filters:
+      family_scheme_income_band_source_label: 65000
+    constraints:
+    - variable: family_scheme_income_band_source_label
+      operator: ==
+      value: 65000
+      label: Published Working for Families family-income band label
+    guard_cells: *income_table_guards
+  - value_id: income_label_70000
+    label: 'Published family income band 70000'
+    ordinal: 13
+    row_number: 25
+    expected_row_header_column: AO
+    expected_row_header: 70000
+    table_record_kind: detail
+    filters:
+      family_scheme_income_band_source_label: 70000
+    constraints:
+    - variable: family_scheme_income_band_source_label
+      operator: ==
+      value: 70000
+      label: Published Working for Families family-income band label
+    guard_cells: *income_table_guards
+  - value_id: income_label_75000
+    label: 'Published family income band 75000'
+    ordinal: 14
+    row_number: 26
+    expected_row_header_column: AO
+    expected_row_header: 75000
+    table_record_kind: detail
+    filters:
+      family_scheme_income_band_source_label: 75000
+    constraints:
+    - variable: family_scheme_income_band_source_label
+      operator: ==
+      value: 75000
+      label: Published Working for Families family-income band label
+    guard_cells: *income_table_guards
+  - value_id: income_label_80000
+    label: 'Published family income band 80000'
+    ordinal: 15
+    row_number: 27
+    expected_row_header_column: AO
+    expected_row_header: 80000
+    table_record_kind: detail
+    filters:
+      family_scheme_income_band_source_label: 80000
+    constraints:
+    - variable: family_scheme_income_band_source_label
+      operator: ==
+      value: 80000
+      label: Published Working for Families family-income band label
+    guard_cells: *income_table_guards
+  - value_id: income_label_85000
+    label: 'Published family income band 85000'
+    ordinal: 16
+    row_number: 28
+    expected_row_header_column: AO
+    expected_row_header: 85000
+    table_record_kind: detail
+    filters:
+      family_scheme_income_band_source_label: 85000
+    constraints:
+    - variable: family_scheme_income_band_source_label
+      operator: ==
+      value: 85000
+      label: Published Working for Families family-income band label
+    guard_cells: *income_table_guards
+  - value_id: income_label_90000
+    label: 'Published family income band 90000'
+    ordinal: 17
+    row_number: 29
+    expected_row_header_column: AO
+    expected_row_header: 90000
+    table_record_kind: detail
+    filters:
+      family_scheme_income_band_source_label: 90000
+    constraints:
+    - variable: family_scheme_income_band_source_label
+      operator: ==
+      value: 90000
+      label: Published Working for Families family-income band label
+    guard_cells: *income_table_guards
+  - value_id: income_label_95000
+    label: 'Published family income band 95000'
+    ordinal: 18
+    row_number: 30
+    expected_row_header_column: AO
+    expected_row_header: 95000
+    table_record_kind: detail
+    filters:
+      family_scheme_income_band_source_label: 95000
+    constraints:
+    - variable: family_scheme_income_band_source_label
+      operator: ==
+      value: 95000
+      label: Published Working for Families family-income band label
+    guard_cells: *income_table_guards
+  - value_id: income_label_100000
+    label: 'Published family income band 100000'
+    ordinal: 19
+    row_number: 31
+    expected_row_header_column: AO
+    expected_row_header: 100000
+    table_record_kind: detail
+    filters:
+      family_scheme_income_band_source_label: 100000
+    constraints:
+    - variable: family_scheme_income_band_source_label
+      operator: ==
+      value: 100000
+      label: Published Working for Families family-income band label
+    guard_cells: *income_table_guards
+  - value_id: income_label_105000
+    label: 'Published family income band 105000'
+    ordinal: 20
+    row_number: 32
+    expected_row_header_column: AO
+    expected_row_header: 105000
+    table_record_kind: detail
+    filters:
+      family_scheme_income_band_source_label: 105000
+    constraints:
+    - variable: family_scheme_income_band_source_label
+      operator: ==
+      value: 105000
+      label: Published Working for Families family-income band label
+    guard_cells: *income_table_guards
+  - value_id: income_label_110000
+    label: 'Published family income band 110000'
+    ordinal: 21
+    row_number: 33
+    expected_row_header_column: AO
+    expected_row_header: 110000
+    table_record_kind: detail
+    filters:
+      family_scheme_income_band_source_label: 110000
+    constraints:
+    - variable: family_scheme_income_band_source_label
+      operator: ==
+      value: 110000
+      label: Published Working for Families family-income band label
+    guard_cells: *income_table_guards
+  - value_id: income_label_115000
+    label: 'Published family income band 115000'
+    ordinal: 22
+    row_number: 34
+    expected_row_header_column: AO
+    expected_row_header: 115000
+    table_record_kind: detail
+    filters:
+      family_scheme_income_band_source_label: 115000
+    constraints:
+    - variable: family_scheme_income_band_source_label
+      operator: ==
+      value: 115000
+      label: Published Working for Families family-income band label
+    guard_cells: *income_table_guards
+  - value_id: income_label_120000
+    label: 'Published family income band 120000'
+    ordinal: 23
+    row_number: 35
+    expected_row_header_column: AO
+    expected_row_header: 120000
+    table_record_kind: detail
+    filters:
+      family_scheme_income_band_source_label: 120000
+    constraints:
+    - variable: family_scheme_income_band_source_label
+      operator: ==
+      value: 120000
+      label: Published Working for Families family-income band label
+    guard_cells: *income_table_guards
+  - value_id: income_label_125000
+    label: 'Published family income band 125000'
+    ordinal: 24
+    row_number: 36
+    expected_row_header_column: AO
+    expected_row_header: 125000
+    table_record_kind: detail
+    filters:
+      family_scheme_income_band_source_label: 125000
+    constraints:
+    - variable: family_scheme_income_band_source_label
+      operator: ==
+      value: 125000
+      label: Published Working for Families family-income band label
+    guard_cells: *income_table_guards
+  - value_id: income_label_130000
+    label: 'Published family income band 130000'
+    ordinal: 25
+    row_number: 37
+    expected_row_header_column: AO
+    expected_row_header: 130000
+    table_record_kind: detail
+    filters:
+      family_scheme_income_band_source_label: 130000
+    constraints:
+    - variable: family_scheme_income_band_source_label
+      operator: ==
+      value: 130000
+      label: Published Working for Families family-income band label
+    guard_cells: *income_table_guards
+  - value_id: income_label_135000
+    label: 'Published family income band 135000'
+    ordinal: 26
+    row_number: 38
+    expected_row_header_column: AO
+    expected_row_header: 135000
+    table_record_kind: detail
+    filters:
+      family_scheme_income_band_source_label: 135000
+    constraints:
+    - variable: family_scheme_income_band_source_label
+      operator: ==
+      value: 135000
+      label: Published Working for Families family-income band label
+    guard_cells: *income_table_guards
+  - value_id: income_label_140000
+    label: 'Published family income band 140000'
+    ordinal: 27
+    row_number: 39
+    expected_row_header_column: AO
+    expected_row_header: 140000
+    table_record_kind: detail
+    filters:
+      family_scheme_income_band_source_label: 140000
+    constraints:
+    - variable: family_scheme_income_band_source_label
+      operator: ==
+      value: 140000
+      label: Published Working for Families family-income band label
+    guard_cells: *income_table_guards
+  - value_id: income_label_145000
+    label: 'Published family income band 145000'
+    ordinal: 28
+    row_number: 40
+    expected_row_header_column: AO
+    expected_row_header: 145000
+    table_record_kind: detail
+    filters:
+      family_scheme_income_band_source_label: 145000
+    constraints:
+    - variable: family_scheme_income_band_source_label
+      operator: ==
+      value: 145000
+      label: Published Working for Families family-income band label
+    guard_cells: *income_table_guards
+  - value_id: income_label_150000
+    label: 'Published family income band 150000'
+    ordinal: 29
+    row_number: 41
+    expected_row_header_column: AO
+    expected_row_header: 150000
+    table_record_kind: detail
+    filters:
+      family_scheme_income_band_source_label: 150000
+    constraints:
+    - variable: family_scheme_income_band_source_label
+      operator: ==
+      value: 150000
+      label: Published Working for Families family-income band label
+    guard_cells: *income_table_guards
+  - value_id: income_label_155000
+    label: 'Published family income band 155000'
+    ordinal: 30
+    row_number: 42
+    expected_row_header_column: AO
+    expected_row_header: 155000
+    table_record_kind: detail
+    filters:
+      family_scheme_income_band_source_label: 155000
+    constraints:
+    - variable: family_scheme_income_band_source_label
+      operator: ==
+      value: 155000
+      label: Published Working for Families family-income band label
+    guard_cells: *income_table_guards
+  - value_id: income_label_160000
+    label: 'Published family income band 160000'
+    ordinal: 31
+    row_number: 43
+    expected_row_header_column: AO
+    expected_row_header: 160000
+    table_record_kind: detail
+    filters:
+      family_scheme_income_band_source_label: 160000
+    constraints:
+    - variable: family_scheme_income_band_source_label
+      operator: ==
+      value: 160000
+      label: Published Working for Families family-income band label
+    guard_cells: *income_table_guards
+  - value_id: income_label_165000
+    label: 'Published family income band 165000'
+    ordinal: 32
+    row_number: 44
+    expected_row_header_column: AO
+    expected_row_header: 165000
+    table_record_kind: detail
+    filters:
+      family_scheme_income_band_source_label: 165000
+    constraints:
+    - variable: family_scheme_income_band_source_label
+      operator: ==
+      value: 165000
+      label: Published Working for Families family-income band label
+    guard_cells: *income_table_guards
+  - value_id: income_label_170000
+    label: 'Published family income band 170000'
+    ordinal: 33
+    row_number: 45
+    expected_row_header_column: AO
+    expected_row_header: 170000
+    table_record_kind: detail
+    filters:
+      family_scheme_income_band_source_label: 170000
+    constraints:
+    - variable: family_scheme_income_band_source_label
+      operator: ==
+      value: 170000
+      label: Published Working for Families family-income band label
+    guard_cells: *income_table_guards
+  - value_id: income_label_175000
+    label: 'Published family income band 175000'
+    ordinal: 34
+    row_number: 46
+    expected_row_header_column: AO
+    expected_row_header: 175000
+    table_record_kind: detail
+    filters:
+      family_scheme_income_band_source_label: 175000
+    constraints:
+    - variable: family_scheme_income_band_source_label
+      operator: ==
+      value: 175000
+      label: Published Working for Families family-income band label
+    guard_cells: *income_table_guards
+  - value_id: income_label_180000
+    label: 'Published family income band 180000'
+    ordinal: 35
+    row_number: 47
+    expected_row_header_column: AO
+    expected_row_header: 180000
+    table_record_kind: detail
+    filters:
+      family_scheme_income_band_source_label: 180000
+    constraints:
+    - variable: family_scheme_income_band_source_label
+      operator: ==
+      value: 180000
+      label: Published Working for Families family-income band label
+    guard_cells: *income_table_guards
+  - value_id: income_label_180000_plus
+    label: 'Published family income band 180,000+'
+    ordinal: 36
+    row_number: 48
+    expected_row_header_column: AO
+    expected_row_header: '180,000+'
+    table_record_kind: detail
+    filters:
+      family_scheme_income_band_source_label: '180,000+'
+    constraints:
+    - variable: family_scheme_income_band_source_label
+      operator: ==
+      value: '180,000+'
+      label: Published Working for Families family-income band label
+    guard_cells: *income_table_guards
+  - value_id: income_unknown
+    label: 'Published family income band Unknown**'
+    ordinal: 37
+    row_number: 49
+    expected_row_header_column: AO
+    expected_row_header: 'Unknown**'
+    table_record_kind: detail
+    filters:
+      family_scheme_income_band_source_label: 'Unknown**'
+    constraints:
+    - variable: family_scheme_income_band_source_label
+      operator: ==
+      value: 'Unknown**'
+      label: Published Working for Families family-income band label
+    guard_cells: *income_table_guards
+  - value_id: all_income_bands
+    label: 'Published family income band All'
+    ordinal: 38
+    row_number: 51
+    expected_row_header_column: AO
+    expected_row_header: All
+    table_record_kind: total
+    filters:
+      family_scheme_income_band_source_label: All
+    constraints:
+    - variable: family_scheme_income_band_source_label
+      operator: ==
+      value: All
+      label: Published Working for Families family-income band label
+    guard_cells: *income_table_guards
+  measures:
+  - measure_id: wff_entitlement_nzd
+    label: Aggregate Working for Families entitlement by published family-income band
+    ordinal: 0
+    column: AP
+    source_column_id: total_entitlement
+    expected_column_header_row: 11
+    expected_column_header: "Total entitlement \n($million)"
+    concept: ird_wff_statistics.aggregate_entitlement
+    source_concept: ird_wff_statistics.aggregate_entitlement
+    concept_relation: source_label
+    concept_authority: ird
+    concept_evidence_url: https://www.ird.govt.nz/about-us/tax-statistics/working-for-families-statistics/working-for-families-statistics-datasets
+    concept_evidence_notes: >-
+      Publisher 2023-24 tax-year income table, All Working for Families credits column.
+      Family-income labels are preserved exactly, including Unknown and All;
+      numeric labels are not recoded to inferred interval boundaries.
+      The total includes credit components not separately shown in this table.
+      The workbook Explanatory notes define assessed family scheme income as an
+      entitlement-time-weighted average. For Work and Income recipients who did
+      not file a WFF return, IRD uses individual tax-return income, which
+      excludes partner income.
+    unit: nzd
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+    filters: {wff_credit_component: any}
+    constraints:
+    - {variable: wff_credit_component, operator: '==', value: any, label: All Working for Families credits}
+  - measure_id: ftc_entitlement_nzd
+    label: Aggregate Family Tax Credit entitlement by published family-income band
+    ordinal: 1
+    column: AQ
+    source_column_id: ftc_entitlement
+    expected_column_header_row: 11
+    expected_column_header: "FTC entitlement\n($million)"
+    concept: ird_wff_statistics.aggregate_entitlement
+    source_concept: ird_wff_statistics.aggregate_entitlement
+    concept_relation: source_label
+    concept_authority: ird
+    concept_evidence_url: https://www.ird.govt.nz/about-us/tax-statistics/working-for-families-statistics/working-for-families-statistics-datasets
+    concept_evidence_notes: >-
+      Publisher 2023-24 tax-year income table, Family Tax Credit column.
+      Family-income labels are preserved exactly, including Unknown and All;
+      numeric labels are not recoded to inferred interval boundaries.
+      The workbook Explanatory notes define assessed family scheme income as an
+      entitlement-time-weighted average. For Work and Income recipients who did
+      not file a WFF return, IRD uses individual tax-return income, which
+      excludes partner income.
+    unit: nzd
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+    filters: {wff_credit_component: ftc}
+    constraints:
+    - {variable: wff_credit_component, operator: '==', value: ftc, label: Family Tax Credit}
+  - measure_id: iwtc_entitlement_nzd
+    label: Aggregate In-work Tax Credit entitlement by published family-income band
+    ordinal: 2
+    column: AR
+    source_column_id: iwtc_entitlement
+    expected_column_header_row: 11
+    expected_column_header: "IWTC entitlement\n($million)"
+    concept: ird_wff_statistics.aggregate_entitlement
+    source_concept: ird_wff_statistics.aggregate_entitlement
+    concept_relation: source_label
+    concept_authority: ird
+    concept_evidence_url: https://www.ird.govt.nz/about-us/tax-statistics/working-for-families-statistics/working-for-families-statistics-datasets
+    concept_evidence_notes: >-
+      Publisher 2023-24 tax-year income table, In-work Tax Credit column.
+      Family-income labels are preserved exactly, including Unknown and All;
+      numeric labels are not recoded to inferred interval boundaries.
+      The workbook Explanatory notes define assessed family scheme income as an
+      entitlement-time-weighted average. For Work and Income recipients who did
+      not file a WFF return, IRD uses individual tax-return income, which
+      excludes partner income.
+    unit: nzd
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+    filters: {wff_credit_component: iwtc}
+    constraints:
+    - {variable: wff_credit_component, operator: '==', value: iwtc, label: In-work Tax Credit}
+  - measure_id: bstc_entitlement_nzd
+    label: Aggregate Best Start Tax Credit entitlement by published family-income band
+    ordinal: 3
+    column: AS
+    source_column_id: bstc_entitlement
+    expected_column_header_row: 11
+    expected_column_header: "BSTC entitlement\n($million)"
+    concept: ird_wff_statistics.aggregate_entitlement
+    source_concept: ird_wff_statistics.aggregate_entitlement
+    concept_relation: source_label
+    concept_authority: ird
+    concept_evidence_url: https://www.ird.govt.nz/about-us/tax-statistics/working-for-families-statistics/working-for-families-statistics-datasets
+    concept_evidence_notes: >-
+      Publisher 2023-24 tax-year income table, Best Start Tax Credit column.
+      Family-income labels are preserved exactly, including Unknown and All;
+      numeric labels are not recoded to inferred interval boundaries.
+      The workbook Explanatory notes define assessed family scheme income as an
+      entitlement-time-weighted average. For Work and Income recipients who did
+      not file a WFF return, IRD uses individual tax-return income, which
+      excludes partner income.
+    unit: nzd
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+    filters: {wff_credit_component: bstc}
+    constraints:
+    - {variable: wff_credit_component, operator: '==', value: bstc, label: Best Start Tax Credit}
+  - measure_id: wff_recipient_families
+    label: Families with at least one Working for Families credit by published family-income band
+    ordinal: 4
+    column: AT
+    source_column_id: wff_count
+    expected_column_header_row: 11
+    expected_column_header: "Count of WFF "
+    concept: ird_wff_statistics.recipient_families
+    source_concept: ird_wff_statistics.recipient_families
+    concept_relation: source_label
+    concept_authority: ird
+    concept_evidence_url: https://www.ird.govt.nz/about-us/tax-statistics/working-for-families-statistics/working-for-families-statistics-datasets
+    concept_evidence_notes: >-
+      Publisher 2023-24 tax-year income table, At least one Working for Families credit column.
+      Family-income labels are preserved exactly, including Unknown and All;
+      numeric labels are not recoded to inferred interval boundaries.
+      The total includes credit components not separately shown in this table.
+      The workbook Explanatory notes define assessed family scheme income as an
+      entitlement-time-weighted average. For Work and Income recipients who did
+      not file a WFF return, IRD uses individual tax-return income, which
+      excludes partner income.
+    unit: count
+    aggregation: sum
+    value_scale: 1
+    expected_cell_type: number
+    filters: {wff_credit_component: any}
+    constraints:
+    - {variable: wff_credit_component, operator: '==', value: any, label: At least one Working for Families credit}
+  - measure_id: ftc_recipient_families
+    label: Families with non-zero Family Tax Credit entitlement by published family-income band
+    ordinal: 5
+    column: AU
+    source_column_id: ftc_count
+    expected_column_header_row: 11
+    expected_column_header: "Count of FTC"
+    concept: ird_wff_statistics.recipient_families
+    source_concept: ird_wff_statistics.recipient_families
+    concept_relation: source_label
+    concept_authority: ird
+    concept_evidence_url: https://www.ird.govt.nz/about-us/tax-statistics/working-for-families-statistics/working-for-families-statistics-datasets
+    concept_evidence_notes: >-
+      Publisher 2023-24 tax-year income table, Family Tax Credit column.
+      Family-income labels are preserved exactly, including Unknown and All;
+      numeric labels are not recoded to inferred interval boundaries.
+      The workbook Explanatory notes define assessed family scheme income as an
+      entitlement-time-weighted average. For Work and Income recipients who did
+      not file a WFF return, IRD uses individual tax-return income, which
+      excludes partner income.
+    unit: count
+    aggregation: sum
+    value_scale: 1
+    expected_cell_type: number
+    filters: {wff_credit_component: ftc}
+    constraints:
+    - {variable: wff_credit_component, operator: '==', value: ftc, label: Family Tax Credit}
+  - measure_id: iwtc_recipient_families
+    label: Families with non-zero In-work Tax Credit entitlement by published family-income band
+    ordinal: 6
+    column: AV
+    source_column_id: iwtc_count
+    expected_column_header_row: 11
+    expected_column_header: "Count of IWTC"
+    concept: ird_wff_statistics.recipient_families
+    source_concept: ird_wff_statistics.recipient_families
+    concept_relation: source_label
+    concept_authority: ird
+    concept_evidence_url: https://www.ird.govt.nz/about-us/tax-statistics/working-for-families-statistics/working-for-families-statistics-datasets
+    concept_evidence_notes: >-
+      Publisher 2023-24 tax-year income table, In-work Tax Credit column.
+      Family-income labels are preserved exactly, including Unknown and All;
+      numeric labels are not recoded to inferred interval boundaries.
+      The workbook Explanatory notes define assessed family scheme income as an
+      entitlement-time-weighted average. For Work and Income recipients who did
+      not file a WFF return, IRD uses individual tax-return income, which
+      excludes partner income.
+    unit: count
+    aggregation: sum
+    value_scale: 1
+    expected_cell_type: number
+    filters: {wff_credit_component: iwtc}
+    constraints:
+    - {variable: wff_credit_component, operator: '==', value: iwtc, label: In-work Tax Credit}
+  - measure_id: bstc_recipient_families
+    label: Families with non-zero Best Start Tax Credit entitlement by published family-income band
+    ordinal: 7
+    column: AW
+    source_column_id: bstc_count
+    expected_column_header_row: 11
+    expected_column_header: "Count of BSTC"
+    concept: ird_wff_statistics.recipient_families
+    source_concept: ird_wff_statistics.recipient_families
+    concept_relation: source_label
+    concept_authority: ird
+    concept_evidence_url: https://www.ird.govt.nz/about-us/tax-statistics/working-for-families-statistics/working-for-families-statistics-datasets
+    concept_evidence_notes: >-
+      Publisher 2023-24 tax-year income table, Best Start Tax Credit column.
+      Family-income labels are preserved exactly, including Unknown and All;
+      numeric labels are not recoded to inferred interval boundaries.
+      The workbook Explanatory notes define assessed family scheme income as an
+      entitlement-time-weighted average. For Work and Income recipients who did
+      not file a WFF return, IRD uses individual tax-return income, which
+      excludes partner income.
+    unit: count
+    aggregation: sum
+    value_scale: 1
+    expected_cell_type: number
+    filters: {wff_credit_component: bstc}
+    constraints:
+    - {variable: wff_credit_component, operator: '==', value: bstc, label: Best Start Tax Credit}

@@ -1,0 +1,25 @@
+source_id: stats_nz
+package_id: census_2023_place_summaries
+dataset: census_2023_place_summaries
+source_page: https://tools.summaries.stats.govt.nz/places/RC/southland-region
+table: '2023 Census Place summaries: families and households'
+license: CC BY 4.0
+attribution: Stats NZ
+files:
+  2023:
+    filename: place-summaries-rc-15.csv
+    source_url: https://tools.summaries.stats.govt.nz/api/export-csv/rkTah6u2O2VYyP4Y/15/
+    final_url: https://tools.summaries.stats.govt.nz/api/export-csv/rkTah6u2O2VYyP4Y/15/
+    http_status: 200
+    sha256: 68fb9522adc00d9d195a8dd77c51d781f69d9a292ac8db3f6e6931064165cc78
+    size_bytes: 412514
+    fetched_at: '2026-10-10T20:12:11Z'
+    content_disposition_filename: place-summaries-southland-region-20261011-091211.csv
+    place_code: '15'
+    place: Southland Region
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/nz/stats_nz/census_2023_place_summaries/2023/68fb9522adc00d9d195a8dd77c51d781f69d9a292ac8db3f6e6931064165cc78/place-summaries-rc-15.csv
+        uri: r2://ledger-raw/raw/nz/stats_nz/census_2023_place_summaries/2023/68fb9522adc00d9d195a8dd77c51d781f69d9a292ac8db3f6e6931064165cc78/place-summaries-rc-15.csv

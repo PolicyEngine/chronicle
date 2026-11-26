@@ -1,0 +1,1 @@
+Add the `xlsx_numeric_text_used_range` parser. It reads a text cell that holds only a number as that number, for XLSX workbooks that store their figures as text, such as ONS's capital stocks tables, as `ods_numeric_text_used_range` does for ODS files.

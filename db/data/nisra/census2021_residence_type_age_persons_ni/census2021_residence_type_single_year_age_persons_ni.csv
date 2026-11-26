@@ -1,0 +1,203 @@
+Residence Type Code,Residence Type Label,Age Code,Age Label,Count
+1,Person in a household,0,0 years,21169
+1,Person in a household,1,1 year,22371
+1,Person in a household,2,2 years,22908
+1,Person in a household,3,3 years,22915
+1,Person in a household,4,4 years,24293
+1,Person in a household,5,5 years,24434
+1,Person in a household,6,6 years,24663
+1,Person in a household,7,7 years,24293
+1,Person in a household,8,8 years,25486
+1,Person in a household,9,9 years,25489
+1,Person in a household,10,10 years,25993
+1,Person in a household,11,11 years,25437
+1,Person in a household,12,12 years,25599
+1,Person in a household,13,13 years,25336
+1,Person in a household,14,14 years,24328
+1,Person in a household,15,15 years,23122
+1,Person in a household,16,16 years,23434
+1,Person in a household,17,17 years,22874
+1,Person in a household,18,18 years,21463
+1,Person in a household,19,19 years,18943
+1,Person in a household,20,20 years,19872
+1,Person in a household,21,21 years,20591
+1,Person in a household,22,22 years,21937
+1,Person in a household,23,23 years,22194
+1,Person in a household,24,24 years,22930
+1,Person in a household,25,25 years,22491
+1,Person in a household,26,26 years,22416
+1,Person in a household,27,27 years,22893
+1,Person in a household,28,28 years,23161
+1,Person in a household,29,29 years,23869
+1,Person in a household,30,30 years,24471
+1,Person in a household,31,31 years,24682
+1,Person in a household,32,32 years,24988
+1,Person in a household,33,33 years,25432
+1,Person in a household,34,34 years,25584
+1,Person in a household,35,35 years,25589
+1,Person in a household,36,36 years,25550
+1,Person in a household,37,37 years,25195
+1,Person in a household,38,38 years,25271
+1,Person in a household,39,39 years,25095
+1,Person in a household,40,40 years,25478
+1,Person in a household,41,41 years,25765
+1,Person in a household,42,42 years,24139
+1,Person in a household,43,43 years,23276
+1,Person in a household,44,44 years,22959
+1,Person in a household,45,45 years,23032
+1,Person in a household,46,46 years,23330
+1,Person in a household,47,47 years,24385
+1,Person in a household,48,48 years,25152
+1,Person in a household,49,49 years,25269
+1,Person in a household,50,50 years,25905
+1,Person in a household,51,51 years,25775
+1,Person in a household,52,52 years,26011
+1,Person in a household,53,53 years,26551
+1,Person in a household,54,54 years,26090
+1,Person in a household,55,55 years,26233
+1,Person in a household,56,56 years,26714
+1,Person in a household,57,57 years,25854
+1,Person in a household,58,58 years,25179
+1,Person in a household,59,59 years,24511
+1,Person in a household,60,60 years,24355
+1,Person in a household,61,61 years,22891
+1,Person in a household,62,62 years,22318
+1,Person in a household,63,63 years,21953
+1,Person in a household,64,64 years,20725
+1,Person in a household,65,65 years,20144
+1,Person in a household,66,66 years,18895
+1,Person in a household,67,67 years,18554
+1,Person in a household,68,68 years,17951
+1,Person in a household,69,69 years,17136
+1,Person in a household,70,70 years,17041
+1,Person in a household,71,71 years,16777
+1,Person in a household,72,72 years,16342
+1,Person in a household,73,73 years,16311
+1,Person in a household,74,74 years,15897
+1,Person in a household,75,75 years,14114
+1,Person in a household,76,76 years,14039
+1,Person in a household,77,77 years,13398
+1,Person in a household,78,78 years,12450
+1,Person in a household,79,79 years,10553
+1,Person in a household,80,80 years,9352
+1,Person in a household,81,81 years,8899
+1,Person in a household,82,82 years,8517
+1,Person in a household,83,83 years,7484
+1,Person in a household,84,84 years,7078
+1,Person in a household,85,85 years,5958
+1,Person in a household,86,86 years,5221
+1,Person in a household,87,87 years,4500
+1,Person in a household,88,88 years,3966
+1,Person in a household,89,89 years,3216
+1,Person in a household,90,90 years,2650
+1,Person in a household,91,91 years,2106
+1,Person in a household,92,92 years,1587
+1,Person in a household,93,93 years,1231
+1,Person in a household,94,94 years,961
+1,Person in a household,95,95 years,647
+1,Person in a household,96,96 years,440
+1,Person in a household,97,97 years,320
+1,Person in a household,98,98 years,180
+1,Person in a household,99,99 years,160
+1,Person in a household,100,100+ years,140
+2,Person in a communal establishment,0,0 years,32
+2,Person in a communal establishment,1,1 year,48
+2,Person in a communal establishment,2,2 years,31
+2,Person in a communal establishment,3,3 years,28
+2,Person in a communal establishment,4,4 years,24
+2,Person in a communal establishment,5,5 years,28
+2,Person in a communal establishment,6,6 years,21
+2,Person in a communal establishment,7,7 years,16
+2,Person in a communal establishment,8,8 years,15
+2,Person in a communal establishment,9,9 years,29
+2,Person in a communal establishment,10,10 years,22
+2,Person in a communal establishment,11,11 years,32
+2,Person in a communal establishment,12,12 years,47
+2,Person in a communal establishment,13,13 years,48
+2,Person in a communal establishment,14,14 years,76
+2,Person in a communal establishment,15,15 years,98
+2,Person in a communal establishment,16,16 years,140
+2,Person in a communal establishment,17,17 years,193
+2,Person in a communal establishment,18,18 years,883
+2,Person in a communal establishment,19,19 years,2053
+2,Person in a communal establishment,20,20 years,1087
+2,Person in a communal establishment,21,21 years,790
+2,Person in a communal establishment,22,22 years,732
+2,Person in a communal establishment,23,23 years,670
+2,Person in a communal establishment,24,24 years,581
+2,Person in a communal establishment,25,25 years,471
+2,Person in a communal establishment,26,26 years,373
+2,Person in a communal establishment,27,27 years,264
+2,Person in a communal establishment,28,28 years,268
+2,Person in a communal establishment,29,29 years,203
+2,Person in a communal establishment,30,30 years,217
+2,Person in a communal establishment,31,31 years,163
+2,Person in a communal establishment,32,32 years,205
+2,Person in a communal establishment,33,33 years,153
+2,Person in a communal establishment,34,34 years,154
+2,Person in a communal establishment,35,35 years,120
+2,Person in a communal establishment,36,36 years,150
+2,Person in a communal establishment,37,37 years,119
+2,Person in a communal establishment,38,38 years,126
+2,Person in a communal establishment,39,39 years,99
+2,Person in a communal establishment,40,40 years,128
+2,Person in a communal establishment,41,41 years,121
+2,Person in a communal establishment,42,42 years,110
+2,Person in a communal establishment,43,43 years,100
+2,Person in a communal establishment,44,44 years,85
+2,Person in a communal establishment,45,45 years,93
+2,Person in a communal establishment,46,46 years,98
+2,Person in a communal establishment,47,47 years,101
+2,Person in a communal establishment,48,48 years,102
+2,Person in a communal establishment,49,49 years,107
+2,Person in a communal establishment,50,50 years,108
+2,Person in a communal establishment,51,51 years,134
+2,Person in a communal establishment,52,52 years,129
+2,Person in a communal establishment,53,53 years,129
+2,Person in a communal establishment,54,54 years,135
+2,Person in a communal establishment,55,55 years,144
+2,Person in a communal establishment,56,56 years,173
+2,Person in a communal establishment,57,57 years,154
+2,Person in a communal establishment,58,58 years,167
+2,Person in a communal establishment,59,59 years,148
+2,Person in a communal establishment,60,60 years,173
+2,Person in a communal establishment,61,61 years,169
+2,Person in a communal establishment,62,62 years,143
+2,Person in a communal establishment,63,63 years,167
+2,Person in a communal establishment,64,64 years,153
+2,Person in a communal establishment,65,65 years,154
+2,Person in a communal establishment,66,66 years,142
+2,Person in a communal establishment,67,67 years,143
+2,Person in a communal establishment,68,68 years,178
+2,Person in a communal establishment,69,69 years,167
+2,Person in a communal establishment,70,70 years,157
+2,Person in a communal establishment,71,71 years,188
+2,Person in a communal establishment,72,72 years,227
+2,Person in a communal establishment,73,73 years,248
+2,Person in a communal establishment,74,74 years,280
+2,Person in a communal establishment,75,75 years,250
+2,Person in a communal establishment,76,76 years,347
+2,Person in a communal establishment,77,77 years,416
+2,Person in a communal establishment,78,78 years,397
+2,Person in a communal establishment,79,79 years,413
+2,Person in a communal establishment,80,80 years,415
+2,Person in a communal establishment,81,81 years,455
+2,Person in a communal establishment,82,82 years,530
+2,Person in a communal establishment,83,83 years,490
+2,Person in a communal establishment,84,84 years,555
+2,Person in a communal establishment,85,85 years,626
+2,Person in a communal establishment,86,86 years,578
+2,Person in a communal establishment,87,87 years,593
+2,Person in a communal establishment,88,88 years,616
+2,Person in a communal establishment,89,89 years,605
+2,Person in a communal establishment,90,90 years,505
+2,Person in a communal establishment,91,91 years,494
+2,Person in a communal establishment,92,92 years,434
+2,Person in a communal establishment,93,93 years,367
+2,Person in a communal establishment,94,94 years,334
+2,Person in a communal establishment,95,95 years,249
+2,Person in a communal establishment,96,96 years,203
+2,Person in a communal establishment,97,97 years,165
+2,Person in a communal establishment,98,98 years,132
+2,Person in a communal establishment,99,99 years,91
+2,Person in a communal establishment,100,100+ years,116

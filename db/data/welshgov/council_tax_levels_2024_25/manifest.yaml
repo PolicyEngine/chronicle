@@ -1,0 +1,26 @@
+source_id: welshgov
+package_id: welshgov-council-tax-levels-2024-25
+dataset: welshgov_welshgov-council-tax-levels-2024-25
+source_page: https://www.gov.wales/council-tax-levels-april-2024-march-2025
+table: Welsh Government council tax levels, April 2024 to March 2025 (SFR 20/2024)
+files:
+  2024:
+    filename: council-tax-levels-april-2024-march-2025-482.pdf
+    source_url: https://www.gov.wales/sites/default/files/statistics-and-research/2024-03/council-tax-levels-april-2024-march-2025-482.pdf
+    sha256: 1caccce6df75758929d48c06855c4adaf9db9d75e190f62d999b9dc3d3c253a6
+    size_bytes: 417849
+    fetched_at: '2026-11-04T18:17:01+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/welshgov/welshgov-council-tax-levels-2024-25/2024/1caccce6df75758929d48c06855c4adaf9db9d75e190f62d999b9dc3d3c253a6/council-tax-levels-april-2024-march-2025-482.pdf
+        uri: r2://ledger-raw/raw/uk/welshgov/welshgov-council-tax-levels-2024-25/2024/1caccce6df75758929d48c06855c4adaf9db9d75e190f62d999b9dc3d3c253a6/council-tax-levels-april-2024-march-2025-482.pdf
+registration_kind: raw_only
+provenance_notes: 'Council Tax Levels in Wales: 2024-25 (SFR 20/2024, Welsh Government,
+  21 March 2024), the release itself, which is published as a PDF only: Table 1 gives
+  each billing authority''s average band D with its county council, community council
+  and police authority elements and the average per dwelling, rounded to the pound;
+  Table 2 the change on 2023-24; Table 3 budget requirements and council tax income.
+  The unrounded figures are in welshgov-band-d-council-tax-composition-1993-94-to-2026-27.
+  Licence: Open Government Licence v3.0. Raw-only for chronicle#412 item 2.'

@@ -1,0 +1,19 @@
+source_id: dfi_ni
+package_id: dfi_ni-public-transport-statistics-2025-26
+dataset: dfi_ni_dfi_ni-public-transport-statistics-2025-26
+source_page: https://www.infrastructure-ni.gov.uk/publications/public-transport-statistics-northern-ireland-2025-26
+table: public_transport_statistics_2025_26
+files:
+  2026:
+    filename: public_transport_statistics_northern_ireland_2025-26_tables_and_figures_2.xlsx
+    source_url: https://www.infrastructure-ni.gov.uk/system/files/2026-09/public_transport_statistics_northern_ireland_2025-26_tables_and_figures_2.xlsx
+    sha256: 680f303c3b9d92908e8b3555d9284aff2463c14306799018e290caae1a7a15eb
+    size_bytes: 970596
+    fetched_at: '2026-10-07T16:07:14+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/dfi_ni/dfi_ni-public-transport-statistics-2025-26/2026/680f303c3b9d92908e8b3555d9284aff2463c14306799018e290caae1a7a15eb/public_transport_statistics_northern_ireland_2025-26_tables_and_figures_2.xlsx
+        uri: r2://ledger-raw/raw/dfi_ni/dfi_ni-public-transport-statistics-2025-26/2026/680f303c3b9d92908e8b3555d9284aff2463c14306799018e290caae1a7a15eb/public_transport_statistics_northern_ireland_2025-26_tables_and_figures_2.xlsx
+registration_kind: source_facts

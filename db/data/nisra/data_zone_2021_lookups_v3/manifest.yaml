@@ -1,0 +1,25 @@
+source_id: nisra
+package_id: nisra-data-zone-2021-lookups-v3
+dataset: nisra_nisra-data-zone-2021-lookups-v3
+source_page: https://www.nisra.gov.uk/support/geography/urban-rural-classification
+table: NISRA Data Zone 2021 and Super Data Zone 2021 lookups v3, including urban,
+  mixed and rural status (April 2025)
+files:
+  2025:
+    filename: geography-data-zone-and-super-data-zone-lookups-v3.xlsx
+    source_url: https://www.nisra.gov.uk/files/nisra/documents/2025-04/geography-data-zone-and-super-data-zone-lookups-v3.xlsx
+    sha256: 8e2e1f6daaddd2f5b6887ccab1bf9d0bf179f6d0d2ba60ef8e0ebb495a3e1999
+    size_bytes: 603543
+    fetched_at: '2026-10-15T10:02:50+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/nisra/nisra-data-zone-2021-lookups-v3/2025/8e2e1f6daaddd2f5b6887ccab1bf9d0bf179f6d0d2ba60ef8e0ebb495a3e1999/geography-data-zone-and-super-data-zone-lookups-v3.xlsx
+        uri: r2://ledger-raw/raw/uk/nisra/nisra-data-zone-2021-lookups-v3/2025/8e2e1f6daaddd2f5b6887ccab1bf9d0bf179f6d0d2ba60ef8e0ebb495a3e1999/geography-data-zone-and-super-data-zone-lookups-v3.xlsx
+registration_kind: raw_only
+provenance_notes: 'NISRA Data Zone 2021 and Super Data Zone 2021 lookups, version
+  3 (April 2025), which added the urban, mixed and rural status sheets: DZ21_Urban_mixed_rural_lookup
+  (3,780 data zones; urban if at least 90 per cent of residents live in Band A-E settlements,
+  rural under 10 per cent, otherwise mixed) and the super data zone equivalent. Licence:
+  Open Government Licence. Raw-only for chronicle#356 item 4.'

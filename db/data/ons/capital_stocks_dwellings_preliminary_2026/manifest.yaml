@@ -1,0 +1,33 @@
+source_id: ons
+package_id: ons-capital-stocks-dwellings-preliminary-2026
+dataset: ons_ons-capital-stocks-dwellings-preliminary-2026
+source_page: https://www.ons.gov.uk/economy/nationalaccounts/uksectoraccounts/datasets/preliminarycapitalstocksandfixedcapitalconsumption
+table: Preliminary capital stocks and fixed capital consumption, released 10 June
+  2026 (reference tables)
+license: Open Government Licence v3.0
+license_url: https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/
+attribution: 'Source: Office for National Statistics, Preliminary capital stocks and
+  fixed capital consumption (released 10 June 2026). Contains public sector information
+  licensed under the Open Government Licence v3.0.'
+license_evidence: 'ONS pages state: ''All content is available under the Open Government
+  Licence v3.0, except where otherwise stated.'' (dataset page)'
+license_verified_at: '2026-11-12'
+files:
+  2026:
+    filename: preliminarycapitalstocktable2026.xlsx
+    source_url: https://www.ons.gov.uk/file?uri=/economy/nationalaccounts/uksectoraccounts/datasets/preliminarycapitalstocksandfixedcapitalconsumption/current/preliminarycapitalstocktable2026.xlsx
+    sha256: e88090cfa63ee27939daac86f909c83414f950749a8530ce7feb6c953b6e8f18
+    size_bytes: 172136
+    fetched_at: '2026-11-12T11:16:22+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/ons/ons-capital-stocks-dwellings-preliminary-2026/2026/e88090cfa63ee27939daac86f909c83414f950749a8530ce7feb6c953b6e8f18/preliminarycapitalstocktable2026.xlsx
+        uri: r2://ledger-raw/raw/uk/ons/ons-capital-stocks-dwellings-preliminary-2026/2026/e88090cfa63ee27939daac86f909c83414f950749a8530ce7feb6c953b6e8f18/preliminarycapitalstocktable2026.xlsx
+registration_kind: source_facts
+provenance_notes: ONS's dataset page lists the file at 172.1 kB, released 10 June
+  2026, with the next release to be announced. That is about a third of the size of
+  the earlier preliminary editions the page lists (529 kB to 542 kB). This edition
+  prints assets for the whole economy only, and its sector and industry tables cover
+  all assets together.

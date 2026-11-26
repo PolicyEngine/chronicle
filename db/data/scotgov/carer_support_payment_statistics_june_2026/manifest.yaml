@@ -1,0 +1,31 @@
+source_id: scotgov
+package_id: scotgov-carer-support-payment-statistics-june-2026
+dataset: scotgov_scotgov-carer-support-payment-statistics-june-2026
+source_page: https://www.socialsecurity.gov.scot/publications/2026/08/carer-support-payment-statistics-and-carers-allowance-supplement-statistics-to-30-june-2026
+table: 'Social Security Scotland, Carer Support Payment statistics and Carer''s Allowance
+  Supplement statistics to 30 June 2026: tables (published 11 August 2026)'
+publisher: Social Security Scotland (an executive agency of the Scottish Government)
+license: Open Government Licence v3.0
+license_url: https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/
+attribution: 'Source: Social Security Scotland, Carer Support Payment statistics and
+  Carer''s Allowance Supplement statistics to 30 June 2026 (published 11 August 2026).
+  Contains public sector information licensed under the Open Government Licence v3.0.'
+license_evidence: 'The publication page (https://www.socialsecurity.gov.scot/publications/2026/08/carer-support-payment-statistics-and-carers-allowance-supplement-statistics-to-30-june-2026)
+  states: ''All content is available under the Open Government Licence v3.0, except
+  for graphic assets and where otherwise stated''; the workbook states no other terms.'
+license_verified_at: '2026-11-06'
+files:
+  2026:
+    filename: carer_support_payment_and_carers_allowance_supplement_june_2026_tables.xlsx
+    publisher_filename: Carer Support Payment and Carer's Allowance Supplement June
+      2026 Tables.xlsx
+    source_url: https://www.socialsecurity.gov.scot/binaries/socialsecurity/publications/2026/08/carer-support-payment-statistics-and-carers-allowance-supplement-statistics-to-30-june-2026/carer-support-payment-statistics-and-carers-allowance-supplement-statistics-to-30-june-2026/publishing%3AcontentBlocks%5B3%5D/publishing%3Adocument/Carer+Support+Payment+and+Carer%27s+Allowance+Supplement+June+2026+Tables.xlsx
+    sha256: 1cebfef7a5fe6b8d882e7b9851b95126edfb9c748d1006a7c9c71371855f7939
+    size_bytes: 76573
+    fetched_at: '2026-11-06T13:30:55+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/scotgov/scotgov-carer-support-payment-statistics-june-2026/2026/1cebfef7a5fe6b8d882e7b9851b95126edfb9c748d1006a7c9c71371855f7939/carer_support_payment_and_carers_allowance_supplement_june_2026_tables.xlsx
+        uri: r2://ledger-raw/raw/uk/scotgov/scotgov-carer-support-payment-statistics-june-2026/2026/1cebfef7a5fe6b8d882e7b9851b95126edfb9c748d1006a7c9c71371855f7939/carer_support_payment_and_carers_allowance_supplement_june_2026_tables.xlsx

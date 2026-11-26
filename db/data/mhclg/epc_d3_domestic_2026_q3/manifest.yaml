@@ -1,0 +1,29 @@
+source_id: mhclg
+package_id: mhclg-epc-d3-domestic-2026-q3
+dataset: mhclg_mhclg-epc-d3-domestic-2026-q3
+source_page: https://www.gov.uk/government/statistical-data-sets/live-tables-on-energy-performance-of-buildings-certificates
+table: 'Energy Performance of Buildings Certificates live table D3: domestic properties
+  (to 30 September 2026)'
+license: Open Government Licence v3.0
+license_url: https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/
+attribution: 'Source: Ministry of Housing, Communities and Local Government, Energy
+  Performance of Buildings Certificates live table D3: domestic Energy Performance
+  Certificates for all dwellings, to 30 September 2026 (published 29 October 2026).
+  Contains public sector information licensed under the Open Government Licence v3.0.'
+license_evidence: 'GOV.UK states: ''All content is available under the Open Government
+  Licence v3.0, except where otherwise stated.'' The live tables page and the workbook
+  state no other licence.'
+license_verified_at: '2026-11-04'
+files:
+  2026:
+    filename: D3-_Domestic_Properties.ods
+    source_url: https://assets.publishing.service.gov.uk/media/6ae0bba2e4367e5c8b046789/D3-_Domestic_Properties.ods
+    sha256: 834b564e838681fe786b2dbc04d92453e23dfb96011f11f89783a88308a062be
+    size_bytes: 4506479
+    fetched_at: '2026-11-04T13:06:34+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/mhclg/mhclg-epc-d3-domestic-2026-q3/2026/834b564e838681fe786b2dbc04d92453e23dfb96011f11f89783a88308a062be/D3-_Domestic_Properties.ods
+        uri: r2://ledger-raw/raw/uk/mhclg/mhclg-epc-d3-domestic-2026-q3/2026/834b564e838681fe786b2dbc04d92453e23dfb96011f11f89783a88308a062be/D3-_Domestic_Properties.ods

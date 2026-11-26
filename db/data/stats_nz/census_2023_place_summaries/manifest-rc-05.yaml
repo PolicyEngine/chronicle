@@ -1,0 +1,25 @@
+source_id: stats_nz
+package_id: census_2023_place_summaries
+dataset: census_2023_place_summaries
+source_page: https://tools.summaries.stats.govt.nz/places/RC/gisborne-region
+table: '2023 Census Place summaries: families and households'
+license: CC BY 4.0
+attribution: Stats NZ
+files:
+  2023:
+    filename: place-summaries-rc-05.csv
+    source_url: https://tools.summaries.stats.govt.nz/api/export-csv/rkTah6u2O2VYyP4Y/5/
+    final_url: https://tools.summaries.stats.govt.nz/api/export-csv/rkTah6u2O2VYyP4Y/5/
+    http_status: 200
+    sha256: 82f57517ccd7a22f953dc6ea5137d5e8f70248f762674a85bd33e0f8cf34285c
+    size_bytes: 408338
+    fetched_at: '2026-10-10T20:12:03Z'
+    content_disposition_filename: place-summaries-gisborne-region-20261011-091203.csv
+    place_code: '5'
+    place: Gisborne Region
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/nz/stats_nz/census_2023_place_summaries/2023/82f57517ccd7a22f953dc6ea5137d5e8f70248f762674a85bd33e0f8cf34285c/place-summaries-rc-05.csv
+        uri: r2://ledger-raw/raw/nz/stats_nz/census_2023_place_summaries/2023/82f57517ccd7a22f953dc6ea5137d5e8f70248f762674a85bd33e0f8cf34285c/place-summaries-rc-05.csv

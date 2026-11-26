@@ -1,0 +1,857 @@
+# HMRC 'Tax relief statistics (January 2026)' (published 22 January 2026),
+# https://www.gov.uk/government/statistics/tax-reliefs/tax-relief-statistics-january-2026,
+# the employer National Insurance reliefs for young employees, for
+# PolicyEngine/chronicle#420 item 9 (PolicyEngine/uk-young-people-work-review#6): the cost
+# of each relief in Table 2 ('Six-year cost estimates (figures given in £ million)') and
+# its claimants in Table 5 ('Claimants estimates'). Written by
+# scripts/build_uk_young_people_packages.py from the pinned workbook.
+#
+# The two reliefs, as HMRC describes them: 'Relief on employer National Insurance
+# contributions for employees under 21' (NIC - NS2), 'A zero rate of Class 1 secondary
+# NICs for employees under 21 up to the upper secondary threshold'; and 'Relief on
+# employer National Insurance contributions for apprentices under 25' (NIC - NS1), 'A zero
+# rate of Class 1 secondary NICs for apprentices under 25 up to the apprentice upper
+# secondary threshold'. HMRC's notes: 'The under 25 apprentice employer NICs relief takes
+# precedence over the under 21 employer NICs relief (for apprentices under the age of
+# 21)', so the two costs do not overlap; 'The larger than usual increase in cost presented
+# in the 2025-26 forecast is expected due to the employer NICs changes which came into
+# effect in April 2025, namely the reduction of the secondary threshold from £9,100 to
+# £5,000 and the increase of the employer NICs rate from 13.8% to 15%'; and 'As this is a
+# relief for the employer, we report the number of employers claiming the relief', so the
+# claimants are employers (entity firm).
+#
+# Years 2020-21 to 2025-26, period the opening year (tax_year 2020 is 2020 to 2021). Table
+# 2's 'First forecasted costing year' is '2025 to 2026' for both reliefs, so the 2025-26
+# costs are HMRC's forecast (assertion source_projection) and the earlier years its
+# estimates (observation). Table 5 prints no 2025-26 claimants ('Not available'), which
+# emit no fact. The cost cells are numbers held as text in the workbook ('1,100'), read as
+# numbers by the parser. The publication page's section 3.28 prints the same under-21
+# series (560, 670, 850, 960, 1,100 and 1,900*, £ million; 270,000 to 340,000 claimants);
+# the generator asserts it. 22 facts.
+schema_version: ledger.source_package.v1
+package_id: hmrc-employer-nics-age-reliefs-january-2026
+label: 'HMRC tax relief statistics (January 2026): cost and claimants of the employer NICs reliefs for
+  employees under 21 and apprentices under 25, 2020-21 to 2025-26'
+dimension_labels:
+  employer_nics_relief: Employer NICs relief
+dimension_value_labels:
+  employer_nics_relief:
+    apprentices_under_25: Relief on employer National Insurance contributions for apprentices under 25
+    employees_under_21: Relief on employer National Insurance contributions for employees under 21
+artifact:
+  source_name: hmrc
+  source_table: Tax relief statistics (January 2026), Table 2 (six-year cost estimates) and Table 5 (claimants
+    estimates)
+  resource_package: db
+  resource_directory: data/hmrc/tax_relief_statistics_january_2026
+  manifest: manifest.yaml
+  vintage: tax_relief_statistics_2026_01_22
+  extracted_at: '2026-11-06'
+  extraction_method: ODS used-range cell parse with numeric text read as numbers (tax_relief_statistics_january_2026.ods)
+  parser: ods_numeric_text_used_range
+  artifact_year: 2026
+record_sets:
+- record_set_id: hmrc.tax_reliefs.january_2026.employer_nics_age.cost.ty2020
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: hmrc.tax_reliefs.january_2026.employer_nics_age.cost.ty2020.v1
+  source_record_id_prefix: hmrc.tax_reliefs.january_2026.employer_nics_age.cost.ty2020
+  sheet_name: Table_2
+  period_type: tax_year
+  period: 2020
+  period_coverage:
+    start_date: '2020-04-06'
+    end_date: '2021-04-05'
+    basis: tax
+    source_period_label: 2020 to 2021
+    notes: HMRC's estimate for a year before its first forecast year ('2025 to 2026').
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: firm
+  entity_role: employer
+  domain: national_insurance_reliefs
+  groupby_dimension: employer_nics_relief
+  rows:
+  - value_id: apprentices_under_25
+    label: Relief on employer National Insurance contributions for apprentices under 25
+    ordinal: 0
+    row_number: 79
+    expected_row_header_column: A
+    expected_row_header: Relief on employer National Insurance contributions for apprentices under 25
+    table_record_kind: detail
+    filters:
+      employer_nics_relief: apprentices_under_25
+    constraints:
+    - {variable: employer_nics_relief, operator: ==, value: apprentices_under_25, label: Employer NICs
+        relief}
+    guard_cells:
+    - {column: A, row: 1, expected_value: 'Table 2: Six-year cost estimates (figures given in £ million)',
+      label: table title}
+    - {column: B, row: 79, expected_value: NIC - NS1, label: relief code}
+    - {column: E, row: 79, expected_value: 2025 to 2026, label: first forecasted costing year}
+  - value_id: employees_under_21
+    label: Relief on employer National Insurance contributions for employees under 21
+    ordinal: 1
+    row_number: 80
+    expected_row_header_column: A
+    expected_row_header: Relief on employer National Insurance contributions for employees under 21
+    table_record_kind: detail
+    filters:
+      employer_nics_relief: employees_under_21
+    constraints:
+    - {variable: employer_nics_relief, operator: ==, value: employees_under_21, label: Employer NICs relief}
+    guard_cells:
+    - {column: B, row: 80, expected_value: NIC - NS2, label: relief code}
+    - {column: E, row: 80, expected_value: 2025 to 2026, label: first forecasted costing year}
+  measures:
+  - measure_id: cost_2020
+    label: Cost of the relief, 2020 to 2021
+    ordinal: 0
+    column: F
+    source_column_id: cost_2020
+    expected_column_header_row: 2
+    expected_column_header: 2020 to 2021
+    concept: hmrc.tax_relief_cost
+    source_concept: hmrc.tax_relief_cost
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/tax-reliefs/tax-relief-statistics-january-2026
+    concept_evidence_notes: 'HMRC tax relief statistics (January 2026), Table 2 ''Six-year cost estimates
+      (figures given in £ million)'', column F (''2020 to 2021''): the estimated cost of the relief, £
+      million.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: hmrc.tax_reliefs.january_2026.employer_nics_age.cost.ty2021
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: hmrc.tax_reliefs.january_2026.employer_nics_age.cost.ty2021.v1
+  source_record_id_prefix: hmrc.tax_reliefs.january_2026.employer_nics_age.cost.ty2021
+  sheet_name: Table_2
+  period_type: tax_year
+  period: 2021
+  period_coverage:
+    start_date: '2021-04-06'
+    end_date: '2022-04-05'
+    basis: tax
+    source_period_label: 2021 to 2022
+    notes: HMRC's estimate for a year before its first forecast year ('2025 to 2026').
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: firm
+  entity_role: employer
+  domain: national_insurance_reliefs
+  groupby_dimension: employer_nics_relief
+  rows:
+  - value_id: apprentices_under_25
+    label: Relief on employer National Insurance contributions for apprentices under 25
+    ordinal: 0
+    row_number: 79
+    expected_row_header_column: A
+    expected_row_header: Relief on employer National Insurance contributions for apprentices under 25
+    table_record_kind: detail
+    filters:
+      employer_nics_relief: apprentices_under_25
+    constraints:
+    - {variable: employer_nics_relief, operator: ==, value: apprentices_under_25, label: Employer NICs
+        relief}
+    guard_cells:
+    - {column: A, row: 1, expected_value: 'Table 2: Six-year cost estimates (figures given in £ million)',
+      label: table title}
+    - {column: B, row: 79, expected_value: NIC - NS1, label: relief code}
+    - {column: E, row: 79, expected_value: 2025 to 2026, label: first forecasted costing year}
+  - value_id: employees_under_21
+    label: Relief on employer National Insurance contributions for employees under 21
+    ordinal: 1
+    row_number: 80
+    expected_row_header_column: A
+    expected_row_header: Relief on employer National Insurance contributions for employees under 21
+    table_record_kind: detail
+    filters:
+      employer_nics_relief: employees_under_21
+    constraints:
+    - {variable: employer_nics_relief, operator: ==, value: employees_under_21, label: Employer NICs relief}
+    guard_cells:
+    - {column: B, row: 80, expected_value: NIC - NS2, label: relief code}
+    - {column: E, row: 80, expected_value: 2025 to 2026, label: first forecasted costing year}
+  measures:
+  - measure_id: cost_2021
+    label: Cost of the relief, 2021 to 2022
+    ordinal: 0
+    column: G
+    source_column_id: cost_2021
+    expected_column_header_row: 2
+    expected_column_header: 2021 to 2022
+    concept: hmrc.tax_relief_cost
+    source_concept: hmrc.tax_relief_cost
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/tax-reliefs/tax-relief-statistics-january-2026
+    concept_evidence_notes: 'HMRC tax relief statistics (January 2026), Table 2 ''Six-year cost estimates
+      (figures given in £ million)'', column G (''2021 to 2022''): the estimated cost of the relief, £
+      million.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: hmrc.tax_reliefs.january_2026.employer_nics_age.cost.ty2022
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: hmrc.tax_reliefs.january_2026.employer_nics_age.cost.ty2022.v1
+  source_record_id_prefix: hmrc.tax_reliefs.january_2026.employer_nics_age.cost.ty2022
+  sheet_name: Table_2
+  period_type: tax_year
+  period: 2022
+  period_coverage:
+    start_date: '2022-04-06'
+    end_date: '2023-04-05'
+    basis: tax
+    source_period_label: 2022 to 2023
+    notes: HMRC's estimate for a year before its first forecast year ('2025 to 2026').
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: firm
+  entity_role: employer
+  domain: national_insurance_reliefs
+  groupby_dimension: employer_nics_relief
+  rows:
+  - value_id: apprentices_under_25
+    label: Relief on employer National Insurance contributions for apprentices under 25
+    ordinal: 0
+    row_number: 79
+    expected_row_header_column: A
+    expected_row_header: Relief on employer National Insurance contributions for apprentices under 25
+    table_record_kind: detail
+    filters:
+      employer_nics_relief: apprentices_under_25
+    constraints:
+    - {variable: employer_nics_relief, operator: ==, value: apprentices_under_25, label: Employer NICs
+        relief}
+    guard_cells:
+    - {column: A, row: 1, expected_value: 'Table 2: Six-year cost estimates (figures given in £ million)',
+      label: table title}
+    - {column: B, row: 79, expected_value: NIC - NS1, label: relief code}
+    - {column: E, row: 79, expected_value: 2025 to 2026, label: first forecasted costing year}
+  - value_id: employees_under_21
+    label: Relief on employer National Insurance contributions for employees under 21
+    ordinal: 1
+    row_number: 80
+    expected_row_header_column: A
+    expected_row_header: Relief on employer National Insurance contributions for employees under 21
+    table_record_kind: detail
+    filters:
+      employer_nics_relief: employees_under_21
+    constraints:
+    - {variable: employer_nics_relief, operator: ==, value: employees_under_21, label: Employer NICs relief}
+    guard_cells:
+    - {column: B, row: 80, expected_value: NIC - NS2, label: relief code}
+    - {column: E, row: 80, expected_value: 2025 to 2026, label: first forecasted costing year}
+  measures:
+  - measure_id: cost_2022
+    label: Cost of the relief, 2022 to 2023
+    ordinal: 0
+    column: H
+    source_column_id: cost_2022
+    expected_column_header_row: 2
+    expected_column_header: 2022 to 2023
+    concept: hmrc.tax_relief_cost
+    source_concept: hmrc.tax_relief_cost
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/tax-reliefs/tax-relief-statistics-january-2026
+    concept_evidence_notes: 'HMRC tax relief statistics (January 2026), Table 2 ''Six-year cost estimates
+      (figures given in £ million)'', column H (''2022 to 2023''): the estimated cost of the relief, £
+      million.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: hmrc.tax_reliefs.january_2026.employer_nics_age.cost.ty2023
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: hmrc.tax_reliefs.january_2026.employer_nics_age.cost.ty2023.v1
+  source_record_id_prefix: hmrc.tax_reliefs.january_2026.employer_nics_age.cost.ty2023
+  sheet_name: Table_2
+  period_type: tax_year
+  period: 2023
+  period_coverage:
+    start_date: '2023-04-06'
+    end_date: '2024-04-05'
+    basis: tax
+    source_period_label: 2023 to 2024
+    notes: HMRC's estimate for a year before its first forecast year ('2025 to 2026').
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: firm
+  entity_role: employer
+  domain: national_insurance_reliefs
+  groupby_dimension: employer_nics_relief
+  rows:
+  - value_id: apprentices_under_25
+    label: Relief on employer National Insurance contributions for apprentices under 25
+    ordinal: 0
+    row_number: 79
+    expected_row_header_column: A
+    expected_row_header: Relief on employer National Insurance contributions for apprentices under 25
+    table_record_kind: detail
+    filters:
+      employer_nics_relief: apprentices_under_25
+    constraints:
+    - {variable: employer_nics_relief, operator: ==, value: apprentices_under_25, label: Employer NICs
+        relief}
+    guard_cells:
+    - {column: A, row: 1, expected_value: 'Table 2: Six-year cost estimates (figures given in £ million)',
+      label: table title}
+    - {column: B, row: 79, expected_value: NIC - NS1, label: relief code}
+    - {column: E, row: 79, expected_value: 2025 to 2026, label: first forecasted costing year}
+  - value_id: employees_under_21
+    label: Relief on employer National Insurance contributions for employees under 21
+    ordinal: 1
+    row_number: 80
+    expected_row_header_column: A
+    expected_row_header: Relief on employer National Insurance contributions for employees under 21
+    table_record_kind: detail
+    filters:
+      employer_nics_relief: employees_under_21
+    constraints:
+    - {variable: employer_nics_relief, operator: ==, value: employees_under_21, label: Employer NICs relief}
+    guard_cells:
+    - {column: B, row: 80, expected_value: NIC - NS2, label: relief code}
+    - {column: E, row: 80, expected_value: 2025 to 2026, label: first forecasted costing year}
+  measures:
+  - measure_id: cost_2023
+    label: Cost of the relief, 2023 to 2024
+    ordinal: 0
+    column: I
+    source_column_id: cost_2023
+    expected_column_header_row: 2
+    expected_column_header: 2023 to 2024
+    concept: hmrc.tax_relief_cost
+    source_concept: hmrc.tax_relief_cost
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/tax-reliefs/tax-relief-statistics-january-2026
+    concept_evidence_notes: 'HMRC tax relief statistics (January 2026), Table 2 ''Six-year cost estimates
+      (figures given in £ million)'', column I (''2023 to 2024''): the estimated cost of the relief, £
+      million.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: hmrc.tax_reliefs.january_2026.employer_nics_age.cost.ty2024
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: hmrc.tax_reliefs.january_2026.employer_nics_age.cost.ty2024.v1
+  source_record_id_prefix: hmrc.tax_reliefs.january_2026.employer_nics_age.cost.ty2024
+  sheet_name: Table_2
+  period_type: tax_year
+  period: 2024
+  period_coverage:
+    start_date: '2024-04-06'
+    end_date: '2025-04-05'
+    basis: tax
+    source_period_label: 2024 to 2025
+    notes: HMRC's estimate for a year before its first forecast year ('2025 to 2026').
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: firm
+  entity_role: employer
+  domain: national_insurance_reliefs
+  groupby_dimension: employer_nics_relief
+  rows:
+  - value_id: apprentices_under_25
+    label: Relief on employer National Insurance contributions for apprentices under 25
+    ordinal: 0
+    row_number: 79
+    expected_row_header_column: A
+    expected_row_header: Relief on employer National Insurance contributions for apprentices under 25
+    table_record_kind: detail
+    filters:
+      employer_nics_relief: apprentices_under_25
+    constraints:
+    - {variable: employer_nics_relief, operator: ==, value: apprentices_under_25, label: Employer NICs
+        relief}
+    guard_cells:
+    - {column: A, row: 1, expected_value: 'Table 2: Six-year cost estimates (figures given in £ million)',
+      label: table title}
+    - {column: B, row: 79, expected_value: NIC - NS1, label: relief code}
+    - {column: E, row: 79, expected_value: 2025 to 2026, label: first forecasted costing year}
+  - value_id: employees_under_21
+    label: Relief on employer National Insurance contributions for employees under 21
+    ordinal: 1
+    row_number: 80
+    expected_row_header_column: A
+    expected_row_header: Relief on employer National Insurance contributions for employees under 21
+    table_record_kind: detail
+    filters:
+      employer_nics_relief: employees_under_21
+    constraints:
+    - {variable: employer_nics_relief, operator: ==, value: employees_under_21, label: Employer NICs relief}
+    guard_cells:
+    - {column: B, row: 80, expected_value: NIC - NS2, label: relief code}
+    - {column: E, row: 80, expected_value: 2025 to 2026, label: first forecasted costing year}
+  measures:
+  - measure_id: cost_2024
+    label: Cost of the relief, 2024 to 2025
+    ordinal: 0
+    column: J
+    source_column_id: cost_2024
+    expected_column_header_row: 2
+    expected_column_header: 2024 to 2025
+    concept: hmrc.tax_relief_cost
+    source_concept: hmrc.tax_relief_cost
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/tax-reliefs/tax-relief-statistics-january-2026
+    concept_evidence_notes: 'HMRC tax relief statistics (January 2026), Table 2 ''Six-year cost estimates
+      (figures given in £ million)'', column J (''2024 to 2025''): the estimated cost of the relief, £
+      million.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: hmrc.tax_reliefs.january_2026.employer_nics_age.cost.ty2025
+  provenance_class: administrative
+  assertion: source_projection
+  record_set_spec_id: hmrc.tax_reliefs.january_2026.employer_nics_age.cost.ty2025.v1
+  source_record_id_prefix: hmrc.tax_reliefs.january_2026.employer_nics_age.cost.ty2025
+  sheet_name: Table_2
+  period_type: tax_year
+  period: 2025
+  period_coverage:
+    start_date: '2025-04-06'
+    end_date: '2026-04-05'
+    basis: tax
+    source_period_label: 2025 to 2026
+    notes: 'HMRC''s forecast: Table 2''s ''First forecasted costing year'' is ''2025 to 2026''.'
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: firm
+  entity_role: employer
+  domain: national_insurance_reliefs
+  groupby_dimension: employer_nics_relief
+  rows:
+  - value_id: apprentices_under_25
+    label: Relief on employer National Insurance contributions for apprentices under 25
+    ordinal: 0
+    row_number: 79
+    expected_row_header_column: A
+    expected_row_header: Relief on employer National Insurance contributions for apprentices under 25
+    table_record_kind: detail
+    filters:
+      employer_nics_relief: apprentices_under_25
+    constraints:
+    - {variable: employer_nics_relief, operator: ==, value: apprentices_under_25, label: Employer NICs
+        relief}
+    guard_cells:
+    - {column: A, row: 1, expected_value: 'Table 2: Six-year cost estimates (figures given in £ million)',
+      label: table title}
+    - {column: B, row: 79, expected_value: NIC - NS1, label: relief code}
+    - {column: E, row: 79, expected_value: 2025 to 2026, label: first forecasted costing year}
+  - value_id: employees_under_21
+    label: Relief on employer National Insurance contributions for employees under 21
+    ordinal: 1
+    row_number: 80
+    expected_row_header_column: A
+    expected_row_header: Relief on employer National Insurance contributions for employees under 21
+    table_record_kind: detail
+    filters:
+      employer_nics_relief: employees_under_21
+    constraints:
+    - {variable: employer_nics_relief, operator: ==, value: employees_under_21, label: Employer NICs relief}
+    guard_cells:
+    - {column: B, row: 80, expected_value: NIC - NS2, label: relief code}
+    - {column: E, row: 80, expected_value: 2025 to 2026, label: first forecasted costing year}
+  measures:
+  - measure_id: cost_2025
+    label: Cost of the relief, 2025 to 2026
+    ordinal: 0
+    column: K
+    source_column_id: cost_2025
+    expected_column_header_row: 2
+    expected_column_header: 2025 to 2026
+    concept: hmrc.tax_relief_cost
+    source_concept: hmrc.tax_relief_cost
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/tax-reliefs/tax-relief-statistics-january-2026
+    concept_evidence_notes: 'HMRC tax relief statistics (January 2026), Table 2 ''Six-year cost estimates
+      (figures given in £ million)'', column K (''2025 to 2026''): the estimated cost of the relief, £
+      million.'
+    unit: gbp
+    aggregation: sum
+    value_scale: 1000000
+    expected_cell_type: number
+- record_set_id: hmrc.tax_reliefs.january_2026.employer_nics_age.claimants.ty2020
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: hmrc.tax_reliefs.january_2026.employer_nics_age.claimants.ty2020.v1
+  source_record_id_prefix: hmrc.tax_reliefs.january_2026.employer_nics_age.claimants.ty2020
+  sheet_name: Table_5
+  period_type: tax_year
+  period: 2020
+  period_coverage:
+    start_date: '2020-04-06'
+    end_date: '2021-04-05'
+    basis: tax
+    source_period_label: 2020 to 2021
+    notes: Table 5 gives claimants for years with data only.
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: firm
+  entity_role: employer
+  domain: national_insurance_reliefs
+  groupby_dimension: employer_nics_relief
+  rows:
+  - value_id: apprentices_under_25
+    label: Relief on employer National Insurance contributions for apprentices under 25
+    ordinal: 0
+    row_number: 56
+    expected_row_header_column: A
+    expected_row_header: Relief on employer National Insurance contributions for apprentices under 25
+    table_record_kind: detail
+    filters:
+      employer_nics_relief: apprentices_under_25
+    constraints:
+    - {variable: employer_nics_relief, operator: ==, value: apprentices_under_25, label: Employer NICs
+        relief}
+    guard_cells:
+    - {column: A, row: 1, expected_value: 'Table 5: Claimants estimates', label: table title}
+    - {column: B, row: 56, expected_value: NIC - NS1, label: relief code}
+    - {column: E, row: 56, expected_value: Not available, label: first forecasted claimant year}
+  - value_id: employees_under_21
+    label: Relief on employer National Insurance contributions for employees under 21
+    ordinal: 1
+    row_number: 57
+    expected_row_header_column: A
+    expected_row_header: Relief on employer National Insurance contributions for employees under 21
+    table_record_kind: detail
+    filters:
+      employer_nics_relief: employees_under_21
+    constraints:
+    - {variable: employer_nics_relief, operator: ==, value: employees_under_21, label: Employer NICs relief}
+    guard_cells:
+    - {column: B, row: 57, expected_value: NIC - NS2, label: relief code}
+    - {column: E, row: 57, expected_value: Not available, label: first forecasted claimant year}
+  measures:
+  - measure_id: claimants_2020
+    label: Employers claiming the relief, 2020 to 2021
+    ordinal: 0
+    column: F
+    source_column_id: claimants_2020
+    expected_column_header_row: 2
+    expected_column_header: 2020 to 2021
+    concept: hmrc.tax_relief_claimants
+    source_concept: hmrc.tax_relief_claimants
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/tax-reliefs/tax-relief-statistics-january-2026
+    concept_evidence_notes: 'HMRC tax relief statistics (January 2026), Table 5 ''Claimants estimates'',
+      column F (''2020 to 2021''): ''As this is a relief for the employer, we report the number of employers
+      claiming the relief'' (Table 2''s notes).'
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+- record_set_id: hmrc.tax_reliefs.january_2026.employer_nics_age.claimants.ty2021
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: hmrc.tax_reliefs.january_2026.employer_nics_age.claimants.ty2021.v1
+  source_record_id_prefix: hmrc.tax_reliefs.january_2026.employer_nics_age.claimants.ty2021
+  sheet_name: Table_5
+  period_type: tax_year
+  period: 2021
+  period_coverage:
+    start_date: '2021-04-06'
+    end_date: '2022-04-05'
+    basis: tax
+    source_period_label: 2021 to 2022
+    notes: Table 5 gives claimants for years with data only.
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: firm
+  entity_role: employer
+  domain: national_insurance_reliefs
+  groupby_dimension: employer_nics_relief
+  rows:
+  - value_id: apprentices_under_25
+    label: Relief on employer National Insurance contributions for apprentices under 25
+    ordinal: 0
+    row_number: 56
+    expected_row_header_column: A
+    expected_row_header: Relief on employer National Insurance contributions for apprentices under 25
+    table_record_kind: detail
+    filters:
+      employer_nics_relief: apprentices_under_25
+    constraints:
+    - {variable: employer_nics_relief, operator: ==, value: apprentices_under_25, label: Employer NICs
+        relief}
+    guard_cells:
+    - {column: A, row: 1, expected_value: 'Table 5: Claimants estimates', label: table title}
+    - {column: B, row: 56, expected_value: NIC - NS1, label: relief code}
+    - {column: E, row: 56, expected_value: Not available, label: first forecasted claimant year}
+  - value_id: employees_under_21
+    label: Relief on employer National Insurance contributions for employees under 21
+    ordinal: 1
+    row_number: 57
+    expected_row_header_column: A
+    expected_row_header: Relief on employer National Insurance contributions for employees under 21
+    table_record_kind: detail
+    filters:
+      employer_nics_relief: employees_under_21
+    constraints:
+    - {variable: employer_nics_relief, operator: ==, value: employees_under_21, label: Employer NICs relief}
+    guard_cells:
+    - {column: B, row: 57, expected_value: NIC - NS2, label: relief code}
+    - {column: E, row: 57, expected_value: Not available, label: first forecasted claimant year}
+  measures:
+  - measure_id: claimants_2021
+    label: Employers claiming the relief, 2021 to 2022
+    ordinal: 0
+    column: G
+    source_column_id: claimants_2021
+    expected_column_header_row: 2
+    expected_column_header: 2021 to 2022
+    concept: hmrc.tax_relief_claimants
+    source_concept: hmrc.tax_relief_claimants
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/tax-reliefs/tax-relief-statistics-january-2026
+    concept_evidence_notes: 'HMRC tax relief statistics (January 2026), Table 5 ''Claimants estimates'',
+      column G (''2021 to 2022''): ''As this is a relief for the employer, we report the number of employers
+      claiming the relief'' (Table 2''s notes).'
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+- record_set_id: hmrc.tax_reliefs.january_2026.employer_nics_age.claimants.ty2022
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: hmrc.tax_reliefs.january_2026.employer_nics_age.claimants.ty2022.v1
+  source_record_id_prefix: hmrc.tax_reliefs.january_2026.employer_nics_age.claimants.ty2022
+  sheet_name: Table_5
+  period_type: tax_year
+  period: 2022
+  period_coverage:
+    start_date: '2022-04-06'
+    end_date: '2023-04-05'
+    basis: tax
+    source_period_label: 2022 to 2023
+    notes: Table 5 gives claimants for years with data only.
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: firm
+  entity_role: employer
+  domain: national_insurance_reliefs
+  groupby_dimension: employer_nics_relief
+  rows:
+  - value_id: apprentices_under_25
+    label: Relief on employer National Insurance contributions for apprentices under 25
+    ordinal: 0
+    row_number: 56
+    expected_row_header_column: A
+    expected_row_header: Relief on employer National Insurance contributions for apprentices under 25
+    table_record_kind: detail
+    filters:
+      employer_nics_relief: apprentices_under_25
+    constraints:
+    - {variable: employer_nics_relief, operator: ==, value: apprentices_under_25, label: Employer NICs
+        relief}
+    guard_cells:
+    - {column: A, row: 1, expected_value: 'Table 5: Claimants estimates', label: table title}
+    - {column: B, row: 56, expected_value: NIC - NS1, label: relief code}
+    - {column: E, row: 56, expected_value: Not available, label: first forecasted claimant year}
+  - value_id: employees_under_21
+    label: Relief on employer National Insurance contributions for employees under 21
+    ordinal: 1
+    row_number: 57
+    expected_row_header_column: A
+    expected_row_header: Relief on employer National Insurance contributions for employees under 21
+    table_record_kind: detail
+    filters:
+      employer_nics_relief: employees_under_21
+    constraints:
+    - {variable: employer_nics_relief, operator: ==, value: employees_under_21, label: Employer NICs relief}
+    guard_cells:
+    - {column: B, row: 57, expected_value: NIC - NS2, label: relief code}
+    - {column: E, row: 57, expected_value: Not available, label: first forecasted claimant year}
+  measures:
+  - measure_id: claimants_2022
+    label: Employers claiming the relief, 2022 to 2023
+    ordinal: 0
+    column: H
+    source_column_id: claimants_2022
+    expected_column_header_row: 2
+    expected_column_header: 2022 to 2023
+    concept: hmrc.tax_relief_claimants
+    source_concept: hmrc.tax_relief_claimants
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/tax-reliefs/tax-relief-statistics-january-2026
+    concept_evidence_notes: 'HMRC tax relief statistics (January 2026), Table 5 ''Claimants estimates'',
+      column H (''2022 to 2023''): ''As this is a relief for the employer, we report the number of employers
+      claiming the relief'' (Table 2''s notes).'
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+- record_set_id: hmrc.tax_reliefs.january_2026.employer_nics_age.claimants.ty2023
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: hmrc.tax_reliefs.january_2026.employer_nics_age.claimants.ty2023.v1
+  source_record_id_prefix: hmrc.tax_reliefs.january_2026.employer_nics_age.claimants.ty2023
+  sheet_name: Table_5
+  period_type: tax_year
+  period: 2023
+  period_coverage:
+    start_date: '2023-04-06'
+    end_date: '2024-04-05'
+    basis: tax
+    source_period_label: 2023 to 2024
+    notes: Table 5 gives claimants for years with data only.
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: firm
+  entity_role: employer
+  domain: national_insurance_reliefs
+  groupby_dimension: employer_nics_relief
+  rows:
+  - value_id: apprentices_under_25
+    label: Relief on employer National Insurance contributions for apprentices under 25
+    ordinal: 0
+    row_number: 56
+    expected_row_header_column: A
+    expected_row_header: Relief on employer National Insurance contributions for apprentices under 25
+    table_record_kind: detail
+    filters:
+      employer_nics_relief: apprentices_under_25
+    constraints:
+    - {variable: employer_nics_relief, operator: ==, value: apprentices_under_25, label: Employer NICs
+        relief}
+    guard_cells:
+    - {column: A, row: 1, expected_value: 'Table 5: Claimants estimates', label: table title}
+    - {column: B, row: 56, expected_value: NIC - NS1, label: relief code}
+    - {column: E, row: 56, expected_value: Not available, label: first forecasted claimant year}
+  - value_id: employees_under_21
+    label: Relief on employer National Insurance contributions for employees under 21
+    ordinal: 1
+    row_number: 57
+    expected_row_header_column: A
+    expected_row_header: Relief on employer National Insurance contributions for employees under 21
+    table_record_kind: detail
+    filters:
+      employer_nics_relief: employees_under_21
+    constraints:
+    - {variable: employer_nics_relief, operator: ==, value: employees_under_21, label: Employer NICs relief}
+    guard_cells:
+    - {column: B, row: 57, expected_value: NIC - NS2, label: relief code}
+    - {column: E, row: 57, expected_value: Not available, label: first forecasted claimant year}
+  measures:
+  - measure_id: claimants_2023
+    label: Employers claiming the relief, 2023 to 2024
+    ordinal: 0
+    column: I
+    source_column_id: claimants_2023
+    expected_column_header_row: 2
+    expected_column_header: 2023 to 2024
+    concept: hmrc.tax_relief_claimants
+    source_concept: hmrc.tax_relief_claimants
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/tax-reliefs/tax-relief-statistics-january-2026
+    concept_evidence_notes: 'HMRC tax relief statistics (January 2026), Table 5 ''Claimants estimates'',
+      column I (''2023 to 2024''): ''As this is a relief for the employer, we report the number of employers
+      claiming the relief'' (Table 2''s notes).'
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+- record_set_id: hmrc.tax_reliefs.january_2026.employer_nics_age.claimants.ty2024
+  provenance_class: administrative
+  assertion: observation
+  record_set_spec_id: hmrc.tax_reliefs.january_2026.employer_nics_age.claimants.ty2024.v1
+  source_record_id_prefix: hmrc.tax_reliefs.january_2026.employer_nics_age.claimants.ty2024
+  sheet_name: Table_5
+  period_type: tax_year
+  period: 2024
+  period_coverage:
+    start_date: '2024-04-06'
+    end_date: '2025-04-05'
+    basis: tax
+    source_period_label: 2024 to 2025
+    notes: Table 5 gives claimants for years with data only.
+  geography_id: K02000001
+  geography_level: country
+  geography_name: United Kingdom
+  geography_vintage: current
+  entity: firm
+  entity_role: employer
+  domain: national_insurance_reliefs
+  groupby_dimension: employer_nics_relief
+  rows:
+  - value_id: apprentices_under_25
+    label: Relief on employer National Insurance contributions for apprentices under 25
+    ordinal: 0
+    row_number: 56
+    expected_row_header_column: A
+    expected_row_header: Relief on employer National Insurance contributions for apprentices under 25
+    table_record_kind: detail
+    filters:
+      employer_nics_relief: apprentices_under_25
+    constraints:
+    - {variable: employer_nics_relief, operator: ==, value: apprentices_under_25, label: Employer NICs
+        relief}
+    guard_cells:
+    - {column: A, row: 1, expected_value: 'Table 5: Claimants estimates', label: table title}
+    - {column: B, row: 56, expected_value: NIC - NS1, label: relief code}
+    - {column: E, row: 56, expected_value: Not available, label: first forecasted claimant year}
+  - value_id: employees_under_21
+    label: Relief on employer National Insurance contributions for employees under 21
+    ordinal: 1
+    row_number: 57
+    expected_row_header_column: A
+    expected_row_header: Relief on employer National Insurance contributions for employees under 21
+    table_record_kind: detail
+    filters:
+      employer_nics_relief: employees_under_21
+    constraints:
+    - {variable: employer_nics_relief, operator: ==, value: employees_under_21, label: Employer NICs relief}
+    guard_cells:
+    - {column: B, row: 57, expected_value: NIC - NS2, label: relief code}
+    - {column: E, row: 57, expected_value: Not available, label: first forecasted claimant year}
+  measures:
+  - measure_id: claimants_2024
+    label: Employers claiming the relief, 2024 to 2025
+    ordinal: 0
+    column: J
+    source_column_id: claimants_2024
+    expected_column_header_row: 2
+    expected_column_header: 2024 to 2025
+    concept: hmrc.tax_relief_claimants
+    source_concept: hmrc.tax_relief_claimants
+    concept_relation: source_label
+    concept_authority: hmrc
+    concept_evidence_url: https://www.gov.uk/government/statistics/tax-reliefs/tax-relief-statistics-january-2026
+    concept_evidence_notes: 'HMRC tax relief statistics (January 2026), Table 5 ''Claimants estimates'',
+      column J (''2024 to 2025''): ''As this is a relief for the employer, we report the number of employers
+      claiming the relief'' (Table 2''s notes).'
+    unit: count
+    aggregation: sum
+    expected_cell_type: number

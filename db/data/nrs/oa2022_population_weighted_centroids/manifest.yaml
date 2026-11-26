@@ -1,0 +1,21 @@
+source_id: nrs
+package_id: nrs-oa2022-population-weighted-centroids
+dataset: nrs_nrs-oa2022-population-weighted-centroids
+source_page: https://www.nrscotland.gov.uk/media/gm4dvdsv/output-area-2022-pwc.zip
+table: oa2022_population_weighted_centroids
+files:
+  2022:
+    filename: output-area-2022-pwc.zip
+    source_url: https://www.nrscotland.gov.uk/media/gm4dvdsv/output-area-2022-pwc.zip
+    sha256: 509d7d937c8cc1477259dcd8e4e0e61240f5cc782721a79e9c279bd589e0ec0c
+    size_bytes: 1512616
+    fetched_at: '2026-10-07T13:35:07+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/nrs/nrs-oa2022-population-weighted-centroids/2022/509d7d937c8cc1477259dcd8e4e0e61240f5cc782721a79e9c279bd589e0ec0c/output-area-2022-pwc.zip
+        uri: r2://ledger-raw/raw/uk/nrs/nrs-oa2022-population-weighted-centroids/2022/509d7d937c8cc1477259dcd8e4e0e61240f5cc782721a79e9c279bd589e0ec0c/output-area-2022-pwc.zip
+registration_kind: raw_only
+provenance_notes: NRS Census 2022 output-area population-weighted centroids. Original
+  ZIP, no BRMA assignment.

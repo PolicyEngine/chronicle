@@ -1,0 +1,18 @@
+source_id: dwp
+package_id: dwp-winter-fuel-payment-statistics-winter-2023-24
+dataset: dwp_dwp-winter-fuel-payment-statistics-winter-2023-24
+source_page: https://www.gov.uk/government/statistics/winter-fuel-payment-statistics-for-winter-2023-to-2024
+table: Winter Fuel Payment statistics for winter 2023 to 2024
+files:
+  2026:
+    filename: winter-fuel-payments-caseload-2023-to-2024.ods
+    source_url: https://assets.publishing.service.gov.uk/media/66ec0d166d1800802a31e7a6/winter-fuel-payments-caseload-2023-to-2024.ods
+    sha256: 104339e751046d943be5cb3f99407d23daacd11a54bcb080d2e1dfaf338c1503
+    size_bytes: 389988
+    fetched_at: '2026-09-29T11:54:23+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/dwp/dwp-winter-fuel-payment-statistics-winter-2023-24/2026/104339e751046d943be5cb3f99407d23daacd11a54bcb080d2e1dfaf338c1503/winter-fuel-payments-caseload-2023-to-2024.ods
+        uri: r2://ledger-raw/raw/uk/dwp/dwp-winter-fuel-payment-statistics-winter-2023-24/2026/104339e751046d943be5cb3f99407d23daacd11a54bcb080d2e1dfaf338c1503/winter-fuel-payments-caseload-2023-to-2024.ods

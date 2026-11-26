@@ -1,0 +1,27 @@
+source_id: mhclg
+package_id: mhclg-council-tax-levels-england-2024-25-table-7
+dataset: mhclg_mhclg-council-tax-levels-england-2024-25-table-7
+source_page: https://www.gov.uk/government/statistics/council-tax-levels-set-by-local-authorities-in-england-2024-to-2025
+table: 'Council Tax levels set by local authorities in England 2024 to 2025, Table
+  7: 2024-25 Council tax (average Band D) and % change on 2023-24: individual local
+  authorities (revised)'
+files:
+  2024:
+    filename: Table_7_24-25__revised_.ods
+    source_url: https://assets.publishing.service.gov.uk/media/662a4da155e1582b6ca7e608/Table_7_24-25__revised_.ods
+    sha256: f92887cfc83bc05930b31aed6057a375ef1a9d49847e831235ce80120fe1529b
+    size_bytes: 53238
+    fetched_at: '2026-11-04T18:19:44+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/mhclg/mhclg-council-tax-levels-england-2024-25-table-7/2024/f92887cfc83bc05930b31aed6057a375ef1a9d49847e831235ce80120fe1529b/Table_7_24-25__revised_.ods
+        uri: r2://ledger-raw/raw/uk/mhclg/mhclg-council-tax-levels-england-2024-25-table-7/2024/f92887cfc83bc05930b31aed6057a375ef1a9d49847e831235ce80120fe1529b/Table_7_24-25__revised_.ods
+registration_kind: raw_only
+provenance_notes: 'MHCLG, Council Tax levels set by local authorities in England 2024
+  to 2025 (first published 21 March 2024). The 2024-25 release publishes Tables 1
+  to 9 as nine files; this is Table 7. Average Band D for 2024-25 and the change on
+  2023-24 for each authority, one sheet per class (Tables 7a to 7f), in the version
+  the release page labels revised. The 2025-26 workbook prints these as Tables 8a
+  to 8f. Licence: Open Government Licence v3.0. Raw-only for chronicle#412 item 2.'

@@ -131,7 +131,10 @@ def test_scotgov_council_tax_collection_vintages_differ_by_source_table():
 def test_scotgov_slgfs_2024_25_council_tax_tables():
     facts = _facts("scotgov-slgfs-council-tax-2024-25", 2026)
     # Table 2.11 (2) + Table 2.8 (1) + Table 2.6 (4) + Chart 2.7 (6 x 9)
-    # + Table 2.10 (5 x 2).
+    # + Table 2.10 (5 x 2), and the 32 councils' rows of Tables 2.11 and 2.8
+    # (3 x 32, PolicyEngine/chronicle#408).
+    assert len(facts) == 71 + 96
+    facts = [fact for fact in facts if fact.geography.id == "S92000003"]
     assert len(facts) == 71
     _assert_shape(facts, geography_id="S92000003", period_type="fiscal_year")
 
@@ -305,8 +308,11 @@ def test_welshgov_council_tax_collection_total_wales_row(
     alias, year, period, debit, collected, extra_concept, extra
 ):
     facts = _facts(alias, year)
-    # Seven publisher columns of the Total Wales row; the five formula-labelled
+    # Seven publisher columns of the Total Wales row and of the 22 billing
+    # authority rows (PolicyEngine/chronicle#408); the five formula-labelled
     # columns (5, 8, 10, 11, 12) are not ported.
+    assert len(facts) == 7 * 23
+    facts = [fact for fact in facts if fact.geography.id == "W92000004"]
     assert len(facts) == 7
     _assert_shape(facts, geography_id="W92000004", period_type="fiscal_year")
     assert {fact.period.value for fact in facts} == {period}

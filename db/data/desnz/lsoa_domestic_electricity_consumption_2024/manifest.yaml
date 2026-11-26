@@ -1,0 +1,20 @@
+source_id: desnz
+package_id: desnz-lsoa-domestic-electricity-consumption-2024
+dataset: desnz_desnz-lsoa-domestic-electricity-consumption-2024
+source_page: https://www.gov.uk/government/statistics/lower-and-middle-super-output-areas-electricity-consumption
+table: Domestic electricity consumption by LSOA and Scottish data zone, Great Britain,
+  2010 to 2024
+files:
+  2025:
+    filename: LSOA_domestic_elec_2010-2024.xlsx
+    source_url: https://assets.publishing.service.gov.uk/media/69427b7bd8156a816c419351/LSOA_domestic_elec_2010-2024.xlsx
+    sha256: 411f964b8a718f9e1c00a673a8da696c95cbaaeb006ba76e092b1aabe467182e
+    size_bytes: 50743078
+    fetched_at: '2026-10-15T10:01:46+00:00'
+    storage:
+      local: false
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/desnz/desnz-lsoa-domestic-electricity-consumption-2024/2025/411f964b8a718f9e1c00a673a8da696c95cbaaeb006ba76e092b1aabe467182e/LSOA_domestic_elec_2010-2024.xlsx
+        uri: r2://ledger-raw/raw/uk/desnz/desnz-lsoa-domestic-electricity-consumption-2024/2025/411f964b8a718f9e1c00a673a8da696c95cbaaeb006ba76e092b1aabe467182e/LSOA_domestic_elec_2010-2024.xlsx

@@ -1,0 +1,25 @@
+source_id: stats_nz
+package_id: census_2023_place_summaries
+dataset: census_2023_place_summaries
+source_page: https://tools.summaries.stats.govt.nz/places/RC/northland-region
+table: '2023 Census Place summaries: families and households'
+license: CC BY 4.0
+attribution: Stats NZ
+files:
+  2023:
+    filename: place-summaries-rc-01.csv
+    source_url: https://tools.summaries.stats.govt.nz/api/export-csv/rkTah6u2O2VYyP4Y/1/
+    final_url: https://tools.summaries.stats.govt.nz/api/export-csv/rkTah6u2O2VYyP4Y/1/
+    http_status: 200
+    sha256: 7eb81d38c4b3837c21d056ac772b91b4397ee4c1b26146a665deb373d847520f
+    size_bytes: 410926
+    fetched_at: '2026-10-10T20:12:01Z'
+    content_disposition_filename: place-summaries-northland-region-20261011-091200.csv
+    place_code: '1'
+    place: Northland Region
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/nz/stats_nz/census_2023_place_summaries/2023/7eb81d38c4b3837c21d056ac772b91b4397ee4c1b26146a665deb373d847520f/place-summaries-rc-01.csv
+        uri: r2://ledger-raw/raw/nz/stats_nz/census_2023_place_summaries/2023/7eb81d38c4b3837c21d056ac772b91b4397ee4c1b26146a665deb373d847520f/place-summaries-rc-01.csv

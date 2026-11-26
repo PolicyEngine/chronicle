@@ -1,0 +1,18 @@
+source_id: bea
+package_id: bea-nipa-private-group-health-insurance
+dataset: bea_nipa_private_group_health_insurance
+source_page: https://apps.bea.gov/iTable/?isuri=1&reqid=19&step=4&categories=flatfiles&nipa_table_list=1
+table: NIPA Table 7.8. Supplements to Wages and Salaries by Type
+files:
+  2025:
+    filename: Section7All_xls.xlsx
+    source_url: https://apps.bea.gov/national/Release/XLS/Survey/Section7All_xls.xlsx
+    sha256: de1c34e37da9b8b8d765efc0611cc653102373fe522fe9218c7689067b29b7fd
+    size_bytes: 944273
+    fetched_at: '2026-10-10T17:56:28+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/bea/bea-nipa-private-group-health-insurance/2025/de1c34e37da9b8b8d765efc0611cc653102373fe522fe9218c7689067b29b7fd/Section7All_xls.xlsx
+        uri: r2://ledger-raw/raw/bea/bea-nipa-private-group-health-insurance/2025/de1c34e37da9b8b8d765efc0611cc653102373fe522fe9218c7689067b29b7fd/Section7All_xls.xlsx

@@ -1,0 +1,26 @@
+source_id: ons
+package_id: ons-mm23-cpi-weight-natural-gas-october-2026
+dataset: ons_ons-mm23-cpi-weight-natural-gas-october-2026
+source_page: https://www.ons.gov.uk/economy/inflationandpriceindices/timeseries/l89x/mm23
+table: 'MM23 time series L89X: CPI WEIGHTS 04.5.2.1 Natural gas and town gas'
+license: Open Government Licence v3.0
+license_url: https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/
+attribution: 'Source: Office for National Statistics, time series L89X (MM23), released
+  21 October 2026. Contains public sector information licensed under the Open Government
+  Licence v3.0.'
+license_evidence: 'ONS pages state: ''All content is available under the Open Government
+  Licence v3.0, except where otherwise stated.'' (time series page https://www.ons.gov.uk/economy/inflationandpriceindices/timeseries/l89x/mm23)'
+license_verified_at: '2026-10-30'
+files:
+  2026:
+    filename: l89x.csv
+    source_url: https://www.ons.gov.uk/generator?format=csv&uri=/economy/inflationandpriceindices/timeseries/l89x/mm23
+    sha256: c1022e5c962c89ae45cc16f8d58fcce46b90f92e0c02eb574160886b5d2062cc
+    size_bytes: 404
+    fetched_at: '2026-10-30T11:38:17+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/ons/ons-mm23-cpi-weight-natural-gas-october-2026/2026/c1022e5c962c89ae45cc16f8d58fcce46b90f92e0c02eb574160886b5d2062cc/l89x.csv
+        uri: r2://ledger-raw/raw/uk/ons/ons-mm23-cpi-weight-natural-gas-october-2026/2026/c1022e5c962c89ae45cc16f8d58fcce46b90f92e0c02eb574160886b5d2062cc/l89x.csv

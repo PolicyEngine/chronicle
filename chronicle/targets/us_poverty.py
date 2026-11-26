@@ -53,6 +53,24 @@ US_POVERTY_NONFILER_TARGET_COVERAGE: tuple[TargetSourceCoverage, ...] = (
         ),
     ),
     TargetSourceCoverage(
+        family_id="household_family_type",
+        label="Households by type and families by presence of own children",
+        role="hard_target",
+        source_scope="Census ACS 1-year household and family type tables",
+        package_aliases=(
+            "census-acs1-b11001-national-2024",
+            "census-acs1-b11001-state-2024",
+            "census-acs1-b11003-national-2024",
+            "census-acs1-b11003-state-2024",
+        ),
+        notes=(
+            "Household, married-couple and own-children counts. Person-level "
+            "population controls do not fix how many households people form "
+            "or how many of them hold married couples "
+            "(PolicyEngine/microcosm#880)."
+        ),
+    ),
+    TargetSourceCoverage(
         family_id="nipa_personal_income",
         label="NIPA personal income, transfers, taxes, and pensions",
         role="hard_target",
@@ -78,6 +96,7 @@ US_POVERTY_NONFILER_TARGET_COVERAGE: tuple[TargetSourceCoverage, ...] = (
         package_aliases=(
             "soi-table-1-1",
             "soi-table-1-2",
+            "soi-table-1-3",
             "soi-table-1-4",
             "soi-table-2-1",
             "soi-table-2-5",
@@ -88,6 +107,7 @@ US_POVERTY_NONFILER_TARGET_COVERAGE: tuple[TargetSourceCoverage, ...] = (
             "soi-state-2023",
             "soi-historic-table-2",
             "soi-historic-table-2-state-agi-2022",
+            "soi-historic-table-2-state-agi-2023",
             "soi-historic-table-2-state-broad-2022",
             "soi-historic-table-2-state-eitc-2022",
             "soi-w2-statistics-2020",

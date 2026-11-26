@@ -1,0 +1,45 @@
+source_id: ons
+package_id: ons-nspl-may-2026
+source_name: National Statistics Postcode Lookup, May 2026
+publisher: Office for National Statistics
+source_page: https://geoportal.statistics.gov.uk/datasets/7668e0d35cab4f6db6f15f03be610fb0
+files:
+  2026:
+    filename: NSPL_MAY_2026.zip
+    source_url: https://www.arcgis.com/sharing/rest/content/items/7668e0d35cab4f6db6f15f03be610fb0/data
+    source_table: National Statistics Postcode Lookup (May 2026)
+    sha256: e0ccd5b3d90fdb537c29afc85b33c6c7ff8647e89e390f2e9ae48530f85f42c1
+    size_bytes: 187209017
+    fetched_at: '2026-11-04T18:32:05+00:00'
+    retrieved_at: '2026-11-04'
+    vintage: nspl_2026_05
+    vintages:
+    - nspl_2026_05
+    - 2021_census
+    - 2024_pcon
+    storage:
+      local: false
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/ons/ons-nspl-may-2026/2026/e0ccd5b3d90fdb537c29afc85b33c6c7ff8647e89e390f2e9ae48530f85f42c1/NSPL_MAY_2026.zip
+        uri: r2://ledger-raw/raw/uk/ons/ons-nspl-may-2026/2026/e0ccd5b3d90fdb537c29afc85b33c6c7ff8647e89e390f2e9ae48530f85f42c1/NSPL_MAY_2026.zip
+registration_kind: raw_only
+provenance_notes: 'Every current and terminated UK postcode as at May 2026 (Data/NSPL_MAY_2026_UK.csv,
+  2,726,477 rows, 35 fields in a header row; the same rows by postcode area under
+  Data/multi_csv), with the user guide and code lists. The edition before ons-nspl-august-2026,
+  registered for its deprivation and area classification fields: imd20ind is the IMD
+  rank of the postcode''s 2011-based small area, IoD 2019 for England (1 to 32,844),
+  WIMD 2019 for Wales (1 to 1,909), SIMD 2020v2 for Scotland (1 to 6,976 data zones)
+  and NIMDM 2017 for Northern Ireland (1 to 890 SOAs), and oac11ind the 2011 Output
+  Area Classification, beside oa21cd (2021 output area in England and Wales, 2022
+  output area in Scotland, 2021 Data Zone in Northern Ireland). The Documents folder
+  carries the four IMD lookups (IMD lookup EN as at 12_19, WA as at 12_19, SC as at
+  12_20, NI as at 12_17). In August 2026 ONS replaced these with imd25ind (IoD 2025
+  and WIMD 2025; zero in Scotland and Northern Ireland) and oac21ind. The zip is above
+  GitHub''s 100 MB file limit, so its bytes are archived in R2 and not committed.
+  Licence: Open Government Licence v3.0, with the attributions the user guide requires
+  (OS data and Royal Mail data, Crown copyright and database right; Source: Office
+  for National Statistics). The user guide also requires a separate Land and Property
+  Services licence for commercial use of the Northern Ireland (BT) postcodes. Raw-only
+  for chronicle#412 items 1 and 3.'

@@ -1,0 +1,22 @@
+source_id: stats_nz
+package_id: household_net_worth_2024
+dataset: stats_nz_household_net_worth_2024
+source_page: https://www.stats.govt.nz/information-releases/household-net-worth-statistics-year-ended-june-2024/
+table: 'Household net worth statistics: Year ended June 2024'
+license: CC BY 4.0
+attribution: Stats NZ
+license_url: https://www.stats.govt.nz/about-us/copyright/
+license_verified_at: '2026-10-10'
+files:
+  2024:
+    filename: household-net-worth-statistics-year-ended-june-2024.xlsx
+    source_url: https://www.stats.govt.nz/assets/Uploads/Household-net-worth-statistics/Household-net-worth-statistics-Year-ended-June-2024/Download-data/household-net-worth-statistics-year-ended-june-2024.xlsx
+    sha256: 2fb942322e5131824a15007e7b0742c4f8220822c7e8f9adee83bae154913f9e
+    size_bytes: 386546
+    fetched_at: '2026-10-10T08:31:08Z'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/nz/stats_nz/household_net_worth_2024/2024/2fb942322e5131824a15007e7b0742c4f8220822c7e8f9adee83bae154913f9e/household-net-worth-statistics-year-ended-june-2024.xlsx
+        uri: r2://ledger-raw/raw/nz/stats_nz/household_net_worth_2024/2024/2fb942322e5131824a15007e7b0742c4f8220822c7e8f9adee83bae154913f9e/household-net-worth-statistics-year-ended-june-2024.xlsx

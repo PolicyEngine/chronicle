@@ -1,0 +1,19 @@
+source_id: dwp
+package_id: dwp-uc-households-by-constituency-children-payment-indicator-january-2025-may-2026
+dataset: dwp_dwp-uc-households-by-constituency-children-payment-indicator-january-2025-may-2026
+source_page: https://stat-xplore.dwp.gov.uk/
+table: uc_households_by_constituency_children_payment_indicator_january_2025_may_2026
+files:
+  2025:
+    filename: uc_households_by_constituency_children_payment_indicator_january_2025_may_2026.json
+    source_url: https://stat-xplore.dwp.gov.uk/webapi/rest/v1/table
+    sha256: ec81361b41209de335a4cf559c6ff23d9f098ad0641f5f10ecc7fa0b0c925ea1
+    size_bytes: 937490
+    fetched_at: '2026-10-15T12:24:30+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/dwp/dwp-uc-households-by-constituency-children-payment-indicator-january-2025-may-2026/2025/ec81361b41209de335a4cf559c6ff23d9f098ad0641f5f10ecc7fa0b0c925ea1/uc_households_by_constituency_children_payment_indicator_january_2025_may_2026.json
+        uri: r2://ledger-raw/raw/uk/dwp/dwp-uc-households-by-constituency-children-payment-indicator-january-2025-may-2026/2025/ec81361b41209de335a4cf559c6ff23d9f098ad0641f5f10ecc7fa0b0c925ea1/uc_households_by_constituency_children_payment_indicator_january_2025_may_2026.json
+registration_kind: source_facts

@@ -1,0 +1,20 @@
+source_id: dwp
+package_id: dwp-uc-people-country-age-conditionality-regime-april-2024-may-2026
+dataset: dwp_dwp-uc-people-country-age-conditionality-regime-april-2024-may-2026
+source_page: https://stat-xplore.dwp.gov.uk/
+table: People on Universal Credit by country, age (bands and single year) and conditionality
+  regime, April 2024 to May 2026
+files:
+  2026:
+    filename: people_on_uc_by_country_age_conditionality_regime_april_2024_may_2026.json
+    source_url: https://stat-xplore.dwp.gov.uk/webapi/rest/v1/table
+    sha256: 13f5362634fad1a68a36674e8506dc17ef1a0ef8c4f0c2c812d275402ef8e42c
+    size_bytes: 154237
+    fetched_at: '2026-11-06T12:43:59+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/dwp/dwp-uc-people-country-age-conditionality-regime-april-2024-may-2026/2026/13f5362634fad1a68a36674e8506dc17ef1a0ef8c4f0c2c812d275402ef8e42c/people_on_uc_by_country_age_conditionality_regime_april_2024_may_2026.json
+        uri: r2://ledger-raw/raw/uk/dwp/dwp-uc-people-country-age-conditionality-regime-april-2024-may-2026/2026/13f5362634fad1a68a36674e8506dc17ef1a0ef8c4f0c2c812d275402ef8e42c/people_on_uc_by_country_age_conditionality_regime_april_2024_may_2026.json
+registration_kind: source_facts
