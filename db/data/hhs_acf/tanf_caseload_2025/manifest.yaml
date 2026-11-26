@@ -3,14 +3,11 @@ dataset: TANF Caseload Data 2025
 vintage: FY 2025
 retrieved: 2026-11-26
 source_page: https://acf.gov/ofa/data/tanf-caseload-data-2025
-notes: >-
-  Full publisher workbook, unchanged. The maintainer downloaded it in a browser
-  on 2026-11-26 because acf.gov answers automated requests with an AWS WAF
-  challenge; chronicle fetch-artifact registered that copy. The workbook covers
-  October 2024 to December 2025: its FYCY2025 sheets hold the fiscal year 2025
-  averages (October to September), which the package reads, beside calendar
-  year 2025 averages. storage.r2 is a content-addressed locator; no upload or
-  archival completion is asserted.
+notes: 'Full publisher workbook, unchanged. The maintainer downloaded it in a browser
+  on 2026-11-26 because acf.gov answers automated requests with an AWS WAF challenge;
+  chronicle fetch-artifact registered that copy. The workbook covers October 2024
+  to December 2025: its FYCY2025 sheets hold the fiscal year 2025 averages (October
+  to September), which the package reads, beside calendar year 2025 averages. The bytes were uploaded to storage.r2 on 2026-11-26 with chronicle publish-raw and checked there with chronicle verify-raw.'
 files:
   2025:
     filename: fy2025-tanf-caseload.xlsx
