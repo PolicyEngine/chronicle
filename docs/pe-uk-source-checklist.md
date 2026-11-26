@@ -687,6 +687,24 @@ derive from. Field notes and the licence position are in
 - Not ported as facts: every sheet. The figures are chart data for one consumer, and the other
   sheets are the authors' model outputs (bunching, frictions, elasticities, costs).
 
+## Beyond parity — UK household spending by income decile (chronicle#446)
+
+ONS's published spending by income decile, the official reference for microcosm's LCFS stage
+decile check ([PolicyEngine/microcosm#1717](https://github.com/PolicyEngine/microcosm/issues/1717)).
+One package adds 487 facts; field contracts and caveats are in
+[`docs/data-sources/uk-family-spending-income-deciles-446.md`](data-sources/uk-family-spending-income-deciles-446.md).
+
+- **Family Spending workbook 1, FYE 2025** (`ons-family-spending-workbook1-fye2025`, 487 facts).
+  - Mean weekly household expenditure by COICOP division, categories 1 to 12, other
+    expenditure items and total expenditure, with each decile's weighted households and
+    sample size.
+  - By equivalised disposable income decile in both versions Table 3.1E prints (the updated
+    OECD-modified scale with a 2-adult reference, and the 1-adult reference used before FYE
+    2025), and by gross income decile (Table A6).
+  - The issue names workbook 2, which has no equivalised decile table for all households.
+- Not ported: the detailed items, the groups' income boundaries, the percentage and quintile
+  tables, workbook 2 and earlier editions.
+
 ## Consumer contracts
 
 The UK national, local-geography, and firms selection contracts now live in

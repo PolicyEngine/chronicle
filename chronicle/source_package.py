@@ -1356,6 +1356,9 @@ SOURCE_PACKAGE_ALIASES = {
     "ons-public-sector-employment-2026": Path("ons/public_sector_employment_2026"),
     "ons-savings-interest-income": Path("ons/savings_interest_income"),
     "ons-families-households-2025": Path("ons/families_households_2025"),
+    "ons-family-spending-workbook1-fye2025": Path(
+        "ons/family_spending_workbook1_fye2025"
+    ),
     "ons-households-by-type-country-2025": Path("ons/households_by_type_country_2025"),
     "ons-pipr-private-rent-march-2026": Path("ons/pipr_private_rent_march_2026"),
     "ons-uk-business-firm-targets-2025": Path("ons/uk_business_firm_targets_2025"),
