@@ -37,6 +37,7 @@
       "cms-aca-oep-state-level": 2024,
       "cms-aca-oep-state-level-2022": 2022,
       "cms-aca-oep-state-level-2025": 2025,
+      "cms-aca-oep-state-level-2026": 2026,
       "ed-fsa-dl-portfolio-by-repayment-plan-fy2026-q3": 2026,
       "ed-fsa-portfolio-by-age-fy2026-q2": 2026,
       "ed-fsa-portfolio-by-debt-size-fy2026-q2": 2026,
@@ -3609,6 +3610,9 @@
       "£350": "£350",
       "£500": "£500",
       "£600": "£600"
+    },
+    "amount_basis": {
+      "actual": "Actual"
     },
     "benefit_expense_component": {
       "Accommodation Assistance": "Accommodation Assistance",
@@ -8160,6 +8164,12 @@
     },
     "measure": {
       "country_total": "Country total"
+    },
+    "medicare.financing_component": {
+      "premiums_from_enrollees": "Premiums from enrollees"
+    },
+    "medicare.part": {
+      "part_b": "Part B"
     },
     "metering_arrangement": {
       "standard": "Standard electricity"
