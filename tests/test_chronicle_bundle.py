@@ -3042,7 +3042,8 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     # chronicle#438 adds its 854 facts, all for the United Kingdom.
     # chronicle#442 adds 25: the final report's NEET rate projections (22) and
     # Table 2's welfare savings, fiscal offsets and net total (3).
-    assert coverage["counts"]["by_geography"]["country:K02000001"] == 109963
+    # chronicle#446 adds its 487 facts, all for the United Kingdom.
+    assert coverage["counts"]["by_geography"]["country:K02000001"] == 110450
     # chronicle#343 adds the 63 OBR surcharge-costing facts for England, and
     # chronicle#358 ONS's 606 single-year residence-type rows for England. GSGB
     # 2025's England participation rows add 40. ISA Tables 9.9 and 9.12's
