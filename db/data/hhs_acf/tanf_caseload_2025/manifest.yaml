@@ -1,0 +1,28 @@
+source: HHS ACF Office of Family Assistance
+dataset: TANF Caseload Data 2025
+vintage: FY 2025
+retrieved: 2026-11-26
+source_page: https://acf.gov/ofa/data/tanf-caseload-data-2025
+notes: >-
+  Full publisher workbook, unchanged. The maintainer downloaded it in a browser
+  on 2026-11-26 because acf.gov answers automated requests with an AWS WAF
+  challenge; chronicle fetch-artifact registered that copy. The workbook covers
+  October 2024 to December 2025: its FYCY2025 sheets hold the fiscal year 2025
+  averages (October to September), which the package reads, beside calendar
+  year 2025 averages. storage.r2 is a content-addressed locator; no upload or
+  archival completion is asserted.
+files:
+  2025:
+    filename: fy2025-tanf-caseload.xlsx
+    sha256: d930d09a5b8bdb29c2d97d8da2ac5a4567079187361032ef3f243b81927225cd
+    source_url: https://acf.gov/sites/default/files/documents/ofa/fy2025-tanf-caseload.xlsx
+    source_table: TANF Caseload Data 2025
+    size_bytes: 258726
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/hhs_acf_tanf/hhs-acf-tanf-caseload-2025/2025/d930d09a5b8bdb29c2d97d8da2ac5a4567079187361032ef3f243b81927225cd/fy2025-tanf-caseload.xlsx
+        uri: r2://ledger-raw/raw/hhs_acf_tanf/hhs-acf-tanf-caseload-2025/2025/d930d09a5b8bdb29c2d97d8da2ac5a4567079187361032ef3f243b81927225cd/fy2025-tanf-caseload.xlsx
+source_id: hhs_acf_tanf
+package_id: hhs-acf-tanf-caseload-2025

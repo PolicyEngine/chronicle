@@ -155,6 +155,7 @@ US_POVERTY_NONFILER_TARGET_COVERAGE: tuple[TargetSourceCoverage, ...] = (
         source_scope="HHS ACF administrative totals",
         package_aliases=(
             "hhs-acf-tanf-caseload-2024",
+            "hhs-acf-tanf-caseload-2025",
             "hhs-acf-tanf-financial-2024",
         ),
     ),
