@@ -372,16 +372,31 @@ SOURCE_PACKAGE_ALIASES = {
     "scotgov-private-sector-rents-2025": Path("scotgov/private_sector_rents_2025"),
     "ons-lad-population-by-age-2025": Path("ons/lad_population_by_age_2025"),
     "bea-nipa-personal-income-components": Path("bea/nipa_personal_income_components"),
+    "bea-nipa-personal-income-components-2026-11-25": Path(
+        "bea/nipa_personal_income_components_2026_11_25"
+    ),
     "bea-nipa-personal-income-disposition": Path(
         "bea/nipa_personal_income_disposition"
     ),
+    "bea-nipa-personal-income-disposition-2026-11-25": Path(
+        "bea/nipa_personal_income_disposition_2026_11_25"
+    ),
     "bea-nipa-pension-contributions": Path("bea/nipa_pension_contributions"),
+    "bea-nipa-pension-contributions-2026-11-25": Path(
+        "bea/nipa_pension_contributions_2026_11_25"
+    ),
     "bea-nipa-private-group-health-insurance": Path(
         "bea/nipa_private_group_health_insurance"
     ),
     "bea-nipa-total-wages-salaries": Path("bea/nipa_total_wages_salaries"),
+    "bea-nipa-total-wages-salaries-2026-11-25": Path(
+        "bea/nipa_total_wages_salaries_2026_11_25"
+    ),
     "bea-regional-state-personal-income-components-2024": Path(
         "bea/regional_personal_income_state"
+    ),
+    "bea-regional-state-personal-income-components-2026-09-30": Path(
+        "bea/regional_personal_income_state_2026_09_30"
     ),
     "hmrc-spi-income-bands-2023-24": Path("hmrc/spi_income_bands_2023_24"),
     "hmrc-spi-income-by-region-2023-24": Path("hmrc/spi_income_by_region_2023_24"),

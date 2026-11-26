@@ -1,0 +1,22 @@
+source_id: bea
+package_id: bea-regional-state-personal-income-components-2026-09-30
+dataset: bea_regional_state_personal_income_2026_09_30
+source_page: https://apps.bea.gov/regional/downloadzip.htm
+table: Annual Personal Income by State
+notes: 'Publisher bytes copied unchanged from the 2026-11-26 fetch. The server dated
+  the file 30 Sep 2026 12:51:42 GMT (Last-Modified), and the footer of SAINC5N__ALL_AREAS_1998_2025.csv
+  reads "Last updated: September 30, 2026-- revised statistics for 2009-2025." storage.r2
+  is a content-addressed locator; no upload or archival completion is asserted.'
+files:
+  2024:
+    filename: SAINC.zip
+    source_url: https://apps.bea.gov/regional/zip/SAINC.zip
+    sha256: cb28a9a200c71b48e283c4e4e6ef1b18524cb6c1edc31d7b768862c766ff770f
+    size_bytes: 17620171
+    fetched_at: '2026-11-26T14:07:13+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/bea/bea-regional-state-personal-income-components-2026-09-30/2024/cb28a9a200c71b48e283c4e4e6ef1b18524cb6c1edc31d7b768862c766ff770f/SAINC.zip
+        uri: r2://ledger-raw/raw/bea/bea-regional-state-personal-income-components-2026-09-30/2024/cb28a9a200c71b48e283c4e4e6ef1b18524cb6c1edc31d7b768862c766ff770f/SAINC.zip
