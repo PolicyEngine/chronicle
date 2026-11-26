@@ -1447,7 +1447,9 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         ]
         == 464
     )
-    assert table_counts["bea:BEA Regional annual state personal income CSV ZIP"] == 416
+    # chronicle#449's 2026-09-30 edition keeps this table name, so the table
+    # holds both editions' 416 facts for 2023.
+    assert table_counts["bea:BEA Regional annual state personal income CSV ZIP"] == 832
     assert (
         table_counts["cbo:CBO budget and economic data, individual income tax receipts"]
         == 1
