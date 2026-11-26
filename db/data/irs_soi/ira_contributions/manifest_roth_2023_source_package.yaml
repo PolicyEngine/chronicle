@@ -1,0 +1,21 @@
+source_id: irs_soi
+package_id: soi-ira-roth-contributions-2023
+dataset: irs_soi_roth_ira_contributions_2023
+source_page: https://www.irs.gov/statistics/soi-tax-stats-accumulation-and-distribution-of-individual-retirement-arrangements
+table: Table 6. Taxpayers with Roth Individual Retirement Arrangement (IRA) Plan Contributions,
+  by Size of Contribution and Age of Taxpayer
+files:
+  2023:
+    filename: 23in06ira.xlsx
+    source_url: https://www.irs.gov/pub/irs-soi/23in06ira.xlsx
+    sha256: b526e4d4163172ed9992d16375cbf601b1c8b4d5bcf66f86e038c0e91c420418
+    size_bytes: 11380
+    fetched_at: '2026-09-27T05:55:43+00:00'
+    source_table: Table 6. Taxpayers with Roth Individual Retirement Arrangement (IRA)
+      Plan Contributions, by Size of Contribution and Age of Taxpayer
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/irs_soi/soi-ira-roth-contributions-2023/2023/b526e4d4163172ed9992d16375cbf601b1c8b4d5bcf66f86e038c0e91c420418/23in06ira.xlsx
+        uri: r2://ledger-raw/raw/irs_soi/soi-ira-roth-contributions-2023/2023/b526e4d4163172ed9992d16375cbf601b1c8b4d5bcf66f86e038c0e91c420418/23in06ira.xlsx

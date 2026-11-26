@@ -104,6 +104,7 @@ US_POVERTY_NONFILER_TARGET_COVERAGE: tuple[TargetSourceCoverage, ...] = (
             "soi-filing-season-week47-2024-eitc-total",
             "soi-table-4-3",
             "soi-state-2022",
+            "soi-state-2023",
             "soi-historic-table-2",
             "soi-historic-table-2-2023",
             "soi-historic-table-2-state-agi-2022",

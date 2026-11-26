@@ -1,0 +1,69 @@
+schema_version: ledger.source_package.v1
+package_id: soi-ira-traditional-contributions-2023
+label: IRS SOI 2023 Traditional IRA contribution totals
+dimension_labels:
+  'irs_soi.ira_contribution_size': 'IRA contribution size'
+artifact:
+  source_name: irs_soi
+  source_table: Table 5. Taxpayers with Traditional Individual Retirement Arrangement (IRA) Plan Contributions, by Size of Contribution and Age of Taxpayer
+  resource_package: db
+  resource_directory: data/irs_soi/ira_contributions
+  manifest: manifest_traditional_2023_source_package.yaml
+  vintage: tax_year_2023
+  extracted_at: '2026-09-27'
+  extraction_method: xlsx whole-workbook used-range cell parse
+  parser: xlsx_used_range
+  artifact_year: 2023
+record_sets:
+- record_set_id: irs_soi.ty2023.traditional_ira_contributions.all_taxpayers
+  provenance_class: administrative
+  record_set_spec_id: irs_soi.traditional_ira_contributions.all_taxpayers.v1
+  source_record_id_prefix: irs_soi.ty2023.traditional_ira_contributions.all_taxpayers
+  sheet_name: Estimates
+  period_type: tax_year
+  period: '2023'
+  geography_id: 0100000US
+  geography_level: country
+  geography_name: United States
+  geography_vintage: current
+  entity: tax_unit
+  entity_role: filing_unit
+  domain: individual_retirement_arrangement_contributions
+  groupby_dimension: irs_soi.ira_contribution_size
+  rows:
+  - value_id: all_taxpayers
+    label: All taxpayers
+    ordinal: 0
+    row_number: 7
+    expected_row_header_column: A
+    expected_row_header: All taxpayers
+    table_record_kind: total
+    guard_cells:
+    - column: B
+      row: 4
+      expected_value: Total
+      label: total contribution size
+  measures:
+  - measure_id: taxpayer_count
+    label: Number of taxpayers
+    ordinal: 0
+    column: B
+    source_column_id: number_of_taxpayers
+    expected_column_header_row: 5
+    expected_column_header: Number of taxpayers
+    concept: irs_soi.traditional_ira_contributors
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+  - measure_id: amount
+    label: Contribution amount
+    ordinal: 1
+    column: C
+    source_column_id: amount
+    expected_column_header_row: 5
+    expected_column_header: Amount
+    concept: irs_soi.traditional_ira_contributions
+    unit: usd
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
