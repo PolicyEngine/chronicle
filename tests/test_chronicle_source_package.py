@@ -4951,6 +4951,13 @@ def test_hhs_acf_tanf_source_package_aliases_validate_fixture_counts():
             "source_record_count": 58,
             "source_region_count": 3,
         },
+        "hhs-acf-tanf-caseload-2025": {
+            "record_set_count": 3,
+            "row_count": 53,
+            "measure_count": 8,
+            "source_record_count": 58,
+            "source_region_count": 3,
+        },
     }
 
     for package_id, counts in expected_counts.items():

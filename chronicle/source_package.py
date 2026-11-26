@@ -1165,6 +1165,7 @@ SOURCE_PACKAGE_ALIASES = {
     "ssa-ssi-table-7b3-2024": Path("ssa/ssi_table_7b3_2024"),
     "ssa-ssi-table-7b7-2024": Path("ssa/ssi_table_7b7_2024"),
     "hhs-acf-tanf-caseload-2024": Path("hhs_acf/tanf_caseload_2024"),
+    "hhs-acf-tanf-caseload-2025": Path("hhs_acf/tanf_caseload_2025"),
     "hhs-acf-tanf-financial-2024": Path("hhs_acf/tanf_financial_2024"),
     "hmrc-vat-firm-targets-2024-25": Path("hmrc/vat_firm_targets_2024_25"),
     "hmrc-vat-firm-sector-targets-2024-25": Path(
