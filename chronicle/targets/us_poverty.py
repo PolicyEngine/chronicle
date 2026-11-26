@@ -42,7 +42,9 @@ US_POVERTY_NONFILER_TARGET_COVERAGE: tuple[TargetSourceCoverage, ...] = (
         source_scope="Census population estimates and ACS demographics",
         package_aliases=(
             "census-pep-2024-national-age-sex",
+            "census-pep-2025-national-age-sex",
             "census-pep-2024-state-age-sex",
+            "census-pep-2025-state-age-sex",
             "census-acs-s0101-national-age-2024",
             "census-acs-s0101-state-age-2024",
             "census-acs-s0101-congressional-district-age-2024",

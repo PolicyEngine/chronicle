@@ -1,0 +1,31 @@
+source_id: census_pep
+package_id: census-pep-2025-national-age-sex
+dataset: census_pep_2025_national_age_sex
+source_page: https://www.census.gov/data/tables/time-series/demo/popest/2020s-national-detail.html
+vintage: Vintage 2025
+table: Annual Estimates of the Resident Population by Single Year of Age and Sex for
+  the United States
+notes: Publisher bytes saved unchanged by chronicle fetch-artifact on 2026-11-26.
+  storage.r2 is a content-addressed locator; no upload or archival completion is asserted.
+files:
+  2025:
+    filename: nc-est2025-agesex-res.csv
+    source_url: https://www2.census.gov/programs-surveys/popest/datasets/2020-2025/national/asrh/nc-est2025-agesex-res.csv
+    sha256: 6436d4f6972d415caf14cb20776807bc031fc9f1bfc9d6ff26055d592a2b0230
+    size_bytes: 18282
+    fetched_at: '2026-11-26T14:06:53+00:00'
+    source_table: Annual Estimates of the Resident Population by Single Year of Age
+      and Sex for the United States
+    years:
+    - 2020
+    - 2021
+    - 2022
+    - 2023
+    - 2024
+    - 2025
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/census_pep/census-pep-2025-national-age-sex/2025/6436d4f6972d415caf14cb20776807bc031fc9f1bfc9d6ff26055d592a2b0230/nc-est2025-agesex-res.csv
+        uri: r2://ledger-raw/raw/census_pep/census-pep-2025-national-age-sex/2025/6436d4f6972d415caf14cb20776807bc031fc9f1bfc9d6ff26055d592a2b0230/nc-est2025-agesex-res.csv

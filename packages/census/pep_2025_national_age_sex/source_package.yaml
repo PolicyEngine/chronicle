@@ -1,0 +1,889 @@
+schema_version: ledger.source_package.v1
+package_id: census-pep-2025-national-age-sex
+label: Census PEP Vintage 2025 national resident population by age
+dimension_labels:
+  'age': 'Age'
+artifact:
+  source_name: census_pep
+  source_table: Annual Estimates of the Resident Population by Single Year of Age and Sex for the United States
+  resource_package: db
+  resource_directory: data/census/pep_2025_national_age_sex
+  manifest: manifest.yaml
+  vintage: census_pep_vintage_2025
+  extracted_at: '2026-11-26'
+  extraction_method: delimited text full-row parse with selected source-row cells
+  parser: delimited_text_full_rows
+  sheet_name: nc-est2025-agesex-res
+  artifact_year: 2025
+  selected_rows:
+  - SEX: 0
+    AGE: 999
+  - SEX: 0
+    AGE: 0
+  - SEX: 0
+    AGE: 1
+  - SEX: 0
+    AGE: 2
+  - SEX: 0
+    AGE: 3
+  - SEX: 0
+    AGE: 4
+  - SEX: 0
+    AGE: 5
+  - SEX: 0
+    AGE: 6
+  - SEX: 0
+    AGE: 7
+  - SEX: 0
+    AGE: 8
+  - SEX: 0
+    AGE: 9
+  - SEX: 0
+    AGE: 10
+  - SEX: 0
+    AGE: 11
+  - SEX: 0
+    AGE: 12
+  - SEX: 0
+    AGE: 13
+  - SEX: 0
+    AGE: 14
+  - SEX: 0
+    AGE: 15
+  - SEX: 0
+    AGE: 16
+  - SEX: 0
+    AGE: 17
+  - SEX: 0
+    AGE: 18
+  - SEX: 0
+    AGE: 19
+  - SEX: 0
+    AGE: 20
+  - SEX: 0
+    AGE: 21
+  - SEX: 0
+    AGE: 22
+  - SEX: 0
+    AGE: 23
+  - SEX: 0
+    AGE: 24
+  - SEX: 0
+    AGE: 25
+  - SEX: 0
+    AGE: 26
+  - SEX: 0
+    AGE: 27
+  - SEX: 0
+    AGE: 28
+  - SEX: 0
+    AGE: 29
+  - SEX: 0
+    AGE: 30
+  - SEX: 0
+    AGE: 31
+  - SEX: 0
+    AGE: 32
+  - SEX: 0
+    AGE: 33
+  - SEX: 0
+    AGE: 34
+  - SEX: 0
+    AGE: 35
+  - SEX: 0
+    AGE: 36
+  - SEX: 0
+    AGE: 37
+  - SEX: 0
+    AGE: 38
+  - SEX: 0
+    AGE: 39
+  - SEX: 0
+    AGE: 40
+  - SEX: 0
+    AGE: 41
+  - SEX: 0
+    AGE: 42
+  - SEX: 0
+    AGE: 43
+  - SEX: 0
+    AGE: 44
+  - SEX: 0
+    AGE: 45
+  - SEX: 0
+    AGE: 46
+  - SEX: 0
+    AGE: 47
+  - SEX: 0
+    AGE: 48
+  - SEX: 0
+    AGE: 49
+  - SEX: 0
+    AGE: 50
+  - SEX: 0
+    AGE: 51
+  - SEX: 0
+    AGE: 52
+  - SEX: 0
+    AGE: 53
+  - SEX: 0
+    AGE: 54
+  - SEX: 0
+    AGE: 55
+  - SEX: 0
+    AGE: 56
+  - SEX: 0
+    AGE: 57
+  - SEX: 0
+    AGE: 58
+  - SEX: 0
+    AGE: 59
+  - SEX: 0
+    AGE: 60
+  - SEX: 0
+    AGE: 61
+  - SEX: 0
+    AGE: 62
+  - SEX: 0
+    AGE: 63
+  - SEX: 0
+    AGE: 64
+  - SEX: 0
+    AGE: 65
+  - SEX: 0
+    AGE: 66
+  - SEX: 0
+    AGE: 67
+  - SEX: 0
+    AGE: 68
+  - SEX: 0
+    AGE: 69
+  - SEX: 0
+    AGE: 70
+  - SEX: 0
+    AGE: 71
+  - SEX: 0
+    AGE: 72
+  - SEX: 0
+    AGE: 73
+  - SEX: 0
+    AGE: 74
+  - SEX: 0
+    AGE: 75
+  - SEX: 0
+    AGE: 76
+  - SEX: 0
+    AGE: 77
+  - SEX: 0
+    AGE: 78
+  - SEX: 0
+    AGE: 79
+  - SEX: 0
+    AGE: 80
+  - SEX: 0
+    AGE: 81
+  - SEX: 0
+    AGE: 82
+  - SEX: 0
+    AGE: 83
+  - SEX: 0
+    AGE: 84
+  - SEX: 0
+    AGE: 85
+  - SEX: 0
+    AGE: 86
+  - SEX: 0
+    AGE: 87
+  - SEX: 0
+    AGE: 88
+  - SEX: 0
+    AGE: 89
+  - SEX: 0
+    AGE: 90
+  - SEX: 0
+    AGE: 91
+  - SEX: 0
+    AGE: 92
+  - SEX: 0
+    AGE: 93
+  - SEX: 0
+    AGE: 94
+  - SEX: 0
+    AGE: 95
+  - SEX: 0
+    AGE: 96
+  - SEX: 0
+    AGE: 97
+  - SEX: 0
+    AGE: 98
+  - SEX: 0
+    AGE: 99
+  - SEX: 0
+    AGE: 100
+record_sets:
+- record_set_id: census_pep.cy2025.national_resident_population_age
+  provenance_class: census
+  record_set_spec_id: census_pep.national_resident_population_age.v1
+  source_record_id_prefix: census_pep.cy2025.national_resident_population_age
+  sheet_name: nc-est2025-agesex-res
+  period_type: calendar_year
+  period: 2025
+  geography_id: 0100000US
+  geography_level: country
+  geography_name: United States
+  geography_vintage: current
+  entity: person
+  entity_role: resident_population
+  domain: resident_population
+  groupby_dimension: age
+  rows:
+  - value_id: all
+    label: All ages
+    ordinal: 0
+    row_number: 2
+    expected_row_header_column: B
+    expected_row_header: 999
+    table_record_kind: total
+    guard_cells:
+    - column: A
+      expected_value: 0
+      label: all sexes
+  - value_id: 0_to_4
+    label: Age 0 to 4
+    ordinal: 1
+    row_number: 3
+    row_end_number: 7
+    expected_row_header_column: B
+    expected_row_header: 0
+    constraints:
+    - variable: age
+      operator: '>='
+      value: 0
+      unit: years
+      label: Age lower bound
+    - variable: age
+      operator: <
+      value: 5
+      unit: years
+      label: Age upper bound
+    guard_cells:
+    - column: A
+      row: start
+      expected_value: 0
+      label: start all sexes
+    - column: A
+      row: end
+      expected_value: 0
+      label: end all sexes
+    range_label_guards:
+    - column: B
+      expected_values:
+        integer_range:
+          start: 0
+          end: 4
+      label: single-year age sequence
+    table_record_kind: detail
+  - value_id: 5_to_9
+    label: Age 5 to 9
+    ordinal: 2
+    row_number: 8
+    row_end_number: 12
+    expected_row_header_column: B
+    expected_row_header: 5
+    constraints:
+    - variable: age
+      operator: '>='
+      value: 5
+      unit: years
+      label: Age lower bound
+    - variable: age
+      operator: <
+      value: 10
+      unit: years
+      label: Age upper bound
+    guard_cells:
+    - column: A
+      row: start
+      expected_value: 0
+      label: start all sexes
+    - column: A
+      row: end
+      expected_value: 0
+      label: end all sexes
+    range_label_guards:
+    - column: B
+      expected_values:
+        integer_range:
+          start: 5
+          end: 9
+      label: single-year age sequence
+    table_record_kind: detail
+  - value_id: 10_to_14
+    label: Age 10 to 14
+    ordinal: 3
+    row_number: 13
+    row_end_number: 17
+    expected_row_header_column: B
+    expected_row_header: 10
+    constraints:
+    - variable: age
+      operator: '>='
+      value: 10
+      unit: years
+      label: Age lower bound
+    - variable: age
+      operator: <
+      value: 15
+      unit: years
+      label: Age upper bound
+    guard_cells:
+    - column: A
+      row: start
+      expected_value: 0
+      label: start all sexes
+    - column: A
+      row: end
+      expected_value: 0
+      label: end all sexes
+    range_label_guards:
+    - column: B
+      expected_values:
+        integer_range:
+          start: 10
+          end: 14
+      label: single-year age sequence
+    table_record_kind: detail
+  - value_id: 15_to_19
+    label: Age 15 to 19
+    ordinal: 4
+    row_number: 18
+    row_end_number: 22
+    expected_row_header_column: B
+    expected_row_header: 15
+    constraints:
+    - variable: age
+      operator: '>='
+      value: 15
+      unit: years
+      label: Age lower bound
+    - variable: age
+      operator: <
+      value: 20
+      unit: years
+      label: Age upper bound
+    guard_cells:
+    - column: A
+      row: start
+      expected_value: 0
+      label: start all sexes
+    - column: A
+      row: end
+      expected_value: 0
+      label: end all sexes
+    range_label_guards:
+    - column: B
+      expected_values:
+        integer_range:
+          start: 15
+          end: 19
+      label: single-year age sequence
+    table_record_kind: detail
+  - value_id: 20_to_24
+    label: Age 20 to 24
+    ordinal: 5
+    row_number: 23
+    row_end_number: 27
+    expected_row_header_column: B
+    expected_row_header: 20
+    constraints:
+    - variable: age
+      operator: '>='
+      value: 20
+      unit: years
+      label: Age lower bound
+    - variable: age
+      operator: <
+      value: 25
+      unit: years
+      label: Age upper bound
+    guard_cells:
+    - column: A
+      row: start
+      expected_value: 0
+      label: start all sexes
+    - column: A
+      row: end
+      expected_value: 0
+      label: end all sexes
+    range_label_guards:
+    - column: B
+      expected_values:
+        integer_range:
+          start: 20
+          end: 24
+      label: single-year age sequence
+    table_record_kind: detail
+  - value_id: 25_to_29
+    label: Age 25 to 29
+    ordinal: 6
+    row_number: 28
+    row_end_number: 32
+    expected_row_header_column: B
+    expected_row_header: 25
+    constraints:
+    - variable: age
+      operator: '>='
+      value: 25
+      unit: years
+      label: Age lower bound
+    - variable: age
+      operator: <
+      value: 30
+      unit: years
+      label: Age upper bound
+    guard_cells:
+    - column: A
+      row: start
+      expected_value: 0
+      label: start all sexes
+    - column: A
+      row: end
+      expected_value: 0
+      label: end all sexes
+    range_label_guards:
+    - column: B
+      expected_values:
+        integer_range:
+          start: 25
+          end: 29
+      label: single-year age sequence
+    table_record_kind: detail
+  - value_id: 30_to_34
+    label: Age 30 to 34
+    ordinal: 7
+    row_number: 33
+    row_end_number: 37
+    expected_row_header_column: B
+    expected_row_header: 30
+    constraints:
+    - variable: age
+      operator: '>='
+      value: 30
+      unit: years
+      label: Age lower bound
+    - variable: age
+      operator: <
+      value: 35
+      unit: years
+      label: Age upper bound
+    guard_cells:
+    - column: A
+      row: start
+      expected_value: 0
+      label: start all sexes
+    - column: A
+      row: end
+      expected_value: 0
+      label: end all sexes
+    range_label_guards:
+    - column: B
+      expected_values:
+        integer_range:
+          start: 30
+          end: 34
+      label: single-year age sequence
+    table_record_kind: detail
+  - value_id: 35_to_39
+    label: Age 35 to 39
+    ordinal: 8
+    row_number: 38
+    row_end_number: 42
+    expected_row_header_column: B
+    expected_row_header: 35
+    constraints:
+    - variable: age
+      operator: '>='
+      value: 35
+      unit: years
+      label: Age lower bound
+    - variable: age
+      operator: <
+      value: 40
+      unit: years
+      label: Age upper bound
+    guard_cells:
+    - column: A
+      row: start
+      expected_value: 0
+      label: start all sexes
+    - column: A
+      row: end
+      expected_value: 0
+      label: end all sexes
+    range_label_guards:
+    - column: B
+      expected_values:
+        integer_range:
+          start: 35
+          end: 39
+      label: single-year age sequence
+    table_record_kind: detail
+  - value_id: 40_to_44
+    label: Age 40 to 44
+    ordinal: 9
+    row_number: 43
+    row_end_number: 47
+    expected_row_header_column: B
+    expected_row_header: 40
+    constraints:
+    - variable: age
+      operator: '>='
+      value: 40
+      unit: years
+      label: Age lower bound
+    - variable: age
+      operator: <
+      value: 45
+      unit: years
+      label: Age upper bound
+    guard_cells:
+    - column: A
+      row: start
+      expected_value: 0
+      label: start all sexes
+    - column: A
+      row: end
+      expected_value: 0
+      label: end all sexes
+    range_label_guards:
+    - column: B
+      expected_values:
+        integer_range:
+          start: 40
+          end: 44
+      label: single-year age sequence
+    table_record_kind: detail
+  - value_id: 45_to_49
+    label: Age 45 to 49
+    ordinal: 10
+    row_number: 48
+    row_end_number: 52
+    expected_row_header_column: B
+    expected_row_header: 45
+    constraints:
+    - variable: age
+      operator: '>='
+      value: 45
+      unit: years
+      label: Age lower bound
+    - variable: age
+      operator: <
+      value: 50
+      unit: years
+      label: Age upper bound
+    guard_cells:
+    - column: A
+      row: start
+      expected_value: 0
+      label: start all sexes
+    - column: A
+      row: end
+      expected_value: 0
+      label: end all sexes
+    range_label_guards:
+    - column: B
+      expected_values:
+        integer_range:
+          start: 45
+          end: 49
+      label: single-year age sequence
+    table_record_kind: detail
+  - value_id: 50_to_54
+    label: Age 50 to 54
+    ordinal: 11
+    row_number: 53
+    row_end_number: 57
+    expected_row_header_column: B
+    expected_row_header: 50
+    constraints:
+    - variable: age
+      operator: '>='
+      value: 50
+      unit: years
+      label: Age lower bound
+    - variable: age
+      operator: <
+      value: 55
+      unit: years
+      label: Age upper bound
+    guard_cells:
+    - column: A
+      row: start
+      expected_value: 0
+      label: start all sexes
+    - column: A
+      row: end
+      expected_value: 0
+      label: end all sexes
+    range_label_guards:
+    - column: B
+      expected_values:
+        integer_range:
+          start: 50
+          end: 54
+      label: single-year age sequence
+    table_record_kind: detail
+  - value_id: 55_to_59
+    label: Age 55 to 59
+    ordinal: 12
+    row_number: 58
+    row_end_number: 62
+    expected_row_header_column: B
+    expected_row_header: 55
+    constraints:
+    - variable: age
+      operator: '>='
+      value: 55
+      unit: years
+      label: Age lower bound
+    - variable: age
+      operator: <
+      value: 60
+      unit: years
+      label: Age upper bound
+    guard_cells:
+    - column: A
+      row: start
+      expected_value: 0
+      label: start all sexes
+    - column: A
+      row: end
+      expected_value: 0
+      label: end all sexes
+    range_label_guards:
+    - column: B
+      expected_values:
+        integer_range:
+          start: 55
+          end: 59
+      label: single-year age sequence
+    table_record_kind: detail
+  - value_id: 60_to_64
+    label: Age 60 to 64
+    ordinal: 13
+    row_number: 63
+    row_end_number: 67
+    expected_row_header_column: B
+    expected_row_header: 60
+    constraints:
+    - variable: age
+      operator: '>='
+      value: 60
+      unit: years
+      label: Age lower bound
+    - variable: age
+      operator: <
+      value: 65
+      unit: years
+      label: Age upper bound
+    guard_cells:
+    - column: A
+      row: start
+      expected_value: 0
+      label: start all sexes
+    - column: A
+      row: end
+      expected_value: 0
+      label: end all sexes
+    range_label_guards:
+    - column: B
+      expected_values:
+        integer_range:
+          start: 60
+          end: 64
+      label: single-year age sequence
+    table_record_kind: detail
+  - value_id: 65_to_69
+    label: Age 65 to 69
+    ordinal: 14
+    row_number: 68
+    row_end_number: 72
+    expected_row_header_column: B
+    expected_row_header: 65
+    constraints:
+    - variable: age
+      operator: '>='
+      value: 65
+      unit: years
+      label: Age lower bound
+    - variable: age
+      operator: <
+      value: 70
+      unit: years
+      label: Age upper bound
+    guard_cells:
+    - column: A
+      row: start
+      expected_value: 0
+      label: start all sexes
+    - column: A
+      row: end
+      expected_value: 0
+      label: end all sexes
+    range_label_guards:
+    - column: B
+      expected_values:
+        integer_range:
+          start: 65
+          end: 69
+      label: single-year age sequence
+    table_record_kind: detail
+  - value_id: 70_to_74
+    label: Age 70 to 74
+    ordinal: 15
+    row_number: 73
+    row_end_number: 77
+    expected_row_header_column: B
+    expected_row_header: 70
+    constraints:
+    - variable: age
+      operator: '>='
+      value: 70
+      unit: years
+      label: Age lower bound
+    - variable: age
+      operator: <
+      value: 75
+      unit: years
+      label: Age upper bound
+    guard_cells:
+    - column: A
+      row: start
+      expected_value: 0
+      label: start all sexes
+    - column: A
+      row: end
+      expected_value: 0
+      label: end all sexes
+    range_label_guards:
+    - column: B
+      expected_values:
+        integer_range:
+          start: 70
+          end: 74
+      label: single-year age sequence
+    table_record_kind: detail
+  - value_id: 75_to_79
+    label: Age 75 to 79
+    ordinal: 16
+    row_number: 78
+    row_end_number: 82
+    expected_row_header_column: B
+    expected_row_header: 75
+    constraints:
+    - variable: age
+      operator: '>='
+      value: 75
+      unit: years
+      label: Age lower bound
+    - variable: age
+      operator: <
+      value: 80
+      unit: years
+      label: Age upper bound
+    guard_cells:
+    - column: A
+      row: start
+      expected_value: 0
+      label: start all sexes
+    - column: A
+      row: end
+      expected_value: 0
+      label: end all sexes
+    range_label_guards:
+    - column: B
+      expected_values:
+        integer_range:
+          start: 75
+          end: 79
+      label: single-year age sequence
+    table_record_kind: detail
+  - value_id: 80_to_84
+    label: Age 80 to 84
+    ordinal: 17
+    row_number: 83
+    row_end_number: 87
+    expected_row_header_column: B
+    expected_row_header: 80
+    constraints:
+    - variable: age
+      operator: '>='
+      value: 80
+      unit: years
+      label: Age lower bound
+    - variable: age
+      operator: <
+      value: 85
+      unit: years
+      label: Age upper bound
+    guard_cells:
+    - column: A
+      row: start
+      expected_value: 0
+      label: start all sexes
+    - column: A
+      row: end
+      expected_value: 0
+      label: end all sexes
+    range_label_guards:
+    - column: B
+      expected_values:
+        integer_range:
+          start: 80
+          end: 84
+      label: single-year age sequence
+    table_record_kind: detail
+  # The file has numeric age codes only (85 to 100 summed here), so the label
+  # is Chronicle's: the one its register gives age 85_plus (chronicle#376).
+  - value_id: 85_plus
+    label: Age 85 plus
+    ordinal: 18
+    row_number: 88
+    row_end_number: 103
+    expected_row_header_column: B
+    expected_row_header: 85
+    constraints:
+    - variable: age
+      operator: '>='
+      value: 85
+      unit: years
+      label: Age lower bound
+    guard_cells:
+    - column: A
+      row: start
+      expected_value: 0
+      label: start all sexes
+    - column: A
+      row: end
+      expected_value: 0
+      label: end all sexes
+    range_label_guards:
+    - column: B
+      expected_values:
+        integer_range:
+          start: 85
+          end: 100
+      label: single-year age sequence
+    table_record_kind: detail
+  measures:
+  - measure_id: population
+    label: Resident population
+    ordinal: 0
+    column: I
+    source_column_id: population_estimate
+    expected_column_header_row: 1
+    expected_column_header: POPESTIMATE2025
+    concept: census_pep.resident_population
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
