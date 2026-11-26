@@ -8,7 +8,6 @@ belong in downstream systems such as Microcosm.
 
 __all__ = [
     "bundle",
-    "client",
     "concepts",
     "consumer_contract",
     "core",

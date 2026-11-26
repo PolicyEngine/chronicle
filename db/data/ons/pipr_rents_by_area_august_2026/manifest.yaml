@@ -1,0 +1,19 @@
+source_id: ons
+package_id: ons-pipr-rents-by-area-august-2026
+dataset: ons_ons-pipr-rents-by-area-august-2026
+source_page: https://www.ons.gov.uk/economy/inflationandpriceindices/datasets/priceindexofprivaterentsukmonthlypricestatistics
+table: pipr_rents_by_area_august_2026
+files:
+  2026:
+    filename: pipr_monthly_price_statistics_september2026_edition.xlsx
+    source_url: https://www.ons.gov.uk/file?uri=/economy/inflationandpriceindices/datasets/priceindexofprivaterentsukmonthlypricestatistics/16september2026/priceindexofprivaterentsukmonthlypricestatistics.xlsx
+    sha256: ab1fdfbb27738b20cd1762521a19489c9274dedae1e39926e734ac1cf867f2de
+    size_bytes: 18640156
+    fetched_at: '2026-10-07T13:35:03+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/ons/ons-pipr-rents-by-area-august-2026/2026/ab1fdfbb27738b20cd1762521a19489c9274dedae1e39926e734ac1cf867f2de/pipr_monthly_price_statistics_september2026_edition.xlsx
+        uri: r2://ledger-raw/raw/uk/ons/ons-pipr-rents-by-area-august-2026/2026/ab1fdfbb27738b20cd1762521a19489c9274dedae1e39926e734ac1cf867f2de/pipr_monthly_price_statistics_september2026_edition.xlsx
+registration_kind: source_facts

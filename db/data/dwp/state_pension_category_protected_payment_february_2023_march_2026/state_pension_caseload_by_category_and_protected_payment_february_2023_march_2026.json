@@ -1,0 +1,191 @@
+{
+  "query" : {
+    "database" : "str:database:SP_New",
+    "measures" : [ "str:count:SP_New:V_F_SP_CASELOAD_New", "str:statfn:SP_New:V_F_SP_CASELOAD_New:CAWKLYAMT:MEAN" ],
+    "recodes" : {
+      "str:field:SP_New:V_F_SP_CASELOAD_New:CAT" : {
+        "map" : [ [ "str:value:SP_New:V_F_SP_CASELOAD_New:CAT:C_SP_CATEGORY:1" ], [ "str:value:SP_New:V_F_SP_CASELOAD_New:CAT:C_SP_CATEGORY:2" ], [ "str:value:SP_New:V_F_SP_CASELOAD_New:CAT:C_SP_CATEGORY:3" ], [ "str:value:SP_New:V_F_SP_CASELOAD_New:CAT:C_SP_CATEGORY:4" ], [ "str:value:SP_New:V_F_SP_CASELOAD_New:CAT:C_SP_CATEGORY:5" ], [ "str:value:SP_New:V_F_SP_CASELOAD_New:CAT:C_SP_CATEGORY:6" ], [ "str:value:SP_New:V_F_SP_CASELOAD_New:CAT:C_SP_CATEGORY:7" ], [ "str:value:SP_New:V_F_SP_CASELOAD_New:CAT:C_SP_CATEGORY:9" ], [ "str:value:SP_New:V_F_SP_CASELOAD_New:CAT:C_SP_CATEGORY:10" ], [ "str:value:SP_New:V_F_SP_CASELOAD_New:CAT:C_SP_CATEGORY:999" ] ],
+        "total" : true
+      },
+      "str:field:SP_New:V_F_SP_CASELOAD_New:PROCPAY" : {
+        "map" : [ [ "str:value:SP_New:V_F_SP_CASELOAD_New:PROCPAY:C_SP_PROCPAY:1" ], [ "str:value:SP_New:V_F_SP_CASELOAD_New:PROCPAY:C_SP_PROCPAY:0" ], [ "str:value:SP_New:V_F_SP_CASELOAD_New:PROCPAY:C_SP_PROCPAY:99" ] ],
+        "total" : true
+      },
+      "str:field:SP_New:F_SP_QTR_New:DATE_NAME" : {
+        "map" : [ [ "str:value:SP_New:F_SP_QTR_New:DATE_NAME:C_SP_QTR_New:202302" ], [ "str:value:SP_New:F_SP_QTR_New:DATE_NAME:C_SP_QTR_New:202305" ], [ "str:value:SP_New:F_SP_QTR_New:DATE_NAME:C_SP_QTR_New:202308" ], [ "str:value:SP_New:F_SP_QTR_New:DATE_NAME:C_SP_QTR_New:202311" ], [ "str:value:SP_New:F_SP_QTR_New:DATE_NAME:C_SP_QTR_New:202402" ], [ "str:value:SP_New:F_SP_QTR_New:DATE_NAME:C_SP_QTR_New:202405" ], [ "str:value:SP_New:F_SP_QTR_New:DATE_NAME:C_SP_QTR_New:202408" ], [ "str:value:SP_New:F_SP_QTR_New:DATE_NAME:C_SP_QTR_New:202411" ], [ "str:value:SP_New:F_SP_QTR_New:DATE_NAME:C_SP_QTR_New:202502" ], [ "str:value:SP_New:F_SP_QTR_New:DATE_NAME:C_SP_QTR_New:202505" ], [ "str:value:SP_New:F_SP_QTR_New:DATE_NAME:C_SP_QTR_New:202508" ], [ "str:value:SP_New:F_SP_QTR_New:DATE_NAME:C_SP_QTR_New:202511" ], [ "str:value:SP_New:F_SP_QTR_New:DATE_NAME:C_SP_QTR_New:202603" ] ],
+        "total" : false
+      },
+      "str:field:SP_New:V_F_SP_CASELOAD_New:COA_CODE" : {
+        "map" : [ [ "str:value:SP_New:V_F_SP_CASELOAD_New:COA_CODE:V_C_MASTERGEOG21_GB:K03000001" ] ],
+        "total" : false
+      }
+    },
+    "dimensions" : [ [ "str:field:SP_New:F_SP_QTR_New:DATE_NAME" ], [ "str:field:SP_New:V_F_SP_CASELOAD_New:COA_CODE" ], [ "str:field:SP_New:V_F_SP_CASELOAD_New:CAT" ], [ "str:field:SP_New:V_F_SP_CASELOAD_New:PROCPAY" ] ]
+  },
+  "database" : {
+    "id" : "SP_New",
+    "uri" : "str:database:SP_New",
+    "label" : "State Pension - Data from May 2018",
+    "annotationKeys" : [ "IV", "V" ]
+  },
+  "measures" : [ {
+    "uri" : "str:count:SP_New:V_F_SP_CASELOAD_New",
+    "label" : "State Pension caseload - 2021 Geographies",
+    "measure" : "str:count:SP_New:V_F_SP_CASELOAD_New",
+    "function" : "COUNT"
+  }, {
+    "uri" : "str:statfn:SP_New:V_F_SP_CASELOAD_New:CAWKLYAMT:MEAN",
+    "label" : "Mean of Weekly Amount of Benefit",
+    "annotationKeys" : [ "III" ],
+    "measure" : "str:measure:SP_New:V_F_SP_CASELOAD_New:CAWKLYAMT",
+    "function" : "MEAN"
+  } ],
+  "fields" : [ {
+    "uri" : "str:field:SP_New:F_SP_QTR_New:DATE_NAME",
+    "label" : "Quarter",
+    "items" : [ {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:SP_New:F_SP_QTR_New:DATE_NAME:C_SP_QTR_New:202302" ],
+      "labels" : [ "Feb-23" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:SP_New:F_SP_QTR_New:DATE_NAME:C_SP_QTR_New:202305" ],
+      "labels" : [ "May-23" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:SP_New:F_SP_QTR_New:DATE_NAME:C_SP_QTR_New:202308" ],
+      "labels" : [ "Aug-23" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:SP_New:F_SP_QTR_New:DATE_NAME:C_SP_QTR_New:202311" ],
+      "labels" : [ "Nov-23" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:SP_New:F_SP_QTR_New:DATE_NAME:C_SP_QTR_New:202402" ],
+      "labels" : [ "Feb-24" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:SP_New:F_SP_QTR_New:DATE_NAME:C_SP_QTR_New:202405" ],
+      "labels" : [ "May-24" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:SP_New:F_SP_QTR_New:DATE_NAME:C_SP_QTR_New:202408" ],
+      "labels" : [ "Aug-24" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:SP_New:F_SP_QTR_New:DATE_NAME:C_SP_QTR_New:202411" ],
+      "labels" : [ "Nov-24" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:SP_New:F_SP_QTR_New:DATE_NAME:C_SP_QTR_New:202502" ],
+      "labels" : [ "Feb-25" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:SP_New:F_SP_QTR_New:DATE_NAME:C_SP_QTR_New:202505" ],
+      "labels" : [ "May-25" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:SP_New:F_SP_QTR_New:DATE_NAME:C_SP_QTR_New:202508" ],
+      "labels" : [ "Aug-25" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:SP_New:F_SP_QTR_New:DATE_NAME:C_SP_QTR_New:202511" ],
+      "labels" : [ "Nov-25" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:SP_New:F_SP_QTR_New:DATE_NAME:C_SP_QTR_New:202603" ],
+      "labels" : [ "Mar-26" ]
+    } ]
+  }, {
+    "uri" : "str:field:SP_New:V_F_SP_CASELOAD_New:COA_CODE",
+    "label" : "National - Regional - LA - OAs",
+    "annotationKeys" : [ "VI" ],
+    "items" : [ {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:SP_New:V_F_SP_CASELOAD_New:COA_CODE:V_C_MASTERGEOG21_GB:K03000001" ],
+      "labels" : [ "Great Britain" ]
+    } ]
+  }, {
+    "uri" : "str:field:SP_New:V_F_SP_CASELOAD_New:CAT",
+    "label" : "Category of Pension",
+    "items" : [ {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:SP_New:V_F_SP_CASELOAD_New:CAT:C_SP_CATEGORY:1" ],
+      "labels" : [ "Category A" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:SP_New:V_F_SP_CASELOAD_New:CAT:C_SP_CATEGORY:2" ],
+      "labels" : [ "Category B" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:SP_New:V_F_SP_CASELOAD_New:CAT:C_SP_CATEGORY:3" ],
+      "labels" : [ "Category ABL" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:SP_New:V_F_SP_CASELOAD_New:CAT:C_SP_CATEGORY:4" ],
+      "labels" : [ "Category BL" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:SP_New:V_F_SP_CASELOAD_New:CAT:C_SP_CATEGORY:5" ],
+      "labels" : [ "Category AB" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:SP_New:V_F_SP_CASELOAD_New:CAT:C_SP_CATEGORY:6" ],
+      "labels" : [ "Graduated Retirement Benefit only" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:SP_New:V_F_SP_CASELOAD_New:CAT:C_SP_CATEGORY:7" ],
+      "labels" : [ "Category C" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:SP_New:V_F_SP_CASELOAD_New:CAT:C_SP_CATEGORY:9" ],
+      "labels" : [ "Category D" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:SP_New:V_F_SP_CASELOAD_New:CAT:C_SP_CATEGORY:10" ],
+      "labels" : [ "New State Pension" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:SP_New:V_F_SP_CASELOAD_New:CAT:C_SP_CATEGORY:999" ],
+      "labels" : [ "Unknown" ]
+    }, {
+      "type" : "Total",
+      "labels" : [ "Total" ]
+    } ]
+  }, {
+    "uri" : "str:field:SP_New:V_F_SP_CASELOAD_New:PROCPAY",
+    "label" : "Protected Payment",
+    "items" : [ {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:SP_New:V_F_SP_CASELOAD_New:PROCPAY:C_SP_PROCPAY:1" ],
+      "labels" : [ "In receipt of Protected Payment" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:SP_New:V_F_SP_CASELOAD_New:PROCPAY:C_SP_PROCPAY:0" ],
+      "labels" : [ "Not in receipt of Protected Payment" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:SP_New:V_F_SP_CASELOAD_New:PROCPAY:C_SP_PROCPAY:99" ],
+      "labels" : [ "Not applicable (Pre-2016 State Pension)" ]
+    }, {
+      "type" : "Total",
+      "labels" : [ "Total" ]
+    } ]
+  } ],
+  "cubes" : {
+    "str:count:SP_New:V_F_SP_CASELOAD_New" : {
+      "values" : [ [ [ [ 0, 0, 5599100, 5599100 ], [ 0, 0, 401615, 401615 ], [ 0, 0, 508540, 508540 ], [ 0, 0, 215825, 215825 ], [ 0, 0, 1665011, 1665011 ], [ 0, 0, 4793, 4793 ], [ 0, 0, 7, 7 ], [ 0, 0, 82059, 82059 ], [ 745014, 2291635, 0, 3036650 ], [ 0, 0, 0, 0 ], [ 745014, 2291635, 8476949, 11513597 ] ] ], [ [ [ 0, 0, 5503226, 5503226 ], [ 0, 0, 394479, 394479 ], [ 0, 0, 499744, 499744 ], [ 0, 0, 207994, 207994 ], [ 0, 0, 1665273, 1665273 ], [ 0, 0, 4680, 4680 ], [ 0, 0, 7, 7 ], [ 0, 0, 83408, 83408 ], [ 778569, 2433670, 0, 3212236 ], [ 0, 0, 0, 0 ], [ 778569, 2433670, 8358810, 11571050 ] ] ], [ [ [ 0, 0, 5407753, 5407753 ], [ 0, 0, 390187, 390187 ], [ 0, 0, 488840, 488840 ], [ 0, 0, 199556, 199556 ], [ 0, 0, 1676677, 1676677 ], [ 0, 0, 4549, 4549 ], [ 0, 0, 5, 5 ], [ 0, 0, 85295, 85295 ], [ 812014, 2575764, 0, 3387777 ], [ 0, 0, 0, 0 ], [ 812014, 2575764, 8252865, 11640641 ] ] ], [ [ [ 0, 0, 5320026, 5320026 ], [ 0, 0, 383165, 383165 ], [ 0, 0, 478034, 478034 ], [ 0, 0, 193032, 193032 ], [ 0, 0, 1677015, 1677015 ], [ 0, 0, 4338, 4338 ], [ 0, 0, 6, 6 ], [ 0, 0, 85573, 85573 ], [ 841735, 2703428, 0, 3545166 ], [ 0, 0, 0, 0 ], [ 841735, 2703428, 8141189, 11686358 ] ] ], [ [ [ 0, 0, 5225737, 5225737 ], [ 0, 0, 374489, 374489 ], [ 0, 0, 465789, 465789 ], [ 0, 0, 185853, 185853 ], [ 0, 0, 1672027, 1672027 ], [ 0, 0, 4136, 4136 ], [ 0, 0, 7, 7 ], [ 0, 0, 85595, 85595 ], [ 871938, 2838890, 0, 3710829 ], [ 0, 0, 0, 0 ], [ 871938, 2838890, 8013634, 11724462 ] ] ], [ [ [ 0, 0, 5140673, 5140673 ], [ 0, 0, 367621, 367621 ], [ 0, 0, 453347, 453347 ], [ 0, 0, 179266, 179266 ], [ 0, 0, 1669464, 1669464 ], [ 0, 0, 4074, 4074 ], [ 0, 0, 7, 7 ], [ 0, 0, 85747, 85747 ], [ 905444, 2990215, 0, 3895658 ], [ 0, 0, 0, 0 ], [ 905444, 2990215, 7900199, 11795859 ] ] ], [ [ [ 0, 0, 5061846, 5061846 ], [ 0, 0, 361035, 361035 ], [ 0, 0, 442496, 442496 ], [ 0, 0, 173466, 173466 ], [ 0, 0, 1667094, 1667094 ], [ 0, 0, 4006, 4006 ], [ 0, 0, 8, 8 ], [ 0, 0, 87771, 87771 ], [ 933248, 3122238, 0, 4055486 ], [ 0, 0, 0, 0 ], [ 933248, 3122238, 7797728, 11853217 ] ] ], [ [ [ 0, 0, 4969459, 4969459 ], [ 0, 0, 355342, 355342 ], [ 0, 0, 428043, 428043 ], [ 0, 0, 165583, 165583 ], [ 0, 0, 1675403, 1675403 ], [ 0, 0, 3889, 3889 ], [ 0, 0, 8, 8 ], [ 0, 0, 91673, 91673 ], [ 962555, 3258189, 0, 4220747 ], [ 0, 0, 0, 0 ], [ 962555, 3258189, 7689402, 11910147 ] ] ], [ [ [ 0, 0, 4879293, 4879293 ], [ 0, 0, 346199, 346199 ], [ 0, 0, 416307, 416307 ], [ 0, 0, 159599, 159599 ], [ 0, 0, 1663653, 1663653 ], [ 0, 0, 3803, 3803 ], [ 0, 0, 8, 8 ], [ 0, 0, 91777, 91777 ], [ 990989, 3396123, 0, 4387109 ], [ 0, 0, 0, 0 ], [ 990989, 3396123, 7560643, 11947745 ] ] ], [ [ [ 0, 0, 4797864, 4797864 ], [ 0, 0, 339595, 339595 ], [ 0, 0, 404799, 404799 ], [ 0, 0, 153675, 153675 ], [ 0, 0, 1659974, 1659974 ], [ 0, 0, 3704, 3704 ], [ 0, 0, 8, 8 ], [ 0, 0, 91574, 91574 ], [ 1020550, 3543127, 0, 4563682 ], [ 0, 0, 0, 0 ], [ 1020550, 3543127, 7451199, 12014878 ] ] ], [ [ [ 0, 0, 4721467, 4721467 ], [ 0, 0, 333949, 333949 ], [ 0, 0, 394242, 394242 ], [ 0, 0, 148327, 148327 ], [ 0, 0, 1658931, 1658931 ], [ 0, 0, 3649, 3649 ], [ 0, 0, 8, 8 ], [ 0, 0, 91612, 91612 ], [ 1052141, 3696915, 0, 4749059 ], [ 0, 0, 0, 0 ], [ 1052141, 3696915, 7352182, 12101242 ] ] ], [ [ [ 0, 0, 4642777, 4642777 ], [ 0, 0, 326902, 326902 ], [ 0, 0, 384451, 384451 ], [ 0, 0, 143209, 143209 ], [ 0, 0, 1651199, 1651199 ], [ 0, 0, 3575, 3575 ], [ 0, 0, 8, 8 ], [ 0, 0, 91597, 91597 ], [ 1076567, 3827342, 0, 4903910 ], [ 0, 0, 0, 0 ], [ 1076567, 3827342, 7243720, 12147631 ] ] ], [ [ [ 0, 0, 4521772, 4521772 ], [ 0, 0, 317593, 317593 ], [ 0, 0, 367526, 367526 ], [ 0, 0, 134826, 134826 ], [ 0, 0, 1647853, 1647853 ], [ 0, 0, 3445, 3445 ], [ 0, 0, 8, 8 ], [ 0, 0, 91138, 91138 ], [ 1080721, 4042418, 0, 5123141 ], [ 0, 0, 0, 0 ], [ 1080721, 4042418, 7084158, 12207303 ] ] ] ],
+      "precision" : 0
+    },
+    "str:statfn:SP_New:V_F_SP_CASELOAD_New:CAWKLYAMT:MEAN" : {
+      "values" : [ [ [ [ 0, 0, 174.22522620260287, 174.22522620260287 ], [ 0, 0, 194.41784478208382, 194.41784478208382 ], [ 0, 0, 92.13606911941943, 92.13606911941943 ], [ 0, 0, 84.3451680057069, 84.3451680057069 ], [ 0, 0, 208.19297905539918, 208.19297905539918 ], [ 0, 0, 1.2536798163222582, 1.2536798163222582 ], [ 0, 0, 85.56285714285715, 85.56285714285715 ], [ 0, 0, 96.05927150865276, 96.05927150865276 ], [ 207.11850917495602, 167.9893556321487, 0, 177.58937795296052 ], [ 0, 0, 0, 0 ], [ 207.11850917495602, 167.9893556321487, 173.78623039256016, 174.78928907763293 ] ] ], [ [ [ 0, 0, 194.29840962483806, 194.29840962483806 ], [ 0, 0, 215.54795013170235, 215.54795013170235 ], [ 0, 0, 101.64625868957383, 101.64625868957383 ], [ 0, 0, 92.8981633035428, 92.8981633035428 ], [ 0, 0, 231.72611596416272, 231.72611596416272 ], [ 0, 0, 1.376002562459937, 1.376002562459937 ], [ 0, 0, 94.31428571428572, 94.31428571428572 ], [ 0, 0, 106.0741513007571, 106.0741513007571 ], [ 227.8684346004532, 185.2185952763641, 0, 195.55587542410382 ], [ 0, 0, 0, 0 ], [ 227.8684346004532, 185.2185952763641, 193.70672070632054, 194.22006461459586 ] ] ], [ [ [ 0, 0, 194.4179132454136, 194.4179132454136 ], [ 0, 0, 215.9125180169671, 215.9125180169671 ], [ 0, 0, 101.69314788078488, 101.69314788078488 ], [ 0, 0, 92.91636917582129, 92.91636917582129 ], [ 0, 0, 231.82427582993938, 231.82427582993938 ], [ 0, 0, 1.3856166190371275, 1.3856166190371275 ], [ 0, 0, 94.02857142857144, 94.02857142857144 ], [ 0, 0, 106.4619950758659, 106.4619950758659 ], [ 227.72226391975036, 185.56879438494138, 0, 195.67250339667106 ], [ 0, 0, 0, 0 ], [ 227.72226391975036, 185.56879438494138, 194.07152884190631, 194.53746082303365 ] ] ], [ [ [ 0, 0, 194.44888812525286, 194.44888812525286 ], [ 0, 0, 216.1689940391473, 216.1689940391473 ], [ 0, 0, 101.70755318667878, 101.70755318667878 ], [ 0, 0, 92.93422230503029, 92.93422230503029 ], [ 0, 0, 231.90738595218605, 231.90738595218605 ], [ 0, 0, 1.4003570605850952, 1.4003570605850952 ], [ 0, 0, 94.05833333333334, 94.05833333333334 ], [ 0, 0, 106.66766346070484, 106.66766346070484 ], [ 227.5783294623634, 185.94696949511356, 0, 195.83157709503658 ], [ 0, 0, 0, 0 ], [ 227.5783294623634, 185.94696949511356, 194.30906491516285, 194.77093316706433 ] ] ], [ [ [ 0, 0, 194.46234245107073, 194.46234245107073 ], [ 0, 0, 216.45928580203437, 216.45928580203437 ], [ 0, 0, 101.71824698851584, 101.71824698851584 ], [ 0, 0, 92.9614185865306, 92.9614185865306 ], [ 0, 0, 231.9746472040886, 231.9746472040886 ], [ 0, 0, 1.4208099613152596, 1.4208099613152596 ], [ 0, 0, 93.45714285714287, 93.45714285714287 ], [ 0, 0, 106.61669139548121, 106.61669139548121 ], [ 227.42724061170645, 186.22631240540622, 0, 195.90732786121995 ], [ 0, 0, 0, 0 ], [ 227.42724061170645, 186.22631240540622, 194.53443093208904, 194.9689564873555 ] ] ], [ [ [ 0, 0, 211.65705647622738, 211.65705647622738 ], [ 0, 0, 234.7662633186741, 234.7662633186741 ], [ 0, 0, 110.2829962853007, 110.2829962853007 ], [ 0, 0, 100.84409806726711, 100.84409806726711 ], [ 0, 0, 251.8895855076921, 251.8895855076921 ], [ 0, 0, 1.5094301154507619, 1.5094301154507619 ], [ 0, 0, 101.84285714285714, 101.84285714285714 ], [ 0, 0, 115.59417940734625, 115.59417940734625 ], [ 246.33734599006792, 202.4877465499919, 0, 212.6794433073735 ], [ 0, 0, 0, 0 ], [ 246.33734599006792, 202.4877465499919, 211.75148979755988, 212.05795276705274 ] ] ], [ [ [ 0, 0, 211.68872332194047, 211.68872332194047 ], [ 0, 0, 235.04122178613528, 235.04122178613528 ], [ 0, 0, 110.2974519941344, 110.2974519941344 ], [ 0, 0, 100.91137191165566, 100.91137191165566 ], [ 0, 0, 251.93025976293808, 251.93025976293808 ], [ 0, 0, 1.5205770671996122, 1.5205770671996122 ], [ 0, 0, 101.68333333333334, 101.68333333333334 ], [ 0, 0, 115.2900201654344, 115.2900201654344 ], [ 246.19053991063248, 202.8069262337933, 0, 212.7903509856458 ], [ 0, 0, 0, 0 ], [ 246.19053991063248, 202.8069262337933, 211.96223324830103, 212.24556692975784 ] ] ], [ [ [ 0, 0, 211.800856585979, 211.800856585979 ], [ 0, 0, 235.40768714911266, 235.40768714911266 ], [ 0, 0, 110.32302699473006, 110.32302699473006 ], [ 0, 0, 101.04856819336274, 101.04856819336274 ], [ 0, 0, 251.99448189213672, 251.99448189213672 ], [ 0, 0, 1.523549382716059, 1.523549382716059 ], [ 0, 0, 101.68333333333334, 101.68333333333334 ], [ 0, 0, 114.92735633564757, 114.92735633564757 ], [ 246.05179583315672, 203.11547124257953, 0, 212.90724835438854 ], [ 0, 0, 0, 0 ], [ 246.05179583315672, 203.11547124257953, 212.35418566769278, 212.55018135572146 ] ] ], [ [ [ 0, 0, 211.78906561663706, 211.78906561663706 ], [ 0, 0, 235.69126822280404, 235.69126822280404 ], [ 0, 0, 110.33437916446519, 110.33437916446519 ], [ 0, 0, 101.07676461942104, 101.07676461942104 ], [ 0, 0, 252.02850031047288, 252.02850031047288 ], [ 0, 0, 1.5396791162546077, 1.5396791162546077 ], [ 0, 0, 101.68333333333334, 101.68333333333334 ], [ 0, 0, 114.93598805789361, 114.93598805789361 ], [ 245.89569549780737, 203.38339566207307, 0, 212.9863448039009 ], [ 0, 0, 0, 0 ], [ 245.89569549780737, 203.38339566207307, 212.53293688858957, 212.69942429036288 ] ] ], [ [ [ 0, 0, 219.49522732728414, 219.49522732728414 ], [ 0, 0, 244.04771682318443, 244.04771682318443 ], [ 0, 0, 114.64435152092598, 114.64435152092598 ], [ 0, 0, 105.2003793719635, 105.2003793719635 ], [ 0, 0, 260.65328123822775, 260.65328123822775 ], [ 0, 0, 1.571641911963274, 1.571641911963274 ], [ 0, 0, 105.50166666666667, 105.50166666666667 ], [ 0, 0, 119.46138620130318, 119.46138620130318 ], [ 255.37649086621238, 212.11335040956638, 0, 221.7880530466435 ], [ 0, 0, 0, 0 ], [ 255.37649086621238, 212.11335040956638, 220.3921596776335, 220.92236970392977 ] ] ], [ [ [ 0, 0, 219.49464770604177, 219.49464770604177 ], [ 0, 0, 244.26938892050066, 244.26938892050066 ], [ 0, 0, 114.65863567075446, 114.65863567075446 ], [ 0, 0, 105.24473615362407, 105.24473615362407 ], [ 0, 0, 260.6672854024573, 260.6672854024573 ], [ 0, 0, 1.5812222526719595, 1.5812222526719595 ], [ 0, 0, 105.50166666666667, 105.50166666666667 ], [ 0, 0, 119.49818085557408, 119.49818085557408 ], [ 255.23028447627627, 212.39340225651318, 0, 221.88381848956632 ], [ 0, 0, 0, 0 ], [ 255.23028447627627, 212.39340225651318, 220.629340343331, 221.1216527632995 ] ] ], [ [ [ 0, 0, 219.47550915906356, 219.47550915906356 ], [ 0, 0, 244.46825252905631, 244.46825252905631 ], [ 0, 0, 114.67929052080586, 114.67929052080586 ], [ 0, 0, 105.27902409724177, 105.27902409724177 ], [ 0, 0, 260.66473277615285, 260.66473277615285 ], [ 0, 0, 1.5853523489932868, 1.5853523489932868 ], [ 0, 0, 105.50166666666667, 105.50166666666667 ], [ 0, 0, 119.40583013099345, 119.40583013099345 ], [ 255.0842502577765, 212.6535731376822, 0, 221.96850253835603 ], [ 0, 0, 0, 0 ], [ 255.0842502577765, 212.6535731376822, 220.79974072078218, 221.27156120145622 ] ] ], [ [ [ 0, 0, 219.45473082338918, 219.45473082338918 ], [ 0, 0, 244.7745813234542, 244.7745813234542 ], [ 0, 0, 114.70796966194945, 114.70796966194945 ], [ 0, 0, 105.34407998569522, 105.34407998569522 ], [ 0, 0, 260.67939354530387, 260.67939354530387 ], [ 0, 0, 1.597295414973883, 1.597295414973883 ], [ 0, 0, 105.50166666666668, 105.50166666666668 ], [ 0, 0, 119.51623705230404, 119.51623705230404 ], [ 254.56947759923898, 212.96614501213017, 0, 221.7423284168005 ], [ 0, 0, 0, 0 ], [ 254.56947759923898, 212.96614501213017, 221.18146662793177, 221.41684837341825 ] ] ] ],
+      "precision" : 2
+    }
+  },
+  "annotationMap" : {
+    "IV" : "\"..\" denotes a nil or negligible number of claimants or award amount based on a nil or negligible number of claimants.",
+    "V" : "From November 2017 State Pension data excludes persons with a ‘suspended’ account and should be treated as a break in series. A suspended account, when the department suspends payment, can occur for a number of reasons. Suspended cases may end and pensions put back into payment, at which point they will be shown in the next extract of data, or the suspension may end and the case terminated.",
+    "VI" : "Due to data quality issues, State Pension statistics for the Shetland Islands from August 2023 to August 2024 have been mapped into the 'Unknown' category. Overall caseload totals are not impacted. This category has been populated from November 2024 data onwards.",
+    "III" : "The 'Average Weekly Amount of Benefit' measure is based on the final benefit amount received by claimants, where applicable any additions to basic rates are captured in this measure. This includes protected payments for nSP, as such care should be taken when using the separate 'nSP Protected Payment' measure."
+  }
+}

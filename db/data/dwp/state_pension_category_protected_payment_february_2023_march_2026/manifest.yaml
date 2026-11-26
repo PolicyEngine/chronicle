@@ -1,0 +1,19 @@
+source_id: dwp
+package_id: dwp-state-pension-category-protected-payment-february-2023-march-2026
+dataset: dwp_dwp-state-pension-category-protected-payment-february-2023-march-2026
+source_page: https://stat-xplore.dwp.gov.uk/
+table: State Pension caseload and mean weekly amount by category of pension and protected
+  payment, Great Britain residents, February 2023 to March 2026
+files:
+  2026:
+    filename: state_pension_caseload_by_category_and_protected_payment_february_2023_march_2026.json
+    source_url: https://stat-xplore.dwp.gov.uk/webapi/rest/v1/table
+    sha256: 648105b39852f57c5c754bac175ee964ef75450d3c4c5aeb5b89e8972977b0ae
+    size_bytes: 20741
+    fetched_at: '2026-09-29T12:30:46+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/dwp/dwp-state-pension-category-protected-payment-february-2023-march-2026/2026/648105b39852f57c5c754bac175ee964ef75450d3c4c5aeb5b89e8972977b0ae/state_pension_caseload_by_category_and_protected_payment_february_2023_march_2026.json
+        uri: r2://ledger-raw/raw/uk/dwp/dwp-state-pension-category-protected-payment-february-2023-march-2026/2026/648105b39852f57c5c754bac175ee964ef75450d3c4c5aeb5b89e8972977b0ae/state_pension_caseload_by_category_and_protected_payment_february_2023_march_2026.json

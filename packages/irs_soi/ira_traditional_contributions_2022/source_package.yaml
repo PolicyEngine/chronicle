@@ -9,19 +9,19 @@ artifact:
   resource_package: db
   resource_directory: data/irs_soi/ira_contributions
   manifest: manifest_traditional_source_package.yaml
-  vintage: tax_year_{year}
+  vintage: tax_year_2022
   extracted_at: '2026-05-08'
   extraction_method: xlsx whole-workbook used-range cell parse
   parser: xlsx_used_range
   artifact_year: 2022
 record_sets:
-- record_set_id: irs_soi.ty{year}.traditional_ira_contributions.all_taxpayers
+- record_set_id: irs_soi.ty2022.traditional_ira_contributions.all_taxpayers
   provenance_class: administrative
   record_set_spec_id: irs_soi.traditional_ira_contributions.all_taxpayers.v1
-  source_record_id_prefix: irs_soi.ty{year}.traditional_ira_contributions.all_taxpayers
+  source_record_id_prefix: irs_soi.ty2022.traditional_ira_contributions.all_taxpayers
   sheet_name: Sheet1
   period_type: tax_year
-  period: '{year}'
+  period: '2022'
   geography_id: 0100000US
   geography_level: country
   geography_name: United States

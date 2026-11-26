@@ -1,0 +1,19 @@
+source_id: dwp
+package_id: dwp-uc-households-by-local-authority-january-2025-may-2026
+dataset: dwp_dwp-uc-households-by-local-authority-january-2025-may-2026
+source_page: https://stat-xplore.dwp.gov.uk/
+table: uc_households_by_local_authority_january_2025_may_2026
+files:
+  2025:
+    filename: uc_households_by_local_authority_january_2025_may_2026.json
+    source_url: https://stat-xplore.dwp.gov.uk/webapi/rest/v1/table
+    sha256: 753278a68eec6e72d23db241902645de964b830161130972495f4f3b7b4093f2
+    size_bytes: 148013
+    fetched_at: '2026-10-07T13:39:23+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/dwp/dwp-uc-households-by-local-authority-january-2025-may-2026/2025/753278a68eec6e72d23db241902645de964b830161130972495f4f3b7b4093f2/uc_households_by_local_authority_january_2025_may_2026.json
+        uri: r2://ledger-raw/raw/uk/dwp/dwp-uc-households-by-local-authority-january-2025-may-2026/2025/753278a68eec6e72d23db241902645de964b830161130972495f4f3b7b4093f2/uc_households_by_local_authority_january_2025_may_2026.json
+registration_kind: source_facts

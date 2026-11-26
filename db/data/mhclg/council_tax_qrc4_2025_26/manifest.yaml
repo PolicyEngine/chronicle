@@ -1,0 +1,31 @@
+source_id: mhclg
+package_id: mhclg-council-tax-qrc4-2025-26
+dataset: mhclg_mhclg-council-tax-qrc4-2025-26
+source_page: https://www.gov.uk/government/statistics/collection-rates-for-council-tax-and-non-domestic-rates-in-england-2025-to-2026
+table: 'Collection rates for Council Tax and non-domestic rates in England, 2025 to
+  2026, Table 9: Quarterly return of Council Tax and non-domestic rates QRC4, 2025
+  to 2026'
+license: Open Government Licence v3.0
+license_url: https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/
+attribution: 'Source: Ministry of Housing, Communities and Local Government, Collection
+  rates for Council Tax and non-domestic rates in England, 2025 to 2026, Table 9:
+  Quarterly return of Council Tax and non-domestic rates QRC4, 2025 to 2026 (published
+  24 June 2026, revised 31 July 2026). Contains public sector information licensed
+  under the Open Government Licence v3.0.'
+license_evidence: 'GOV.UK states: ''All content is available under the Open Government
+  Licence v3.0, except where otherwise stated.'' The statistics page and the workbook
+  state no other licence.'
+license_verified_at: '2026-11-04'
+files:
+  2026:
+    filename: Table_9_2025-26.ods
+    source_url: https://assets.publishing.service.gov.uk/media/6a6b302bbf4a7aca8f8976fe/Table_9_2025-26.ods
+    sha256: 3937351a67bd12418301f97f504a5357566ecf3b6d375076119f1addb44d3d90
+    size_bytes: 216962
+    fetched_at: '2026-11-04T13:11:39+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/mhclg/mhclg-council-tax-qrc4-2025-26/2026/3937351a67bd12418301f97f504a5357566ecf3b6d375076119f1addb44d3d90/Table_9_2025-26.ods
+        uri: r2://ledger-raw/raw/uk/mhclg/mhclg-council-tax-qrc4-2025-26/2026/3937351a67bd12418301f97f504a5357566ecf3b6d375076119f1addb44d3d90/Table_9_2025-26.ods

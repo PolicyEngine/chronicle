@@ -1,0 +1,23 @@
+source_id: hmrc
+package_id: hmrc-lisa-statistics-2026
+dataset: hmrc_hmrc-lisa-statistics-2026
+source_page: https://www.gov.uk/government/statistics/annual-savings-statistics-2026
+table: 'Lifetime Individual Savings Account (LISA) tables: September 2026'
+license: Open Government Licence v3.0
+license_url: https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/
+attribution: 'Source: HM Revenue and Customs, Lifetime Individual Savings Account (LISA) tables: September 2026. Contains public sector information licensed under the Open Government Licence v3.0.'
+license_evidence: 'The GOV.UK publication page (https://www.gov.uk/government/statistics/annual-savings-statistics-2026) states that all content is available under the Open Government Licence v3.0, except where otherwise stated. The workbook''s cover (Cover_sheet!A15) adds: ''Bulletin is Crown copyright. Information may be used provided that the source is acknowledged.'''
+license_verified_at: '2026-10-28'
+files:
+  2026:
+    filename: Lifetime_ISA_Tables_2026.ods
+    source_url: https://assets.publishing.service.gov.uk/media/6aa25fa64e17456e2cdf5291/Lifetime_ISA_Tables_2026.ods
+    sha256: bba1520b58072a71ad90fd32992a3226ba3b54e806dc9330b132bb7136502231
+    size_bytes: 17089
+    fetched_at: '2026-10-28T19:36:55+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/hmrc/hmrc-lisa-statistics-2026/2026/bba1520b58072a71ad90fd32992a3226ba3b54e806dc9330b132bb7136502231/Lifetime_ISA_Tables_2026.ods
+        uri: r2://ledger-raw/raw/uk/hmrc/hmrc-lisa-statistics-2026/2026/bba1520b58072a71ad90fd32992a3226ba3b54e806dc9330b132bb7136502231/Lifetime_ISA_Tables_2026.ods

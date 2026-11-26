@@ -1,0 +1,26 @@
+source_id: ons
+package_id: ons-mm23-cpi-index-natural-gas-october-2026
+dataset: ons_ons-mm23-cpi-index-natural-gas-october-2026
+source_page: https://www.ons.gov.uk/economy/inflationandpriceindices/timeseries/l7e9/mm23
+table: 'MM23 time series L7E9: CPI INDEX 04.5.2.1 Natural gas and town gas 2015=100'
+license: Open Government Licence v3.0
+license_url: https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/
+attribution: 'Source: Office for National Statistics, time series L7E9 (MM23), released
+  21 October 2026. Contains public sector information licensed under the Open Government
+  Licence v3.0.'
+license_evidence: 'ONS pages state: ''All content is available under the Open Government
+  Licence v3.0, except where otherwise stated.'' (time series page https://www.ons.gov.uk/economy/inflationandpriceindices/timeseries/l7e9/mm23)'
+license_verified_at: '2026-10-30'
+files:
+  2026:
+    filename: l7e9.csv
+    source_url: https://www.ons.gov.uk/generator?format=csv&uri=/economy/inflationandpriceindices/timeseries/l7e9/mm23
+    sha256: 1187e870c34aac7ea24aa2321dced24bb53b9c605a2bffaa567fa0bcf8431ddb
+    size_bytes: 3798
+    fetched_at: '2026-10-30T11:38:46+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/ons/ons-mm23-cpi-index-natural-gas-october-2026/2026/1187e870c34aac7ea24aa2321dced24bb53b9c605a2bffaa567fa0bcf8431ddb/l7e9.csv
+        uri: r2://ledger-raw/raw/uk/ons/ons-mm23-cpi-index-natural-gas-october-2026/2026/1187e870c34aac7ea24aa2321dced24bb53b9c605a2bffaa567fa0bcf8431ddb/l7e9.csv

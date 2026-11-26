@@ -1,0 +1,29 @@
+source_id: desnz
+package_id: desnz-msoa-domestic-gas-consumption-2010-2024
+dataset: desnz_desnz-msoa-domestic-gas-consumption-2010-2024
+source_page: https://www.gov.uk/government/statistics/lower-and-middle-super-output-areas-gas-consumption
+table: Domestic gas consumption by MSOA and Scottish intermediate zone, Great Britain,
+  2010 to 2024
+files:
+  2025:
+    filename: MSOA_domestic_gas_2010-2024.xlsx
+    source_url: https://assets.publishing.service.gov.uk/media/694577302f02611393508989/MSOA_domestic_gas_2010-2024.xlsx
+    sha256: 74515cdfe094ceddf9de3273440ba18f9abc064fff4e055a3265144e706c13a1
+    size_bytes: 10277201
+    fetched_at: '2026-10-15T10:02:03+00:00'
+    storage:
+      local: false
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/desnz/desnz-msoa-domestic-gas-consumption-2010-2024/2025/74515cdfe094ceddf9de3273440ba18f9abc064fff4e055a3265144e706c13a1/MSOA_domestic_gas_2010-2024.xlsx
+        uri: r2://ledger-raw/raw/uk/desnz/desnz-msoa-domestic-gas-consumption-2010-2024/2025/74515cdfe094ceddf9de3273440ba18f9abc064fff4e055a3265144e706c13a1/MSOA_domestic_gas_2010-2024.xlsx
+registration_kind: raw_only
+provenance_notes: 'DESNZ domestic gas consumption by Middle Layer Super Output Area
+  (MSOA, 2021 boundaries) and Scottish intermediate zone (2022 boundaries), Great
+  Britain, 2010 to 2024, revised 19 December 2025: number of consuming meters, total
+  consumption (kWh), mean and median kWh per meter and non-consuming meters, one sheet
+  per gas year (mid- May to mid-May from 2018; weather corrected). 2015 onwards use
+  2021/2022 geographies, 2010-2014 the 2011 ones. Disclosive areas are moved to ''Unallocated''
+  and shown blank, with no text markers. Registered raw-only for chronicle#356: the
+  LSOA/data-zone workbook carries the facts.'

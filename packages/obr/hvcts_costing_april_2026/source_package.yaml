@@ -1,0 +1,2075 @@
+# OBR supplementary forecast information release 'Costing of high value council tax
+# surcharge' (2 April 2026), for PolicyEngine/chronicle#343 section 5. The surcharge
+# (announced at Budget 2025) is an annual charge from April 2028 on properties in England
+# valued over GBP 2 million by the Valuation Office in 2026 prices, in four bands from
+# GBP 2,500 to GBP 7,500 a year (paragraph 1.3), so the facts are stamped England.
+#
+# Ported, every cell:
+# - Table 1.1, estimated properties in scope by band, static, thousands, 2028-29 to
+#   2030-31 (four bands and the total);
+# - Table 1.2, the same post-behaviour;
+# - Table 1.5, the costing in GBP million, 2026-27 to 2030-31: static costing,
+#   behavioural response and its three 'of which' lines, and the post-behavioural costing.
+#   The table's note: a negative figure is a reduction in PSNB (a yield to the
+#   Exchequer), and impacts are rounded to the nearest GBP 5 million.
+# Ported from the text (paragraph 1.13), as the issue asks:
+# - around 40 per cent of liable properties are non-owner-occupied (SDLT data);
+# - non-UK resident owners hold 14 per cent of the properties the charge affects;
+# - the support scheme take-up of 75 per cent, among households with net income under
+#   GBP 30,000 a year (carried as the fact's constraint).
+# The note dates none of the paragraph 1.13 parameters; they carry 2028-29, the charge's
+# first year, and each record set says so.
+#
+# Not ported: Table 1.3 (the charge rates are policy parameters, and the other lines are
+# modelling assumptions the issue does not ask for), Table 1.4 (the CPI growth and house
+# price index determinants the costing used, which are economy forecasts rather than
+# costing outputs), and the paragraph percentages that Table 1.3 restates.
+#
+# All are HMRC costings certified by the OBR: provenance model_output, assertion
+# source_projection.
+schema_version: ledger.source_package.v1
+package_id: obr-hvcts-costing-april-2026
+label: 'OBR costing of the high value council tax surcharge: properties in scope by value band (static
+  and post-behaviour), the costing, and stated parameters, 2026-27 to 2030-31'
+dimension_labels:
+  property_value_band: Property value band
+  behaviour_basis: Behaviour basis
+  costing_line: High value council tax surcharge costing line
+  costing_parameter: Costing parameter
+dimension_value_labels:
+  property_value_band:
+    gbp_2m_to_2_5m: GBP 2m to GBP 2.5m
+    gbp_2_5m_to_3_5m: GBP 2.5m to GBP 3.5m
+    gbp_3_5m_to_5m: GBP 3.5m to GBP 5m
+    over_gbp_5m: Over GBP 5m
+  behaviour_basis:
+    static: Static, before behavioural responses
+    post_behaviour: Post-behaviour
+artifact:
+  source_name: obr
+  source_table: 'Supplementary forecast information release: costing of high value council tax surcharge,
+    Tables 1.1, 1.2 and 1.5 and paragraph 1.13'
+  resource_package: db
+  resource_directory: data/obr/hvcts_costing_april_2026
+  manifest: manifest.yaml
+  vintage: supplementary_forecast_information_2026_04_02
+  extracted_at: '2026-10-12'
+  extraction_method: PDF text-line number extraction
+  parser: pdf_text_numbers
+  artifact_year: 2026
+record_sets:
+- record_set_id: obr.hvcts_costing_2026_04.properties_in_scope.static.fy2028
+  provenance_class: model_output
+  assertion: source_projection
+  record_set_spec_id: obr.hvcts_costing_2026_04.properties_in_scope.static.fy2028.v1
+  source_record_id_prefix: obr.hvcts_costing_2026_04.properties_in_scope.static.fy2028
+  sheet_name: document_numbers
+  period_type: fiscal_year
+  period: 2028
+  period_coverage:
+    start_date: '2028-04-01'
+    end_date: '2029-03-31'
+    basis: fiscal
+    source_period_label: 2028-29
+    notes: period.value stores the opening year of the publisher period.
+  geography_id: E92000001
+  geography_level: country
+  geography_name: England
+  geography_vintage: current
+  entity: dwelling
+  entity_role: hvcts_property_in_scope
+  domain: council_tax
+  groupby_dimension: property_value_band
+  shared_filters:
+    behaviour_basis: static
+  shared_constraints:
+  - variable: behaviour_basis
+    operator: ==
+    value: static
+    label: Behaviour basis
+  rows:
+  - value_id: gbp_2m_to_2_5m
+    label: GBP 2m to GBP 2.5m
+    ordinal: 0
+    row_number: 52
+    table_record_kind: detail
+    expected_row_header_column: C
+    expected_row_header: 2.0 to 2.5 71 72 72
+    filters:
+      property_value_band: gbp_2m_to_2_5m
+    constraints:
+    - variable: property_value_band
+      operator: ==
+      value: gbp_2m_to_2_5m
+      label: Property value band
+    guard_cells:
+    - column: A
+      row: 52
+      expected_value: 2
+      label: PDF page
+    - column: D
+      row: 52
+      expected_value: '71'
+      label: number 3 of 5 on the line
+  - value_id: gbp_2_5m_to_3_5m
+    label: GBP 2.5m to GBP 3.5m
+    ordinal: 1
+    row_number: 57
+    table_record_kind: detail
+    expected_row_header_column: C
+    expected_row_header: 2.5 to 3.5 54 55 55
+    filters:
+      property_value_band: gbp_2_5m_to_3_5m
+    constraints:
+    - variable: property_value_band
+      operator: ==
+      value: gbp_2_5m_to_3_5m
+      label: Property value band
+    guard_cells:
+    - column: A
+      row: 57
+      expected_value: 2
+      label: PDF page
+    - column: D
+      row: 57
+      expected_value: '54'
+      label: number 3 of 5 on the line
+  - value_id: gbp_3_5m_to_5m
+    label: GBP 3.5m to GBP 5m
+    ordinal: 2
+    row_number: 62
+    table_record_kind: detail
+    expected_row_header_column: C
+    expected_row_header: 3.5 to 5.0 25 25 25
+    filters:
+      property_value_band: gbp_3_5m_to_5m
+    constraints:
+    - variable: property_value_band
+      operator: ==
+      value: gbp_3_5m_to_5m
+      label: Property value band
+    guard_cells:
+    - column: A
+      row: 62
+      expected_value: 2
+      label: PDF page
+    - column: D
+      row: 62
+      expected_value: '25'
+      label: number 3 of 5 on the line
+  - value_id: over_gbp_5m
+    label: Over GBP 5m
+    ordinal: 3
+    row_number: 66
+    table_record_kind: detail
+    expected_row_header_column: C
+    expected_row_header: Over 5 15 15 15
+    filters:
+      property_value_band: over_gbp_5m
+    constraints:
+    - variable: property_value_band
+      operator: ==
+      value: over_gbp_5m
+      label: Property value band
+    guard_cells:
+    - column: A
+      row: 66
+      expected_value: 2
+      label: PDF page
+    - column: D
+      row: 66
+      expected_value: '15'
+      label: number 2 of 4 on the line
+  - value_id: total
+    label: Total estimated properties in scope
+    ordinal: 4
+    row_number: 69
+    table_record_kind: total
+    expected_row_header_column: C
+    expected_row_header: Total estimated properties in scope 165 166 167
+    guard_cells:
+    - column: A
+      row: 69
+      expected_value: 2
+      label: PDF page
+    - column: D
+      row: 69
+      expected_value: '165'
+      label: number 1 of 3 on the line
+  measures:
+  - measure_id: properties_in_scope
+    label: Estimated properties in scope (thousands)
+    ordinal: 0
+    column: E
+    source_column_id: numeric_value
+    concept: obr.hvcts_costing.properties_in_scope
+    source_concept: obr.hvcts_costing.properties_in_scope
+    concept_relation: source_label
+    concept_authority: obr
+    concept_evidence_url: https://obr.uk/docs/dlm_uploads/Supplementary-forecast-information-high-value-council-tax-surcharge-costing.pdf
+    concept_evidence_notes: OBR Table 1.1 'Estimated properties in scope by band, static', thousands,
+      static, before behavioural responses. Properties in England valued over GBP 2 million by the Valuation
+      Office in 2026 prices (paragraph 1.3), after the assumed exemptions (paragraph 1.5).
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000
+- record_set_id: obr.hvcts_costing_2026_04.properties_in_scope.static.fy2029
+  provenance_class: model_output
+  assertion: source_projection
+  record_set_spec_id: obr.hvcts_costing_2026_04.properties_in_scope.static.fy2029.v1
+  source_record_id_prefix: obr.hvcts_costing_2026_04.properties_in_scope.static.fy2029
+  sheet_name: document_numbers
+  period_type: fiscal_year
+  period: 2029
+  period_coverage:
+    start_date: '2029-04-01'
+    end_date: '2030-03-31'
+    basis: fiscal
+    source_period_label: 2029-30
+    notes: period.value stores the opening year of the publisher period.
+  geography_id: E92000001
+  geography_level: country
+  geography_name: England
+  geography_vintage: current
+  entity: dwelling
+  entity_role: hvcts_property_in_scope
+  domain: council_tax
+  groupby_dimension: property_value_band
+  shared_filters:
+    behaviour_basis: static
+  shared_constraints:
+  - variable: behaviour_basis
+    operator: ==
+    value: static
+    label: Behaviour basis
+  rows:
+  - value_id: gbp_2m_to_2_5m
+    label: GBP 2m to GBP 2.5m
+    ordinal: 0
+    row_number: 53
+    table_record_kind: detail
+    expected_row_header_column: C
+    expected_row_header: 2.0 to 2.5 71 72 72
+    filters:
+      property_value_band: gbp_2m_to_2_5m
+    constraints:
+    - variable: property_value_band
+      operator: ==
+      value: gbp_2m_to_2_5m
+      label: Property value band
+    guard_cells:
+    - column: A
+      row: 53
+      expected_value: 2
+      label: PDF page
+    - column: D
+      row: 53
+      expected_value: '72'
+      label: number 4 of 5 on the line
+  - value_id: gbp_2_5m_to_3_5m
+    label: GBP 2.5m to GBP 3.5m
+    ordinal: 1
+    row_number: 58
+    table_record_kind: detail
+    expected_row_header_column: C
+    expected_row_header: 2.5 to 3.5 54 55 55
+    filters:
+      property_value_band: gbp_2_5m_to_3_5m
+    constraints:
+    - variable: property_value_band
+      operator: ==
+      value: gbp_2_5m_to_3_5m
+      label: Property value band
+    guard_cells:
+    - column: A
+      row: 58
+      expected_value: 2
+      label: PDF page
+    - column: D
+      row: 58
+      expected_value: '55'
+      label: number 4 of 5 on the line
+  - value_id: gbp_3_5m_to_5m
+    label: GBP 3.5m to GBP 5m
+    ordinal: 2
+    row_number: 63
+    table_record_kind: detail
+    expected_row_header_column: C
+    expected_row_header: 3.5 to 5.0 25 25 25
+    filters:
+      property_value_band: gbp_3_5m_to_5m
+    constraints:
+    - variable: property_value_band
+      operator: ==
+      value: gbp_3_5m_to_5m
+      label: Property value band
+    guard_cells:
+    - column: A
+      row: 63
+      expected_value: 2
+      label: PDF page
+    - column: D
+      row: 63
+      expected_value: '25'
+      label: number 4 of 5 on the line
+  - value_id: over_gbp_5m
+    label: Over GBP 5m
+    ordinal: 3
+    row_number: 67
+    table_record_kind: detail
+    expected_row_header_column: C
+    expected_row_header: Over 5 15 15 15
+    filters:
+      property_value_band: over_gbp_5m
+    constraints:
+    - variable: property_value_band
+      operator: ==
+      value: over_gbp_5m
+      label: Property value band
+    guard_cells:
+    - column: A
+      row: 67
+      expected_value: 2
+      label: PDF page
+    - column: D
+      row: 67
+      expected_value: '15'
+      label: number 3 of 4 on the line
+  - value_id: total
+    label: Total estimated properties in scope
+    ordinal: 4
+    row_number: 70
+    table_record_kind: total
+    expected_row_header_column: C
+    expected_row_header: Total estimated properties in scope 165 166 167
+    guard_cells:
+    - column: A
+      row: 70
+      expected_value: 2
+      label: PDF page
+    - column: D
+      row: 70
+      expected_value: '166'
+      label: number 2 of 3 on the line
+  measures:
+  - measure_id: properties_in_scope
+    label: Estimated properties in scope (thousands)
+    ordinal: 0
+    column: E
+    source_column_id: numeric_value
+    concept: obr.hvcts_costing.properties_in_scope
+    source_concept: obr.hvcts_costing.properties_in_scope
+    concept_relation: source_label
+    concept_authority: obr
+    concept_evidence_url: https://obr.uk/docs/dlm_uploads/Supplementary-forecast-information-high-value-council-tax-surcharge-costing.pdf
+    concept_evidence_notes: OBR Table 1.1 'Estimated properties in scope by band, static', thousands,
+      static, before behavioural responses. Properties in England valued over GBP 2 million by the Valuation
+      Office in 2026 prices (paragraph 1.3), after the assumed exemptions (paragraph 1.5).
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000
+- record_set_id: obr.hvcts_costing_2026_04.properties_in_scope.static.fy2030
+  provenance_class: model_output
+  assertion: source_projection
+  record_set_spec_id: obr.hvcts_costing_2026_04.properties_in_scope.static.fy2030.v1
+  source_record_id_prefix: obr.hvcts_costing_2026_04.properties_in_scope.static.fy2030
+  sheet_name: document_numbers
+  period_type: fiscal_year
+  period: 2030
+  period_coverage:
+    start_date: '2030-04-01'
+    end_date: '2031-03-31'
+    basis: fiscal
+    source_period_label: 2030-31
+    notes: period.value stores the opening year of the publisher period.
+  geography_id: E92000001
+  geography_level: country
+  geography_name: England
+  geography_vintage: current
+  entity: dwelling
+  entity_role: hvcts_property_in_scope
+  domain: council_tax
+  groupby_dimension: property_value_band
+  shared_filters:
+    behaviour_basis: static
+  shared_constraints:
+  - variable: behaviour_basis
+    operator: ==
+    value: static
+    label: Behaviour basis
+  rows:
+  - value_id: gbp_2m_to_2_5m
+    label: GBP 2m to GBP 2.5m
+    ordinal: 0
+    row_number: 54
+    table_record_kind: detail
+    expected_row_header_column: C
+    expected_row_header: 2.0 to 2.5 71 72 72
+    filters:
+      property_value_band: gbp_2m_to_2_5m
+    constraints:
+    - variable: property_value_band
+      operator: ==
+      value: gbp_2m_to_2_5m
+      label: Property value band
+    guard_cells:
+    - column: A
+      row: 54
+      expected_value: 2
+      label: PDF page
+    - column: D
+      row: 54
+      expected_value: '72'
+      label: number 5 of 5 on the line
+  - value_id: gbp_2_5m_to_3_5m
+    label: GBP 2.5m to GBP 3.5m
+    ordinal: 1
+    row_number: 59
+    table_record_kind: detail
+    expected_row_header_column: C
+    expected_row_header: 2.5 to 3.5 54 55 55
+    filters:
+      property_value_band: gbp_2_5m_to_3_5m
+    constraints:
+    - variable: property_value_band
+      operator: ==
+      value: gbp_2_5m_to_3_5m
+      label: Property value band
+    guard_cells:
+    - column: A
+      row: 59
+      expected_value: 2
+      label: PDF page
+    - column: D
+      row: 59
+      expected_value: '55'
+      label: number 5 of 5 on the line
+  - value_id: gbp_3_5m_to_5m
+    label: GBP 3.5m to GBP 5m
+    ordinal: 2
+    row_number: 64
+    table_record_kind: detail
+    expected_row_header_column: C
+    expected_row_header: 3.5 to 5.0 25 25 25
+    filters:
+      property_value_band: gbp_3_5m_to_5m
+    constraints:
+    - variable: property_value_band
+      operator: ==
+      value: gbp_3_5m_to_5m
+      label: Property value band
+    guard_cells:
+    - column: A
+      row: 64
+      expected_value: 2
+      label: PDF page
+    - column: D
+      row: 64
+      expected_value: '25'
+      label: number 5 of 5 on the line
+  - value_id: over_gbp_5m
+    label: Over GBP 5m
+    ordinal: 3
+    row_number: 68
+    table_record_kind: detail
+    expected_row_header_column: C
+    expected_row_header: Over 5 15 15 15
+    filters:
+      property_value_band: over_gbp_5m
+    constraints:
+    - variable: property_value_band
+      operator: ==
+      value: over_gbp_5m
+      label: Property value band
+    guard_cells:
+    - column: A
+      row: 68
+      expected_value: 2
+      label: PDF page
+    - column: D
+      row: 68
+      expected_value: '15'
+      label: number 4 of 4 on the line
+  - value_id: total
+    label: Total estimated properties in scope
+    ordinal: 4
+    row_number: 71
+    table_record_kind: total
+    expected_row_header_column: C
+    expected_row_header: Total estimated properties in scope 165 166 167
+    guard_cells:
+    - column: A
+      row: 71
+      expected_value: 2
+      label: PDF page
+    - column: D
+      row: 71
+      expected_value: '167'
+      label: number 3 of 3 on the line
+  measures:
+  - measure_id: properties_in_scope
+    label: Estimated properties in scope (thousands)
+    ordinal: 0
+    column: E
+    source_column_id: numeric_value
+    concept: obr.hvcts_costing.properties_in_scope
+    source_concept: obr.hvcts_costing.properties_in_scope
+    concept_relation: source_label
+    concept_authority: obr
+    concept_evidence_url: https://obr.uk/docs/dlm_uploads/Supplementary-forecast-information-high-value-council-tax-surcharge-costing.pdf
+    concept_evidence_notes: OBR Table 1.1 'Estimated properties in scope by band, static', thousands,
+      static, before behavioural responses. Properties in England valued over GBP 2 million by the Valuation
+      Office in 2026 prices (paragraph 1.3), after the assumed exemptions (paragraph 1.5).
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000
+- record_set_id: obr.hvcts_costing_2026_04.properties_in_scope.post_behaviour.fy2028
+  provenance_class: model_output
+  assertion: source_projection
+  record_set_spec_id: obr.hvcts_costing_2026_04.properties_in_scope.post_behaviour.fy2028.v1
+  source_record_id_prefix: obr.hvcts_costing_2026_04.properties_in_scope.post_behaviour.fy2028
+  sheet_name: document_numbers
+  period_type: fiscal_year
+  period: 2028
+  period_coverage:
+    start_date: '2028-04-01'
+    end_date: '2029-03-31'
+    basis: fiscal
+    source_period_label: 2028-29
+    notes: period.value stores the opening year of the publisher period.
+  geography_id: E92000001
+  geography_level: country
+  geography_name: England
+  geography_vintage: current
+  entity: dwelling
+  entity_role: hvcts_property_in_scope
+  domain: council_tax
+  groupby_dimension: property_value_band
+  shared_filters:
+    behaviour_basis: post_behaviour
+  shared_constraints:
+  - variable: behaviour_basis
+    operator: ==
+    value: post_behaviour
+    label: Behaviour basis
+  rows:
+  - value_id: gbp_2m_to_2_5m
+    label: GBP 2m to GBP 2.5m
+    ordinal: 0
+    row_number: 138
+    table_record_kind: detail
+    expected_row_header_column: C
+    expected_row_header: 2.0 to 2.5 66 66 67
+    filters:
+      property_value_band: gbp_2m_to_2_5m
+    constraints:
+    - variable: property_value_band
+      operator: ==
+      value: gbp_2m_to_2_5m
+      label: Property value band
+    guard_cells:
+    - column: A
+      row: 138
+      expected_value: 5
+      label: PDF page
+    - column: D
+      row: 138
+      expected_value: '66'
+      label: number 3 of 5 on the line
+  - value_id: gbp_2_5m_to_3_5m
+    label: GBP 2.5m to GBP 3.5m
+    ordinal: 1
+    row_number: 143
+    table_record_kind: detail
+    expected_row_header_column: C
+    expected_row_header: 2.5 to 3.5 53 53 53
+    filters:
+      property_value_band: gbp_2_5m_to_3_5m
+    constraints:
+    - variable: property_value_band
+      operator: ==
+      value: gbp_2_5m_to_3_5m
+      label: Property value band
+    guard_cells:
+    - column: A
+      row: 143
+      expected_value: 5
+      label: PDF page
+    - column: D
+      row: 143
+      expected_value: '53'
+      label: number 3 of 5 on the line
+  - value_id: gbp_3_5m_to_5m
+    label: GBP 3.5m to GBP 5m
+    ordinal: 2
+    row_number: 148
+    table_record_kind: detail
+    expected_row_header_column: C
+    expected_row_header: 3.5 to 5.0 24 24 24
+    filters:
+      property_value_band: gbp_3_5m_to_5m
+    constraints:
+    - variable: property_value_band
+      operator: ==
+      value: gbp_3_5m_to_5m
+      label: Property value band
+    guard_cells:
+    - column: A
+      row: 148
+      expected_value: 5
+      label: PDF page
+    - column: D
+      row: 148
+      expected_value: '24'
+      label: number 3 of 5 on the line
+  - value_id: over_gbp_5m
+    label: Over GBP 5m
+    ordinal: 3
+    row_number: 152
+    table_record_kind: detail
+    expected_row_header_column: C
+    expected_row_header: Over 5 14 14 14
+    filters:
+      property_value_band: over_gbp_5m
+    constraints:
+    - variable: property_value_band
+      operator: ==
+      value: over_gbp_5m
+      label: Property value band
+    guard_cells:
+    - column: A
+      row: 152
+      expected_value: 5
+      label: PDF page
+    - column: D
+      row: 152
+      expected_value: '14'
+      label: number 2 of 4 on the line
+  - value_id: total
+    label: Total estimated properties in scope
+    ordinal: 4
+    row_number: 155
+    table_record_kind: total
+    expected_row_header_column: C
+    expected_row_header: Total estimated properties in scope 156 157 158
+    guard_cells:
+    - column: A
+      row: 155
+      expected_value: 5
+      label: PDF page
+    - column: D
+      row: 155
+      expected_value: '156'
+      label: number 1 of 3 on the line
+  measures:
+  - measure_id: properties_in_scope
+    label: Estimated properties in scope (thousands)
+    ordinal: 0
+    column: E
+    source_column_id: numeric_value
+    concept: obr.hvcts_costing.properties_in_scope
+    source_concept: obr.hvcts_costing.properties_in_scope
+    concept_relation: source_label
+    concept_authority: obr
+    concept_evidence_url: https://obr.uk/docs/dlm_uploads/Supplementary-forecast-information-high-value-council-tax-surcharge-costing.pdf
+    concept_evidence_notes: OBR Table 1.2 'Estimated properties in scope by band, post-behaviour', thousands,
+      post-behaviour. Properties in England valued over GBP 2 million by the Valuation Office in 2026
+      prices (paragraph 1.3), after the assumed exemptions (paragraph 1.5).
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000
+- record_set_id: obr.hvcts_costing_2026_04.properties_in_scope.post_behaviour.fy2029
+  provenance_class: model_output
+  assertion: source_projection
+  record_set_spec_id: obr.hvcts_costing_2026_04.properties_in_scope.post_behaviour.fy2029.v1
+  source_record_id_prefix: obr.hvcts_costing_2026_04.properties_in_scope.post_behaviour.fy2029
+  sheet_name: document_numbers
+  period_type: fiscal_year
+  period: 2029
+  period_coverage:
+    start_date: '2029-04-01'
+    end_date: '2030-03-31'
+    basis: fiscal
+    source_period_label: 2029-30
+    notes: period.value stores the opening year of the publisher period.
+  geography_id: E92000001
+  geography_level: country
+  geography_name: England
+  geography_vintage: current
+  entity: dwelling
+  entity_role: hvcts_property_in_scope
+  domain: council_tax
+  groupby_dimension: property_value_band
+  shared_filters:
+    behaviour_basis: post_behaviour
+  shared_constraints:
+  - variable: behaviour_basis
+    operator: ==
+    value: post_behaviour
+    label: Behaviour basis
+  rows:
+  - value_id: gbp_2m_to_2_5m
+    label: GBP 2m to GBP 2.5m
+    ordinal: 0
+    row_number: 139
+    table_record_kind: detail
+    expected_row_header_column: C
+    expected_row_header: 2.0 to 2.5 66 66 67
+    filters:
+      property_value_band: gbp_2m_to_2_5m
+    constraints:
+    - variable: property_value_band
+      operator: ==
+      value: gbp_2m_to_2_5m
+      label: Property value band
+    guard_cells:
+    - column: A
+      row: 139
+      expected_value: 5
+      label: PDF page
+    - column: D
+      row: 139
+      expected_value: '66'
+      label: number 4 of 5 on the line
+  - value_id: gbp_2_5m_to_3_5m
+    label: GBP 2.5m to GBP 3.5m
+    ordinal: 1
+    row_number: 144
+    table_record_kind: detail
+    expected_row_header_column: C
+    expected_row_header: 2.5 to 3.5 53 53 53
+    filters:
+      property_value_band: gbp_2_5m_to_3_5m
+    constraints:
+    - variable: property_value_band
+      operator: ==
+      value: gbp_2_5m_to_3_5m
+      label: Property value band
+    guard_cells:
+    - column: A
+      row: 144
+      expected_value: 5
+      label: PDF page
+    - column: D
+      row: 144
+      expected_value: '53'
+      label: number 4 of 5 on the line
+  - value_id: gbp_3_5m_to_5m
+    label: GBP 3.5m to GBP 5m
+    ordinal: 2
+    row_number: 149
+    table_record_kind: detail
+    expected_row_header_column: C
+    expected_row_header: 3.5 to 5.0 24 24 24
+    filters:
+      property_value_band: gbp_3_5m_to_5m
+    constraints:
+    - variable: property_value_band
+      operator: ==
+      value: gbp_3_5m_to_5m
+      label: Property value band
+    guard_cells:
+    - column: A
+      row: 149
+      expected_value: 5
+      label: PDF page
+    - column: D
+      row: 149
+      expected_value: '24'
+      label: number 4 of 5 on the line
+  - value_id: over_gbp_5m
+    label: Over GBP 5m
+    ordinal: 3
+    row_number: 153
+    table_record_kind: detail
+    expected_row_header_column: C
+    expected_row_header: Over 5 14 14 14
+    filters:
+      property_value_band: over_gbp_5m
+    constraints:
+    - variable: property_value_band
+      operator: ==
+      value: over_gbp_5m
+      label: Property value band
+    guard_cells:
+    - column: A
+      row: 153
+      expected_value: 5
+      label: PDF page
+    - column: D
+      row: 153
+      expected_value: '14'
+      label: number 3 of 4 on the line
+  - value_id: total
+    label: Total estimated properties in scope
+    ordinal: 4
+    row_number: 156
+    table_record_kind: total
+    expected_row_header_column: C
+    expected_row_header: Total estimated properties in scope 156 157 158
+    guard_cells:
+    - column: A
+      row: 156
+      expected_value: 5
+      label: PDF page
+    - column: D
+      row: 156
+      expected_value: '157'
+      label: number 2 of 3 on the line
+  measures:
+  - measure_id: properties_in_scope
+    label: Estimated properties in scope (thousands)
+    ordinal: 0
+    column: E
+    source_column_id: numeric_value
+    concept: obr.hvcts_costing.properties_in_scope
+    source_concept: obr.hvcts_costing.properties_in_scope
+    concept_relation: source_label
+    concept_authority: obr
+    concept_evidence_url: https://obr.uk/docs/dlm_uploads/Supplementary-forecast-information-high-value-council-tax-surcharge-costing.pdf
+    concept_evidence_notes: OBR Table 1.2 'Estimated properties in scope by band, post-behaviour', thousands,
+      post-behaviour. Properties in England valued over GBP 2 million by the Valuation Office in 2026
+      prices (paragraph 1.3), after the assumed exemptions (paragraph 1.5).
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000
+- record_set_id: obr.hvcts_costing_2026_04.properties_in_scope.post_behaviour.fy2030
+  provenance_class: model_output
+  assertion: source_projection
+  record_set_spec_id: obr.hvcts_costing_2026_04.properties_in_scope.post_behaviour.fy2030.v1
+  source_record_id_prefix: obr.hvcts_costing_2026_04.properties_in_scope.post_behaviour.fy2030
+  sheet_name: document_numbers
+  period_type: fiscal_year
+  period: 2030
+  period_coverage:
+    start_date: '2030-04-01'
+    end_date: '2031-03-31'
+    basis: fiscal
+    source_period_label: 2030-31
+    notes: period.value stores the opening year of the publisher period.
+  geography_id: E92000001
+  geography_level: country
+  geography_name: England
+  geography_vintage: current
+  entity: dwelling
+  entity_role: hvcts_property_in_scope
+  domain: council_tax
+  groupby_dimension: property_value_band
+  shared_filters:
+    behaviour_basis: post_behaviour
+  shared_constraints:
+  - variable: behaviour_basis
+    operator: ==
+    value: post_behaviour
+    label: Behaviour basis
+  rows:
+  - value_id: gbp_2m_to_2_5m
+    label: GBP 2m to GBP 2.5m
+    ordinal: 0
+    row_number: 140
+    table_record_kind: detail
+    expected_row_header_column: C
+    expected_row_header: 2.0 to 2.5 66 66 67
+    filters:
+      property_value_band: gbp_2m_to_2_5m
+    constraints:
+    - variable: property_value_band
+      operator: ==
+      value: gbp_2m_to_2_5m
+      label: Property value band
+    guard_cells:
+    - column: A
+      row: 140
+      expected_value: 5
+      label: PDF page
+    - column: D
+      row: 140
+      expected_value: '67'
+      label: number 5 of 5 on the line
+  - value_id: gbp_2_5m_to_3_5m
+    label: GBP 2.5m to GBP 3.5m
+    ordinal: 1
+    row_number: 145
+    table_record_kind: detail
+    expected_row_header_column: C
+    expected_row_header: 2.5 to 3.5 53 53 53
+    filters:
+      property_value_band: gbp_2_5m_to_3_5m
+    constraints:
+    - variable: property_value_band
+      operator: ==
+      value: gbp_2_5m_to_3_5m
+      label: Property value band
+    guard_cells:
+    - column: A
+      row: 145
+      expected_value: 5
+      label: PDF page
+    - column: D
+      row: 145
+      expected_value: '53'
+      label: number 5 of 5 on the line
+  - value_id: gbp_3_5m_to_5m
+    label: GBP 3.5m to GBP 5m
+    ordinal: 2
+    row_number: 150
+    table_record_kind: detail
+    expected_row_header_column: C
+    expected_row_header: 3.5 to 5.0 24 24 24
+    filters:
+      property_value_band: gbp_3_5m_to_5m
+    constraints:
+    - variable: property_value_band
+      operator: ==
+      value: gbp_3_5m_to_5m
+      label: Property value band
+    guard_cells:
+    - column: A
+      row: 150
+      expected_value: 5
+      label: PDF page
+    - column: D
+      row: 150
+      expected_value: '24'
+      label: number 5 of 5 on the line
+  - value_id: over_gbp_5m
+    label: Over GBP 5m
+    ordinal: 3
+    row_number: 154
+    table_record_kind: detail
+    expected_row_header_column: C
+    expected_row_header: Over 5 14 14 14
+    filters:
+      property_value_band: over_gbp_5m
+    constraints:
+    - variable: property_value_band
+      operator: ==
+      value: over_gbp_5m
+      label: Property value band
+    guard_cells:
+    - column: A
+      row: 154
+      expected_value: 5
+      label: PDF page
+    - column: D
+      row: 154
+      expected_value: '14'
+      label: number 4 of 4 on the line
+  - value_id: total
+    label: Total estimated properties in scope
+    ordinal: 4
+    row_number: 157
+    table_record_kind: total
+    expected_row_header_column: C
+    expected_row_header: Total estimated properties in scope 156 157 158
+    guard_cells:
+    - column: A
+      row: 157
+      expected_value: 5
+      label: PDF page
+    - column: D
+      row: 157
+      expected_value: '158'
+      label: number 3 of 3 on the line
+  measures:
+  - measure_id: properties_in_scope
+    label: Estimated properties in scope (thousands)
+    ordinal: 0
+    column: E
+    source_column_id: numeric_value
+    concept: obr.hvcts_costing.properties_in_scope
+    source_concept: obr.hvcts_costing.properties_in_scope
+    concept_relation: source_label
+    concept_authority: obr
+    concept_evidence_url: https://obr.uk/docs/dlm_uploads/Supplementary-forecast-information-high-value-council-tax-surcharge-costing.pdf
+    concept_evidence_notes: OBR Table 1.2 'Estimated properties in scope by band, post-behaviour', thousands,
+      post-behaviour. Properties in England valued over GBP 2 million by the Valuation Office in 2026
+      prices (paragraph 1.3), after the assumed exemptions (paragraph 1.5).
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000
+- record_set_id: obr.hvcts_costing_2026_04.costing.fy2026
+  provenance_class: model_output
+  assertion: source_projection
+  record_set_spec_id: obr.hvcts_costing_2026_04.costing.fy2026.v1
+  source_record_id_prefix: obr.hvcts_costing_2026_04.costing.fy2026
+  sheet_name: document_numbers
+  period_type: fiscal_year
+  period: 2026
+  period_coverage:
+    start_date: '2026-04-01'
+    end_date: '2027-03-31'
+    basis: fiscal
+    source_period_label: 2026-27
+    notes: period.value stores the opening year of the publisher period.
+  geography_id: E92000001
+  geography_level: country
+  geography_name: England
+  geography_vintage: current
+  entity: dwelling
+  entity_role: hvcts_property_in_scope
+  domain: council_tax
+  groupby_dimension: costing_line
+  rows:
+  - value_id: static_costing
+    label: Static costing
+    ordinal: 0
+    row_number: 219
+    table_record_kind: total
+    expected_row_header_column: C
+    expected_row_header: Static costing 0 0 -605 -620 -635
+    filters:
+      costing_line: static_costing
+    constraints:
+    - variable: costing_line
+      operator: ==
+      value: static_costing
+      label: Costing line
+    guard_cells:
+    - column: A
+      row: 219
+      expected_value: 7
+      label: PDF page
+    - column: D
+      row: 219
+      expected_value: '0'
+      label: number 1 of 5 on the line
+  - value_id: behavioural_response
+    label: Behavioural response
+    ordinal: 1
+    row_number: 224
+    table_record_kind: detail
+    expected_row_header_column: C
+    expected_row_header: Behavioural response 120 155 205 190 200
+    filters:
+      costing_line: behavioural_response
+    constraints:
+    - variable: costing_line
+      operator: ==
+      value: behavioural_response
+      label: Costing line
+    guard_cells:
+    - column: A
+      row: 224
+      expected_value: 7
+      label: PDF page
+    - column: D
+      row: 224
+      expected_value: '120'
+      label: number 1 of 5 on the line
+  - value_id: price_capitalisation_bunching_and_supply
+    label: 'of which: price capitalisation, bunching, and supply impacts'
+    ordinal: 2
+    row_number: 229
+    table_record_kind: detail
+    expected_row_header_column: C
+    expected_row_header: Price capitalisation, bunching, and supply impacts 0 0 30 30 30
+    filters:
+      costing_line: price_capitalisation_bunching_and_supply
+    constraints:
+    - variable: costing_line
+      operator: ==
+      value: price_capitalisation_bunching_and_supply
+      label: Costing line
+    guard_cells:
+    - column: A
+      row: 229
+      expected_value: 7
+      label: PDF page
+    - column: D
+      row: 229
+      expected_value: '0'
+      label: number 1 of 5 on the line
+  - value_id: compliance_appeals_and_support_scheme
+    label: 'of which: compliance, appeals and support scheme adjustments'
+    ordinal: 3
+    row_number: 234
+    table_record_kind: detail
+    expected_row_header_column: C
+    expected_row_header: adjustments 0 0 120 125 125
+    filters:
+      costing_line: compliance_appeals_and_support_scheme
+    constraints:
+    - variable: costing_line
+      operator: ==
+      value: compliance_appeals_and_support_scheme
+      label: Costing line
+    guard_cells:
+    - column: A
+      row: 234
+      expected_value: 7
+      label: PDF page
+    - column: D
+      row: 234
+      expected_value: '0'
+      label: number 1 of 5 on the line
+  - value_id: other_tax_heads
+    label: 'of which: other tax heads impact'
+    ordinal: 4
+    row_number: 239
+    table_record_kind: detail
+    expected_row_header_column: C
+    expected_row_header: Other tax heads impact 120 155 55 35 45
+    filters:
+      costing_line: other_tax_heads
+    constraints:
+    - variable: costing_line
+      operator: ==
+      value: other_tax_heads
+      label: Costing line
+    guard_cells:
+    - column: A
+      row: 239
+      expected_value: 7
+      label: PDF page
+    - column: D
+      row: 239
+      expected_value: '120'
+      label: number 1 of 5 on the line
+  - value_id: post_behavioural_costing
+    label: Post-behavioural costing
+    ordinal: 5
+    row_number: 244
+    table_record_kind: total
+    expected_row_header_column: C
+    expected_row_header: Post-behavioural costing 120 155 -400 -430 -435
+    filters:
+      costing_line: post_behavioural_costing
+    constraints:
+    - variable: costing_line
+      operator: ==
+      value: post_behavioural_costing
+      label: Costing line
+    guard_cells:
+    - column: A
+      row: 244
+      expected_value: 7
+      label: PDF page
+    - column: D
+      row: 244
+      expected_value: '120'
+      label: number 1 of 5 on the line
+  measures:
+  - measure_id: psnb_impact
+    label: Costing, GBP million (negative = reduction in PSNB)
+    ordinal: 0
+    column: E
+    source_column_id: numeric_value
+    concept: obr.hvcts_costing.psnb_impact
+    source_concept: obr.hvcts_costing.psnb_impact
+    concept_relation: source_label
+    concept_authority: obr
+    concept_evidence_url: https://obr.uk/docs/dlm_uploads/Supplementary-forecast-information-high-value-council-tax-surcharge-costing.pdf
+    concept_evidence_notes: 'OBR Table 1.5 ''Costing of high value council tax surcharge'', GBP million.
+      The table''s note: a negative figure means a reduction in PSNB, and the impacts are rounded to the
+      nearest GBP 5 million. The three ''of which'' lines partition the behavioural response; static plus
+      behavioural is the post-behavioural costing.'
+    unit: gbp
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000000
+- record_set_id: obr.hvcts_costing_2026_04.costing.fy2027
+  provenance_class: model_output
+  assertion: source_projection
+  record_set_spec_id: obr.hvcts_costing_2026_04.costing.fy2027.v1
+  source_record_id_prefix: obr.hvcts_costing_2026_04.costing.fy2027
+  sheet_name: document_numbers
+  period_type: fiscal_year
+  period: 2027
+  period_coverage:
+    start_date: '2027-04-01'
+    end_date: '2028-03-31'
+    basis: fiscal
+    source_period_label: 2027-28
+    notes: period.value stores the opening year of the publisher period.
+  geography_id: E92000001
+  geography_level: country
+  geography_name: England
+  geography_vintage: current
+  entity: dwelling
+  entity_role: hvcts_property_in_scope
+  domain: council_tax
+  groupby_dimension: costing_line
+  rows:
+  - value_id: static_costing
+    label: Static costing
+    ordinal: 0
+    row_number: 220
+    table_record_kind: total
+    expected_row_header_column: C
+    expected_row_header: Static costing 0 0 -605 -620 -635
+    filters:
+      costing_line: static_costing
+    constraints:
+    - variable: costing_line
+      operator: ==
+      value: static_costing
+      label: Costing line
+    guard_cells:
+    - column: A
+      row: 220
+      expected_value: 7
+      label: PDF page
+    - column: D
+      row: 220
+      expected_value: '0'
+      label: number 2 of 5 on the line
+  - value_id: behavioural_response
+    label: Behavioural response
+    ordinal: 1
+    row_number: 225
+    table_record_kind: detail
+    expected_row_header_column: C
+    expected_row_header: Behavioural response 120 155 205 190 200
+    filters:
+      costing_line: behavioural_response
+    constraints:
+    - variable: costing_line
+      operator: ==
+      value: behavioural_response
+      label: Costing line
+    guard_cells:
+    - column: A
+      row: 225
+      expected_value: 7
+      label: PDF page
+    - column: D
+      row: 225
+      expected_value: '155'
+      label: number 2 of 5 on the line
+  - value_id: price_capitalisation_bunching_and_supply
+    label: 'of which: price capitalisation, bunching, and supply impacts'
+    ordinal: 2
+    row_number: 230
+    table_record_kind: detail
+    expected_row_header_column: C
+    expected_row_header: Price capitalisation, bunching, and supply impacts 0 0 30 30 30
+    filters:
+      costing_line: price_capitalisation_bunching_and_supply
+    constraints:
+    - variable: costing_line
+      operator: ==
+      value: price_capitalisation_bunching_and_supply
+      label: Costing line
+    guard_cells:
+    - column: A
+      row: 230
+      expected_value: 7
+      label: PDF page
+    - column: D
+      row: 230
+      expected_value: '0'
+      label: number 2 of 5 on the line
+  - value_id: compliance_appeals_and_support_scheme
+    label: 'of which: compliance, appeals and support scheme adjustments'
+    ordinal: 3
+    row_number: 235
+    table_record_kind: detail
+    expected_row_header_column: C
+    expected_row_header: adjustments 0 0 120 125 125
+    filters:
+      costing_line: compliance_appeals_and_support_scheme
+    constraints:
+    - variable: costing_line
+      operator: ==
+      value: compliance_appeals_and_support_scheme
+      label: Costing line
+    guard_cells:
+    - column: A
+      row: 235
+      expected_value: 7
+      label: PDF page
+    - column: D
+      row: 235
+      expected_value: '0'
+      label: number 2 of 5 on the line
+  - value_id: other_tax_heads
+    label: 'of which: other tax heads impact'
+    ordinal: 4
+    row_number: 240
+    table_record_kind: detail
+    expected_row_header_column: C
+    expected_row_header: Other tax heads impact 120 155 55 35 45
+    filters:
+      costing_line: other_tax_heads
+    constraints:
+    - variable: costing_line
+      operator: ==
+      value: other_tax_heads
+      label: Costing line
+    guard_cells:
+    - column: A
+      row: 240
+      expected_value: 7
+      label: PDF page
+    - column: D
+      row: 240
+      expected_value: '155'
+      label: number 2 of 5 on the line
+  - value_id: post_behavioural_costing
+    label: Post-behavioural costing
+    ordinal: 5
+    row_number: 245
+    table_record_kind: total
+    expected_row_header_column: C
+    expected_row_header: Post-behavioural costing 120 155 -400 -430 -435
+    filters:
+      costing_line: post_behavioural_costing
+    constraints:
+    - variable: costing_line
+      operator: ==
+      value: post_behavioural_costing
+      label: Costing line
+    guard_cells:
+    - column: A
+      row: 245
+      expected_value: 7
+      label: PDF page
+    - column: D
+      row: 245
+      expected_value: '155'
+      label: number 2 of 5 on the line
+  measures:
+  - measure_id: psnb_impact
+    label: Costing, GBP million (negative = reduction in PSNB)
+    ordinal: 0
+    column: E
+    source_column_id: numeric_value
+    concept: obr.hvcts_costing.psnb_impact
+    source_concept: obr.hvcts_costing.psnb_impact
+    concept_relation: source_label
+    concept_authority: obr
+    concept_evidence_url: https://obr.uk/docs/dlm_uploads/Supplementary-forecast-information-high-value-council-tax-surcharge-costing.pdf
+    concept_evidence_notes: 'OBR Table 1.5 ''Costing of high value council tax surcharge'', GBP million.
+      The table''s note: a negative figure means a reduction in PSNB, and the impacts are rounded to the
+      nearest GBP 5 million. The three ''of which'' lines partition the behavioural response; static plus
+      behavioural is the post-behavioural costing.'
+    unit: gbp
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000000
+- record_set_id: obr.hvcts_costing_2026_04.costing.fy2028
+  provenance_class: model_output
+  assertion: source_projection
+  record_set_spec_id: obr.hvcts_costing_2026_04.costing.fy2028.v1
+  source_record_id_prefix: obr.hvcts_costing_2026_04.costing.fy2028
+  sheet_name: document_numbers
+  period_type: fiscal_year
+  period: 2028
+  period_coverage:
+    start_date: '2028-04-01'
+    end_date: '2029-03-31'
+    basis: fiscal
+    source_period_label: 2028-29
+    notes: period.value stores the opening year of the publisher period.
+  geography_id: E92000001
+  geography_level: country
+  geography_name: England
+  geography_vintage: current
+  entity: dwelling
+  entity_role: hvcts_property_in_scope
+  domain: council_tax
+  groupby_dimension: costing_line
+  rows:
+  - value_id: static_costing
+    label: Static costing
+    ordinal: 0
+    row_number: 221
+    table_record_kind: total
+    expected_row_header_column: C
+    expected_row_header: Static costing 0 0 -605 -620 -635
+    filters:
+      costing_line: static_costing
+    constraints:
+    - variable: costing_line
+      operator: ==
+      value: static_costing
+      label: Costing line
+    guard_cells:
+    - column: A
+      row: 221
+      expected_value: 7
+      label: PDF page
+    - column: D
+      row: 221
+      expected_value: '-605'
+      label: number 3 of 5 on the line
+  - value_id: behavioural_response
+    label: Behavioural response
+    ordinal: 1
+    row_number: 226
+    table_record_kind: detail
+    expected_row_header_column: C
+    expected_row_header: Behavioural response 120 155 205 190 200
+    filters:
+      costing_line: behavioural_response
+    constraints:
+    - variable: costing_line
+      operator: ==
+      value: behavioural_response
+      label: Costing line
+    guard_cells:
+    - column: A
+      row: 226
+      expected_value: 7
+      label: PDF page
+    - column: D
+      row: 226
+      expected_value: '205'
+      label: number 3 of 5 on the line
+  - value_id: price_capitalisation_bunching_and_supply
+    label: 'of which: price capitalisation, bunching, and supply impacts'
+    ordinal: 2
+    row_number: 231
+    table_record_kind: detail
+    expected_row_header_column: C
+    expected_row_header: Price capitalisation, bunching, and supply impacts 0 0 30 30 30
+    filters:
+      costing_line: price_capitalisation_bunching_and_supply
+    constraints:
+    - variable: costing_line
+      operator: ==
+      value: price_capitalisation_bunching_and_supply
+      label: Costing line
+    guard_cells:
+    - column: A
+      row: 231
+      expected_value: 7
+      label: PDF page
+    - column: D
+      row: 231
+      expected_value: '30'
+      label: number 3 of 5 on the line
+  - value_id: compliance_appeals_and_support_scheme
+    label: 'of which: compliance, appeals and support scheme adjustments'
+    ordinal: 3
+    row_number: 236
+    table_record_kind: detail
+    expected_row_header_column: C
+    expected_row_header: adjustments 0 0 120 125 125
+    filters:
+      costing_line: compliance_appeals_and_support_scheme
+    constraints:
+    - variable: costing_line
+      operator: ==
+      value: compliance_appeals_and_support_scheme
+      label: Costing line
+    guard_cells:
+    - column: A
+      row: 236
+      expected_value: 7
+      label: PDF page
+    - column: D
+      row: 236
+      expected_value: '120'
+      label: number 3 of 5 on the line
+  - value_id: other_tax_heads
+    label: 'of which: other tax heads impact'
+    ordinal: 4
+    row_number: 241
+    table_record_kind: detail
+    expected_row_header_column: C
+    expected_row_header: Other tax heads impact 120 155 55 35 45
+    filters:
+      costing_line: other_tax_heads
+    constraints:
+    - variable: costing_line
+      operator: ==
+      value: other_tax_heads
+      label: Costing line
+    guard_cells:
+    - column: A
+      row: 241
+      expected_value: 7
+      label: PDF page
+    - column: D
+      row: 241
+      expected_value: '55'
+      label: number 3 of 5 on the line
+  - value_id: post_behavioural_costing
+    label: Post-behavioural costing
+    ordinal: 5
+    row_number: 246
+    table_record_kind: total
+    expected_row_header_column: C
+    expected_row_header: Post-behavioural costing 120 155 -400 -430 -435
+    filters:
+      costing_line: post_behavioural_costing
+    constraints:
+    - variable: costing_line
+      operator: ==
+      value: post_behavioural_costing
+      label: Costing line
+    guard_cells:
+    - column: A
+      row: 246
+      expected_value: 7
+      label: PDF page
+    - column: D
+      row: 246
+      expected_value: '-400'
+      label: number 3 of 5 on the line
+  measures:
+  - measure_id: psnb_impact
+    label: Costing, GBP million (negative = reduction in PSNB)
+    ordinal: 0
+    column: E
+    source_column_id: numeric_value
+    concept: obr.hvcts_costing.psnb_impact
+    source_concept: obr.hvcts_costing.psnb_impact
+    concept_relation: source_label
+    concept_authority: obr
+    concept_evidence_url: https://obr.uk/docs/dlm_uploads/Supplementary-forecast-information-high-value-council-tax-surcharge-costing.pdf
+    concept_evidence_notes: 'OBR Table 1.5 ''Costing of high value council tax surcharge'', GBP million.
+      The table''s note: a negative figure means a reduction in PSNB, and the impacts are rounded to the
+      nearest GBP 5 million. The three ''of which'' lines partition the behavioural response; static plus
+      behavioural is the post-behavioural costing.'
+    unit: gbp
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000000
+- record_set_id: obr.hvcts_costing_2026_04.costing.fy2029
+  provenance_class: model_output
+  assertion: source_projection
+  record_set_spec_id: obr.hvcts_costing_2026_04.costing.fy2029.v1
+  source_record_id_prefix: obr.hvcts_costing_2026_04.costing.fy2029
+  sheet_name: document_numbers
+  period_type: fiscal_year
+  period: 2029
+  period_coverage:
+    start_date: '2029-04-01'
+    end_date: '2030-03-31'
+    basis: fiscal
+    source_period_label: 2029-30
+    notes: period.value stores the opening year of the publisher period.
+  geography_id: E92000001
+  geography_level: country
+  geography_name: England
+  geography_vintage: current
+  entity: dwelling
+  entity_role: hvcts_property_in_scope
+  domain: council_tax
+  groupby_dimension: costing_line
+  rows:
+  - value_id: static_costing
+    label: Static costing
+    ordinal: 0
+    row_number: 222
+    table_record_kind: total
+    expected_row_header_column: C
+    expected_row_header: Static costing 0 0 -605 -620 -635
+    filters:
+      costing_line: static_costing
+    constraints:
+    - variable: costing_line
+      operator: ==
+      value: static_costing
+      label: Costing line
+    guard_cells:
+    - column: A
+      row: 222
+      expected_value: 7
+      label: PDF page
+    - column: D
+      row: 222
+      expected_value: '-620'
+      label: number 4 of 5 on the line
+  - value_id: behavioural_response
+    label: Behavioural response
+    ordinal: 1
+    row_number: 227
+    table_record_kind: detail
+    expected_row_header_column: C
+    expected_row_header: Behavioural response 120 155 205 190 200
+    filters:
+      costing_line: behavioural_response
+    constraints:
+    - variable: costing_line
+      operator: ==
+      value: behavioural_response
+      label: Costing line
+    guard_cells:
+    - column: A
+      row: 227
+      expected_value: 7
+      label: PDF page
+    - column: D
+      row: 227
+      expected_value: '190'
+      label: number 4 of 5 on the line
+  - value_id: price_capitalisation_bunching_and_supply
+    label: 'of which: price capitalisation, bunching, and supply impacts'
+    ordinal: 2
+    row_number: 232
+    table_record_kind: detail
+    expected_row_header_column: C
+    expected_row_header: Price capitalisation, bunching, and supply impacts 0 0 30 30 30
+    filters:
+      costing_line: price_capitalisation_bunching_and_supply
+    constraints:
+    - variable: costing_line
+      operator: ==
+      value: price_capitalisation_bunching_and_supply
+      label: Costing line
+    guard_cells:
+    - column: A
+      row: 232
+      expected_value: 7
+      label: PDF page
+    - column: D
+      row: 232
+      expected_value: '30'
+      label: number 4 of 5 on the line
+  - value_id: compliance_appeals_and_support_scheme
+    label: 'of which: compliance, appeals and support scheme adjustments'
+    ordinal: 3
+    row_number: 237
+    table_record_kind: detail
+    expected_row_header_column: C
+    expected_row_header: adjustments 0 0 120 125 125
+    filters:
+      costing_line: compliance_appeals_and_support_scheme
+    constraints:
+    - variable: costing_line
+      operator: ==
+      value: compliance_appeals_and_support_scheme
+      label: Costing line
+    guard_cells:
+    - column: A
+      row: 237
+      expected_value: 7
+      label: PDF page
+    - column: D
+      row: 237
+      expected_value: '125'
+      label: number 4 of 5 on the line
+  - value_id: other_tax_heads
+    label: 'of which: other tax heads impact'
+    ordinal: 4
+    row_number: 242
+    table_record_kind: detail
+    expected_row_header_column: C
+    expected_row_header: Other tax heads impact 120 155 55 35 45
+    filters:
+      costing_line: other_tax_heads
+    constraints:
+    - variable: costing_line
+      operator: ==
+      value: other_tax_heads
+      label: Costing line
+    guard_cells:
+    - column: A
+      row: 242
+      expected_value: 7
+      label: PDF page
+    - column: D
+      row: 242
+      expected_value: '35'
+      label: number 4 of 5 on the line
+  - value_id: post_behavioural_costing
+    label: Post-behavioural costing
+    ordinal: 5
+    row_number: 247
+    table_record_kind: total
+    expected_row_header_column: C
+    expected_row_header: Post-behavioural costing 120 155 -400 -430 -435
+    filters:
+      costing_line: post_behavioural_costing
+    constraints:
+    - variable: costing_line
+      operator: ==
+      value: post_behavioural_costing
+      label: Costing line
+    guard_cells:
+    - column: A
+      row: 247
+      expected_value: 7
+      label: PDF page
+    - column: D
+      row: 247
+      expected_value: '-430'
+      label: number 4 of 5 on the line
+  measures:
+  - measure_id: psnb_impact
+    label: Costing, GBP million (negative = reduction in PSNB)
+    ordinal: 0
+    column: E
+    source_column_id: numeric_value
+    concept: obr.hvcts_costing.psnb_impact
+    source_concept: obr.hvcts_costing.psnb_impact
+    concept_relation: source_label
+    concept_authority: obr
+    concept_evidence_url: https://obr.uk/docs/dlm_uploads/Supplementary-forecast-information-high-value-council-tax-surcharge-costing.pdf
+    concept_evidence_notes: 'OBR Table 1.5 ''Costing of high value council tax surcharge'', GBP million.
+      The table''s note: a negative figure means a reduction in PSNB, and the impacts are rounded to the
+      nearest GBP 5 million. The three ''of which'' lines partition the behavioural response; static plus
+      behavioural is the post-behavioural costing.'
+    unit: gbp
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000000
+- record_set_id: obr.hvcts_costing_2026_04.costing.fy2030
+  provenance_class: model_output
+  assertion: source_projection
+  record_set_spec_id: obr.hvcts_costing_2026_04.costing.fy2030.v1
+  source_record_id_prefix: obr.hvcts_costing_2026_04.costing.fy2030
+  sheet_name: document_numbers
+  period_type: fiscal_year
+  period: 2030
+  period_coverage:
+    start_date: '2030-04-01'
+    end_date: '2031-03-31'
+    basis: fiscal
+    source_period_label: 2030-31
+    notes: period.value stores the opening year of the publisher period.
+  geography_id: E92000001
+  geography_level: country
+  geography_name: England
+  geography_vintage: current
+  entity: dwelling
+  entity_role: hvcts_property_in_scope
+  domain: council_tax
+  groupby_dimension: costing_line
+  rows:
+  - value_id: static_costing
+    label: Static costing
+    ordinal: 0
+    row_number: 223
+    table_record_kind: total
+    expected_row_header_column: C
+    expected_row_header: Static costing 0 0 -605 -620 -635
+    filters:
+      costing_line: static_costing
+    constraints:
+    - variable: costing_line
+      operator: ==
+      value: static_costing
+      label: Costing line
+    guard_cells:
+    - column: A
+      row: 223
+      expected_value: 7
+      label: PDF page
+    - column: D
+      row: 223
+      expected_value: '-635'
+      label: number 5 of 5 on the line
+  - value_id: behavioural_response
+    label: Behavioural response
+    ordinal: 1
+    row_number: 228
+    table_record_kind: detail
+    expected_row_header_column: C
+    expected_row_header: Behavioural response 120 155 205 190 200
+    filters:
+      costing_line: behavioural_response
+    constraints:
+    - variable: costing_line
+      operator: ==
+      value: behavioural_response
+      label: Costing line
+    guard_cells:
+    - column: A
+      row: 228
+      expected_value: 7
+      label: PDF page
+    - column: D
+      row: 228
+      expected_value: '200'
+      label: number 5 of 5 on the line
+  - value_id: price_capitalisation_bunching_and_supply
+    label: 'of which: price capitalisation, bunching, and supply impacts'
+    ordinal: 2
+    row_number: 233
+    table_record_kind: detail
+    expected_row_header_column: C
+    expected_row_header: Price capitalisation, bunching, and supply impacts 0 0 30 30 30
+    filters:
+      costing_line: price_capitalisation_bunching_and_supply
+    constraints:
+    - variable: costing_line
+      operator: ==
+      value: price_capitalisation_bunching_and_supply
+      label: Costing line
+    guard_cells:
+    - column: A
+      row: 233
+      expected_value: 7
+      label: PDF page
+    - column: D
+      row: 233
+      expected_value: '30'
+      label: number 5 of 5 on the line
+  - value_id: compliance_appeals_and_support_scheme
+    label: 'of which: compliance, appeals and support scheme adjustments'
+    ordinal: 3
+    row_number: 238
+    table_record_kind: detail
+    expected_row_header_column: C
+    expected_row_header: adjustments 0 0 120 125 125
+    filters:
+      costing_line: compliance_appeals_and_support_scheme
+    constraints:
+    - variable: costing_line
+      operator: ==
+      value: compliance_appeals_and_support_scheme
+      label: Costing line
+    guard_cells:
+    - column: A
+      row: 238
+      expected_value: 7
+      label: PDF page
+    - column: D
+      row: 238
+      expected_value: '125'
+      label: number 5 of 5 on the line
+  - value_id: other_tax_heads
+    label: 'of which: other tax heads impact'
+    ordinal: 4
+    row_number: 243
+    table_record_kind: detail
+    expected_row_header_column: C
+    expected_row_header: Other tax heads impact 120 155 55 35 45
+    filters:
+      costing_line: other_tax_heads
+    constraints:
+    - variable: costing_line
+      operator: ==
+      value: other_tax_heads
+      label: Costing line
+    guard_cells:
+    - column: A
+      row: 243
+      expected_value: 7
+      label: PDF page
+    - column: D
+      row: 243
+      expected_value: '45'
+      label: number 5 of 5 on the line
+  - value_id: post_behavioural_costing
+    label: Post-behavioural costing
+    ordinal: 5
+    row_number: 248
+    table_record_kind: total
+    expected_row_header_column: C
+    expected_row_header: Post-behavioural costing 120 155 -400 -430 -435
+    filters:
+      costing_line: post_behavioural_costing
+    constraints:
+    - variable: costing_line
+      operator: ==
+      value: post_behavioural_costing
+      label: Costing line
+    guard_cells:
+    - column: A
+      row: 248
+      expected_value: 7
+      label: PDF page
+    - column: D
+      row: 248
+      expected_value: '-435'
+      label: number 5 of 5 on the line
+  measures:
+  - measure_id: psnb_impact
+    label: Costing, GBP million (negative = reduction in PSNB)
+    ordinal: 0
+    column: E
+    source_column_id: numeric_value
+    concept: obr.hvcts_costing.psnb_impact
+    source_concept: obr.hvcts_costing.psnb_impact
+    concept_relation: source_label
+    concept_authority: obr
+    concept_evidence_url: https://obr.uk/docs/dlm_uploads/Supplementary-forecast-information-high-value-council-tax-surcharge-costing.pdf
+    concept_evidence_notes: 'OBR Table 1.5 ''Costing of high value council tax surcharge'', GBP million.
+      The table''s note: a negative figure means a reduction in PSNB, and the impacts are rounded to the
+      nearest GBP 5 million. The three ''of which'' lines partition the behavioural response; static plus
+      behavioural is the post-behavioural costing.'
+    unit: gbp
+    aggregation: sum
+    expected_cell_type: number
+    value_scale: 1000000
+- record_set_id: obr.hvcts_costing_2026_04.non_owner_occupied_share.fy2028
+  provenance_class: model_output
+  assertion: source_projection
+  record_set_spec_id: obr.hvcts_costing_2026_04.non_owner_occupied_share.fy2028.v1
+  source_record_id_prefix: obr.hvcts_costing_2026_04.non_owner_occupied_share.fy2028
+  sheet_name: document_numbers
+  period_type: fiscal_year
+  period: 2028
+  period_coverage:
+    start_date: '2028-04-01'
+    end_date: '2029-03-31'
+    basis: fiscal
+    source_period_label: 2028-29
+    notes: period.value stores the opening year of 2028-29, the charge's first year; the note states the
+      parameter without a year.
+  geography_id: E92000001
+  geography_level: country
+  geography_name: England
+  geography_vintage: current
+  entity: dwelling
+  entity_role: hvcts_property_in_scope
+  domain: council_tax
+  groupby_dimension: costing_parameter
+  rows:
+  - value_id: non_owner_occupied_share
+    label: Share of liable properties that are non-owner-occupied
+    ordinal: 0
+    row_number: 103
+    table_record_kind: total
+    expected_row_header_column: C
+    expected_row_header: around 40 per cent of properties liable to the tax are non-owner-occupied, and
+      10 per
+    guard_cells:
+    - column: A
+      row: 103
+      expected_value: 4
+      label: PDF page
+    - column: D
+      row: 103
+      expected_value: '40'
+      label: number 1 of 2 on the line
+  measures:
+  - measure_id: non_owner_occupied_share
+    label: Share of liable properties that are non-owner-occupied
+    ordinal: 0
+    column: E
+    source_column_id: numeric_value
+    concept: obr.hvcts_costing.non_owner_occupied_share
+    source_concept: obr.hvcts_costing.non_owner_occupied_share
+    concept_relation: source_label
+    concept_authority: obr
+    concept_evidence_url: https://obr.uk/docs/dlm_uploads/Supplementary-forecast-information-high-value-council-tax-surcharge-costing.pdf
+    concept_evidence_notes: 'Paragraph 1.13: ''SDLT data shows that around 40 per cent of properties liable
+      to the tax are non-owner-occupied''.'
+    unit: percent
+    aggregation: share
+    expected_cell_type: number
+- record_set_id: obr.hvcts_costing_2026_04.non_uk_resident_owner_share.fy2028
+  provenance_class: model_output
+  assertion: source_projection
+  record_set_spec_id: obr.hvcts_costing_2026_04.non_uk_resident_owner_share.fy2028.v1
+  source_record_id_prefix: obr.hvcts_costing_2026_04.non_uk_resident_owner_share.fy2028
+  sheet_name: document_numbers
+  period_type: fiscal_year
+  period: 2028
+  period_coverage:
+    start_date: '2028-04-01'
+    end_date: '2029-03-31'
+    basis: fiscal
+    source_period_label: 2028-29
+    notes: period.value stores the opening year of 2028-29, the charge's first year; the note states the
+      parameter without a year.
+  geography_id: E92000001
+  geography_level: country
+  geography_name: England
+  geography_vintage: current
+  entity: dwelling
+  entity_role: hvcts_property_in_scope
+  domain: council_tax
+  groupby_dimension: costing_parameter
+  rows:
+  - value_id: non_uk_resident_owner_share
+    label: Share of properties impacted by the charge with non-UK resident owners
+    ordinal: 0
+    row_number: 112
+    table_record_kind: total
+    expected_row_header_column: C
+    expected_row_header: owners (14 per cent of properties impacted by the charge) are assumed to be high-
+    guard_cells:
+    - column: A
+      row: 112
+      expected_value: 4
+      label: PDF page
+    - column: D
+      row: 112
+      expected_value: '14'
+      label: number 1 of 1 on the line
+  measures:
+  - measure_id: non_uk_resident_owner_share
+    label: Share of properties impacted by the charge with non-UK resident owners
+    ordinal: 0
+    column: E
+    source_column_id: numeric_value
+    concept: obr.hvcts_costing.non_uk_resident_owner_share
+    source_concept: obr.hvcts_costing.non_uk_resident_owner_share
+    concept_relation: source_label
+    concept_authority: obr
+    concept_evidence_url: https://obr.uk/docs/dlm_uploads/Supplementary-forecast-information-high-value-council-tax-surcharge-costing.pdf
+    concept_evidence_notes: 'Paragraph 1.13: ''Non-UK resident property owners (14 per cent of properties
+      impacted by the charge) are assumed to be high-wealth owners and able to pay the charge''.'
+    unit: percent
+    aggregation: share
+    expected_cell_type: number
+- record_set_id: obr.hvcts_costing_2026_04.support_scheme_take_up.fy2028
+  provenance_class: model_output
+  assertion: source_projection
+  record_set_spec_id: obr.hvcts_costing_2026_04.support_scheme_take_up.fy2028.v1
+  source_record_id_prefix: obr.hvcts_costing_2026_04.support_scheme_take_up.fy2028
+  sheet_name: document_numbers
+  period_type: fiscal_year
+  period: 2028
+  period_coverage:
+    start_date: '2028-04-01'
+    end_date: '2029-03-31'
+    basis: fiscal
+    source_period_label: 2028-29
+    notes: period.value stores the opening year of 2028-29, the charge's first year; the note states the
+      parameter without a year.
+  geography_id: E92000001
+  geography_level: country
+  geography_name: England
+  geography_vintage: current
+  entity: household
+  entity_role: hvcts_support_scheme_eligible_household
+  domain: council_tax
+  groupby_dimension: costing_parameter
+  shared_constraints:
+  - variable: household_net_income
+    operator: <
+    value: 30000
+    unit: gbp_per_year
+    label: Net household income under GBP 30,000 a year
+  rows:
+  - value_id: support_scheme_take_up
+    label: Assumed support scheme take-up among eligible households
+    ordinal: 0
+    row_number: 123
+    table_record_kind: total
+    expected_row_header_column: C
+    expected_row_header: and the costing assumes a 75 per cent take up rate from the eligible households,
+    guard_cells:
+    - column: A
+      row: 123
+      expected_value: 5
+      label: PDF page
+    - column: D
+      row: 123
+      expected_value: '75'
+      label: number 1 of 1 on the line
+    - column: D
+      row: 117
+      expected_value: £30,000
+      label: support scheme income threshold
+  measures:
+  - measure_id: support_scheme_take_up
+    label: Assumed support scheme take-up among eligible households
+    ordinal: 0
+    column: E
+    source_column_id: numeric_value
+    concept: obr.hvcts_costing.support_scheme_take_up
+    source_concept: obr.hvcts_costing.support_scheme_take_up
+    concept_relation: source_label
+    concept_authority: obr
+    concept_evidence_url: https://obr.uk/docs/dlm_uploads/Supplementary-forecast-information-high-value-council-tax-surcharge-costing.pdf
+    concept_evidence_notes: 'Paragraph 1.13: the support scheme is assumed available to households with
+      net income under GBP 30,000 a year, with ''a 75 per cent take up rate from the eligible households''.'
+    unit: percent
+    aggregation: rate
+    expected_cell_type: number

@@ -1,0 +1,36 @@
+source_id: gambling_commission
+package_id: gambling-commission-gsgb-annual-report-2025
+dataset: gambling_commission_gambling-commission-gsgb-annual-report-2025
+source_page: https://www.gamblingcommission.gov.uk/statistics-and-research/publication/gambling-survey-for-great-britain-annual-report-2025-official-statistics
+table: 'Gambling Survey for Great Britain, Annual Report 2025: data tables'
+license: None stated
+attribution: 'Source: Gambling Commission, Gambling Survey for Great Britain, Annual Report
+  2025 data tables (official statistics), published 16 July 2026. Produced by the National
+  Centre for Social Research and the University of Glasgow; authors Ridout, K., Roop, S.,
+  Wardle, H., Moore, E. and Sadler, K.'
+license_evidence: Neither the workbook nor its publication page (https://www.gamblingcommission.gov.uk/statistics-and-research/publication/gambling-survey-for-great-britain-annual-report-2025-official-statistics)
+  states a licence, and data.gov.uk lists no GSGB dataset. The Commission's website terms
+  of use (https://www.gamblingcommission.gov.uk/terms-of-use, last updated 14 October 2020)
+  say that, unless otherwise stated, copying its material is not permitted without prior approval.
+  Its guidance on using GSGB statistics (https://www.gamblingcommission.gov.uk/about-us/page/guidance-on-using-statistics-from-the-gambling-survey-for-great-britain)
+  covers how to report the figures, not reuse of the file.
+license_verified_at: '2026-10-25'
+files:
+  2026:
+    filename: GSGB_annual_report_2025_data_tables.xlsx
+    source_url: https://assets.ctfassets.net/j16ev64qyf6l/1fWlGKxtYGaSGAjhRNLGvf/2a47696701e3aa9b93cc2ae4967e7c43/GSGB_annual_report_2025_data_tables.xlsx
+    sha256: ccee22692bb49f627cec5ed78f7acb5590a87f728de0567e786090f55496f271
+    size_bytes: 484303
+    fetched_at: '2026-10-25T11:52:11+00:00'
+    storage:
+      local: false
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/gambling_commission/gambling-commission-gsgb-annual-report-2025/2026/ccee22692bb49f627cec5ed78f7acb5590a87f728de0567e786090f55496f271/GSGB_annual_report_2025_data_tables.xlsx
+        uri: r2://ledger-raw/raw/uk/gambling_commission/gambling-commission-gsgb-annual-report-2025/2026/ccee22692bb49f627cec5ed78f7acb5590a87f728de0567e786090f55496f271/GSGB_annual_report_2025_data_tables.xlsx
+provenance_notes: 'Stored in R2 only (storage.local: false) and not committed, because the
+  Commission states no licence for the file (see license_evidence); Decided 25 October 2026.
+  Builds read it from the source-artifact cache, or with LEDGER_SOURCE_ARTIFACT_FETCH=1 from
+  source_url. Publication date 16 July 2026; fieldwork 13 January 2025 to 22 January 2026;
+  20,775 adults aged 18 and over in Great Britain. For PolicyEngine/microcosm#1381.'

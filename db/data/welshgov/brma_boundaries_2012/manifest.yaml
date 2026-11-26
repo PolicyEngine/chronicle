@@ -1,0 +1,22 @@
+source_id: welshgov
+package_id: welshgov-brma-boundaries-2012
+dataset: welshgov_welshgov-brma-boundaries-2012
+source_page: https://datashare.ed.ac.uk/bitstreams/c2fe4c38-fd3e-4498-a4f9-62ac32163311/download
+table: brma_boundaries_2012
+files:
+  2012:
+    filename: wales_brma_boundaries_2012.zip
+    source_url: https://datashare.ed.ac.uk/bitstreams/c2fe4c38-fd3e-4498-a4f9-62ac32163311/download
+    sha256: 49de861258ba945eb659648d2a040aef1e9089ac80374f0bf4e85fcb062edd6c
+    size_bytes: 4408233
+    fetched_at: '2026-10-07T13:35:04+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/welshgov/welshgov-brma-boundaries-2012/2012/49de861258ba945eb659648d2a040aef1e9089ac80374f0bf4e85fcb062edd6c/wales_brma_boundaries_2012.zip
+        uri: r2://ledger-raw/raw/uk/welshgov/welshgov-brma-boundaries-2012/2012/49de861258ba945eb659648d2a040aef1e9089ac80374f0bf4e85fcb062edd6c/wales_brma_boundaries_2012.zip
+registration_kind: raw_only
+provenance_notes: Rent Officers Wales boundaries applicable May 2012, released 23
+  September 2014; Edinburgh DataShare archive includes publisher correspondence granting
+  OGL reuse.

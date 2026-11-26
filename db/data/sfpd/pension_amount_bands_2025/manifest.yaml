@@ -1,0 +1,36 @@
+source_id: belgium
+package_id: sfpd-pension-amount-bands-2025
+source_name: FPD Jaarlijkse statistiek 2025 amount-band distributions
+publisher: Federale Pensioendienst (FPD/SFPD)
+source_page: https://www.sfpd.fgov.be/nl/kenniscentrum/statistieken/statistieken-werknemers
+files:
+  2025:
+    filename: pension_amount_bands_2025.csv
+    source_url: https://www.sfpd.fgov.be/media/Stat/Jaarlijks/nl_statistiek_2025.pdf
+    sha256: 21d65f7f39eec6e50bc07beedcef5a2a3742723fc79fa12754478905e74d1644
+    size_bytes: 1509083
+    retrieved_at: '2026-10-23'
+    source_table: Jaarlijkse statistiek 2025, sections 1.2, 6.2 and 9
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/belgium/sfpd-pension-amount-bands-2025/2025/21d65f7f39eec6e50bc07beedcef5a2a3742723fc79fa12754478905e74d1644/pension_amount_bands_2025.csv
+        uri: r2://ledger-raw/raw/belgium/sfpd-pension-amount-bands-2025/2025/21d65f7f39eec6e50bc07beedcef5a2a3742723fc79fa12754478905e74d1644/pension_amount_bands_2025.csv
+    notes: R2 location declared only; upload after lane review. Deterministic cell transcription from
+      source_capture; no derived observations.
+  source_capture:
+    filename: nl_statistiek_2025.pdf
+    source_url: https://www.sfpd.fgov.be/media/Stat/Jaarlijks/nl_statistiek_2025.pdf
+    sha256: 198baf61f9277755059367c811664a71917aab6fe5d2b7e2c7e2c96e9baa8c64
+    size_bytes: 5546459
+    retrieved_at: '2026-10-23'
+    source_table: Jaarlijkse statistiek 2025, sections 1.2, 6.2 and 9
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/belgium/sfpd-pension-amount-bands-2025/source_capture/198baf61f9277755059367c811664a71917aab6fe5d2b7e2c7e2c96e9baa8c64/nl_statistiek_2025.pdf
+        uri: r2://ledger-raw/raw/belgium/sfpd-pension-amount-bands-2025/source_capture/198baf61f9277755059367c811664a71917aab6fe5d2b7e2c7e2c96e9baa8c64/nl_statistiek_2025.pdf
+    notes: R2 location declared only; upload after lane review. Immutable publisher PDF; 244 pages, permissions
+      encrypted; empty user password.

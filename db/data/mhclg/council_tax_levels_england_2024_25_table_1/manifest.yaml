@@ -1,0 +1,26 @@
+source_id: mhclg
+package_id: mhclg-council-tax-levels-england-2024-25-table-1
+dataset: mhclg_mhclg-council-tax-levels-england-2024-25-table-1
+source_page: https://www.gov.uk/government/statistics/council-tax-levels-set-by-local-authorities-in-england-2024-to-2025
+table: 'Council Tax levels set by local authorities in England 2024 to 2025, Table
+  1: Calculating council tax levels, England summary 2020-21 to 2024-25 (revised)'
+files:
+  2024:
+    filename: Table_1_24-25__revised_.ods
+    source_url: https://assets.publishing.service.gov.uk/media/663a457f4d8bb7378fb6c321/Table_1_24-25__revised_.ods
+    sha256: 65361501013d80c112881e4eee235159bfd620781bd7a860c1829ba25f09ec51
+    size_bytes: 6424
+    fetched_at: '2026-11-04T18:19:43+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/mhclg/mhclg-council-tax-levels-england-2024-25-table-1/2024/65361501013d80c112881e4eee235159bfd620781bd7a860c1829ba25f09ec51/Table_1_24-25__revised_.ods
+        uri: r2://ledger-raw/raw/uk/mhclg/mhclg-council-tax-levels-england-2024-25-table-1/2024/65361501013d80c112881e4eee235159bfd620781bd7a860c1829ba25f09ec51/Table_1_24-25__revised_.ods
+registration_kind: raw_only
+provenance_notes: 'MHCLG, Council Tax levels set by local authorities in England 2024
+  to 2025 (first published 21 March 2024). The 2024-25 release publishes Tables 1
+  to 9 as nine files; this is Table 1. England summary for 2020-21 to 2024-25: council
+  tax requirement with and without parish precepts, parish precepts, taxbase and average
+  Band D. Revised in May 2024 (''2024 to 2025[r]''). Licence: Open Government Licence
+  v3.0. Raw-only for chronicle#412 item 2.'

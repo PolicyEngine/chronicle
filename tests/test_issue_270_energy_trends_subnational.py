@@ -181,7 +181,8 @@ def test_subnational_packages_keep_units_reference_periods_and_weather_basis():
     ]
     assert electricity_2024.period_coverage.start_date == "2024-02-01"
     assert electricity_2024.period_coverage.end_date == "2025-01-31"
-    assert {fact.period.type for fact in gas_reference_facts} == {"calendar_year"}
+    # chronicle#356: DESNZ's gas year, labelled by its opening year.
+    assert {fact.period.type for fact in gas_reference_facts} == {"gas_year"}
     assert {fact.period_coverage.basis for fact in gas_reference_facts} == {
         "survey_reference"
     }
@@ -194,8 +195,8 @@ def test_subnational_packages_keep_units_reference_periods_and_weather_basis():
         "2024 (mid-May 2024 to mid-May 2025)",
     }
     assert all(
-        "not exact dates" in fact.period_coverage.notes
-        and "calendar_year identity" in fact.period_coverage.notes
+        "no exact dates" in fact.period_coverage.notes
+        and "opening year" in fact.period_coverage.notes
         for fact in gas_reference_facts
     )
 

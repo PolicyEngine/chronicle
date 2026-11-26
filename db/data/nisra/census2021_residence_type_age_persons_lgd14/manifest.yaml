@@ -1,0 +1,18 @@
+source_id: nisra
+package_id: nisra-census2021-residence-type-age-persons-lgd14
+dataset: nisra_nisra-census2021-residence-type-age-persons-lgd14
+source_page: https://build.nisra.gov.uk/en/custom/data?d=PEOPLE&v=LGD14&v=UR_RESIDENCE_TYPE&v=AGE_SYOA
+table: 'NISRA Census 2021 flexible table: residence type by single year of age, LGD14'
+files:
+  2021:
+    filename: census2021_residence_type_single_year_age_persons_lgd14.csv
+    source_url: https://build.nisra.gov.uk/en/custom/table.csv?d=PEOPLE&v=LGD14&v=UR_RESIDENCE_TYPE&v=AGE_SYOA
+    sha256: 57f075e7a64ba1c2da97da9719d51df99592e50e21ccb66d35af08b7796ad2a3
+    size_bytes: 175241
+    fetched_at: '2026-10-15T10:35:20+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/nisra/nisra-census2021-residence-type-age-persons-lgd14/2021/57f075e7a64ba1c2da97da9719d51df99592e50e21ccb66d35af08b7796ad2a3/census2021_residence_type_single_year_age_persons_lgd14.csv
+        uri: r2://ledger-raw/raw/uk/nisra/nisra-census2021-residence-type-age-persons-lgd14/2021/57f075e7a64ba1c2da97da9719d51df99592e50e21ccb66d35af08b7796ad2a3/census2021_residence_type_single_year_age_persons_lgd14.csv

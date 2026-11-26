@@ -1,0 +1,1 @@
+Give each FPB June 2026 outlook annex row its own `source_concept` (`fpb.economic_outlook_2026_2031.<table>.<row>`), replacing the table-wide `…published_cell`, so consumers that read the observed concept as series identity no longer merge different rows of one table. FPB's aggregate and legacy fact keys move; semantic keys and values don't.

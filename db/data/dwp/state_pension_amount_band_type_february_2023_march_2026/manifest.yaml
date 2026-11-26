@@ -1,0 +1,19 @@
+source_id: dwp
+package_id: dwp-state-pension-amount-band-type-february-2023-march-2026
+dataset: dwp_dwp-state-pension-amount-band-type-february-2023-march-2026
+source_page: https://stat-xplore.dwp.gov.uk/
+table: State Pension caseload by grouped weekly amount of benefit and type of pension,
+  Great Britain residents, February 2023 to March 2026
+files:
+  2026:
+    filename: state_pension_caseload_by_amount_band_and_type_february_2023_march_2026.json
+    source_url: https://stat-xplore.dwp.gov.uk/webapi/rest/v1/table
+    sha256: beb76df6c6a03959cbdde42b5047a0e8551f40541436c460976b81a2ee128c2a
+    size_bytes: 14121
+    fetched_at: '2026-09-29T12:30:52+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/dwp/dwp-state-pension-amount-band-type-february-2023-march-2026/2026/beb76df6c6a03959cbdde42b5047a0e8551f40541436c460976b81a2ee128c2a/state_pension_caseload_by_amount_band_and_type_february_2023_march_2026.json
+        uri: r2://ledger-raw/raw/uk/dwp/dwp-state-pension-amount-band-type-february-2023-march-2026/2026/beb76df6c6a03959cbdde42b5047a0e8551f40541436c460976b81a2ee128c2a/state_pension_caseload_by_amount_band_and_type_february_2023_march_2026.json

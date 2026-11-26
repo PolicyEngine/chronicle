@@ -1,0 +1,27 @@
+source_id: mhclg
+package_id: mhclg-land-value-estimates-2023
+dataset: mhclg_mhclg-land-value-estimates-2023
+source_page: https://www.gov.uk/government/publications/land-value-estimates-for-policy-appraisal-2023
+table: Land value estimates for policy appraisal 2023 (valuation date 1 October 2023)
+license: Open Government Licence v3.0
+license_url: https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/
+attribution: 'Source: Ministry of Housing, Communities and Local Government, Land
+  value estimates for policy appraisal 2023 (published 16 March 2026). Contains public
+  sector information licensed under the Open Government Licence v3.0.'
+license_evidence: 'GOV.UK states: ''All content is available under the Open Government
+  Licence v3.0, except where otherwise stated.'' The publication page and the workbook
+  state no other licence.'
+license_verified_at: '2026-11-04'
+files:
+  2023:
+    filename: Land_value_estimates_for_policy_appraisal_2023.xlsx
+    source_url: https://assets.publishing.service.gov.uk/media/69b2d95f912f3f96bf687b1c/Land_value_estimates_for_policy_appraisal_2023.xlsx
+    sha256: ca626b7ef921a08cd886cf76904bb830d2be8cf8d4b0018d1a54f029168b8705
+    size_bytes: 175902
+    fetched_at: '2026-11-04T12:55:38+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/mhclg/mhclg-land-value-estimates-2023/2023/ca626b7ef921a08cd886cf76904bb830d2be8cf8d4b0018d1a54f029168b8705/Land_value_estimates_for_policy_appraisal_2023.xlsx
+        uri: r2://ledger-raw/raw/uk/mhclg/mhclg-land-value-estimates-2023/2023/ca626b7ef921a08cd886cf76904bb830d2be8cf8d4b0018d1a54f029168b8705/Land_value_estimates_for_policy_appraisal_2023.xlsx

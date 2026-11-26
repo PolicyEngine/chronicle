@@ -1,0 +1,82 @@
+{
+  "CC": [
+    [
+      "Hout- en papierindustrie, drukkerijen en reproductie van opgenomen media",
+      "Industrie du bois, du papier, imprimerie et reproduction d'enregistrements"
+    ],
+    [
+      "Hout- en papierindustrie, drukkerijen en rerpoductie van opgenomen media",
+      "Industrie de bois, du papier, imprimerie et reproduction d'enregistrements"
+    ]
+  ],
+  "CG": [
+    [
+      "Vervaardiging van producten van rubber, kunststof en overige niet-metaalhoudende minerale producten",
+      "Fabrication de produits en caoutchouc, en plastique et produits minéraux non métalliques"
+    ],
+    [
+      "Vervaardiging van producten van rubber, kunststof en overige niet-metaalhoudende minerale producten",
+      "Fabrication de produits en caoutchouc,en plastique et d'autres produits minéraux non métalliques"
+    ]
+  ],
+  "CH": [
+    [
+      "Vervaardiging van farmaceutische grondstoffen en producten",
+      "Métallurgie et fabrication de produits métalliques"
+    ],
+    [
+      "Vervaardiging van metalen in primaire vorm en van producten in metaal",
+      "Métallurgie et fabrication de produits métalliques"
+    ]
+  ],
+  "JA": [
+    [
+      "Activiteiten van uitgeverijen, Omroepactiviteiten en productie en distributie van inhoud",
+      "Activités d'édition, Diffusion et activités de production et distribution de contenu"
+    ],
+    [
+      "Activiteiten van uitgeverijen, Omroepactiviteiten en productie en distributie van inhoud",
+      "Activités d'édition, diffusion et activités de production et distribution de contenu"
+    ]
+  ],
+  "KB": [
+    [
+      "Computerprogrammering, consultancy, IT-infrastructuur en andere informatiediensten",
+      "Programmation informatique, conseil et services d'information"
+    ],
+    [
+      "Computerprogrammering, consultancy, IT-infrastructuur en andere infromatiediensten",
+      "Programmation informatique, conseil, infrastructure informatique et autres services d'information"
+    ]
+  ],
+  "NA": [
+    [
+      "Rechtskundige, boekhoudkundige, bedrijfskundige en technische dienstverlening",
+      "Activités juridiques, comptables, techniques et conseil de gestion"
+    ],
+    [
+      "Rechtskundige, boekhoudkundige, bedrijfskundige en technische dienstverlening",
+      "Activités juridiques, comptables, techniques, conseil de gestion"
+    ]
+  ],
+  "NC": [
+    [
+      "Reclame, veterinaire en overige wetenschappelijke en technische activiteiten",
+      "Publicité et autres activités spécialisées, scientifiques et techniques"
+    ],
+    [
+      "Reclame, veterinaire en overige wetenschappelijke en technische activiteiten",
+      "Publicité, activités vétérinaires et autres actvités spécialisées, scientifiques et techniques"
+    ]
+  ],
+  "SA": [
+    [
+      "Kunst, sport en recreatie",
+      "Arts, spectacles et activités récréatives"
+    ],
+    [
+      "Kunst, sport en recreatie",
+      "Arts, sports et activités récréatives"
+    ]
+  ]
+}

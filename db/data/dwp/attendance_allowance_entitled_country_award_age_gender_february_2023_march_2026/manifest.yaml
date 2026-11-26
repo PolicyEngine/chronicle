@@ -1,0 +1,19 @@
+source_id: dwp
+package_id: dwp-attendance-allowance-entitled-country-award-age-gender-february-2023-march-2026
+dataset: dwp_dwp-attendance-allowance-entitled-country-award-age-gender-february-2023-march-2026
+source_page: https://stat-xplore.dwp.gov.uk/
+table: Attendance Allowance cases with entitlement by country, award type, age band
+  and gender, February 2023 to March 2026
+files:
+  2026:
+    filename: attendance_allowance_entitled_by_country_award_type_age_band_and_gender_february_2023_march_2026.json
+    source_url: https://stat-xplore.dwp.gov.uk/webapi/rest/v1/table
+    sha256: 137ae39b1a6b4e95856eecc0aead2d2a4611b19f5813b30ec3436eda5675f55b
+    size_bytes: 40376
+    fetched_at: '2026-09-29T13:19:36+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/dwp/dwp-attendance-allowance-entitled-country-award-age-gender-february-2023-march-2026/2026/137ae39b1a6b4e95856eecc0aead2d2a4611b19f5813b30ec3436eda5675f55b/attendance_allowance_entitled_by_country_award_type_age_band_and_gender_february_2023_march_2026.json
+        uri: r2://ledger-raw/raw/uk/dwp/dwp-attendance-allowance-entitled-country-award-age-gender-february-2023-march-2026/2026/137ae39b1a6b4e95856eecc0aead2d2a4611b19f5813b30ec3436eda5675f55b/attendance_allowance_entitled_by_country_award_type_age_band_and_gender_february_2023_march_2026.json

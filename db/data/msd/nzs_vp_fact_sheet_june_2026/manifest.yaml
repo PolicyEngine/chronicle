@@ -1,0 +1,18 @@
+source_id: msd
+package_id: msd-nzs-vp-fact-sheet-june-2026
+dataset: msd_nzs_vp_fact_sheet_june_2026
+source_page: https://www.msd.govt.nz/about-msd-and-our-work/publications-resources/statistics/benefit/index.html
+table: New Zealand Superannuation and Veteran's Pension - June 2026
+files:
+  2026:
+    filename: quarterly-benefit-fact-sheets-nzs-and-vp-tables-june-2026.xlsx
+    source_url: https://www.msd.govt.nz/documents/about-msd-and-our-work/publications-resources/statistics/benefit/2026/quarterly-benefit-fact-sheets-nzs-and-vp-tables-june-2026.xlsx
+    sha256: 18561d76dab98e24593a619733f01f9ba6e6dd2b5de16357bd7d79066f33c6de
+    size_bytes: 81322
+    fetched_at: '2026-10-07T19:22:22Z'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/nz/msd/msd-nzs-vp-fact-sheet-june-2026/2026/18561d76dab98e24593a619733f01f9ba6e6dd2b5de16357bd7d79066f33c6de/quarterly-benefit-fact-sheets-nzs-and-vp-tables-june-2026.xlsx
+        uri: r2://ledger-raw/raw/nz/msd/msd-nzs-vp-fact-sheet-june-2026/2026/18561d76dab98e24593a619733f01f9ba6e6dd2b5de16357bd7d79066f33c6de/quarterly-benefit-fact-sheets-nzs-and-vp-tables-june-2026.xlsx

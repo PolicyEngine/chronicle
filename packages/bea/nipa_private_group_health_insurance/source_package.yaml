@@ -1,0 +1,150 @@
+schema_version: ledger.source_package.v1
+package_id: bea-nipa-private-group-health-insurance
+label: BEA NIPA employer contributions for private group health insurance
+# A cell-parsed package has no source row to read the series label from, so
+# the label is declared: it is the line 17 stub of Table 7.8 (cell B26, also
+# guarded below) without its indentation and footnote marker.
+dimension_value_labels:
+  bea_nipa.series_code:
+    B4923C: Private group health insurance
+artifact:
+  source_name: bea
+  source_table: NIPA Table 7.8. Supplements to Wages and Salaries by Type
+  resource_package: db
+  resource_directory: data/bea/nipa_private_group_health_insurance
+  manifest: manifest.yaml
+  vintage: bea_nipa_annual_update_2026_09_30
+  extracted_at: "2026-10-10"
+  extraction_method: xlsx selected-worksheet used-range cell parse
+  parser: xlsx_used_range
+  # Section7All_xls.xlsx carries 46 worksheets; Table 7.8 annual is the only
+  # one this package reads.
+  sheets:
+    - T70800-A
+  artifact_year: 2025
+record_sets:
+  # NIPA Table 7.8 line 17, series B4923C: employer contributions for private
+  # group health insurance, a supplement to wages and salaries. The same
+  # series is NIPA Table 6.11D line 32, "Group health insurance". National
+  # accounts are a constructed estimate, so the facts are model output (as the
+  # other bea_nipa packages). The series is not an active-employee amount:
+  # see the measure's concept evidence.
+  - record_set_id: bea_nipa.cy{year}.private_group_health_insurance
+    provenance_class: model_output
+    record_set_spec_id: bea_nipa.private_group_health_insurance.v1
+    source_record_id_prefix: bea_nipa.cy{year}.private_group_health_insurance
+    sheet_name: T70800-A
+    period_type: calendar_year
+    period: "{year}"
+    geography_id: 0100000US
+    geography_level: country
+    geography_name: United States
+    geography_vintage: current
+    entity: person
+    entity_role: employee
+    domain: compensation_of_employees
+    groupby_dimension: bea_nipa.series_code
+    rows:
+      - value_id: b4923c
+        label: Private group health insurance
+        ordinal: 0
+        row_number: 26
+        expected_row_header_column: C
+        expected_row_header: B4923C
+        filters:
+          bea_nipa.series_code: B4923C
+        constraints:
+          - variable: bea_nipa.series_code
+            operator: "=="
+            value: B4923C
+            label: BEA NIPA series code
+        guard_cells:
+          - column: A
+            row: 1
+            expected_value: Table 7.8. Supplements to Wages and Salaries by Type
+            label: table title
+          - column: A
+            row: 2
+            expected_value: "[Millions of dollars]"
+            label: unit banner
+          - column: A
+            row: 5
+            expected_value: Data published September 30, 2026
+            label: publication date
+          - column: A
+            row: 8
+            expected_value: Line
+            label: line-number column header
+          - column: A
+            row: start
+            expected_value: 17
+            label: table line number
+          - column: B
+            row: start
+            expected_value: '  Private group health insurance\3\'
+            label: line label
+          # Restates expected_row_header as a guard cell so the series-code
+          # cell is in the fact's source-cell lineage.
+          - column: C
+            row: start
+            expected_value: B4923C
+            label: series code
+          - column: C
+            row: 21
+            expected_value: A2210C
+            label: parent health insurance series code
+          - column: B
+            row: 21
+            expected_value: Health insurance
+            label: parent health insurance line label
+          - column: C
+            row: 11
+            expected_value: B040RC
+            label: employer contributions for employee pension and insurance funds series code
+          - column: A
+            row: 43
+            expected_value: >-
+              3. Government contributions to privately administered health,
+              life, and workers' compensation insurance for government
+              employees are classified as employer contributions for employee
+              pension and insurance funds.
+            label: footnote 3
+    measures:
+      - measure_id: amount
+        label: Employer contributions for private group health insurance
+        ordinal: 0
+        column_by_year:
+          2023: CA
+          2024: CB
+          2025: CC
+        source_column_id: value
+        expected_column_header_row: 8
+        expected_column_header_by_year:
+          2023: 2023
+          2024: 2024
+          2025: 2025
+        concept: bea_nipa.private_group_health_insurance
+        source_concept: bea_nipa.b4923c_private_group_health_insurance
+        concept_relation: source_label
+        concept_authority: bea
+        concept_evidence_url: https://www.bea.gov/sites/default/files/methodologies/SPI-Methodology.pdf
+        concept_evidence_notes: >-
+          BEA's series register lists B4923C, "Group health insurance", at
+          NIPA Table 7.8 line 17 (stub "Private group health insurance") and
+          Table 6.11D line 32. BEA's State Personal Income and Employment:
+          Concepts and Methods (December 2025), paragraphs 3.18 and 3.19, says
+          the national estimates of employer contributions for group health
+          insurance plans rest mainly on Medical Expenditure Panel Survey data
+          covering "health insurance purchased by employers for their active
+          and retired employees" and self-insured plans, and, for "active and
+          retired federal civilian employees", on Office of Personnel
+          Management reports for the Federal Employee Health Benefits Program.
+          The NIPA Handbook (chapter 10, Table 10.B, line 32) names the same
+          sources and does not say whether retired employees are covered.
+          Chronicle's reading of the 2025 text: the series includes employer
+          contributions on behalf of retired employees and is not an
+          active-employee amount.
+        unit: usd
+        aggregation: sum
+        value_scale: 1000000
+        expected_cell_type: number

@@ -1,0 +1,18 @@
+source_id: stats_nz
+package_id: regional_council_2025_codes
+dataset: stats_nz_regional_council_2025_codes
+source_page: https://services2.arcgis.com/vKb0s8tBIA3bdocZ/arcgis/rest/services/Regional_Council_2025/FeatureServer
+table: Regional council 2025 code and name attributes (1 January 2025 boundaries)
+files:
+  2025:
+    filename: regional-council-2025-codes.json
+    source_url: https://services2.arcgis.com/vKb0s8tBIA3bdocZ/arcgis/rest/services/Regional_Council_2025/FeatureServer/0/query?where=1%3D1&outFields=REGC2025_V1_00%2CREGC2025_V1_00_NAME&returnGeometry=false&orderByFields=REGC2025_V1_00&f=pjson
+    sha256: e5d53fa6abf742121d123bff970c77658a16e8c9b405b83d1a978cc22920d660
+    size_bytes: 3381
+    fetched_at: '2026-08-30T01:43:16+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/nz/stats_nz/regional_council_2025_codes/2025/e5d53fa6abf742121d123bff970c77658a16e8c9b405b83d1a978cc22920d660/regional-council-2025-codes.json
+        uri: r2://ledger-raw/raw/nz/stats_nz/regional_council_2025_codes/2025/e5d53fa6abf742121d123bff970c77658a16e8c9b405b83d1a978cc22920d660/regional-council-2025-codes.json

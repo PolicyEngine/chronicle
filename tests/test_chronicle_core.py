@@ -94,6 +94,11 @@ def test_academic_year_period_type_is_valid():
     assert validate_fact(fact) == ()
 
 
+def test_gas_year_period_type_is_valid():
+    fact = _fact(period=PeriodDimension(type="gas_year", value=2024))
+    assert validate_fact(fact) == ()
+
+
 @pytest.mark.parametrize(
     ("period_type", "value"),
     (("quarter", "2024-Q1"), ("week", "2026-W36")),
@@ -465,11 +470,13 @@ def test_frozen_fixture_bytes_are_unchanged():
             # chronicle#266 re-pinned this from cc18841e… when the rows began
             # carrying the publisher's geography name, chronicle#265 again
             # because the sample's own package now declares its dimension
-            # labels, and chronicle#281 again for the v4 contract. Only the
-            # schema_version moved that last time: the three rows are IRS SOI
-            # and the geography register is UK-only. The keys and values in
-            # them are unchanged throughout.
-            "d02308d049edcd0e60b29d590211456c6427a505e1acf50f1ae71bbcd2962a8c"
+            # labels, chronicle#281 again for the v4 contract, and chronicle#376
+            # for v5: Table 1.1's "All returns" row now exports the register's
+            # "All returns, total" and keeps the package's row label in
+            # package_dimension_value_labels (a name chronicle#377's review
+            # gave the field). The keys and values in them are unchanged
+            # throughout.
+            "450a22c689b7a086cfc03522aa4492d491efc6875a4661dbd851a2015506897a"
         ),
         fixture_root / "source_cells" / "soi_table_1_1_2023_cells.jsonl": (
             "615639f21ee63e54595c677e24c3eddff484c00a795a2f91b45a8575f021c7e2"

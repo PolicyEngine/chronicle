@@ -1,0 +1,547 @@
+row_id,year,workbook,sheet,cell,source_row,source_column,year_printed,worker_type_printed,sex_printed,measure_printed,number_format,raw_numeric_value,rsz.annual_worker_type,rsz.annual_sex,rsz.annual_worker_type_sex,measure_id,value
+2020.arbeider.man.ordinary_remuneration,2020,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,D4,4,D,2020,Arbeider - Ouvrier,Man - Homme," gewone bezoldiging 
+rémunération ordinaire","#,##0.0",21462847.451270003,Arbeider - Ouvrier,Man - Homme,arbeider.man,ordinary_remuneration,21462847.5
+2020.arbeider.man.severance,2020,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,E4,4,E,2020,Arbeider - Ouvrier,Man - Homme," verbrekingsvergoeding
+indemnité de rupture","#,##0.0",154049.36221,Arbeider - Ouvrier,Man - Homme,arbeider.man,severance,154049.4
+2020.arbeider.man.premiums,2020,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,F4,4,F,2020,Arbeider - Ouvrier,Man - Homme," premies 
+primes","#,##0.0",1632903.5115900002,Arbeider - Ouvrier,Man - Homme,arbeider.man,premiums,1632903.5
+2020.arbeider.man.simple_departure_holiday_pay,2020,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,G4,4,G,2020,Arbeider - Ouvrier,Man - Homme," enkel vertrekvakantiegeld 
+pécule simple de sortie","#,##0.0",10606.79156,Arbeider - Ouvrier,Man - Homme,arbeider.man,simple_departure_holiday_pay,10606.8
+2020.arbeider.man.full_time_paid_days,2020,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,H4,4,H,2020,Arbeider - Ouvrier,Man - Homme," Dagen Voltijds 
+ Journées Temps Plein","#,##0.0",137339183,Arbeider - Ouvrier,Man - Homme,arbeider.man,full_time_paid_days,137339183.0
+2020.arbeider.man.part_time_paid_hours,2020,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,I4,4,I,2020,Arbeider - Ouvrier,Man - Homme," Uren  deeltijds 
+ Heures temps partiel
+(x 1.000)","#,##0.0",224150.86946999998,Arbeider - Ouvrier,Man - Homme,arbeider.man,part_time_paid_hours,224150.9
+2020.arbeider.vrouw.ordinary_remuneration,2020,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,D5,5,D,,,Vrouw - Femme," gewone bezoldiging 
+rémunération ordinaire","#,##0.0",6149601.61363,Arbeider - Ouvrier,Vrouw - Femme,arbeider.vrouw,ordinary_remuneration,6149601.6
+2020.arbeider.vrouw.severance,2020,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,E5,5,E,,,Vrouw - Femme," verbrekingsvergoeding
+indemnité de rupture","#,##0.0",33051.13135,Arbeider - Ouvrier,Vrouw - Femme,arbeider.vrouw,severance,33051.1
+2020.arbeider.vrouw.premiums,2020,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,F5,5,F,,,Vrouw - Femme," premies 
+primes","#,##0.0",503568.50574000005,Arbeider - Ouvrier,Vrouw - Femme,arbeider.vrouw,premiums,503568.5
+2020.arbeider.vrouw.simple_departure_holiday_pay,2020,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,G5,5,G,,,Vrouw - Femme," enkel vertrekvakantiegeld 
+pécule simple de sortie","#,##0.0",6647.070970000001,Arbeider - Ouvrier,Vrouw - Femme,arbeider.vrouw,simple_departure_holiday_pay,6647.1
+2020.arbeider.vrouw.full_time_paid_days,2020,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,H5,5,H,,,Vrouw - Femme," Dagen Voltijds 
+ Journées Temps Plein","#,##0.0",21547174,Arbeider - Ouvrier,Vrouw - Femme,arbeider.vrouw,full_time_paid_days,21547174.0
+2020.arbeider.vrouw.part_time_paid_hours,2020,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,I5,5,I,,,Vrouw - Femme," Uren  deeltijds 
+ Heures temps partiel
+(x 1.000)","#,##0.0",293931.3095,Arbeider - Ouvrier,Vrouw - Femme,arbeider.vrouw,part_time_paid_hours,293931.3
+2020.bediende.man.ordinary_remuneration,2020,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,D6,6,D,,Bediende - Employé,Man - Homme," gewone bezoldiging 
+rémunération ordinaire","#,##0.0",38082167.17853,Bediende - Employé,Man - Homme,bediende.man,ordinary_remuneration,38082167.2
+2020.bediende.man.severance,2020,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,E6,6,E,,Bediende - Employé,Man - Homme," verbrekingsvergoeding
+indemnité de rupture","#,##0.0",828774.1286999999,Bediende - Employé,Man - Homme,bediende.man,severance,828774.1
+2020.bediende.man.premiums,2020,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,F6,6,F,,Bediende - Employé,Man - Homme," premies 
+primes","#,##0.0",4161317.8504899996,Bediende - Employé,Man - Homme,bediende.man,premiums,4161317.9
+2020.bediende.man.simple_departure_holiday_pay,2020,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,G6,6,G,,Bediende - Employé,Man - Homme," enkel vertrekvakantiegeld 
+pécule simple de sortie","#,##0.0",413417.58076000004,Bediende - Employé,Man - Homme,bediende.man,simple_departure_holiday_pay,413417.6
+2020.bediende.man.full_time_paid_days,2020,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,H6,6,H,,Bediende - Employé,Man - Homme," Dagen Voltijds 
+ Journées Temps Plein","#,##0.0",174512549,Bediende - Employé,Man - Homme,bediende.man,full_time_paid_days,174512549.0
+2020.bediende.man.part_time_paid_hours,2020,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,I6,6,I,,Bediende - Employé,Man - Homme," Uren  deeltijds 
+ Heures temps partiel
+(x 1.000)","#,##0.0",198683.46406000003,Bediende - Employé,Man - Homme,bediende.man,part_time_paid_hours,198683.5
+2020.bediende.vrouw.ordinary_remuneration,2020,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,D7,7,D,,,Vrouw - Femme," gewone bezoldiging 
+rémunération ordinaire","#,##0.0",36626022.85029,Bediende - Employé,Vrouw - Femme,bediende.vrouw,ordinary_remuneration,36626022.9
+2020.bediende.vrouw.severance,2020,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,E7,7,E,,,Vrouw - Femme," verbrekingsvergoeding
+indemnité de rupture","#,##0.0",524273.08501999994,Bediende - Employé,Vrouw - Femme,bediende.vrouw,severance,524273.1
+2020.bediende.vrouw.premiums,2020,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,F7,7,F,,,Vrouw - Femme," premies 
+primes","#,##0.0",3283981.16113,Bediende - Employé,Vrouw - Femme,bediende.vrouw,premiums,3283981.2
+2020.bediende.vrouw.simple_departure_holiday_pay,2020,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,G7,7,G,,,Vrouw - Femme," enkel vertrekvakantiegeld 
+pécule simple de sortie","#,##0.0",415041.27531,Bediende - Employé,Vrouw - Femme,bediende.vrouw,simple_departure_holiday_pay,415041.3
+2020.bediende.vrouw.full_time_paid_days,2020,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,H7,7,H,,,Vrouw - Femme," Dagen Voltijds 
+ Journées Temps Plein","#,##0.0",139235035,Bediende - Employé,Vrouw - Femme,bediende.vrouw,full_time_paid_days,139235035.0
+2020.bediende.vrouw.part_time_paid_hours,2020,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,I7,7,I,,,Vrouw - Femme," Uren  deeltijds 
+ Heures temps partiel
+(x 1.000)","#,##0.0",741025.46173,Bediende - Employé,Vrouw - Femme,bediende.vrouw,part_time_paid_hours,741025.5
+2020.ambtenaar.man.ordinary_remuneration,2020,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,D8,8,D,,Ambtenaar - Fonctionnaire,Man - Homme," gewone bezoldiging 
+rémunération ordinaire","#,##0.0",11635126.29998,Ambtenaar - Fonctionnaire,Man - Homme,ambtenaar.man,ordinary_remuneration,11635126.3
+2020.ambtenaar.man.severance,2020,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,E8,8,E,,Ambtenaar - Fonctionnaire,Man - Homme," verbrekingsvergoeding
+indemnité de rupture","#,##0.0",3098.35212,Ambtenaar - Fonctionnaire,Man - Homme,ambtenaar.man,severance,3098.4
+2020.ambtenaar.man.premiums,2020,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,F8,8,F,,Ambtenaar - Fonctionnaire,Man - Homme," premies 
+primes","#,##0.0",270714.89716,Ambtenaar - Fonctionnaire,Man - Homme,ambtenaar.man,premiums,270714.9
+2020.ambtenaar.man.simple_departure_holiday_pay,2020,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,G8,8,G,,Ambtenaar - Fonctionnaire,Man - Homme," enkel vertrekvakantiegeld 
+pécule simple de sortie","#,##0.0",122.95343,Ambtenaar - Fonctionnaire,Man - Homme,ambtenaar.man,simple_departure_holiday_pay,123.0
+2020.ambtenaar.man.full_time_paid_days,2020,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,H8,8,H,,Ambtenaar - Fonctionnaire,Man - Homme," Dagen Voltijds 
+ Journées Temps Plein","#,##0.0",50357760,Ambtenaar - Fonctionnaire,Man - Homme,ambtenaar.man,full_time_paid_days,50357760.0
+2020.ambtenaar.man.part_time_paid_hours,2020,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,I8,8,I,,Ambtenaar - Fonctionnaire,Man - Homme," Uren  deeltijds 
+ Heures temps partiel
+(x 1.000)","#,##0.0",61321.55412,Ambtenaar - Fonctionnaire,Man - Homme,ambtenaar.man,part_time_paid_hours,61321.6
+2020.ambtenaar.vrouw.ordinary_remuneration,2020,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,D9,9,D,,,Vrouw - Femme," gewone bezoldiging 
+rémunération ordinaire","#,##0.0",12924068.50966,Ambtenaar - Fonctionnaire,Vrouw - Femme,ambtenaar.vrouw,ordinary_remuneration,12924068.5
+2020.ambtenaar.vrouw.severance,2020,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,E9,9,E,,,Vrouw - Femme," verbrekingsvergoeding
+indemnité de rupture","#,##0.0",1544.72316,Ambtenaar - Fonctionnaire,Vrouw - Femme,ambtenaar.vrouw,severance,1544.7
+2020.ambtenaar.vrouw.premiums,2020,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,F9,9,F,,,Vrouw - Femme," premies 
+primes","#,##0.0",269081.6784,Ambtenaar - Fonctionnaire,Vrouw - Femme,ambtenaar.vrouw,premiums,269081.7
+2020.ambtenaar.vrouw.simple_departure_holiday_pay,2020,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,G9,9,G,,,Vrouw - Femme," enkel vertrekvakantiegeld 
+pécule simple de sortie","#,##0.0",162.99364,Ambtenaar - Fonctionnaire,Vrouw - Femme,ambtenaar.vrouw,simple_departure_holiday_pay,163.0
+2020.ambtenaar.vrouw.full_time_paid_days,2020,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,H9,9,H,,,Vrouw - Femme," Dagen Voltijds 
+ Journées Temps Plein","#,##0.0",42253156,Ambtenaar - Fonctionnaire,Vrouw - Femme,ambtenaar.vrouw,full_time_paid_days,42253156.0
+2020.ambtenaar.vrouw.part_time_paid_hours,2020,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,I9,9,I,,,Vrouw - Femme," Uren  deeltijds 
+ Heures temps partiel
+(x 1.000)","#,##0.0",157658.06936000002,Ambtenaar - Fonctionnaire,Vrouw - Femme,ambtenaar.vrouw,part_time_paid_hours,157658.1
+2020.total.ordinary_remuneration,2020,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,D10,10,D,Totaal 2020,,," gewone bezoldiging 
+rémunération ordinaire","#,##0.0",126879833.90336001,,,total,ordinary_remuneration,126879833.9
+2020.total.severance,2020,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,E10,10,E,Totaal 2020,,," verbrekingsvergoeding
+indemnité de rupture","#,##0.0",1544790.7825599997,,,total,severance,1544790.8
+2020.total.premiums,2020,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,F10,10,F,Totaal 2020,,," premies 
+primes","#,##0.0",10121567.60451,,,total,premiums,10121567.6
+2020.total.simple_departure_holiday_pay,2020,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,G10,10,G,Totaal 2020,,," enkel vertrekvakantiegeld 
+pécule simple de sortie","#,##0.0",845998.66567,,,total,simple_departure_holiday_pay,845998.7
+2020.total.full_time_paid_days,2020,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,H10,10,H,Totaal 2020,,," Dagen Voltijds 
+ Journées Temps Plein","#,##0.0",565244857,,,total,full_time_paid_days,565244857.0
+2020.total.part_time_paid_hours,2020,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,I10,10,I,Totaal 2020,,," Uren  deeltijds 
+ Heures temps partiel
+(x 1.000)","#,##0.0",1676770.72824,,,total,part_time_paid_hours,1676770.7
+2021.arbeider.man.ordinary_remuneration,2021,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,D11,11,D,2021,Arbeider - Ouvrier,Man - Homme," gewone bezoldiging 
+rémunération ordinaire","#,##0.0",23056290.20725,Arbeider - Ouvrier,Man - Homme,arbeider.man,ordinary_remuneration,23056290.2
+2021.arbeider.man.severance,2021,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,E11,11,E,2021,Arbeider - Ouvrier,Man - Homme," verbrekingsvergoeding
+indemnité de rupture","#,##0.0",179204.72572000002,Arbeider - Ouvrier,Man - Homme,arbeider.man,severance,179204.7
+2021.arbeider.man.premiums,2021,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,F11,11,F,2021,Arbeider - Ouvrier,Man - Homme," premies 
+primes","#,##0.0",1626884.8193100004,Arbeider - Ouvrier,Man - Homme,arbeider.man,premiums,1626884.8
+2021.arbeider.man.simple_departure_holiday_pay,2021,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,G11,11,G,2021,Arbeider - Ouvrier,Man - Homme," enkel vertrekvakantiegeld 
+pécule simple de sortie","#,##0.0",8519.45278,Arbeider - Ouvrier,Man - Homme,arbeider.man,simple_departure_holiday_pay,8519.5
+2021.arbeider.man.full_time_paid_days,2021,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,H11,11,H,2021,Arbeider - Ouvrier,Man - Homme," Dagen Voltijds 
+ Journées Temps Plein","#,##0.0",144827780,Arbeider - Ouvrier,Man - Homme,arbeider.man,full_time_paid_days,144827780.0
+2021.arbeider.man.part_time_paid_hours,2021,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,I11,11,I,2021,Arbeider - Ouvrier,Man - Homme," Uren  deeltijds 
+ Heures temps partiel
+(x 1.000)","#,##0.0",247349.97414,Arbeider - Ouvrier,Man - Homme,arbeider.man,part_time_paid_hours,247350.0
+2021.arbeider.vrouw.ordinary_remuneration,2021,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,D12,12,D,,,Vrouw - Femme," gewone bezoldiging 
+rémunération ordinaire","#,##0.0",6692593.2718,Arbeider - Ouvrier,Vrouw - Femme,arbeider.vrouw,ordinary_remuneration,6692593.3
+2021.arbeider.vrouw.severance,2021,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,E12,12,E,,,Vrouw - Femme," verbrekingsvergoeding
+indemnité de rupture","#,##0.0",44287.02546000001,Arbeider - Ouvrier,Vrouw - Femme,arbeider.vrouw,severance,44287.0
+2021.arbeider.vrouw.premiums,2021,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,F12,12,F,,,Vrouw - Femme," premies 
+primes","#,##0.0",483637.98887999996,Arbeider - Ouvrier,Vrouw - Femme,arbeider.vrouw,premiums,483638.0
+2021.arbeider.vrouw.simple_departure_holiday_pay,2021,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,G12,12,G,,,Vrouw - Femme," enkel vertrekvakantiegeld 
+pécule simple de sortie","#,##0.0",5347.443429999999,Arbeider - Ouvrier,Vrouw - Femme,arbeider.vrouw,simple_departure_holiday_pay,5347.4
+2021.arbeider.vrouw.full_time_paid_days,2021,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,H12,12,H,,,Vrouw - Femme," Dagen Voltijds 
+ Journées Temps Plein","#,##0.0",23106045,Arbeider - Ouvrier,Vrouw - Femme,arbeider.vrouw,full_time_paid_days,23106045.0
+2021.arbeider.vrouw.part_time_paid_hours,2021,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,I12,12,I,,,Vrouw - Femme," Uren  deeltijds 
+ Heures temps partiel
+(x 1.000)","#,##0.0",316476.92932,Arbeider - Ouvrier,Vrouw - Femme,arbeider.vrouw,part_time_paid_hours,316476.9
+2021.bediende.man.ordinary_remuneration,2021,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,D13,13,D,,Bediende - Employé,Man - Homme," gewone bezoldiging 
+rémunération ordinaire","#,##0.0",40312172.76724,Bediende - Employé,Man - Homme,bediende.man,ordinary_remuneration,40312172.8
+2021.bediende.man.severance,2021,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,E13,13,E,,Bediende - Employé,Man - Homme," verbrekingsvergoeding
+indemnité de rupture","#,##0.0",817074.88915,Bediende - Employé,Man - Homme,bediende.man,severance,817074.9
+2021.bediende.man.premiums,2021,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,F13,13,F,,Bediende - Employé,Man - Homme," premies 
+primes","#,##0.0",4364653.93083,Bediende - Employé,Man - Homme,bediende.man,premiums,4364653.9
+2021.bediende.man.simple_departure_holiday_pay,2021,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,G13,13,G,,Bediende - Employé,Man - Homme," enkel vertrekvakantiegeld 
+pécule simple de sortie","#,##0.0",461539.81628999993,Bediende - Employé,Man - Homme,bediende.man,simple_departure_holiday_pay,461539.8
+2021.bediende.man.full_time_paid_days,2021,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,H13,13,H,,Bediende - Employé,Man - Homme," Dagen Voltijds 
+ Journées Temps Plein","#,##0.0",183105207,Bediende - Employé,Man - Homme,bediende.man,full_time_paid_days,183105207.0
+2021.bediende.man.part_time_paid_hours,2021,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,I13,13,I,,Bediende - Employé,Man - Homme," Uren  deeltijds 
+ Heures temps partiel
+(x 1.000)","#,##0.0",210277.89646000002,Bediende - Employé,Man - Homme,bediende.man,part_time_paid_hours,210277.9
+2021.bediende.vrouw.ordinary_remuneration,2021,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,D14,14,D,,,Vrouw - Femme," gewone bezoldiging 
+rémunération ordinaire","#,##0.0",39121205.96401,Bediende - Employé,Vrouw - Femme,bediende.vrouw,ordinary_remuneration,39121206.0
+2021.bediende.vrouw.severance,2021,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,E14,14,E,,,Vrouw - Femme," verbrekingsvergoeding
+indemnité de rupture","#,##0.0",516101.3754300001,Bediende - Employé,Vrouw - Femme,bediende.vrouw,severance,516101.4
+2021.bediende.vrouw.premiums,2021,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,F14,14,F,,,Vrouw - Femme," premies 
+primes","#,##0.0",3395250.60211,Bediende - Employé,Vrouw - Femme,bediende.vrouw,premiums,3395250.6
+2021.bediende.vrouw.simple_departure_holiday_pay,2021,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,G14,14,G,,,Vrouw - Femme," enkel vertrekvakantiegeld 
+pécule simple de sortie","#,##0.0",466305.47011,Bediende - Employé,Vrouw - Femme,bediende.vrouw,simple_departure_holiday_pay,466305.5
+2021.bediende.vrouw.full_time_paid_days,2021,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,H14,14,H,,,Vrouw - Femme," Dagen Voltijds 
+ Journées Temps Plein","#,##0.0",147843951,Bediende - Employé,Vrouw - Femme,bediende.vrouw,full_time_paid_days,147843951.0
+2021.bediende.vrouw.part_time_paid_hours,2021,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,I14,14,I,,,Vrouw - Femme," Uren  deeltijds 
+ Heures temps partiel
+(x 1.000)","#,##0.0",767448.7339300001,Bediende - Employé,Vrouw - Femme,bediende.vrouw,part_time_paid_hours,767448.7
+2021.ambtenaar.man.ordinary_remuneration,2021,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,D15,15,D,,Ambtenaar - Fonctionnaire,Man - Homme," gewone bezoldiging 
+rémunération ordinaire","#,##0.0",11682293.74337,Ambtenaar - Fonctionnaire,Man - Homme,ambtenaar.man,ordinary_remuneration,11682293.7
+2021.ambtenaar.man.severance,2021,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,E15,15,E,,Ambtenaar - Fonctionnaire,Man - Homme," verbrekingsvergoeding
+indemnité de rupture","#,##0.0",1304.49986,Ambtenaar - Fonctionnaire,Man - Homme,ambtenaar.man,severance,1304.5
+2021.ambtenaar.man.premiums,2021,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,F15,15,F,,Ambtenaar - Fonctionnaire,Man - Homme," premies 
+primes","#,##0.0",257778.28101,Ambtenaar - Fonctionnaire,Man - Homme,ambtenaar.man,premiums,257778.3
+2021.ambtenaar.man.simple_departure_holiday_pay,2021,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,G15,15,G,,Ambtenaar - Fonctionnaire,Man - Homme," enkel vertrekvakantiegeld 
+pécule simple de sortie","#,##0.0",193.16766,Ambtenaar - Fonctionnaire,Man - Homme,ambtenaar.man,simple_departure_holiday_pay,193.2
+2021.ambtenaar.man.full_time_paid_days,2021,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,H15,15,H,,Ambtenaar - Fonctionnaire,Man - Homme," Dagen Voltijds 
+ Journées Temps Plein","#,##0.0",49780486,Ambtenaar - Fonctionnaire,Man - Homme,ambtenaar.man,full_time_paid_days,49780486.0
+2021.ambtenaar.man.part_time_paid_hours,2021,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,I15,15,I,,Ambtenaar - Fonctionnaire,Man - Homme," Uren  deeltijds 
+ Heures temps partiel
+(x 1.000)","#,##0.0",59219.600679999996,Ambtenaar - Fonctionnaire,Man - Homme,ambtenaar.man,part_time_paid_hours,59219.6
+2021.ambtenaar.vrouw.ordinary_remuneration,2021,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,D16,16,D,,,Vrouw - Femme," gewone bezoldiging 
+rémunération ordinaire","#,##0.0",13421062.667820001,Ambtenaar - Fonctionnaire,Vrouw - Femme,ambtenaar.vrouw,ordinary_remuneration,13421062.7
+2021.ambtenaar.vrouw.severance,2021,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,E16,16,E,,,Vrouw - Femme," verbrekingsvergoeding
+indemnité de rupture","#,##0.0",1382.03014,Ambtenaar - Fonctionnaire,Vrouw - Femme,ambtenaar.vrouw,severance,1382.0
+2021.ambtenaar.vrouw.premiums,2021,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,F16,16,F,,,Vrouw - Femme," premies 
+primes","#,##0.0",207590.47385,Ambtenaar - Fonctionnaire,Vrouw - Femme,ambtenaar.vrouw,premiums,207590.5
+2021.ambtenaar.vrouw.simple_departure_holiday_pay,2021,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,G16,16,G,,,Vrouw - Femme," enkel vertrekvakantiegeld 
+pécule simple de sortie","#,##0.0",214.18542,Ambtenaar - Fonctionnaire,Vrouw - Femme,ambtenaar.vrouw,simple_departure_holiday_pay,214.2
+2021.ambtenaar.vrouw.full_time_paid_days,2021,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,H16,16,H,,,Vrouw - Femme," Dagen Voltijds 
+ Journées Temps Plein","#,##0.0",43350618,Ambtenaar - Fonctionnaire,Vrouw - Femme,ambtenaar.vrouw,full_time_paid_days,43350618.0
+2021.ambtenaar.vrouw.part_time_paid_hours,2021,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,I16,16,I,,,Vrouw - Femme," Uren  deeltijds 
+ Heures temps partiel
+(x 1.000)","#,##0.0",156358.24624,Ambtenaar - Fonctionnaire,Vrouw - Femme,ambtenaar.vrouw,part_time_paid_hours,156358.2
+2021.total.ordinary_remuneration,2021,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,D17,17,D,Totaal 2021,,," gewone bezoldiging 
+rémunération ordinaire","#,##0.0",134285618.62149,,,total,ordinary_remuneration,134285618.6
+2021.total.severance,2021,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,E17,17,E,Totaal 2021,,," verbrekingsvergoeding
+indemnité de rupture","#,##0.0",1559354.5457600001,,,total,severance,1559354.5
+2021.total.premiums,2021,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,F17,17,F,Totaal 2021,,," premies 
+primes","#,##0.0",10335796.09599,,,total,premiums,10335796.1
+2021.total.simple_departure_holiday_pay,2021,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,G17,17,G,Totaal 2021,,," enkel vertrekvakantiegeld 
+pécule simple de sortie","#,##0.0",942119.5356899999,,,total,simple_departure_holiday_pay,942119.5
+2021.total.full_time_paid_days,2021,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,H17,17,H,Totaal 2021,,," Dagen Voltijds 
+ Journées Temps Plein","#,##0.0",592014087,,,total,full_time_paid_days,592014087.0
+2021.total.part_time_paid_hours,2021,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,I17,17,I,Totaal 2021,,," Uren  deeltijds 
+ Heures temps partiel
+(x 1.000)","#,##0.0",1757131.38077,,,total,part_time_paid_hours,1757131.4
+2022.arbeider.man.ordinary_remuneration,2022,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,D18,18,D,2022,Arbeider - Ouvrier,Man - Homme," gewone bezoldiging 
+rémunération ordinaire","#,##0.0",25396584.345979996,Arbeider - Ouvrier,Man - Homme,arbeider.man,ordinary_remuneration,25396584.3
+2022.arbeider.man.severance,2022,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,E18,18,E,2022,Arbeider - Ouvrier,Man - Homme," verbrekingsvergoeding
+indemnité de rupture","#,##0.0",150670.51963,Arbeider - Ouvrier,Man - Homme,arbeider.man,severance,150670.5
+2022.arbeider.man.premiums,2022,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,F18,18,F,2022,Arbeider - Ouvrier,Man - Homme," premies 
+primes","#,##0.0",1782658.1711899997,Arbeider - Ouvrier,Man - Homme,arbeider.man,premiums,1782658.2
+2022.arbeider.man.simple_departure_holiday_pay,2022,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,G18,18,G,2022,Arbeider - Ouvrier,Man - Homme," enkel vertrekvakantiegeld 
+pécule simple de sortie","#,##0.0",7682.777419999999,Arbeider - Ouvrier,Man - Homme,arbeider.man,simple_departure_holiday_pay,7682.8
+2022.arbeider.man.full_time_paid_days,2022,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,H18,18,H,2022,Arbeider - Ouvrier,Man - Homme," Dagen Voltijds 
+ Journées Temps Plein","#,##0.0",150410173,Arbeider - Ouvrier,Man - Homme,arbeider.man,full_time_paid_days,150410173.0
+2022.arbeider.man.part_time_paid_hours,2022,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,I18,18,I,2022,Arbeider - Ouvrier,Man - Homme," Uren  deeltijds 
+ Heures temps partiel
+(x 1.000)","#,##0.0",264431.81366,Arbeider - Ouvrier,Man - Homme,arbeider.man,part_time_paid_hours,264431.8
+2022.arbeider.vrouw.ordinary_remuneration,2022,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,D19,19,D,,,Vrouw - Femme," gewone bezoldiging 
+rémunération ordinaire","#,##0.0",7566760.91526,Arbeider - Ouvrier,Vrouw - Femme,arbeider.vrouw,ordinary_remuneration,7566760.9
+2022.arbeider.vrouw.severance,2022,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,E19,19,E,,,Vrouw - Femme," verbrekingsvergoeding
+indemnité de rupture","#,##0.0",40793.573489999995,Arbeider - Ouvrier,Vrouw - Femme,arbeider.vrouw,severance,40793.6
+2022.arbeider.vrouw.premiums,2022,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,F19,19,F,,,Vrouw - Femme," premies 
+primes","#,##0.0",541655.6759,Arbeider - Ouvrier,Vrouw - Femme,arbeider.vrouw,premiums,541655.7
+2022.arbeider.vrouw.simple_departure_holiday_pay,2022,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,G19,19,G,,,Vrouw - Femme," enkel vertrekvakantiegeld 
+pécule simple de sortie","#,##0.0",4932.61206,Arbeider - Ouvrier,Vrouw - Femme,arbeider.vrouw,simple_departure_holiday_pay,4932.6
+2022.arbeider.vrouw.full_time_paid_days,2022,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,H19,19,H,,,Vrouw - Femme," Dagen Voltijds 
+ Journées Temps Plein","#,##0.0",25278846,Arbeider - Ouvrier,Vrouw - Femme,arbeider.vrouw,full_time_paid_days,25278846.0
+2022.arbeider.vrouw.part_time_paid_hours,2022,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,I19,19,I,,,Vrouw - Femme," Uren  deeltijds 
+ Heures temps partiel
+(x 1.000)","#,##0.0",328698.22161,Arbeider - Ouvrier,Vrouw - Femme,arbeider.vrouw,part_time_paid_hours,328698.2
+2022.bediende.man.ordinary_remuneration,2022,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,D20,20,D,,Bediende - Employé,Man - Homme," gewone bezoldiging 
+rémunération ordinaire","#,##0.0",44229469.97895,Bediende - Employé,Man - Homme,bediende.man,ordinary_remuneration,44229470.0
+2022.bediende.man.severance,2022,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,E20,20,E,,Bediende - Employé,Man - Homme," verbrekingsvergoeding
+indemnité de rupture","#,##0.0",785122.06079,Bediende - Employé,Man - Homme,bediende.man,severance,785122.1
+2022.bediende.man.premiums,2022,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,F20,20,F,,Bediende - Employé,Man - Homme," premies 
+primes","#,##0.0",4982505.24468,Bediende - Employé,Man - Homme,bediende.man,premiums,4982505.2
+2022.bediende.man.simple_departure_holiday_pay,2022,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,G20,20,G,,Bediende - Employé,Man - Homme," enkel vertrekvakantiegeld 
+pécule simple de sortie","#,##0.0",497712.7338,Bediende - Employé,Man - Homme,bediende.man,simple_departure_holiday_pay,497712.7
+2022.bediende.man.full_time_paid_days,2022,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,H20,20,H,,Bediende - Employé,Man - Homme," Dagen Voltijds 
+ Journées Temps Plein","#,##0.0",189080057,Bediende - Employé,Man - Homme,bediende.man,full_time_paid_days,189080057.0
+2022.bediende.man.part_time_paid_hours,2022,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,I20,20,I,,Bediende - Employé,Man - Homme," Uren  deeltijds 
+ Heures temps partiel
+(x 1.000)","#,##0.0",220973.17397,Bediende - Employé,Man - Homme,bediende.man,part_time_paid_hours,220973.2
+2022.bediende.vrouw.ordinary_remuneration,2022,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,D21,21,D,,,Vrouw - Femme," gewone bezoldiging 
+rémunération ordinaire","#,##0.0",43457528.60672,Bediende - Employé,Vrouw - Femme,bediende.vrouw,ordinary_remuneration,43457528.6
+2022.bediende.vrouw.severance,2022,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,E21,21,E,,,Vrouw - Femme," verbrekingsvergoeding
+indemnité de rupture","#,##0.0",425021.73969,Bediende - Employé,Vrouw - Femme,bediende.vrouw,severance,425021.7
+2022.bediende.vrouw.premiums,2022,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,F21,21,F,,,Vrouw - Femme," premies 
+primes","#,##0.0",3838119.4115899997,Bediende - Employé,Vrouw - Femme,bediende.vrouw,premiums,3838119.4
+2022.bediende.vrouw.simple_departure_holiday_pay,2022,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,G21,21,G,,,Vrouw - Femme," enkel vertrekvakantiegeld 
+pécule simple de sortie","#,##0.0",508281.95590999996,Bediende - Employé,Vrouw - Femme,bediende.vrouw,simple_departure_holiday_pay,508282.0
+2022.bediende.vrouw.full_time_paid_days,2022,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,H21,21,H,,,Vrouw - Femme," Dagen Voltijds 
+ Journées Temps Plein","#,##0.0",154407922,Bediende - Employé,Vrouw - Femme,bediende.vrouw,full_time_paid_days,154407922.0
+2022.bediende.vrouw.part_time_paid_hours,2022,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,I21,21,I,,,Vrouw - Femme," Uren  deeltijds 
+ Heures temps partiel
+(x 1.000)","#,##0.0",785547.33008,Bediende - Employé,Vrouw - Femme,bediende.vrouw,part_time_paid_hours,785547.3
+2022.ambtenaar.man.ordinary_remuneration,2022,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,D22,22,D,,Ambtenaar - Fonctionnaire,Man - Homme," gewone bezoldiging 
+rémunération ordinaire","#,##0.0",12402968.11206,Ambtenaar - Fonctionnaire,Man - Homme,ambtenaar.man,ordinary_remuneration,12402968.1
+2022.ambtenaar.man.severance,2022,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,E22,22,E,,Ambtenaar - Fonctionnaire,Man - Homme," verbrekingsvergoeding
+indemnité de rupture","#,##0.0",2378.05831,Ambtenaar - Fonctionnaire,Man - Homme,ambtenaar.man,severance,2378.1
+2022.ambtenaar.man.premiums,2022,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,F22,22,F,,Ambtenaar - Fonctionnaire,Man - Homme," premies 
+primes","#,##0.0",283812.05737,Ambtenaar - Fonctionnaire,Man - Homme,ambtenaar.man,premiums,283812.1
+2022.ambtenaar.man.simple_departure_holiday_pay,2022,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,G22,22,G,,Ambtenaar - Fonctionnaire,Man - Homme," enkel vertrekvakantiegeld 
+pécule simple de sortie","#,##0.0",107.25966,Ambtenaar - Fonctionnaire,Man - Homme,ambtenaar.man,simple_departure_holiday_pay,107.3
+2022.ambtenaar.man.full_time_paid_days,2022,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,H22,22,H,,Ambtenaar - Fonctionnaire,Man - Homme," Dagen Voltijds 
+ Journées Temps Plein","#,##0.0",48721232,Ambtenaar - Fonctionnaire,Man - Homme,ambtenaar.man,full_time_paid_days,48721232.0
+2022.ambtenaar.man.part_time_paid_hours,2022,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,I22,22,I,,Ambtenaar - Fonctionnaire,Man - Homme," Uren  deeltijds 
+ Heures temps partiel
+(x 1.000)","#,##0.0",57965.96823,Ambtenaar - Fonctionnaire,Man - Homme,ambtenaar.man,part_time_paid_hours,57966.0
+2022.ambtenaar.vrouw.ordinary_remuneration,2022,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,D23,23,D,,,Vrouw - Femme," gewone bezoldiging 
+rémunération ordinaire","#,##0.0",14510644.78446,Ambtenaar - Fonctionnaire,Vrouw - Femme,ambtenaar.vrouw,ordinary_remuneration,14510644.8
+2022.ambtenaar.vrouw.severance,2022,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,E23,23,E,,,Vrouw - Femme," verbrekingsvergoeding
+indemnité de rupture","#,##0.0",1104.17824,Ambtenaar - Fonctionnaire,Vrouw - Femme,ambtenaar.vrouw,severance,1104.2
+2022.ambtenaar.vrouw.premiums,2022,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,F23,23,F,,,Vrouw - Femme," premies 
+primes","#,##0.0",227278.92347,Ambtenaar - Fonctionnaire,Vrouw - Femme,ambtenaar.vrouw,premiums,227278.9
+2022.ambtenaar.vrouw.simple_departure_holiday_pay,2022,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,G23,23,G,,,Vrouw - Femme," enkel vertrekvakantiegeld 
+pécule simple de sortie","#,##0.0",140.95461,Ambtenaar - Fonctionnaire,Vrouw - Femme,ambtenaar.vrouw,simple_departure_holiday_pay,141.0
+2022.ambtenaar.vrouw.full_time_paid_days,2022,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,H23,23,H,,,Vrouw - Femme," Dagen Voltijds 
+ Journées Temps Plein","#,##0.0",43390305,Ambtenaar - Fonctionnaire,Vrouw - Femme,ambtenaar.vrouw,full_time_paid_days,43390305.0
+2022.ambtenaar.vrouw.part_time_paid_hours,2022,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,I23,23,I,,,Vrouw - Femme," Uren  deeltijds 
+ Heures temps partiel
+(x 1.000)","#,##0.0",154437.60995,Ambtenaar - Fonctionnaire,Vrouw - Femme,ambtenaar.vrouw,part_time_paid_hours,154437.6
+2022.total.ordinary_remuneration,2022,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,D24,24,D,Totaal 2022,,," gewone bezoldiging 
+rémunération ordinaire","#,##0.0",147563956.74343,,,total,ordinary_remuneration,147563956.7
+2022.total.severance,2022,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,E24,24,E,Totaal 2022,,," verbrekingsvergoeding
+indemnité de rupture","#,##0.0",1405090.13015,,,total,severance,1405090.1
+2022.total.premiums,2022,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,F24,24,F,Totaal 2022,,," premies 
+primes","#,##0.0",11656029.484199999,,,total,premiums,11656029.5
+2022.total.simple_departure_holiday_pay,2022,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,G24,24,G,Totaal 2022,,," enkel vertrekvakantiegeld 
+pécule simple de sortie","#,##0.0",1018858.29346,,,total,simple_departure_holiday_pay,1018858.3
+2022.total.full_time_paid_days,2022,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,H24,24,H,Totaal 2022,,," Dagen Voltijds 
+ Journées Temps Plein","#,##0.0",611288535,,,total,full_time_paid_days,611288535.0
+2022.total.part_time_paid_hours,2022,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,I24,24,I,Totaal 2022,,," Uren  deeltijds 
+ Heures temps partiel
+(x 1.000)","#,##0.0",1812054.1175,,,total,part_time_paid_hours,1812054.1
+2023.arbeider.man.ordinary_remuneration,2023,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,D25,25,D,2023,Arbeider - Ouvrier,Man - Homme," gewone bezoldiging 
+rémunération ordinaire","#,##0.0",27202447.935229994,Arbeider - Ouvrier,Man - Homme,arbeider.man,ordinary_remuneration,27202447.9
+2023.arbeider.man.severance,2023,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,E25,25,E,2023,Arbeider - Ouvrier,Man - Homme," verbrekingsvergoeding
+indemnité de rupture","#,##0.0",232187.48848,Arbeider - Ouvrier,Man - Homme,arbeider.man,severance,232187.5
+2023.arbeider.man.premiums,2023,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,F25,25,F,2023,Arbeider - Ouvrier,Man - Homme," premies 
+primes","#,##0.0",1887886.7181700005,Arbeider - Ouvrier,Man - Homme,arbeider.man,premiums,1887886.7
+2023.arbeider.man.simple_departure_holiday_pay,2023,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,G25,25,G,2023,Arbeider - Ouvrier,Man - Homme," enkel vertrekvakantiegeld 
+pécule simple de sortie","#,##0.0",7373.84614,Arbeider - Ouvrier,Man - Homme,arbeider.man,simple_departure_holiday_pay,7373.8
+2023.arbeider.man.full_time_paid_days,2023,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,H25,25,H,2023,Arbeider - Ouvrier,Man - Homme," Dagen Voltijds 
+ Journées Temps Plein","#,##0.0",148920900,Arbeider - Ouvrier,Man - Homme,arbeider.man,full_time_paid_days,148920900.0
+2023.arbeider.man.part_time_paid_hours,2023,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,I25,25,I,2023,Arbeider - Ouvrier,Man - Homme," Uren  deeltijds 
+ Heures temps partiel
+(x 1.000)","#,##0.0",261191.22720999998,Arbeider - Ouvrier,Man - Homme,arbeider.man,part_time_paid_hours,261191.2
+2023.arbeider.vrouw.ordinary_remuneration,2023,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,D26,26,D,,,Vrouw - Femme," gewone bezoldiging 
+rémunération ordinaire","#,##0.0",8131221.798869999,Arbeider - Ouvrier,Vrouw - Femme,arbeider.vrouw,ordinary_remuneration,8131221.8
+2023.arbeider.vrouw.severance,2023,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,E26,26,E,,,Vrouw - Femme," verbrekingsvergoeding
+indemnité de rupture","#,##0.0",38772.99014000001,Arbeider - Ouvrier,Vrouw - Femme,arbeider.vrouw,severance,38773.0
+2023.arbeider.vrouw.premiums,2023,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,F26,26,F,,,Vrouw - Femme," premies 
+primes","#,##0.0",573989.54822,Arbeider - Ouvrier,Vrouw - Femme,arbeider.vrouw,premiums,573989.5
+2023.arbeider.vrouw.simple_departure_holiday_pay,2023,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,G26,26,G,,,Vrouw - Femme," enkel vertrekvakantiegeld 
+pécule simple de sortie","#,##0.0",5297.67247,Arbeider - Ouvrier,Vrouw - Femme,arbeider.vrouw,simple_departure_holiday_pay,5297.7
+2023.arbeider.vrouw.full_time_paid_days,2023,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,H26,26,H,,,Vrouw - Femme," Dagen Voltijds 
+ Journées Temps Plein","#,##0.0",25393135,Arbeider - Ouvrier,Vrouw - Femme,arbeider.vrouw,full_time_paid_days,25393135.0
+2023.arbeider.vrouw.part_time_paid_hours,2023,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,I26,26,I,,,Vrouw - Femme," Uren  deeltijds 
+ Heures temps partiel
+(x 1.000)","#,##0.0",324797.66913000005,Arbeider - Ouvrier,Vrouw - Femme,arbeider.vrouw,part_time_paid_hours,324797.7
+2023.bediende.man.ordinary_remuneration,2023,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,D27,27,D,,Bediende - Employé,Man - Homme," gewone bezoldiging 
+rémunération ordinaire","#,##0.0",48581963.751040004,Bediende - Employé,Man - Homme,bediende.man,ordinary_remuneration,48581963.8
+2023.bediende.man.severance,2023,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,E27,27,E,,Bediende - Employé,Man - Homme," verbrekingsvergoeding
+indemnité de rupture","#,##0.0",973005.59881,Bediende - Employé,Man - Homme,bediende.man,severance,973005.6
+2023.bediende.man.premiums,2023,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,F27,27,F,,Bediende - Employé,Man - Homme," premies 
+primes","#,##0.0",5156236.1407699995,Bediende - Employé,Man - Homme,bediende.man,premiums,5156236.1
+2023.bediende.man.simple_departure_holiday_pay,2023,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,G27,27,G,,Bediende - Employé,Man - Homme," enkel vertrekvakantiegeld 
+pécule simple de sortie","#,##0.0",523194.08358000003,Bediende - Employé,Man - Homme,bediende.man,simple_departure_holiday_pay,523194.1
+2023.bediende.man.full_time_paid_days,2023,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,H27,27,H,,Bediende - Employé,Man - Homme," Dagen Voltijds 
+ Journées Temps Plein","#,##0.0",191951549,Bediende - Employé,Man - Homme,bediende.man,full_time_paid_days,191951549.0
+2023.bediende.man.part_time_paid_hours,2023,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,I27,27,I,,Bediende - Employé,Man - Homme," Uren  deeltijds 
+ Heures temps partiel
+(x 1.000)","#,##0.0",230244.40495,Bediende - Employé,Man - Homme,bediende.man,part_time_paid_hours,230244.4
+2023.bediende.vrouw.ordinary_remuneration,2023,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,D28,28,D,,,Vrouw - Femme," gewone bezoldiging 
+rémunération ordinaire","#,##0.0",47895161.59414,Bediende - Employé,Vrouw - Femme,bediende.vrouw,ordinary_remuneration,47895161.6
+2023.bediende.vrouw.severance,2023,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,E28,28,E,,,Vrouw - Femme," verbrekingsvergoeding
+indemnité de rupture","#,##0.0",639624.9262799999,Bediende - Employé,Vrouw - Femme,bediende.vrouw,severance,639624.9
+2023.bediende.vrouw.premiums,2023,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,F28,28,F,,,Vrouw - Femme," premies 
+primes","#,##0.0",4060530.45686,Bediende - Employé,Vrouw - Femme,bediende.vrouw,premiums,4060530.5
+2023.bediende.vrouw.simple_departure_holiday_pay,2023,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,G28,28,G,,,Vrouw - Femme," enkel vertrekvakantiegeld 
+pécule simple de sortie","#,##0.0",538648.18771,Bediende - Employé,Vrouw - Femme,bediende.vrouw,simple_departure_holiday_pay,538648.2
+2023.bediende.vrouw.full_time_paid_days,2023,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,H28,28,H,,,Vrouw - Femme," Dagen Voltijds 
+ Journées Temps Plein","#,##0.0",157619848,Bediende - Employé,Vrouw - Femme,bediende.vrouw,full_time_paid_days,157619848.0
+2023.bediende.vrouw.part_time_paid_hours,2023,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,I28,28,I,,,Vrouw - Femme," Uren  deeltijds 
+ Heures temps partiel
+(x 1.000)","#,##0.0",796989.20425,Bediende - Employé,Vrouw - Femme,bediende.vrouw,part_time_paid_hours,796989.2
+2023.ambtenaar.man.ordinary_remuneration,2023,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,D29,29,D,,Ambtenaar - Fonctionnaire,Man - Homme," gewone bezoldiging 
+rémunération ordinaire","#,##0.0",13216230.26054,Ambtenaar - Fonctionnaire,Man - Homme,ambtenaar.man,ordinary_remuneration,13216230.3
+2023.ambtenaar.man.severance,2023,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,E29,29,E,,Ambtenaar - Fonctionnaire,Man - Homme," verbrekingsvergoeding
+indemnité de rupture","#,##0.0",2104.26972,Ambtenaar - Fonctionnaire,Man - Homme,ambtenaar.man,severance,2104.3
+2023.ambtenaar.man.premiums,2023,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,F29,29,F,,Ambtenaar - Fonctionnaire,Man - Homme," premies 
+primes","#,##0.0",316249.32181,Ambtenaar - Fonctionnaire,Man - Homme,ambtenaar.man,premiums,316249.3
+2023.ambtenaar.man.simple_departure_holiday_pay,2023,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,G29,29,G,,Ambtenaar - Fonctionnaire,Man - Homme," enkel vertrekvakantiegeld 
+pécule simple de sortie","#,##0.0",181.27856,Ambtenaar - Fonctionnaire,Man - Homme,ambtenaar.man,simple_departure_holiday_pay,181.3
+2023.ambtenaar.man.full_time_paid_days,2023,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,H29,29,H,,Ambtenaar - Fonctionnaire,Man - Homme," Dagen Voltijds 
+ Journées Temps Plein","#,##0.0",48106414,Ambtenaar - Fonctionnaire,Man - Homme,ambtenaar.man,full_time_paid_days,48106414.0
+2023.ambtenaar.man.part_time_paid_hours,2023,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,I29,29,I,,Ambtenaar - Fonctionnaire,Man - Homme," Uren  deeltijds 
+ Heures temps partiel
+(x 1.000)","#,##0.0",58170.93631,Ambtenaar - Fonctionnaire,Man - Homme,ambtenaar.man,part_time_paid_hours,58170.9
+2023.ambtenaar.vrouw.ordinary_remuneration,2023,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,D30,30,D,,,Vrouw - Femme," gewone bezoldiging 
+rémunération ordinaire","#,##0.0",15769566.14972,Ambtenaar - Fonctionnaire,Vrouw - Femme,ambtenaar.vrouw,ordinary_remuneration,15769566.1
+2023.ambtenaar.vrouw.severance,2023,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,E30,30,E,,,Vrouw - Femme," verbrekingsvergoeding
+indemnité de rupture","#,##0.0",1492.09009,Ambtenaar - Fonctionnaire,Vrouw - Femme,ambtenaar.vrouw,severance,1492.1
+2023.ambtenaar.vrouw.premiums,2023,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,F30,30,F,,,Vrouw - Femme," premies 
+primes","#,##0.0",244033.09258,Ambtenaar - Fonctionnaire,Vrouw - Femme,ambtenaar.vrouw,premiums,244033.1
+2023.ambtenaar.vrouw.simple_departure_holiday_pay,2023,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,G30,30,G,,,Vrouw - Femme," enkel vertrekvakantiegeld 
+pécule simple de sortie","#,##0.0",116.15837,Ambtenaar - Fonctionnaire,Vrouw - Femme,ambtenaar.vrouw,simple_departure_holiday_pay,116.2
+2023.ambtenaar.vrouw.full_time_paid_days,2023,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,H30,30,H,,,Vrouw - Femme," Dagen Voltijds 
+ Journées Temps Plein","#,##0.0",43629134,Ambtenaar - Fonctionnaire,Vrouw - Femme,ambtenaar.vrouw,full_time_paid_days,43629134.0
+2023.ambtenaar.vrouw.part_time_paid_hours,2023,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,I30,30,I,,,Vrouw - Femme," Uren  deeltijds 
+ Heures temps partiel
+(x 1.000)","#,##0.0",154844.57024,Ambtenaar - Fonctionnaire,Vrouw - Femme,ambtenaar.vrouw,part_time_paid_hours,154844.6
+2023.total.ordinary_remuneration,2023,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,D31,31,D,Totaal 2023,,," gewone bezoldiging 
+rémunération ordinaire","#,##0.0",160796591.48954,,,total,ordinary_remuneration,160796591.5
+2023.total.severance,2023,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,E31,31,E,Totaal 2023,,," verbrekingsvergoeding
+indemnité de rupture","#,##0.0",1887187.36352,,,total,severance,1887187.4
+2023.total.premiums,2023,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,F31,31,F,Totaal 2023,,," premies 
+primes","#,##0.0",12238925.278409999,,,total,premiums,12238925.3
+2023.total.simple_departure_holiday_pay,2023,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,G31,31,G,Totaal 2023,,," enkel vertrekvakantiegeld 
+pécule simple de sortie","#,##0.0",1074811.22683,,,total,simple_departure_holiday_pay,1074811.2
+2023.total.full_time_paid_days,2023,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,H31,31,H,Totaal 2023,,," Dagen Voltijds 
+ Journées Temps Plein","#,##0.0",615620980,,,total,full_time_paid_days,615620980.0
+2023.total.part_time_paid_hours,2023,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,I31,31,I,Totaal 2023,,," Uren  deeltijds 
+ Heures temps partiel
+(x 1.000)","#,##0.0",1826238.0120899999,,,total,part_time_paid_hours,1826238.0
+2024.arbeider.man.ordinary_remuneration,2024,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,D32,32,D,2024,Arbeider - Ouvrier,Man - Homme," gewone bezoldiging 
+rémunération ordinaire","#,##0.0",27639645.34946,Arbeider - Ouvrier,Man - Homme,arbeider.man,ordinary_remuneration,27639645.3
+2024.arbeider.man.severance,2024,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,E32,32,E,2024,Arbeider - Ouvrier,Man - Homme," verbrekingsvergoeding
+indemnité de rupture","#,##0.0",286296.74185,Arbeider - Ouvrier,Man - Homme,arbeider.man,severance,286296.7
+2024.arbeider.man.premiums,2024,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,F32,32,F,2024,Arbeider - Ouvrier,Man - Homme," premies 
+primes","#,##0.0",1913711.8224099998,Arbeider - Ouvrier,Man - Homme,arbeider.man,premiums,1913711.8
+2024.arbeider.man.simple_departure_holiday_pay,2024,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,G32,32,G,2024,Arbeider - Ouvrier,Man - Homme," enkel vertrekvakantiegeld 
+pécule simple de sortie","#,##0.0",8314.4162,Arbeider - Ouvrier,Man - Homme,arbeider.man,simple_departure_holiday_pay,8314.4
+2024.arbeider.man.full_time_paid_days,2024,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,H32,32,H,2024,Arbeider - Ouvrier,Man - Homme," Dagen Voltijds 
+ Journées Temps Plein","#,##0.0",146778186,Arbeider - Ouvrier,Man - Homme,arbeider.man,full_time_paid_days,146778186.0
+2024.arbeider.man.part_time_paid_hours,2024,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,I32,32,I,2024,Arbeider - Ouvrier,Man - Homme," Uren  deeltijds 
+ Heures temps partiel
+(x 1.000)","#,##0.0",266578.54608,Arbeider - Ouvrier,Man - Homme,arbeider.man,part_time_paid_hours,266578.5
+2024.arbeider.vrouw.ordinary_remuneration,2024,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,D33,33,D,,,Vrouw - Femme," gewone bezoldiging 
+rémunération ordinaire","#,##0.0",8271768.860319999,Arbeider - Ouvrier,Vrouw - Femme,arbeider.vrouw,ordinary_remuneration,8271768.9
+2024.arbeider.vrouw.severance,2024,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,E33,33,E,,,Vrouw - Femme," verbrekingsvergoeding
+indemnité de rupture","#,##0.0",36288.32658,Arbeider - Ouvrier,Vrouw - Femme,arbeider.vrouw,severance,36288.3
+2024.arbeider.vrouw.premiums,2024,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,F33,33,F,,,Vrouw - Femme," premies 
+primes","#,##0.0",581126.30864,Arbeider - Ouvrier,Vrouw - Femme,arbeider.vrouw,premiums,581126.3
+2024.arbeider.vrouw.simple_departure_holiday_pay,2024,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,G33,33,G,,,Vrouw - Femme," enkel vertrekvakantiegeld 
+pécule simple de sortie","#,##0.0",6131.09088,Arbeider - Ouvrier,Vrouw - Femme,arbeider.vrouw,simple_departure_holiday_pay,6131.1
+2024.arbeider.vrouw.full_time_paid_days,2024,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,H33,33,H,,,Vrouw - Femme," Dagen Voltijds 
+ Journées Temps Plein","#,##0.0",25074918,Arbeider - Ouvrier,Vrouw - Femme,arbeider.vrouw,full_time_paid_days,25074918.0
+2024.arbeider.vrouw.part_time_paid_hours,2024,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,I33,33,I,,,Vrouw - Femme," Uren  deeltijds 
+ Heures temps partiel
+(x 1.000)","#,##0.0",322801.1723,Arbeider - Ouvrier,Vrouw - Femme,arbeider.vrouw,part_time_paid_hours,322801.2
+2024.bediende.man.ordinary_remuneration,2024,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,D34,34,D,,Bediende - Employé,Man - Homme," gewone bezoldiging 
+rémunération ordinaire","#,##0.0",49941949.98781,Bediende - Employé,Man - Homme,bediende.man,ordinary_remuneration,49941950.0
+2024.bediende.man.severance,2024,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,E34,34,E,,Bediende - Employé,Man - Homme," verbrekingsvergoeding
+indemnité de rupture","#,##0.0",1057865.78823,Bediende - Employé,Man - Homme,bediende.man,severance,1057865.8
+2024.bediende.man.premiums,2024,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,F34,34,F,,Bediende - Employé,Man - Homme," premies 
+primes","#,##0.0",5270874.401740001,Bediende - Employé,Man - Homme,bediende.man,premiums,5270874.4
+2024.bediende.man.simple_departure_holiday_pay,2024,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,G34,34,G,,Bediende - Employé,Man - Homme," enkel vertrekvakantiegeld 
+pécule simple de sortie","#,##0.0",556585.41716,Bediende - Employé,Man - Homme,bediende.man,simple_departure_holiday_pay,556585.4
+2024.bediende.man.full_time_paid_days,2024,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,H34,34,H,,Bediende - Employé,Man - Homme," Dagen Voltijds 
+ Journées Temps Plein","#,##0.0",193339882,Bediende - Employé,Man - Homme,bediende.man,full_time_paid_days,193339882.0
+2024.bediende.man.part_time_paid_hours,2024,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,I34,34,I,,Bediende - Employé,Man - Homme," Uren  deeltijds 
+ Heures temps partiel
+(x 1.000)","#,##0.0",241250.08738,Bediende - Employé,Man - Homme,bediende.man,part_time_paid_hours,241250.1
+2024.bediende.vrouw.ordinary_remuneration,2024,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,D35,35,D,,,Vrouw - Femme," gewone bezoldiging 
+rémunération ordinaire","#,##0.0",49627853.84881,Bediende - Employé,Vrouw - Femme,bediende.vrouw,ordinary_remuneration,49627853.8
+2024.bediende.vrouw.severance,2024,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,E35,35,E,,,Vrouw - Femme," verbrekingsvergoeding
+indemnité de rupture","#,##0.0",651648.77984,Bediende - Employé,Vrouw - Femme,bediende.vrouw,severance,651648.8
+2024.bediende.vrouw.premiums,2024,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,F35,35,F,,,Vrouw - Femme," premies 
+primes","#,##0.0",4289326.33473,Bediende - Employé,Vrouw - Femme,bediende.vrouw,premiums,4289326.3
+2024.bediende.vrouw.simple_departure_holiday_pay,2024,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,G35,35,G,,,Vrouw - Femme," enkel vertrekvakantiegeld 
+pécule simple de sortie","#,##0.0",563077.19995,Bediende - Employé,Vrouw - Femme,bediende.vrouw,simple_departure_holiday_pay,563077.2
+2024.bediende.vrouw.full_time_paid_days,2024,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,H35,35,H,,,Vrouw - Femme," Dagen Voltijds 
+ Journées Temps Plein","#,##0.0",158846045,Bediende - Employé,Vrouw - Femme,bediende.vrouw,full_time_paid_days,158846045.0
+2024.bediende.vrouw.part_time_paid_hours,2024,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,I35,35,I,,,Vrouw - Femme," Uren  deeltijds 
+ Heures temps partiel
+(x 1.000)","#,##0.0",811389.6711800001,Bediende - Employé,Vrouw - Femme,bediende.vrouw,part_time_paid_hours,811389.7
+2024.ambtenaar.man.ordinary_remuneration,2024,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,D36,36,D,,Ambtenaar - Fonctionnaire,Man - Homme," gewone bezoldiging 
+rémunération ordinaire","#,##0.0",13688073.75075,Ambtenaar - Fonctionnaire,Man - Homme,ambtenaar.man,ordinary_remuneration,13688073.8
+2024.ambtenaar.man.severance,2024,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,E36,36,E,,Ambtenaar - Fonctionnaire,Man - Homme," verbrekingsvergoeding
+indemnité de rupture","#,##0.0",4816.88946,Ambtenaar - Fonctionnaire,Man - Homme,ambtenaar.man,severance,4816.9
+2024.ambtenaar.man.premiums,2024,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,F36,36,F,,Ambtenaar - Fonctionnaire,Man - Homme," premies 
+primes","#,##0.0",333627.73462,Ambtenaar - Fonctionnaire,Man - Homme,ambtenaar.man,premiums,333627.7
+2024.ambtenaar.man.simple_departure_holiday_pay,2024,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,G36,36,G,,Ambtenaar - Fonctionnaire,Man - Homme," enkel vertrekvakantiegeld 
+pécule simple de sortie","#,##0.0",100.56561,Ambtenaar - Fonctionnaire,Man - Homme,ambtenaar.man,simple_departure_holiday_pay,100.6
+2024.ambtenaar.man.full_time_paid_days,2024,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,H36,36,H,,Ambtenaar - Fonctionnaire,Man - Homme," Dagen Voltijds 
+ Journées Temps Plein","#,##0.0",47724246,Ambtenaar - Fonctionnaire,Man - Homme,ambtenaar.man,full_time_paid_days,47724246.0
+2024.ambtenaar.man.part_time_paid_hours,2024,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,I36,36,I,,Ambtenaar - Fonctionnaire,Man - Homme," Uren  deeltijds 
+ Heures temps partiel
+(x 1.000)","#,##0.0",63352.61,Ambtenaar - Fonctionnaire,Man - Homme,ambtenaar.man,part_time_paid_hours,63352.6
+2024.ambtenaar.vrouw.ordinary_remuneration,2024,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,D37,37,D,,,Vrouw - Femme," gewone bezoldiging 
+rémunération ordinaire","#,##0.0",16570168.18274,Ambtenaar - Fonctionnaire,Vrouw - Femme,ambtenaar.vrouw,ordinary_remuneration,16570168.2
+2024.ambtenaar.vrouw.severance,2024,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,E37,37,E,,,Vrouw - Femme," verbrekingsvergoeding
+indemnité de rupture","#,##0.0",3642.88457,Ambtenaar - Fonctionnaire,Vrouw - Femme,ambtenaar.vrouw,severance,3642.9
+2024.ambtenaar.vrouw.premiums,2024,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,F37,37,F,,,Vrouw - Femme," premies 
+primes","#,##0.0",259210.23645000003,Ambtenaar - Fonctionnaire,Vrouw - Femme,ambtenaar.vrouw,premiums,259210.2
+2024.ambtenaar.vrouw.simple_departure_holiday_pay,2024,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,G37,37,G,,,Vrouw - Femme," enkel vertrekvakantiegeld 
+pécule simple de sortie","#,##0.0",120.19273,Ambtenaar - Fonctionnaire,Vrouw - Femme,ambtenaar.vrouw,simple_departure_holiday_pay,120.2
+2024.ambtenaar.vrouw.full_time_paid_days,2024,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,H37,37,H,,,Vrouw - Femme," Dagen Voltijds 
+ Journées Temps Plein","#,##0.0",44463488,Ambtenaar - Fonctionnaire,Vrouw - Femme,ambtenaar.vrouw,full_time_paid_days,44463488.0
+2024.ambtenaar.vrouw.part_time_paid_hours,2024,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,I37,37,I,,,Vrouw - Femme," Uren  deeltijds 
+ Heures temps partiel
+(x 1.000)","#,##0.0",159886.55913,Ambtenaar - Fonctionnaire,Vrouw - Femme,ambtenaar.vrouw,part_time_paid_hours,159886.6
+2024.total.ordinary_remuneration,2024,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,D38,38,D,Totaal 2024,,," gewone bezoldiging 
+rémunération ordinaire","#,##0.0",165739459.97989002,,,total,ordinary_remuneration,165739460.0
+2024.total.severance,2024,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,E38,38,E,Totaal 2024,,," verbrekingsvergoeding
+indemnité de rupture","#,##0.0",2040559.41053,,,total,severance,2040559.4
+2024.total.premiums,2024,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,F38,38,F,Totaal 2024,,," premies 
+primes","#,##0.0",12647876.83859,,,total,premiums,12647876.8
+2024.total.simple_departure_holiday_pay,2024,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,G38,38,G,Totaal 2024,,," enkel vertrekvakantiegeld 
+pécule simple de sortie","#,##0.0",1134328.8825299998,,,total,simple_departure_holiday_pay,1134328.9
+2024.total.full_time_paid_days,2024,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,H38,38,H,Totaal 2024,,," Dagen Voltijds 
+ Journées Temps Plein","#,##0.0",616226765,,,total,full_time_paid_days,616226765.0
+2024.total.part_time_paid_hours,2024,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,I38,38,I,Totaal 2024,,," Uren  deeltijds 
+ Heures temps partiel
+(x 1.000)","#,##0.0",1865258.64607,,,total,part_time_paid_hours,1865258.6
+2025.arbeider.man.ordinary_remuneration,2025,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,D39,39,D,2025,Arbeider - Ouvrier,Man - Homme," gewone bezoldiging 
+rémunération ordinaire","#,##0.0",28483576.671909995,Arbeider - Ouvrier,Man - Homme,arbeider.man,ordinary_remuneration,28483576.7
+2025.arbeider.man.severance,2025,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,E39,39,E,2025,Arbeider - Ouvrier,Man - Homme," verbrekingsvergoeding
+indemnité de rupture","#,##0.0",545450.08005,Arbeider - Ouvrier,Man - Homme,arbeider.man,severance,545450.1
+2025.arbeider.man.premiums,2025,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,F39,39,F,2025,Arbeider - Ouvrier,Man - Homme," premies 
+primes","#,##0.0",1955594.56437,Arbeider - Ouvrier,Man - Homme,arbeider.man,premiums,1955594.6
+2025.arbeider.man.simple_departure_holiday_pay,2025,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,G39,39,G,2025,Arbeider - Ouvrier,Man - Homme," enkel vertrekvakantiegeld 
+pécule simple de sortie","#,##0.0",9433.42107,Arbeider - Ouvrier,Man - Homme,arbeider.man,simple_departure_holiday_pay,9433.4
+2025.arbeider.man.full_time_paid_days,2025,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,H39,39,H,2025,Arbeider - Ouvrier,Man - Homme," Dagen Voltijds 
+ Journées Temps Plein","#,##0.0",145471599,Arbeider - Ouvrier,Man - Homme,arbeider.man,full_time_paid_days,145471599.0
+2025.arbeider.man.part_time_paid_hours,2025,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,I39,39,I,2025,Arbeider - Ouvrier,Man - Homme," Uren  deeltijds 
+ Heures temps partiel
+(x 1.000)","#,##0.0",276000.22620999994,Arbeider - Ouvrier,Man - Homme,arbeider.man,part_time_paid_hours,276000.2
+2025.arbeider.vrouw.ordinary_remuneration,2025,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,D40,40,D,,,Vrouw - Femme," gewone bezoldiging 
+rémunération ordinaire","#,##0.0",8480498.35099,Arbeider - Ouvrier,Vrouw - Femme,arbeider.vrouw,ordinary_remuneration,8480498.4
+2025.arbeider.vrouw.severance,2025,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,E40,40,E,,,Vrouw - Femme," verbrekingsvergoeding
+indemnité de rupture","#,##0.0",63633.72194999999,Arbeider - Ouvrier,Vrouw - Femme,arbeider.vrouw,severance,63633.7
+2025.arbeider.vrouw.premiums,2025,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,F40,40,F,,,Vrouw - Femme," premies 
+primes","#,##0.0",612600.90787,Arbeider - Ouvrier,Vrouw - Femme,arbeider.vrouw,premiums,612600.9
+2025.arbeider.vrouw.simple_departure_holiday_pay,2025,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,G40,40,G,,,Vrouw - Femme," enkel vertrekvakantiegeld 
+pécule simple de sortie","#,##0.0",6750.89626,Arbeider - Ouvrier,Vrouw - Femme,arbeider.vrouw,simple_departure_holiday_pay,6750.9
+2025.arbeider.vrouw.full_time_paid_days,2025,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,H40,40,H,,,Vrouw - Femme," Dagen Voltijds 
+ Journées Temps Plein","#,##0.0",24675552,Arbeider - Ouvrier,Vrouw - Femme,arbeider.vrouw,full_time_paid_days,24675552.0
+2025.arbeider.vrouw.part_time_paid_hours,2025,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,I40,40,I,,,Vrouw - Femme," Uren  deeltijds 
+ Heures temps partiel
+(x 1.000)","#,##0.0",321171.53579,Arbeider - Ouvrier,Vrouw - Femme,arbeider.vrouw,part_time_paid_hours,321171.5
+2025.bediende.man.ordinary_remuneration,2025,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,D41,41,D,,Bediende - Employé,Man - Homme," gewone bezoldiging 
+rémunération ordinaire","#,##0.0",51430860.19703,Bediende - Employé,Man - Homme,bediende.man,ordinary_remuneration,51430860.2
+2025.bediende.man.severance,2025,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,E41,41,E,,Bediende - Employé,Man - Homme," verbrekingsvergoeding
+indemnité de rupture","#,##0.0",1396290.05733,Bediende - Employé,Man - Homme,bediende.man,severance,1396290.1
+2025.bediende.man.premiums,2025,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,F41,41,F,,Bediende - Employé,Man - Homme," premies 
+primes","#,##0.0",5329015.93375,Bediende - Employé,Man - Homme,bediende.man,premiums,5329015.9
+2025.bediende.man.simple_departure_holiday_pay,2025,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,G41,41,G,,Bediende - Employé,Man - Homme," enkel vertrekvakantiegeld 
+pécule simple de sortie","#,##0.0",595189.94067,Bediende - Employé,Man - Homme,bediende.man,simple_departure_holiday_pay,595189.9
+2025.bediende.man.full_time_paid_days,2025,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,H41,41,H,,Bediende - Employé,Man - Homme," Dagen Voltijds 
+ Journées Temps Plein","#,##0.0",191767706,Bediende - Employé,Man - Homme,bediende.man,full_time_paid_days,191767706.0
+2025.bediende.man.part_time_paid_hours,2025,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,I41,41,I,,Bediende - Employé,Man - Homme," Uren  deeltijds 
+ Heures temps partiel
+(x 1.000)","#,##0.0",250896.14908999996,Bediende - Employé,Man - Homme,bediende.man,part_time_paid_hours,250896.1
+2025.bediende.vrouw.ordinary_remuneration,2025,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,D42,42,D,,,Vrouw - Femme," gewone bezoldiging 
+rémunération ordinaire","#,##0.0",51453293.79569001,Bediende - Employé,Vrouw - Femme,bediende.vrouw,ordinary_remuneration,51453293.8
+2025.bediende.vrouw.severance,2025,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,E42,42,E,,,Vrouw - Femme," verbrekingsvergoeding
+indemnité de rupture","#,##0.0",816847.5043700002,Bediende - Employé,Vrouw - Femme,bediende.vrouw,severance,816847.5
+2025.bediende.vrouw.premiums,2025,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,F42,42,F,,,Vrouw - Femme," premies 
+primes","#,##0.0",4341980.898,Bediende - Employé,Vrouw - Femme,bediende.vrouw,premiums,4341980.9
+2025.bediende.vrouw.simple_departure_holiday_pay,2025,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,G42,42,G,,,Vrouw - Femme," enkel vertrekvakantiegeld 
+pécule simple de sortie","#,##0.0",649360.84373,Bediende - Employé,Vrouw - Femme,bediende.vrouw,simple_departure_holiday_pay,649360.8
+2025.bediende.vrouw.full_time_paid_days,2025,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,H42,42,H,,,Vrouw - Femme," Dagen Voltijds 
+ Journées Temps Plein","#,##0.0",157449593,Bediende - Employé,Vrouw - Femme,bediende.vrouw,full_time_paid_days,157449593.0
+2025.bediende.vrouw.part_time_paid_hours,2025,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,I42,42,I,,,Vrouw - Femme," Uren  deeltijds 
+ Heures temps partiel
+(x 1.000)","#,##0.0",818029.61509,Bediende - Employé,Vrouw - Femme,bediende.vrouw,part_time_paid_hours,818029.6
+2025.ambtenaar.man.ordinary_remuneration,2025,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,D43,43,D,,Ambtenaar - Fonctionnaire,Man - Homme," gewone bezoldiging 
+rémunération ordinaire","#,##0.0",14008819.68795,Ambtenaar - Fonctionnaire,Man - Homme,ambtenaar.man,ordinary_remuneration,14008819.7
+2025.ambtenaar.man.severance,2025,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,E43,43,E,,Ambtenaar - Fonctionnaire,Man - Homme," verbrekingsvergoeding
+indemnité de rupture","#,##0.0",5122.61177,Ambtenaar - Fonctionnaire,Man - Homme,ambtenaar.man,severance,5122.6
+2025.ambtenaar.man.premiums,2025,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,F43,43,F,,Ambtenaar - Fonctionnaire,Man - Homme," premies 
+primes","#,##0.0",352255.82328,Ambtenaar - Fonctionnaire,Man - Homme,ambtenaar.man,premiums,352255.8
+2025.ambtenaar.man.simple_departure_holiday_pay,2025,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,G43,43,G,,Ambtenaar - Fonctionnaire,Man - Homme," enkel vertrekvakantiegeld 
+pécule simple de sortie","#,##0.0",243.43899,Ambtenaar - Fonctionnaire,Man - Homme,ambtenaar.man,simple_departure_holiday_pay,243.4
+2025.ambtenaar.man.full_time_paid_days,2025,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,H43,43,H,,Ambtenaar - Fonctionnaire,Man - Homme," Dagen Voltijds 
+ Journées Temps Plein","#,##0.0",47510227,Ambtenaar - Fonctionnaire,Man - Homme,ambtenaar.man,full_time_paid_days,47510227.0
+2025.ambtenaar.man.part_time_paid_hours,2025,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,I43,43,I,,Ambtenaar - Fonctionnaire,Man - Homme," Uren  deeltijds 
+ Heures temps partiel
+(x 1.000)","#,##0.0",61333.67133,Ambtenaar - Fonctionnaire,Man - Homme,ambtenaar.man,part_time_paid_hours,61333.7
+2025.ambtenaar.vrouw.ordinary_remuneration,2025,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,D44,44,D,,,Vrouw - Femme," gewone bezoldiging 
+rémunération ordinaire","#,##0.0",17217829.85788,Ambtenaar - Fonctionnaire,Vrouw - Femme,ambtenaar.vrouw,ordinary_remuneration,17217829.9
+2025.ambtenaar.vrouw.severance,2025,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,E44,44,E,,,Vrouw - Femme," verbrekingsvergoeding
+indemnité de rupture","#,##0.0",3179.36976,Ambtenaar - Fonctionnaire,Vrouw - Femme,ambtenaar.vrouw,severance,3179.4
+2025.ambtenaar.vrouw.premiums,2025,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,F44,44,F,,,Vrouw - Femme," premies 
+primes","#,##0.0",281599.88715,Ambtenaar - Fonctionnaire,Vrouw - Femme,ambtenaar.vrouw,premiums,281599.9
+2025.ambtenaar.vrouw.simple_departure_holiday_pay,2025,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,G44,44,G,,,Vrouw - Femme," enkel vertrekvakantiegeld 
+pécule simple de sortie","#,##0.0",176.20075,Ambtenaar - Fonctionnaire,Vrouw - Femme,ambtenaar.vrouw,simple_departure_holiday_pay,176.2
+2025.ambtenaar.vrouw.full_time_paid_days,2025,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,H44,44,H,,,Vrouw - Femme," Dagen Voltijds 
+ Journées Temps Plein","#,##0.0",44777875,Ambtenaar - Fonctionnaire,Vrouw - Femme,ambtenaar.vrouw,full_time_paid_days,44777875.0
+2025.ambtenaar.vrouw.part_time_paid_hours,2025,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,I44,44,I,,,Vrouw - Femme," Uren  deeltijds 
+ Heures temps partiel
+(x 1.000)","#,##0.0",159800.15105,Ambtenaar - Fonctionnaire,Vrouw - Femme,ambtenaar.vrouw,part_time_paid_hours,159800.2
+2025.total.ordinary_remuneration,2025,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,D45,45,D,Totaal 2025,,," gewone bezoldiging 
+rémunération ordinaire","#,##0.0",171074878.56145,,,total,ordinary_remuneration,171074878.6
+2025.total.severance,2025,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,E45,45,E,Totaal 2025,,," verbrekingsvergoeding
+indemnité de rupture","#,##0.0",2830523.34523,,,total,severance,2830523.3
+2025.total.premiums,2025,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,F45,45,F,Totaal 2025,,," premies 
+primes","#,##0.0",12873048.014419999,,,total,premiums,12873048.0
+2025.total.simple_departure_holiday_pay,2025,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,G45,45,G,Totaal 2025,,," enkel vertrekvakantiegeld 
+pécule simple de sortie","#,##0.0",1261154.74147,,,total,simple_departure_holiday_pay,1261154.7
+2025.total.full_time_paid_days,2025,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,H45,45,H,Totaal 2025,,," Dagen Voltijds 
+ Journées Temps Plein","#,##0.0",611652552,,,total,full_time_paid_days,611652552.0
+2025.total.part_time_paid_hours,2025,rsz-ruwedata-periods-wages.xlsx,Kerncijfers-Chiffres Clés,I45,45,I,Totaal 2025,,," Uren  deeltijds 
+ Heures temps partiel
+(x 1.000)","#,##0.0",1887231.3485599998,,,total,part_time_paid_hours,1887231.3

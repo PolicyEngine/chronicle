@@ -1,0 +1,19 @@
+source_id: nisra
+package_id: nisra-mye-2025-lgd-single-year-age
+dataset: nisra_nisra-mye-2025-lgd-single-year-age
+source_page: https://www.nisra.gov.uk/publications/2025-mid-year-population-estimates-northern-ireland-and-estimates-population-aged-85
+table: mye_2025_lgd_single_year_age
+files:
+  2025:
+    filename: MYE25-SYA.xlsx
+    source_url: https://www.nisra.gov.uk/system/files/statistics/2026-09/MYE25-SYA.xlsx
+    sha256: 99d2f99f5278c0ca44d60bcaf5bf8047333c5bc0fa42a6f102e800ca234935b1
+    size_bytes: 4693140
+    fetched_at: '2026-10-07T13:34:58+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/nisra/nisra-mye-2025-lgd-single-year-age/2025/99d2f99f5278c0ca44d60bcaf5bf8047333c5bc0fa42a6f102e800ca234935b1/MYE25-SYA.xlsx
+        uri: r2://ledger-raw/raw/uk/nisra/nisra-mye-2025-lgd-single-year-age/2025/99d2f99f5278c0ca44d60bcaf5bf8047333c5bc0fa42a6f102e800ca234935b1/MYE25-SYA.xlsx
+registration_kind: source_facts

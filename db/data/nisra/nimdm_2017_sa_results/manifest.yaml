@@ -1,0 +1,25 @@
+source_id: nisra
+package_id: nisra-nimdm-2017-sa-results
+dataset: nisra_nisra-nimdm-2017-sa-results
+source_page: https://www.nisra.gov.uk/publications/nimdm17-sa-level-results
+table: Northern Ireland Multiple Deprivation Measure 2017, Small Area level results
+files:
+  2017:
+    filename: NIMDM17_SA_for_publication.xls
+    source_url: https://www.nisra.gov.uk/files/nisra/publications/NIMDM17_SA%20-%20for%20publication.xls
+    sha256: 1499da7859f0f4921152fe249524a71e3358641c64e57024074c9615c28e9cd2
+    size_bytes: 1797632
+    fetched_at: '2026-11-04T18:22:07+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/nisra/nisra-nimdm-2017-sa-results/2017/1499da7859f0f4921152fe249524a71e3358641c64e57024074c9615c28e9cd2/NIMDM17_SA_for_publication.xls
+        uri: r2://ledger-raw/raw/uk/nisra/nisra-nimdm-2017-sa-results/2017/1499da7859f0f4921152fe249524a71e3358641c64e57024074c9615c28e9cd2/NIMDM17_SA_for_publication.xls
+registration_kind: raw_only
+provenance_notes: 'Northern Ireland Multiple Deprivation Measure 2017 (NISRA, November
+  2017), Small Area results (the publisher file ''NIMDM17_SA - for publication.xls''):
+  the MDM rank and the domain ranks for each of the 4,537 Small Areas (2011), with
+  each Small Area''s SOA name, LGD 2014 and 2015 default urban/rural status, and one
+  sheet per domain with its indicators. Licence: Open Government Licence. Raw-only
+  for chronicle#412 item 1.'

@@ -1,0 +1,21 @@
+source_id: scotgov
+package_id: scotgov-brma-postcode-lookup-2023
+dataset: scotgov_scotgov-brma-postcode-lookup-2023
+source_page: https://www.gov.scot/publications/foi-202300368850/
+table: brma_postcode_lookup_2023
+files:
+  2023:
+    filename: scot_foi_postcodes_brma_2023.xlsx
+    source_url: https://www.gov.scot/binaries/content/documents/govscot/publications/foi-eir-release/2023/11/foi-202300368850/documents/foi-202300368850---information-released---postcodes/foi-202300368850---information-released---postcodes/govscot%3Adocument/FOI%2B202300368850%2B-%2BInformation%2BReleased%2B-%2BPostcodes.xlsx
+    sha256: 50366fea2b87bd6b697e7aa8736fbc870838b5e327458213294f31c3de7ede5e
+    size_bytes: 3544439
+    fetched_at: '2026-10-07T13:34:59+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/scotgov/scotgov-brma-postcode-lookup-2023/2023/50366fea2b87bd6b697e7aa8736fbc870838b5e327458213294f31c3de7ede5e/scot_foi_postcodes_brma_2023.xlsx
+        uri: r2://ledger-raw/raw/uk/scotgov/scotgov-brma-postcode-lookup-2023/2023/50366fea2b87bd6b697e7aa8736fbc870838b5e327458213294f31c3de7ede5e/scot_foi_postcodes_brma_2023.xlsx
+registration_kind: raw_only
+provenance_notes: Rent Service Scotland postcode-to-BRMA lookup, FOI 202300368850,
+  released 15 November 2023.

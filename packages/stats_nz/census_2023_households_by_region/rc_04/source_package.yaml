@@ -1,0 +1,1001 @@
+# One publisher CSV row per fact; no arithmetic or aligned periods.
+# Empty confidentiality/status fields are required by selected_rows.
+schema_version: ledger.source_package.v1
+package_id: stats-nz-census-2023-households-by-region-rc-04
+label: 'Stats NZ 2023 Census household counts: Bay of Plenty Region'
+dimension_labels:
+  nz_census_2023.total_kind: Published family or household total
+  nz_census_2023.household_tenure_source_label: Tenure of household
+  nz_census_2023.household_size_source_label: Number of usual residents in household
+artifact:
+  source_name: stats_nz
+  source_table: '2023 Census Place summaries: families and households'
+  resource_package: db
+  resource_directory: data/stats_nz/census_2023_place_summaries
+  manifest: manifest-rc-04.yaml
+  vintage: place_summaries_capture_2026_10_10
+  extracted_at: '2026-10-10'
+  extraction_method: Complete unchanged CSV source-row preservation; guarded 2023 Count selections
+  parser: delimited_text_full_rows
+  artifact_year: 2023
+  sheet_name: place_summaries_rc_04_households
+  selected_rows:
+  - section_title: Number of families and households
+    section_type: ''
+    classification_label: Regional council
+    code: '4'
+    descriptor: Bay of Plenty Region
+    period: '2023'
+    duration: Census
+    variable1_label: Families or households
+    variable1_code: H
+    variable1_descriptor: Households
+    variable2_label: ''
+    variable2_code: ''
+    variable2_descriptor: ''
+    value_type_description: Count
+    value_label: ''
+    decimals: '0'
+    confidentiality_indicator: ''
+    confidentiality_label: ''
+    final_indicator: ''
+    final_label: ''
+  - section_title: Tenure of household
+    section_type: ''
+    classification_label: Regional council
+    code: '4'
+    descriptor: Bay of Plenty Region
+    period: '2023'
+    duration: Census
+    variable1_label: Tenure of household
+    variable1_code: '1'
+    variable1_descriptor: Owned
+    variable2_label: ''
+    variable2_code: ''
+    variable2_descriptor: ''
+    value_type_description: Count
+    value_label: ''
+    decimals: '0'
+    confidentiality_indicator: ''
+    confidentiality_label: ''
+    final_indicator: ''
+    final_label: ''
+  - section_title: Tenure of household
+    section_type: ''
+    classification_label: Regional council
+    code: '4'
+    descriptor: Bay of Plenty Region
+    period: '2023'
+    duration: Census
+    variable1_label: Tenure of household
+    variable1_code: '2'
+    variable1_descriptor: Not owned
+    variable2_label: ''
+    variable2_code: ''
+    variable2_descriptor: ''
+    value_type_description: Count
+    value_label: ''
+    decimals: '0'
+    confidentiality_indicator: ''
+    confidentiality_label: ''
+    final_indicator: ''
+    final_label: ''
+  - section_title: Tenure of household
+    section_type: ''
+    classification_label: Regional council
+    code: '4'
+    descriptor: Bay of Plenty Region
+    period: '2023'
+    duration: Census
+    variable1_label: Tenure of household
+    variable1_code: '3'
+    variable1_descriptor: In family trust
+    variable2_label: ''
+    variable2_code: ''
+    variable2_descriptor: ''
+    value_type_description: Count
+    value_label: ''
+    decimals: '0'
+    confidentiality_indicator: ''
+    confidentiality_label: ''
+    final_indicator: ''
+    final_label: ''
+  - section_title: Number of usual residents in household
+    section_type: ''
+    classification_label: Regional council
+    code: '4'
+    descriptor: Bay of Plenty Region
+    period: '2023'
+    duration: Census
+    variable1_label: Number of usual residents in household
+    variable1_code: '1'
+    variable1_descriptor: One usual resident
+    variable2_label: ''
+    variable2_code: ''
+    variable2_descriptor: ''
+    value_type_description: Count
+    value_label: ''
+    decimals: '0'
+    confidentiality_indicator: ''
+    confidentiality_label: ''
+    final_indicator: ''
+    final_label: ''
+  - section_title: Number of usual residents in household
+    section_type: ''
+    classification_label: Regional council
+    code: '4'
+    descriptor: Bay of Plenty Region
+    period: '2023'
+    duration: Census
+    variable1_label: Number of usual residents in household
+    variable1_code: '2'
+    variable1_descriptor: Two usual residents
+    variable2_label: ''
+    variable2_code: ''
+    variable2_descriptor: ''
+    value_type_description: Count
+    value_label: ''
+    decimals: '0'
+    confidentiality_indicator: ''
+    confidentiality_label: ''
+    final_indicator: ''
+    final_label: ''
+  - section_title: Number of usual residents in household
+    section_type: ''
+    classification_label: Regional council
+    code: '4'
+    descriptor: Bay of Plenty Region
+    period: '2023'
+    duration: Census
+    variable1_label: Number of usual residents in household
+    variable1_code: '3'
+    variable1_descriptor: Three usual residents
+    variable2_label: ''
+    variable2_code: ''
+    variable2_descriptor: ''
+    value_type_description: Count
+    value_label: ''
+    decimals: '0'
+    confidentiality_indicator: ''
+    confidentiality_label: ''
+    final_indicator: ''
+    final_label: ''
+  - section_title: Number of usual residents in household
+    section_type: ''
+    classification_label: Regional council
+    code: '4'
+    descriptor: Bay of Plenty Region
+    period: '2023'
+    duration: Census
+    variable1_label: Number of usual residents in household
+    variable1_code: '4'
+    variable1_descriptor: Four usual residents
+    variable2_label: ''
+    variable2_code: ''
+    variable2_descriptor: ''
+    value_type_description: Count
+    value_label: ''
+    decimals: '0'
+    confidentiality_indicator: ''
+    confidentiality_label: ''
+    final_indicator: ''
+    final_label: ''
+  - section_title: Number of usual residents in household
+    section_type: ''
+    classification_label: Regional council
+    code: '4'
+    descriptor: Bay of Plenty Region
+    period: '2023'
+    duration: Census
+    variable1_label: Number of usual residents in household
+    variable1_code: '5'
+    variable1_descriptor: Five usual residents
+    variable2_label: ''
+    variable2_code: ''
+    variable2_descriptor: ''
+    value_type_description: Count
+    value_label: ''
+    decimals: '0'
+    confidentiality_indicator: ''
+    confidentiality_label: ''
+    final_indicator: ''
+    final_label: ''
+  - section_title: Number of usual residents in household
+    section_type: ''
+    classification_label: Regional council
+    code: '4'
+    descriptor: Bay of Plenty Region
+    period: '2023'
+    duration: Census
+    variable1_label: Number of usual residents in household
+    variable1_code: '6'
+    variable1_descriptor: Six usual residents
+    variable2_label: ''
+    variable2_code: ''
+    variable2_descriptor: ''
+    value_type_description: Count
+    value_label: ''
+    decimals: '0'
+    confidentiality_indicator: ''
+    confidentiality_label: ''
+    final_indicator: ''
+    final_label: ''
+  - section_title: Number of usual residents in household
+    section_type: ''
+    classification_label: Regional council
+    code: '4'
+    descriptor: Bay of Plenty Region
+    period: '2023'
+    duration: Census
+    variable1_label: Number of usual residents in household
+    variable1_code: '7'
+    variable1_descriptor: Seven usual residents
+    variable2_label: ''
+    variable2_code: ''
+    variable2_descriptor: ''
+    value_type_description: Count
+    value_label: ''
+    decimals: '0'
+    confidentiality_indicator: ''
+    confidentiality_label: ''
+    final_indicator: ''
+    final_label: ''
+  - section_title: Number of usual residents in household
+    section_type: ''
+    classification_label: Regional council
+    code: '4'
+    descriptor: Bay of Plenty Region
+    period: '2023'
+    duration: Census
+    variable1_label: Number of usual residents in household
+    variable1_code: '8'
+    variable1_descriptor: Eight or more usual residents
+    variable2_label: ''
+    variable2_code: ''
+    variable2_descriptor: ''
+    value_type_description: Count
+    value_label: ''
+    decimals: '0'
+    confidentiality_indicator: ''
+    confidentiality_label: ''
+    final_indicator: ''
+    final_label: ''
+record_sets:
+- record_set_id: stats_nz.census_2023.rc_04.households
+  record_set_spec_id: stats_nz.census_2023.rc_04.households.v1
+  source_record_id_prefix: stats_nz.census_2023.rc_04.households
+  provenance_class: census
+  assertion: observation
+  sheet_name: place_summaries_rc_04_households
+  period_type: calendar_year
+  period: 2023
+  period_coverage:
+    start_date: '2023-03-07'
+    end_date: '2023-03-07'
+    basis: calendar
+    source_period_label: 2023 Census
+    notes: Census night, 7 March 2023, the 2023 Census reference night (coverage 2023-03-07, chronicle#176). The CSV labels
+      the reference period 2023 and duration Census; it does not print the exact date.
+  geography_id: '04'
+  geography_level: region
+  geography_name: Bay of Plenty Region
+  geography_vintage: unstated
+  entity: household
+  entity_role: census_household
+  domain: census_2023_household
+  groupby_dimension: nz_census_2023.total_kind
+  measures:
+  - measure_id: count
+    label: Count
+    ordinal: 0
+    column: O
+    source_column_id: value
+    concept: stats_nz.census_2023.household_count
+    source_concept: stats_nz.census_2023.household_count
+    concept_relation: source_label
+    concept_authority: stats_nz
+    concept_evidence_url: https://tools.summaries.stats.govt.nz/places/RC/bay-of-plenty-region
+    concept_evidence_notes: 'Direct publisher 2023 Census Count rows; one row per fact, scale
+      1. New Zealand totals and Households are independently published rows, never sums of
+      regions, tenure or household-size categories. Only household size (usual residents),
+      three tenure categories, family type and their own totals are supplied: no household
+      composition or social-renting split. Percent rows, 2013/2018, Māori-ethnic-group and
+      other sections remain in the complete preserved CSV but emit no facts. Regional boundary
+      vintage and a rounding policy are not stated in these files. Area Outside Region is
+      its own publisher geography, never folded into a region. No reconciliation, imputation,
+      aging, shares or consumer target construction.'
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: value
+  rows:
+  - value_id: households
+    label: Households
+    ordinal: 0
+    row_number: 2
+    table_record_kind: total
+    expected_row_header_column: J
+    expected_row_header: Households
+    guard_cells:
+    - column: A
+      expected_value: Number of families and households
+      label: Published section_title
+    - column: C
+      expected_value: Regional council
+      label: Published classification_label
+    - column: D
+      expected_value: '4'
+      label: Published code
+    - column: E
+      expected_value: Bay of Plenty Region
+      label: Published descriptor
+    - column: F
+      expected_value: '2023'
+      label: Published period
+    - column: G
+      expected_value: Census
+      label: Published duration
+    - column: H
+      expected_value: Families or households
+      label: Published variable1_label
+    - column: I
+      expected_value: H
+      label: Published variable1_code
+    - column: J
+      expected_value: Households
+      label: Published variable1_descriptor
+    - column: N
+      expected_value: Count
+      label: Published value_type_description
+    - column: Q
+      expected_value: '0'
+      label: Published decimals
+- record_set_id: stats_nz.census_2023.rc_04.tenure
+  record_set_spec_id: stats_nz.census_2023.rc_04.tenure.v1
+  source_record_id_prefix: stats_nz.census_2023.rc_04.tenure
+  provenance_class: census
+  assertion: observation
+  sheet_name: place_summaries_rc_04_households
+  period_type: calendar_year
+  period: 2023
+  period_coverage:
+    start_date: '2023-03-07'
+    end_date: '2023-03-07'
+    basis: calendar
+    source_period_label: 2023 Census
+    notes: Census night, 7 March 2023, the 2023 Census reference night (coverage 2023-03-07, chronicle#176). The CSV labels
+      the reference period 2023 and duration Census; it does not print the exact date.
+  geography_id: '04'
+  geography_level: region
+  geography_name: Bay of Plenty Region
+  geography_vintage: unstated
+  entity: household
+  entity_role: census_household
+  domain: census_2023_household
+  groupby_dimension: nz_census_2023.household_tenure_source_label
+  measures:
+  - measure_id: count
+    label: Count
+    ordinal: 0
+    column: O
+    source_column_id: value
+    concept: stats_nz.census_2023.household_count
+    source_concept: stats_nz.census_2023.household_count
+    concept_relation: source_label
+    concept_authority: stats_nz
+    concept_evidence_url: https://tools.summaries.stats.govt.nz/places/RC/bay-of-plenty-region
+    concept_evidence_notes: 'Direct publisher 2023 Census Count rows; one row per fact, scale
+      1. New Zealand totals and Households are independently published rows, never sums of
+      regions, tenure or household-size categories. Only household size (usual residents),
+      three tenure categories, family type and their own totals are supplied: no household
+      composition or social-renting split. Percent rows, 2013/2018, Māori-ethnic-group and
+      other sections remain in the complete preserved CSV but emit no facts. Regional boundary
+      vintage and a rounding policy are not stated in these files. Area Outside Region is
+      its own publisher geography, never folded into a region. No reconciliation, imputation,
+      aging, shares or consumer target construction.'
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: value
+  rows:
+  - value_id: '1'
+    label: Owned
+    ordinal: 0
+    row_number: 3
+    table_record_kind: detail
+    expected_row_header_column: J
+    expected_row_header: Owned
+    guard_cells:
+    - column: A
+      expected_value: Tenure of household
+      label: Published section_title
+    - column: C
+      expected_value: Regional council
+      label: Published classification_label
+    - column: D
+      expected_value: '4'
+      label: Published code
+    - column: E
+      expected_value: Bay of Plenty Region
+      label: Published descriptor
+    - column: F
+      expected_value: '2023'
+      label: Published period
+    - column: G
+      expected_value: Census
+      label: Published duration
+    - column: H
+      expected_value: Tenure of household
+      label: Published variable1_label
+    - column: I
+      expected_value: '1'
+      label: Published variable1_code
+    - column: J
+      expected_value: Owned
+      label: Published variable1_descriptor
+    - column: N
+      expected_value: Count
+      label: Published value_type_description
+    - column: Q
+      expected_value: '0'
+      label: Published decimals
+    filters:
+      nz_census_2023.household_tenure_source_label: '1'
+    constraints:
+    - variable: nz_census_2023.household_tenure_source_label
+      operator: ==
+      value: '1'
+      label: Tenure of household
+    source_row_dimensions:
+      nz_census_2023.household_tenure_source_label: '1'
+  - value_id: '2'
+    label: Not owned
+    ordinal: 1
+    row_number: 4
+    table_record_kind: detail
+    expected_row_header_column: J
+    expected_row_header: Not owned
+    guard_cells:
+    - column: A
+      expected_value: Tenure of household
+      label: Published section_title
+    - column: C
+      expected_value: Regional council
+      label: Published classification_label
+    - column: D
+      expected_value: '4'
+      label: Published code
+    - column: E
+      expected_value: Bay of Plenty Region
+      label: Published descriptor
+    - column: F
+      expected_value: '2023'
+      label: Published period
+    - column: G
+      expected_value: Census
+      label: Published duration
+    - column: H
+      expected_value: Tenure of household
+      label: Published variable1_label
+    - column: I
+      expected_value: '2'
+      label: Published variable1_code
+    - column: J
+      expected_value: Not owned
+      label: Published variable1_descriptor
+    - column: N
+      expected_value: Count
+      label: Published value_type_description
+    - column: Q
+      expected_value: '0'
+      label: Published decimals
+    filters:
+      nz_census_2023.household_tenure_source_label: '2'
+    constraints:
+    - variable: nz_census_2023.household_tenure_source_label
+      operator: ==
+      value: '2'
+      label: Tenure of household
+    source_row_dimensions:
+      nz_census_2023.household_tenure_source_label: '2'
+  - value_id: '3'
+    label: In family trust
+    ordinal: 2
+    row_number: 5
+    table_record_kind: detail
+    expected_row_header_column: J
+    expected_row_header: In family trust
+    guard_cells:
+    - column: A
+      expected_value: Tenure of household
+      label: Published section_title
+    - column: C
+      expected_value: Regional council
+      label: Published classification_label
+    - column: D
+      expected_value: '4'
+      label: Published code
+    - column: E
+      expected_value: Bay of Plenty Region
+      label: Published descriptor
+    - column: F
+      expected_value: '2023'
+      label: Published period
+    - column: G
+      expected_value: Census
+      label: Published duration
+    - column: H
+      expected_value: Tenure of household
+      label: Published variable1_label
+    - column: I
+      expected_value: '3'
+      label: Published variable1_code
+    - column: J
+      expected_value: In family trust
+      label: Published variable1_descriptor
+    - column: N
+      expected_value: Count
+      label: Published value_type_description
+    - column: Q
+      expected_value: '0'
+      label: Published decimals
+    filters:
+      nz_census_2023.household_tenure_source_label: '3'
+    constraints:
+    - variable: nz_census_2023.household_tenure_source_label
+      operator: ==
+      value: '3'
+      label: Tenure of household
+    source_row_dimensions:
+      nz_census_2023.household_tenure_source_label: '3'
+- record_set_id: stats_nz.census_2023.rc_04.household_size
+  record_set_spec_id: stats_nz.census_2023.rc_04.household_size.v1
+  source_record_id_prefix: stats_nz.census_2023.rc_04.household_size
+  provenance_class: census
+  assertion: observation
+  sheet_name: place_summaries_rc_04_households
+  period_type: calendar_year
+  period: 2023
+  period_coverage:
+    start_date: '2023-03-07'
+    end_date: '2023-03-07'
+    basis: calendar
+    source_period_label: 2023 Census
+    notes: Census night, 7 March 2023, the 2023 Census reference night (coverage 2023-03-07, chronicle#176). The CSV labels
+      the reference period 2023 and duration Census; it does not print the exact date.
+  geography_id: '04'
+  geography_level: region
+  geography_name: Bay of Plenty Region
+  geography_vintage: unstated
+  entity: household
+  entity_role: census_household
+  domain: census_2023_household
+  groupby_dimension: nz_census_2023.household_size_source_label
+  measures:
+  - measure_id: count
+    label: Count
+    ordinal: 0
+    column: O
+    source_column_id: value
+    concept: stats_nz.census_2023.household_count
+    source_concept: stats_nz.census_2023.household_count
+    concept_relation: source_label
+    concept_authority: stats_nz
+    concept_evidence_url: https://tools.summaries.stats.govt.nz/places/RC/bay-of-plenty-region
+    concept_evidence_notes: 'Direct publisher 2023 Census Count rows; one row per fact, scale
+      1. New Zealand totals and Households are independently published rows, never sums of
+      regions, tenure or household-size categories. Only household size (usual residents),
+      three tenure categories, family type and their own totals are supplied: no household
+      composition or social-renting split. Percent rows, 2013/2018, Māori-ethnic-group and
+      other sections remain in the complete preserved CSV but emit no facts. Regional boundary
+      vintage and a rounding policy are not stated in these files. Area Outside Region is
+      its own publisher geography, never folded into a region. No reconciliation, imputation,
+      aging, shares or consumer target construction.'
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: value
+  rows:
+  - value_id: '1'
+    label: One usual resident
+    ordinal: 0
+    row_number: 6
+    table_record_kind: detail
+    expected_row_header_column: J
+    expected_row_header: One usual resident
+    guard_cells:
+    - column: A
+      expected_value: Number of usual residents in household
+      label: Published section_title
+    - column: C
+      expected_value: Regional council
+      label: Published classification_label
+    - column: D
+      expected_value: '4'
+      label: Published code
+    - column: E
+      expected_value: Bay of Plenty Region
+      label: Published descriptor
+    - column: F
+      expected_value: '2023'
+      label: Published period
+    - column: G
+      expected_value: Census
+      label: Published duration
+    - column: H
+      expected_value: Number of usual residents in household
+      label: Published variable1_label
+    - column: I
+      expected_value: '1'
+      label: Published variable1_code
+    - column: J
+      expected_value: One usual resident
+      label: Published variable1_descriptor
+    - column: N
+      expected_value: Count
+      label: Published value_type_description
+    - column: Q
+      expected_value: '0'
+      label: Published decimals
+    filters:
+      nz_census_2023.household_size_source_label: '1'
+    constraints:
+    - variable: nz_census_2023.household_size_source_label
+      operator: ==
+      value: '1'
+      label: Number of usual residents in household
+    source_row_dimensions:
+      nz_census_2023.household_size_source_label: '1'
+  - value_id: '2'
+    label: Two usual residents
+    ordinal: 1
+    row_number: 7
+    table_record_kind: detail
+    expected_row_header_column: J
+    expected_row_header: Two usual residents
+    guard_cells:
+    - column: A
+      expected_value: Number of usual residents in household
+      label: Published section_title
+    - column: C
+      expected_value: Regional council
+      label: Published classification_label
+    - column: D
+      expected_value: '4'
+      label: Published code
+    - column: E
+      expected_value: Bay of Plenty Region
+      label: Published descriptor
+    - column: F
+      expected_value: '2023'
+      label: Published period
+    - column: G
+      expected_value: Census
+      label: Published duration
+    - column: H
+      expected_value: Number of usual residents in household
+      label: Published variable1_label
+    - column: I
+      expected_value: '2'
+      label: Published variable1_code
+    - column: J
+      expected_value: Two usual residents
+      label: Published variable1_descriptor
+    - column: N
+      expected_value: Count
+      label: Published value_type_description
+    - column: Q
+      expected_value: '0'
+      label: Published decimals
+    filters:
+      nz_census_2023.household_size_source_label: '2'
+    constraints:
+    - variable: nz_census_2023.household_size_source_label
+      operator: ==
+      value: '2'
+      label: Number of usual residents in household
+    source_row_dimensions:
+      nz_census_2023.household_size_source_label: '2'
+  - value_id: '3'
+    label: Three usual residents
+    ordinal: 2
+    row_number: 8
+    table_record_kind: detail
+    expected_row_header_column: J
+    expected_row_header: Three usual residents
+    guard_cells:
+    - column: A
+      expected_value: Number of usual residents in household
+      label: Published section_title
+    - column: C
+      expected_value: Regional council
+      label: Published classification_label
+    - column: D
+      expected_value: '4'
+      label: Published code
+    - column: E
+      expected_value: Bay of Plenty Region
+      label: Published descriptor
+    - column: F
+      expected_value: '2023'
+      label: Published period
+    - column: G
+      expected_value: Census
+      label: Published duration
+    - column: H
+      expected_value: Number of usual residents in household
+      label: Published variable1_label
+    - column: I
+      expected_value: '3'
+      label: Published variable1_code
+    - column: J
+      expected_value: Three usual residents
+      label: Published variable1_descriptor
+    - column: N
+      expected_value: Count
+      label: Published value_type_description
+    - column: Q
+      expected_value: '0'
+      label: Published decimals
+    filters:
+      nz_census_2023.household_size_source_label: '3'
+    constraints:
+    - variable: nz_census_2023.household_size_source_label
+      operator: ==
+      value: '3'
+      label: Number of usual residents in household
+    source_row_dimensions:
+      nz_census_2023.household_size_source_label: '3'
+  - value_id: '4'
+    label: Four usual residents
+    ordinal: 3
+    row_number: 9
+    table_record_kind: detail
+    expected_row_header_column: J
+    expected_row_header: Four usual residents
+    guard_cells:
+    - column: A
+      expected_value: Number of usual residents in household
+      label: Published section_title
+    - column: C
+      expected_value: Regional council
+      label: Published classification_label
+    - column: D
+      expected_value: '4'
+      label: Published code
+    - column: E
+      expected_value: Bay of Plenty Region
+      label: Published descriptor
+    - column: F
+      expected_value: '2023'
+      label: Published period
+    - column: G
+      expected_value: Census
+      label: Published duration
+    - column: H
+      expected_value: Number of usual residents in household
+      label: Published variable1_label
+    - column: I
+      expected_value: '4'
+      label: Published variable1_code
+    - column: J
+      expected_value: Four usual residents
+      label: Published variable1_descriptor
+    - column: N
+      expected_value: Count
+      label: Published value_type_description
+    - column: Q
+      expected_value: '0'
+      label: Published decimals
+    filters:
+      nz_census_2023.household_size_source_label: '4'
+    constraints:
+    - variable: nz_census_2023.household_size_source_label
+      operator: ==
+      value: '4'
+      label: Number of usual residents in household
+    source_row_dimensions:
+      nz_census_2023.household_size_source_label: '4'
+  - value_id: '5'
+    label: Five usual residents
+    ordinal: 4
+    row_number: 10
+    table_record_kind: detail
+    expected_row_header_column: J
+    expected_row_header: Five usual residents
+    guard_cells:
+    - column: A
+      expected_value: Number of usual residents in household
+      label: Published section_title
+    - column: C
+      expected_value: Regional council
+      label: Published classification_label
+    - column: D
+      expected_value: '4'
+      label: Published code
+    - column: E
+      expected_value: Bay of Plenty Region
+      label: Published descriptor
+    - column: F
+      expected_value: '2023'
+      label: Published period
+    - column: G
+      expected_value: Census
+      label: Published duration
+    - column: H
+      expected_value: Number of usual residents in household
+      label: Published variable1_label
+    - column: I
+      expected_value: '5'
+      label: Published variable1_code
+    - column: J
+      expected_value: Five usual residents
+      label: Published variable1_descriptor
+    - column: N
+      expected_value: Count
+      label: Published value_type_description
+    - column: Q
+      expected_value: '0'
+      label: Published decimals
+    filters:
+      nz_census_2023.household_size_source_label: '5'
+    constraints:
+    - variable: nz_census_2023.household_size_source_label
+      operator: ==
+      value: '5'
+      label: Number of usual residents in household
+    source_row_dimensions:
+      nz_census_2023.household_size_source_label: '5'
+  - value_id: '6'
+    label: Six usual residents
+    ordinal: 5
+    row_number: 11
+    table_record_kind: detail
+    expected_row_header_column: J
+    expected_row_header: Six usual residents
+    guard_cells:
+    - column: A
+      expected_value: Number of usual residents in household
+      label: Published section_title
+    - column: C
+      expected_value: Regional council
+      label: Published classification_label
+    - column: D
+      expected_value: '4'
+      label: Published code
+    - column: E
+      expected_value: Bay of Plenty Region
+      label: Published descriptor
+    - column: F
+      expected_value: '2023'
+      label: Published period
+    - column: G
+      expected_value: Census
+      label: Published duration
+    - column: H
+      expected_value: Number of usual residents in household
+      label: Published variable1_label
+    - column: I
+      expected_value: '6'
+      label: Published variable1_code
+    - column: J
+      expected_value: Six usual residents
+      label: Published variable1_descriptor
+    - column: N
+      expected_value: Count
+      label: Published value_type_description
+    - column: Q
+      expected_value: '0'
+      label: Published decimals
+    filters:
+      nz_census_2023.household_size_source_label: '6'
+    constraints:
+    - variable: nz_census_2023.household_size_source_label
+      operator: ==
+      value: '6'
+      label: Number of usual residents in household
+    source_row_dimensions:
+      nz_census_2023.household_size_source_label: '6'
+  - value_id: '7'
+    label: Seven usual residents
+    ordinal: 6
+    row_number: 12
+    table_record_kind: detail
+    expected_row_header_column: J
+    expected_row_header: Seven usual residents
+    guard_cells:
+    - column: A
+      expected_value: Number of usual residents in household
+      label: Published section_title
+    - column: C
+      expected_value: Regional council
+      label: Published classification_label
+    - column: D
+      expected_value: '4'
+      label: Published code
+    - column: E
+      expected_value: Bay of Plenty Region
+      label: Published descriptor
+    - column: F
+      expected_value: '2023'
+      label: Published period
+    - column: G
+      expected_value: Census
+      label: Published duration
+    - column: H
+      expected_value: Number of usual residents in household
+      label: Published variable1_label
+    - column: I
+      expected_value: '7'
+      label: Published variable1_code
+    - column: J
+      expected_value: Seven usual residents
+      label: Published variable1_descriptor
+    - column: N
+      expected_value: Count
+      label: Published value_type_description
+    - column: Q
+      expected_value: '0'
+      label: Published decimals
+    filters:
+      nz_census_2023.household_size_source_label: '7'
+    constraints:
+    - variable: nz_census_2023.household_size_source_label
+      operator: ==
+      value: '7'
+      label: Number of usual residents in household
+    source_row_dimensions:
+      nz_census_2023.household_size_source_label: '7'
+  - value_id: '8'
+    label: Eight or more usual residents
+    ordinal: 7
+    row_number: 13
+    table_record_kind: detail
+    expected_row_header_column: J
+    expected_row_header: Eight or more usual residents
+    guard_cells:
+    - column: A
+      expected_value: Number of usual residents in household
+      label: Published section_title
+    - column: C
+      expected_value: Regional council
+      label: Published classification_label
+    - column: D
+      expected_value: '4'
+      label: Published code
+    - column: E
+      expected_value: Bay of Plenty Region
+      label: Published descriptor
+    - column: F
+      expected_value: '2023'
+      label: Published period
+    - column: G
+      expected_value: Census
+      label: Published duration
+    - column: H
+      expected_value: Number of usual residents in household
+      label: Published variable1_label
+    - column: I
+      expected_value: '8'
+      label: Published variable1_code
+    - column: J
+      expected_value: Eight or more usual residents
+      label: Published variable1_descriptor
+    - column: N
+      expected_value: Count
+      label: Published value_type_description
+    - column: Q
+      expected_value: '0'
+      label: Published decimals
+    filters:
+      nz_census_2023.household_size_source_label: '8'
+    constraints:
+    - variable: nz_census_2023.household_size_source_label
+      operator: ==
+      value: '8'
+      label: Number of usual residents in household
+    source_row_dimensions:
+      nz_census_2023.household_size_source_label: '8'

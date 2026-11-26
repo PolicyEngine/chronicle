@@ -1,0 +1,25 @@
+source_id: stats_nz
+package_id: census_2023_place_summaries
+dataset: census_2023_place_summaries
+source_page: https://tools.summaries.stats.govt.nz/places/RC/nelson-region
+table: '2023 Census Place summaries: families and households'
+license: CC BY 4.0
+attribution: Stats NZ
+files:
+  2023:
+    filename: place-summaries-rc-17.csv
+    source_url: https://tools.summaries.stats.govt.nz/api/export-csv/rkTah6u2O2VYyP4Y/17/
+    final_url: https://tools.summaries.stats.govt.nz/api/export-csv/rkTah6u2O2VYyP4Y/17/
+    http_status: 200
+    sha256: 26a51a71c1ad40df12f04c58a164d029f41d565c32a201424e1edb8cf2e32341
+    size_bytes: 406118
+    fetched_at: '2026-10-10T20:12:07Z'
+    content_disposition_filename: place-summaries-nelson-region-20261011-091207.csv
+    place_code: '17'
+    place: Nelson Region
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/nz/stats_nz/census_2023_place_summaries/2023/26a51a71c1ad40df12f04c58a164d029f41d565c32a201424e1edb8cf2e32341/place-summaries-rc-17.csv
+        uri: r2://ledger-raw/raw/nz/stats_nz/census_2023_place_summaries/2023/26a51a71c1ad40df12f04c58a164d029f41d565c32a201424e1edb8cf2e32341/place-summaries-rc-17.csv

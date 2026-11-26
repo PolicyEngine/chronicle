@@ -1,0 +1,29 @@
+source_id: dwp
+package_id: dwp-young-people-pip-lcwra-projections-2026
+dataset: dwp_dwp-young-people-pip-lcwra-projections-2026
+source_page: https://www.gov.uk/government/publications/young-people-and-work-interim-report
+table: 'Young people and work: interim report, analytical annex data tables, Table
+  28: PIP and UCH-LCWRA caseload and expenditure projections, aged 16-24'
+license: Open Government Licence v3.0
+license_url: https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/
+attribution: 'Source: Department for Work and Pensions, Young people and work: interim
+  report, analytical annex data tables, published 28 May 2026 and updated 10 August
+  2026. Contains public sector information licensed under the Open Government Licence
+  v3.0.'
+license_evidence: "The GOV.UK analytical annex page (https://www.gov.uk/government/publications/young-people-and-work-interim-report/young-people-and-work-interim-report-analytical-annex)\
+  \ states: '\xA9 Crown copyright 2026 This publication is licensed under the terms\
+  \ of the Open Government Licence v3.0 except where otherwise stated.'"
+license_verified_at: '2026-11-18'
+files:
+  2026:
+    filename: analytical-annex-data-tables.ods
+    source_url: https://assets.publishing.service.gov.uk/media/6a7986ade9c8ef7358ccc053/analytical-annex-data-tables.ods
+    sha256: 8a3270e36cfb85481297a34cbb2dadbe6375333f12215e0fcc4d18109c858971
+    size_bytes: 175788
+    fetched_at: '2026-11-18T10:31:16+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/dwp/dwp-young-people-pip-lcwra-projections-2026/2026/8a3270e36cfb85481297a34cbb2dadbe6375333f12215e0fcc4d18109c858971/analytical-annex-data-tables.ods
+        uri: r2://ledger-raw/raw/uk/dwp/dwp-young-people-pip-lcwra-projections-2026/2026/8a3270e36cfb85481297a34cbb2dadbe6375333f12215e0fcc4d18109c858971/analytical-annex-data-tables.ods

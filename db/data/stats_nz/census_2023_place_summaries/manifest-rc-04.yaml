@@ -1,0 +1,25 @@
+source_id: stats_nz
+package_id: census_2023_place_summaries
+dataset: census_2023_place_summaries
+source_page: https://tools.summaries.stats.govt.nz/places/RC/bay-of-plenty-region
+table: '2023 Census Place summaries: families and households'
+license: CC BY 4.0
+attribution: Stats NZ
+files:
+  2023:
+    filename: place-summaries-rc-04.csv
+    source_url: https://tools.summaries.stats.govt.nz/api/export-csv/rkTah6u2O2VYyP4Y/4/
+    final_url: https://tools.summaries.stats.govt.nz/api/export-csv/rkTah6u2O2VYyP4Y/4/
+    http_status: 200
+    sha256: fc75a24d8538450f98c8a4485a6c7816fb3b5d697ea363ad55b6ca88bcfde739
+    size_bytes: 419296
+    fetched_at: '2026-10-10T20:12:02Z'
+    content_disposition_filename: place-summaries-bay-of-plenty-region-20261011-091202.csv
+    place_code: '4'
+    place: Bay of Plenty Region
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/nz/stats_nz/census_2023_place_summaries/2023/fc75a24d8538450f98c8a4485a6c7816fb3b5d697ea363ad55b6ca88bcfde739/place-summaries-rc-04.csv
+        uri: r2://ledger-raw/raw/nz/stats_nz/census_2023_place_summaries/2023/fc75a24d8538450f98c8a4485a6c7816fb3b5d697ea363ad55b6ca88bcfde739/place-summaries-rc-04.csv

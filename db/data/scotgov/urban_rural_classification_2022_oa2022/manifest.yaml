@@ -1,0 +1,24 @@
+source_id: scotgov
+package_id: scotgov-urban-rural-classification-2022-oa2022
+dataset: scotgov_scotgov-urban-rural-classification-2022-oa2022
+source_page: https://www.gov.scot/publications/scottish-government-urban-rural-classification-2022/
+table: 'Scottish Government Urban Rural Classification 2022: Census 2022 output area
+  lookup (2-, 3-, 6- and 8-fold codes)'
+files:
+  2022:
+    filename: scottish_government_urban_rural_classification_2022_output_area_lookup.csv
+    source_url: https://www.gov.scot/binaries/content/documents/govscot/publications/statistics/2024/12/scottish-government-urban-rural-classification-2022/documents/scottish-government-urban-rural-classification-2022---census-2022-output-area-lookup/scottish-government-urban-rural-classification-2022---census-2022-output-area-lookup/govscot%3Adocument/Scottish%2BGovernment%2BUrban%2BRural%2BClassification%2B2022%2B-%2BCensus%2B2022%2BOutput%2BArea%2BLookup.csv
+    sha256: b512c345d540dfa0f492a1a02ec45f54857c720455c2189cedb3070b73ca6dc7
+    size_bytes: 880945
+    fetched_at: '2026-10-15T10:03:32+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/scotgov/scotgov-urban-rural-classification-2022-oa2022/2022/b512c345d540dfa0f492a1a02ec45f54857c720455c2189cedb3070b73ca6dc7/scottish_government_urban_rural_classification_2022_output_area_lookup.csv
+        uri: r2://ledger-raw/raw/uk/scotgov/scotgov-urban-rural-classification-2022-oa2022/2022/b512c345d540dfa0f492a1a02ec45f54857c720455c2189cedb3070b73ca6dc7/scottish_government_urban_rural_classification_2022_output_area_lookup.csv
+registration_kind: raw_only
+provenance_notes: 'Scottish Government Urban Rural Classification 2022, Census 2022
+  output area lookup (published 16 December 2024): 46,363 output areas with 8-, 6-,
+  3- and 2-fold codes only. Licence: Open Government Licence v3.0. Raw-only for chronicle#356
+  item 4.'

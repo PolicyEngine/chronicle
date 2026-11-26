@@ -1,0 +1,763 @@
+# 67 published Table 2!E cells only; never local boards or the national row.
+# Row-to-code mapping uses the pinned TA2025 NAME_ASCII field after macron
+# removal and case-folding of workbook row text, never workbook row order.
+# Geography names preserve TA2025 NAME; labels/guards preserve workbook text.
+# Shared guard list is reused by every row. Source artifact/manifest unchanged.
+schema_version: ledger.source_package.v1
+package_id: stats-nz-subnational-population-ta-2025
+label: Stats NZ 30 June 2025 provisional estimated resident population by territorial authority
+dimension_labels:
+  geography: Geography
+artifact:
+  source_name: stats_nz
+  source_table: 'Subnational population estimates: At 30 June 2025 (provisional), Table 2'
+  resource_package: db
+  resource_directory: data/stats_nz/subnational_population_estimates_2025
+  manifest: manifest.yaml
+  vintage: stats_nz_subnational_population_2025_10_29
+  extracted_at: '2026-10-13'
+  extraction_method: xlsx used-range cell parse restricted to Table 2
+  parser: xlsx_used_range
+  sheets:
+    - Table 2
+  artifact_year: 2025
+record_sets:
+  - record_set_id: stats_nz.cy2025.subnational_population_ta.all_ages
+    record_set_spec_id: stats_nz.subnational_population_ta.all_ages.v1
+    source_record_id_prefix: stats_nz.cy2025.subnational_population_ta.all_ages
+    provenance_class: census
+    assertion: observation
+    sheet_name: Table 2
+    period_type: calendar_year
+    period: 2025
+    period_coverage:
+      start_date: '2025-06-30'
+      end_date: '2025-06-30'
+      basis: calendar
+      source_period_label: At 30 June 2025 (provisional)
+      notes: Point-in-time estimated resident population, not an annual average; published
+        29 October 2025 using the 2023 census base.
+    geography_id: nz-ta-001
+    geography_level: local_authority
+    geography_name: Far North District
+    geography_vintage: ta_2025
+    entity: person
+    entity_role: resident_population
+    domain: resident_population
+    groupby_dimension: geography
+    measures:
+      - measure_id: population
+        label: Estimated resident population
+        ordinal: 0
+        column: E
+        source_column_id: estimated_resident_population
+        concept: stats_nz.estimated_resident_population
+        source_concept: stats_nz.estimated_resident_population
+        concept_relation: source_label
+        concept_authority: stats_nz
+        concept_evidence_url: https://www.stats.govt.nz/information-releases/subnational-population-estimates-at-30-june-2025/
+        concept_evidence_notes: 'Table 2 publishes provisional estimated resident population
+          counts at 30 June 2025, using 1 January 2025 boundaries and the 2023 census base.
+          ERP includes adjustments for net census under/overcount, residents temporarily overseas
+          on census night, and subsequent births, deaths, and net migration. These counts
+          include all ages and all sexes. Each territorial-authority value is one published
+          rounded cell, with no local-board sums or reconciliation to the separately published
+          New Zealand total. The pinned Stats NZ TA 2025 classification supplies codes and
+          geography names; the workbook supplies value labels. Source-only facts: no uprating,
+          interpolation, target activation, or calibration.'
+        unit: count
+        aggregation: sum
+        expected_cell_type: number
+        expected_column_header_row: 6
+        expected_column_header: 2025 P
+    rows:
+      - value_id: nz-ta-001
+        label: Far North district
+        ordinal: 0
+        row_number: 8
+        expected_row_header_column: A
+        expected_row_header: Far North district
+        geography_id: nz-ta-001
+        geography_name: Far North District
+        table_record_kind: total
+        guard_cells: &id001
+          - column: A
+            row: 3
+            expected_value: Territorial authority and Auckland local board areas
+            label: source table scope
+          - column: A
+            row: 4
+            expected_value: At 30 June 2023–2025
+            label: point-in-time release period
+          - column: A
+            row: 5
+            expected_value: Territorial authority and Auckland local board area(2)
+            label: source geography heading
+          - column: A
+            row: 100
+            expected_value: 2. Boundaries at 1 January 2025.
+            label: territorial authority boundary vintage
+          - column: A
+            row: 105
+            expected_value: P provisional
+            label: publication status
+      - value_id: nz-ta-002
+        label: Whangārei district
+        ordinal: 1
+        row_number: 9
+        expected_row_header_column: A
+        expected_row_header: Whangārei district
+        geography_id: nz-ta-002
+        geography_name: Whangarei District
+        table_record_kind: total
+        guard_cells: *id001
+      - value_id: nz-ta-003
+        label: Kaipara district
+        ordinal: 2
+        row_number: 10
+        expected_row_header_column: A
+        expected_row_header: Kaipara district
+        geography_id: nz-ta-003
+        geography_name: Kaipara District
+        table_record_kind: total
+        guard_cells: *id001
+      - value_id: nz-ta-076
+        label: Auckland
+        ordinal: 3
+        row_number: 11
+        expected_row_header_column: A
+        expected_row_header: Auckland
+        geography_id: nz-ta-076
+        geography_name: Auckland
+        table_record_kind: total
+        guard_cells: *id001
+      - value_id: nz-ta-011
+        label: Thames-Coromandel district
+        ordinal: 4
+        row_number: 33
+        expected_row_header_column: A
+        expected_row_header: Thames-Coromandel district
+        geography_id: nz-ta-011
+        geography_name: Thames-Coromandel District
+        table_record_kind: total
+        guard_cells: *id001
+      - value_id: nz-ta-012
+        label: Hauraki district
+        ordinal: 5
+        row_number: 34
+        expected_row_header_column: A
+        expected_row_header: Hauraki district
+        geography_id: nz-ta-012
+        geography_name: Hauraki District
+        table_record_kind: total
+        guard_cells: *id001
+      - value_id: nz-ta-013
+        label: Waikato district
+        ordinal: 6
+        row_number: 35
+        expected_row_header_column: A
+        expected_row_header: Waikato district
+        geography_id: nz-ta-013
+        geography_name: Waikato District
+        table_record_kind: total
+        guard_cells: *id001
+      - value_id: nz-ta-015
+        label: Matamata-Piako district
+        ordinal: 7
+        row_number: 36
+        expected_row_header_column: A
+        expected_row_header: Matamata-Piako district
+        geography_id: nz-ta-015
+        geography_name: Matamata-Piako District
+        table_record_kind: total
+        guard_cells: *id001
+      - value_id: nz-ta-016
+        label: Hamilton city
+        ordinal: 8
+        row_number: 37
+        expected_row_header_column: A
+        expected_row_header: Hamilton city
+        geography_id: nz-ta-016
+        geography_name: Hamilton City
+        table_record_kind: total
+        guard_cells: *id001
+      - value_id: nz-ta-017
+        label: Waipa district
+        ordinal: 9
+        row_number: 38
+        expected_row_header_column: A
+        expected_row_header: Waipa district
+        geography_id: nz-ta-017
+        geography_name: Waipa District
+        table_record_kind: total
+        guard_cells: *id001
+      - value_id: nz-ta-018
+        label: Ōtorohanga district
+        ordinal: 10
+        row_number: 39
+        expected_row_header_column: A
+        expected_row_header: Ōtorohanga district
+        geography_id: nz-ta-018
+        geography_name: Ōtorohanga District
+        table_record_kind: total
+        guard_cells: *id001
+      - value_id: nz-ta-019
+        label: South Waikato district
+        ordinal: 11
+        row_number: 40
+        expected_row_header_column: A
+        expected_row_header: South Waikato district
+        geography_id: nz-ta-019
+        geography_name: South Waikato District
+        table_record_kind: total
+        guard_cells: *id001
+      - value_id: nz-ta-020
+        label: Waitomo district
+        ordinal: 12
+        row_number: 41
+        expected_row_header_column: A
+        expected_row_header: Waitomo district
+        geography_id: nz-ta-020
+        geography_name: Waitomo District
+        table_record_kind: total
+        guard_cells: *id001
+      - value_id: nz-ta-021
+        label: Taupō district
+        ordinal: 13
+        row_number: 42
+        expected_row_header_column: A
+        expected_row_header: Taupō district
+        geography_id: nz-ta-021
+        geography_name: Taupo District
+        table_record_kind: total
+        guard_cells: *id001
+      - value_id: nz-ta-022
+        label: Western Bay of Plenty district
+        ordinal: 14
+        row_number: 43
+        expected_row_header_column: A
+        expected_row_header: Western Bay of Plenty district
+        geography_id: nz-ta-022
+        geography_name: Western Bay of Plenty District
+        table_record_kind: total
+        guard_cells: *id001
+      - value_id: nz-ta-023
+        label: Tauranga city
+        ordinal: 15
+        row_number: 44
+        expected_row_header_column: A
+        expected_row_header: Tauranga city
+        geography_id: nz-ta-023
+        geography_name: Tauranga City
+        table_record_kind: total
+        guard_cells: *id001
+      - value_id: nz-ta-024
+        label: Rotorua district
+        ordinal: 16
+        row_number: 45
+        expected_row_header_column: A
+        expected_row_header: Rotorua district
+        geography_id: nz-ta-024
+        geography_name: Rotorua District
+        table_record_kind: total
+        guard_cells: *id001
+      - value_id: nz-ta-025
+        label: Whakatāne district
+        ordinal: 17
+        row_number: 46
+        expected_row_header_column: A
+        expected_row_header: Whakatāne district
+        geography_id: nz-ta-025
+        geography_name: Whakatane District
+        table_record_kind: total
+        guard_cells: *id001
+      - value_id: nz-ta-026
+        label: Kawerau district
+        ordinal: 18
+        row_number: 47
+        expected_row_header_column: A
+        expected_row_header: Kawerau district
+        geography_id: nz-ta-026
+        geography_name: Kawerau District
+        table_record_kind: total
+        guard_cells: *id001
+      - value_id: nz-ta-027
+        label: Ōpōtiki district
+        ordinal: 19
+        row_number: 48
+        expected_row_header_column: A
+        expected_row_header: Ōpōtiki district
+        geography_id: nz-ta-027
+        geography_name: Ōpōtiki District
+        table_record_kind: total
+        guard_cells: *id001
+      - value_id: nz-ta-028
+        label: Gisborne district
+        ordinal: 20
+        row_number: 49
+        expected_row_header_column: A
+        expected_row_header: Gisborne district
+        geography_id: nz-ta-028
+        geography_name: Gisborne District
+        table_record_kind: total
+        guard_cells: *id001
+      - value_id: nz-ta-029
+        label: Wairoa district
+        ordinal: 21
+        row_number: 50
+        expected_row_header_column: A
+        expected_row_header: Wairoa district
+        geography_id: nz-ta-029
+        geography_name: Wairoa District
+        table_record_kind: total
+        guard_cells: *id001
+      - value_id: nz-ta-030
+        label: Hastings district
+        ordinal: 22
+        row_number: 51
+        expected_row_header_column: A
+        expected_row_header: Hastings district
+        geography_id: nz-ta-030
+        geography_name: Hastings District
+        table_record_kind: total
+        guard_cells: *id001
+      - value_id: nz-ta-031
+        label: Napier city
+        ordinal: 23
+        row_number: 52
+        expected_row_header_column: A
+        expected_row_header: Napier city
+        geography_id: nz-ta-031
+        geography_name: Napier City
+        table_record_kind: total
+        guard_cells: *id001
+      - value_id: nz-ta-032
+        label: Central Hawke's Bay district
+        ordinal: 24
+        row_number: 53
+        expected_row_header_column: A
+        expected_row_header: Central Hawke's Bay district
+        geography_id: nz-ta-032
+        geography_name: Central Hawke's Bay District
+        table_record_kind: total
+        guard_cells: *id001
+      - value_id: nz-ta-033
+        label: New Plymouth district
+        ordinal: 25
+        row_number: 54
+        expected_row_header_column: A
+        expected_row_header: New Plymouth district
+        geography_id: nz-ta-033
+        geography_name: New Plymouth District
+        table_record_kind: total
+        guard_cells: *id001
+      - value_id: nz-ta-034
+        label: Stratford district
+        ordinal: 26
+        row_number: 55
+        expected_row_header_column: A
+        expected_row_header: Stratford district
+        geography_id: nz-ta-034
+        geography_name: Stratford District
+        table_record_kind: total
+        guard_cells: *id001
+      - value_id: nz-ta-035
+        label: South Taranaki district
+        ordinal: 27
+        row_number: 56
+        expected_row_header_column: A
+        expected_row_header: South Taranaki district
+        geography_id: nz-ta-035
+        geography_name: South Taranaki District
+        table_record_kind: total
+        guard_cells: *id001
+      - value_id: nz-ta-036
+        label: Ruapehu district
+        ordinal: 28
+        row_number: 57
+        expected_row_header_column: A
+        expected_row_header: Ruapehu district
+        geography_id: nz-ta-036
+        geography_name: Ruapehu District
+        table_record_kind: total
+        guard_cells: *id001
+      - value_id: nz-ta-037
+        label: Whanganui district
+        ordinal: 29
+        row_number: 58
+        expected_row_header_column: A
+        expected_row_header: Whanganui district
+        geography_id: nz-ta-037
+        geography_name: Whanganui District
+        table_record_kind: total
+        guard_cells: *id001
+      - value_id: nz-ta-038
+        label: Rangitikei district
+        ordinal: 30
+        row_number: 59
+        expected_row_header_column: A
+        expected_row_header: Rangitikei district
+        geography_id: nz-ta-038
+        geography_name: Rangitikei District
+        table_record_kind: total
+        guard_cells: *id001
+      - value_id: nz-ta-039
+        label: Manawatū district
+        ordinal: 31
+        row_number: 60
+        expected_row_header_column: A
+        expected_row_header: Manawatū district
+        geography_id: nz-ta-039
+        geography_name: Manawatu District
+        table_record_kind: total
+        guard_cells: *id001
+      - value_id: nz-ta-040
+        label: Palmerston North city
+        ordinal: 32
+        row_number: 61
+        expected_row_header_column: A
+        expected_row_header: Palmerston North city
+        geography_id: nz-ta-040
+        geography_name: Palmerston North City
+        table_record_kind: total
+        guard_cells: *id001
+      - value_id: nz-ta-041
+        label: Tararua district
+        ordinal: 33
+        row_number: 62
+        expected_row_header_column: A
+        expected_row_header: Tararua district
+        geography_id: nz-ta-041
+        geography_name: Tararua District
+        table_record_kind: total
+        guard_cells: *id001
+      - value_id: nz-ta-042
+        label: Horowhenua district
+        ordinal: 34
+        row_number: 63
+        expected_row_header_column: A
+        expected_row_header: Horowhenua district
+        geography_id: nz-ta-042
+        geography_name: Horowhenua District
+        table_record_kind: total
+        guard_cells: *id001
+      - value_id: nz-ta-043
+        label: Kapiti Coast district
+        ordinal: 35
+        row_number: 64
+        expected_row_header_column: A
+        expected_row_header: Kapiti Coast district
+        geography_id: nz-ta-043
+        geography_name: Kapiti Coast District
+        table_record_kind: total
+        guard_cells: *id001
+      - value_id: nz-ta-044
+        label: Porirua city
+        ordinal: 36
+        row_number: 65
+        expected_row_header_column: A
+        expected_row_header: Porirua city
+        geography_id: nz-ta-044
+        geography_name: Porirua City
+        table_record_kind: total
+        guard_cells: *id001
+      - value_id: nz-ta-045
+        label: Upper Hutt city
+        ordinal: 37
+        row_number: 66
+        expected_row_header_column: A
+        expected_row_header: Upper Hutt city
+        geography_id: nz-ta-045
+        geography_name: Upper Hutt City
+        table_record_kind: total
+        guard_cells: *id001
+      - value_id: nz-ta-046
+        label: Lower Hutt city
+        ordinal: 38
+        row_number: 67
+        expected_row_header_column: A
+        expected_row_header: Lower Hutt city
+        geography_id: nz-ta-046
+        geography_name: Lower Hutt City
+        table_record_kind: total
+        guard_cells: *id001
+      - value_id: nz-ta-047
+        label: Wellington city
+        ordinal: 39
+        row_number: 68
+        expected_row_header_column: A
+        expected_row_header: Wellington city
+        geography_id: nz-ta-047
+        geography_name: Wellington City
+        table_record_kind: total
+        guard_cells: *id001
+      - value_id: nz-ta-048
+        label: Masterton district
+        ordinal: 40
+        row_number: 69
+        expected_row_header_column: A
+        expected_row_header: Masterton district
+        geography_id: nz-ta-048
+        geography_name: Masterton District
+        table_record_kind: total
+        guard_cells: *id001
+      - value_id: nz-ta-049
+        label: Carterton district
+        ordinal: 41
+        row_number: 70
+        expected_row_header_column: A
+        expected_row_header: Carterton district
+        geography_id: nz-ta-049
+        geography_name: Carterton District
+        table_record_kind: total
+        guard_cells: *id001
+      - value_id: nz-ta-050
+        label: South Wairarapa district
+        ordinal: 42
+        row_number: 71
+        expected_row_header_column: A
+        expected_row_header: South Wairarapa district
+        geography_id: nz-ta-050
+        geography_name: South Wairarapa District
+        table_record_kind: total
+        guard_cells: *id001
+      - value_id: nz-ta-051
+        label: Tasman district
+        ordinal: 43
+        row_number: 72
+        expected_row_header_column: A
+        expected_row_header: Tasman district
+        geography_id: nz-ta-051
+        geography_name: Tasman District
+        table_record_kind: total
+        guard_cells: *id001
+      - value_id: nz-ta-052
+        label: Nelson city
+        ordinal: 44
+        row_number: 73
+        expected_row_header_column: A
+        expected_row_header: Nelson city
+        geography_id: nz-ta-052
+        geography_name: Nelson City
+        table_record_kind: total
+        guard_cells: *id001
+      - value_id: nz-ta-053
+        label: Marlborough district
+        ordinal: 45
+        row_number: 74
+        expected_row_header_column: A
+        expected_row_header: Marlborough district
+        geography_id: nz-ta-053
+        geography_name: Marlborough District
+        table_record_kind: total
+        guard_cells: *id001
+      - value_id: nz-ta-054
+        label: Kaikoura district
+        ordinal: 46
+        row_number: 75
+        expected_row_header_column: A
+        expected_row_header: Kaikoura district
+        geography_id: nz-ta-054
+        geography_name: Kaikoura District
+        table_record_kind: total
+        guard_cells: *id001
+      - value_id: nz-ta-055
+        label: Buller district
+        ordinal: 47
+        row_number: 76
+        expected_row_header_column: A
+        expected_row_header: Buller district
+        geography_id: nz-ta-055
+        geography_name: Buller District
+        table_record_kind: total
+        guard_cells: *id001
+      - value_id: nz-ta-056
+        label: Grey district
+        ordinal: 48
+        row_number: 77
+        expected_row_header_column: A
+        expected_row_header: Grey district
+        geography_id: nz-ta-056
+        geography_name: Grey District
+        table_record_kind: total
+        guard_cells: *id001
+      - value_id: nz-ta-057
+        label: Westland district
+        ordinal: 49
+        row_number: 78
+        expected_row_header_column: A
+        expected_row_header: Westland district
+        geography_id: nz-ta-057
+        geography_name: Westland District
+        table_record_kind: total
+        guard_cells: *id001
+      - value_id: nz-ta-058
+        label: Hurunui district
+        ordinal: 50
+        row_number: 79
+        expected_row_header_column: A
+        expected_row_header: Hurunui district
+        geography_id: nz-ta-058
+        geography_name: Hurunui District
+        table_record_kind: total
+        guard_cells: *id001
+      - value_id: nz-ta-059
+        label: Waimakariri district
+        ordinal: 51
+        row_number: 80
+        expected_row_header_column: A
+        expected_row_header: Waimakariri district
+        geography_id: nz-ta-059
+        geography_name: Waimakariri District
+        table_record_kind: total
+        guard_cells: *id001
+      - value_id: nz-ta-060
+        label: Christchurch city
+        ordinal: 52
+        row_number: 81
+        expected_row_header_column: A
+        expected_row_header: Christchurch city
+        geography_id: nz-ta-060
+        geography_name: Christchurch City
+        table_record_kind: total
+        guard_cells: *id001
+      - value_id: nz-ta-062
+        label: Selwyn district
+        ordinal: 53
+        row_number: 82
+        expected_row_header_column: A
+        expected_row_header: Selwyn district
+        geography_id: nz-ta-062
+        geography_name: Selwyn District
+        table_record_kind: total
+        guard_cells: *id001
+      - value_id: nz-ta-063
+        label: Ashburton district
+        ordinal: 54
+        row_number: 83
+        expected_row_header_column: A
+        expected_row_header: Ashburton district
+        geography_id: nz-ta-063
+        geography_name: Ashburton District
+        table_record_kind: total
+        guard_cells: *id001
+      - value_id: nz-ta-064
+        label: Timaru district
+        ordinal: 55
+        row_number: 84
+        expected_row_header_column: A
+        expected_row_header: Timaru district
+        geography_id: nz-ta-064
+        geography_name: Timaru District
+        table_record_kind: total
+        guard_cells: *id001
+      - value_id: nz-ta-065
+        label: Mackenzie district
+        ordinal: 56
+        row_number: 85
+        expected_row_header_column: A
+        expected_row_header: Mackenzie district
+        geography_id: nz-ta-065
+        geography_name: Mackenzie District
+        table_record_kind: total
+        guard_cells: *id001
+      - value_id: nz-ta-066
+        label: Waimate district
+        ordinal: 57
+        row_number: 86
+        expected_row_header_column: A
+        expected_row_header: Waimate district
+        geography_id: nz-ta-066
+        geography_name: Waimate District
+        table_record_kind: total
+        guard_cells: *id001
+      - value_id: nz-ta-067
+        label: Chatham Islands territory
+        ordinal: 58
+        row_number: 87
+        expected_row_header_column: A
+        expected_row_header: Chatham Islands territory
+        geography_id: nz-ta-067
+        geography_name: Chatham Islands Territory
+        table_record_kind: total
+        guard_cells: *id001
+      - value_id: nz-ta-068
+        label: Waitaki district
+        ordinal: 59
+        row_number: 88
+        expected_row_header_column: A
+        expected_row_header: Waitaki district
+        geography_id: nz-ta-068
+        geography_name: Waitaki District
+        table_record_kind: total
+        guard_cells: *id001
+      - value_id: nz-ta-069
+        label: Central Otago district
+        ordinal: 60
+        row_number: 89
+        expected_row_header_column: A
+        expected_row_header: Central Otago district
+        geography_id: nz-ta-069
+        geography_name: Central Otago District
+        table_record_kind: total
+        guard_cells: *id001
+      - value_id: nz-ta-070
+        label: Queenstown-Lakes district
+        ordinal: 61
+        row_number: 90
+        expected_row_header_column: A
+        expected_row_header: Queenstown-Lakes district
+        geography_id: nz-ta-070
+        geography_name: Queenstown-Lakes District
+        table_record_kind: total
+        guard_cells: *id001
+      - value_id: nz-ta-071
+        label: Dunedin city
+        ordinal: 62
+        row_number: 91
+        expected_row_header_column: A
+        expected_row_header: Dunedin city
+        geography_id: nz-ta-071
+        geography_name: Dunedin City
+        table_record_kind: total
+        guard_cells: *id001
+      - value_id: nz-ta-072
+        label: Clutha district
+        ordinal: 63
+        row_number: 92
+        expected_row_header_column: A
+        expected_row_header: Clutha district
+        geography_id: nz-ta-072
+        geography_name: Clutha District
+        table_record_kind: total
+        guard_cells: *id001
+      - value_id: nz-ta-073
+        label: Southland district
+        ordinal: 64
+        row_number: 93
+        expected_row_header_column: A
+        expected_row_header: Southland district
+        geography_id: nz-ta-073
+        geography_name: Southland District
+        table_record_kind: total
+        guard_cells: *id001
+      - value_id: nz-ta-074
+        label: Gore district
+        ordinal: 65
+        row_number: 94
+        expected_row_header_column: A
+        expected_row_header: Gore district
+        geography_id: nz-ta-074
+        geography_name: Gore District
+        table_record_kind: total
+        guard_cells: *id001
+      - value_id: nz-ta-075
+        label: Invercargill city
+        ordinal: 66
+        row_number: 95
+        expected_row_header_column: A
+        expected_row_header: Invercargill city
+        geography_id: nz-ta-075
+        geography_name: Invercargill City
+        table_record_kind: total
+        guard_cells: *id001

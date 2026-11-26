@@ -32,7 +32,11 @@ from chronicle.sources.rows import (
     source_cells_from_source_rows,
     source_rows_from_delimited_text,
 )
-from chronicle.sources.specs import resolve_source_record
+from chronicle.sources.specs import (
+    CellSelectorSpec,
+    resolve_cell_selector,
+    resolve_source_record,
+)
 
 
 def test_ods_numeric_text_mode_coerces_formatted_numbers_only():
@@ -85,6 +89,68 @@ def test_ods_numeric_text_mode_coerces_formatted_numbers_only():
     ]
     assert [cell.raw_value for cell in cells] == [119_258, -12.5, "[Fewer than 1]"]
     assert [cell.cell_type for cell in cells] == ["number", "number", "text"]
+
+
+@pytest.mark.parametrize("read_only", [False, True], ids=["full", "read_only"])
+def test_xlsx_numeric_text_mode_coerces_numeric_text_only(read_only):
+    """ONS's capital stocks tables store most figures as text, such as '977'."""
+    artifact = SourceArtifactMetadata(
+        source_name="ons",
+        source_table="test",
+        source_file="test.xlsx",
+        url="https://example.test/test.xlsx",
+        vintage="test",
+        sha256="abc123",
+        size_bytes=10,
+        extracted_at="2026-11-12",
+        extraction_method="test",
+    )
+    workbook = openpyxl.Workbook()
+    sheet = workbook.active
+    sheet.title = "1.1.1"
+    sheet.append(["Households", "MJY2", "3636", " 1,234 ", "-12.5", 16, "z", None])
+    content = BytesIO()
+    workbook.save(content)
+
+    uncoerced = source_cells_from_xlsx(
+        content.getvalue(), artifact, sheets=("1.1.1",), read_only=read_only
+    )
+    cells = source_cells_from_xlsx(
+        content.getvalue(),
+        artifact,
+        sheets=("1.1.1",),
+        read_only=read_only,
+        coerce_numeric_text=True,
+    )
+
+    assert [cell.raw_value for cell in uncoerced] == [
+        "Households",
+        "MJY2",
+        "3636",
+        " 1,234 ",
+        "-12.5",
+        16,
+        "z",
+    ]
+    assert [cell.raw_value for cell in cells] == [
+        "Households",
+        "MJY2",
+        3636,
+        1234,
+        -12.5,
+        16,
+        "z",
+    ]
+    assert [cell.cell_type for cell in cells] == [
+        "text",
+        "text",
+        "number",
+        "number",
+        "number",
+        "number",
+        "text",
+    ]
+    assert [cell.display_value for cell in cells][2:5] == ["3636", "1234", "-12.5"]
 
 
 def test_build_soi_table_1_1_source_cells_preserves_workbook_used_range():
@@ -149,6 +215,45 @@ def test_source_record_selector_guard_fails_on_changed_row_header():
 
     with pytest.raises(ValueError, match="expected row header"):
         resolve_source_record(cells, bad_spec)
+
+
+def test_column_header_guard_matches_a_delimited_year_header_text():
+    # Package YAML renders a digit-only string such as '2024' to the integer
+    # 2024, while a delimited file's header row keeps the text '2024'. A guard
+    # expecting 2024 matches that text, and nothing looser.
+    artifact = SourceArtifactMetadata(
+        source_name="bea",
+        source_table="test",
+        source_file="test.csv",
+        url="https://example.test/test.csv",
+        vintage="test",
+        sha256="abc123",
+        size_bytes=10,
+        extracted_at="2026-09-25",
+        extraction_method="test",
+    )
+    rows = source_rows_from_delimited_text(
+        b"Item,2023,2024,02024,2024.0\nReturns,1,2,3,4\n",
+        artifact,
+        sheet_name="test",
+    )
+    cells = source_cells_from_source_rows(rows, selected_rows=())
+
+    def selector(column: str, header):
+        return CellSelectorSpec(
+            selector_id=f"test.{column}",
+            sheet_name="test",
+            address=f"{column}2",
+            expected_cell_type="number",
+            expected_column_header_address=f"{column}1",
+            expected_column_header=header,
+        )
+
+    assert resolve_cell_selector(cells, selector("C", 2024)).raw_value == 2
+    assert resolve_cell_selector(cells, selector("C", "2024")).raw_value == 2
+    for column, header in (("B", 2024), ("D", 2024), ("E", 2024), ("C", True)):
+        with pytest.raises(ValueError, match="expected column header"):
+            resolve_cell_selector(cells, selector(column, header))
 
 
 def test_delimited_source_row_selection_requires_exact_match():

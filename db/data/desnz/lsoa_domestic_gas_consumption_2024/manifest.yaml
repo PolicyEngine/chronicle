@@ -1,0 +1,20 @@
+source_id: desnz
+package_id: desnz-lsoa-domestic-gas-consumption-2024
+dataset: desnz_desnz-lsoa-domestic-gas-consumption-2024
+source_page: https://www.gov.uk/government/statistics/lower-and-middle-super-output-areas-gas-consumption
+table: Domestic gas consumption by LSOA and Scottish data zone, Great Britain, 2010
+  to 2024
+files:
+  2025:
+    filename: LSOA_domestic_gas_2010-2024.xlsx
+    source_url: https://assets.publishing.service.gov.uk/media/694578171a2e540ccd8a5426/LSOA_domestic_gas_2010-2024.xlsx
+    sha256: c62e162260c5d4cd08ebfc3f21aa7275520887e3d5a357d48b7bb0cd622b776e
+    size_bytes: 55649587
+    fetched_at: '2026-10-15T10:01:25+00:00'
+    storage:
+      local: false
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/uk/desnz/desnz-lsoa-domestic-gas-consumption-2024/2025/c62e162260c5d4cd08ebfc3f21aa7275520887e3d5a357d48b7bb0cd622b776e/LSOA_domestic_gas_2010-2024.xlsx
+        uri: r2://ledger-raw/raw/uk/desnz/desnz-lsoa-domestic-gas-consumption-2024/2025/c62e162260c5d4cd08ebfc3f21aa7275520887e3d5a357d48b7bb0cd622b776e/LSOA_domestic_gas_2010-2024.xlsx

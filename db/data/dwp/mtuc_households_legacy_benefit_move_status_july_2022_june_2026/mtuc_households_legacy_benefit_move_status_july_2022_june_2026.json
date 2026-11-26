@@ -1,0 +1,149 @@
+{
+  "query" : {
+    "database" : "str:database:MtUC_Households",
+    "measures" : [ "str:count:MtUC_Households:V_F_MtUC_Households" ],
+    "recodes" : {
+      "str:field:MtUC_Households:V_F_MtUC_Households:Legacy_Ben_Code" : {
+        "map" : [ [ "str:value:MtUC_Households:V_F_MtUC_Households:Legacy_Ben_Code:C_MtUC_Legacy_Benefit_Claimed:1" ], [ "str:value:MtUC_Households:V_F_MtUC_Households:Legacy_Ben_Code:C_MtUC_Legacy_Benefit_Claimed:2" ], [ "str:value:MtUC_Households:V_F_MtUC_Households:Legacy_Ben_Code:C_MtUC_Legacy_Benefit_Claimed:7" ], [ "str:value:MtUC_Households:V_F_MtUC_Households:Legacy_Ben_Code:C_MtUC_Legacy_Benefit_Claimed:3" ], [ "str:value:MtUC_Households:V_F_MtUC_Households:Legacy_Ben_Code:C_MtUC_Legacy_Benefit_Claimed:4" ], [ "str:value:MtUC_Households:V_F_MtUC_Households:Legacy_Ben_Code:C_MtUC_Legacy_Benefit_Claimed:5" ], [ "str:value:MtUC_Households:V_F_MtUC_Households:Legacy_Ben_Code:C_MtUC_Legacy_Benefit_Claimed:6" ], [ "str:value:MtUC_Households:V_F_MtUC_Households:Legacy_Ben_Code:C_MtUC_Legacy_Benefit_Claimed:8" ], [ "str:value:MtUC_Households:V_F_MtUC_Households:Legacy_Ben_Code:C_MtUC_Legacy_Benefit_Claimed:9" ], [ "str:value:MtUC_Households:V_F_MtUC_Households:Legacy_Ben_Code:C_MtUC_Legacy_Benefit_Claimed:10" ], [ "str:value:MtUC_Households:V_F_MtUC_Households:Legacy_Ben_Code:C_MtUC_Legacy_Benefit_Claimed:11" ], [ "str:value:MtUC_Households:V_F_MtUC_Households:Legacy_Ben_Code:C_MtUC_Legacy_Benefit_Claimed:12" ], [ "str:value:MtUC_Households:V_F_MtUC_Households:Legacy_Ben_Code:C_MtUC_Legacy_Benefit_Claimed:13" ], [ "str:value:MtUC_Households:V_F_MtUC_Households:Legacy_Ben_Code:C_MtUC_Legacy_Benefit_Claimed:14" ], [ "str:value:MtUC_Households:V_F_MtUC_Households:Legacy_Ben_Code:C_MtUC_Legacy_Benefit_Claimed:15" ], [ "str:value:MtUC_Households:V_F_MtUC_Households:Legacy_Ben_Code:C_MtUC_Legacy_Benefit_Claimed:16" ], [ "str:value:MtUC_Households:V_F_MtUC_Households:Legacy_Ben_Code:C_MtUC_Legacy_Benefit_Claimed:17" ], [ "str:value:MtUC_Households:V_F_MtUC_Households:Legacy_Ben_Code:C_MtUC_Legacy_Benefit_Claimed:18" ], [ "str:value:MtUC_Households:V_F_MtUC_Households:Legacy_Ben_Code:C_MtUC_Legacy_Benefit_Claimed:19" ], [ "str:value:MtUC_Households:V_F_MtUC_Households:Legacy_Ben_Code:C_MtUC_Legacy_Benefit_Claimed:20" ] ],
+        "total" : true
+      },
+      "str:field:MtUC_Households:V_F_MtUC_Households:Claim_Status_Code" : {
+        "map" : [ [ "str:value:MtUC_Households:V_F_MtUC_Households:Claim_Status_Code:C_MtUC_Claim_Status:1" ], [ "str:value:MtUC_Households:V_F_MtUC_Households:Claim_Status_Code:C_MtUC_Claim_Status:2" ], [ "str:value:MtUC_Households:V_F_MtUC_Households:Claim_Status_Code:C_MtUC_Claim_Status:3" ], [ "str:value:MtUC_Households:V_F_MtUC_Households:Claim_Status_Code:C_MtUC_Claim_Status:99" ] ],
+        "total" : true
+      }
+    },
+    "dimensions" : [ [ "str:field:MtUC_Households:V_F_MtUC_Households:Legacy_Ben_Code" ], [ "str:field:MtUC_Households:V_F_MtUC_Households:Claim_Status_Code" ] ]
+  },
+  "database" : {
+    "id" : "MtUC_Households",
+    "uri" : "str:database:MtUC_Households",
+    "label" : "Households invited to Move to Universal Credit",
+    "annotationKeys" : [ "I" ]
+  },
+  "measures" : [ {
+    "uri" : "str:count:MtUC_Households:V_F_MtUC_Households",
+    "label" : "Move to UC - Households",
+    "measure" : "str:count:MtUC_Households:V_F_MtUC_Households",
+    "function" : "COUNT"
+  } ],
+  "fields" : [ {
+    "uri" : "str:field:MtUC_Households:V_F_MtUC_Households:Legacy_Ben_Code",
+    "label" : "Legacy Benefit",
+    "items" : [ {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:MtUC_Households:V_F_MtUC_Households:Legacy_Ben_Code:C_MtUC_Legacy_Benefit_Claimed:1" ],
+      "labels" : [ "Child Tax Credit only" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:MtUC_Households:V_F_MtUC_Households:Legacy_Ben_Code:C_MtUC_Legacy_Benefit_Claimed:2" ],
+      "labels" : [ "Working Tax Credit only" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:MtUC_Households:V_F_MtUC_Households:Legacy_Ben_Code:C_MtUC_Legacy_Benefit_Claimed:7" ],
+      "labels" : [ "Child Tax Credit and Working Tax Credit" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:MtUC_Households:V_F_MtUC_Households:Legacy_Ben_Code:C_MtUC_Legacy_Benefit_Claimed:3" ],
+      "labels" : [ "Housing Benefit only" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:MtUC_Households:V_F_MtUC_Households:Legacy_Ben_Code:C_MtUC_Legacy_Benefit_Claimed:4" ],
+      "labels" : [ "Employment Support Allowance only" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:MtUC_Households:V_F_MtUC_Households:Legacy_Ben_Code:C_MtUC_Legacy_Benefit_Claimed:5" ],
+      "labels" : [ "Income Support only" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:MtUC_Households:V_F_MtUC_Households:Legacy_Ben_Code:C_MtUC_Legacy_Benefit_Claimed:6" ],
+      "labels" : [ "Jobseekers Allowance only" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:MtUC_Households:V_F_MtUC_Households:Legacy_Ben_Code:C_MtUC_Legacy_Benefit_Claimed:8" ],
+      "labels" : [ "Child Tax Credit and Housing Benefit" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:MtUC_Households:V_F_MtUC_Households:Legacy_Ben_Code:C_MtUC_Legacy_Benefit_Claimed:9" ],
+      "labels" : [ "Child Tax Credit and Employment Support Allowance" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:MtUC_Households:V_F_MtUC_Households:Legacy_Ben_Code:C_MtUC_Legacy_Benefit_Claimed:10" ],
+      "labels" : [ "Child Tax Credit and Income Support" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:MtUC_Households:V_F_MtUC_Households:Legacy_Ben_Code:C_MtUC_Legacy_Benefit_Claimed:11" ],
+      "labels" : [ "Child Tax Credit and Jobseekers Allowance" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:MtUC_Households:V_F_MtUC_Households:Legacy_Ben_Code:C_MtUC_Legacy_Benefit_Claimed:12" ],
+      "labels" : [ "Working Tax Credit and Housing Benefit" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:MtUC_Households:V_F_MtUC_Households:Legacy_Ben_Code:C_MtUC_Legacy_Benefit_Claimed:13" ],
+      "labels" : [ "Housing Benefit and Employment Support Allowance" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:MtUC_Households:V_F_MtUC_Households:Legacy_Ben_Code:C_MtUC_Legacy_Benefit_Claimed:14" ],
+      "labels" : [ "Housing Benefit and Income Support" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:MtUC_Households:V_F_MtUC_Households:Legacy_Ben_Code:C_MtUC_Legacy_Benefit_Claimed:15" ],
+      "labels" : [ "Housing Benefit and Jobseekers Allowance" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:MtUC_Households:V_F_MtUC_Households:Legacy_Ben_Code:C_MtUC_Legacy_Benefit_Claimed:16" ],
+      "labels" : [ "Child Tax Credit and Working Tax Credit and Housing Benefit" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:MtUC_Households:V_F_MtUC_Households:Legacy_Ben_Code:C_MtUC_Legacy_Benefit_Claimed:17" ],
+      "labels" : [ "Child Tax Credit and Housing Benefit and Employment Support Allowance" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:MtUC_Households:V_F_MtUC_Households:Legacy_Ben_Code:C_MtUC_Legacy_Benefit_Claimed:18" ],
+      "labels" : [ "Child Tax Credit and Housing Benefit and Income Support" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:MtUC_Households:V_F_MtUC_Households:Legacy_Ben_Code:C_MtUC_Legacy_Benefit_Claimed:19" ],
+      "labels" : [ "Child Tax Credit and Housing Benefit and Jobseekers Allowance" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:MtUC_Households:V_F_MtUC_Households:Legacy_Ben_Code:C_MtUC_Legacy_Benefit_Claimed:20" ],
+      "labels" : [ "Legacy non-customer" ]
+    }, {
+      "type" : "Total",
+      "labels" : [ "Total" ]
+    } ]
+  }, {
+    "uri" : "str:field:MtUC_Households:V_F_MtUC_Households:Claim_Status_Code",
+    "label" : "Move Status",
+    "items" : [ {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:MtUC_Households:V_F_MtUC_Households:Claim_Status_Code:C_MtUC_Claim_Status:1" ],
+      "labels" : [ "Claimed UC" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:MtUC_Households:V_F_MtUC_Households:Claim_Status_Code:C_MtUC_Claim_Status:2" ],
+      "labels" : [ "Did not claim UC - Legacy benefit closed" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:MtUC_Households:V_F_MtUC_Households:Claim_Status_Code:C_MtUC_Claim_Status:3" ],
+      "labels" : [ "In Progress" ]
+    }, {
+      "type" : "RecodeItem",
+      "uris" : [ "str:value:MtUC_Households:V_F_MtUC_Households:Claim_Status_Code:C_MtUC_Claim_Status:99" ],
+      "labels" : [ "Unknown/Missing" ]
+    }, {
+      "type" : "Total",
+      "labels" : [ "Total" ]
+    } ]
+  } ],
+  "cubes" : {
+    "str:count:MtUC_Households:V_F_MtUC_Households" : {
+      "values" : [ [ 36723, 17733, 0, 0, 54454 ], [ 53993, 51805, 0, 0, 105802 ], [ 363984, 126397, 0, 0, 490379 ], [ 30900, 10121, 280, 0, 41300 ], [ 321075, 13944, 167, 0, 335190 ], [ 17719, 1351, 0, 0, 19067 ], [ 5867, 329, 0, 0, 6199 ], [ 15646, 1042, 0, 0, 16685 ], [ 11171, 381, 0, 0, 11557 ], [ 8254, 276, 0, 0, 8529 ], [ 381, 8, 0, 0, 388 ], [ 7820, 1042, 0, 0, 8866 ], [ 448253, 9117, 93, 0, 457466 ], [ 31087, 750, 0, 0, 31833 ], [ 11019, 333, 0, 0, 11352 ], [ 81962, 5352, 0, 0, 87309 ], [ 73859, 949, 0, 0, 74805 ], [ 58764, 691, 0, 0, 59457 ], [ 2286, 30, 0, 0, 2320 ], [ 0, 0, 0, 0, 0 ], [ 1580761, 241662, 538, 0, 1822966 ] ],
+      "precision" : 0
+    }
+  },
+  "annotationMap" : {
+    "I" : "\"..\" denotes a nil or negligible number of claimants or award amount based on a nil or negligible number of claimants."
+  }
+}

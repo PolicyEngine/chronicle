@@ -13,17 +13,19 @@ from chronicle.artifacts import (
     DerivedArtifactPublishReport,
     R2BootstrapReport,
     RawArtifactPublishReport,
+    RawArtifactVerifyReport,
     bootstrap_r2_buckets,
     fetch_source_artifact,
     inventory_source_artifacts,
     publish_derived_artifacts,
     publish_source_artifacts,
+    verify_raw_artifacts,
 )
 from chronicle.bundle import (
-    UK_BUNDLE_SOURCES,
+    BUNDLE_SUITES,
     BuildBundleReport,
-    assert_uk_bundle_sources_match_aliases,
     build_bundle,
+    bundle_suite_sources,
 )
 from chronicle.concepts import ConceptAlignmentReport, validate_concept_alignments
 from chronicle.consumer_contract import (
@@ -33,12 +35,7 @@ from chronicle.consumer_contract import (
 )
 from chronicle.core import AggregateFact, ValidationReport, validate_facts
 from chronicle.database import ChronicleDbBuildReport, build_chronicle_db
-from chronicle.mirror import (
-    ChronicleMirrorExportReport,
-    SupabaseMirrorLoadReport,
-    export_chronicle_db_tables,
-    load_supabase_mirror,
-)
+from chronicle.mirror import ChronicleMirrorExportReport, export_chronicle_db_tables
 from chronicle.pe_source_plan import (
     PeSourcePlanReport,
     build_pe_source_plan,
@@ -272,13 +269,15 @@ def build_bundle_dir(
     axiom_roots: list[str | Path] | None = None,
     require_axiom_validation: bool = False,
     replace: bool = False,
+    keep_suite_intermediates: bool = True,
 ) -> BuildBundleReport:
     """Build a merged Chronicle consumer bundle from source-package suites."""
-    if suite == "uk":
+    if suite is not None:
+        if suite not in BUNDLE_SUITES:
+            raise ValueError(f"Unknown bundle suite: {suite!r}")
         if sources:
-            raise ValueError("--suite uk cannot be combined with --source.")
-        assert_uk_bundle_sources_match_aliases()
-        sources = list(UK_BUNDLE_SOURCES)
+            raise ValueError(f"--suite {suite} cannot be combined with --source.")
+        sources = list(bundle_suite_sources(suite))
     return build_bundle(
         output_dir,
         year=year,
@@ -287,6 +286,7 @@ def build_bundle_dir(
         axiom_roots=axiom_roots or (),
         require_axiom_validation=require_axiom_validation,
         replace=replace,
+        keep_suite_intermediates=keep_suite_intermediates,
     )
 
 
@@ -388,6 +388,28 @@ def publish_raw_artifact_files(
     )
 
 
+def verify_raw_artifact_files(
+    root: str | Path,
+    *,
+    manifest_filename: str = "manifest.yaml",
+    source_id: str | None = None,
+    package_id: str | None = None,
+    r2_bucket: str = "ledger-raw",
+    r2_prefix: str | None = None,
+    wrangler_command: str = "npx wrangler",
+) -> RawArtifactVerifyReport:
+    """Verify declared raw R2 objects without editing manifests or artifacts."""
+    return verify_raw_artifacts(
+        root,
+        manifest_filename=manifest_filename,
+        source_id=source_id,
+        package_id=package_id,
+        r2_bucket=r2_bucket,
+        r2_prefix=r2_prefix,
+        wrangler_command=wrangler_command,
+    )
+
+
 def bootstrap_r2_storage(
     *,
     raw_bucket: str = "ledger-raw",
@@ -436,29 +458,6 @@ def export_chronicle_db_table_files(
 ) -> ChronicleMirrorExportReport:
     """Export local Chronicle DB tables to bulk-loadable JSONL files."""
     return export_chronicle_db_tables(db_path, output_dir, replace=replace)
-
-
-def load_supabase_mirror_files(
-    input_dir: str | Path,
-    *,
-    schema: str = "ledger",
-    batch_size: int = 500,
-    dry_run: bool = False,
-    build_artifacts_path: str | Path | None = None,
-) -> SupabaseMirrorLoadReport:
-    """Load exported Chronicle JSONL mirror files into Supabase/Postgres."""
-    table_paths = (
-        {"build_artifacts": Path(build_artifacts_path)}
-        if build_artifacts_path is not None
-        else None
-    )
-    return load_supabase_mirror(
-        input_dir,
-        schema=schema,
-        batch_size=batch_size,
-        dry_run=dry_run,
-        table_paths=table_paths,
-    )
 
 
 def plan_pe_source_files(
@@ -720,7 +719,7 @@ def main(argv: list[str] | None = None) -> int:
     )
     bundle_parser.add_argument(
         "--suite",
-        choices=["uk"],
+        choices=list(BUNDLE_SUITES),
         help="Curated source-package suite to build.",
     )
     bundle_parser.add_argument(
@@ -750,6 +749,16 @@ def main(argv: list[str] | None = None) -> int:
         "--require-axiom-validation",
         action="store_true",
         help="Fail agent acceptance unless every canonical concept is checked.",
+    )
+    bundle_parser.add_argument(
+        "--slim",
+        action="store_true",
+        help=(
+            "Delete each source suite's source_rows.jsonl, source_cells.jsonl, "
+            "facts.jsonl and ledger.db once the suite finishes; the bundle's "
+            "consumer facts and reports are unchanged. "
+            "reports/pruned_intermediates.json lists what was deleted."
+        ),
     )
 
     consumer_artifact_parser = subparsers.add_parser(
@@ -963,6 +972,48 @@ def main(argv: list[str] | None = None) -> int:
         help="Wrangler command prefix to use for R2 uploads.",
     )
 
+    raw_verify_parser = subparsers.add_parser(
+        "verify-raw",
+        help="Read back declared raw R2 objects and verify keys and pinned bytes",
+    )
+    raw_verify_parser.add_argument(
+        "--root",
+        type=Path,
+        default=Path("db/data"),
+        help="Root directory to scan for manifest.yaml files.",
+    )
+    raw_verify_parser.add_argument(
+        "--manifest",
+        default="manifest.yaml",
+        help="Manifest filename to scan for.",
+    )
+    raw_verify_parser.add_argument(
+        "--source-id",
+        help="Override manifest source_id for scanned artifacts.",
+    )
+    raw_verify_parser.add_argument(
+        "--package-id",
+        help="Override manifest package_id for scanned artifacts.",
+    )
+    raw_verify_parser.add_argument(
+        "--r2-bucket",
+        default="ledger-raw",
+        help="Fallback R2 bucket when a declared location omits its bucket.",
+    )
+    raw_verify_parser.add_argument(
+        "--r2-prefix",
+        help=(
+            "Canonical R2 key-prefix root. Defaults to country-aware raw/nz "
+            "or raw/uk for known publisher directories, and raw for legacy "
+            "US packages."
+        ),
+    )
+    raw_verify_parser.add_argument(
+        "--wrangler-command",
+        default="npx wrangler",
+        help="Wrangler command prefix to use for streaming R2 reads.",
+    )
+
     r2_parser = subparsers.add_parser(
         "bootstrap-r2",
         help="Create Chronicle R2 buckets when Wrangler is authenticated",
@@ -1061,38 +1112,6 @@ def main(argv: list[str] | None = None) -> int:
         "--replace",
         action="store_true",
         help="Replace an existing nonempty output directory",
-    )
-
-    mirror_load_parser = subparsers.add_parser(
-        "load-supabase-mirror",
-        help="Load exported Chronicle JSONL mirror files into Supabase/Postgres",
-    )
-    mirror_load_parser.add_argument(
-        "--dir",
-        type=Path,
-        required=True,
-        help="Directory containing exported per-table JSONL files.",
-    )
-    mirror_load_parser.add_argument(
-        "--schema",
-        default="ledger",
-        help="Supabase/Postgres schema to load into.",
-    )
-    mirror_load_parser.add_argument(
-        "--batch-size",
-        type=int,
-        default=500,
-        help="Rows per Supabase upsert batch.",
-    )
-    mirror_load_parser.add_argument(
-        "--dry-run",
-        action="store_true",
-        help="Count rows and validate files without writing to Supabase.",
-    )
-    mirror_load_parser.add_argument(
-        "--build-artifacts",
-        type=Path,
-        help="Optional build_artifacts JSONL path to use instead of the file in --dir.",
     )
 
     pe_plan_parser = subparsers.add_parser(
@@ -1274,6 +1293,7 @@ def main(argv: list[str] | None = None) -> int:
             axiom_roots=args.axiom_root,
             require_axiom_validation=args.require_axiom_validation,
             replace=args.replace,
+            keep_suite_intermediates=not args.slim,
         )
         print(json.dumps(report.to_dict(), indent=2, sort_keys=True))
         return 0 if report.valid else 1
@@ -1341,6 +1361,18 @@ def main(argv: list[str] | None = None) -> int:
         )
         print(json.dumps(report.to_dict(), indent=2, sort_keys=True))
         return 0 if report.valid else 1
+    if args.command == "verify-raw":
+        report = verify_raw_artifact_files(
+            args.root,
+            manifest_filename=args.manifest,
+            source_id=args.source_id,
+            package_id=args.package_id,
+            r2_bucket=args.r2_bucket,
+            r2_prefix=args.r2_prefix,
+            wrangler_command=args.wrangler_command,
+        )
+        print(json.dumps(report.to_dict(), indent=2, sort_keys=True))
+        return 0 if report.valid else 1
     if args.command == "bootstrap-r2":
         report = bootstrap_r2_storage(
             raw_bucket=args.raw_bucket,
@@ -1371,16 +1403,6 @@ def main(argv: list[str] | None = None) -> int:
         )
         print(json.dumps(report.to_dict(), indent=2, sort_keys=True))
         return 0
-    if args.command == "load-supabase-mirror":
-        report = load_supabase_mirror_files(
-            args.dir,
-            schema=args.schema,
-            batch_size=args.batch_size,
-            dry_run=args.dry_run,
-            build_artifacts_path=args.build_artifacts,
-        )
-        print(json.dumps(report.to_dict(), indent=2, sort_keys=True))
-        return 0 if report.valid else 1
     if args.command == "plan-pe-sources":
         report = plan_pe_source_files(
             args.manifest,

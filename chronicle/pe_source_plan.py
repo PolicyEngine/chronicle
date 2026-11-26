@@ -13,6 +13,8 @@ from typing import Any
 
 import yaml
 
+from chronicle.yaml_io import safe_load as safe_load_yaml
+
 
 WORKBOOK_FORMATS = {".xls", ".xlsx", ".ods"}
 RECTANGULAR_FORMATS = {".csv", ".csv.gz", ".json", ".txt"}
@@ -566,7 +568,7 @@ def _existing_source_package_coverage(
     coverage = {}
     for source_package_path in sorted(root.glob("**/source_package.yaml")):
         try:
-            package_payload = yaml.safe_load(
+            package_payload = safe_load_yaml(
                 source_package_path.read_text(encoding="utf-8")
             )
             artifact_payload = package_payload["artifact"]
@@ -576,7 +578,7 @@ def _existing_source_package_coverage(
                 / artifact_payload["resource_directory"]
                 / artifact_payload["manifest"]
             )
-            manifest_payload = yaml.safe_load(manifest_path.read_text(encoding="utf-8"))
+            manifest_payload = safe_load_yaml(manifest_path.read_text(encoding="utf-8"))
         except (KeyError, OSError, TypeError, yaml.YAMLError):
             continue
         package_id = str(

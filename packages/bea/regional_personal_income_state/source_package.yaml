@@ -3165,8 +3165,69 @@ record_sets:
   - measure_id: amount
     label: Personal income
     ordinal: 0
-    column: AI
-    source_column_id: '2024'
+    # SAINC5N__ALL_AREAS_1998_2025.csv holds one column per calendar
+    # year, 1998 (I) through 2025 (AJ); --year selects that column, and
+    # the header guard checks that row 1 of the column names that year.
+    column_by_year: &sainc5n_year_columns
+      1998: I
+      1999: J
+      2000: K
+      2001: L
+      2002: M
+      2003: N
+      2004: O
+      2005: P
+      2006: Q
+      2007: R
+      2008: S
+      2009: T
+      2010: U
+      2011: V
+      2012: W
+      2013: X
+      2014: Y
+      2015: Z
+      2016: AA
+      2017: AB
+      2018: AC
+      2019: AD
+      2020: AE
+      2021: AF
+      2022: AG
+      2023: AH
+      2024: AI
+      2025: AJ
+    expected_column_header_row: 1
+    expected_column_header_by_year: &sainc5n_year_headers
+      1998: 1998
+      1999: 1999
+      2000: 2000
+      2001: 2001
+      2002: 2002
+      2003: 2003
+      2004: 2004
+      2005: 2005
+      2006: 2006
+      2007: 2007
+      2008: 2008
+      2009: 2009
+      2010: 2010
+      2011: 2011
+      2012: 2012
+      2013: 2013
+      2014: 2014
+      2015: 2015
+      2016: 2016
+      2017: 2017
+      2018: 2018
+      2019: 2019
+      2020: 2020
+      2021: 2021
+      2022: 2022
+      2023: 2023
+      2024: 2024
+      2025: 2025
+    source_column_id: '{year}'
     concept: bea_regional.personal_income
     source_concept: bea_regional.sainc5n_line_10_personal_income
     concept_relation: source_label
@@ -5070,8 +5131,10 @@ record_sets:
   - measure_id: amount
     label: Dividends, interest, and rent
     ordinal: 0
-    column: AI
-    source_column_id: '2024'
+    column_by_year: *sainc5n_year_columns
+    expected_column_header_row: 1
+    expected_column_header_by_year: *sainc5n_year_headers
+    source_column_id: '{year}'
     concept: bea_regional.dividends_interest_and_rent
     source_concept: bea_regional.sainc5n_line_46_dividends_interest_and_rent
     concept_relation: source_label
@@ -6975,8 +7038,10 @@ record_sets:
   - measure_id: amount
     label: Personal current transfer receipts
     ordinal: 0
-    column: AI
-    source_column_id: '2024'
+    column_by_year: *sainc5n_year_columns
+    expected_column_header_row: 1
+    expected_column_header_by_year: *sainc5n_year_headers
+    source_column_id: '{year}'
     concept: bea_regional.personal_current_transfer_receipts
     source_concept: bea_regional.sainc5n_line_47_personal_current_transfer_receipts
     concept_relation: source_label
@@ -8880,8 +8945,10 @@ record_sets:
   - measure_id: amount
     label: Wages and salaries
     ordinal: 0
-    column: AI
-    source_column_id: '2024'
+    column_by_year: *sainc5n_year_columns
+    expected_column_header_row: 1
+    expected_column_header_by_year: *sainc5n_year_headers
+    source_column_id: '{year}'
     concept: bea_regional.wages_and_salaries
     source_concept: bea_regional.sainc5n_line_50_wages_and_salaries
     concept_relation: source_label
@@ -10785,8 +10852,10 @@ record_sets:
   - measure_id: amount
     label: Supplements to wages and salaries
     ordinal: 0
-    column: AI
-    source_column_id: '2024'
+    column_by_year: *sainc5n_year_columns
+    expected_column_header_row: 1
+    expected_column_header_by_year: *sainc5n_year_headers
+    source_column_id: '{year}'
     concept: bea_regional.supplements_to_wages_and_salaries
     source_concept: bea_regional.sainc5n_line_60_supplements_to_wages_and_salaries
     concept_relation: source_label
@@ -12690,8 +12759,10 @@ record_sets:
   - measure_id: amount
     label: Proprietors' income
     ordinal: 0
-    column: AI
-    source_column_id: '2024'
+    column_by_year: *sainc5n_year_columns
+    expected_column_header_row: 1
+    expected_column_header_by_year: *sainc5n_year_headers
+    source_column_id: '{year}'
     concept: bea_regional.proprietors_income
     source_concept: bea_regional.sainc5n_line_70_proprietors_income
     concept_relation: source_label
@@ -14595,7 +14666,9 @@ record_sets:
   - measure_id: amount
     label: Contributions for government social insurance
     ordinal: 0
-    column: AI
+    column_by_year: *sainc5n_year_columns
+    expected_column_header_row: 1
+    expected_column_header_by_year: *sainc5n_year_headers
     source_column_id: value
     concept: bea_regional.contributions_for_government_social_insurance
     source_concept: bea_regional.sainc5n_line_36_contributions_for_government_social_insurance
@@ -16500,7 +16573,9 @@ record_sets:
   - measure_id: amount
     label: Residence adjustment
     ordinal: 0
-    column: AI
+    column_by_year: *sainc5n_year_columns
+    expected_column_header_row: 1
+    expected_column_header_by_year: *sainc5n_year_headers
     source_column_id: value
     concept: bea_regional.residence_adjustment
     source_concept: bea_regional.sainc5n_line_42_residence_adjustment

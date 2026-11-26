@@ -1,0 +1,25 @@
+source_id: stats_nz
+package_id: census_2023_place_summaries
+dataset: census_2023_place_summaries
+source_page: https://tools.summaries.stats.govt.nz/places/RC/auckland-region
+table: '2023 Census Place summaries: families and households'
+license: CC BY 4.0
+attribution: Stats NZ
+files:
+  2023:
+    filename: place-summaries-rc-02.csv
+    source_url: https://tools.summaries.stats.govt.nz/api/export-csv/rkTah6u2O2VYyP4Y/2/
+    final_url: https://tools.summaries.stats.govt.nz/api/export-csv/rkTah6u2O2VYyP4Y/2/
+    http_status: 200
+    sha256: 8146e6612b8a0434f021b02f096cd0befaa450fdab0f5c09325201586ae001bc
+    size_bytes: 409747
+    fetched_at: '2026-10-10T20:12:01Z'
+    content_disposition_filename: place-summaries-auckland-region-20261011-091008.csv
+    place_code: '2'
+    place: Auckland Region
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/nz/stats_nz/census_2023_place_summaries/2023/8146e6612b8a0434f021b02f096cd0befaa450fdab0f5c09325201586ae001bc/place-summaries-rc-02.csv
+        uri: r2://ledger-raw/raw/nz/stats_nz/census_2023_place_summaries/2023/8146e6612b8a0434f021b02f096cd0befaa450fdab0f5c09325201586ae001bc/place-summaries-rc-02.csv

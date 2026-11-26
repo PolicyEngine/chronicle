@@ -1,0 +1,19 @@
+source_id: msd
+package_id: msd-benefit-fact-sheets-supplementary-june-2026
+dataset: msd_benefit_fact_sheets_supplementary_june_2026
+source_page: https://www.msd.govt.nz/documents/about-msd-and-our-work/publications-resources/statistics/benefit/2026/quarterly-benefit-fact-sheets-w-i-supplementary-tables-june-2026.xlsx
+table: 'Quarterly Benefit Fact Sheets: supplementary assistance by Work and Income
+  region, June 2026'
+files:
+  2026:
+    filename: quarterly-benefit-fact-sheets-w-i-supplementary-tables-june-2026.xlsx
+    source_url: https://www.msd.govt.nz/documents/about-msd-and-our-work/publications-resources/statistics/benefit/2026/quarterly-benefit-fact-sheets-w-i-supplementary-tables-june-2026.xlsx
+    sha256: 40551e97ff2c33c2c2a81795fcb70d02b3002b96bfda0ffd9acf8e549f640c9a
+    size_bytes: 143509
+    fetched_at: '2026-10-07T19:22:20Z'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/nz/msd/msd-benefit-fact-sheets-supplementary-june-2026/2026/40551e97ff2c33c2c2a81795fcb70d02b3002b96bfda0ffd9acf8e549f640c9a/quarterly-benefit-fact-sheets-w-i-supplementary-tables-june-2026.xlsx
+        uri: r2://ledger-raw/raw/nz/msd/msd-benefit-fact-sheets-supplementary-june-2026/2026/40551e97ff2c33c2c2a81795fcb70d02b3002b96bfda0ffd9acf8e549f640c9a/quarterly-benefit-fact-sheets-w-i-supplementary-tables-june-2026.xlsx

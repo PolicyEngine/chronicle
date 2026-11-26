@@ -1,0 +1,195 @@
+# HMRC tax information and impact note 'Winter Fuel Payments charge' (policy paper, 26
+# November 2025), for PolicyEngine/chronicle#302 section 6. From winter 2025 Winter Fuel
+# Payment (and Scotland's Pension Age Winter Heating Payment) goes to pensioners at every
+# income, and a new Income Tax charge equal to the payment recovers it from those with total
+# income over GBP 35,000, UK-wide, with effect from 6 April 2025 for payments made in winter
+# 2025 - so the facts carry tax year 2025-26, the first year of the charge. The note attaches
+# no year to its counts; that stamp is this package's reading of the measure's effective date.
+#
+# The impact-on-individuals paragraph gives HMRC's estimate of who the charge reaches:
+# approximately 2.2 million individuals in receipt of winter payments with total income over
+# the threshold; approximately 1.3 million PAYE-only individuals, recovered through their tax
+# code; 900,000 in Self Assessment, recovered through their return, including around 800,000
+# who also have PAYE income; and approximately 100,000 self-employed individuals. They are
+# HMRC estimates of a measure's reach, not outturns: provenance model_output, assertion
+# source_projection. The 1.3 million and 900,000 partition the 2.2 million; the 800,000 and the
+# 100,000 are subsets of the Self Assessment group and of the whole respectively.
+# The Exchequer impact table (net of the wider eligibility, per its note) is not ported.
+schema_version: ledger.source_package.v1
+package_id: hmrc-winter-fuel-payment-charge-2025
+label: 'HMRC Winter Fuel Payments charge: individuals with total income over GBP 35,000 liable to the
+  charge, by recovery route, tax year 2025-26 (estimate)'
+dimension_labels:
+  charge_recovery_group: Charge recovery group
+artifact:
+  source_name: hmrc
+  source_table: 'Winter Fuel Payments charge: tax information and impact note'
+  resource_package: db
+  resource_directory: data/hmrc/winter_fuel_payment_charge_2025
+  manifest: manifest.yaml
+  vintage: policy_paper_2025_11
+  extracted_at: '2026-09-29'
+  extraction_method: HTML table and document-text number parse of the archived policy paper
+  parser: html_tables_and_text
+  artifact_year: 2025
+record_sets:
+  - record_set_id: hmrc.winter_payment_charge.ty2025.affected_individuals
+    provenance_class: model_output
+    assertion: source_projection
+    record_set_spec_id: hmrc.winter_payment_charge.ty2025.affected_individuals.v1
+    source_record_id_prefix: hmrc.winter_payment_charge.ty2025.affected_individuals
+    sheet_name: document_numbers
+    period_type: tax_year
+    period: 2025
+    geography_id: K02000001
+    geography_level: country
+    geography_name: United Kingdom
+    geography_vintage: current
+    entity: person
+    entity_role: winter_payment_recipient
+    domain: winter_fuel_payment
+    groupby_dimension: charge_recovery_group
+    shared_constraints:
+      - variable: total_income
+        operator: '>'
+        value: 35000
+        unit: gbp
+        label: Total income above the GBP 35,000 threshold
+    rows:
+      - value_id: all
+        label: Winter payment recipients with total income over GBP 35,000
+        ordinal: 0
+        row_number: 43
+        expected_row_header_column: D
+        expected_row_header: 2.2 million
+        table_record_kind: total
+        filters:
+          charge_recovery_group: all
+        guard_cells:
+          - column: C
+            row: 43
+            expected_value: This measure will have an impact on approximately 2.2 million individuals
+              who are in receipt of winter payments and have total income over the £35,000 threshold.
+              Approximately 1.3 million PAYE only individuals will have their payments automatically recovered
+              by HMRC through an amendment to their tax code. For the remaining 900,000 individuals who
+              are in Self Assessment, including around 800,000 who also have PAYE income, the repayment
+              will be made through their Self Assessment return. Where possible, HMRC will pre-populate
+              the tax charge figure onto online Self Assessment returns.
+            label: paragraph text
+      - value_id: paye_only
+        label: PAYE-only individuals, recovered through the tax code
+        ordinal: 1
+        row_number: 45
+        expected_row_header_column: D
+        expected_row_header: 1.3 million
+        table_record_kind: detail
+        filters:
+          charge_recovery_group: paye_only
+        constraints:
+          - variable: charge_recovery_group
+            operator: ==
+            value: paye_only
+            label: Charge recovery group
+        guard_cells:
+          - column: C
+            row: 45
+            expected_value: This measure will have an impact on approximately 2.2 million individuals
+              who are in receipt of winter payments and have total income over the £35,000 threshold.
+              Approximately 1.3 million PAYE only individuals will have their payments automatically recovered
+              by HMRC through an amendment to their tax code. For the remaining 900,000 individuals who
+              are in Self Assessment, including around 800,000 who also have PAYE income, the repayment
+              will be made through their Self Assessment return. Where possible, HMRC will pre-populate
+              the tax charge figure onto online Self Assessment returns.
+            label: paragraph text
+      - value_id: self_assessment
+        label: Individuals in Self Assessment, recovered through the return
+        ordinal: 2
+        row_number: 46
+        expected_row_header_column: D
+        expected_row_header: 900,000
+        table_record_kind: detail
+        filters:
+          charge_recovery_group: self_assessment
+        constraints:
+          - variable: charge_recovery_group
+            operator: ==
+            value: self_assessment
+            label: Charge recovery group
+        guard_cells:
+          - column: C
+            row: 46
+            expected_value: This measure will have an impact on approximately 2.2 million individuals
+              who are in receipt of winter payments and have total income over the £35,000 threshold.
+              Approximately 1.3 million PAYE only individuals will have their payments automatically recovered
+              by HMRC through an amendment to their tax code. For the remaining 900,000 individuals who
+              are in Self Assessment, including around 800,000 who also have PAYE income, the repayment
+              will be made through their Self Assessment return. Where possible, HMRC will pre-populate
+              the tax charge figure onto online Self Assessment returns.
+            label: paragraph text
+      - value_id: self_assessment_with_paye
+        label: Self Assessment individuals who also have PAYE income
+        ordinal: 3
+        row_number: 47
+        expected_row_header_column: D
+        expected_row_header: 800,000
+        table_record_kind: detail
+        filters:
+          charge_recovery_group: self_assessment_with_paye
+        constraints:
+          - variable: charge_recovery_group
+            operator: ==
+            value: self_assessment_with_paye
+            label: Charge recovery group
+        guard_cells:
+          - column: C
+            row: 47
+            expected_value: This measure will have an impact on approximately 2.2 million individuals
+              who are in receipt of winter payments and have total income over the £35,000 threshold.
+              Approximately 1.3 million PAYE only individuals will have their payments automatically recovered
+              by HMRC through an amendment to their tax code. For the remaining 900,000 individuals who
+              are in Self Assessment, including around 800,000 who also have PAYE income, the repayment
+              will be made through their Self Assessment return. Where possible, HMRC will pre-populate
+              the tax charge figure onto online Self Assessment returns.
+            label: paragraph text
+      - value_id: self_employed
+        label: Self-employed individuals
+        ordinal: 4
+        row_number: 48
+        expected_row_header_column: D
+        expected_row_header: 100,000
+        table_record_kind: detail
+        filters:
+          charge_recovery_group: self_employed
+        constraints:
+          - variable: charge_recovery_group
+            operator: ==
+            value: self_employed
+            label: Charge recovery group
+        guard_cells:
+          - column: C
+            row: 48
+            expected_value: For approximately 100,000 self-employed individuals who receive winter payments
+              and have total income above the threshold, particularly those operating as sole traders,
+              they will need to familiarise themselves with the winter payment tax charge, and ensure
+              it is correctly reported in their tax return. Some may seek professional advice to support
+              accurate reporting.
+            label: paragraph text
+    measures:
+      - measure_id: individuals
+        label: Individuals liable to the Winter Fuel Payments charge
+        ordinal: 0
+        column: E
+        source_column_id: numeric_value
+        expected_column_header_row: 1
+        expected_column_header: numeric_value
+        concept: hmrc.winter_payment_charge_individuals
+        source_concept: hmrc.winter_payment_charge_individuals
+        concept_relation: source_label
+        concept_authority: hmrc
+        concept_evidence_url: https://www.gov.uk/government/publications/income-tax-charge-on-winter-fuel-payments/winter-fuel-payments-charge
+        concept_evidence_notes: 'HMRC ''Winter Fuel Payments charge'' note, impact on individuals: individuals
+          in receipt of winter payments with total income over GBP 35,000, by the route HMRC recovers
+          the charge through.'
+        unit: count
+        aggregation: sum
+        expected_cell_type: number

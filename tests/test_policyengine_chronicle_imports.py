@@ -72,10 +72,9 @@ def test__given_chronicle_target_import_path__then_it_reexports_target_contracts
 
 def test__given_public_chronicle_namespaces__then_core_helpers_are_importable() -> None:
     from policyengine_chronicle.normalization import convert_units
-    from policyengine_chronicle.sources import SourceFile, query_sources
+    from policyengine_chronicle.sources import SourceFile
 
     assert SourceFile is not None
-    assert query_sources is not None
     assert convert_units is not None
 
 
@@ -84,13 +83,15 @@ def test__given_retired_profile_namespace__then_it_is_not_importable() -> None:
         importlib.import_module("policyengine_chronicle.target_profiles")
 
 
-def test__given_public_chronicle_normalization__then_target_construction_is_hidden() -> (
+def test__given_public_chronicle_normalization__then_target_construction_is_gone() -> (
     None
 ):
     with pytest.raises(AttributeError):
         getattr(chronicle_normalization, "as_target")
     with pytest.raises(AttributeError):
         getattr(chronicle_normalization, "target_kwargs")
+    with pytest.raises(AttributeError):
+        getattr(chronicle_normalization, "TargetBlueprint")
 
 
 def test__given_chronicle_help__then_cli_does_not_eager_load_legacy_clients(
@@ -107,3 +108,5 @@ def test__given_chronicle_help__then_cli_does_not_eager_load_legacy_clients(
     output = capsys.readouterr().out
     assert "Usage: chronicle <command> [options]" in output
     assert "validate-facts" in output
+    assert "  load\n" not in output
+    assert "  stats\n" not in output
