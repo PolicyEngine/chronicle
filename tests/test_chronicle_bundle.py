@@ -630,14 +630,15 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # the state-data file's four US totals and IRA Tables 5 and 6 (two
         # each). Measured with the IRS SOI packages at bundle year 2023: no new
         # geography, period or source-table key, duplicate key or warning.
-        # chronicle#449's later editions of other feed sources add 1,600 facts:
+        # chronicle#449's later editions of other feed sources add 1,658 facts:
         # Census PEP Vintage 2025 for 2025 (19 national, 918 state), SNAP FY2025
-        # (216), the 2026 Trustees Report (1), LIHEAP FY2025 (1), and BEA's
+        # (216), TANF caseload FY2025 (58), the 2026 Trustees Report (1),
+        # LIHEAP FY2025 (1), and BEA's
         # 2026-11-25 NIPA release (29: 3 wage facts for 2018, 2023 and 2024,
         # and 26 personal income facts for 2023) and 2026-09-30 state personal
         # income (416 for 2023). Measured with the packages that share their
         # concepts: no new geography or period key.
-        "fact_count": 2349666,
+        "fact_count": 2349724,
         # The same change adds 82,064 geography keys: 46,363 Scottish 2022
         # output areas (UV404), 35,673 LSOA-level keys from the DESNZ LSOA
         # workbooks (Scotland's data zones already exist), the 26 Northern
@@ -765,10 +766,10 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # state broad and state EITC.
         # chronicle#296 adds three TY2023 IRS SOI packages: the state-data US
         # totals and IRA Tables 5 and 6.
-        # chronicle#449 adds ten packages that build at 2023: two Census PEP
-        # Vintage 2025, the 2026 Trustees Report, LIHEAP FY2025, SNAP FY2025 and
-        # five BEA editions.
-        "source_package_count": 533,
+        # chronicle#449 adds eleven packages that build at 2023: two Census PEP
+        # Vintage 2025, the 2026 Trustees Report, LIHEAP FY2025, SNAP FY2025,
+        # TANF caseload FY2025 and five BEA editions.
+        "source_package_count": 534,
         # 1 semantic-duplicate warning, plus the publisher wording Chronicle
         # keeps as published: values two packages word differently, groupby
         # rows that drift inside one package (chronicle#265, #266), and the
@@ -820,14 +821,14 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         if row_count == 1:
             assert row["aggregate_fact_key"].startswith("ledger.aggregate_fact.v2:")
             assert row["semantic_fact_key"].startswith("ledger.semantic_fact.v2:")
-    assert row_count == 2349666
+    assert row_count == 2349724
     assert provenance_classes <= {
         "administrative",
         "census",
         "model_output",
         "survey_aggregate",
     }
-    assert source_packages["source_package_count"] == 533
+    assert source_packages["source_package_count"] == 534
     assert source_packages["skipped_source_count"] == 39
     assert sorted(item["source"] for item in source_packages["skipped_sources"]) == [
         "census-acs-s0101-congressional-district-age-2024",
@@ -870,7 +871,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "jct-obbba-revenue-estimates-2025",
         "jct-tax-expenditures-2024",
     ]
-    assert coverage["fact_count"] == 2349666
+    assert coverage["fact_count"] == 2349724
     assert coverage["counts"]["by_source"] == {
         "bea": 891,
         "bfp_economic_outlook": 5,
@@ -893,7 +894,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "fpb_economic_outlook": 1000,
         "gambling_commission": 2459,
         "hhs_acf_liheap": 3,
-        "hhs_acf_tanf": 110,
+        "hhs_acf_tanf": 168,
         "hmrc": 40025,
         "ici": 12,
         "ird": 4362,
@@ -952,10 +953,10 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     # TS054 by MSOA.
     # IRS SOI Table 1.3 adds one. chronicle#442 adds two, one per package: the
     # interim report's Table 28 and the final report's Tables 2 and 3.
-    # chronicle#449 adds two: the 2026 Trustees Report's Table III.C3 and the
-    # LIHEAP FY2025 national profile. Its other editions keep their
-    # predecessors' table names.
-    assert len(table_counts) == 461
+    # chronicle#449 adds three: the 2026 Trustees Report's Table III.C3, the
+    # LIHEAP FY2025 national profile and TANF Caseload Data 2025. Its other
+    # editions keep their predecessors' table names.
+    assert len(table_counts) == 462
     assert (
         table_counts[
             "hmrc:Benefits in kind statistics: July 2026, Tables 1 to 4: company car "
@@ -2341,10 +2342,11 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     # and 6 (2 + 2).
     expected_period_counts["tax_year:2023"] += 8
     # chronicle#449's later editions: Census PEP Vintage 2025 (937) and the
-    # 2026 Trustees Report (1) for calendar 2025; LIHEAP FY2025 (1) and SNAP
-    # FY2025 (216); and BEA's releases, which repeat earlier years' series.
+    # 2026 Trustees Report (1) for calendar 2025; LIHEAP FY2025 (1), SNAP
+    # FY2025 (216) and TANF caseload FY2025 (58); and BEA's releases, which
+    # repeat earlier years' series.
     expected_period_counts["calendar_year:2025"] += 938
-    expected_period_counts["fiscal_year:2025"] += 217
+    expected_period_counts["fiscal_year:2025"] += 275
     expected_period_counts["calendar_year:2023"] += 443
     expected_period_counts["calendar_year:2018"] += 1
     expected_period_counts["calendar_year:2024"] += 1
@@ -3057,9 +3059,10 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     # measures (chronicle#295).
     # chronicle#296 adds 8: the TY2023 state-data US totals (4) and IRA Tables
     # 5 and 6 (2 + 2).
-    # chronicle#449's later editions add 62: Census PEP national 19, SNAP 4,
-    # the Trustees Report 1, LIHEAP 1, BEA NIPA 29 and BEA state income 8.
-    assert coverage["counts"]["by_geography"]["country:0100000US"] == 3020
+    # chronicle#449's later editions add 69: Census PEP national 19, SNAP 4,
+    # TANF 7, the Trustees Report 1, LIHEAP 1, BEA NIPA 29 and BEA state
+    # income 8.
+    assert coverage["counts"]["by_geography"]["country:0100000US"] == 3027
     # 255, less Vintage 2024's state total (chronicle#397), + 16 Census Vintage
     # 2025 age groups (15 groups and the total), + 6 from SSA's Supplement
     # Tables 7.B3 (four California cells) and 7.B7 (two), + 8 Historic Table 2
@@ -3069,9 +3072,9 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     # + 30 district-file columns without a state twin (item 2.3), + 91 Historic
     # Table 2 TY2023 facts (chronicle#295): 61 state broad, 10 state EITC and
     # 20 taxable interest (ten AGI classes x two measures).
-    # chronicle#449's later editions add 30: Census PEP state 18, SNAP 4 and
-    # BEA state income 8.
-    assert coverage["counts"]["by_geography"]["state:0400000US06"] == 468
+    # chronicle#449's later editions add 31: Census PEP state 18, SNAP 4, TANF
+    # 1 and BEA state income 8.
+    assert coverage["counts"]["by_geography"]["state:0400000US06"] == 469
     assert (
         coverage["counts"]["by_geography"]["congressional_district:5001700US0601"]
         == 125
@@ -3201,22 +3204,22 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     assert coverage["counts"]["by_entity"] == {
         "benefit_unit": 33645,
         "dwelling": 709104,
-        "family": 1700,
+        "family": 1755,
         "firm": 1927,
         "government": 14181,
         "household": 745459,
         "institutional_sector": 10118,
         "pension_plan": 4,
-        "person": 736073,
+        "person": 736076,
         "return": 16087,
         "social_protection_scheme": 36,
         # chronicle#447 adds 30,222 district-file tax units: 7,200 (item 2.2),
         # 8,622 (item 2.1) and 14,400 (item 2.3).
         # chronicle#295 adds 5,246 Historic Table 2 TY2023 tax units.
         # chronicle#296 adds 8 TY2023 tax units.
-        # chronicle#449's later editions add person 1,488 (Census PEP 937, SNAP
-        # 108, BEA 443), government 55 (SNAP 54, Trustees 1), household 55
-        # (SNAP 54, LIHEAP 1) and pension_plan 2 (BEA).
+        # chronicle#449's later editions add person 1,491 (Census PEP 937, SNAP
+        # 108, BEA 443, TANF 3), family 55 (TANF), government 55 (SNAP 54,
+        # Trustees 1), household 55 (SNAP 54, LIHEAP 1) and pension_plan 2 (BEA).
         "tax_unit": 81332,
     }
     assert not coverage["duplicates"]["aggregate_fact_keys"]
