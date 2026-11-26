@@ -2296,6 +2296,47 @@ def test_source_package_alias_builds_cms_aca_oep_state_level_2025_facts():
     assert not ca_average_aptc.constraints
 
 
+def test_source_package_alias_builds_cms_aca_oep_state_level_2026_facts():
+    package = load_source_package("cms-aca-oep-state-level-2026")
+    rows = package.build_source_rows(2026)
+    cells = package.build_source_cells(2026, source_rows=rows)
+    records = package.build_source_records(2026, cells=cells, source_rows=rows)
+    facts = package.build_facts(2026, cells=cells, source_rows=rows)
+    records_by_id = {record.source_record_id: record for record in records}
+    values_by_record = {fact.source_record_id: fact for fact in facts}
+
+    assert package.package_id == "cms-aca-oep-state-level-2026"
+    # 51 states and DC, three Total rows and four blank rows.
+    assert len(rows) == 58
+    assert validate_source_rows(rows).valid
+    assert rows[0].values["State_Abrvtn"] == "AK"
+    assert rows[0].values["APTC_Cnsmr_Avg_APTC"] == 947
+    assert validate_source_cells(cells).valid
+    assert len(cells) == 6_372
+    assert len(facts) == 153
+    assert validate_facts(facts).valid
+    assert all(fact.source_row_keys for fact in facts)
+    assert all(fact.source.source_name == "cms_aca" for fact in facts)
+    assert all(fact.source.source_file.endswith(".zip") for fact in facts)
+    assert all(fact.source.raw_r2_uri for fact in facts)
+    assert records_by_id[
+        "cms_aca.oep2026.state_marketplace.ca.average_monthly_aptc"
+    ].source_cell_addresses == ("AP6", "AP1")
+    assert (
+        values_by_record[
+            "cms_aca.oep2026.state_marketplace.ca.marketplace_enrollment"
+        ].value
+        == 1_927_371
+    )
+    ca_average_aptc = values_by_record[
+        "cms_aca.oep2026.state_marketplace.ca.average_monthly_aptc"
+    ]
+    assert ca_average_aptc.value == 579
+    assert ca_average_aptc.geography.id == "0400000US06"
+    assert ca_average_aptc.geography.level == "state"
+    assert not ca_average_aptc.constraints
+
+
 def test_source_package_alias_builds_cms_aca_effectuated_enrollment_2022_facts():
     package = load_source_package("cms-aca-effectuated-enrollment-2022")
     rows = package.build_source_rows(2022)
@@ -2382,6 +2423,49 @@ def test_cms_medicare_trustees_package_builds_part_b_premium_fact():
         "cms_medicare.part_b_premium_income"
     )
     assert values_by_record[record_id].period.value == 2024
+    assert values_by_record[record_id].geography.id == "0100000US"
+    assert values_by_record[record_id].entity.name == "government"
+    assert values_by_record[record_id].filters["amount_basis"] == "actual"
+    assert values_by_record[record_id].measure.unit == "usd"
+
+
+def test_cms_medicare_trustees_2026_package_builds_part_b_premium_fact():
+    package = load_source_package(
+        "cms-medicare-trustees-report-2026-part-b-premium-income"
+    )
+    cells = package.build_source_cells(2026)
+    records = package.build_source_records(2026, cells=cells)
+    facts = package.build_facts(2026, cells=cells)
+    records_by_id = {record.source_record_id: record for record in records}
+    values_by_record = {fact.source_record_id: fact for fact in facts}
+
+    assert (
+        package.package_id == "cms-medicare-trustees-report-2026-part-b-premium-income"
+    )
+    assert len(cells) == 95_544
+    assert validate_source_cells(cells).valid
+    assert len(facts) == 1
+    assert validate_facts(facts).valid
+    assert all(fact.source.source_name == "cms_medicare" for fact in facts)
+    assert all(fact.source.raw_r2_uri for fact in facts)
+
+    record_id = (
+        "cms_medicare.cy2025.part_b_premium_income."
+        "premiums_from_enrollees.actual_amount"
+    )
+    assert records_by_id[record_id].source_cell_addresses == (
+        "E3440",
+        "E1",
+        "A3440",
+        "B3440",
+        "D3440",
+        "F3440",
+    )
+    assert values_by_record[record_id].value == 150_318_000_000
+    assert values_by_record[record_id].measure.concept == (
+        "cms_medicare.part_b_premium_income"
+    )
+    assert values_by_record[record_id].period.value == 2025
     assert values_by_record[record_id].geography.id == "0100000US"
     assert values_by_record[record_id].entity.name == "government"
     assert values_by_record[record_id].filters["amount_basis"] == "actual"
@@ -3673,6 +3757,19 @@ def test_validate_source_package_reports_cms_aca_oep_2022_counts():
 
 def test_validate_source_package_reports_cms_aca_oep_2025_counts():
     report = validate_source_package("cms-aca-oep-state-level-2025", year=2025)
+
+    assert report.valid
+    assert report.counts == {
+        "record_set_count": 1,
+        "row_count": 51,
+        "measure_count": 3,
+        "source_record_count": 153,
+        "source_region_count": 1,
+    }
+
+
+def test_validate_source_package_reports_cms_aca_oep_2026_counts():
+    report = validate_source_package("cms-aca-oep-state-level-2026", year=2026)
 
     assert report.valid
     assert report.counts == {

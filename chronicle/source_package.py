@@ -1049,9 +1049,13 @@ SOURCE_PACKAGE_ALIASES = {
     "cms-aca-oep-state-level": Path("cms_aca/oep_state_level"),
     "cms-aca-oep-state-level-2022": Path("cms_aca/oep_state_level_2022"),
     "cms-aca-oep-state-level-2025": Path("cms_aca/oep_state_level_2025"),
+    "cms-aca-oep-state-level-2026": Path("cms_aca/oep_state_level_2026"),
     "cms-aca-effectuated-enrollment-2022": Path("cms_aca/effectuated_enrollment_2022"),
     "cms-medicare-trustees-report-2025-part-b-premium-income": Path(
         "cms_medicare/medicare_trustees_report_2025"
+    ),
+    "cms-medicare-trustees-report-2026-part-b-premium-income": Path(
+        "cms_medicare/medicare_trustees_report_2026"
     ),
     "cms-nhe-historical-service-source": Path("cms_nhe/historical_service_source"),
     "cms-nhe-table-24": Path("cms_nhe/table_24"),

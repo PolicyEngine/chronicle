@@ -1,0 +1,21 @@
+source_id: cms_aca
+package_id: cms-aca-oep-state-level-2026
+dataset: cms_marketplace_oep_state_level_2026_puf
+source_page: https://www.cms.gov/data-research/statistics-trends-reports/marketplace-products/2026-marketplace-open-enrollment-period-public-use-files
+table: 2026 OEP State-Level Public Use File
+notes: Publisher bytes unchanged from the 2026-11-26 fetch. The zip holds the CSV
+  and the XLSX in a folder, 2026 OEP State-Level PUF/. storage.r2 is a content-addressed
+  locator; no upload or archival completion is asserted.
+files:
+  2026:
+    filename: 2026-oep-state-level-public-use-file.zip
+    source_url: https://www.cms.gov/files/zip/2026-oep-state-level-public-use-file.zip
+    sha256: 11555f328f4df04f52b9c2c833bfb5710d50d48bbf45ef6c09d10274ef5cfefe
+    size_bytes: 140039
+    fetched_at: '2026-11-26T14:01:49+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/cms_aca/cms-aca-oep-state-level-2026/2026/11555f328f4df04f52b9c2c833bfb5710d50d48bbf45ef6c09d10274ef5cfefe/2026-oep-state-level-public-use-file.zip
+        uri: r2://ledger-raw/raw/cms_aca/cms-aca-oep-state-level-2026/2026/11555f328f4df04f52b9c2c833bfb5710d50d48bbf45ef6c09d10274ef5cfefe/2026-oep-state-level-public-use-file.zip
