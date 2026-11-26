@@ -137,7 +137,10 @@ US_POVERTY_NONFILER_TARGET_COVERAGE: tuple[TargetSourceCoverage, ...] = (
         label="SNAP participation and benefit cost",
         role="hard_target",
         source_scope="USDA FNS administrative totals",
-        package_aliases=("usda-snap-fy69-to-current",),
+        package_aliases=(
+            "usda-snap-fy69-to-current",
+            "usda-snap-fy69-to-current-fy2025",
+        ),
     ),
     TargetSourceCoverage(
         family_id="tanf_admin",
@@ -157,6 +160,7 @@ US_POVERTY_NONFILER_TARGET_COVERAGE: tuple[TargetSourceCoverage, ...] = (
         package_aliases=(
             "hhs-acf-liheap-fy2023-national-profile",
             "hhs-acf-liheap-fy2024-national-profile",
+            "hhs-acf-liheap-fy2025-national-profile",
         ),
     ),
     TargetSourceCoverage(
