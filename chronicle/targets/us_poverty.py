@@ -77,6 +77,7 @@ US_POVERTY_NONFILER_TARGET_COVERAGE: tuple[TargetSourceCoverage, ...] = (
         source_scope="BEA NIPA full-population aggregates",
         package_aliases=(
             "bea-nipa-total-wages-salaries",
+            "bea-nipa-total-wages-salaries-2026-11-25",
             "bea-nipa-personal-income-components",
             "bea-nipa-personal-income-disposition",
             "bea-nipa-pension-contributions",

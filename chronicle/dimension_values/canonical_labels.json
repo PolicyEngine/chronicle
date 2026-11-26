@@ -3605,6 +3605,10 @@
       "£500": "£500",
       "£600": "£600"
     },
+    "bea_nipa.series_code": {
+      "A034RC": "A034RC",
+      "a034rc": "A034RC"
+    },
     "benefit_expense_component": {
       "Accommodation Assistance": "Accommodation Assistance",
       "Disability Assistance": "Disability Assistance",

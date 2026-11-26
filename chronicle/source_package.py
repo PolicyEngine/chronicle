@@ -380,6 +380,9 @@ SOURCE_PACKAGE_ALIASES = {
         "bea/nipa_private_group_health_insurance"
     ),
     "bea-nipa-total-wages-salaries": Path("bea/nipa_total_wages_salaries"),
+    "bea-nipa-total-wages-salaries-2026-11-25": Path(
+        "bea/nipa_total_wages_salaries_2026_11_25"
+    ),
     "bea-regional-state-personal-income-components-2024": Path(
         "bea/regional_personal_income_state"
     ),

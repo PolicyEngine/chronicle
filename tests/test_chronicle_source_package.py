@@ -1475,6 +1475,42 @@ def test_bea_nipa_total_wages_package_preserves_bea_concept():
     )
 
 
+def test_bea_nipa_total_wages_2026_11_25_package_preserves_bea_concept():
+    # The next edition of bea-nipa-total-wages-salaries (chronicle#449): the
+    # same declarations over the 2026-11-25 NipaDataA.txt.
+    package = load_source_package("bea-nipa-total-wages-salaries-2026-11-25")
+    rows = package.build_source_rows(2024)
+    cells = package.build_source_cells(2024, source_rows=rows)
+    records = package.build_source_records(2024, cells=cells, source_rows=rows)
+    facts = package.build_facts(2024, cells=cells, source_rows=rows)
+    records_by_id = {record.source_record_id: record for record in records}
+    facts_by_record = {fact.source_record_id: fact for fact in facts}
+
+    assert len(rows) == 561_888
+    assert validate_source_rows(rows).valid
+    assert validate_source_cells(cells).valid
+    assert validate_facts(facts).valid
+    assert len(cells) == 12
+    assert len(facts) == 3
+    assert all(fact.source_row_keys for fact in facts)
+    assert all(fact.source.source_name == "bea" for fact in facts)
+    assert all(fact.source.raw_r2_uri for fact in facts)
+
+    prefix = "bea_nipa.release_2026_11_25"
+    value_2018 = f"{prefix}.cy2018.total_wages_salaries.a034rc.wages_salaries_amount"
+    value_2024 = f"{prefix}.cy2024.total_wages_salaries.a034rc.wages_salaries_amount"
+    assert records_by_id[value_2018].source_cell_addresses == ("C2", "C1", "B2")
+    assert records_by_id[value_2024].source_cell_addresses == ("C4", "C1", "B4")
+    assert facts_by_record[value_2018].value == 8_899_824_000_000
+    assert facts_by_record[value_2024].value == 12_410_601_000_000
+    assert facts_by_record[value_2024].measure.concept == (
+        "bea_nipa.wages_and_salaries"
+    )
+    assert facts_by_record[value_2024].measure.source_concept == (
+        "bea_nipa.a034rc_wages_and_salaries"
+    )
+
+
 def test_bea_nipa_personal_income_components_keep_broad_concepts_namespaced():
     package = load_source_package("bea-nipa-personal-income-components")
     facts = package.build_facts(2024)
