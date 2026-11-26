@@ -79,8 +79,11 @@ US_POVERTY_NONFILER_TARGET_COVERAGE: tuple[TargetSourceCoverage, ...] = (
             "bea-nipa-total-wages-salaries",
             "bea-nipa-total-wages-salaries-2026-11-25",
             "bea-nipa-personal-income-components",
+            "bea-nipa-personal-income-components-2026-11-25",
             "bea-nipa-personal-income-disposition",
+            "bea-nipa-personal-income-disposition-2026-11-25",
             "bea-nipa-pension-contributions",
+            "bea-nipa-pension-contributions-2026-11-25",
         ),
         notes=(
             "This is the main non-SOI full-population backstop for wages, "

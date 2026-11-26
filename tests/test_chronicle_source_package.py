@@ -1536,6 +1536,31 @@ def test_bea_nipa_personal_income_components_keep_broad_concepts_namespaced():
     assert dividends.measure.concept == "bea_nipa.personal_dividend_income"
 
 
+def test_bea_nipa_personal_income_components_2026_11_25_keep_broad_concepts():
+    # The next edition of bea-nipa-personal-income-components (chronicle#449):
+    # the same declarations over the 2026-11-25 NipaDataA.txt.
+    package = load_source_package("bea-nipa-personal-income-components-2026-11-25")
+    facts = package.build_facts(2024)
+    facts_by_record = {fact.source_record_id: fact for fact in facts}
+    prefix = "bea_nipa.release_2026_11_25.cy2024"
+
+    assert len(facts) == 18
+    assert validate_facts(facts).valid
+    proprietors = facts_by_record[f"{prefix}.proprietors_income.a041rc.amount"]
+    interest = facts_by_record[f"{prefix}.personal_interest_income.a064rc.amount"]
+    dividends = facts_by_record[f"{prefix}.personal_dividend_income.b703rc.amount"]
+
+    assert proprietors.value == 1_915_959_000_000
+    assert proprietors.measure.concept == (
+        "bea_nipa.proprietors_income_with_inventory_valuation_and_capital_"
+        "consumption_adjustments"
+    )
+    assert interest.value == 2_241_138_000_000
+    assert interest.measure.concept == "bea_nipa.personal_interest_income"
+    assert dividends.value == 2_134_929_000_000
+    assert dividends.measure.concept == "bea_nipa.personal_dividend_income"
+
+
 def test_bea_nipa_personal_income_disposition_builds_amounts_and_rates():
     package = load_source_package("bea-nipa-personal-income-disposition")
     facts = package.build_facts(2024)
@@ -1553,6 +1578,28 @@ def test_bea_nipa_personal_income_disposition_builds_amounts_and_rates():
     )
     saving_rate = facts_by_record["bea_nipa.cy2024.personal_saving_rate.a072rc.rate"]
     assert saving_rate.value == 5.4
+    assert saving_rate.measure.unit == "percent"
+
+
+def test_bea_nipa_personal_income_disposition_2026_11_25_builds_amounts_and_rates():
+    # The next edition of bea-nipa-personal-income-disposition (chronicle#449).
+    package = load_source_package("bea-nipa-personal-income-disposition-2026-11-25")
+    facts = package.build_facts(2024)
+    facts_by_record = {fact.source_record_id: fact for fact in facts}
+    prefix = "bea_nipa.release_2026_11_25.cy2024"
+
+    assert len(facts) == 6
+    assert validate_facts(facts).valid
+    assert (
+        facts_by_record[f"{prefix}.personal_income.a065rc.amount"].value
+        == 25_043_404_000_000
+    )
+    assert (
+        facts_by_record[f"{prefix}.personal_current_taxes.w055rc.amount"].value
+        == 2_997_932_000_000
+    )
+    saving_rate = facts_by_record[f"{prefix}.personal_saving_rate.a072rc.rate"]
+    assert saving_rate.value == 6.3
     assert saving_rate.measure.unit == "percent"
 
 
