@@ -3707,18 +3707,18 @@ def test_build_bundle_cli_supports_jct_tax_expenditure_source(tmp_path, capsys):
     assert payload["coverage"]["counts"]["by_source"] == {"jct": 11}
     assert payload["coverage"]["counts"]["by_entity"] == {"tax_unit": 11}
     assert {row["lineage"]["source_record_id"] for row in rows} == {
-        "jct.tax_expenditures.cy2024.salt_deduction.revenue_loss",
-        "jct.tax_expenditures.cy2024.medical_expense_deduction.revenue_loss",
-        "jct.tax_expenditures.cy2024.charitable_deduction.revenue_loss",
-        "jct.tax_expenditures.cy2024.deductible_mortgage_interest.revenue_loss",
-        "jct.tax_expenditures.cy2024.qualified_business_income_deduction.revenue_loss",
+        "jct.tax_expenditures.fy2024.salt_deduction.revenue_loss",
+        "jct.tax_expenditures.fy2024.medical_expense_deduction.revenue_loss",
+        "jct.tax_expenditures.fy2024.charitable_deduction.revenue_loss",
+        "jct.tax_expenditures.fy2024.deductible_mortgage_interest.revenue_loss",
+        "jct.tax_expenditures.fy2024.qualified_business_income_deduction.revenue_loss",
         # JCX-48-24 extension (microcosm#514 anchors):
-        "jct.tax_expenditures.cy2024.self_employed_health_insurance_deduction.revenue_loss",
-        "jct.tax_expenditures.cy2024.health_savings_account_deduction.revenue_loss",
-        "jct.tax_expenditures.cy2024.student_loan_interest_deduction.revenue_loss",
-        "jct.tax_expenditures.cy2024.self_employed_pension_contribution_deduction.revenue_loss",
-        "jct.tax_expenditures.cy2024.traditional_ira_deduction.revenue_loss",
-        "jct.tax_expenditures.cy2024.cdcc_and_employer_child_care_exclusion.revenue_loss",
+        "jct.tax_expenditures.fy2024.self_employed_health_insurance_deduction.revenue_loss",
+        "jct.tax_expenditures.fy2024.health_savings_account_deduction.revenue_loss",
+        "jct.tax_expenditures.fy2024.student_loan_interest_deduction.revenue_loss",
+        "jct.tax_expenditures.fy2024.self_employed_pension_contribution_deduction.revenue_loss",
+        "jct.tax_expenditures.fy2024.traditional_ira_deduction.revenue_loss",
+        "jct.tax_expenditures.fy2024.cdcc_and_employer_child_care_exclusion.revenue_loss",
     }
 
 
