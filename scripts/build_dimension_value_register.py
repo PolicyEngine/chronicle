@@ -106,6 +106,7 @@ BUILD_YEARS = {
     "ed-fsa-portfolio-summary-fy2026-q3": 2026,
     "jct-obbba-revenue-estimates-2025": 2026,
     "jct-tax-expenditures-2024": 2024,
+    "jct-tax-expenditures-2025": 2025,
 }
 
 AGI = "us:statutes/26/62#adjusted_gross_income"

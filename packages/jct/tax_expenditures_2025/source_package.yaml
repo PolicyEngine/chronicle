@@ -1,0 +1,238 @@
+schema_version: ledger.source_package.v1
+package_id: jct-tax-expenditures-2025
+label: JCT 2025 individual income tax expenditure estimates
+dimension_labels:
+  'jct.tax_expenditure': 'Tax expenditure'
+artifact:
+  source_name: jct
+  source_table: Estimates of Federal Tax Expenditures for Fiscal Years 2025-2029
+  resource_package: db
+  resource_directory: data/jct/tax_expenditures_2025
+  manifest: manifest.yaml
+  vintage: jcx_45_25
+  extracted_at: "2026-11-27"
+  extraction_method: manual extraction from JCX-45-25 Table 1 individual income tax revenue-loss columns
+  parser: delimited_text_full_rows
+  sheet_name: jct_tax_expenditures_2025
+record_sets:
+  - record_set_id: jct.tax_expenditures.fy2025
+    provenance_class: model_output
+    record_set_spec_id: jct.individual_tax_expenditure_revenue_loss.v1
+    source_record_id_prefix: jct.tax_expenditures.fy2025
+    sheet_name: jct_tax_expenditures_2025
+    # JCX-45-25 Table 1 gives its estimates by federal fiscal year ("Fiscal
+    # Years 2025 - 2029"); the package reads the 2025 column of the Individuals
+    # block. It is the edition after jct-tax-expenditures-2024 (JCX-48-24) and
+    # declares that package's concept, measure, unit and row labels. One
+    # difference: JCT prints the charitable deduction on three lines (education,
+    # health, and other than education and health). This package reads each
+    # line as its own row and stores no sum; the 2024 package's
+    # charitable_deduction row is the sum of the three.
+    period_type: fiscal_year
+    period: 2025
+    geography_id: 0100000US
+    geography_level: country
+    geography_name: United States
+    geography_vintage: current
+    entity: tax_unit
+    entity_role: federal_income_tax_unit
+    domain: federal_income_tax
+    groupby_dimension: jct.tax_expenditure
+    rows:
+      - value_id: salt_deduction
+        label: State and local tax deduction
+        ordinal: 0
+        row_number: 2
+        expected_row_header_column: A
+        expected_row_header: salt_deduction
+        filters:
+          tax_expenditure: salt_deduction
+        constraints:
+          - variable: tax_expenditure
+            operator: "=="
+            value: salt_deduction
+            label: JCT tax expenditure row
+        table_record_kind: total
+      - value_id: medical_expense_deduction
+        label: Medical expense deduction
+        ordinal: 1
+        row_number: 3
+        expected_row_header_column: A
+        expected_row_header: medical_expense_deduction
+        filters:
+          tax_expenditure: medical_expense_deduction
+        constraints:
+          - variable: tax_expenditure
+            operator: "=="
+            value: medical_expense_deduction
+            label: JCT tax expenditure row
+        table_record_kind: total
+      - value_id: charitable_deduction_other_than_education_and_health
+        label: "Charitable contribution deduction, other than education and health"
+        ordinal: 2
+        row_number: 4
+        expected_row_header_column: A
+        expected_row_header: charitable_deduction_other_than_education_and_health
+        filters:
+          tax_expenditure: charitable_deduction_other_than_education_and_health
+        constraints:
+          - variable: tax_expenditure
+            operator: "=="
+            value: charitable_deduction_other_than_education_and_health
+            label: JCT tax expenditure row
+        table_record_kind: total
+      - value_id: charitable_deduction_education
+        label: "Charitable contribution deduction, education"
+        ordinal: 3
+        row_number: 5
+        expected_row_header_column: A
+        expected_row_header: charitable_deduction_education
+        filters:
+          tax_expenditure: charitable_deduction_education
+        constraints:
+          - variable: tax_expenditure
+            operator: "=="
+            value: charitable_deduction_education
+            label: JCT tax expenditure row
+        table_record_kind: total
+      - value_id: charitable_deduction_health
+        label: "Charitable contribution deduction, health"
+        ordinal: 4
+        row_number: 6
+        expected_row_header_column: A
+        expected_row_header: charitable_deduction_health
+        filters:
+          tax_expenditure: charitable_deduction_health
+        constraints:
+          - variable: tax_expenditure
+            operator: "=="
+            value: charitable_deduction_health
+            label: JCT tax expenditure row
+        table_record_kind: total
+      - value_id: deductible_mortgage_interest
+        label: Deductible mortgage interest
+        ordinal: 5
+        row_number: 7
+        expected_row_header_column: A
+        expected_row_header: deductible_mortgage_interest
+        filters:
+          tax_expenditure: deductible_mortgage_interest
+        constraints:
+          - variable: tax_expenditure
+            operator: "=="
+            value: deductible_mortgage_interest
+            label: JCT tax expenditure row
+        table_record_kind: total
+      - value_id: qualified_business_income_deduction
+        label: Qualified business income deduction
+        ordinal: 6
+        row_number: 8
+        expected_row_header_column: A
+        expected_row_header: qualified_business_income_deduction
+        filters:
+          tax_expenditure: qualified_business_income_deduction
+        constraints:
+          - variable: tax_expenditure
+            operator: "=="
+            value: qualified_business_income_deduction
+            label: JCT tax expenditure row
+        table_record_kind: total
+      - value_id: self_employed_health_insurance_deduction
+        label: Self-employed health insurance deduction
+        ordinal: 7
+        row_number: 9
+        expected_row_header_column: A
+        expected_row_header: self_employed_health_insurance_deduction
+        filters:
+          tax_expenditure: self_employed_health_insurance_deduction
+        constraints:
+          - variable: tax_expenditure
+            operator: "=="
+            value: self_employed_health_insurance_deduction
+            label: JCT tax expenditure row
+        table_record_kind: total
+      - value_id: health_savings_account_deduction
+        label: Health savings account deduction
+        ordinal: 8
+        row_number: 10
+        expected_row_header_column: A
+        expected_row_header: health_savings_account_deduction
+        filters:
+          tax_expenditure: health_savings_account_deduction
+        constraints:
+          - variable: tax_expenditure
+            operator: "=="
+            value: health_savings_account_deduction
+            label: JCT tax expenditure row
+        table_record_kind: total
+      - value_id: student_loan_interest_deduction
+        label: Student loan interest deduction
+        ordinal: 9
+        row_number: 11
+        expected_row_header_column: A
+        expected_row_header: student_loan_interest_deduction
+        filters:
+          tax_expenditure: student_loan_interest_deduction
+        constraints:
+          - variable: tax_expenditure
+            operator: "=="
+            value: student_loan_interest_deduction
+            label: JCT tax expenditure row
+        table_record_kind: total
+      - value_id: self_employed_pension_contribution_deduction
+        label: Self-employed pension (Keogh) net exclusion
+        ordinal: 10
+        row_number: 12
+        expected_row_header_column: A
+        expected_row_header: self_employed_pension_contribution_deduction
+        filters:
+          tax_expenditure: self_employed_pension_contribution_deduction
+        constraints:
+          - variable: tax_expenditure
+            operator: "=="
+            value: self_employed_pension_contribution_deduction
+            label: JCT tax expenditure row
+        table_record_kind: total
+      - value_id: traditional_ira_deduction
+        label: Traditional IRA net exclusion
+        ordinal: 11
+        row_number: 13
+        expected_row_header_column: A
+        expected_row_header: traditional_ira_deduction
+        filters:
+          tax_expenditure: traditional_ira_deduction
+        constraints:
+          - variable: tax_expenditure
+            operator: "=="
+            value: traditional_ira_deduction
+            label: JCT tax expenditure row
+        table_record_kind: total
+      - value_id: cdcc_and_employer_child_care_exclusion
+        label: CDCC and employer child care exclusion
+        ordinal: 12
+        row_number: 14
+        expected_row_header_column: A
+        expected_row_header: cdcc_and_employer_child_care_exclusion
+        filters:
+          tax_expenditure: cdcc_and_employer_child_care_exclusion
+        constraints:
+          - variable: tax_expenditure
+            operator: "=="
+            value: cdcc_and_employer_child_care_exclusion
+            label: JCT tax expenditure row
+        table_record_kind: total
+    measures:
+      - measure_id: revenue_loss
+        label: Individual income tax revenue loss
+        ordinal: 0
+        column: D
+        source_column_id: individual_revenue_loss_2025
+        expected_column_header_row: 1
+        expected_column_header: individual_revenue_loss_2025
+        concept: jct.individual_tax_expenditure_revenue_loss
+        source_concept: jct.individual_income_tax_revenue_loss
+        concept_relation: source_label
+        concept_authority: jct
+        unit: usd
+        aggregation: sum
+        expected_cell_type: number

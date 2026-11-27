@@ -1,0 +1,48 @@
+source_id: jct
+package_id: jct-tax-expenditures-2025
+id: jct-tax-expenditures-2025
+title: JCT Estimates of Federal Tax Expenditures for Fiscal Years 2025-2029
+publisher: Joint Committee on Taxation
+description: 'Selected fiscal year 2025 individual income tax revenue-loss estimates
+  from JCX-45-25 Table 1 (released 2025-12-03), the edition after JCX-48-24, curated
+  for Microcosm fiscal calibration targets that must be encoded as simple reforms
+  rather than static PolicyEngine variables.
+
+  '
+source_page: https://www.jct.gov/publications/2025/jcx-45-25/
+source_url: https://www.jct.gov/publications/2025/jcx-45-25/
+retrieved_at: '2026-11-27T00:00:00Z'
+license: public-domain
+files:
+  2025:
+    filename: jct_tax_expenditures_2025.csv
+    source_url: https://www.jct.gov/publications/2025/jcx-45-25/
+    sha256: 5eb22e8a889d7fc5d0150120e2e12a150dc480063eef6c48217c08896c03a956
+    size_bytes: 3947
+    source_table: Estimates of Federal Tax Expenditures for Fiscal Years 2025-2029
+    year: 2025
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/jct/jct-tax-expenditures-2025/2025/5eb22e8a889d7fc5d0150120e2e12a150dc480063eef6c48217c08896c03a956/jct_tax_expenditures_2025.csv
+        uri: r2://ledger-raw/raw/jct/jct-tax-expenditures-2025/2025/5eb22e8a889d7fc5d0150120e2e12a150dc480063eef6c48217c08896c03a956/jct_tax_expenditures_2025.csv
+notes:
+- 'Fiscal year 2025 values use the Individuals block of Table 1 only (the Corporations
+  block is not read). JCX-45-25 gives its estimates by federal fiscal year, in billions
+  of dollars, so the package types them fiscal_year 2025 and the CSV holds dollars.
+  Each CSV row is one JCT line: jct_line_label is the line as Table 1 prints it, without
+  its footnote marks, and jct_table_1_printed_page is the printed page of the PDF that
+  holds it. JCT prints the charitable deduction on three lines; the CSV keeps the three
+  lines apart and holds no sum.
+
+  '
+- 'The CSV is a manual extract of the publisher PDF (x-45-25.pdf), which the maintainer
+  downloaded in a browser on 2026-11-27 because jct.gov blocks automated requests. The
+  PDF is registered raw-only in ../tax_expenditures_2025_raw_only/manifest.yaml, and
+  tests/test_chronicle_449_jct_tax_expenditures.py reads its text and checks each CSV
+  value against its Table 1 line. The publication page is given as the source URL; the
+  PDF link on that page carries an attachment id that was not recorded. storage.r2 is a
+  content-addressed locator; no upload or archival completion is asserted.
+
+  '

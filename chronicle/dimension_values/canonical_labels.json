@@ -46,7 +46,8 @@
       "ed-fsa-portfolio-by-location-fy2026-q2": 2026,
       "ed-fsa-portfolio-summary-fy2026-q3": 2026,
       "jct-obbba-revenue-estimates-2025": 2026,
-      "jct-tax-expenditures-2024": 2024
+      "jct-tax-expenditures-2024": 2024,
+      "jct-tax-expenditures-2025": 2025
     },
     "chosen_labels": [
       "age=85_plus",
@@ -11885,6 +11886,18 @@
     "isc.census_line": {
       "pupils_at_isc_schools": "Pupils at ISC member schools"
     },
+    "jct.tax_expenditure": {
+      "cdcc_and_employer_child_care_exclusion": "CDCC and employer child care exclusion",
+      "deductible_mortgage_interest": "Deductible mortgage interest",
+      "health_savings_account_deduction": "Health savings account deduction",
+      "medical_expense_deduction": "Medical expense deduction",
+      "qualified_business_income_deduction": "Qualified business income deduction",
+      "salt_deduction": "State and local tax deduction",
+      "self_employed_health_insurance_deduction": "Self-employed health insurance deduction",
+      "self_employed_pension_contribution_deduction": "Self-employed pension (Keogh) net exclusion",
+      "student_loan_interest_deduction": "Student loan interest deduction",
+      "traditional_ira_deduction": "Traditional IRA net exclusion"
+    },
     "journey_category": {
       "concessionary": "Concessionary passenger journeys",
       "elderly_disabled_concessionary": "Elderly/Disabled journeys",
@@ -13284,6 +13297,18 @@
       "all": "All tariffs",
       "fixed": "Fixed tariffs",
       "variable": "Variable tariffs"
+    },
+    "tax_expenditure": {
+      "cdcc_and_employer_child_care_exclusion": "CDCC and employer child care exclusion",
+      "deductible_mortgage_interest": "Deductible mortgage interest",
+      "health_savings_account_deduction": "Health savings account deduction",
+      "medical_expense_deduction": "Medical expense deduction",
+      "qualified_business_income_deduction": "Qualified business income deduction",
+      "salt_deduction": "State and local tax deduction",
+      "self_employed_health_insurance_deduction": "Self-employed health insurance deduction",
+      "self_employed_pension_contribution_deduction": "Self-employed pension (Keogh) net exclusion",
+      "student_loan_interest_deduction": "Student loan interest deduction",
+      "traditional_ira_deduction": "Traditional IRA net exclusion"
     },
     "tax_rate": {
       "Additional Rate": "Additional Rate",

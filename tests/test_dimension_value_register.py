@@ -187,6 +187,7 @@ def test_the_register_records_what_it_was_built_from():
         "ed-fsa-portfolio-summary-fy2026-q3": 2026,
         "jct-obbba-revenue-estimates-2025": 2026,
         "jct-tax-expenditures-2024": 2024,
+        "jct-tax-expenditures-2025": 2025,
     }
     assert sorted(sources["chosen_labels"]) == sorted(
         f"{dimension_id}={value_id}"

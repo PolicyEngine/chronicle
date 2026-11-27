@@ -852,7 +852,9 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "survey_aggregate",
     }
     assert source_packages["source_package_count"] == 538
-    assert source_packages["skipped_source_count"] == 40
+    # chronicle#449 adds jct-tax-expenditures-2025 (JCX-45-25, fiscal year
+    # 2025), which has no artifact for 2023, like its predecessor.
+    assert source_packages["skipped_source_count"] == 41
     assert sorted(item["source"] for item in source_packages["skipped_sources"]) == [
         "census-acs-s0101-congressional-district-age-2024",
         "census-acs-s0101-national-age-2024",
@@ -894,6 +896,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "ed-fsa-portfolio-summary-fy2026-q3",
         "jct-obbba-revenue-estimates-2025",
         "jct-tax-expenditures-2024",
+        "jct-tax-expenditures-2025",
     ]
     assert coverage["fact_count"] == 2423575
     assert coverage["counts"]["by_source"] == {
