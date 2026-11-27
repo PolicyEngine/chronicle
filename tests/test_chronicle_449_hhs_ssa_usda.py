@@ -14,9 +14,11 @@ archive and the TANF caseload workbook (chronicle#449).
 - ``hhs-acf-tanf-caseload-2025`` reads ``fy2025-tanf-caseload.xlsx``, the
   edition after ``hhs-acf-tanf-caseload-2024``. The workbook covers October
   2024 to December 2025: its FYCY2025 sheets hold the fiscal year 2025 block in
-  columns B:E of the families sheet and B:D of the recipients sheet (D:G and
-  D:F in FY2024), with the states in column A (C in FY2024), beside a calendar
-  year 2025 block that the package does not read.
+  columns B:E of the families sheet and B:D of the recipients sheet, with the
+  states in column A, beside a calendar year 2025 block that the package does
+  not read. ``hhs-acf-tanf-caseload-2024`` now reads ACF's 15-month fiscal year
+  2024 workbook, which has the same columns one row lower (its row 4 holds a
+  date); ``tests/test_chronicle_449_tanf_fy2024.py`` covers that package.
 
 The expected values are read from the publisher files directly (pypdf for the
 PDF, zipfile and openpyxl for the workbooks), not through Chronicle's parsers.
@@ -724,21 +726,21 @@ LIHEAP_MOVED = {
         "Eligibility Requirements for",
     ),
 }
-# The FY2025 TANF workbook moved the states from column C to A and the
-# fiscal-year block from D:G to B:E (families) and from D:F to B:D
-# (recipients); its titles now span Oct. 2024 - Dec. 2025.
-TANF_MOVED_COLUMNS = {"C": "A", "D": "B", "E": "C", "F": "D", "G": "E"}
-TANF_COLUMN_FIELDS = {
-    ("record_sets", "*", "rows", "*", "expected_row_header_column"),
-    ("record_sets", "*", "rows", "*", "guard_cells", "*", "column"),
-    ("record_sets", "*", "measures", "*", "column"),
+# Both TANF workbooks (FY2025, and the 15-month FY2024 one that the predecessor
+# reads since chronicle#449) hold the states in column A and the fiscal-year
+# block in B:E (families) and B:D (recipients). The FY2024 sheets hold a date
+# in row 4, so each position there is one row lower: the data rows, the column
+# headers (row 6, here 5) and the fiscal-year block's heading (B5, here B4).
+TANF_ROW_FIELDS = {
+    ("record_sets", "*", "rows", "*", "row_number"),
+    ("record_sets", "*", "rows", "*", "guard_cells", "*", "row"),
+    ("record_sets", "*", "measures", "*", "expected_column_header_row"),
 }
-# Guards the TANF package adds to each U.S. row: the fiscal-year block's
-# heading (B4) and its note (A64). They check the sheet's layout only; the
-# calendar-year block repeats the column headers, so the measure columns are
-# tied to the fiscal-year block by test_tanf_facts_are_their_fiscal_year_cells
-# and by the predecessor mirror test.
-TANF_ADDED_GUARDS = [
+# Guards on each U.S. row of both packages: the fiscal-year block's heading
+# and its note (A64). They check the sheet's layout only; the calendar-year
+# block repeats the column headers, so the measure columns are tied to the
+# fiscal-year block by test_tanf_facts_are_their_fiscal_year_cells.
+TANF_BLOCK_GUARDS = [
     {
         "column": "B",
         "row": 4,
@@ -763,31 +765,30 @@ GUARD_VALUE = (
 )
 
 
-def _without_added_guards(spec: dict) -> tuple[dict, list[dict]]:
-    added = []
-    for record_set in spec["record_sets"]:
-        for row in record_set["rows"]:
-            guards = row.get("guard_cells")
-            if guards:
-                added.extend(guard for guard in guards if guard in TANF_ADDED_GUARDS)
-                row["guard_cells"] = [
-                    guard for guard in guards if guard not in TANF_ADDED_GUARDS
-                ]
-    return spec, added
+def _block_guards(spec: dict) -> list[dict]:
+    return [
+        guard
+        for record_set in spec["record_sets"]
+        for row in record_set["rows"]
+        for guard in row.get("guard_cells", [])
+        if guard in TANF_BLOCK_GUARDS
+    ]
 
 
 @pytest.mark.parametrize("package_id", sorted(PACKAGES))
 def test_packages_mirror_their_predecessors(package_id):
     """Differential: apart from the edition's ids, period, vintage, artifact
-    references, the positions the new file moved and TANF's added guards,
-    every declaration (concepts, units, labels, rows, columns, filters,
+    references and the positions that differ between the two files, every
+    declaration (concepts, units, labels, rows, columns, filters,
     constraints, guards) equals the predecessor's."""
     predecessor = PACKAGES[package_id][0]
-    new_spec, added = _without_added_guards(_declarations(package_id))
+    new_spec = _declarations(package_id)
     old = dict(_leaves(_declarations(predecessor)))
     new = dict(_leaves(new_spec))
 
-    assert added == (TANF_ADDED_GUARDS * 2 if package_id == TANF else [])
+    assert _block_guards(new_spec) == (
+        TANF_BLOCK_GUARDS * 2 if package_id == TANF else []
+    )
     assert old.keys() == new.keys()
     changed = {path for path in old if old[path] != new[path]}
     edition = EDITION_FIELDS[package_id]
@@ -798,15 +799,20 @@ def test_packages_mirror_their_predecessors(package_id):
             assert str(new[path]) == str(old[path]).replace("2024", "2025"), path
         elif package_id == LIHEAP:
             assert (old[path], new[path]) == LIHEAP_MOVED[path], path
-        elif package_id == TANF and _pattern(path) in TANF_COLUMN_FIELDS:
-            assert TANF_MOVED_COLUMNS[old[path]] == new[path], path
+        elif package_id == TANF and _pattern(path) in TANF_ROW_FIELDS:
+            assert new[path] == old[path] - 1, path
         elif package_id == TANF:
-            # The title guards (A3), which name the months the sheet covers.
+            # The guards that name the period: the titles (A3), the
+            # fiscal-year block's heading and its note.
             assert _pattern(path) == GUARD_VALUE, path
-            assert new[path] == old[path].replace(
-                "Oct. 2023 - Sep. 2024", "Oct. 2024 - Dec. 2025"
+            assert new[path] == old[path].replace("2024", "2025").replace(
+                "2023", "2024"
             )
-            assert new[path] in TANF_TITLES.values()
+            assert new[path] in {
+                *TANF_TITLES.values(),
+                TANF_FISCAL_YEAR_BLOCK,
+                TANF_FISCAL_YEAR_NOTE,
+            }
         else:
             # The SNAP title guard (A2) names the fiscal year; no cell moved.
             assert _pattern(path) == GUARD_VALUE, path
@@ -818,9 +824,10 @@ def test_packages_mirror_their_predecessors(package_id):
     # SNAP: 6 edition fields (both packages now read the -11 zip, fetched on
     # 2026-11-26, so extracted_at is the same), 3 x 24 record sets, 162 title
     # guards.
-    # TANF: 7 edition fields, 4 x 3 record sets, 53 row header columns, 4 guard
-    # columns, 8 measure columns, 2 title guards.
-    assert len(changed) == {LIHEAP: 15, SNAP: 240, TANF: 86}[package_id]
+    # TANF: 7 edition fields, 4 x 3 record sets, 53 row numbers, 8 column
+    # header rows, 2 block heading rows, 6 guard texts (2 titles, 2 block
+    # headings, 2 notes).
+    assert len(changed) == {LIHEAP: 15, SNAP: 240, TANF: 88}[package_id]
     assert "{year}" not in json.dumps(_declarations(package_id))
 
 

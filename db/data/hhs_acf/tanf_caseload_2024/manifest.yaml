@@ -1,22 +1,38 @@
 source: HHS ACF Office of Family Assistance
 dataset: TANF Caseload Data 2024
 vintage: FY 2024
-retrieved: 2026-05-11
+retrieved: 2026-11-27
+source_page: https://acf.gov/ofa/data/tanf-caseload-data-2024
 notes: >-
-  Full publisher workbook copied from the PolicyEngine US data raw-input cache.
-  The ACF landing page is retained for provenance.
+  Full publisher workbook, unchanged: the file that the ACF page lists as
+  "FY2024 15 Months TANF Caseload". The maintainer downloaded it in a browser on
+  2026-11-27 because acf.gov answers automated requests with an AWS WAF
+  challenge. The workbook covers October 2023 to December 2024: its FYCY2024
+  sheets hold the fiscal year 2024 averages (October to September), which the
+  package reads, beside calendar year 2024 averages. Cell A4 of those sheets
+  holds the date 2025-06-10. This file replaces the workbook that the package
+  read until chronicle#449 (tanf_caseload_2024.xlsx, sha256
+  6a9c86ad056ac256d409b48c23731d158d6e94d6dae6b5bd888c42a6021db27c, 220896
+  bytes, sheets dated 2025-01-30), which stays in R2 and is registered raw-only
+  in ../tanf_caseload_2024_raw_only/manifest.yaml. ACF revised fiscal year 2024
+  between the two files: from U.S. Totals to Wyoming, 31 of the 220 family
+  averages differ (U.S. Totals, Colorado, Guam, Maryland, North Carolina, Rhode
+  Island, Tennessee, Vermont and Washington) and 18 of the 165 recipient
+  averages differ (U.S. Totals, Colorado, Maryland, North Carolina, Rhode
+  Island and Tennessee). storage.r2 is a content-addressed locator; no upload
+  or archival completion is asserted.
 files:
   2024:
-    filename: tanf_caseload_2024.xlsx
-    sha256: 6a9c86ad056ac256d409b48c23731d158d6e94d6dae6b5bd888c42a6021db27c
-    source_url: https://acf.gov/ofa/data/tanf-caseload-data-2024
+    filename: fy2024-15months-tanf-caseload.xlsx
+    sha256: e7f7b4df5f94c1925b865a576fb4ecf62cfe572ccdad854231f0d1559c96b973
+    source_url: https://acf.gov/sites/default/files/documents/ofa/fy2024-15months-tanf-caseload.xlsx
     source_table: TANF Caseload Data 2024
-    size_bytes: 220896
+    size_bytes: 265521
     storage:
       r2:
         provider: r2
         bucket: ledger-raw
-        key: raw/hhs_acf_tanf/hhs-acf-tanf-caseload-2024/2024/6a9c86ad056ac256d409b48c23731d158d6e94d6dae6b5bd888c42a6021db27c/tanf_caseload_2024.xlsx
-        uri: r2://ledger-raw/raw/hhs_acf_tanf/hhs-acf-tanf-caseload-2024/2024/6a9c86ad056ac256d409b48c23731d158d6e94d6dae6b5bd888c42a6021db27c/tanf_caseload_2024.xlsx
+        key: raw/hhs_acf_tanf/hhs-acf-tanf-caseload-2024/2024/e7f7b4df5f94c1925b865a576fb4ecf62cfe572ccdad854231f0d1559c96b973/fy2024-15months-tanf-caseload.xlsx
+        uri: r2://ledger-raw/raw/hhs_acf_tanf/hhs-acf-tanf-caseload-2024/2024/e7f7b4df5f94c1925b865a576fb4ecf62cfe572ccdad854231f0d1559c96b973/fy2024-15months-tanf-caseload.xlsx
 source_id: hhs_acf_tanf
 package_id: hhs-acf-tanf-caseload-2024

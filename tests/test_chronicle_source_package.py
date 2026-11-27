@@ -5022,7 +5022,8 @@ def test_hhs_acf_tanf_caseload_package_builds_fy24_family_and_recipient_facts():
     assert package.package_id == "hhs-acf-tanf-caseload-2024"
     assert validate_source_cells(cells).valid
     assert validate_facts(facts).valid
-    assert len(cells) == 91_748
+    # ACF's 15-month fiscal year 2024 workbook, read in place (chronicle#449).
+    assert len(cells) == 48_551
     assert len(facts) == 58
     assert all(fact.source.raw_r2_uri for fact in facts)
 
@@ -5037,20 +5038,22 @@ def test_hhs_acf_tanf_caseload_package_builds_fy24_family_and_recipient_facts():
     )
 
     assert records_by_id[total_families].source_cell_addresses == (
-        "D6",
-        "D5",
-        "C6",
-        "C3",
+        "B7",
+        "B6",
+        "A7",
+        "A3",
+        "B5",
+        "A64",
     )
     assert records_by_id[ca_total_families].source_cell_addresses == (
-        "D11",
-        "D5",
+        "B12",
+        "B6",
     )
-    assert values_by_record[total_families].value == pytest.approx(841_208.6666666666)
+    assert values_by_record[total_families].value == pytest.approx(839_119.1666666666)
     assert values_by_record[ca_total_families].value == pytest.approx(290_247.75)
     assert values_by_record[ca_total_families].geography.id == "0400000US06"
     assert values_by_record[ca_total_families].geography.level == "state"
-    assert values_by_record[child_recipients].value == pytest.approx(1_500_843.75)
+    assert values_by_record[child_recipients].value == pytest.approx(1_496_329.25)
     assert values_by_record[child_recipients].entity.name == "person"
     assert values_by_record[child_recipients].geography.id == "0100000US"
     assert not values_by_record[child_recipients].filters
