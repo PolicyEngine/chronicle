@@ -1,0 +1,165 @@
+schema_version: ledger.source_package.v1
+package_id: ssa-ssi-monthly-statistics-2025-12
+label: SSA SSI Monthly Statistics December 2025 Table 1 federal payment recipients by age
+dimension_labels:
+  'age': 'Age'
+artifact:
+  source_name: ssa
+  source_table: 'SSI Monthly Statistics, December 2025, Table 1'
+  resource_package: db
+  resource_directory: data/ssa/ssi_monthly_statistics_2025_12
+  manifest: manifest.yaml
+  vintage: ssi_monthly_statistics_2025_12
+  extracted_at: '2026-11-27'
+  extraction_method: >-
+    table extraction from SSA SSI Monthly Statistics, December 2025,
+    Table 1 HTML ("Total with— Federal payment" row written to long-form
+    age-group rows in the layout of the December 2024 package's CSV); the
+    verbatim page capture is committed alongside the extracted CSV in the
+    manifest directory
+  parser: delimited_text_full_rows
+  artifact_year: 2025
+  sheet_name: ssi_monthly_2025_12_table01
+record_sets:
+- record_set_id: ssa_ssi_monthly.month2025_12.ssi_federal_payment_recipients.by_age
+  # SSA SSI Monthly Statistics tabulate federal payment records by age:
+  # program administrative data.
+  provenance_class: administrative
+  record_set_spec_id: ssa_ssi_monthly.ssi_federal_payment_recipients.by_age.v1
+  source_record_id_prefix: ssa_ssi_monthly.month2025_12.ssi_federal_payment_recipients.by_age
+  sheet_name: ssi_monthly_2025_12_table01
+  period_type: month
+  period: '2025-12'
+  geography_id: 0100000US
+  geography_level: country
+  geography_name: United States
+  geography_vintage: current
+  entity: person
+  entity_role: ssi_recipient
+  domain: social_security_and_ssi_payments
+  groupby_dimension: age
+  rows:
+  - value_id: all_ages
+    label: SSI federal payment recipients all ages
+    ordinal: 0
+    row_number: 2
+    expected_row_header_column: A
+    expected_row_header: federal_payment
+    filters: {}
+    constraints: []
+    guard_cells:
+    - column: F
+      row: start
+      expected_value: All ages
+      label: age group
+    - column: B
+      row: start
+      expected_value: Total with federal payment
+      label: SSA Table 1 stub line
+    table_record_kind: total
+  - value_id: under_18
+    label: SSI federal payment recipients under 18
+    ordinal: 1
+    row_number: 3
+    expected_row_header_column: A
+    expected_row_header: federal_payment
+    constraints:
+    - variable: age
+      operator: '>='
+      value: 0
+      unit: years
+      label: Age lower bound
+    - variable: age
+      operator: <
+      value: 18
+      unit: years
+      label: Age upper bound
+    guard_cells:
+    - column: F
+      row: start
+      expected_value: Aged 0-17
+      label: age group
+    - column: B
+      row: start
+      expected_value: Total with federal payment
+      label: SSA Table 1 stub line
+    table_record_kind: detail
+  - value_id: age_18_to_64
+    label: SSI federal payment recipients aged 18 to 64
+    ordinal: 2
+    row_number: 4
+    expected_row_header_column: A
+    expected_row_header: federal_payment
+    constraints:
+    - variable: age
+      operator: '>='
+      value: 18
+      unit: years
+      label: Age lower bound
+    - variable: age
+      operator: <
+      value: 65
+      unit: years
+      label: Age upper bound
+    guard_cells:
+    - column: F
+      row: start
+      expected_value: Aged 18-64
+      label: age group
+    - column: B
+      row: start
+      expected_value: Total with federal payment
+      label: SSA Table 1 stub line
+    table_record_kind: detail
+  - value_id: age_65_or_older
+    label: SSI federal payment recipients aged 65 or older
+    ordinal: 3
+    row_number: 5
+    expected_row_header_column: A
+    expected_row_header: federal_payment
+    constraints:
+    - variable: age
+      operator: '>='
+      value: 65
+      unit: years
+      label: Age lower bound
+    guard_cells:
+    - column: F
+      row: start
+      expected_value: Aged 65 and over
+      label: age group
+    - column: B
+      row: start
+      expected_value: Total with federal payment
+      label: SSA Table 1 stub line
+    table_record_kind: detail
+  measures:
+  - measure_id: recipient_count
+    label: SSI federal payment recipients
+    ordinal: 0
+    column: G
+    source_column_id: recipient_count
+    concept: ssa.ssi_federal_payment_recipient_count
+    source_concept: ssa_ssi_monthly.table_1.federal_payment_recipient_count
+    concept_relation: exact
+    concept_authority: ledger-us
+    concept_evidence_url: https://www.ssa.gov/policy/docs/statcomps/ssi_monthly/2025-12/table01.html
+    concept_evidence_notes: >-
+      SSA SSI Monthly Statistics, December 2025, Table 1 (Number of
+      recipients, total payments, average monthly payment, and number of
+      awards, by type of payment, eligibility category, and age, December
+      2025), "Total with— Federal payment" row: persons receiving a federal
+      SSI payment in December 2025, by the three published age groups (under
+      18 / 18-64 / 65 or older; all ages 7,264,734 = 1,015,006 + 3,820,243 +
+      2,429,485). The line counts everyone whose federally administered
+      December 2025 payment included a federal SSI payment, with or without
+      state supplementation, and excludes the 127,467 people receiving
+      federally administered state supplementation only; counts include
+      retroactive payments per table footnote c. The table keeps the rows,
+      columns and footnotes of the December 2024 table that
+      ssa-ssi-monthly-statistics-2024-12 reads (chronicle#449).
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+    expected_column_header_row: 1
+    expected_column_header: recipient_count

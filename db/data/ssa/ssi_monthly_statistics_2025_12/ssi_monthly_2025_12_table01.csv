@@ -1,0 +1,5 @@
+payment_type,payment_type_label,geography_id,geography_level,geography_name,age,recipient_count
+federal_payment,Total with federal payment,0100000US,country,United States,All ages,7264734
+federal_payment,Total with federal payment,0100000US,country,United States,Aged 0-17,1015006
+federal_payment,Total with federal payment,0100000US,country,United States,Aged 18-64,3820243
+federal_payment,Total with federal payment,0100000US,country,United States,Aged 65 and over,2429485
