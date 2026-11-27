@@ -9,24 +9,30 @@ points to Historic Table 2 for complete state totals. 4,599 TY2022 facts and
 Publication 1304 or state-data fact of the same tax year (3,569 and 3,466),
 with a different value in most pairs. The others (1,030 and 979) read an IRS
 column that a Historic Table 2 package of the same tax year also reads at the
-same level, under another concept id or domain. The totals that no other
-package gives stay until a package with the complete total exists (1,836 state
-and 47 national facts for TY2022; 1,938 state and 47 national facts for
-TY2023). They move to the new record sets `...all_returns_state_totals`,
-`...all_returns_us_total` and, for TY2023, `...agi_500k_plus_state_totals`;
-they keep their source record ids, semantic keys and values, and their
-aggregate and source series keys change with the record set. The jurisdictions
-with one district (eight in TY2022, seven in TY2023) have only one row in the
-file. That row is now a congressional district fact (value id `<state>_00`,
-GEOID `<state FIPS>00`, and `98` for the District of Columbia's delegate
-district), so each package holds all 436 districts: 1,000 new district facts
-for TY2022 and 868 for TY2023. The district facts that existed before keep
-their ids, keys and values; their record set spec hash changes, because the
-record sets lost rows, and the kept totals also change their record set id and
-record set spec id. Three United States totals of each year (the standard
-deduction amount, and the self-employed health insurance deduction amount and
-returns) go because Publication 1304 Tables 1.2 and 1.4 give them; those
-packages build one tax year at a time, so their TY2022 values are in a build
-for 2022 and not in a bundle built for 2023. A consumer that scaled the
-districts of a state to the district file's own state row must use the Historic
-Table 2 state row instead.
+same level, under another concept id or domain. The other totals stay until a
+package with the complete total exists (1,836 state and 47 national facts for
+TY2022; 1,938 state and 47 national facts for TY2023). They move to the new
+record sets `...all_returns_state_totals`, `...all_returns_us_total` and, for
+TY2023, `...agi_500k_plus_state_totals` (record set spec ids
+`...all_returns_state_totals.v1`, `...all_returns_us_total.v1` and
+`...agi_class_state_totals.v1`); they keep their source record ids, semantic
+keys and values, and their aggregate and source series keys change with the
+record set. The jurisdictions with one district (eight in TY2022, seven in
+TY2023) have only one row in the file. That row is now a congressional district
+fact (value id `<state>_00`, GEOID `<state FIPS>00`, and `98` for the District
+of Columbia's delegate district), so each package holds all 436 districts:
+1,000 new district facts for TY2022 and 868 for TY2023. Where such a
+jurisdiction keeps a state total, the state fact and the district fact read the
+same cell (288 cells in TY2022, 266 in TY2023). The TY2022 state totals of the
+$500,000-or-more class go because `soi-historic-table-2-state-agi-2022` has a
+row for that class, which adds Historic Table 2's two top classes; the TY2023
+package has no such row, so the TY2023 totals of that class stay. The district
+facts that existed before keep their ids, keys and values; their record set
+spec hash changes, because the record sets lost rows, and the kept totals also
+change their record set id and record set spec id. Three United States totals
+of each year (the standard deduction amount, and the self-employed health
+insurance deduction amount and returns) go because Publication 1304 Tables 1.2
+and 1.4 give them; those packages build one tax year at a time, so their TY2022
+values are in a build for 2022 and not in a bundle built for 2023. A consumer
+that scaled the districts of a state to the district file's own state row must
+use the Historic Table 2 state row instead.

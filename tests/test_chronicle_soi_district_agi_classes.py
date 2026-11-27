@@ -53,6 +53,7 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 IRS_SOI_PACKAGES = REPO_ROOT / "packages" / "irs_soi"
 GUIDE_DIR = Path(__file__).resolve().parent / "data" / "irs_soi_doc_guides"
 BOUNDARIES = GUIDE_DIR / "incddocguide_district_boundaries.tsv"
+STATE_TOTALS = GUIDE_DIR / "incddocguide_state_totals.tsv"
 AGI = "us:statutes/26/62#adjusted_gross_income"
 # The 435 House seats and the District of Columbia's delegate district.
 DISTRICTS = 436
@@ -1107,8 +1108,9 @@ def test_a_total_stays_only_where_no_other_package_gives_it(district):
         # (A00900), or in a package with another domain (N59660).
         "all_returns.us.schedule_c_income_amount": False,
         "all_returns.al_total.eitc_claims": False,
-        # No package gives Schedule A line 8a for the nation, or the standard
-        # deduction of a state.
+        # No package gives Schedule A line 8a for the nation under the same
+        # semantic key (Table 2.1 gives it for returns with itemized
+        # deductions), and none gives the standard deduction of a state.
         "all_returns.us.mortgage_interest_paid_amount": True,
         "all_returns.al_total.standard_deduction_amount": True,
         # Historic Table 2's TY2023 state package splits $500,000 or more in two.
@@ -1122,3 +1124,32 @@ def test_a_total_stays_only_where_no_other_package_gives_it(district):
         f"{district.prefix}.all_returns.us.schedule_c_income_amount",
         f"{district.prefix}.all_returns.al_total.eitc_claims",
     } <= by_column_only
+
+
+def test_each_guide_sends_the_reader_to_historic_table_2_for_state_totals():
+    """Why a state total gives no fact where Historic Table 2 gives the
+    quantity (chronicle#449): each guide says that the file's State totals may
+    not be comparable to the ones SOI publishes elsewhere, and its footnote 2
+    names Historic Table 2 for complete State tabulations. The sentences are
+    the guides' own (``incddocguide_state_totals.tsv``)."""
+    header, *guides = [
+        line.split("\t")
+        for line in STATE_TOTALS.read_text().splitlines()
+        if not line.startswith("#")
+    ]
+
+    assert header == ["guide", "state_totals", "footnote_2"]
+    assert [guide for guide, _, _ in guides] == ["22incddocguide", "23incddocguide"]
+    for _, sentence, footnote in guides:
+        assert sentence.lower().startswith("state totals within the congressional data")
+        assert (
+            "may not be comparable to State totals published elsewhere by SOI "
+            "because of disclosure protection procedures or the exclusion of "
+            "returns that did not match based on the ZIP code." in sentence
+        )
+        assert sentence.endswith("See footnote for complete State totals. [2]")
+        assert footnote.startswith(
+            "[2] For complete individual income tax tabulations at the State "
+            "level, see the historic table posted to Tax Stats at "
+        )
+        assert "historic-table-2" in footnote.lower()

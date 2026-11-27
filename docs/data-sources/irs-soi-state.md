@@ -351,8 +351,9 @@ lineage. The state-grain packages are:
   deduction, self-employment tax, the education credits and total tax
   liability); and returns and AGI in the nine AGI classes of
   `soi-historic-table-2-state-agi-2022` (chronicle#447). The file's United
-  States row and state total rows give a fact only where no other package
-  gives the same quantity for the tax year (chronicle#449): the IRS guide says
+  States row and state total rows give a fact only where no other package has
+  a fact with the same semantic key for the tax year and no Historic Table 2
+  package reads the same IRS column (chronicle#449): the IRS guide says
   that state totals within the congressional data may not be comparable to the
   state totals SOI publishes elsewhere, and points to Historic Table 2 for
   complete state totals. A jurisdiction with one district has one row in the
