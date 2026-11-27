@@ -6,8 +6,12 @@ table: Revenue Projections, by Category, February 2026, sheet 3.Individual Incom
   Tax Details
 notes: Curated Ledger extract of selected CBO February 2026 baseline projection rows.
   The direct CBO workbook URL returned a DataDome HTTP 403 from the agent shell on
-  2026-05-19, so this CSV preserves the extracted values and the official workbook
-  URL for source lineage until the raw workbook can be mirrored.
+  2026-05-19, so this CSV preserves the extracted values. The publisher workbook,
+  as CBO reposted it on 2026-02-26, is now registered raw-only in
+  ../revenue_projections_income_by_source_2026_02_raw_only/manifest.yaml (chronicle#449).
+  The repost corrected Tables 7a and 7b only. Each of this CSV's 84 values equals
+  its cell in the workbook's sheet 3.Individual Income Tax Details, in billions of
+  dollars; a test checks that. The CSV's labels are Ledger's, not CBO's row labels.
 files:
   2026:
     filename: cbo_revenue_projections_income_by_source_2026_02.csv
