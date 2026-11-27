@@ -4863,10 +4863,14 @@ def test_usda_snap_source_package_builds_fy24_national_and_state_facts():
     assert len(cells) == 6_288
     assert len(facts) == 216
     assert all(fact.source.raw_r2_uri for fact in facts)
-    # The package artifact is the FY2024 workbook: every fact refers to fiscal
+    # The package artifact is the FY2024 workbook of the -11 zip, USDA's
+    # figures as of 11/13/2026 (chronicle#449): every fact refers to fiscal
     # 2024 and cites the workbook's checksum.
     assert {(fact.period.type, fact.period.value) for fact in facts} == {
         ("fiscal_year", 2024)
+    }
+    assert {fact.source.vintage for fact in facts} == {
+        "fiscal_year_2024_revised_2026_11_13"
     }
     assert all(
         re.fullmatch(r"[0-9a-f]{64}", fact.source.source_sha256 or "") for fact in facts
@@ -4919,18 +4923,21 @@ def test_usda_snap_source_package_builds_fy24_national_and_state_facts():
         "A83",
     )
 
-    assert values_by_record[households].value == pytest.approx(22_200_091.5833)
-    assert values_by_record[persons].value == pytest.approx(41_690_237.75)
-    assert values_by_record[per_person].value == pytest.approx(187.5886)
-    assert values_by_record[benefits].value == 93_847_365_890
+    # The -6 zip printed 22,200,091.5833, 41,690,237.75, 187.5886,
+    # 93,847,365,890 and, for Florida, 6,604,797,454. USDA did not change
+    # California's households or Texas's persons.
+    assert values_by_record[households].value == pytest.approx(22_209_610.0833)
+    assert values_by_record[persons].value == pytest.approx(41_709_123.0833)
+    assert values_by_record[per_person].value == pytest.approx(186.7615)
+    assert values_by_record[benefits].value == 93_475_887_992
     assert values_by_record[ca_households].value == pytest.approx(3_128_639.6667)
     assert values_by_record[tx_persons].value == pytest.approx(3_193_008.5833)
-    assert values_by_record[fl_benefits].value == 6_604_797_454
+    assert values_by_record[fl_benefits].value == 6_548_475_145
     assert values_by_record[ca_households].geography.id == "0400000US06"
     assert values_by_record[tx_persons].geography.id == "0400000US48"
     assert values_by_record[fl_benefits].geography.id == "0400000US12"
     assert values_by_record[benefits].source.source_file == (
-        "snap-zip-fy69tocurrent-6.zip!FY24.xlsx"
+        "snap-zip-fy69tocurrent-11.zip!FY24.xlsx"
     )
     assert not values_by_record[benefits].constraints
 
