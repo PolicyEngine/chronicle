@@ -119,8 +119,9 @@ AGI = "us:statutes/26/62#adjusted_gross_income"
 #: the Market Value Survey 2024 packages, for the maintainer's review: eight
 #: by the rule, four value bands that two packages word one way each.
 #: chronicle#449 adds three for the B01001 female age bands the three
-#: census-b01001-female-age packages share, in the "Age ..." wording of the
-#: register's other age labels.
+#: census-b01001-female-age packages share, and four for the age groups the
+#: two ssa-ssi-monthly-statistics packages share, in the "Age ..." wording of
+#: the register's other age labels.
 CHOSEN_LABELS: dict[tuple[str, str], str] = {
     (AGI, "under_1"): "No adjusted gross income",
     (AGI, "all"): "All returns, total",
@@ -129,6 +130,10 @@ CHOSEN_LABELS: dict[tuple[str, str], str] = {
     # 19 years" and "Female 22 to 24 years"; their sex is the sex=female filter.
     ("age", "age_15_to_17"): "Age 15 to 17",
     ("age", "age_18_to_19"): "Age 18 and 19",
+    # The SSI Monthly Statistics packages word their four age groups "SSI
+    # federal payment recipients aged 18 to 64" and similar; the measure is
+    # the record set's.
+    ("age", "age_18_to_64"): "Age 18 to 64",
     ("age", "age_20"): "Age 20",
     ("age", "age_21"): "Age 21",
     ("age", "age_22_to_24"): "Age 22 to 24",
@@ -136,6 +141,9 @@ CHOSEN_LABELS: dict[tuple[str, str], str] = {
     ("age", "age_30_to_34"): "Age 30 to 34",
     ("age", "age_35_to_39"): "Age 35 to 39",
     ("age", "age_40_to_44"): "Age 40 to 44",
+    ("age", "age_65_or_older"): "Age 65 or older",
+    ("age", "all_ages"): "All ages",
+    ("age", "under_18"): "Age under 18",
     ("age_band", "30 to 39"): "30 to 39",
     ("age_band", "40 to 49"): "40 to 49",
     (

@@ -133,7 +133,7 @@ def test_the_chosen_labels_are_the_registers_labels():
     # Market Value Survey 2024 packages, and chronicle#449's three B01001 female
     # age bands (age_15_to_17, age_18_to_19, age_22_to_24) in the register's
     # "Age ..." wording.
-    assert len(script.CHOSEN_LABELS) == 63
+    assert len(script.CHOSEN_LABELS) == 67
     for (dimension_id, value_id), label in script.CHOSEN_LABELS.items():
         assert register[dimension_id][value_id] == label
 
