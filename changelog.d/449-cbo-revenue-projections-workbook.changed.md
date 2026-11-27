@@ -10,4 +10,4 @@ page links it,
 `https://www.cbo.gov/system/files/2026-02/51138-2026-02-Revenue.xlsx`; they
 said `51138-2026-02-Revenue-Projections.xlsx` before. The facts keep their
 record ids, semantic keys and values; their aggregate, legacy and release keys
-change with the URL.
+and their record set spec hash change with the URL.

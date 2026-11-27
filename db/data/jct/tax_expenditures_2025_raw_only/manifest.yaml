@@ -11,9 +11,9 @@ provenance_notes: >-
   The maintainer downloaded it in a browser on 2026-11-27 because jct.gov
   blocks automated requests; the browser saved it as x-45-25.pdf. Table 1
   ("Tax Expenditure Estimates By Budget Function, Fiscal Years 2025 - 2029",
-  billions of dollars) is on printed pages 34 to 43, and its footnotes run on
-  to printed page 44, with a Corporations block
-  and an Individuals block of five fiscal years each. The package reads a CSV
+  billions of dollars) is on printed pages 34 to 43, with a Corporations block
+  and an Individuals block of five fiscal years each; its footnotes run on to
+  printed page 44. The package reads a CSV
   extract of 13 lines of the Individuals block's 2025 column;
   tests/test_chronicle_449_jct_tax_expenditures.py checks the extract against
   this file's text. The bytes were uploaded to storage.r2 on 2026-11-27 with
