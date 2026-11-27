@@ -3,7 +3,7 @@ package_id: jct-tax-expenditures-2024
 id: jct-tax-expenditures-2024
 title: JCT Estimates of Federal Tax Expenditures for Fiscal Years 2024-2028
 publisher: Joint Committee on Taxation
-description: 'Selected calendar-year 2024 individual income tax revenue-loss estimates
+description: 'Selected fiscal year 2024 individual income tax revenue-loss estimates
   from JCX-48-24 Table 1, curated for Microcosm fiscal calibration targets that must
   be encoded as simple reforms rather than static PolicyEngine variables.
 
@@ -27,8 +27,9 @@ files:
         key: raw/jct/jct-tax-expenditures-2024/2024/8bfdd02de4e44040bc52fde70134bc64d15bea536f3e48e5324b1964980218ce/jct_tax_expenditures_2024.csv
         uri: r2://ledger-raw/raw/jct/jct-tax-expenditures-2024/2024/8bfdd02de4e44040bc52fde70134bc64d15bea536f3e48e5324b1964980218ce/jct_tax_expenditures_2024.csv
 notes:
-- 'Calendar-year 2024 values use the individual income tax revenue-loss column only.
-  For charitable contributions, the value sums the three individual charitable rows
-  and excludes corporate revenue-loss columns.
+- 'Fiscal year 2024 values use the individual income tax revenue-loss column only.
+  JCX-48-24 gives its estimates by federal fiscal year, so the package types them
+  fiscal_year 2024. For charitable contributions, the value sums the three individual
+  charitable rows and excludes corporate revenue-loss columns.
 
   '

@@ -2538,29 +2538,34 @@ def test_jct_tax_expenditure_package_builds_selected_individual_facts():
     assert all(fact.source.raw_r2_uri for fact in facts)
 
     expected_values = {
-        "jct.tax_expenditures.cy2024.salt_deduction.revenue_loss": 21_700_000_000,
-        "jct.tax_expenditures.cy2024.medical_expense_deduction.revenue_loss": 11_400_000_000,
-        "jct.tax_expenditures.cy2024.charitable_deduction.revenue_loss": 60_400_000_000,
-        "jct.tax_expenditures.cy2024.deductible_mortgage_interest.revenue_loss": 24_800_000_000,
-        "jct.tax_expenditures.cy2024.qualified_business_income_deduction.revenue_loss": 63_100_000_000,
+        "jct.tax_expenditures.fy2024.salt_deduction.revenue_loss": 21_700_000_000,
+        "jct.tax_expenditures.fy2024.medical_expense_deduction.revenue_loss": 11_400_000_000,
+        "jct.tax_expenditures.fy2024.charitable_deduction.revenue_loss": 60_400_000_000,
+        "jct.tax_expenditures.fy2024.deductible_mortgage_interest.revenue_loss": 24_800_000_000,
+        "jct.tax_expenditures.fy2024.qualified_business_income_deduction.revenue_loss": 63_100_000_000,
         # JCX-48-24 extension (microcosm#514 anchors), FY2024 individuals column:
-        "jct.tax_expenditures.cy2024.self_employed_health_insurance_deduction.revenue_loss": 8_400_000_000,
-        "jct.tax_expenditures.cy2024.health_savings_account_deduction.revenue_loss": 12_200_000_000,
-        "jct.tax_expenditures.cy2024.student_loan_interest_deduction.revenue_loss": 2_400_000_000,
-        "jct.tax_expenditures.cy2024.self_employed_pension_contribution_deduction.revenue_loss": 16_600_000_000,
-        "jct.tax_expenditures.cy2024.traditional_ira_deduction.revenue_loss": 16_000_000_000,
-        "jct.tax_expenditures.cy2024.cdcc_and_employer_child_care_exclusion.revenue_loss": 5_600_000_000,
+        "jct.tax_expenditures.fy2024.self_employed_health_insurance_deduction.revenue_loss": 8_400_000_000,
+        "jct.tax_expenditures.fy2024.health_savings_account_deduction.revenue_loss": 12_200_000_000,
+        "jct.tax_expenditures.fy2024.student_loan_interest_deduction.revenue_loss": 2_400_000_000,
+        "jct.tax_expenditures.fy2024.self_employed_pension_contribution_deduction.revenue_loss": 16_600_000_000,
+        "jct.tax_expenditures.fy2024.traditional_ira_deduction.revenue_loss": 16_000_000_000,
+        "jct.tax_expenditures.fy2024.cdcc_and_employer_child_care_exclusion.revenue_loss": 5_600_000_000,
     }
     assert {record.source_record_id for record in records} == set(expected_values)
     assert {
         record_id: fact.value for record_id, fact in values_by_record.items()
     } == expected_values
 
-    salt = values_by_record["jct.tax_expenditures.cy2024.salt_deduction.revenue_loss"]
+    salt = values_by_record["jct.tax_expenditures.fy2024.salt_deduction.revenue_loss"]
     assert salt.measure.concept == "jct.individual_tax_expenditure_revenue_loss"
     assert salt.measure.source_concept == "jct.individual_income_tax_revenue_loss"
     assert salt.measure.unit == "usd"
+    # JCX-48-24 tabulates fiscal years 2024-2028; the package reads FY2024.
+    assert {(fact.period.type, fact.period.value) for fact in facts} == {
+        ("fiscal_year", 2024)
+    }
     assert salt.period.value == 2024
+    assert salt.layout.record_set_id == "jct.tax_expenditures.fy2024"
     assert salt.geography.id == "0100000US"
     assert salt.entity.name == "tax_unit"
     assert salt.filters["tax_expenditure"] == "salt_deduction"
@@ -2568,7 +2573,7 @@ def test_jct_tax_expenditure_package_builds_selected_individual_facts():
         row
         for row in consumer_rows
         if row["lineage"]["source_record_id"]
-        == "jct.tax_expenditures.cy2024.salt_deduction.revenue_loss"
+        == "jct.tax_expenditures.fy2024.salt_deduction.revenue_loss"
     )
     assert salt_row["universe_constraints"]["constraints"][0]["value"] == (
         "salt_deduction"
@@ -2988,6 +2993,95 @@ def test_ssa_ssi_monthly_2024_12_package_builds_federal_payment_age_facts():
     )
     assert under_18.source.source_sha256 == (
         "44438b49392c2a581a239c7490492152c408213f313f450a762d84281de98e40"
+    )
+
+
+def test_ssa_ssi_monthly_2025_12_source_package_alias_validates_counts():
+    report = validate_source_package("ssa-ssi-monthly-statistics-2025-12", year=2025)
+
+    assert report.valid
+    assert report.counts == {
+        "record_set_count": 1,
+        "row_count": 4,
+        "measure_count": 1,
+        "source_record_count": 4,
+        "source_region_count": 1,
+    }
+
+
+def test_ssa_ssi_monthly_2025_12_package_builds_federal_payment_age_facts():
+    package = load_source_package("ssa-ssi-monthly-statistics-2025-12")
+    rows = package.build_source_rows(2025)
+    cells = package.build_source_cells(2025, source_rows=rows)
+    facts = package.build_facts(2025, cells=cells, source_rows=rows)
+    values_by_record = {fact.source_record_id: fact for fact in facts}
+
+    assert package.package_id == "ssa-ssi-monthly-statistics-2025-12"
+    assert len(rows) == 4
+    assert validate_source_rows(rows).valid
+    assert validate_source_cells(cells).valid
+    assert len(cells) == 35
+    assert len(facts) == 4
+    assert validate_facts(facts).valid
+    assert validate_consumer_fact_contract(facts).valid
+    assert all(fact.source.raw_r2_uri for fact in facts)
+
+    prefix = "ssa_ssi_monthly.month2025_12.ssi_federal_payment_recipients.by_age."
+    all_ages = values_by_record[prefix + "all_ages.recipient_count"]
+    under_18 = values_by_record[prefix + "under_18.recipient_count"]
+    aged_18_to_64 = values_by_record[prefix + "age_18_to_64.recipient_count"]
+    aged_65_or_older = values_by_record[prefix + "age_65_or_older.recipient_count"]
+
+    # SSA SSI Monthly Statistics, December 2025, Table 1, "Total with—
+    # Federal payment" row: persons receiving a federal SSI payment in
+    # December 2025, by the three published age groups.
+    assert all_ages.value == 7_264_734
+    assert under_18.value == 1_015_006
+    assert aged_18_to_64.value == 3_820_243
+    assert aged_65_or_older.value == 2_429_485
+    assert (
+        under_18.value + aged_18_to_64.value + aged_65_or_older.value == all_ages.value
+    )
+
+    assert all_ages.period.type == "month"
+    assert all_ages.period.value == "2025-12"
+    assert all_ages.geography.id == "0100000US"
+    assert all_ages.entity.name == "person"
+    assert all_ages.entity.role == "ssi_recipient"
+    assert all_ages.constraints == ()
+    assert all_ages.layout.table_record_kind == "total"
+
+    assert {
+        (item.variable, item.operator, item.value) for item in under_18.constraints
+    } == {("age", ">=", 0), ("age", "<", 18)}
+    assert {
+        (item.variable, item.operator, item.value) for item in aged_18_to_64.constraints
+    } == {("age", ">=", 18), ("age", "<", 65)}
+    assert {
+        (item.variable, item.operator, item.value)
+        for item in aged_65_or_older.constraints
+    } == {("age", ">=", 65)}
+    assert under_18.layout.groupby_dimension == "age"
+    assert under_18.layout.groupby_value_id == "under_18"
+
+    measure = under_18.measure
+    assert measure.concept == "ssa.ssi_federal_payment_recipient_count"
+    assert measure.source_concept == (
+        "ssa_ssi_monthly.table_1.federal_payment_recipient_count"
+    )
+    assert measure.concept_relation == "exact"
+    assert measure.concept_authority == "ledger-us"
+    assert measure.concept_evidence_url == (
+        "https://www.ssa.gov/policy/docs/statcomps/ssi_monthly/2025-12/table01.html"
+    )
+    assert "federal SSI payment in December 2025" in measure.concept_evidence_notes
+
+    assert under_18.source.source_file == "ssi_monthly_2025_12_table01.csv"
+    assert under_18.source.url == (
+        "https://www.ssa.gov/policy/docs/statcomps/ssi_monthly/2025-12/table01.html"
+    )
+    assert under_18.source.source_sha256 == (
+        "c1a80d0f568f8911c99451d47e2e7e379143d01fe30a8ee73be76c7e6b825e01"
     )
 
 

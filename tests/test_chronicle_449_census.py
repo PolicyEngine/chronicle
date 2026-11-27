@@ -276,6 +276,42 @@ def test_b01001_packages_equal_the_2023_package_but_for_the_edition():
         assert _package_yaml(f"b01001_female_15_44_{year}") == expected
 
 
+# Each B01001 age value's register label, in the "Age ..." wording of the
+# register's other age labels, and the package's own wording of it.
+B01001_AGE_LABELS = {
+    "age_15_to_17": ("Age 15 to 17", "Female 15 to 17 years"),
+    "age_18_to_19": ("Age 18 and 19", "Female 18 and 19 years"),
+    "age_20": ("Age 20", "Female 20 years"),
+    "age_21": ("Age 21", "Female 21 years"),
+    "age_22_to_24": ("Age 22 to 24", "Female 22 to 24 years"),
+    "age_25_to_29": ("Age 25 to 29", "Female 25 to 29 years"),
+    "age_30_to_34": ("Age 30 to 34", "Female 30 to 34 years"),
+    "age_35_to_39": ("Age 35 to 39", "Female 35 to 39 years"),
+    "age_40_to_44": ("Age 40 to 44", "Female 40 to 44 years"),
+}
+
+
+@pytest.mark.parametrize(
+    "package_id", ["census-b01001-female-age-2023", *sorted(B01001)]
+)
+def test_b01001_age_values_take_the_registers_age_labels(package_id: str):
+    """Display only: each age value keeps its id and takes the register's
+    label, and the package's "Female ..." wording stays beside it."""
+    facts = _build(package_id, B01001.get(package_id, 2023))
+
+    seen = set()
+    for fact in facts:
+        value_id = fact.layout.groupby_value_id
+        label, wording = B01001_AGE_LABELS[value_id]
+        assert fact.layout.groupby_dimension == "age"
+        assert fact.layout.groupby_value_label == label
+        assert fact.dimension_value_labels["age"] == {value_id: label}
+        assert fact.package_dimension_value_labels["age"] == {value_id: wording}
+        assert fact.dimension_value_labels["sex"] == {"female": "Female"}
+        seen.add(value_id)
+    assert seen == set(B01001_VARIABLES) == set(B01001_AGE_LABELS)
+
+
 def _pep_national_cells(column: str) -> dict[int, int]:
     path = DATA / "pep_2025_national_age_sex" / "nc-est2025-agesex-res.csv"
     by_age = {}

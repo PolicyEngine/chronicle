@@ -1149,6 +1149,7 @@ SOURCE_PACKAGE_ALIASES = {
         "ssa/annual_statistical_supplement_2025"
     ),
     "ssa-ssi-monthly-statistics-2024-12": Path("ssa/ssi_monthly_statistics_2024_12"),
+    "ssa-ssi-monthly-statistics-2025-12": Path("ssa/ssi_monthly_statistics_2025_12"),
     "ssa-ssi-table-7b1-2024": Path("ssa/ssi_table_7b1_2024"),
     "ssa-ssi-table-7b3-2024": Path("ssa/ssi_table_7b3_2024"),
     "ssa-ssi-table-7b7-2024": Path("ssa/ssi_table_7b7_2024"),
