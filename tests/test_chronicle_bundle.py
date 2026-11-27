@@ -621,6 +621,12 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # AGI of the file's nine AGI classes at its 479 state and district rows.
         # Item 2.3 adds 14,400: 30 columns without a state twin at 480 rows,
         # with no new duplicate key or warning.
+        # chronicle#446 adds 487 from ONS's Family Spending workbook 1, FYE 2025:
+        # 425 mean weekly household expenditure figures (Table 3.1E's two
+        # equivalised blocks and Table A6, ten deciles each, less the suppressed
+        # cells, and the all-household column once), and 31 weighted household
+        # counts and 31 sample sizes. Measured with only its package at bundle year
+        # 2023: no new geography, period or entity key, duplicate key or warning.
         # chronicle#295 (chronicle#449) adds 5,246 TY2023 tax-unit facts from
         # IRS SOI Historic Table 2: the national (605), state broad (3,111) and
         # state EITC (510) packages, and the state AGI package's taxable
@@ -638,7 +644,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # and 26 personal income facts for 2023) and 2026-09-30 state personal
         # income (416 for 2023). Measured with the packages that share their
         # concepts: no new geography or period key.
-        "fact_count": 2349724,
+        "fact_count": 2350211,
         # The same change adds 82,064 geography keys: 46,363 Scottish 2022
         # output areas (UV404), 35,673 LSOA-level keys from the DESNZ LSOA
         # workbooks (Scotland's data zones already exist), the 26 Northern
@@ -761,7 +767,8 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # five: the two balance sheet dwellings packages, the two capital stocks
         # packages and Census 2021 TS054 by MSOA.
         # IRS SOI Table 1.3 adds one. chronicle#442 adds two: DWP's young people PIP
-        # and LCWRA projections and the final report's data tables.
+        # and LCWRA projections and the final report's data tables. chronicle#446
+        # adds one: ONS's Family Spending workbook 1, FYE 2025.
         # chronicle#295 adds Historic Table 2's three TY2023 packages: national,
         # state broad and state EITC.
         # chronicle#296 adds three TY2023 IRS SOI packages: the state-data US
@@ -769,7 +776,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # chronicle#449 adds eleven packages that build at 2023: two Census PEP
         # Vintage 2025, the 2026 Trustees Report, LIHEAP FY2025, SNAP FY2025,
         # TANF caseload FY2025 and five BEA editions.
-        "source_package_count": 534,
+        "source_package_count": 535,
         # 1 semantic-duplicate warning, plus the publisher wording Chronicle
         # keeps as published: values two packages word differently, groupby
         # rows that drift inside one package (chronicle#265, #266), and the
@@ -821,14 +828,14 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         if row_count == 1:
             assert row["aggregate_fact_key"].startswith("ledger.aggregate_fact.v2:")
             assert row["semantic_fact_key"].startswith("ledger.semantic_fact.v2:")
-    assert row_count == 2349724
+    assert row_count == 2350211
     assert provenance_classes <= {
         "administrative",
         "census",
         "model_output",
         "survey_aggregate",
     }
-    assert source_packages["source_package_count"] == 534
+    assert source_packages["source_package_count"] == 535
     assert source_packages["skipped_source_count"] == 39
     assert sorted(item["source"] for item in source_packages["skipped_sources"]) == [
         "census-acs-s0101-congressional-district-age-2024",
@@ -871,7 +878,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "jct-obbba-revenue-estimates-2025",
         "jct-tax-expenditures-2024",
     ]
-    assert coverage["fact_count"] == 2349724
+    assert coverage["fact_count"] == 2350211
     assert coverage["counts"]["by_source"] == {
         "bea": 891,
         "bfp_economic_outlook": 5,
@@ -913,7 +920,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "obr": 4539,
         "ofgem": 3640,
         "onem_rva_unemployment": 1,
-        "ons": 504040,
+        "ons": 504527,
         "onss_contributions": 1,
         "opgroeien_groeipakket": 11,
         "orr": 99,
@@ -953,10 +960,11 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     # TS054 by MSOA.
     # IRS SOI Table 1.3 adds one. chronicle#442 adds two, one per package: the
     # interim report's Table 28 and the final report's Tables 2 and 3.
+    # chronicle#446 adds one: Family Spending workbook 1's Tables 3.1E and A6.
     # chronicle#449 adds three: the 2026 Trustees Report's Table III.C3, the
     # LIHEAP FY2025 national profile and TANF Caseload Data 2025. Its other
     # editions keep their predecessors' table names.
-    assert len(table_counts) == 462
+    assert len(table_counts) == 463
     assert (
         table_counts[
             "hmrc:Benefits in kind statistics: July 2026, Tables 1 to 4: company car "
@@ -2744,6 +2752,8 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     expected_period_counts["calendar_year:2025"] += 12 + 2
     # Census Day 2021 gains TS054's nine categories for each of the 7,264 MSOAs.
     expected_period_counts["calendar_year:2021"] += 9 * 7264
+    # chronicle#446: FYE 2025 gains Family Spending's 487 facts.
+    expected_period_counts["fiscal_year:2024"] += 487
     # chronicle#419: NRS's eight council tax bands for each of the 7,392 data
     # zones, at December 2024 and December 2025.
     for year in (2024, 2025):
@@ -3099,7 +3109,8 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     # chronicle#438 adds its 854 facts, all for the United Kingdom.
     # chronicle#442 adds 25: the final report's NEET rate projections (22) and
     # Table 2's welfare savings, fiscal offsets and net total (3).
-    assert coverage["counts"]["by_geography"]["country:K02000001"] == 109963
+    # chronicle#446 adds its 487 facts, all for the United Kingdom.
+    assert coverage["counts"]["by_geography"]["country:K02000001"] == 110450
     # chronicle#343 adds the 63 OBR surcharge-costing facts for England, and
     # chronicle#358 ONS's 606 single-year residence-type rows for England. GSGB
     # 2025's England participation rows add 40. ISA Tables 9.9 and 9.12's
@@ -3201,13 +3212,14 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     # IRS SOI Table 1.3 adds 20 tax units (PolicyEngine/microcosm#880).
     # chronicle#442: people +66 (Table 28's caseloads 44, the NEET rate projections
     # 22) and government +51 (Table 28's spending 44, Table 2's costs 7).
+    # chronicle#446 adds 487 households (ONS's Family Spending by income decile).
     assert coverage["counts"]["by_entity"] == {
         "benefit_unit": 33645,
         "dwelling": 709104,
         "family": 1755,
         "firm": 1927,
         "government": 14181,
-        "household": 745459,
+        "household": 745946,
         "institutional_sector": 10118,
         "pension_plan": 4,
         "person": 736076,
