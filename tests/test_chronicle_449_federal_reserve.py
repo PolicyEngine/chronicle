@@ -116,7 +116,10 @@ def test_manifest_registers_the_june_page_in_place():
     assert manifest["source_page"] == (
         "https://www.federalreserve.gov/releases/z1/20260611/"
     )
-    assert "storage.r2 is a content-addressed locator" in manifest["notes"]
+    assert (
+        "The bytes were uploaded to storage.r2 on 2026-11-27 with chronicle "
+        "publish-raw and checked there with chronicle verify-raw."
+    ) in manifest["notes"]
     assert list(manifest["files"]) == [2026]
     assert hashlib.sha256(PAGE.read_bytes()).hexdigest() == SHA256
     assert entry["filename"] == PAGE.name
