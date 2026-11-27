@@ -178,8 +178,10 @@ state and local income taxes) as `taxable_state_local_income_tax_refunds_*`, and
 
 **Consumer effect.** Consumers that select by `measure_id` see no change from
 the rename. The district file's state-total rows and the new Historic Table 2
-state rows publish the same lines 8a and 14 for the same states, so they share
-semantic fact keys, as the other columns of the two files already do.
+state rows publish the same lines 8a and 14 for the same states, so they
+shared semantic fact keys, as the other columns of the two files did. Since
+chronicle#449 the district packages give no fact for those state totals, and
+the Historic Table 2 state rows are the only facts with those keys.
 
 **Pinned by** `tests/test_chronicle_soi_doc_guide_columns.py`:
 `test_schedule_a_lines_shared_across_grains_carry_table_2_1_ids` holds every

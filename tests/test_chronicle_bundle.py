@@ -703,7 +703,9 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # builds, for a bundle-wide net of +1,555. The HT2 and CD N01000/A01000
         # rows then took one Form 1040 line 7 concept
         # (docs/concept-migrations.md), adding 104 more: 51 states and the US
-        # for returns and amount. chronicle#302's State Pension, Pension Credit
+        # for returns and amount. (chronicle#449 takes all of these TY2022
+        # district-file keys out again: see the end of this comment.)
+        # chronicle#302's State Pension, Pension Credit
         # and Winter Fuel Payment packages reach the same totals through more
         # than one cut or release (+198). Sixteen of those differ: the Winter
         # Fuel Payment 2023-24 workbook against the Stat-Xplore cube, both kept
@@ -733,9 +735,12 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # Historic Table 2's state lines 8a and 14 added 204 (see above),
         # chronicle#447 item 2.2 added 776 and item 2.1 added 918: the TY2022
         # congressional district file's state and US total rows published
-        # values under the keys of other IRS packages. chronicle#449 takes
-        # those keys out: the district packages give no fact for a total that
-        # another package gives, so no duplicate key has a district fact.
+        # values under the keys of other IRS packages, as the 1,555 and 104
+        # keys of chronicle#292 did. chronicle#449 takes all of those keys
+        # out, and the TY2023 district file's 3,454 with them: the district
+        # packages give no fact for a total that another package gives, so no
+        # duplicate key has a district fact. The pin falls from 9,373 to
+        # 2,355.
         # chronicle#295 adds 90: the TY2023 national package's US rows share
         # semantic keys with Publication 1304's TY2023 Tables 1.4 (70), 1.1
         # (18) and 1.2 (2). Those tables publish totals for the same concepts
@@ -3126,8 +3131,9 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     # IRS SOI Table 1.4's partnership and S corporation net income and loss legs add 160.
     # IRS SOI Table 1.3 adds 20 national facts.
     # The congressional-district file's 15 state-twin columns (chronicle#447
-    # item 2.2) and 30 columns without a twin (item 2.3) add 45 at its US row,
-    # and 45 at each state and district below.
+    # item 2.2) and 30 columns without a twin (item 2.3) added 45 at its US
+    # row, and 45 at each state and district below (before chronicle#449; see
+    # the last line of this comment).
     # Historic Table 2's TY2023 national package adds 605: 11 AGI classes x 55
     # measures (chronicle#295).
     # chronicle#296 adds 8: the TY2023 state-data US totals (4) and IRA Tables

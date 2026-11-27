@@ -774,6 +774,12 @@ def test_each_package_holds_all_436_districts(district):
             else "2020_census"
         )
         assert fact.geography.vintage == expected, fact.source_record_id
+        if fact.geography.level == "congressional_district":
+            # The label register gives this label where both packages have
+            # the district; it is the district's own name in every case.
+            assert fact.dimension_value_labels["irs_soi.congressional_district"] == {
+                fact.layout.groupby_value_id: fact.geography.name
+            }, fact.source_record_id
     assert set().union(*by_level.values()) == set(geographies)
     assert len(by_level["congressional_district"]) == DISTRICTS
     assert all(
@@ -829,6 +835,15 @@ def test_every_fact_is_the_file_cell_of_its_geography(district):
         for record_set in _record_sets(district).values()
         for measure in record_set["measures"]
     }
+    # The scale is the file's unit, not the package's word: a count as printed,
+    # an amount in thousands of dollars, and A59664 in dollars.
+    for record_set in _record_sets(district).values():
+        for measure in record_set["measures"]:
+            assert measure["unit"] in ("count", "usd"), measure["measure_id"]
+            in_dollars = measure["source_column_id"] == "A59664"
+            assert measure.get("value_scale", 1) == (
+                1000 if measure["unit"] == "usd" and not in_dollars else 1
+            ), (record_set["record_set_id"], measure["measure_id"])
     read: Counter[tuple[str, int]] = Counter()
     for record_id, fact in facts.items():
         state, cong_district = geographies[fact.geography.id]
@@ -1221,18 +1236,25 @@ def test_the_table_1_4_pair_is_schedule_1_line_16_on_both_sides(district):
     assert paired.value == {2022: 29_483_344_000, 2023: 30_130_848_000}[year]
 
 
-# Publication 1304 prints more lines that the district file also has, in
-# workbook columns that no package reads: district measure id, then the
+# Publication 1304 prints twelve more lines that the district file also has,
+# in workbook columns that no package reads: district measure id, then the
 # package of the table, the workbook column (the same in TY2022 and TY2023)
 # and the heading over it. No package gives these quantities, so the district
 # file's United States totals for them stay. When a package starts to read one
 # of these columns, its pair belongs in ``PUBLICATION_1304_LINES`` and the
-# district total goes; the test below fails until then.
+# district total goes; the test below fails until then. (Historic Table 2's
+# file holds every column of the totals that stay. A Historic Table 2 package
+# that starts to read one is found by its column: see
+# ``test_a_total_stays_only_where_no_other_package_gives_it``.)
 PUBLICATION_1304_WORKBOOKS = {
+    "soi-table-1-2": ("table_1_2", "in12ms.xls"),
     "soi-table-1-4": ("table_1_4", "in14ar.xls"),
     "soi-table-2-1": ("table_2_1", "in21id.xls"),
 }
 PUBLICATION_1304_UNREAD_COLUMNS = {
+    # Table 1.2 prints the returns with a standard deduction beside the amount
+    # that ``soi-table-1-2`` reads (column G).
+    "standard_deduction_returns": ("soi-table-1-2", "F", "Standard deduction"),
     "taxable_state_local_income_tax_refunds_returns": (
         "soi-table-1-4",
         "AB",
@@ -1287,14 +1309,17 @@ def test_no_package_reads_the_other_publication_1304_columns_yet(district):
     """The kept US totals with a Publication 1304 line nobody reads.
 
     Rule 3's pairs are a hand-declared list, so a new measure of
-    ``soi-table-1-4`` or ``soi-table-2-1`` under another concept id would leave
-    a district US total beside its twin, and no key would show it. This test
-    holds the list. Each column of ``PUBLICATION_1304_UNREAD_COLUMNS`` has its
-    heading in the workbook of the tax year, over "Number of returns" for a
-    returns measure and over "Amount" for an amount. No measure of the package
-    reads the column for the tax year, and the district file's United States
-    total for the measure is a fact.
+    ``soi-table-1-2``, ``soi-table-1-4`` or ``soi-table-2-1`` under another
+    concept id would leave a district US total beside its twin, and no key
+    would show it. This test holds the list. Each column of
+    ``PUBLICATION_1304_UNREAD_COLUMNS`` has its heading in the workbook of the
+    tax year, over "Number of returns" for a returns measure and over "Amount"
+    for an amount. No measure of the package reads the column for the tax
+    year, and the district file's United States total for the measure is a
+    fact. The test knows only these three tables: a package for another
+    Publication 1304 table needs its own look.
     """
+    assert len(PUBLICATION_1304_UNREAD_COLUMNS) == 12
     year = district.year
     facts = _facts(district)
     pairs = set(PUBLICATION_1304_LINES)
@@ -1318,9 +1343,9 @@ def test_no_package_reads_the_other_publication_1304_columns_yet(district):
         assert above[0] == heading, (measure_id, above)
         kinds = {
             " ".join(str(sheet.cell_value(row, column)).split())
-            for row in range(5, 8)
+            for row in range(4, 8)
             if isinstance(sheet.cell_value(row, column), str)
-        } - {""}
+        } & {"Amount", "Number of returns"}
         assert kinds == {"Amount" if is_amount else "Number of returns"}, measure_id
 
         payload = _payload(

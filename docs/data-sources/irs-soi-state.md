@@ -354,8 +354,9 @@ lineage. The state-grain packages are:
   States row and state total rows give a fact only where no other package has
   a fact with the same semantic key for the tax year, no Historic Table 2
   package reads the same IRS column, and no Publication 1304 package gives the
-  same tax-form line (chronicle#449; Publication 1304 prints more such lines
-  in columns that no package reads yet): the IRS guide says
+  same tax-form line (chronicle#449; Historic Table 2's files hold every
+  column of the totals that stay, and Publication 1304 prints twelve of the
+  national lines, in columns that no package reads yet): the IRS guide says
   that state totals within the congressional data may not be comparable to the
   state totals SOI publishes elsewhere, and points to Historic Table 2 for
   complete state totals. A jurisdiction with one district has one row in the
