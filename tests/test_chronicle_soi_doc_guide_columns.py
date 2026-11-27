@@ -1034,13 +1034,12 @@ HT2_TO_DISTRICT_IDS = {
 }
 
 
-# TY2023: 23incd.csv's A59660 ("Earned income credit amount") is, in every row,
-# the sum of A59661 to A59664, but A59664 is in dollars while the other three
-# are in thousands (both district packages read A59664 with value_scale 1). So
-# the district file's US EITC amount reads as about 236 times Historic Table
-# 2's. Reported for María's ruling (chronicle#449); the geography test pins
-# the sum.
-US_ROW_OUTLIERS = {2022: {}, 2023: {"eitc_amount": 235.7464}}
+# Historic Table 2 measures the district package does not read in a year.
+# soi-congressional-district-2023 leaves out 23incd.csv's EITC total, A59660,
+# which adds A59664 in dollars to three columns in thousands, so it reads as
+# about 236 times Historic Table 2's (chronicle#449; the geography test pins
+# the IRS file's sum).
+NOT_READ_BY_DISTRICT = {2022: frozenset(), 2023: frozenset({"eitc_amount"})}
 
 
 @pytest.mark.parametrize(
@@ -1054,8 +1053,9 @@ def test_congressional_district_us_row_is_a_subset_of_historic_table_2(
 
     The district file drops returns without a ZIP code that matches the state,
     and it suppresses small cells, so its US row should not exceed Historic
-    Table 2's. Every TY2022 ratio lies in [0.92, 0.99], and every TY2023 ratio
-    in [0.94, 1.00] except the EITC amount (``US_ROW_OUTLIERS``). The columns
+    Table 2's. Every TY2022 ratio lies in [0.92, 0.99] and every TY2023 ratio
+    in [0.94, 1.00]; the TY2023 package reads no EITC total
+    (``NOT_READ_BY_DISTRICT``). The columns
     the TY2022 district package used to read gave 2.04 (SALT amount), 0.72
     (SALT returns), 0.87 and 0.26 (PTC returns and amount), and the district
     QBI deduction was 6.65 times what Historic Table 2's ``qbi_amount`` read.
@@ -1093,12 +1093,18 @@ def test_congressional_district_us_row_is_a_subset_of_historic_table_2(
         "real_estate_taxes_amount",
         "itemized_deductions_returns",
     } <= set(pairs)
-    assert len(pairs) == 55
+    missing = {
+        measure_id
+        for measure_id in ht2
+        if HT2_TO_DISTRICT_IDS.get(measure_id, measure_id) not in district
+    }
+    assert missing == NOT_READ_BY_DISTRICT[year]
+    assert len(pairs) == 55 - len(missing)
     assert {
         measure_id: round(cd / ht2_value, 4)
         for measure_id, (cd, ht2_value) in pairs.items()
         if not 0.90 <= cd / ht2_value <= 1.0
-    } == US_ROW_OUTLIERS[year]
+    } == {}
 
 
 def test_district_interest_parts_match_table_2_1_lines_8a_and_10():

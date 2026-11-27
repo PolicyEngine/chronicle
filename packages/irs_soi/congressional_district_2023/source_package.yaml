@@ -27445,18 +27445,16 @@ record_sets:
     unit: count
     aggregation: sum
     expected_cell_type: number
-  - measure_id: eitc_amount
-    label: Earned income credit
-    ordinal: 41
-    column: EE
-    source_column_id: A59660
-    expected_column_header_row: 1
-    expected_column_header: A59660
-    concept: irs_soi.earned_income_credit
-    unit: usd
-    aggregation: sum
-    value_scale: 1000
-    expected_cell_type: number
+  # IRS column A59660 ("Earned income credit amount") is left out (chronicle#449).
+  # In every row of 23incd.csv, A59660 is A59661 + A59662 + A59663 + A59664, but
+  # A59664 (three or more children) is in dollars and the other three are in
+  # thousands. US row: A59660 = 15,325,005,218, of which A59664 = 15,275,346,253
+  # dollars and A59661 + A59662 + A59663 = 49,658,965 thousands. Read in thousands,
+  # the total is $15.3 trillion; Historic Table 2 TY2023 has $65.0 billion. The
+  # TY2022 file is right: its US A59660 is 1.0004 times A59661 + A59662 + A59663 +
+  # A59664 / 1000. This package leaves A59660 out until the IRS corrects the file,
+  # and computes no total. The four child amounts below are read as published
+  # (A59664 with value_scale 1).
   - measure_id: eitc_no_children_claims
     label: Returns with earned income credit and no qualifying children
     ordinal: 42
