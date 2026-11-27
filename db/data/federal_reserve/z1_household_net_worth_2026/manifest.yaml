@@ -22,8 +22,9 @@ notes: >-
   3bcdb1e0309537de21a427501fe930ae769b6c08fa8f38ec029e3c42a7bb42fa, 142683
   bytes), which stays in R2 under the same package and year. Releases from
   2026-09-11 change the sector's coverage (hedge funds and private credit), so
-  the package does not read them. storage.r2 is a content-addressed locator; no
-  upload or archival completion is asserted.
+  the package does not read them. The bytes were uploaded to storage.r2 on
+  2026-11-27 with chronicle publish-raw and checked there with chronicle
+  verify-raw.
 files:
   2026:
     filename: federal_reserve_z1_20260611_s1m_b.html

@@ -21,8 +21,8 @@ files:
       2,429,485. The publication is HTML-only; the companion file
       ssi_monthly_2025_12_table01.html in this directory is the verbatim
       capture of the published page these values were extracted from.
-      storage.r2 is a content-addressed locator; no upload or archival
-      completion is asserted.
+      The bytes were uploaded to storage.r2 on 2026-11-27 with chronicle
+      publish-raw and checked there with chronicle verify-raw.
     storage:
       r2:
         provider: r2
@@ -45,8 +45,8 @@ files:
       "Total with— Federal payment" row. The page embeds per-request Akamai
       mPulse analytics values inside an inline script block, so another
       save can differ there; the recorded sha256 pins exactly this capture.
-      storage.r2 is a content-addressed locator; no upload or archival
-      completion is asserted.
+      The bytes were uploaded to storage.r2 on 2026-11-27 with chronicle
+      publish-raw and checked there with chronicle verify-raw.
     storage:
       r2:
         provider: r2
