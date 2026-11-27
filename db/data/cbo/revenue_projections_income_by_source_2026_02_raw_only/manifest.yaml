@@ -16,8 +16,9 @@ provenance_notes: >-
   extract of sheet "3.Individual Income Tax Details" (billions of dollars,
   calendar years). tests/test_chronicle_449_cbo_revenue_projections.py reads
   that sheet and checks that each of the CSV's 84 values (six rows, 2023 to
-  2036) equals its workbook cell. storage.r2 is a content-addressed locator; no
-  upload or archival completion is asserted.
+  2036) equals its workbook cell. The bytes were uploaded to storage.r2 on
+  2026-11-27 with chronicle publish-raw and checked there with chronicle
+  verify-raw.
 files:
   workbook:
     filename: 51138-2026-02-Revenue.xlsx
