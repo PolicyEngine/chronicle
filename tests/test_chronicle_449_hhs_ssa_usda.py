@@ -7,7 +7,10 @@ archive and the TANF caseload workbook (chronicle#449).
   parser row 5 and text line 10 (row 3 and line 12 in FY2024).
 - ``usda-snap-fy69-to-current-fy2025`` reads FY25.xlsx in the publisher's
   ``snap-zip-fy69tocurrent-11.zip``, the edition after
-  ``usda-snap-fy69-to-current`` (FY24.xlsx in the ``-6`` zip). No cell moved.
+  ``usda-snap-fy69-to-current``. No cell moved.
+- ``usda-snap-fy69-to-current`` now reads FY24.xlsx in the same ``-11`` zip,
+  in place of FY24.xlsx in the ``-6`` zip: USDA changed fiscal year 2024's
+  numbers there, but no label or cell position.
 - ``hhs-acf-tanf-caseload-2025`` reads ``fy2025-tanf-caseload.xlsx``, the
   edition after ``hhs-acf-tanf-caseload-2024``. The workbook covers October
   2024 to December 2025: its FYCY2025 sheets hold the fiscal year 2025 block in
@@ -26,6 +29,7 @@ import io
 import json
 import re
 import zipfile
+from datetime import datetime
 from pathlib import Path
 
 import openpyxl
@@ -59,6 +63,15 @@ LIHEAP_FY2024_PDF = (
 )
 SNAP_ZIP = (
     DATA / "usda_snap" / "fy69_to_current_fy2025" / "snap-zip-fy69tocurrent-11.zip"
+)
+# The FY2024 package reads the same -11 zip from its own directory, where the
+# -6 zip it read before stays for the FY2025 monthly caseload package.
+SNAP_FY2024 = "usda-snap-fy69-to-current"
+SNAP_FY2024_ZIP = (
+    DATA / "usda_snap" / "fy69_to_current" / "snap-zip-fy69tocurrent-11.zip"
+)
+SNAP_FY2024_EARLIER_ZIP = (
+    DATA / "usda_snap" / "fy69_to_current" / "snap-zip-fy69tocurrent-6.zip"
 )
 TANF_XLSX = DATA / "hhs_acf" / "tanf_caseload_2025" / "fy2025-tanf-caseload.xlsx"
 
@@ -118,6 +131,21 @@ SNAP_MONTHS = (
     "Jul 2025",
     "Aug 2025",
     "Sep 2025",
+)
+SNAP_FY2024_TITLE = SNAP_TITLE.replace("2025", "2024")
+SNAP_FY2024_MONTHS = (
+    "Oct 2023",
+    "Nov 2023",
+    "Dec 2023",
+    "Jan 2024",
+    "Feb 2024",
+    "Mar 2024",
+    "Apr 2024",
+    "May 2024",
+    "Jun 2024",
+    "Jul 2024",
+    "Aug 2024",
+    "Sep 2024",
 )
 
 # TANF measure -> (FYCY2025 sheet, its header in the fiscal-year block, the
@@ -286,13 +314,13 @@ def test_liheap_editions_print_the_same_line_for_the_same_universe():
         assert "Excludes Tribal and Territory Grant Recipients" in text
 
 
-def _snap_book():
-    with zipfile.ZipFile(SNAP_ZIP) as archive:
-        content = archive.read("FY25.xlsx")
+def _snap_book(path: Path = SNAP_ZIP, member: str = "FY25.xlsx"):
+    with zipfile.ZipFile(path) as archive:
+        content = archive.read(member)
     return openpyxl.load_workbook(io.BytesIO(content), data_only=True)
 
 
-def _snap_total_row(sheet, block: str) -> int:
+def _snap_total_row(sheet, block: str, months_expected=SNAP_MONTHS) -> int:
     """The "Total" row of a geography block, found by the block's name."""
     starts = [
         row for row in range(1, sheet.max_row + 1) if sheet.cell(row, 1).value == block
@@ -300,7 +328,7 @@ def _snap_total_row(sheet, block: str) -> int:
     assert len(starts) == 1, (sheet.title, block)
     start = starts[0]
     months = tuple(sheet.cell(start + offset, 1).value for offset in range(1, 13))
-    assert months == SNAP_MONTHS, (sheet.title, block)
+    assert months == months_expected, (sheet.title, block)
     for row in range(start + 1, start + 13):
         for column in "BCDEF":
             assert isinstance(sheet[f"{column}{row}"].value, (int, float)), (
@@ -356,6 +384,139 @@ def test_snap_published_national_totals(built):
     ] == pytest.approx(42_142_183.75)
     benefits = prefix + "national_benefits.national_total.total_benefits"
     assert values[benefits] == 95_757_193_976
+
+
+@pytest.fixture(scope="module")
+def snap_fy2024():
+    cells, facts = _build(SNAP_FY2024, 2023)
+    assert validate_source_cells(cells).valid
+    assert validate_facts(facts).valid
+    return cells, facts
+
+
+def _snap_fact_cell(book, fact, months):
+    """The workbook cell a SNAP fact reads: the "Total" row of its sheet's
+    geography block, found by name, in its measure's column."""
+    parts = fact.source_record_id.split(".")
+    measure_id, value_id = parts[-1], parts[-2]
+    if value_id == "national_total":
+        sheet, block = book["US Summary"], "US Summary"
+    else:
+        sheet, block = book[parts[-3].upper()], fact.geography.name
+    column = SNAP_COLUMNS[measure_id][0]
+    return sheet[f"{column}{_snap_total_row(sheet, block, months)}"].value
+
+
+def _is_number(value) -> bool:
+    return isinstance(value, int | float) and not isinstance(value, bool)
+
+
+def test_snap_fy2024_manifest_registers_the_11_zip():
+    """The FY2024 package keeps its manifest, which now registers the -11 zip
+    (the bytes the FY2025 package reads) under the package's own key."""
+    manifest = yaml.safe_load((SNAP_FY2024_ZIP.parent / "manifest.yaml").read_text())
+    _, _, _, sha256, size, source_url = PACKAGES[SNAP]
+    entry = manifest["files"][2024]
+    key = f"raw/usda_snap/{SNAP_FY2024}/2024/{sha256}/{SNAP_FY2024_ZIP.name}"
+
+    assert manifest["package_id"] == SNAP_FY2024
+    assert list(manifest["files"]) == [2024]
+    assert SNAP_FY2024_ZIP.read_bytes() == SNAP_ZIP.read_bytes()
+    assert hashlib.sha256(SNAP_FY2024_ZIP.read_bytes()).hexdigest() == sha256
+    assert entry["filename"] == SNAP_FY2024_ZIP.name
+    assert entry["source_url"] == source_url
+    assert entry["sha256"] == sha256
+    assert entry["size_bytes"] == size == SNAP_FY2024_ZIP.stat().st_size
+    assert entry["storage"]["r2"]["key"] == key
+    assert entry["storage"]["r2"]["uri"] == f"r2://ledger-raw/{key}"
+
+
+def test_snap_fy2024_facts_cite_the_11_zip(snap_fy2024):
+    cells, facts = snap_fy2024
+    manifest = yaml.safe_load((SNAP_FY2024_ZIP.parent / "manifest.yaml").read_text())
+    _, _, _, sha256, _, source_url = PACKAGES[SNAP]
+    with zipfile.ZipFile(SNAP_FY2024_ZIP) as archive:
+        read_sha256 = hashlib.sha256(archive.read("FY24.xlsx")).hexdigest()
+
+    assert len(cells) == CELL_COUNTS[SNAP]
+    assert len(facts) == FACT_COUNTS[SNAP]
+    assert all(
+        cell.artifact.extraction_method.endswith(f"from outer SHA-256 {sha256}")
+        for cell in cells
+    )
+    for fact in facts:
+        assert (fact.period.type, fact.period.value) == ("fiscal_year", 2024)
+        assert fact.source.vintage == "fiscal_year_2024_revised_2026_11_13"
+        assert fact.source.source_sha256 == read_sha256
+        assert fact.source.url == source_url
+        assert fact.source.source_file == "snap-zip-fy69tocurrent-11.zip!FY24.xlsx"
+        assert fact.source.raw_r2_uri == manifest["files"][2024]["storage"]["r2"]["uri"]
+
+
+def test_snap_fy2024_facts_are_their_total_cells(snap_fy2024):
+    """Each FY2024 fact is the "Total" row of its geography block in FY24.xlsx
+    of the -11 zip, found by name, as the FY2025 facts are in FY25.xlsx."""
+    _, facts = snap_fy2024
+    book = _snap_book(SNAP_FY2024_ZIP, "FY24.xlsx")
+    for sheet in book.worksheets:
+        assert sheet["A2"].value == SNAP_FY2024_TITLE
+        assert sheet["F1"].value == "11/13/2026"
+        assert sheet["B6"].value == "Participation 1/"
+        assert sheet["E6"].value == "Cost Per"
+        for _, address, header in SNAP_COLUMNS.values():
+            assert sheet[address].value == header
+
+    for fact in facts:
+        expected = _snap_fact_cell(book, fact, SNAP_FY2024_MONTHS)
+        assert fact.value == expected, fact.source_record_id
+
+
+def test_snap_fy2024_revision_changes_numbers_only(snap_fy2024):
+    """FY24.xlsx of the -6 zip (sheets dated 06/13/2025) and of the -11 zip
+    (11/13/2026): the same sheets, sizes and text in every cell but F1, the
+    sheet date. USDA changed 495 numbers, in 34 of the 64 Total rows among
+    others, and 65 of the package's 216 facts, in 27 geographies."""
+    old = _snap_book(SNAP_FY2024_EARLIER_ZIP, "FY24.xlsx")
+    new = _snap_book(SNAP_FY2024_ZIP, "FY24.xlsx")
+    changed_numbers = changed_totals = totals = 0
+
+    assert old.sheetnames == new.sheetnames
+    for old_sheet in old.worksheets:
+        new_sheet = new[old_sheet.title]
+        assert (old_sheet.max_row, old_sheet.max_column) == (
+            new_sheet.max_row,
+            new_sheet.max_column,
+        )
+        assert old_sheet["F1"].value == datetime(2025, 6, 13)
+        for old_row, new_row in zip(
+            old_sheet.iter_rows(), new_sheet.iter_rows(), strict=True
+        ):
+            for old_cell, new_cell in zip(old_row, new_row, strict=True):
+                if old_cell.coordinate == "F1":
+                    continue
+                if _is_number(old_cell.value) and _is_number(new_cell.value):
+                    changed_numbers += old_cell.value != new_cell.value
+                else:
+                    assert old_cell.value == new_cell.value, (
+                        old_sheet.title,
+                        old_cell.coordinate,
+                    )
+            if old_row[0].value == "Total":
+                totals += 1
+                changed_totals += any(
+                    old_cell.value != new_cell.value
+                    for old_cell, new_cell in zip(old_row[1:6], new_row[1:6])
+                )
+    assert (changed_numbers, changed_totals, totals) == (495, 34, 64)
+
+    _, facts = snap_fy2024
+    changed = [
+        fact
+        for fact in facts
+        if fact.value != _snap_fact_cell(old, fact, SNAP_FY2024_MONTHS)
+    ]
+    assert len(changed) == 65
+    assert len({fact.geography.id for fact in changed}) == 27
 
 
 def _tanf_book():
@@ -654,14 +815,16 @@ def test_packages_mirror_their_predecessors(package_id):
     if package_id == LIHEAP:
         assert set(LIHEAP_MOVED) <= changed
     # LIHEAP: 7 edition fields, 3 relabelled ids and period, 5 moved positions.
-    # SNAP: 7 edition fields, 3 x 24 record sets, 162 title guards.
+    # SNAP: 6 edition fields (both packages now read the -11 zip, fetched on
+    # 2026-11-26, so extracted_at is the same), 3 x 24 record sets, 162 title
+    # guards.
     # TANF: 7 edition fields, 4 x 3 record sets, 53 row header columns, 4 guard
     # columns, 8 measure columns, 2 title guards.
-    assert len(changed) == {LIHEAP: 15, SNAP: 241, TANF: 86}[package_id]
+    assert len(changed) == {LIHEAP: 15, SNAP: 240, TANF: 86}[package_id]
     assert "{year}" not in json.dumps(_declarations(package_id))
 
 
-@pytest.mark.parametrize("package_id", sorted(PACKAGES))
+@pytest.mark.parametrize("package_id", sorted([*PACKAGES, SNAP_FY2024]))
 def test_source_suite_passes_agent_acceptance(package_id, tmp_path):
     suite = build_source_suite(package_id, tmp_path / package_id, year=2023)
 

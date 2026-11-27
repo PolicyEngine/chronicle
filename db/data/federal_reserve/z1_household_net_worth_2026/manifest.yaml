@@ -1,18 +1,39 @@
 source_id: federal_reserve
 package_id: federal-reserve-z1-household-net-worth
 dataset: federal_reserve_federal-reserve-z1-household-net-worth
-source_page: https://www.federalreserve.gov/releases/z1/20260319/
-table: Z.1 B.101 Households and nonprofit organizations
+source_page: https://www.federalreserve.gov/releases/z1/20260611/
+table: Z.1 S1M.b Households and nonprofit organizations
+published_at: '2026-06-11'
+notes: >-
+  Publisher HTML table downloaded unchanged with chronicle fetch-artifact on
+  2026-11-27 from the dated folder of the Z.1 release of 2026-06-11 (data
+  through 2026:Q1). The page says "Last Update: June 11, 2026". A request for
+  the URL on 2026-11-27 got HTTP 200 with no redirect and Last-Modified Thu, 11
+  Jun 2026 16:00:15 GMT. From this release the Federal Reserve numbers its
+  tables with SNA codes: S1M.b is the table that the release of 2026-03-19
+  published as B.101. Net worth (assets minus liabilities) is still line 40,
+  series FL152090005, and footnote 1 still says "Sector includes domestic hedge
+  funds, private equity funds, and personal trusts." The page prints no units
+  line. The release PDF in the same folder
+  (https://www.federalreserve.gov/releases/z1/20260611/z1.pdf, printed page 145)
+  heads S1M.b "Billions of dollars; amounts outstanding end of period, not
+  seasonally adjusted", as the B.101 page did. This file replaces the B.101 page
+  of 2026-03-19 (federal_reserve_z1_20260319_b101.html, sha256
+  3bcdb1e0309537de21a427501fe930ae769b6c08fa8f38ec029e3c42a7bb42fa, 142683
+  bytes), which stays in R2 under the same package and year. Releases from
+  2026-09-11 change the sector's coverage (hedge funds and private credit), so
+  the package does not read them. storage.r2 is a content-addressed locator; no
+  upload or archival completion is asserted.
 files:
   2026:
-    filename: federal_reserve_z1_20260319_b101.html
-    source_url: https://www.federalreserve.gov/releases/z1/20260319/html/b101.htm
-    sha256: 3bcdb1e0309537de21a427501fe930ae769b6c08fa8f38ec029e3c42a7bb42fa
-    size_bytes: 142683
-    fetched_at: '2026-05-11T13:16:45+00:00'
+    filename: federal_reserve_z1_20260611_s1m_b.html
+    source_url: https://www.federalreserve.gov/releases/z1/20260611/html/S1M_b.htm
+    sha256: a4f0c0ed9b0cb84768fce2497d6a22588dda5735d183203a9604433e347b77a0
+    size_bytes: 151519
+    fetched_at: '2026-11-27T00:58:32+00:00'
     storage:
       r2:
         provider: r2
         bucket: ledger-raw
-        key: raw/federal_reserve/federal-reserve-z1-household-net-worth/2026/3bcdb1e0309537de21a427501fe930ae769b6c08fa8f38ec029e3c42a7bb42fa/federal_reserve_z1_20260319_b101.html
-        uri: r2://ledger-raw/raw/federal_reserve/federal-reserve-z1-household-net-worth/2026/3bcdb1e0309537de21a427501fe930ae769b6c08fa8f38ec029e3c42a7bb42fa/federal_reserve_z1_20260319_b101.html
+        key: raw/federal_reserve/federal-reserve-z1-household-net-worth/2026/a4f0c0ed9b0cb84768fce2497d6a22588dda5735d183203a9604433e347b77a0/federal_reserve_z1_20260611_s1m_b.html
+        uri: r2://ledger-raw/raw/federal_reserve/federal-reserve-z1-household-net-worth/2026/a4f0c0ed9b0cb84768fce2497d6a22588dda5735d183203a9604433e347b77a0/federal_reserve_z1_20260611_s1m_b.html
