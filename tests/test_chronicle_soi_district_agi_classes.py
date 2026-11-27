@@ -25,7 +25,9 @@ Which rows give facts (chronicle#449). Every district row gives a fact for
 every measure, and each package holds all 436 districts: a jurisdiction with
 one district has only a ``CONG_DISTRICT`` 0 row in the file, and that row is its
 district (value id ``<state>_00``). The file's United States row and its state
-total rows give a fact only where no other IRS package gives the same quantity.
+total rows give a fact only where no other IRS package gives the same quantity:
+the same semantic key, the same IRS column in Historic Table 2, or one of the
+17 tax-form lines of ``PUBLICATION_1304_LINES`` below.
 Those totals sit in the ``*_state_totals`` and ``*_us_total`` record sets, under
 the source record ids they had before. Checks about the file itself (its
 classes add up, its districts add up to its state rows) read the CSV, where
@@ -140,7 +142,7 @@ TY2022 = DistrictFile(
     above_one_million=474,
     measures=107,
     state_total_facts=1_836,
-    us_total_facts=47,
+    us_total_facts=30,
 )
 TY2023 = DistrictFile(
     year=2023,
@@ -150,7 +152,7 @@ TY2023 = DistrictFile(
     above_one_million=470,
     measures=106,
     state_total_facts=1_938,
-    us_total_facts=47,
+    us_total_facts=30,
 )
 FILES = pytest.mark.parametrize(
     "district", [TY2022, TY2023], ids=lambda district: f"ty{district.year}"
@@ -759,8 +761,8 @@ def test_each_package_holds_all_436_districts(district):
         "country": district.us_total_facts,
     }
     assert {
-        2022: (54_500, 56_383),
-        2023: (54_064, 56_049),
+        2022: (54_500, 56_366),
+        2023: (54_064, 56_032),
     }[district.year] == (district.district_facts, len(facts))
     by_level: dict[str, set[str]] = defaultdict(set)
     for fact in facts.values():
@@ -887,6 +889,86 @@ def test_a_state_total_row_is_never_a_district_fact(district):
 # (package, tax year) pairs with no file: the package cannot be built then.
 NO_FILE_FOR_YEAR = {("soi-table-1-3", 2022)}
 
+# The third rule of chronicle#449: United States totals of the district file
+# whose tax-form line Publication 1304 gives for the same tax year, in a fact
+# with another domain or concept id. No semantic key and no IRS column pairs
+# the two, so the pairs are declared here, once: the district measure id, then
+# the Publication 1304 package and its source record id after
+# ``irs_soi.ty<year>.``. ``{year}`` is the tax year. The district packages'
+# comment above ``record_sets:`` points to this list.
+TABLE_2_1 = "table_2_1.itemized_all_returns.all"
+TABLE_2_5 = "table_2_5.eitc_by_agi_children"
+TABLE_2_5_PACKAGE = "soi-table-2-5-eitc-agi-children-{year}"
+PUBLICATION_1304_LINES = {
+    # Table 2.1, returns with itemized deductions: Schedule A lines 8a, 8b, 8c,
+    # 9 and 14, under the district file's measure ids.
+    "mortgage_interest_paid_returns": (
+        "soi-table-2-1",
+        f"{TABLE_2_1}.mortgage_interest_paid_returns",
+    ),
+    "mortgage_interest_paid_amount": (
+        "soi-table-2-1",
+        f"{TABLE_2_1}.mortgage_interest_paid_amount",
+    ),
+    "home_mortgage_personal_seller_returns": (
+        "soi-table-2-1",
+        f"{TABLE_2_1}.home_mortgage_personal_seller_returns",
+    ),
+    "home_mortgage_personal_seller_amount": (
+        "soi-table-2-1",
+        f"{TABLE_2_1}.home_mortgage_personal_seller_amount",
+    ),
+    "deductible_points_returns": (
+        "soi-table-2-1",
+        f"{TABLE_2_1}.deductible_points_returns",
+    ),
+    "deductible_points_amount": (
+        "soi-table-2-1",
+        f"{TABLE_2_1}.deductible_points_amount",
+    ),
+    "investment_interest_paid_returns": (
+        "soi-table-2-1",
+        f"{TABLE_2_1}.investment_interest_paid_returns",
+    ),
+    "investment_interest_paid_amount": (
+        "soi-table-2-1",
+        f"{TABLE_2_1}.investment_interest_paid_amount",
+    ),
+    "charitable_returns": ("soi-table-2-1", f"{TABLE_2_1}.charitable_returns"),
+    "charitable_amount": ("soi-table-2-1", f"{TABLE_2_1}.charitable_amount"),
+    # Table 2.5: the EITC for no, one and two qualifying children.
+    "eitc_no_children_claims": (
+        TABLE_2_5_PACKAGE,
+        f"{TABLE_2_5}.no_qualifying_children.total.eitc_returns",
+    ),
+    "eitc_no_children_amount": (
+        TABLE_2_5_PACKAGE,
+        f"{TABLE_2_5}.no_qualifying_children.total.eitc_total",
+    ),
+    "eitc_one_child_claims": (
+        TABLE_2_5_PACKAGE,
+        f"{TABLE_2_5}.one_qualifying_child.total.eitc_returns",
+    ),
+    "eitc_one_child_amount": (
+        TABLE_2_5_PACKAGE,
+        f"{TABLE_2_5}.one_qualifying_child.total.eitc_total",
+    ),
+    "eitc_two_children_claims": (
+        TABLE_2_5_PACKAGE,
+        f"{TABLE_2_5}.two_qualifying_children.total.eitc_returns",
+    ),
+    "eitc_two_children_amount": (
+        TABLE_2_5_PACKAGE,
+        f"{TABLE_2_5}.two_qualifying_children.total.eitc_total",
+    ),
+    # Table 1.4: the self-employed retirement plans deduction. Its returns
+    # count has no Publication 1304 line, so that US total stays.
+    "self_employed_retirement_plans_amount": (
+        "soi-table-1-4",
+        "table_1_4.all.self_employed_pension_contribution_ald",
+    ),
+}
+
 
 @cache
 def _semantic_keys(district: DistrictFile) -> dict[str, str]:
@@ -973,20 +1055,120 @@ def _in_historic_table_2(fact: Any, year: int) -> bool:
     )
 
 
+def _publication_1304_records(district: DistrictFile) -> dict[str, tuple[str, str]]:
+    """District measure id -> (package, source record id) for the tax year."""
+    year = district.year
+    return {
+        measure_id: (package_id.format(year=year), f"irs_soi.ty{year}.{record}")
+        for measure_id, (package_id, record) in PUBLICATION_1304_LINES.items()
+    }
+
+
+def _publication_1304_us_totals(district: DistrictFile) -> set[str]:
+    """Source record ids of the US totals that rule 3 pairs."""
+    return {
+        f"{district.prefix}.all_returns.us.{measure_id}"
+        for measure_id in PUBLICATION_1304_LINES
+    }
+
+
+def _constraint_set(fact: Any) -> set[tuple[str, str, Any]]:
+    return {
+        (constraint.variable, constraint.operator, constraint.value)
+        for constraint in fact.constraints
+    }
+
+
+@FILES
+def test_publication_1304_gives_each_paired_us_line(district):
+    """Each pair of ``PUBLICATION_1304_LINES`` is one tax-form line, twice.
+
+    The Publication 1304 record is in its package built at the tax year. It is
+    a United States fact of that tax year for all returns, in the district
+    measure's unit and with the same qualifying-children constraint, and its
+    domain or its concept id is another: that is why no semantic key pairs the
+    two. Its value is close to the district file's US cell, read from the CSV,
+    and above it: the district file protects small cells and leaves out returns
+    that match no district by ZIP code. Over the 17 pairs and both years the
+    cell is 0.8307 to 0.9895 of the Publication 1304 value, so the bound is
+    0.80 to 1. A line of the wrong size fails it;
+    ``tests/test_chronicle_soi_doc_guide_columns.py`` tells line 8a from the
+    line 10 total, which is inside the bound.
+    """
+    year = district.year
+    facts = _facts(district)
+    others = _other_irs_facts(year)
+    all_returns = _record_sets(district)[f"{district.prefix}.all_returns"]
+    measures = {measure["measure_id"]: measure for measure in all_returns["measures"]}
+    a_district = all_returns["rows"][0]["value_id"]
+    pairs = _publication_1304_records(district)
+
+    assert len(pairs) == 17
+    assert {package_id for package_id, _ in pairs.values()} == {
+        "soi-table-1-4",
+        "soi-table-2-1",
+        f"soi-table-2-5-eitc-agi-children-{year}",
+    }
+    assert len(set(pairs.values())) == 17
+    ratios = {}
+    for measure_id, (package_id, record_id) in pairs.items():
+        (paired,) = [
+            fact for fact in others[package_id] if fact.source_record_id == record_id
+        ]
+        measure = measures[measure_id]
+        district_fact = facts[
+            f"{district.prefix}.all_returns.{a_district}.{measure_id}"
+        ]
+        us_cell = measure.get("value_scale", 1) * _cell(
+            district, "US", 0, 0, measure["source_column_id"]
+        )
+
+        assert (paired.geography.level, paired.geography.id) == (
+            "country",
+            "0100000US",
+        ), measure_id
+        assert (paired.period.type, paired.period.value) == ("tax_year", year)
+        assert paired.filters["income_range"] == "all", measure_id
+        assert paired.measure.unit == district_fact.measure.unit, measure_id
+        assert _constraint_set(paired) == _constraint_set(district_fact), measure_id
+        assert (paired.domain, paired.measure.concept) != (
+            district_fact.domain,
+            district_fact.measure.concept,
+        ), measure_id
+        if package_id == "soi-table-2-1":
+            # Table 2.1 uses the district file's measure id and concept id; its
+            # domain is the returns with itemized deductions.
+            assert record_id.endswith(f".{measure_id}")
+            assert paired.measure.concept == district_fact.measure.concept
+        ratios[measure_id] = us_cell / paired.value
+        assert f"{district.prefix}.all_returns.us.{measure_id}" not in facts
+    assert {
+        measure_id: round(ratio, 4)
+        for measure_id, ratio in ratios.items()
+        if not 0.80 <= ratio < 1.0
+    } == {}
+    assert (round(min(ratios.values()), 4), round(max(ratios.values()), 4)) == {
+        2022: (0.8308, 0.9895),
+        2023: (0.8307, 0.9859),
+    }[year]
+
+
 @FILES
 def test_no_fact_repeats_a_quantity_another_irs_package_gives(district):
     """No district-file fact repeats what another package gives (chronicle#449).
 
-    Two checks, both derived here. First, no fact has the semantic key of a
-    fact of another ``soi-*`` package of the tax year: Historic Table 2
-    (national and state), the Publication 1304 tables, the state data and the
-    rest. Second, no total that stays reads an IRS column that a Historic Table
-    2 package of the tax year reads at the same level for the same class of
-    returns. The second check is there because the two files give some columns
-    different concept ids (A00900, A01700, A06500, A25870, A26270 and their N
-    columns) and Historic Table 2's state EITC package has another domain, so
-    the keys differ where the column and its guide text are the same. Only sets
-    of keys and of columns are compared.
+    Three checks. First, no fact has the semantic key of a fact of another
+    ``soi-*`` package of the tax year: Historic Table 2 (national and state),
+    the Publication 1304 tables, the state data and the rest. Second, no total
+    that stays reads an IRS column that a Historic Table 2 package of the tax
+    year reads at the same level for the same class of returns. The second
+    check is there because the two files give some columns different concept
+    ids (A00900, A01700, A06500, A25870, A26270 and their N columns) and
+    Historic Table 2's state EITC package has another domain, so the keys
+    differ where the column and its guide text are the same. Third, none of
+    the 17 United States totals of ``PUBLICATION_1304_LINES`` is a fact. The
+    first two are derived here, and only sets of keys and of columns are
+    compared.
     """
     year = district.year
     facts = _facts(district)
@@ -1028,6 +1210,8 @@ def test_no_fact_repeats_a_quantity_another_irs_package_gives(district):
     }
     assert repeated == {}
 
+    assert not _publication_1304_us_totals(district) & set(facts)
+
 
 @FILES
 def test_a_total_stays_only_where_no_other_package_gives_it(district):
@@ -1037,12 +1221,15 @@ def test_a_total_stays_only_where_no_other_package_gives_it(district):
     district rows, and a US row for all returns. For each of those rows and
     each measure, the test builds the semantic key the total has: the key of a
     district fact of the measure, with the total's geography. Another package
-    gives the total when a ``soi-*`` package of the tax year has that key, or
-    when a Historic Table 2 package of the tax year reads the same IRS column
-    at the same level for the same class of returns. The total is a fact
-    exactly when no package gives it, and a total that stays keeps the source
-    record id it had before. No list of measures is pinned; the counts and the
-    examples below follow from the keys and the columns.
+    gives the total when (1) a ``soi-*`` package of the tax year has that key,
+    (2) a Historic Table 2 package of the tax year reads the same IRS column
+    at the same level for the same class of returns, or (3) it is one of the
+    17 United States totals of ``PUBLICATION_1304_LINES``. The total is a fact
+    exactly when none of the three gives it, and a total that stays keeps the
+    source record id it had before. Rules 1 and 2 are derived here, with no
+    list of measures; rule 3's pairs are the declared list, and they are the
+    only totals that rule 3 alone removes. The counts and the examples below
+    follow.
     """
     facts = _facts(district)
     keys = _semantic_keys(district)
@@ -1056,9 +1243,11 @@ def test_a_total_stays_only_where_no_other_package_gives_it(district):
     us_total = {
         "us": GeographyDimension(level="country", id="0100000US", vintage="2020_census")
     }
+    publication_1304_lines = _publication_1304_us_totals(district)
     kept: set[str] = set()
     dropped: set[str] = set()
     by_column_only: set[str] = set()
+    by_line_only: set[str] = set()
     for record_set in _district_record_sets(district):
         prefix = record_set["source_record_id_prefix"]
         a_district = record_set["rows"][0]["value_id"]
@@ -1073,11 +1262,14 @@ def test_a_total_stays_only_where_no_other_package_gives_it(district):
                 key = build_semantic_fact_key(total)
                 same_key = key in taken
                 same_column = _in_historic_table_2(total, district.year)
-                if same_key or same_column:
+                same_line = record_id in publication_1304_lines
+                if same_key or same_column or same_line:
                     assert record_id not in facts, record_id
                     dropped.add(record_id)
-                    if not same_key:
+                    if same_column and not same_key:
                         by_column_only.add(record_id)
+                    if not (same_key or same_column):
+                        by_line_only.add(record_id)
                 else:
                     assert keys.get(record_id) == key, record_id
                     kept.add(record_id)
@@ -1089,8 +1281,11 @@ def test_a_total_stays_only_where_no_other_package_gives_it(district):
     }
     assert kept == totals_in_package
     assert len(kept) == district.state_total_facts + district.us_total_facts
-    # 4,539 state and 60 US totals in TY2022, 4,386 and 59 in TY2023.
-    assert len(dropped) == {2022: 4_599, 2023: 4_445}[district.year]
+    # 4,539 state and 77 US totals in TY2022, 4,386 and 76 in TY2023.
+    assert len(dropped) == {2022: 4_616, 2023: 4_462}[district.year]
+    # Each of the 17 pairs is needed: neither a key nor a column removes it.
+    assert by_line_only == publication_1304_lines
+    assert len(by_line_only) == 17
     # The totals sit in their own record sets, apart from the district rows.
     for record_id, fact in facts.items():
         record_set_id = fact.layout.record_set_id
@@ -1108,10 +1303,15 @@ def test_a_total_stays_only_where_no_other_package_gives_it(district):
         # (A00900), or in a package with another domain (N59660).
         "all_returns.us.schedule_c_income_amount": False,
         "all_returns.al_total.eitc_claims": False,
-        # No package gives Schedule A line 8a for the nation under the same
-        # semantic key (Table 2.1 gives it for returns with itemized
-        # deductions), and none gives the standard deduction of a state.
-        "all_returns.us.mortgage_interest_paid_amount": True,
+        # Publication 1304 gives Schedule A line 8a for the nation in Table
+        # 2.1, for returns with itemized deductions, and the self-employed
+        # retirement plans deduction in Table 1.4 under another concept id.
+        "all_returns.us.mortgage_interest_paid_amount": False,
+        "all_returns.us.self_employed_retirement_plans_amount": False,
+        # No package gives the returns with that deduction or the total tax
+        # liability for the nation, or the standard deduction of a state.
+        "all_returns.us.self_employed_retirement_plans_returns": True,
+        "all_returns.us.total_tax_liability_amount": True,
         "all_returns.al_total.standard_deduction_amount": True,
         # Historic Table 2's TY2023 state package splits $500,000 or more in two.
         "agi_500k_plus.al_total.return_count": district.year == 2023,

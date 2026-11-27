@@ -384,8 +384,8 @@ def test_ty2023_district_cells():
     )
     # 106 measures and two for each of nine classes at 436 districts, then the
     # totals that stay: 36 measures and the top class's two at 51 states, and
-    # 47 measures for the United States.
-    assert len(facts) == (106 + 2 * 9) * 436 + (36 + 2) * 51 + 47 == 56_049
+    # 30 measures for the United States.
+    assert len(facts) == (106 + 2 * 9) * 436 + (36 + 2) * 51 + 30 == 56_032
 
 
 EITC_AMOUNT_COLUMNS = ("A59660", "A59661", "A59662", "A59663", "A59664")

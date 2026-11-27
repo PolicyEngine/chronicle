@@ -10,4 +10,4 @@ nine classes add up to the all-class row, and stub 9 is the guide's stubs 9 and
 (`A59660`, 481 facts): in every row it adds the three-or-more-children amount
 in dollars to the other three amounts in thousands. It reads the four amounts
 by number of children as published. See the entry on the district totals for
-the rows that give facts (56,049 facts in all).
+the rows that give facts (56,032 facts in all).

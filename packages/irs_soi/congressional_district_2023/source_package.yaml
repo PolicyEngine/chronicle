@@ -14448,12 +14448,21 @@ artifact:
 # - The file also has a United States row and a state total row for each state. The
 #   IRS guide says that state totals within the congressional data may not be
 #   comparable to the state totals SOI publishes elsewhere, and points to Historic
-#   Table 2 for complete state totals. So a total gives no fact where another
-#   package gives the same quantity for the tax year: a fact with the same semantic
-#   key (Historic Table 2, Publication 1304, the state data), or the same IRS column
-#   in a Historic Table 2 package at the same level. A total that no other package
-#   gives stays, in the *_state_totals and *_us_total record sets, with the source
-#   record id it had before, until a package with the complete total exists.
+#   Table 2 for complete state totals
+#   (tests/data/irs_soi_doc_guides/incddocguide_state_totals.tsv). So a total gives
+#   no fact where another package gives the same quantity for the tax year:
+#   1. a fact with the same semantic key (Historic Table 2, Publication 1304, the
+#      state data);
+#   2. the same IRS column in a Historic Table 2 package at the same level, under
+#      another concept id or domain;
+#   3. for 17 United States totals, the same tax-form line in Publication 1304
+#      Table 2.1 (ten Schedule A items), Table 2.5 (the EITC for no, one and two
+#      qualifying children) or Table 1.4 (the self-employed retirement plans
+#      deduction), which use another domain or concept id. The pairs are listed
+#      in tests/test_chronicle_soi_district_agi_classes.py.
+#   A total that none of the three gives stays, in the *_state_totals and
+#   *_us_total record sets, with the source record id it had before, until a
+#   package with the complete total exists.
 record_sets:
 - record_set_id: irs_soi.ty2023.congressional_district_2023.all_returns
   provenance_class: administrative
@@ -28922,238 +28931,6 @@ record_sets:
       label: AGI stub
     table_record_kind: total
   measures:
-  - measure_id: mortgage_interest_paid_returns
-    label: Returns with home mortgage interest paid to financial institutions
-    ordinal: 36
-    column: CJ
-    source_column_id: N19300
-    expected_column_header_row: 1
-    expected_column_header: N19300
-    concept: irs_soi.returns_with_home_mortgage_interest_paid_to_financial_institutions
-    unit: count
-    aggregation: sum
-    expected_cell_type: number
-  - measure_id: mortgage_interest_paid_amount
-    label: Home mortgage interest paid to financial institutions amount
-    ordinal: 37
-    column: CK
-    source_column_id: A19300
-    expected_column_header_row: 1
-    expected_column_header: A19300
-    concept: irs_soi.home_mortgage_interest_paid_to_financial_institutions
-    unit: usd
-    aggregation: sum
-    value_scale: 1000
-    expected_cell_type: number
-  - measure_id: charitable_returns
-    label: Returns with contributions deduction
-    ordinal: 38
-    column: CR
-    source_column_id: N19700
-    expected_column_header_row: 1
-    expected_column_header: N19700
-    concept: irs_soi.returns_with_contributions_deduction
-    unit: count
-    aggregation: sum
-    expected_cell_type: number
-  - measure_id: charitable_amount
-    label: Contributions deduction amount
-    ordinal: 39
-    column: CS
-    source_column_id: A19700
-    expected_column_header_row: 1
-    expected_column_header: A19700
-    concept: irs_soi.contributions_deduction
-    unit: usd
-    aggregation: sum
-    value_scale: 1000
-    expected_cell_type: number
-  - measure_id: eitc_no_children_claims
-    label: Returns with earned income credit and no qualifying children
-    ordinal: 42
-    column: EF
-    source_column_id: N59661
-    expected_column_header_row: 1
-    expected_column_header: N59661
-    concept: irs_soi.returns_with_earned_income_credit
-    unit: count
-    aggregation: sum
-    expected_cell_type: number
-    filters:
-      eitc_child_count: '0'
-    constraints:
-    - variable: us.tax.earned_income_credit_qualifying_children
-      operator: ==
-      value: 0
-      unit: count
-      label: EITC qualifying children
-  - measure_id: eitc_no_children_amount
-    label: Earned income credit with no qualifying children
-    ordinal: 43
-    column: EG
-    source_column_id: A59661
-    expected_column_header_row: 1
-    expected_column_header: A59661
-    concept: irs_soi.earned_income_credit
-    unit: usd
-    aggregation: sum
-    value_scale: 1000
-    expected_cell_type: number
-    filters:
-      eitc_child_count: '0'
-    constraints:
-    - variable: us.tax.earned_income_credit_qualifying_children
-      operator: ==
-      value: 0
-      unit: count
-      label: EITC qualifying children
-  - measure_id: eitc_one_child_claims
-    label: Returns with earned income credit and one qualifying child
-    ordinal: 44
-    column: EH
-    source_column_id: N59662
-    expected_column_header_row: 1
-    expected_column_header: N59662
-    concept: irs_soi.returns_with_earned_income_credit
-    unit: count
-    aggregation: sum
-    expected_cell_type: number
-    filters:
-      eitc_child_count: '1'
-    constraints:
-    - variable: us.tax.earned_income_credit_qualifying_children
-      operator: ==
-      value: 1
-      unit: count
-      label: EITC qualifying children
-  - measure_id: eitc_one_child_amount
-    label: Earned income credit with one qualifying child
-    ordinal: 45
-    column: EI
-    source_column_id: A59662
-    expected_column_header_row: 1
-    expected_column_header: A59662
-    concept: irs_soi.earned_income_credit
-    unit: usd
-    aggregation: sum
-    value_scale: 1000
-    expected_cell_type: number
-    filters:
-      eitc_child_count: '1'
-    constraints:
-    - variable: us.tax.earned_income_credit_qualifying_children
-      operator: ==
-      value: 1
-      unit: count
-      label: EITC qualifying children
-  - measure_id: eitc_two_children_claims
-    label: Returns with earned income credit and two qualifying children
-    ordinal: 46
-    column: EJ
-    source_column_id: N59663
-    expected_column_header_row: 1
-    expected_column_header: N59663
-    concept: irs_soi.returns_with_earned_income_credit
-    unit: count
-    aggregation: sum
-    expected_cell_type: number
-    filters:
-      eitc_child_count: '2'
-    constraints:
-    - variable: us.tax.earned_income_credit_qualifying_children
-      operator: ==
-      value: 2
-      unit: count
-      label: EITC qualifying children
-  - measure_id: eitc_two_children_amount
-    label: Earned income credit with two qualifying children
-    ordinal: 47
-    column: EK
-    source_column_id: A59663
-    expected_column_header_row: 1
-    expected_column_header: A59663
-    concept: irs_soi.earned_income_credit
-    unit: usd
-    aggregation: sum
-    value_scale: 1000
-    expected_cell_type: number
-    filters:
-      eitc_child_count: '2'
-    constraints:
-    - variable: us.tax.earned_income_credit_qualifying_children
-      operator: ==
-      value: 2
-      unit: count
-      label: EITC qualifying children
-  - measure_id: home_mortgage_personal_seller_returns
-    label: Returns with home mortgage interest paid to individuals
-    ordinal: 56
-    column: CL
-    source_column_id: N19500
-    expected_column_header_row: 1
-    expected_column_header: N19500
-    concept: irs_soi.returns_with_home_mortgage_interest_paid_to_individuals
-    unit: count
-    aggregation: sum
-    expected_cell_type: number
-  - measure_id: home_mortgage_personal_seller_amount
-    label: Home mortgage interest paid to individuals amount
-    ordinal: 57
-    column: CM
-    source_column_id: A19500
-    expected_column_header_row: 1
-    expected_column_header: A19500
-    concept: irs_soi.home_mortgage_interest_paid_to_individuals
-    unit: usd
-    aggregation: sum
-    value_scale: 1000
-    expected_cell_type: number
-  - measure_id: deductible_points_returns
-    label: Returns with deductible points
-    ordinal: 58
-    column: CN
-    source_column_id: N19530
-    expected_column_header_row: 1
-    expected_column_header: N19530
-    concept: irs_soi.returns_with_deductible_points
-    unit: count
-    aggregation: sum
-    expected_cell_type: number
-  - measure_id: deductible_points_amount
-    label: Deductible points amount
-    ordinal: 59
-    column: CO
-    source_column_id: A19530
-    expected_column_header_row: 1
-    expected_column_header: A19530
-    concept: irs_soi.deductible_points
-    unit: usd
-    aggregation: sum
-    value_scale: 1000
-    expected_cell_type: number
-  - measure_id: investment_interest_paid_returns
-    label: Returns with investment interest expense deduction
-    ordinal: 60
-    column: CP
-    source_column_id: N19570
-    expected_column_header_row: 1
-    expected_column_header: N19570
-    concept: irs_soi.returns_with_investment_interest_expense_deduction
-    unit: count
-    aggregation: sum
-    expected_cell_type: number
-  - measure_id: investment_interest_paid_amount
-    label: Investment interest expense deduction amount
-    ordinal: 61
-    column: CQ
-    source_column_id: A19570
-    expected_column_header_row: 1
-    expected_column_header: A19570
-    concept: irs_soi.investment_interest_expense_deduction
-    unit: usd
-    aggregation: sum
-    value_scale: 1000
-    expected_cell_type: number
   - measure_id: taxes_paid_deduction_returns
     label: Returns with taxes paid deduction
     ordinal: 72
@@ -29428,18 +29205,6 @@ record_sets:
     concept: irs_soi.returns_with_self_employed_retirement_plans_deduction
     unit: count
     aggregation: sum
-    expected_cell_type: number
-  - measure_id: self_employed_retirement_plans_amount
-    label: Self-employed SEP, SIMPLE and qualified plans deduction
-    ordinal: 100
-    column: BF
-    source_column_id: A03300
-    expected_column_header_row: 1
-    expected_column_header: A03300
-    concept: irs_soi.self_employed_retirement_plans_deduction
-    unit: usd
-    aggregation: sum
-    value_scale: 1000
     expected_cell_type: number
   - measure_id: ira_deduction_returns
     label: Returns with IRA deduction

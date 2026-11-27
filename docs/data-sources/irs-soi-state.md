@@ -352,8 +352,9 @@ lineage. The state-grain packages are:
   liability); and returns and AGI in the nine AGI classes of
   `soi-historic-table-2-state-agi-2022` (chronicle#447). The file's United
   States row and state total rows give a fact only where no other package has
-  a fact with the same semantic key for the tax year and no Historic Table 2
-  package reads the same IRS column (chronicle#449): the IRS guide says
+  a fact with the same semantic key for the tax year, no Historic Table 2
+  package reads the same IRS column, and Publication 1304 Tables 2.1, 2.5 and
+  1.4 do not give the same tax-form line (chronicle#449): the IRS guide says
   that state totals within the congressional data may not be comparable to the
   state totals SOI publishes elsewhere, and points to Historic Table 2 for
   complete state totals. A jurisdiction with one district has one row in the

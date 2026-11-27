@@ -16,6 +16,13 @@ artifact:
   sheet_name: jct_tax_expenditures_2025
 record_sets:
   - record_set_id: jct.tax_expenditures.fy2025
+    # A JCT tax expenditure estimate is a model estimate, so the record set is
+    # model_output. Its assertion stays the default, observation: fiscal year
+    # 2025 had ended when JCT published JCX-45-25 in December 2025, and
+    # docs/agent-source-package-harness.md types a model estimate of a period
+    # that had happened as model_output + observation (the maintainer's ruling
+    # in chronicle#449). The later fiscal years of the table, which the package
+    # does not read, would be source_projection.
     provenance_class: model_output
     record_set_spec_id: jct.individual_tax_expenditure_revenue_loss.v1
     source_record_id_prefix: jct.tax_expenditures.fy2025

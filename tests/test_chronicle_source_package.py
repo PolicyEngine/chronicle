@@ -4476,8 +4476,8 @@ def test_soi_congressional_district_2022_builds_all_return_facts():
     # 2's state package reads (chronicle#447 item 2.2) and 30 without one (item
     # 2.3); then 2 measures at 9 AGI classes for the 436 districts (item 2.1).
     # The totals no other package gives (chronicle#449): 36 measures at the 51
-    # states and 47 for the United States.
-    assert len(facts) == (107 + 2 * 9) * 436 + 36 * 51 + 47 == 56_383
+    # states and 30 for the United States.
+    assert len(facts) == (107 + 2 * 9) * 436 + 36 * 51 + 30 == 56_366
     assert len(values_by_record) == len(facts)
     assert validate_source_rows(rows).valid
     assert validate_source_cells(cells).valid
@@ -4485,7 +4485,7 @@ def test_soi_congressional_district_2022_builds_all_return_facts():
     assert {
         level: sum(fact.geography.level == level for fact in facts)
         for level in {fact.geography.level for fact in facts}
-    } == {"congressional_district": 54_500, "state": 1_836, "country": 47}
+    } == {"congressional_district": 54_500, "state": 1_836, "country": 30}
     assert len({fact.geography.id for fact in facts}) == 436 + 51 + 1
     assert all(fact.source_row_keys for fact in facts)
     assert all(fact.source.raw_r2_uri for fact in facts)
@@ -4501,7 +4501,7 @@ def test_soi_congressional_district_2022_builds_all_return_facts():
 
     us_columns = columns("us")
     al_01_columns = columns("al_01")
-    assert len(us_columns) == 47
+    assert len(us_columns) == 30
     assert len(al_01_columns) == 107
     # US totals that another package gives (Historic Table 2, Publication 1304
     # or the state data): cells of the file's US row, as published, and no
@@ -4519,6 +4519,13 @@ def test_soi_congressional_district_2022_builds_all_return_facts():
         "premium_tax_credit_amount": ("A85770", 53_073_341),
         "wages_salaries_amount": ("A00200", 9_493_040_700),
         "standard_deduction_amount": ("A04450", 2_545_798_792),
+        # Schedule A lines 8a, 8b, 8c and 9: Publication 1304 Table 2.1 gives
+        # them for the nation.
+        "mortgage_interest_paid_returns": ("N19300", 11_352_500),
+        "mortgage_interest_paid_amount": ("A19300", 140_135_155),
+        "home_mortgage_personal_seller_amount": ("A19500", 2_583_705),
+        "deductible_points_amount": ("A19530", 1_014_806),
+        "investment_interest_paid_amount": ("A19570", 19_977_693),
     }
     for measure_id, (column, published) in us_file_cells.items():
         assert measure_id not in us_columns, measure_id
@@ -4536,14 +4543,14 @@ def test_soi_congressional_district_2022_builds_all_return_facts():
     assert al_01_columns["premium_tax_credit_returns"] == (25_680, "N85770")
     assert al_01_columns["premium_tax_credit_amount"] == (216_553_000, "A85770")
     assert al_01_columns["eitc_amount"] == (202_256_000, "A59660")
-    assert us_columns["mortgage_interest_paid_returns"] == (11_352_500, "N19300")
-    assert us_columns["mortgage_interest_paid_amount"] == (140_135_155_000, "A19300")
-    assert us_columns["home_mortgage_personal_seller_amount"] == (
-        2_583_705_000,
+    assert al_01_columns["mortgage_interest_paid_returns"] == (14_340, "N19300")
+    assert al_01_columns["mortgage_interest_paid_amount"] == (146_558_000, "A19300")
+    assert al_01_columns["home_mortgage_personal_seller_amount"] == (
+        2_598_000,
         "A19500",
     )
-    assert us_columns["deductible_points_amount"] == (1_014_806_000, "A19530")
-    assert us_columns["investment_interest_paid_amount"] == (19_977_693_000, "A19570")
+    assert al_01_columns["deductible_points_amount"] == (655_000, "A19530")
+    assert al_01_columns["investment_interest_paid_amount"] == (15_727_000, "A19570")
     assert "interest_paid_deduction_amount" not in us_columns
     assert "interest_paid_deduction_amount" not in al_01_columns
     eitc_three_or_more_amount = values_by_record[

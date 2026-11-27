@@ -1141,7 +1141,7 @@ def test_congressional_district_us_row_is_a_subset_of_historic_table_2(
     assert not {
         HT2_TO_DISTRICT_IDS.get(measure_id, measure_id) for measure_id in pairs
     } & set(us_facts)
-    assert len(us_facts) == 47
+    assert len(us_facts) == 30
     assert {
         measure_id: round(cd / ht2_value, 4)
         for measure_id, (cd, ht2_value) in pairs.items()
@@ -1156,11 +1156,21 @@ def test_district_interest_parts_match_table_2_1_lines_8a_and_10():
     through 8c (8d is reserved). The district's line 8a column is close to
     Table 2.1's line 8a, well short of its line 10 total, and the four parts
     together come close to line 10.
+
+    The district file's US cells are read from the CSV. They give no fact,
+    because Table 2.1 gives the same Schedule A lines for the nation
+    (chronicle#449; the pairs are ``PUBLICATION_1304_LINES`` in
+    ``tests/test_chronicle_soi_district_agi_classes.py``). This comparison is
+    the evidence for the line 8a pair, and for the three other parts together.
     """
-    district = _us_values(
+    district = _district_file_us_row(2022)
+    us_facts = _us_values(
         "soi-congressional-district-2022",
         "irs_soi.ty2022.congressional_district_2022.all_returns.us.",
     )
+    for part in SCHEDULE_A_INTEREST_PARTS:
+        for suffix in ("returns", "amount"):
+            assert f"{part}_{suffix}" not in us_facts
     table_2_1 = _us_values(
         "soi-table-2-1", "irs_soi.ty2022.table_2_1.itemized_all_returns.all."
     )
