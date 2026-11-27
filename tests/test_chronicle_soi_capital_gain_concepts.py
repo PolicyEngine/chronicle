@@ -156,11 +156,24 @@ def _facts_by_record(package_id: str, year: int) -> dict[str, Any]:
     return {fact.source_record_id: fact for fact in package.build_facts(year)}
 
 
+DISTRICT_ALL_RETURNS = "irs_soi.ty2022.congressional_district_2022.all_returns"
+
+
 @pytest.fixture(scope="module")
-def capital_gain_rows() -> dict[str, dict[str, Any]]:
-    """Consumer rows for the US all-returns capital-gain facts, TY2022."""
+def district_facts() -> dict[str, Any]:
+    return _facts_by_record("soi-congressional-district-2022", 2022)
+
+
+@pytest.fixture(scope="module")
+def capital_gain_rows(district_facts) -> dict[str, dict[str, Any]]:
+    """Consumer rows for the all-returns capital-gain facts, TY2022.
+
+    Historic Table 2's and Table 1.4's are the US facts. The district package
+    gives no US fact for line 7, because Historic Table 2 gives the quantity
+    (chronicle#449), so its rows are those of Alabama's first district.
+    """
     ht2 = _facts_by_record("soi-historic-table-2", 2022)
-    cd = _facts_by_record("soi-congressional-district-2022", 2022)
+    cd = district_facts
     table_1_4 = _facts_by_record("soi-table-1-4", 2022)
     facts = {
         "ht2_returns": ht2[
@@ -169,14 +182,8 @@ def capital_gain_rows() -> dict[str, dict[str, Any]]:
         "ht2_amount": ht2[
             "irs_soi.ty2022.historic_table_2.us.all.net_capital_gains_amount"
         ],
-        "cd_returns": cd[
-            "irs_soi.ty2022.congressional_district_2022.all_returns.us."
-            "net_capital_gains_returns"
-        ],
-        "cd_amount": cd[
-            "irs_soi.ty2022.congressional_district_2022.all_returns.us."
-            "net_capital_gains_amount"
-        ],
+        "cd_returns": cd[f"{DISTRICT_ALL_RETURNS}.al_01.net_capital_gains_returns"],
+        "cd_amount": cd[f"{DISTRICT_ALL_RETURNS}.al_01.net_capital_gains_amount"],
         "t14_returns": table_1_4[
             "irs_soi.ty2022.table_1_4.all.net_capital_gains_returns"
         ],
@@ -187,7 +194,9 @@ def capital_gain_rows() -> dict[str, dict[str, Any]]:
     return {name: consumer_fact_row(fact) for name, fact in facts.items()}
 
 
-def test_consumer_selector_survives_the_concept_rename(capital_gain_rows):
+def test_consumer_selector_survives_the_concept_rename(
+    capital_gain_rows, district_facts
+):
     # Consumers select these facts by source_measure_id; the rename must not
     # move it, and the values stay the published cells.
     expected = {
@@ -201,11 +210,12 @@ def test_consumer_selector_survives_the_concept_rename(capital_gain_rows):
             LINE_7_AMOUNT_CONCEPT,
             1_251_675_034_000,
         ),
-        "cd_returns": ("net_capital_gains_returns", LINE_7_RETURNS_CONCEPT, 29_845_710),
+        # 22incd.csv, Alabama's district 1: N01000 and A01000 (in thousands).
+        "cd_returns": ("net_capital_gains_returns", LINE_7_RETURNS_CONCEPT, 43_350),
         "cd_amount": (
             "net_capital_gains_amount",
             LINE_7_AMOUNT_CONCEPT,
-            1_157_234_600_000,
+            1_452_018_000,
         ),
         "t14_returns": (
             "net_capital_gains_returns",
@@ -224,6 +234,29 @@ def test_consumer_selector_survives_the_concept_rename(capital_gain_rows):
         assert row["observed_measure"]["source_measure_id"] == measure_id, name
         assert row["observed_measure"]["source_concept"] == concept, name
         assert row["value"] == value, name
+
+    # The district file's US cells (29,845,710 returns; 1,157,234,600 in
+    # thousands of dollars) give no fact since chronicle#449: Historic Table 2
+    # gives line 7 for the nation. Every district fact carries the line-7
+    # concept, and the 436 of each measure add up to the file's US cell.
+    us_cells = {
+        "net_capital_gains_returns": (LINE_7_RETURNS_CONCEPT, 29_845_710),
+        "net_capital_gains_amount": (LINE_7_AMOUNT_CONCEPT, 1_157_234_600_000),
+    }
+    for measure_id, (concept, us_cell) in us_cells.items():
+        in_districts = [
+            fact
+            for record_id, fact in district_facts.items()
+            if record_id.startswith(f"{DISTRICT_ALL_RETURNS}.")
+            and record_id.endswith(f".{measure_id}")
+        ]
+        assert len(in_districts) == 436, measure_id
+        assert {fact.geography.level for fact in in_districts} == {
+            "congressional_district"
+        }
+        assert {fact.measure.concept for fact in in_districts} == {concept}
+        assert sum(fact.value for fact in in_districts) == us_cell, measure_id
+        assert f"{DISTRICT_ALL_RETURNS}.us.{measure_id}" not in district_facts
 
 
 def _cells_by_address(package_id: str, year: int) -> dict[str, Any]:

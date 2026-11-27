@@ -1042,6 +1042,28 @@ HT2_TO_DISTRICT_IDS = {
 NOT_READ_BY_DISTRICT = {2022: frozenset(), 2023: frozenset({"eitc_amount"})}
 
 
+def _district_file_us_row(year: int) -> dict[str, float]:
+    """The district file's United States row, by the package's measure ids.
+
+    Each cell is read from the CSV by the column header its measure declares
+    and scaled as the measure declares. The package gives a fact for a US cell
+    only where no other package gives the quantity (chronicle#449), so a check
+    against another publication reads the file.
+    """
+    package_dir = IRS_SOI_PACKAGES / f"congressional_district_{year}"
+    payload = yaml.safe_load((package_dir / "source_package.yaml").read_text())
+    _data_file, data_path = _artifact_file(payload["artifact"])
+    with data_path.open(newline="", encoding="utf-8-sig") as file:
+        (us_row,) = [row for row in csv.DictReader(file) if row["STATE"] == "US"]
+    all_returns = payload["record_sets"][0]
+    assert all_returns["record_set_id"].endswith(f"_{year}.all_returns")
+    return {
+        measure["measure_id"]: measure.get("value_scale", 1)
+        * float(us_row[measure["source_column_id"]])
+        for measure in all_returns["measures"]
+    }
+
+
 @pytest.mark.parametrize(
     ("year", "ht2_package"),
     [(2022, "soi-historic-table-2"), (2023, "soi-historic-table-2-2023")],
@@ -1059,12 +1081,27 @@ def test_congressional_district_us_row_is_a_subset_of_historic_table_2(
     the TY2022 district package used to read gave 2.04 (SALT amount), 0.72
     (SALT returns), 0.87 and 0.26 (PTC returns and amount), and the district
     QBI deduction was 6.65 times what Historic Table 2's ``qbi_amount`` read.
+
+    The district package gives no fact for these US cells, because Historic
+    Table 2 gives each quantity (chronicle#449). So the US row is read from the
+    CSV, through the column and scale each measure declares, and the 436
+    district facts of each measure add up to it: the check still covers the
+    columns the district facts read.
     """
-    district = _us_values(
-        f"soi-congressional-district-{year}",
-        f"irs_soi.ty{year}.congressional_district_{year}.all_returns.us.",
-        year,
+    district = _district_file_us_row(year)
+    district_prefix = f"irs_soi.ty{year}.congressional_district_{year}.all_returns."
+    in_districts: dict[str, int] = defaultdict(int)
+    for record_id, fact in _facts(f"soi-congressional-district-{year}", year).items():
+        if (
+            record_id.startswith(district_prefix)
+            and fact.geography.level == "congressional_district"
+        ):
+            in_districts[record_id.rsplit(".", 1)[1]] += fact.value
+    assert in_districts == district
+    us_facts = _us_values(
+        f"soi-congressional-district-{year}", f"{district_prefix}us.", year
     )
+    assert us_facts.items() <= district.items()
     ht2 = _us_values(ht2_package, f"irs_soi.ty{year}.historic_table_2.us.all.", year)
     pairs = {
         measure_id: (district[HT2_TO_DISTRICT_IDS.get(measure_id, measure_id)], value)
@@ -1100,6 +1137,11 @@ def test_congressional_district_us_row_is_a_subset_of_historic_table_2(
     }
     assert missing == NOT_READ_BY_DISTRICT[year]
     assert len(pairs) == 55 - len(missing)
+    # None of the compared US cells is a fact of the district package.
+    assert not {
+        HT2_TO_DISTRICT_IDS.get(measure_id, measure_id) for measure_id in pairs
+    } & set(us_facts)
+    assert len(us_facts) == 47
     assert {
         measure_id: round(cd / ht2_value, 4)
         for measure_id, (cd, ht2_value) in pairs.items()

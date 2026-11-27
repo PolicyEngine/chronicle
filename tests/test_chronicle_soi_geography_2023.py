@@ -7,6 +7,12 @@ TY2022 file those of the 117th; each guide says so in section D
 (``5001800US``), its own record_set_spec_ids, and no district key that a
 117th-Congress district also uses. It reads the columns and AGI classes
 chronicle#448 added to the TY2022 package (chronicle#449).
+
+Each district package holds all 436 districts of its Congress, the at-large
+ones too, and gives a fact for a state or US total of the file only where no
+other package gives the same quantity (chronicle#449;
+``tests/test_chronicle_soi_district_agi_classes.py`` checks the rule). A total
+that gives no fact is still in the CSV, and the tests below read it there.
 """
 
 import csv
@@ -14,6 +20,7 @@ from copy import deepcopy
 from functools import cache
 from pathlib import Path
 import re
+from typing import Any
 
 import pytest
 import yaml
@@ -100,6 +107,8 @@ def test_new_geographies_match_the_source(
     )
     if not county:
         assert selected["return_count"].geography.vintage == "118th_congress"
+        # 429 districts with a numbered row in the file and the seven at-large
+        # districts (chronicle#449).
         assert (
             sum(
                 fact.geography.level == "congressional_district"
@@ -107,7 +116,7 @@ def test_new_geographies_match_the_source(
                 and fact.source_record_id.endswith(".return_count")
                 for fact in facts
             )
-            == 429
+            == 436
         )
 
 
@@ -127,8 +136,12 @@ def test_district_rows_use_the_congress_their_guide_names(year):
     A 118th-Congress district is ``5001800US`` + state FIPS + district (the
     Congress's last two digits after summary level 500), as the Census Bureau
     writes it; the ACS district packages use ``5001900US`` for the 119th
-    Congress. The states the guide lists with one district publish no district
-    row; every other state publishes two or more.
+    Congress. The states the guide lists with one district publish only a
+    CONG_DISTRICT 0 row. That row is their district (chronicle#449): the GEOID
+    district is 00, and 98 for the District of Columbia's delegate district.
+    Every other state publishes two or more numbered district rows. A record
+    set of totals that stay has no district row: it has the US row, or the
+    CONG_DISTRICT 0 row of each of the 51 states.
     """
     sentences = _guide_sentences()[f"{year % 100}incddocguide"]
     congress = re.fullmatch(
@@ -148,33 +161,60 @@ def test_district_rows_use_the_congress_their_guide_names(year):
     )
     assert {"2022": "117", "2023": "118"}[str(year)] == congress
     summary_level = f"500{int(congress) % 100:02d}00US"
-    for record_set in _payload(year)["record_sets"]:
+    record_sets = _payload(year)["record_sets"]
+    for record_set in record_sets:
         districts_by_state: dict[str, int] = {}
+        at_large: list[str] = []
+        totals: list[str] = []
         for row in record_set["rows"]:
-            if row["geography_level"] != "congressional_district":
-                assert row["geography_vintage"] == "2020_census", row["value_id"]
-                assert not row["geography_id"].startswith("500"), row["value_id"]
-                continue
             guards = {guard["label"]: guard for guard in row["guard_cells"]}
             fips = guards["state FIPS"]["expected_value"]
             district = guards["congressional district code"]["expected_value"]
-            assert row["geography_vintage"] == f"{congress}th_congress"
-            assert row["geography_id"] == f"{summary_level}{fips:02d}{district:02d}"
             state = row["expected_row_header"]
-            districts_by_state[state] = districts_by_state.get(state, 0) + 1
-        states = {
-            row["expected_row_header"]
-            for row in record_set["rows"]
-            if row["geography_level"] == "state"
-        }
+            if row["geography_level"] != "congressional_district":
+                assert row["geography_vintage"] == "2020_census", row["value_id"]
+                assert not row["geography_id"].startswith("500"), row["value_id"]
+                assert district == 0, row["value_id"]
+                totals.append(state)
+                continue
+            assert row["geography_vintage"] == f"{congress}th_congress"
+            if district:
+                code = f"{district:02d}"
+                districts_by_state[state] = districts_by_state.get(state, 0) + 1
+            else:
+                code = "98" if state == "DC" else "00"
+                assert row["value_id"] == f"{state.lower()}_00"
+                at_large.append(state)
+            assert row["geography_id"] == f"{summary_level}{fips:02d}{code}"
+        if totals:
+            assert not districts_by_state and not at_large
+            assert totals == ["US"] or (
+                len(totals) == len(set(totals)) == 51 and "US" not in totals
+            )
+            continue
+        states = set(districts_by_state) | set(at_large)
         assert len(states) == 51
-        assert one_district <= states
+        assert sorted(at_large) == sorted(one_district)
         assert set(districts_by_state) == states - one_district
         assert min(districts_by_state.values()) >= 2
+        assert sum(districts_by_state.values()) + len(at_large) == 436
+    # All returns and nine classes have district rows; the others are totals.
+    assert (
+        sum(
+            record_set["rows"][0]["geography_level"] == "congressional_district"
+            for record_set in record_sets
+        )
+        == 10
+    )
 
 
 def test_ty2023_districts_are_their_own_series():
-    """No TY2023 district key is a TY2022 (117th Congress) district key."""
+    """No TY2023 district key is a TY2022 (117th Congress) district key.
+
+    Each year has all 436 districts (chronicle#449): the districts with a
+    numbered row in the file (428 and 429) and the at-large ones (eight and
+    seven).
+    """
     old, new = _payload(2022), _payload(2023)
 
     def district_ids(payload):
@@ -190,12 +230,16 @@ def test_ty2023_districts_are_their_own_series():
             record_set["record_set_spec_id"] for record_set in payload["record_sets"]
         }
 
-    assert len(district_ids(old)) == 428
-    assert len(district_ids(new)) == 429
+    assert len(district_ids(old)) == 436
+    assert len(district_ids(new)) == 436
     assert not district_ids(old) & district_ids(new)
     assert spec_ids(new) == {
         "irs_soi.congressional_district_2023.all_returns.v1",
         "irs_soi.congressional_district_2023.agi_class.v1",
+        # The file's totals that no other package gives (chronicle#449).
+        "irs_soi.congressional_district_2023.all_returns_state_totals.v1",
+        "irs_soi.congressional_district_2023.all_returns_us_total.v1",
+        "irs_soi.congressional_district_2023.agi_class_state_totals.v1",
     }
     assert not spec_ids(old) & spec_ids(new)
     assert all(
@@ -241,24 +285,93 @@ def test_ty2023_reads_the_columns_448_added_to_ty2022():
         assert new_measure == expected
 
 
+@cache
+def _file_rows(year: int) -> list[dict[str, str]]:
+    """The district CSV's rows, as published (amounts in thousands)."""
+    path = (
+        REPO_ROOT
+        / f"db/data/irs_soi/congressional_district_{year}"
+        / f"{year % 100}incd.csv"
+    )
+    with path.open(newline="", encoding="utf-8-sig") as file:
+        return list(csv.DictReader(file))
+
+
+def _file_cell(
+    year: int, state: str, cong_district: int, agi_stub: int, column: str
+) -> float:
+    (row,) = [
+        row
+        for row in _file_rows(year)
+        if row["STATE"] == state
+        and int(row["CONG_DISTRICT"]) == cong_district
+        and int(row["agi_stub"]) == agi_stub
+    ]
+    return float(row[column])
+
+
 def test_ty2023_district_cells():
-    """Cells of the new measures and classes, as 23incd.csv publishes them."""
+    """Cells of the new measures and classes, as 23incd.csv publishes them.
+
+    A US or state total that another package gives is no fact any more
+    (chronicle#449). Such a cell is pinned in the CSV, in thousands for an
+    amount, next to a district fact of the same measure.
+    """
     facts = _facts_2023()
     cells = {
-        "all_returns.us.wages_salaries_amount": (10_090_847_180_000, "A00200"),
-        "all_returns.us.standard_deduction_amount": (2_775_570_555_000, "A04450"),
         "all_returns.us.total_tax_liability_amount": (2_246_087_774_000, "A10300"),
         "all_returns.mt_02.itemized_deductions_returns": (18_530, "N04470"),
-        "all_returns.ca_total.real_estate_taxes_claims": (2_393_990, "N18500"),
         "all_returns.al_01.net_investment_income_tax_amount": (32_347_000, "A85300"),
         "all_returns.co_08.self_employed_health_insurance_ald": (43_844_000, "A03270"),
-        "agi_under_1.al_total.return_count": (27_030, "N1"),
-        "agi_under_1.al_total.adjusted_gross_income": (-929_106_000, "A00100"),
         "agi_500k_plus.ca_12.return_count": (12_660, "N1"),
+        # District cells of the measures whose pinned total gives no fact now.
+        # Wyoming has one district: its fact reads the state's only row.
+        "all_returns.wy_00.wages_salaries_amount": (15_643_483_000, "A00200"),
+        "all_returns.wy_00.standard_deduction_amount": (5_293_416_000, "A04450"),
+        "all_returns.ca_12.real_estate_taxes_claims": (51_740, "N18500"),
+        "agi_under_1.al_01.return_count": (4_470, "N1"),
+        "agi_under_1.al_01.adjusted_gross_income": (-163_354_000, "A00100"),
+        # A state total of the top class stays in TY2023: Historic Table 2's
+        # state package splits $500,000 or more in two.
+        "agi_500k_plus.al_total.return_count": (20_240, "N1"),
+        "agi_500k_plus.al_total.adjusted_gross_income": (27_974_010_000, "A00100"),
     }
     for record, expected in cells.items():
         fact = facts[f"{PREFIX}.{record}"]
         assert (fact.value, fact.layout.source_column_id) == expected, record
+    # Totals that Historic Table 2 or Publication 1304 gives: no fact here, and
+    # the same cell in the file as before. Each entry is the file's (STATE,
+    # CONG_DISTRICT, agi_stub) row, the column and the published cell.
+    file_only = {
+        "all_returns.us.wages_salaries_amount": (
+            ("US", 0, 0),
+            "A00200",
+            10_090_847_180,
+        ),
+        "all_returns.us.standard_deduction_amount": (
+            ("US", 0, 0),
+            "A04450",
+            2_775_570_555,
+        ),
+        "all_returns.ca_total.real_estate_taxes_claims": (
+            ("CA", 0, 0),
+            "N18500",
+            2_393_990,
+        ),
+        "agi_under_1.al_total.return_count": (("AL", 0, 1), "N1", 27_030),
+        "agi_under_1.al_total.adjusted_gross_income": (
+            ("AL", 0, 1),
+            "A00100",
+            -929_106,
+        ),
+    }
+    for record, (row, column, published) in file_only.items():
+        assert f"{PREFIX}.{record}" not in facts, record
+        assert _file_cell(2023, *row, column) == published, record
+    wyoming = facts[f"{PREFIX}.all_returns.wy_00.wages_salaries_amount"]
+    assert wyoming.geography.id == "5001800US5600"
+    assert wyoming.geography.name == "Wyoming Congressional District (at Large)"
+    assert wyoming.value == 1000 * _file_cell(2023, "WY", 0, 0, "A00200")
     top = facts[f"{PREFIX}.agi_500k_plus.ca_12.return_count"]
     assert top.geography.id == "5001800US0612"
     assert top.geography.vintage == "118th_congress"
@@ -269,26 +382,24 @@ def test_ty2023_district_cells():
     assert not any(
         record.startswith(f"{PREFIX}.agi_") and ".us." in record for record in facts
     )
-    assert len(facts) == 106 * 481 + 2 * 9 * 480
+    # 106 measures and two for each of nine classes at 436 districts, then the
+    # totals that stay: 36 measures and the top class's two at 51 states, and
+    # 47 measures for the United States.
+    assert len(facts) == (106 + 2 * 9) * 436 + (36 + 2) * 51 + 47 == 56_049
 
 
 EITC_AMOUNT_COLUMNS = ("A59660", "A59661", "A59662", "A59663", "A59664")
 
 
-def _eitc_rows(year: int) -> list[dict[str, float]]:
-    path = (
-        REPO_ROOT
-        / f"db/data/irs_soi/congressional_district_{year}"
-        / f"{year % 100}incd.csv"
-    )
-    with path.open(newline="", encoding="utf-8-sig") as file:
-        return [
-            {
-                "agi_stub": int(row["agi_stub"]),
-                **{column: float(row[column]) for column in EITC_AMOUNT_COLUMNS},
-            }
-            for row in csv.DictReader(file)
-        ]
+def _eitc_rows(year: int) -> list[dict[str, Any]]:
+    return [
+        {
+            "STATE": row["STATE"],
+            "agi_stub": int(row["agi_stub"]),
+            **{column: float(row[column]) for column in EITC_AMOUNT_COLUMNS},
+        }
+        for row in _file_rows(year)
+    ]
 
 
 def test_ty2023_eitc_total_column_adds_a_dollar_column_to_thousands():
@@ -303,6 +414,10 @@ def test_ty2023_eitc_total_column_adds_a_dollar_column_to_thousands():
     Historic Table 2. So soi-congressional-district-2023 reads no A59660 and
     computes no total (chronicle#449). If the IRS corrects the file, the sum
     check below fails: read A59660 again then.
+
+    The US row's cells are read from the CSV. Its A59664 gives no fact, because
+    the state data gives the quantity (chronicle#449); the 436 district facts
+    add up to it, in dollars.
     """
     rows_2022 = [row for row in _eitc_rows(2022) if row["agi_stub"] == 0]
     assert len(rows_2022) == 480
@@ -314,8 +429,10 @@ def test_ty2023_eitc_total_column_adds_a_dollar_column_to_thousands():
     for row in rows_2023:
         parts = row["A59661"] + row["A59662"] + row["A59663"] + row["A59664"]
         assert row["A59660"] == parts, row
-    (us_2023,) = [row for row in rows_2023 if row["A59660"] == 15_325_005_218]
+    (us_2023,) = [row for row in rows_2023 if row["STATE"] == "US"]
+    assert us_2023["A59660"] == 15_325_005_218
     assert us_2023["A59664"] == 15_275_346_253
+    assert us_2023["A59661"] + us_2023["A59662"] + us_2023["A59663"] == 49_658_965
 
     reads = {
         measure["source_column_id"]: measure
@@ -334,8 +451,22 @@ def test_ty2023_eitc_total_column_adds_a_dollar_column_to_thousands():
         "A59664": 1,
     }
     facts = _facts_2023()
-    three_plus = facts[f"{PREFIX}.all_returns.us.eitc_three_or_more_children_amount"]
-    assert three_plus.value == 15_275_346_253
+    three_plus_id = "eitc_three_or_more_children_amount"
+    three_plus = [
+        fact
+        for record, fact in facts.items()
+        if record.startswith(f"{PREFIX}.all_returns.")
+        and record.endswith(f".{three_plus_id}")
+        and fact.geography.level == "congressional_district"
+    ]
+    assert len(three_plus) == 436
+    assert {fact.layout.source_column_id for fact in three_plus} == {"A59664"}
+    assert sum(fact.value for fact in three_plus) == 15_275_346_253
+    # The state data gives the national quantity, and Historic Table 2's state
+    # EITC package reads A59664 for each state, so neither total of the
+    # district file gives a fact.
+    assert f"{PREFIX}.all_returns.us.{three_plus_id}" not in facts
+    assert f"{PREFIX}.all_returns.al_total.{three_plus_id}" not in facts
     # In TY2022 the total stays: the file publishes it in thousands.
     old_reads = {
         measure["source_column_id"]: measure["measure_id"]

@@ -1,0 +1,32 @@
+The two IRS SOI congressional district packages
+(`soi-congressional-district-2022` and `soi-congressional-district-2023`) no
+longer give a fact for a state total or the United States total of the district
+file where another package gives the same quantity for the tax year
+(chronicle#449). The IRS guide says that state totals within the congressional
+data may not be comparable to the state totals SOI publishes elsewhere, and
+points to Historic Table 2 for complete state totals. 4,599 TY2022 facts and
+4,445 TY2023 facts go. Most had the semantic key of a Historic Table 2,
+Publication 1304 or state-data fact of the same tax year (3,569 and 3,466),
+with a different value in most pairs. The others (1,030 and 979) read an IRS
+column that a Historic Table 2 package of the same tax year also reads at the
+same level, under another concept id or domain. The totals that no other
+package gives stay until a package with the complete total exists (1,836 state
+and 47 national facts for TY2022; 1,938 state and 47 national facts for
+TY2023). They move to the new record sets `...all_returns_state_totals`,
+`...all_returns_us_total` and, for TY2023, `...agi_500k_plus_state_totals`;
+they keep their source record ids, semantic keys and values, and their
+aggregate and source series keys change with the record set. The jurisdictions
+with one district (eight in TY2022, seven in TY2023) have only one row in the
+file. That row is now a congressional district fact (value id `<state>_00`,
+GEOID `<state FIPS>00`, and `98` for the District of Columbia's delegate
+district), so each package holds all 436 districts: 1,000 new district facts
+for TY2022 and 868 for TY2023. The district facts that existed before keep
+their ids, keys and values; their record set spec hash changes, because the
+record sets lost rows, and the kept totals also change their record set id and
+record set spec id. Three United States totals of each year (the standard
+deduction amount, and the self-employed health insurance deduction amount and
+returns) go because Publication 1304 Tables 1.2 and 1.4 give them; those
+packages build one tax year at a time, so their TY2022 values are in a build
+for 2022 and not in a bundle built for 2023. A consumer that scaled the
+districts of a state to the district file's own state row must use the Historic
+Table 2 state row instead.

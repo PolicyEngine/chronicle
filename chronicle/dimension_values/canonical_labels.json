@@ -8253,6 +8253,7 @@
       "under_10000": "Less than $10,000"
     },
     "irs_soi.congressional_district": {
+      "ak_00": "Alaska Congressional District (at Large)",
       "ak_total": "Alaska all congressional districts",
       "al_01": "Alabama Congressional District 1",
       "al_02": "Alabama Congressional District 2",
@@ -8344,7 +8345,9 @@
       "ct_04": "Connecticut Congressional District 4",
       "ct_05": "Connecticut Congressional District 5",
       "ct_total": "Connecticut all congressional districts",
+      "dc_00": "District of Columbia Delegate District (at Large)",
       "dc_total": "District of Columbia all congressional districts",
+      "de_00": "Delaware Congressional District (at Large)",
       "de_total": "Delaware all congressional districts",
       "fl_01": "Florida Congressional District 1",
       "fl_02": "Florida Congressional District 2",
@@ -8521,6 +8524,7 @@
       "nc_12": "North Carolina Congressional District 12",
       "nc_13": "North Carolina Congressional District 13",
       "nc_total": "North Carolina all congressional districts",
+      "nd_00": "North Dakota Congressional District (at Large)",
       "nd_total": "North Dakota all congressional districts",
       "ne_01": "Nebraska Congressional District 1",
       "ne_02": "Nebraska Congressional District 2",
@@ -8635,6 +8639,7 @@
       "sc_06": "South Carolina Congressional District 6",
       "sc_07": "South Carolina Congressional District 7",
       "sc_total": "South Carolina all congressional districts",
+      "sd_00": "South Dakota Congressional District (at Large)",
       "sd_total": "South Dakota all congressional districts",
       "tn_01": "Tennessee Congressional District 1",
       "tn_02": "Tennessee Congressional District 2",
@@ -8701,6 +8706,7 @@
       "va_10": "Virginia Congressional District 10",
       "va_11": "Virginia Congressional District 11",
       "va_total": "Virginia all congressional districts",
+      "vt_00": "Vermont Congressional District (at Large)",
       "vt_total": "Vermont all congressional districts",
       "wa_01": "Washington Congressional District 1",
       "wa_02": "Washington Congressional District 2",
@@ -8725,6 +8731,7 @@
       "wv_01": "West Virginia Congressional District 1",
       "wv_02": "West Virginia Congressional District 2",
       "wv_total": "West Virginia all congressional districts",
+      "wy_00": "Wyoming Congressional District (at Large)",
       "wy_total": "Wyoming all congressional districts"
     },
     "irs_soi.county": {

@@ -4451,64 +4451,91 @@ def test_soi_congressional_district_2022_builds_all_return_facts():
     cells = package.build_source_cells(2022, source_rows=rows)
     facts = package.build_facts(2022, cells=cells, source_rows=rows)
     values_by_record = {fact.source_record_id: fact for fact in facts}
+    all_returns = "irs_soi.ty2022.congressional_district_2022.all_returns"
+    # The file's rows as parsed, by STATE, CONG_DISTRICT and agi_stub. The US
+    # row and the state total rows are parsed as before; one gives a fact only
+    # where no other package gives the same quantity (chronicle#449), and a
+    # total that gives none is checked here as a cell of the file, in thousands
+    # for an amount.
+    file_rows = {
+        (
+            row.values["STATE"],
+            row.values["CONG_DISTRICT"],
+            row.values["agi_stub"],
+        ): row.values
+        for row in rows
+    }
 
     assert package.package_id == "soi-congressional-district-2022"
-    assert len(rows) == 4_791
+    assert len(rows) == len(file_rows) == 4_791
     # 165 header cells and 165 cells for each of the 4,791 selected rows: the
     # 480 all-class rows, then agi_stub 1 to 9 for the 479 state and district
     # rows (chronicle#447 item 2.1).
     assert len(cells) == 790_680
-    # 107 measures at 480 rows: 62, 15 whose state twin Historic Table 2's state
-    # package reads (chronicle#447 item 2.2) and 30 without one (item 2.3);
-    # then 2 measures at 9 x 479 AGI class rows (item 2.1).
-    assert len(facts) == 107 * 480 + 8_622
+    # 107 measures at the 436 districts: 62, 15 whose state twin Historic Table
+    # 2's state package reads (chronicle#447 item 2.2) and 30 without one (item
+    # 2.3); then 2 measures at 9 AGI classes for the 436 districts (item 2.1).
+    # The totals no other package gives (chronicle#449): 36 measures at the 51
+    # states and 47 for the United States.
+    assert len(facts) == (107 + 2 * 9) * 436 + 36 * 51 + 47 == 56_383
+    assert len(values_by_record) == len(facts)
     assert validate_source_rows(rows).valid
     assert validate_source_cells(cells).valid
     assert validate_facts(facts).valid
-    assert {fact.geography.level for fact in facts} == {
-        "country",
-        "state",
-        "congressional_district",
-    }
+    assert {
+        level: sum(fact.geography.level == level for fact in facts)
+        for level in {fact.geography.level for fact in facts}
+    } == {"congressional_district": 54_500, "state": 1_836, "country": 47}
+    assert len({fact.geography.id for fact in facts}) == 436 + 51 + 1
     assert all(fact.source_row_keys for fact in facts)
     assert all(fact.source.raw_r2_uri for fact in facts)
 
-    assert (
-        values_by_record[
-            "irs_soi.ty2022.congressional_district_2022.all_returns."
-            "us.adjusted_gross_income"
-        ].value
-        == 14_424_810_411_000
-    )
-    assert (
-        values_by_record[
-            "irs_soi.ty2022.congressional_district_2022.all_returns.us.eitc_amount"
-        ].value
-        == 58_124_026_000
-    )
-    eitc_three_or_more_amount = values_by_record[
-        "irs_soi.ty2022.congressional_district_2022.all_returns."
-        "us.eitc_three_or_more_children_amount"
-    ]
-    assert eitc_three_or_more_amount.value == 13_600_954_503
+    def columns(row: str) -> dict[str, tuple[float, str]]:
+        """Value and IRS column of each all-returns fact of a row."""
+        return {
+            measure_id: (fact.value, fact.layout.source_column_id)
+            for record_id, fact in values_by_record.items()
+            if record_id.startswith(f"{all_returns}.{row}.")
+            for measure_id in [record_id.rsplit(".", 1)[1]]
+        }
+
+    us_columns = columns("us")
+    al_01_columns = columns("al_01")
+    assert len(us_columns) == 47
+    assert len(al_01_columns) == 107
+    # US totals that another package gives (Historic Table 2, Publication 1304
+    # or the state data): cells of the file's US row, as published, and no
+    # facts.
+    us_row = file_rows[("US", 0, 0)]
+    us_file_cells = {
+        "return_count": ("N1", 156_342_760),
+        "adjusted_gross_income": ("A00100", 14_424_810_411),
+        "eitc_amount": ("A59660", 58_124_026),
+        # In dollars: the file publishes A59664 unscaled.
+        "eitc_three_or_more_children_amount": ("A59664", 13_600_954_503),
+        "limited_state_local_taxes_returns": ("N18460", 14_777_040),
+        "limited_state_local_taxes_amount": ("A18460", 121_189_294),
+        "premium_tax_credit_returns": ("N85770", 7_713_000),
+        "premium_tax_credit_amount": ("A85770", 53_073_341),
+        "wages_salaries_amount": ("A00200", 9_493_040_700),
+        "standard_deduction_amount": ("A04450", 2_545_798_792),
+    }
+    for measure_id, (column, published) in us_file_cells.items():
+        assert measure_id not in us_columns, measure_id
+        assert us_row[column] == published, measure_id
+        assert al_01_columns[measure_id][1] == column, measure_id
     # The IRS guide's columns: limited SALT is Schedule A line 5e (not 5a),
     # the PTC is the total premium tax credit (not additional Medicare tax),
     # and N19300/A19300 is line 8a mortgage interest (not the line 10 total).
-    us_columns = {
-        measure_id: (fact.value, fact.layout.source_column_id)
-        for record_id, fact in values_by_record.items()
-        if record_id.startswith(
-            "irs_soi.ty2022.congressional_district_2022.all_returns.us."
-        )
-        for measure_id in [record_id.rsplit(".", 1)[1]]
-    }
-    assert us_columns["limited_state_local_taxes_returns"] == (14_777_040, "N18460")
-    assert us_columns["limited_state_local_taxes_amount"] == (
-        121_189_294_000,
+    # A district reads them where the US total gives no fact.
+    assert al_01_columns["limited_state_local_taxes_returns"] == (20_610, "N18460")
+    assert al_01_columns["limited_state_local_taxes_amount"] == (
+        131_188_000,
         "A18460",
     )
-    assert us_columns["premium_tax_credit_returns"] == (7_713_000, "N85770")
-    assert us_columns["premium_tax_credit_amount"] == (53_073_341_000, "A85770")
+    assert al_01_columns["premium_tax_credit_returns"] == (25_680, "N85770")
+    assert al_01_columns["premium_tax_credit_amount"] == (216_553_000, "A85770")
+    assert al_01_columns["eitc_amount"] == (202_256_000, "A59660")
     assert us_columns["mortgage_interest_paid_returns"] == (11_352_500, "N19300")
     assert us_columns["mortgage_interest_paid_amount"] == (140_135_155_000, "A19300")
     assert us_columns["home_mortgage_personal_seller_amount"] == (
@@ -4518,6 +4545,11 @@ def test_soi_congressional_district_2022_builds_all_return_facts():
     assert us_columns["deductible_points_amount"] == (1_014_806_000, "A19530")
     assert us_columns["investment_interest_paid_amount"] == (19_977_693_000, "A19570")
     assert "interest_paid_deduction_amount" not in us_columns
+    assert "interest_paid_deduction_amount" not in al_01_columns
+    eitc_three_or_more_amount = values_by_record[
+        f"{all_returns}.al_01.eitc_three_or_more_children_amount"
+    ]
+    assert eitc_three_or_more_amount.value == 44_510_318
     assert eitc_three_or_more_amount.layout.source_column_id == "A59664"
     assert eitc_three_or_more_amount.filters["eitc_child_count"] == "3plus"
     assert {
@@ -4526,50 +4558,64 @@ def test_soi_congressional_district_2022_builds_all_return_facts():
     } == {
         ("us.tax.earned_income_credit_qualifying_children", ">=", 3),
     }
-    assert (
-        values_by_record[
-            "irs_soi.ty2022.congressional_district_2022.all_returns."
-            "al_total.return_count"
-        ].value
-        == 2_104_760
-    )
-    al_01_agi = values_by_record[
-        "irs_soi.ty2022.congressional_district_2022.all_returns."
-        "al_01.adjusted_gross_income"
-    ]
-    ca_53_returns = values_by_record[
-        "irs_soi.ty2022.congressional_district_2022.all_returns.ca_53.return_count"
-    ]
+    # Historic Table 2's state package gives Alabama's returns.
+    assert f"{all_returns}.al_total.return_count" not in values_by_record
+    assert file_rows[("AL", 0, 0)]["N1"] == 2_104_760
+    al_01_agi = values_by_record[f"{all_returns}.al_01.adjusted_gross_income"]
+    ca_53_returns = values_by_record[f"{all_returns}.ca_53.return_count"]
 
     assert al_01_agi.value == 22_915_824_000
     assert al_01_agi.geography.id == "5001700US0101"
     assert al_01_agi.geography.name == "Alabama Congressional District 1"
     al_01_taxable_interest = values_by_record[
-        "irs_soi.ty2022.congressional_district_2022.all_returns."
-        "al_01.taxable_interest_amount"
+        f"{all_returns}.al_01.taxable_interest_amount"
     ]
     assert al_01_taxable_interest.value == 135_822_000
     assert al_01_taxable_interest.layout.source_column_id == "A00300"
     assert ca_53_returns.value == 383_160
     assert ca_53_returns.geography.id == "5001700US0653"
+    # A state with one district has only a CONG_DISTRICT 0 row; it is the
+    # district, at large (chronicle#449). A kept state total reads the same
+    # row.
+    wy_returns = values_by_record[f"{all_returns}.wy_00.return_count"]
+    assert wy_returns.value == 280_740 == file_rows[("WY", 0, 0)]["N1"]
+    assert wy_returns.geography.level == "congressional_district"
+    assert wy_returns.geography.id == "5001700US5600"
+    assert wy_returns.geography.vintage == "117th_congress"
+    assert wy_returns.geography.name == "Wyoming Congressional District (at Large)"
+    assert f"{all_returns}.wy_total.return_count" not in values_by_record
+    wy_state = values_by_record[f"{all_returns}.wy_total.standard_deduction_amount"]
+    wy_district = values_by_record[f"{all_returns}.wy_00.standard_deduction_amount"]
+    assert wy_state.value == wy_district.value == 4_929_137_000
+    assert (wy_state.geography.level, wy_state.geography.id) == (
+        "state",
+        "0400000US56",
+    )
+    dc_returns = values_by_record[f"{all_returns}.dc_00.return_count"]
+    assert dc_returns.value == 348_680
+    assert dc_returns.geography.id == "5001700US1198"
+    assert dc_returns.geography.name == (
+        "District of Columbia Delegate District (at Large)"
+    )
     # State-twin columns (chronicle#447 item 2.2), read as the guide defines.
-    assert us_columns["wages_salaries_amount"] == (9_493_040_700_000, "A00200")
+    assert al_01_columns["wages_salaries_amount"] == (14_683_856_000, "A00200")
     assert us_columns["taxes_paid_deduction_amount"] == (123_370_088_000, "A18300")
     twin_cells = {
         ("al_01", "itemized_deductions_returns"): (21_080, "N04470"),
-        ("ca_total", "real_estate_taxes_claims"): (2_471_650, "N18500"),
+        ("ca_53", "real_estate_taxes_claims"): (52_580, "N18500"),
         ("ca_53", "taxable_state_local_income_tax_refunds_amount"): (
             19_584_000,
             "A00700",
         ),
     }
     for (row, measure_id), expected in twin_cells.items():
-        fact = values_by_record[
-            f"irs_soi.ty2022.congressional_district_2022.all_returns.{row}.{measure_id}"
-        ]
+        fact = values_by_record[f"{all_returns}.{row}.{measure_id}"]
         assert (fact.value, fact.layout.source_column_id) == expected
+    # Historic Table 2's state package gives California's real estate taxes.
+    assert f"{all_returns}.ca_total.real_estate_taxes_claims" not in values_by_record
+    assert file_rows[("CA", 0, 0)]["N18500"] == 2_471_650
     # First columns without a state twin (chronicle#447 item 2.3).
-    assert us_columns["standard_deduction_amount"] == (2_545_798_792_000, "A04450")
+    assert al_01_columns["standard_deduction_amount"] == (5_379_844_000, "A04450")
     assert us_columns["total_tax_liability_returns"] == (121_275_340, "N10300")
     assert us_columns["total_tax_liability_amount"] == (2_191_736_663_000, "A10300")
     no_twin_cells = {
@@ -4578,28 +4624,26 @@ def test_soi_congressional_district_2022_builds_all_return_facts():
         ("ca_53", "self_employed_health_insurance_ald"): (62_106_000, "A03270"),
     }
     for (row, measure_id), expected in no_twin_cells.items():
-        fact = values_by_record[
-            f"irs_soi.ty2022.congressional_district_2022.all_returns.{row}.{measure_id}"
-        ]
+        fact = values_by_record[f"{all_returns}.{row}.{measure_id}"]
         assert (fact.value, fact.layout.source_column_id) == expected
     # AGI classes (chronicle#447 item 2.1): agi_stub 1 is under $1 of AGI and
     # agi_stub 9 is $500,000 or more.
-    al_under_1 = values_by_record[
-        "irs_soi.ty2022.congressional_district_2022.agi_under_1.al_total.return_count"
-    ]
-    assert al_under_1.value == 31_530
+    agi_under_1 = "irs_soi.ty2022.congressional_district_2022.agi_under_1"
+    al_under_1 = values_by_record[f"{agi_under_1}.al_01.return_count"]
+    assert al_under_1.value == 5_200
     assert al_under_1.filters["income_range"] == "under_1"
     assert {
         (constraint.variable, constraint.operator, constraint.value)
         for constraint in al_under_1.constraints
     } == {("us:statutes/26/62#adjusted_gross_income", "<", 1)}
     assert (
-        values_by_record[
-            "irs_soi.ty2022.congressional_district_2022.agi_under_1.al_total."
-            "adjusted_gross_income"
-        ].value
-        == -1_042_232_000
+        values_by_record[f"{agi_under_1}.al_01.adjusted_gross_income"].value
+        == -193_312_000
     )
+    # Historic Table 2's state AGI package gives Alabama's classes.
+    assert f"{agi_under_1}.al_total.return_count" not in values_by_record
+    assert file_rows[("AL", 0, 1)]["N1"] == 31_530
+    assert file_rows[("AL", 0, 1)]["A00100"] == -1_042_232
     ca_12_top = values_by_record[
         "irs_soi.ty2022.congressional_district_2022.agi_500k_plus.ca_12.return_count"
     ]
@@ -4609,9 +4653,11 @@ def test_soi_congressional_district_2022_builds_all_return_facts():
         (constraint.variable, constraint.operator, constraint.value)
         for constraint in ca_12_top.constraints
     } == {("us:statutes/26/62#adjusted_gross_income", ">=", 500_000)}
+    # No AGI class has a US row in the file, and no TY2022 class keeps a state
+    # total.
     assert not any(
         record_id.startswith("irs_soi.ty2022.congressional_district_2022.agi_")
-        and ".us." in record_id
+        and (".us." in record_id or "_total." in record_id)
         for record_id in values_by_record
     )
 
