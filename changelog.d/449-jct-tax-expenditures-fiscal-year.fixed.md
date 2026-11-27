@@ -5,6 +5,7 @@ Tax Expenditures for Fiscal Years 2024-2028", but typed it as calendar year
 id and source record id prefix change from `jct.tax_expenditures.cy2024` to
 `jct.tax_expenditures.fy2024` (for example
 `jct.tax_expenditures.fy2024.salt_deduction.revenue_loss`). The values, record
-set spec, rows, concepts and measures do not change. Consumers that pin the
+set spec id, rows, concepts and measures do not change; the facts' record set
+spec hash changes with the period type. Consumers that pin the
 old ids or period (Microcosm's US fiscal target references and Chronicle feed
 scope) update them. The default bundle at 2023 still skips the package.
