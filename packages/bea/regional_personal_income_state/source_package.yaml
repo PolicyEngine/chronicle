@@ -7,10 +7,10 @@ artifact:
   source_name: bea
   source_table: BEA Regional annual state personal income CSV ZIP
   resource_package: db
-  resource_directory: data/bea/regional_personal_income_state
+  resource_directory: data/bea/regional_personal_income_state_2026_09_30
   manifest: manifest.yaml
-  vintage: bea_regional_state_personal_income_2026_04_09
-  extracted_at: '2026-05-17'
+  vintage: bea_regional_state_personal_income_2026_09_30
+  extracted_at: '2026-11-26'
   extraction_method: zip archive CSV member full-row parse with selected-cell facts
   parser: zip_delimited_text_full_rows
   archive_member: SAINC5N__ALL_AREAS_1998_2025.csv

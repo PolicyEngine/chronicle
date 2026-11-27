@@ -1,25 +1,27 @@
-"""BEA new-vintage packages (chronicle#449).
+"""BEA packages that read BEA's newer releases in place (chronicle#449).
 
 Four packages read ``NipaDataA.txt`` as BEA served it after its 2026-11-25
-release, the next editions of the four packages that read the 2026-04-30 file:
-``bea-nipa-total-wages-salaries-2026-11-25``,
-``bea-nipa-personal-income-components-2026-11-25``,
-``bea-nipa-personal-income-disposition-2026-11-25`` and
-``bea-nipa-pension-contributions-2026-11-25``. Against the earlier file, every
-series they read keeps its years, and its values change only for 2021 to
-2025, the years BEA's 2026-09-30 annual update revised.
+release: ``bea-nipa-total-wages-salaries``,
+``bea-nipa-personal-income-components``,
+``bea-nipa-personal-income-disposition`` and
+``bea-nipa-pension-contributions``.
+``bea-regional-state-personal-income-components-2024`` reads ``SAINC.zip`` from
+BEA's 2026-09-30 release, which carries the annual update of state personal
+income.
 
-``bea-regional-state-personal-income-components-2026-09-30`` reads
-``SAINC.zip`` from BEA's 2026-09-30 release, which carries the annual update of
-state personal income, the next edition of
-``bea-regional-state-personal-income-components-2024`` (the 2026-04-09 file).
-The SAINC5N member keeps its name, header, line codes, descriptions and units.
+Each package keeps the package id, record set ids, record set specs and
+record id prefixes it had at 79f42056, which are main's before chronicle#449.
+Only its vintage, extraction date and raw directory changed, so a consumer
+that selects these ids gets the newer values under the same keys. The dated
+packages that carried these editions beside their predecessors are gone:
+Chronicle keeps one edition of a series and year.
 
-Each new package is its predecessor's YAML with the package id, label,
-vintage, extraction date and raw directory changed, and a release segment in
-its record set ids and record id prefixes. No row or column position moved.
-The expected values and file lines are read from the publisher files with
-``csv`` and ``zipfile``, not through Chronicle's parsers.
+The earlier files (the 2026-04-30 ``NipaDataA.txt`` and the 2026-04-09
+``SAINC.zip``) stay in ``db/data`` as the record of what R2 holds; no package
+reads them. Against them, every series the packages read keeps its years and
+every cell keeps its meaning. The expected values and file lines are read from
+the publisher files with ``csv`` and ``zipfile``, not through Chronicle's
+parsers.
 """
 
 from __future__ import annotations
@@ -27,9 +29,9 @@ from __future__ import annotations
 import csv
 import hashlib
 import io
-import json
 import zipfile
 from pathlib import Path
+from typing import NamedTuple
 
 import pytest
 import yaml
@@ -50,59 +52,257 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 PACKAGES_ROOT = REPO_ROOT / "packages"
 DATA = REPO_ROOT / "db" / "data" / "bea"
 
-NIPA = "bea-nipa-total-wages-salaries-2026-11-25"
-COMPONENTS = "bea-nipa-personal-income-components-2026-11-25"
-DISPOSITION = "bea-nipa-personal-income-disposition-2026-11-25"
-PENSION = "bea-nipa-pension-contributions-2026-11-25"
-REGIONAL = "bea-regional-state-personal-income-components-2026-09-30"
+NIPA = "bea-nipa-total-wages-salaries"
+COMPONENTS = "bea-nipa-personal-income-components"
+DISPOSITION = "bea-nipa-personal-income-disposition"
+PENSION = "bea-nipa-pension-contributions"
+REGIONAL = "bea-regional-state-personal-income-components-2024"
 NIPA_FILE_PACKAGES = (NIPA, COMPONENTS, DISPOSITION, PENSION)
-NEW_PACKAGES = (*NIPA_FILE_PACKAGES, REGIONAL)
-PREDECESSOR = {
-    NIPA: "bea-nipa-total-wages-salaries",
-    COMPONENTS: "bea-nipa-personal-income-components",
-    DISPOSITION: "bea-nipa-personal-income-disposition",
-    PENSION: "bea-nipa-pension-contributions",
-    REGIONAL: "bea-regional-state-personal-income-components-2024",
+PACKAGES = (*NIPA_FILE_PACKAGES, REGIONAL)
+PACKAGE_PATH = {
+    NIPA: Path("bea/nipa_total_wages_salaries"),
+    COMPONENTS: Path("bea/nipa_personal_income_components"),
+    DISPOSITION: Path("bea/nipa_personal_income_disposition"),
+    PENSION: Path("bea/nipa_pension_contributions"),
+    REGIONAL: Path("bea/regional_personal_income_state"),
 }
-# The record id segment each new edition adds after the source namespace.
-NIPA_SEGMENT = ("bea_nipa.", "bea_nipa.release_2026_11_25.")
-RELEASE_SEGMENT = {
-    **dict.fromkeys(NIPA_FILE_PACKAGES, NIPA_SEGMENT),
-    REGIONAL: ("bea_regional.", "bea_regional.release_2026_09_30."),
+# The dated packages that carried the newer editions beside these packages
+# until the editions moved in place.
+RETIRED = {
+    "bea-nipa-total-wages-salaries-2026-11-25": (
+        "bea/nipa_total_wages_salaries_2026_11_25"
+    ),
+    "bea-nipa-personal-income-components-2026-11-25": (
+        "bea/nipa_personal_income_components_2026_11_25"
+    ),
+    "bea-nipa-personal-income-disposition-2026-11-25": (
+        "bea/nipa_personal_income_disposition_2026_11_25"
+    ),
+    "bea-nipa-pension-contributions-2026-11-25": (
+        "bea/nipa_pension_contributions_2026_11_25"
+    ),
+    "bea-regional-state-personal-income-components-2026-09-30": (
+        "bea/regional_personal_income_state_2026_09_30"
+    ),
 }
 VINTAGE = {
     **dict.fromkeys(NIPA_FILE_PACKAGES, "bea_nipa_annual_release_2026_11_25"),
     REGIONAL: "bea_regional_state_personal_income_2026_09_30",
 }
-# manifest owner -> (raw directory, file name, sha256, size, URL, source page,
-# table). The four NIPA packages share the first package's directory, as their
-# predecessors share theirs.
-ARTIFACT = {
-    NIPA: (
+FILE_OF = {**dict.fromkeys(NIPA_FILE_PACKAGES, "nipa"), REGIONAL: "regional"}
+
+
+class RawFile(NamedTuple):
+    directory: Path
+    filename: str
+    sha256: str
+    size: int
+    url: str
+    source_page: str
+    table: str
+    # The manifest's package_id: the owner segment of the R2 key, the id the
+    # file was first registered under.
+    r2_owner: str
+
+
+NIPA_URL = "https://apps.bea.gov/national/Release/TXT/NipaDataA.txt"
+SAINC_URL = "https://apps.bea.gov/regional/zip/SAINC.zip"
+NIPA_PAGE = "https://www.bea.gov/open-data"
+SAINC_PAGE = "https://apps.bea.gov/regional/downloadzip.htm"
+NEWER = {
+    "nipa": RawFile(
         DATA / "nipa_total_wages_salaries_2026_11_25",
         "NipaDataA.txt",
         "ee5f1db60c96fa17784a6efe7c728f57a993187318b2989bea2fd296fd7f5b3c",
         12_094_214,
-        "https://apps.bea.gov/national/Release/TXT/NipaDataA.txt",
-        "https://www.bea.gov/open-data",
+        NIPA_URL,
+        NIPA_PAGE,
         "NIPA Annual Data Flat File",
+        "bea-nipa-total-wages-salaries-2026-11-25",
     ),
-    REGIONAL: (
+    "regional": RawFile(
         DATA / "regional_personal_income_state_2026_09_30",
         "SAINC.zip",
         "cb28a9a200c71b48e283c4e4e6ef1b18524cb6c1edc31d7b768862c766ff770f",
         17_620_171,
-        "https://apps.bea.gov/regional/zip/SAINC.zip",
-        "https://apps.bea.gov/regional/downloadzip.htm",
+        SAINC_URL,
+        SAINC_PAGE,
         "Annual Personal Income by State",
+        "bea-regional-state-personal-income-components-2026-09-30",
     ),
 }
-ARTIFACT_OF = {**dict.fromkeys(NIPA_FILE_PACKAGES, NIPA), REGIONAL: REGIONAL}
-NIPA_FILE = ARTIFACT[NIPA][0] / ARTIFACT[NIPA][1]
-SAINC_ZIP = ARTIFACT[REGIONAL][0] / ARTIFACT[REGIONAL][1]
-OLD_NIPA_FILE = DATA / "nipa_total_wages_salaries" / "NipaDataA.txt"
-OLD_SAINC_ZIP = DATA / "regional_personal_income_state" / "SAINC.zip"
+EARLIER = {
+    "nipa": RawFile(
+        DATA / "nipa_total_wages_salaries",
+        "NipaDataA.txt",
+        "b4e985b133e21f099eb538c89263b27632751b7041e79d6a5f5bac4aa54fab81",
+        12_032_724,
+        NIPA_URL,
+        NIPA_PAGE,
+        "NIPA Annual Data Flat File",
+        "bea-nipa-total-wages-salaries",
+    ),
+    "regional": RawFile(
+        DATA / "regional_personal_income_state",
+        "SAINC.zip",
+        "339a3d3d6a283eea3f5647ea5b33570da73801d4248c5e2209c1e196428d9a9a",
+        17_478_048,
+        SAINC_URL,
+        SAINC_PAGE,
+        "Annual Personal Income by State",
+        "bea-regional-state-personal-income-components-2024",
+    ),
+}
+# The artifact fields each package declared at 79f42056 (and on main before
+# chronicle#449), when it read the earlier file: raw directory, vintage and
+# extraction date.
+EARLIER_ARTIFACT_FIELDS = {
+    "nipa": (
+        "data/bea/nipa_total_wages_salaries",
+        "bea_nipa_annual_release_2026_04_30",
+        "2026-05-11",
+    ),
+    "regional": (
+        "data/bea/regional_personal_income_state",
+        "bea_regional_state_personal_income_2026_04_09",
+        "2026-05-17",
+    ),
+}
+NIPA_FILE = NEWER["nipa"].directory / NEWER["nipa"].filename
+SAINC_ZIP = NEWER["regional"].directory / NEWER["regional"].filename
+OLD_NIPA_FILE = EARLIER["nipa"].directory / EARLIER["nipa"].filename
+OLD_SAINC_ZIP = EARLIER["regional"].directory / EARLIER["regional"].filename
 SAINC5N_MEMBER = "SAINC5N__ALL_AREAS_1998_2025.csv"
+# Each package's (record_set_id, record_set_spec_id) pairs at 79f42056 (and on
+# main before chronicle#449), in declaration order. Every record id prefix
+# equals its record set id.
+RECORD_SETS = {
+    NIPA: [
+        ("bea_nipa.cy2018.total_wages_salaries", "bea_nipa.total_wages_salaries.v1"),
+        ("bea_nipa.cy2023.total_wages_salaries", "bea_nipa.total_wages_salaries.v1"),
+        ("bea_nipa.cy2024.total_wages_salaries", "bea_nipa.total_wages_salaries.v1"),
+    ],
+    COMPONENTS: [
+        ("bea_nipa.cy{year}.proprietors_income", "bea_nipa.proprietors_income.v1"),
+        (
+            "bea_nipa.cy{year}.rental_income_of_persons",
+            "bea_nipa.rental_income_of_persons.v1",
+        ),
+        (
+            "bea_nipa.cy{year}.personal_interest_income",
+            "bea_nipa.personal_interest_income.v1",
+        ),
+        (
+            "bea_nipa.cy{year}.personal_dividend_income",
+            "bea_nipa.personal_dividend_income.v1",
+        ),
+        (
+            "bea_nipa.cy{year}.supplements_to_wages_and_salaries",
+            "bea_nipa.supplements_to_wages_and_salaries.v1",
+        ),
+        (
+            "bea_nipa.cy{year}.employer_pension_and_insurance_contributions",
+            "bea_nipa.employer_pension_and_insurance_contributions.v1",
+        ),
+        (
+            "bea_nipa.cy{year}.employer_government_social_insurance_contributions",
+            "bea_nipa.employer_government_social_insurance_contributions.v1",
+        ),
+        (
+            "bea_nipa.cy{year}.farm_proprietors_income",
+            "bea_nipa.farm_proprietors_income.v1",
+        ),
+        (
+            "bea_nipa.cy{year}.nonfarm_proprietors_income",
+            "bea_nipa.nonfarm_proprietors_income.v1",
+        ),
+        (
+            "bea_nipa.cy{year}.government_social_benefits_to_persons",
+            "bea_nipa.government_social_benefits_to_persons.v1",
+        ),
+        (
+            "bea_nipa.cy{year}.social_security_benefits",
+            "bea_nipa.social_security_benefits.v1",
+        ),
+        ("bea_nipa.cy{year}.medicare_benefits", "bea_nipa.medicare_benefits.v1"),
+        ("bea_nipa.cy{year}.medicaid_benefits", "bea_nipa.medicaid_benefits.v1"),
+        (
+            "bea_nipa.cy{year}.unemployment_insurance_benefits",
+            "bea_nipa.unemployment_insurance_benefits.v1",
+        ),
+        ("bea_nipa.cy{year}.veterans_benefits", "bea_nipa.veterans_benefits.v1"),
+        (
+            "bea_nipa.cy{year}.other_government_social_benefits",
+            "bea_nipa.other_government_social_benefits.v1",
+        ),
+        (
+            "bea_nipa.cy{year}.business_current_transfer_receipts",
+            "bea_nipa.business_current_transfer_receipts.v1",
+        ),
+        (
+            "bea_nipa.cy{year}.personal_current_transfer_receipts",
+            "bea_nipa.personal_current_transfer_receipts.v1",
+        ),
+    ],
+    DISPOSITION: [
+        ("bea_nipa.cy{year}.personal_income", "bea_nipa.personal_income.v1"),
+        (
+            "bea_nipa.cy{year}.personal_current_taxes",
+            "bea_nipa.personal_current_taxes.v1",
+        ),
+        (
+            "bea_nipa.cy{year}.disposable_personal_income",
+            "bea_nipa.disposable_personal_income.v1",
+        ),
+        ("bea_nipa.cy{year}.personal_outlays", "bea_nipa.personal_outlays.v1"),
+        ("bea_nipa.cy{year}.personal_saving", "bea_nipa.personal_saving.v1"),
+        ("bea_nipa.cy{year}.personal_saving_rate", "bea_nipa.personal_saving_rate.v1"),
+    ],
+    PENSION: [
+        (
+            "bea_nipa.cy{year}.defined_contribution_employer_contributions",
+            "bea_nipa.defined_contribution_employer_contributions.v1",
+        ),
+        (
+            "bea_nipa.cy{year}.defined_contribution_actual_contributions",
+            "bea_nipa.defined_contribution_actual_contributions.v1",
+        ),
+    ],
+    REGIONAL: [
+        (
+            "bea_regional.cy{year}.state_personal_income",
+            "bea_regional.state_personal_income.v1",
+        ),
+        (
+            "bea_regional.cy{year}.state_dividends_interest_rent",
+            "bea_regional.state_dividends_interest_rent.v1",
+        ),
+        (
+            "bea_regional.cy{year}.state_personal_current_transfer_receipts",
+            "bea_regional.state_personal_current_transfer_receipts.v1",
+        ),
+        (
+            "bea_regional.cy{year}.state_wages_salaries",
+            "bea_regional.state_wages_salaries.v1",
+        ),
+        (
+            "bea_regional.cy{year}.state_supplements_to_wages_salaries",
+            "bea_regional.state_supplements_to_wages_salaries.v1",
+        ),
+        (
+            "bea_regional.cy{year}.state_proprietors_income",
+            "bea_regional.state_proprietors_income.v1",
+        ),
+        (
+            "bea_regional.cy{year}.state_contributions_for_government_social_insurance",
+            "bea_regional.state_contributions_for_government_social_insurance.v1",
+        ),
+        (
+            "bea_regional.cy{year}.state_residence_adjustment",
+            "bea_regional.state_residence_adjustment.v1",
+        ),
+    ],
+}
 # The NIPA series each package selects, in declaration order.
 NIPA_SERIES = {
     NIPA: ("A034RC",),
@@ -144,31 +344,29 @@ LINE_CODE = {
     "state_proprietors_income": 70,
 }
 PUBLISHED = {
-    # Spot values from the publisher files, as printed: millions of dollars
-    # (and one percentage) in NipaDataA.txt, thousands of dollars in SAINC5N.
-    "bea_nipa.release_2026_11_25.cy2018.total_wages_salaries.a034rc."
-    "wages_salaries_amount": 8_899_824 * 1_000_000,
-    "bea_nipa.release_2026_11_25.cy2023.total_wages_salaries.a034rc."
-    "wages_salaries_amount": 11_735_097 * 1_000_000,
-    "bea_nipa.release_2026_11_25.cy2024.total_wages_salaries.a034rc."
-    "wages_salaries_amount": 12_410_601 * 1_000_000,
-    "bea_nipa.release_2026_11_25.cy2023.personal_interest_income.a064rc.amount": (
-        2_079_352 * 1_000_000
+    # Spot values from the newer publisher files, as printed: millions of
+    # dollars (and one percentage) in NipaDataA.txt, thousands of dollars in
+    # SAINC5N.
+    "bea_nipa.cy2018.total_wages_salaries.a034rc.wages_salaries_amount": (
+        8_899_824 * 1_000_000
     ),
-    "bea_nipa.release_2026_11_25.cy2023.personal_income.a065rc.amount": (
-        23_642_338 * 1_000_000
+    "bea_nipa.cy2023.total_wages_salaries.a034rc.wages_salaries_amount": (
+        11_735_097 * 1_000_000
     ),
-    "bea_nipa.release_2026_11_25.cy2023.personal_saving_rate.a072rc.rate": 6.1,
-    "bea_nipa.release_2026_11_25.cy2023.defined_contribution_employer_contributions."
-    "w351rc.employer_contributions": 269_697 * 1_000_000,
-    "bea_regional.release_2026_09_30.cy2023.state_personal_income.us.amount": (
-        23_637_147_000 * 1000
+    "bea_nipa.cy2024.total_wages_salaries.a034rc.wages_salaries_amount": (
+        12_410_601 * 1_000_000
     ),
+    "bea_nipa.cy2023.personal_interest_income.a064rc.amount": 2_079_352 * 1_000_000,
+    "bea_nipa.cy2023.personal_income.a065rc.amount": 23_642_338 * 1_000_000,
+    "bea_nipa.cy2023.personal_saving_rate.a072rc.rate": 6.1,
+    "bea_nipa.cy2023.defined_contribution_employer_contributions.w351rc."
+    "employer_contributions": 269_697 * 1_000_000,
+    "bea_regional.cy2023.state_personal_income.us.amount": 23_637_147_000 * 1000,
 }
 
 
-def _build(package_id: str, year: int):
-    package = load_source_package(package_id)
+def _build(package: str | Path, year: int):
+    package = load_source_package(package)
     rows = package.build_source_rows(year)
     cells = package.build_source_cells(year, source_rows=rows)
     records = package.build_source_records(year, cells=cells, source_rows=rows)
@@ -189,8 +387,8 @@ def _built(package_id: str, year: int) -> dict:
 
 @pytest.fixture(scope="module")
 def built():
-    """Each new package built at 2023, the default bundle's year."""
-    out = {package_id: _built(package_id, 2023) for package_id in NEW_PACKAGES}
+    """Each package built at 2023, the default bundle's year."""
+    out = {package_id: _built(package_id, 2023) for package_id in PACKAGES}
     for package in out.values():
         assert validate_consumer_fact_contract(package["facts"]).valid
     return out
@@ -263,6 +461,19 @@ def _nipa_value(printed: str, unit: str):
     return int(printed.replace(",", "")) * 1_000_000
 
 
+def _r2_uri(raw: RawFile) -> str:
+    return f"r2://ledger-raw/raw/bea/{raw.r2_owner}/2024/{raw.sha256}/{raw.filename}"
+
+
+def _assert_source(fact, package_id: str) -> None:
+    raw = NEWER[FILE_OF[package_id]]
+    assert fact.source.vintage == VINTAGE[package_id]
+    assert fact.source.source_sha256 == raw.sha256
+    assert fact.source.source_file == raw.filename
+    assert fact.source.url == raw.url
+    assert fact.source.raw_r2_uri == _r2_uri(raw)
+
+
 def _selected(package_id: str, year: int) -> list[tuple[str, int]]:
     """The (series, year) cells a build selects, in their virtual-row order."""
     if package_id == NIPA:
@@ -278,7 +489,6 @@ def _assert_nipa_facts(package_id: str, built_package: dict, cells: dict, year: 
     }
     assert len(built_package["facts"]) == len(selected)
     assert sorted(facts) == sorted(selected)
-    _, filename, sha256, _, url, _, _ = ARTIFACT[NIPA]
     for virtual_row, key in enumerate(selected, start=2):
         fact = facts[key]
         line, printed = cells[key]
@@ -290,37 +500,37 @@ def _assert_nipa_facts(package_id: str, built_package: dict, cells: dict, year: 
         assert addresses[0] == f"C{virtual_row}"
         assert f"B{virtual_row}" in addresses
         assert fact.value == _nipa_value(printed, fact.measure.unit)
-        assert fact.source_record_id.startswith(
-            f"bea_nipa.release_2026_11_25.cy{key[1]}."
-        )
+        assert fact.source_record_id.startswith(f"bea_nipa.cy{key[1]}.")
         assert fact.period.type == "calendar_year"
         assert fact.geography.id == "0100000US"
-        assert fact.source.vintage == VINTAGE[package_id]
-        assert fact.source.source_sha256 == sha256
-        assert fact.source.source_file == filename
-        assert fact.source.url == url
+        _assert_source(fact, package_id)
         if fact.source_record_id in PUBLISHED:
             assert fact.value == PUBLISHED[fact.source_record_id]
 
 
-@pytest.mark.parametrize("package_id", [NIPA, REGIONAL])
-def test_manifest_registers_the_publisher_file(package_id):
-    directory, filename, sha256, size, url, source_page, table = ARTIFACT[package_id]
-    manifest = yaml.safe_load((directory / "manifest.yaml").read_text())
+@pytest.mark.parametrize(
+    "raw",
+    [NEWER["nipa"], NEWER["regional"], EARLIER["nipa"], EARLIER["regional"]],
+    ids=["nipa-2026-11-25", "regional-2026-09-30", "nipa-earlier", "regional-earlier"],
+)
+def test_manifest_registers_the_publisher_file(raw):
+    """Both editions stay registered: the newer one is read, the earlier one
+    records what R2 holds. Each R2 key keeps the owner it was uploaded under."""
+    manifest = yaml.safe_load((raw.directory / "manifest.yaml").read_text())
     entry = manifest["files"][2024]
-    payload = (directory / filename).read_bytes()
+    payload = (raw.directory / raw.filename).read_bytes()
 
-    assert hashlib.sha256(payload).hexdigest() == sha256
-    assert len(payload) == size
+    assert hashlib.sha256(payload).hexdigest() == raw.sha256
+    assert len(payload) == raw.size
     assert manifest["source_id"] == "bea"
-    assert manifest["package_id"] == package_id
-    assert manifest["source_page"] == source_page
-    assert manifest["table"] == table
-    assert entry["filename"] == filename
-    assert entry["source_url"] == url
-    assert entry["sha256"] == sha256
-    assert entry["size_bytes"] == size
-    key = f"raw/bea/{package_id}/2024/{sha256}/{filename}"
+    assert manifest["package_id"] == raw.r2_owner
+    assert manifest["source_page"] == raw.source_page
+    assert manifest["table"] == raw.table
+    assert entry["filename"] == raw.filename
+    assert entry["source_url"] == raw.url
+    assert entry["sha256"] == raw.sha256
+    assert entry["size_bytes"] == raw.size
+    key = f"raw/bea/{raw.r2_owner}/2024/{raw.sha256}/{raw.filename}"
     assert entry["storage"]["r2"] == {
         "provider": "r2",
         "bucket": "ledger-raw",
@@ -329,17 +539,53 @@ def test_manifest_registers_the_publisher_file(package_id):
     }
 
 
-@pytest.mark.parametrize("package_id", NIPA_FILE_PACKAGES)
-def test_nipa_package_reads_the_shared_2026_11_25_file(package_id):
+@pytest.mark.parametrize("package_id", PACKAGES)
+def test_package_reads_the_newer_file(package_id):
     artifact = load_source_package(package_id).artifact
-    predecessor = load_source_package(PREDECESSOR[package_id]).artifact
 
-    assert (
-        artifact.resource_directory == "data/bea/nipa_total_wages_salaries_2026_11_25"
+    assert artifact.resource_directory == (
+        f"data/bea/{NEWER[FILE_OF[package_id]].directory.name}"
     )
-    assert predecessor.resource_directory == "data/bea/nipa_total_wages_salaries"
-    assert artifact.manifest == predecessor.manifest == "manifest.yaml"
-    assert artifact.artifact_year == predecessor.artifact_year == 2024
+    assert artifact.manifest == "manifest.yaml"
+    assert artifact.artifact_year == 2024
+    assert artifact.vintage == VINTAGE[package_id]
+    assert artifact.extracted_at == "2026-11-26"
+
+
+def test_no_package_reads_the_earlier_files():
+    earlier = {f"data/bea/{raw.directory.name}" for raw in EARLIER.values()}
+    read = {
+        load_source_package(path.parent).artifact.resource_directory
+        for path in sorted((PACKAGES_ROOT / "bea").glob("*/source_package.yaml"))
+    }
+
+    assert read
+    assert not read & earlier
+
+
+def test_the_dated_editions_are_retired():
+    for package_id, path in RETIRED.items():
+        assert package_id not in SOURCE_PACKAGE_ALIASES
+        assert not (PACKAGES_ROOT / path).exists()
+    # The newer files' R2 owners name no package now.
+    for raw in NEWER.values():
+        assert raw.r2_owner in RETIRED
+        assert raw.r2_owner not in SOURCE_PACKAGE_ALIASES
+
+
+@pytest.mark.parametrize("package_id", PACKAGES)
+def test_package_keeps_its_ids_and_specs(package_id):
+    package = load_source_package(package_id)
+    record_sets = [record_set.payload for record_set in package.record_sets]
+
+    assert SOURCE_PACKAGE_ALIASES[package_id] == PACKAGE_PATH[package_id]
+    assert package.package_id == package_id
+    assert [
+        (record_set["record_set_id"], record_set["record_set_spec_id"])
+        for record_set in record_sets
+    ] == RECORD_SETS[package_id]
+    for record_set in record_sets:
+        assert record_set["source_record_id_prefix"] == record_set["record_set_id"]
 
 
 @pytest.mark.parametrize("package_id", NIPA_FILE_PACKAGES)
@@ -348,7 +594,6 @@ def test_nipa_facts_are_their_publisher_cells(built, nipa_cells, package_id):
 
 
 def test_regional_facts_are_their_publisher_cells(built):
-    _, filename, sha256, _, url, _, _ = ARTIFACT[REGIONAL]
     published = _sainc5n_by_area_and_line(SAINC_ZIP)
     seen = set()
 
@@ -375,10 +620,8 @@ def test_regional_facts_are_their_publisher_cells(built):
         assert fact.geography.name == area
         assert fact.period.type == "calendar_year"
         assert fact.period.value == 2023
-        assert fact.source.vintage == VINTAGE[REGIONAL]
-        assert fact.source.source_sha256 == sha256
-        assert fact.source.source_file == filename
-        assert fact.source.url == url
+        assert fact.source_record_id.startswith(f"bea_regional.cy2023.{record_set}.")
+        _assert_source(fact, REGIONAL)
         if fact.source_record_id in PUBLISHED:
             assert fact.value == PUBLISHED[fact.source_record_id]
         seen.add((area, line_code))
@@ -413,6 +656,18 @@ def test_fact_counts_and_periods_at_the_bundle_year(built):
         PENSION: [2023],
         REGIONAL: [2023],
     }
+
+
+def test_no_two_facts_share_a_semantic_key(built):
+    """One edition per series and year: the 445 facts the five packages build
+    at 2023 have 445 semantic keys."""
+    keys = [
+        build_semantic_fact_key(fact)
+        for package in built.values()
+        for fact in package["facts"]
+    ]
+
+    assert len(keys) == len(set(keys)) == 445
 
 
 def test_wages_package_reads_the_same_three_cells_at_every_year(built):
@@ -557,57 +812,41 @@ def test_the_sainc5n_cells_keep_their_meaning_between_editions():
     assert "Last updated: September 30, 2026" in changed[0][1]
 
 
-def _declarations(package_id: str) -> dict:
+def _as_it_read_the_earlier_file(tmp_path: Path, package_id: str) -> Path:
+    """The package with the artifact fields it declared at 79f42056."""
     path = PACKAGES_ROOT / SOURCE_PACKAGE_ALIASES[package_id] / "source_package.yaml"
-    return yaml.safe_load(path.read_text())
-
-
-@pytest.mark.parametrize("package_id", NEW_PACKAGES)
-def test_new_packages_mirror_their_predecessors(package_id):
-    """Differential: apart from the package id, label, vintage, extraction
-    date, raw directory and the release segment of the record ids, the
-    declarations equal the predecessor's."""
-    new = _declarations(package_id)
-    old = _declarations(PREDECESSOR[package_id])
-    namespace, released = RELEASE_SEGMENT[package_id]
-
-    assert new.pop("package_id") == package_id
-    assert old.pop("package_id") == PREDECESSOR[package_id]
-    # The label names the release; the regional predecessor's named a year.
-    release = "2026-09-30" if package_id == REGIONAL else "2026-11-25"
-    old_label = old.pop("label").replace("BEA Regional 2024 ", "BEA Regional ")
-    assert new.pop("label") == f"{old_label}, {release} release"
-    assert new["artifact"].pop("vintage") == VINTAGE[package_id]
-    old["artifact"].pop("vintage")
-    assert new["artifact"].pop("extracted_at") == "2026-11-26"
-    old["artifact"].pop("extracted_at")
-    assert new["artifact"].pop("resource_directory") == (
-        f"data/bea/{ARTIFACT[ARTIFACT_OF[package_id]][0].name}"
+    payload = yaml.safe_load(path.read_text(encoding="utf-8"))
+    directory, vintage, extracted_at = EARLIER_ARTIFACT_FIELDS[FILE_OF[package_id]]
+    payload["artifact"].update(
+        resource_directory=directory, vintage=vintage, extracted_at=extracted_at
     )
-    old["artifact"].pop("resource_directory")
-    for record_set in old["record_sets"]:
-        for key in ("record_set_id", "source_record_id_prefix"):
-            assert record_set[key].startswith(namespace)
-            record_set[key] = record_set[key].replace(namespace, released, 1)
-    assert json.loads(json.dumps(new)) == json.loads(json.dumps(old))
+    package_dir = tmp_path / package_id
+    package_dir.mkdir()
+    (package_dir / "source_package.yaml").write_text(
+        yaml.safe_dump(payload, sort_keys=False), encoding="utf-8"
+    )
+    return package_dir
 
 
-@pytest.mark.parametrize("package_id", NEW_PACKAGES)
-def test_new_editions_share_their_predecessors_semantic_keys(built, package_id):
-    """The two editions form one source series: each 2023-build fact has its
-    predecessor's semantic key and source series key, and its own aggregate
-    key, because the vintage and file differ."""
-    _, _, old_facts = _build(PREDECESSOR[package_id], 2023)
-    namespace, released = RELEASE_SEGMENT[package_id]
-    old_by_id = {
-        fact.source_record_id.replace(namespace, released, 1): fact
-        for fact in old_facts
-    }
-    new_by_id = {fact.source_record_id: fact for fact in built[package_id]["facts"]}
+@pytest.mark.parametrize("package_id", PACKAGES)
+def test_the_newer_file_keeps_every_fact_key_but_the_aggregate(
+    built, package_id, tmp_path
+):
+    """Differential: built at 2023 from the earlier file, the same package
+    gives the same record ids, semantic keys and source series keys, so a
+    consumer's selection carries over. Only the aggregate key, which names the
+    release, differs."""
+    _, _, earlier_facts = _build(
+        _as_it_read_the_earlier_file(tmp_path, package_id), 2023
+    )
+    earlier = {fact.source_record_id: fact for fact in earlier_facts}
+    newer = {fact.source_record_id: fact for fact in built[package_id]["facts"]}
 
-    assert set(new_by_id) == set(old_by_id)
-    for record_id, fact in new_by_id.items():
-        old = old_by_id[record_id]
+    assert set(newer) == set(earlier)
+    for record_id, fact in newer.items():
+        old = earlier[record_id]
+        assert old.source.vintage == EARLIER_ARTIFACT_FIELDS[FILE_OF[package_id]][1]
+        assert old.source.source_sha256 == EARLIER[FILE_OF[package_id]].sha256
         assert build_semantic_fact_key(fact) == build_semantic_fact_key(old)
         assert build_source_series_key(fact) == build_source_series_key(old)
         assert build_aggregate_fact_key(fact) != build_aggregate_fact_key(old)

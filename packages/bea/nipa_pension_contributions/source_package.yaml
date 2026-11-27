@@ -5,10 +5,10 @@ artifact:
   source_name: bea
   source_table: BEA NIPA annual data flat file
   resource_package: db
-  resource_directory: data/bea/nipa_total_wages_salaries
+  resource_directory: data/bea/nipa_total_wages_salaries_2026_11_25
   manifest: manifest.yaml
-  vintage: bea_nipa_annual_release_2026_04_30
-  extracted_at: "2026-05-11"
+  vintage: bea_nipa_annual_release_2026_11_25
+  extracted_at: "2026-11-26"
   extraction_method: delimited text full-row parse with selected-cell facts
   parser: delimited_text_full_rows
   sheet_name: NipaDataA
