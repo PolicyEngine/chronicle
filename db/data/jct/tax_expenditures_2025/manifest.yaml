@@ -33,8 +33,11 @@ notes:
   of dollars, so the package types them fiscal_year 2025 and the CSV holds dollars.
   Each CSV row is one JCT line: jct_line_label is the line as Table 1 prints it, without
   its footnote marks, and jct_table_1_printed_page is the printed page of the PDF that
-  holds it. JCT prints the charitable deduction on three lines; the CSV keeps the three
-  lines apart and holds no sum.
+  holds it. Two lines sit under a group heading in Table 1 ("Net exclusion of pension
+  contributions and earnings:" and "Individual retirement arrangements:"); their labels
+  join the heading and the line. JCT prints the charitable deduction on three lines; the
+  CSV keeps the three lines apart and holds no sum. Footnote 1 of Table 1 says that the
+  estimates reflect legislation enacted by August 31, 2025.
 
   '
 - 'The CSV is a manual extract of the publisher PDF (x-45-25.pdf), which the maintainer

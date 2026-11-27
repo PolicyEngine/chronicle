@@ -9,9 +9,11 @@ notes: Curated Ledger extract of selected CBO February 2026 baseline projection 
   2026-05-19, so this CSV preserves the extracted values. The publisher workbook,
   as CBO reposted it on 2026-02-26, is now registered raw-only in
   ../revenue_projections_income_by_source_2026_02_raw_only/manifest.yaml (chronicle#449).
-  The repost corrected Tables 7a and 7b only. Each of this CSV's 84 values equals
-  its cell in the workbook's sheet 3.Individual Income Tax Details, in billions of
-  dollars; a test checks that. The CSV's labels are Ledger's, not CBO's row labels.
+  Its Contents sheet says the repost corrected values in Tables 7a and 7b. The CSV
+  holds dollars. Each of its 84
+  values equals its cell in the workbook's sheet 3.Individual Income Tax Details
+  (billions of dollars, one decimal) times 10^9, rounded to that decimal; a test
+  checks that. The CSV's labels are Ledger's, not CBO's row labels.
   The source URL names the workbook as CBO's page links it, 51138-2026-02-Revenue.xlsx;
   until chronicle#449 it said 51138-2026-02-Revenue-Projections.xlsx.
 files:
