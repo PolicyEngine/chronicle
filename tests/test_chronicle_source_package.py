@@ -2626,29 +2626,34 @@ def test_jct_tax_expenditure_package_builds_selected_individual_facts():
     assert all(fact.source.raw_r2_uri for fact in facts)
 
     expected_values = {
-        "jct.tax_expenditures.cy2024.salt_deduction.revenue_loss": 21_700_000_000,
-        "jct.tax_expenditures.cy2024.medical_expense_deduction.revenue_loss": 11_400_000_000,
-        "jct.tax_expenditures.cy2024.charitable_deduction.revenue_loss": 60_400_000_000,
-        "jct.tax_expenditures.cy2024.deductible_mortgage_interest.revenue_loss": 24_800_000_000,
-        "jct.tax_expenditures.cy2024.qualified_business_income_deduction.revenue_loss": 63_100_000_000,
+        "jct.tax_expenditures.fy2024.salt_deduction.revenue_loss": 21_700_000_000,
+        "jct.tax_expenditures.fy2024.medical_expense_deduction.revenue_loss": 11_400_000_000,
+        "jct.tax_expenditures.fy2024.charitable_deduction.revenue_loss": 60_400_000_000,
+        "jct.tax_expenditures.fy2024.deductible_mortgage_interest.revenue_loss": 24_800_000_000,
+        "jct.tax_expenditures.fy2024.qualified_business_income_deduction.revenue_loss": 63_100_000_000,
         # JCX-48-24 extension (microcosm#514 anchors), FY2024 individuals column:
-        "jct.tax_expenditures.cy2024.self_employed_health_insurance_deduction.revenue_loss": 8_400_000_000,
-        "jct.tax_expenditures.cy2024.health_savings_account_deduction.revenue_loss": 12_200_000_000,
-        "jct.tax_expenditures.cy2024.student_loan_interest_deduction.revenue_loss": 2_400_000_000,
-        "jct.tax_expenditures.cy2024.self_employed_pension_contribution_deduction.revenue_loss": 16_600_000_000,
-        "jct.tax_expenditures.cy2024.traditional_ira_deduction.revenue_loss": 16_000_000_000,
-        "jct.tax_expenditures.cy2024.cdcc_and_employer_child_care_exclusion.revenue_loss": 5_600_000_000,
+        "jct.tax_expenditures.fy2024.self_employed_health_insurance_deduction.revenue_loss": 8_400_000_000,
+        "jct.tax_expenditures.fy2024.health_savings_account_deduction.revenue_loss": 12_200_000_000,
+        "jct.tax_expenditures.fy2024.student_loan_interest_deduction.revenue_loss": 2_400_000_000,
+        "jct.tax_expenditures.fy2024.self_employed_pension_contribution_deduction.revenue_loss": 16_600_000_000,
+        "jct.tax_expenditures.fy2024.traditional_ira_deduction.revenue_loss": 16_000_000_000,
+        "jct.tax_expenditures.fy2024.cdcc_and_employer_child_care_exclusion.revenue_loss": 5_600_000_000,
     }
     assert {record.source_record_id for record in records} == set(expected_values)
     assert {
         record_id: fact.value for record_id, fact in values_by_record.items()
     } == expected_values
 
-    salt = values_by_record["jct.tax_expenditures.cy2024.salt_deduction.revenue_loss"]
+    salt = values_by_record["jct.tax_expenditures.fy2024.salt_deduction.revenue_loss"]
     assert salt.measure.concept == "jct.individual_tax_expenditure_revenue_loss"
     assert salt.measure.source_concept == "jct.individual_income_tax_revenue_loss"
     assert salt.measure.unit == "usd"
+    # JCX-48-24 tabulates fiscal years 2024-2028; the package reads FY2024.
+    assert {(fact.period.type, fact.period.value) for fact in facts} == {
+        ("fiscal_year", 2024)
+    }
     assert salt.period.value == 2024
+    assert salt.layout.record_set_id == "jct.tax_expenditures.fy2024"
     assert salt.geography.id == "0100000US"
     assert salt.entity.name == "tax_unit"
     assert salt.filters["tax_expenditure"] == "salt_deduction"
@@ -2656,7 +2661,7 @@ def test_jct_tax_expenditure_package_builds_selected_individual_facts():
         row
         for row in consumer_rows
         if row["lineage"]["source_record_id"]
-        == "jct.tax_expenditures.cy2024.salt_deduction.revenue_loss"
+        == "jct.tax_expenditures.fy2024.salt_deduction.revenue_loss"
     )
     assert salt_row["universe_constraints"]["constraints"][0]["value"] == (
         "salt_deduction"
