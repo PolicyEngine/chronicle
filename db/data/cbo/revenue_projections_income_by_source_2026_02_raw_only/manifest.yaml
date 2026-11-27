@@ -8,8 +8,12 @@ provenance_notes: >-
   Raw-only record for cbo-revenue-projections-income-by-source-2026-02; no
   package reads this file. It is CBO's workbook of revenue projections for the
   February 2026 baseline, unchanged. The maintainer downloaded it in a browser
-  on 2026-11-27, because cbo.gov answers automated requests with a DataDome
-  HTTP 403, and the browser saved it as 51138-2026-02-Revenue.xlsx. Its
+  on 2026-11-27 from the link on CBO's Budget and Economic Data page, because
+  cbo.gov answers automated requests with a DataDome HTTP 403, and the browser
+  saved it as 51138-2026-02-Revenue.xlsx. The file's address was not requested
+  again from here; CRS Insight IN12690 of 2026-05-06 links the same address.
+  The package's manifest and concept evidence named the file
+  51138-2026-02-Revenue-Projections.xlsx until chronicle#449. Its
   Contents sheet says "This file was reposted on February 26, 2026, to correct
   values in Tables 7a and 7b for the revenue effects of the 2025 reconciliation
   act", and the file was last saved on 2026-02-26. The package reads a CSV
@@ -22,7 +26,7 @@ provenance_notes: >-
 files:
   workbook:
     filename: 51138-2026-02-Revenue.xlsx
-    source_url: https://www.cbo.gov/data/budget-economic-data
+    source_url: https://www.cbo.gov/system/files/2026-02/51138-2026-02-Revenue.xlsx
     sha256: 8f5bf6db9b40b4d997ea3932a340515f92b08e035f69e5e603e15791f3ce258c
     size_bytes: 916083
     fetched_at: '2026-11-27T00:00:00+00:00'

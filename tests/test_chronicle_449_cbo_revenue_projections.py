@@ -34,6 +34,10 @@ RAW_ONLY = DATA / "revenue_projections_income_by_source_2026_02_raw_only"
 WORKBOOK = RAW_ONLY / "51138-2026-02-Revenue.xlsx"
 WORKBOOK_SHA256 = "8f5bf6db9b40b4d997ea3932a340515f92b08e035f69e5e603e15791f3ce258c"
 WORKBOOK_SIZE = 916_083
+# The workbook's address as CBO's Budget and Economic Data page links it. The
+# package's manifest and concept evidence named
+# "51138-2026-02-Revenue-Projections.xlsx" until chronicle#449.
+WORKBOOK_URL = "https://www.cbo.gov/system/files/2026-02/51138-2026-02-Revenue.xlsx"
 SHEET = "3.Individual Income Tax Details"
 YEARS = range(2023, 2037)
 
@@ -93,6 +97,7 @@ def test_the_reposted_workbook_is_registered_raw_only():
     assert list(manifest["files"]) == ["workbook"]
     assert hashlib.sha256(WORKBOOK.read_bytes()).hexdigest() == WORKBOOK_SHA256
     assert entry["filename"] == WORKBOOK.name
+    assert entry["source_url"] == WORKBOOK_URL
     assert entry["sha256"] == WORKBOOK_SHA256
     assert entry["size_bytes"] == WORKBOOK_SIZE == WORKBOOK.stat().st_size
     assert entry["storage"]["r2"]["key"] == (
@@ -169,3 +174,20 @@ def test_facts_equal_the_workbook_cells(sheet, year):
 
         assert Decimal(repr(fact.value)) == _usd(cell), fact.source_record_id
         assert (fact.period.type, str(fact.period.value)) == ("tax_year", str(year))
+        assert fact.source.url == WORKBOOK_URL
+        assert fact.measure.concept_evidence_url == WORKBOOK_URL
+
+
+def test_the_package_names_the_workbook_as_cbo_links_it():
+    manifest = yaml.safe_load((CSV_PATH.parent / "manifest.yaml").read_text())
+    package_yaml = (
+        REPO_ROOT
+        / "packages"
+        / "cbo"
+        / "revenue_projections_income_by_source_2026_02"
+        / "source_package.yaml"
+    ).read_text()
+
+    assert manifest["files"][2026]["source_url"] == WORKBOOK_URL
+    assert package_yaml.count(f"concept_evidence_url: {WORKBOOK_URL}\n") == 6
+    assert "Revenue-Projections.xlsx" not in package_yaml

@@ -12,10 +12,12 @@ notes: Curated Ledger extract of selected CBO February 2026 baseline projection 
   The repost corrected Tables 7a and 7b only. Each of this CSV's 84 values equals
   its cell in the workbook's sheet 3.Individual Income Tax Details, in billions of
   dollars; a test checks that. The CSV's labels are Ledger's, not CBO's row labels.
+  The source URL names the workbook as CBO's page links it, 51138-2026-02-Revenue.xlsx;
+  until chronicle#449 it said 51138-2026-02-Revenue-Projections.xlsx.
 files:
   2026:
     filename: cbo_revenue_projections_income_by_source_2026_02.csv
-    source_url: https://www.cbo.gov/system/files/2026-02/51138-2026-02-Revenue-Projections.xlsx
+    source_url: https://www.cbo.gov/system/files/2026-02/51138-2026-02-Revenue.xlsx
     source_table: Revenue Projections, by Category, February 2026, sheet 3.Individual
       Income Tax Details
     sha256: 8cd8edee3e76258aa67153adff9dc0dc9b9738ace426eceebcc8d5b26d319bb8
