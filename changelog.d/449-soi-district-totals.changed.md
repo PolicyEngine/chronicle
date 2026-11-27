@@ -13,10 +13,12 @@ level, under another concept id or domain. The last 17 of each year are United
 States totals with the same tax-form line in Publication 1304, which uses
 another domain or concept id: ten Schedule A items in Table 2.1, the EITC
 returns and amount for no, one and two qualifying children in Table 2.5, and
-the self-employed retirement plans deduction in Table 1.4. The other totals
-stay until a package with the complete total exists (1,836 state and 30
-national facts for TY2022; 1,938 state and 30 national facts for TY2023). They
-move to the new record sets `...all_returns_state_totals`,
+the self-employed retirement plans deduction amount in Table 1.4. The other
+totals stay until a package with the complete total exists (1,836 state and 30
+national facts for TY2022; 1,938 state and 30 national facts for TY2023). For
+eleven of the United States totals that stay, Publication 1304 prints the line
+in a column of Table 1.4 or Table 2.1 that no package reads yet. The totals
+that stay move to the new record sets `...all_returns_state_totals`,
 `...all_returns_us_total` and, for TY2023, `...agi_500k_plus_state_totals`
 (record set spec ids `...all_returns_state_totals.v1`,
 `...all_returns_us_total.v1` and `...agi_class_state_totals.v1`); they keep

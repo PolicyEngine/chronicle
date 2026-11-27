@@ -962,8 +962,9 @@ PUBLICATION_1304_LINES = {
         TABLE_2_5_PACKAGE,
         f"{TABLE_2_5}.two_qualifying_children.total.eitc_total",
     ),
-    # Table 1.4: the self-employed retirement plans deduction. Its returns
-    # count has no Publication 1304 line, so that US total stays.
+    # Table 1.4: the self-employed retirement plans deduction amount. Table
+    # 1.4 prints the returns count too, but no package reads that column
+    # (``PUBLICATION_1304_UNREAD_COLUMNS``), so that US total stays.
     "self_employed_retirement_plans_amount": (
         "soi-table-1-4",
         "table_1_4.all.self_employed_pension_contribution_ald",
@@ -1218,6 +1219,125 @@ def test_the_table_1_4_pair_is_schedule_1_line_16_on_both_sides(district):
     ]
     assert paired.value == round(sheet.cell_value(total_row, amount) * 1000)
     assert paired.value == {2022: 29_483_344_000, 2023: 30_130_848_000}[year]
+
+
+# Publication 1304 prints more lines that the district file also has, in
+# workbook columns that no package reads: district measure id, then the
+# package of the table, the workbook column (the same in TY2022 and TY2023)
+# and the heading over it. No package gives these quantities, so the district
+# file's United States totals for them stay. When a package starts to read one
+# of these columns, its pair belongs in ``PUBLICATION_1304_LINES`` and the
+# district total goes; the test below fails until then.
+PUBLICATION_1304_WORKBOOKS = {
+    "soi-table-1-4": ("table_1_4", "in14ar.xls"),
+    "soi-table-2-1": ("table_2_1", "in21id.xls"),
+}
+PUBLICATION_1304_UNREAD_COLUMNS = {
+    "taxable_state_local_income_tax_refunds_returns": (
+        "soi-table-1-4",
+        "AB",
+        "State income tax refunds",
+    ),
+    "taxable_state_local_income_tax_refunds_amount": (
+        "soi-table-1-4",
+        "AC",
+        "State income tax refunds",
+    ),
+    "self_employed_retirement_plans_returns": (
+        "soi-table-1-4",
+        "DL",
+        "Payments to a Keogh plan",
+    ),
+    "ira_deduction_returns": ("soi-table-1-4", "DT", "IRA payments"),
+    "ira_deduction_amount": ("soi-table-1-4", "DU", "IRA payments"),
+    "student_loan_interest_deduction_returns": (
+        "soi-table-1-4",
+        "DV",
+        "Student loan interest deduction",
+    ),
+    "student_loan_interest_deduction_amount": (
+        "soi-table-1-4",
+        "DW",
+        "Student loan interest deduction",
+    ),
+    "alternative_minimum_tax_returns": (
+        "soi-table-1-4",
+        "EN",
+        "Alternative minimum tax",
+    ),
+    "alternative_minimum_tax_amount": (
+        "soi-table-1-4",
+        "EO",
+        "Alternative minimum tax",
+    ),
+    "taxes_paid_deduction_returns": ("soi-table-2-1", "CA", "Taxes paid deduction"),
+    "taxes_paid_deduction_amount": ("soi-table-2-1", "CB", "Taxes paid deduction"),
+}
+
+
+def _column_number(letters: str) -> int:
+    number = 0
+    for letter in letters:
+        number = number * 26 + ord(letter) - ord("A") + 1
+    return number - 1
+
+
+@FILES
+def test_no_package_reads_the_other_publication_1304_columns_yet(district):
+    """The kept US totals with a Publication 1304 line nobody reads.
+
+    Rule 3's pairs are a hand-declared list, so a new measure of
+    ``soi-table-1-4`` or ``soi-table-2-1`` under another concept id would leave
+    a district US total beside its twin, and no key would show it. This test
+    holds the list. Each column of ``PUBLICATION_1304_UNREAD_COLUMNS`` has its
+    heading in the workbook of the tax year, over "Number of returns" for a
+    returns measure and over "Amount" for an amount. No measure of the package
+    reads the column for the tax year, and the district file's United States
+    total for the measure is a fact.
+    """
+    year = district.year
+    facts = _facts(district)
+    pairs = set(PUBLICATION_1304_LINES)
+    for measure_id, (
+        package_id,
+        letters,
+        heading,
+    ) in PUBLICATION_1304_UNREAD_COLUMNS.items():
+        assert measure_id not in pairs, measure_id
+        folder, suffix = PUBLICATION_1304_WORKBOOKS[package_id]
+        workbook = REPO_ROOT / "db/data/irs_soi" / folder / f"{year % 100}{suffix}"
+        sheet = xlrd.open_workbook(workbook).sheet_by_index(0)
+        column = _column_number(letters)
+        is_amount = measure_id.endswith("_amount")
+        # A heading spans its returns column and the amount column after it.
+        above = [
+            " ".join(str(sheet.cell_value(row, column - is_amount)).split())
+            for row in range(2, 5)
+            if sheet.cell_value(row, column - is_amount) != ""
+        ]
+        assert above[0] == heading, (measure_id, above)
+        kinds = {
+            " ".join(str(sheet.cell_value(row, column)).split())
+            for row in range(5, 8)
+            if isinstance(sheet.cell_value(row, column), str)
+        } - {""}
+        assert kinds == {"Amount" if is_amount else "Number of returns"}, measure_id
+
+        payload = _payload(
+            REPO_ROOT / "packages/irs_soi" / folder / "source_package.yaml"
+        )
+        assert payload["package_id"] == package_id
+        read = {
+            (measure.get("column_by_year") or {}).get(year, measure.get("column"))
+            for record_set in payload["record_sets"]
+            for measure in record_set["measures"]
+        }
+        assert letters not in read, (
+            f"{package_id} now reads column {letters} ({heading}): move "
+            f"{measure_id} to PUBLICATION_1304_LINES and remove the district "
+            "file's US total"
+        )
+        assert f"{district.prefix}.all_returns.us.{measure_id}" in facts, measure_id
 
 
 @FILES
