@@ -167,8 +167,6 @@ def test_state_totals_equal_the_historic_table_2_us_row(built):
     workbook and the TY2023 Historic Table 2 CSV (US, AGI stub 0) report the
     same totals."""
     csv_path = DATA / "historic_table_2" / "23in55cmcsv.csv"
-    if not csv_path.exists():
-        pytest.skip("23in55cmcsv.csv arrives with chronicle#291")
     with csv_path.open(newline="", encoding="utf-8-sig") as handle:
         us = next(
             row

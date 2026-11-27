@@ -752,8 +752,9 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # the states and the districts.
         # chronicle#449's ACS B01001 2024 and 2025 packages, the 2026 OEP
         # package and CMS's 2025 annual effectuated enrollment package have no
-        # 2023 artifact (36 -> 40).
-        "skipped_source_count": 40,
+        # 2023 artifact (36 -> 40), and nor has jct-tax-expenditures-2025
+        # (40 -> 41). The same list gives source_packages.json's count below.
+        "skipped_source_count": 41,
         # chronicle#381 adds the Gambling Commission, and chronicle#420 item 13
         # Registers of Scotland.
         "source_count": 63,
