@@ -353,6 +353,16 @@ lineage. The state-grain packages are:
   and returns and AGI in the nine AGI classes of
   `soi-historic-table-2-state-agi-2022`, for every state and district row
   (chronicle#447)
+- `soi-congressional-district-2023`: the same columns and nine AGI classes
+  for tax year 2023 (chronicle#449). Its districts are those of the 118th
+  Congress, as the TY2023 documentation guide says, so the package is its own
+  series: `5001800US` GEOIDs, `118th_congress` vintage and its own
+  `record_set_spec_id`s. The TY2023 state AGI package splits the top class
+  into $500,000 under $1,000,000 and $1,000,000 or more; the district file's
+  top class is the two together. The file's EITC total column (`A59660`)
+  adds the three-or-more-children amount in dollars to the other amounts in
+  thousands, so its EITC amount is not comparable with Historic Table 2's
+  (`tests/test_chronicle_soi_geography_2023.py`).
 - `soi-county-2022`: county totals
 
 The legacy `db/etl_soi_state.py`, `db/etl_soi_credits.py`,

@@ -1,0 +1,18 @@
+source_id: irs_soi
+package_id: soi-filing-season-week30-2024
+dataset: irs_soi_soi-filing-season-week30-2024
+source_page: https://www.irs.gov/statistics/filing-season-statistics
+table: Filing Season Statistics Table 1
+files:
+  2024:
+    filename: 25inweek30.xlsx
+    source_url: https://www.irs.gov/pub/irs-soi/25inweek30.xlsx
+    sha256: 59bcc4f111cd7ef51bd3a5c36442d0d6c87f5f269399154bb0a0a20e4cc49387
+    size_bytes: 50040
+    fetched_at: '2026-11-18T12:54:06+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/irs_soi/soi-filing-season-week30-2024/2024/59bcc4f111cd7ef51bd3a5c36442d0d6c87f5f269399154bb0a0a20e4cc49387/25inweek30.xlsx
+        uri: r2://ledger-raw/raw/irs_soi/soi-filing-season-week30-2024/2024/59bcc4f111cd7ef51bd3a5c36442d0d6c87f5f269399154bb0a0a20e4cc49387/25inweek30.xlsx

@@ -1,0 +1,17 @@
+# IRS SOI Congressional District Data, Tax Year 2023, Documentation Guide, field AGI_STUB ("Size of adjusted gross income").
+# Source: https://www.irs.gov/pub/irs-soi/23incddocguide.docx
+# sha256: 377e4ed25174c092858e7b99f628a6fb841605fa6310032db30e5fb7d59d1b84
+# Retrieved 2026-11-27. Extracted from the Word table cells; one row per AGI_STUB value, without the guide's quote marks.
+# The guide lists ten classes; 23incd.csv publishes agi_stub 0 to 9 (tests/test_chronicle_soi_district_agi_classes.py).
+agi_stub	description
+0	No AGI Stub
+1	Under $1
+2	$1 under $10,000
+3	$10,000 under $25,000
+4	$25,000 under $50,000
+5	$50,000 under $75,000
+6	$75,000 under $100,000
+7	$100,000 under $200,000
+8	$200,000 under $500,000
+9	$500,000 under $1,000,000
+10	$1,000,000 or more

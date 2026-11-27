@@ -1,0 +1,169 @@
+schema_version: ledger.source_package.v1
+package_id: soi-w2-statistics
+label: IRS SOI Form W-2 reported tips and 401(k) contributions
+dimension_labels:
+  'irs_soi.form_w2_item': 'Form W-2 item'
+artifact:
+  source_name: irs_soi
+  source_table: Table 4.B. Summary of Items for Taxpayers with Form W-2, by Return and Earner Type, Tax Year {year}
+  resource_package: db
+  resource_directory: data/irs_soi/w2_statistics
+  manifest: manifest.yaml
+  vintage: tax_year_{year}
+  extracted_at: '2026-11-18'
+  extraction_method: xlsx whole-workbook used-range cell parse
+  parser: xlsx_used_range
+record_sets:
+- record_set_id: irs_soi.ty{year}.form_w2_social_security_tips
+  provenance_class: administrative
+  record_set_spec_id: irs_soi.form_w2_social_security_tips.v1
+  source_record_id_prefix: irs_soi.ty{year}.form_w2_social_security_tips
+  sheet_name: Table 4.B
+  period_type: tax_year
+  period: '{year}'
+  geography_id: 0100000US
+  geography_level: country
+  geography_name: United States
+  geography_vintage: current
+  entity: tax_unit
+  entity_role: filing_unit_with_form_w2
+  domain: form_w2_items
+  groupby_dimension: irs_soi.form_w2_item
+  rows:
+  - value_id: box_7_social_security_tips
+    label: 'Box 7: Social security tips'
+    ordinal: 0
+    row_number: 13
+    expected_row_header_column: A
+    expected_row_header: 'Box 7: Social security tips'
+    table_record_kind: total
+    guard_cells: &table_headers
+    - column: A
+      row: 1
+      expected_value: Table 4.B. Summary of Items for Taxpayers with Form W-2, by Return and Earner Type, Tax Year {year}
+      label: source tax year
+    - column: A
+      row: 2
+      expected_value: '[All figures are estimates based on samples--money amounts are in thousands of dollars]'
+      label: publisher units
+    - column: B
+      row: 3
+      expected_value: All taxpayers
+      label: all taxpayers block
+  measures:
+  - measure_id: return_count
+    label: Number of returns
+    ordinal: 0
+    column: B
+    source_column_id: number_of_returns
+    expected_column_header_row: 4
+    expected_column_header: Number of returns
+    concept: irs_soi.form_w2_social_security_tip_returns
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+  - measure_id: taxpayer_count
+    label: Number of taxpayers
+    ordinal: 1
+    column: C
+    source_column_id: number_of_taxpayers
+    expected_column_header_row: 4
+    expected_column_header: Number of taxpayers
+    concept: irs_soi.form_w2_social_security_tip_taxpayers
+    unit: count
+    aggregation: sum
+    expected_cell_type: number
+  - measure_id: amount
+    label: Amount
+    ordinal: 2
+    column: D
+    source_column_id: amount
+    expected_column_header_row: 4
+    expected_column_header: Amount
+    concept: irs_soi.form_w2_social_security_tip_income
+    unit: usd
+    aggregation: sum
+    source_concept: irs_soi.form_w2_social_security_tip_income
+    concept_relation: broad_match
+    concept_authority: ledger-us
+    concept_evidence_url: https://www.irs.gov/statistics/soi-tax-stats-individual-information-return-form-w2-statistics
+    concept_evidence_notes: >
+      The publisher reports Social Security tips in Box 7 of Form W-2.
+      The total covers tips reported to employers on these wage statements.
+    legal_vintage: tax_year_{year}
+    value_scale: 1000
+    expected_cell_type: number
+- record_set_id: irs_soi.ty{year}.form_w2_401k_elective_deferrals
+  provenance_class: administrative
+  record_set_spec_id: irs_soi.form_w2_401k_elective_deferrals.v1
+  source_record_id_prefix: irs_soi.ty{year}.form_w2_401k_elective_deferrals
+  sheet_name: Table 4.B
+  period_type: tax_year
+  period: '{year}'
+  geography_id: 0100000US
+  geography_level: country
+  geography_name: United States
+  geography_vintage: current
+  entity: tax_unit
+  entity_role: filing_unit_with_form_w2
+  domain: form_w2_items
+  groupby_dimension: irs_soi.form_w2_item
+  rows:
+  - value_id: box_12_d_401k_elective_deferrals
+    label: 'Box 12 D: 401(k) elective deferrals'
+    ordinal: 0
+    row_number: 21
+    expected_row_header_column: A
+    expected_row_header: D. 401(k) elective deferrals
+    table_record_kind: total
+    guard_cells: *table_headers
+  measures:
+  - measure_id: amount
+    label: Amount
+    ordinal: 0
+    column: D
+    source_column_id: amount
+    expected_column_header_row: 4
+    expected_column_header: Amount
+    concept: irs_soi.form_w2_401k_elective_deferrals
+    unit: usd
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number
+- record_set_id: irs_soi.ty{year}.form_w2_designated_roth_401k_contributions
+  provenance_class: administrative
+  record_set_spec_id: irs_soi.form_w2_designated_roth_401k_contributions.v1
+  source_record_id_prefix: irs_soi.ty{year}.form_w2_designated_roth_401k_contributions
+  sheet_name: Table 4.B
+  period_type: tax_year
+  period: '{year}'
+  geography_id: 0100000US
+  geography_level: country
+  geography_name: United States
+  geography_vintage: current
+  entity: tax_unit
+  entity_role: filing_unit_with_form_w2
+  domain: form_w2_items
+  groupby_dimension: irs_soi.form_w2_item
+  rows:
+  - value_id: box_12_aa_designated_roth_401k_contributions
+    label: 'Box 12 AA: Designated Roth 401(k) contributions'
+    ordinal: 0
+    row_number: 40
+    expected_row_header_column: A
+    expected_row_header: AA. Designated Roth 401(k) contributions
+    table_record_kind: total
+    guard_cells: *table_headers
+  measures:
+  - measure_id: amount
+    label: Amount
+    ordinal: 0
+    column: D
+    source_column_id: amount
+    expected_column_header_row: 4
+    expected_column_header: Amount
+    concept: irs_soi.form_w2_designated_roth_401k_contributions
+    unit: usd
+    aggregation: sum
+    value_scale: 1000
+    expected_cell_type: number

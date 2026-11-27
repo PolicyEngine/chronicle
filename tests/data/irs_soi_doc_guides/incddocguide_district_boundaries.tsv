@@ -1,0 +1,8 @@
+# IRS SOI Congressional District Data documentation guides, section D ("Congressional District and ZIP Code Matching Procedures"):
+# the sentence that names the district boundaries and the sentence that lists the states with one district.
+# 22incddocguide: https://www.irs.gov/pub/irs-soi/22incddocguide.docx, sha256 4e265d3c2499d87428e01bfe2c9e581b444cb6289c7a45397cbfc14a681636ef
+# 23incddocguide: https://www.irs.gov/pub/irs-soi/23incddocguide.docx, sha256 377e4ed25174c092858e7b99f628a6fb841605fa6310032db30e5fb7d59d1b84
+# Extracted 2026-11-27 from the Word paragraph text; wording is the guide's own (tests/test_chronicle_soi_district_agi_classes.py).
+guide	boundaries	one_district_states
+22incddocguide	District boundaries are based on the 117th Congress.	Eight states (AK, DC, DE, MT, ND, SD, VT, and WY) have only one congressional district, therefore the matching procedures are not performed on these states.
+23incddocguide	District boundaries are based on the 118th Congress.	Seven states (AK, DC, DE, ND, SD, VT, and WY) have only one congressional district, therefore the matching procedures are not performed on these states.

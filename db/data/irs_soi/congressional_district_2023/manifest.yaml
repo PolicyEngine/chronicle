@@ -1,0 +1,20 @@
+source_id: irs_soi
+package_id: soi-congressional-district-2023
+dataset: irs_soi_congressional_district_2023
+source_page: https://www.irs.gov/statistics/soi-tax-stats-data-by-congressional-district-2023
+table: Congressional District Data 2023
+files:
+  2023:
+    filename: 23incd.csv
+    source_url: https://www.irs.gov/pub/irs-soi/23incd.csv
+    sha256: 1db3058b4b07e50b4640d902843ace3c8b5a6d951a5b99c248f2e921bacf4c53
+    size_bytes: 7824799
+    fetched_at: '2026-11-18'
+    source_table: Congressional District Data 2023
+    year: 2023
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/irs_soi/soi-congressional-district-2023/2023/1db3058b4b07e50b4640d902843ace3c8b5a6d951a5b99c248f2e921bacf4c53/23incd.csv
+        uri: r2://ledger-raw/raw/irs_soi/soi-congressional-district-2023/2023/1db3058b4b07e50b4640d902843ace3c8b5a6d951a5b99c248f2e921bacf4c53/23incd.csv

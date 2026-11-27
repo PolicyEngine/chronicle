@@ -59,6 +59,8 @@ GUIDE_BY_DATA_FILE = {
     "22incyallnoagi.csv": "22incydocguide",
     "22in55cmcsv.csv": "22incmdocguide",
     "23in55cmcsv.csv": "23incmdocguide",
+    "23incd.csv": "23incddocguide",
+    "23incyallnoagi.csv": "23incydocguide",
 }
 
 # IRS-variable columns a data file carries that its guide does not define.
@@ -66,10 +68,12 @@ GUIDE_BY_DATA_FILE = {
 UNDOCUMENTED_COLUMNS = {
     "22incd.csv": frozenset({"A00101"}),
     "22incyallnoagi.csv": frozenset({"A00101"}),
+    "23incd.csv": frozenset({"A00101"}),
+    "23incyallnoagi.csv": frozenset({"A00101"}),
 }
 
-# The TY2022 guides print form "8926" for these variables; the TY2023 Historic
-# Table 2 guide prints "8962" for the same variables and descriptions.
+# The TY2022 guides and the TY2023 district and county guides print "8926".
+# The TY2023 Historic Table 2 guide identifies the same lines as Form 8962.
 LINE_ERRATA = {"8926:24": "8962:24", "8926:25": "8962:25"}
 
 # measure_id -> (form line, guide description, later guide wordings ...).
@@ -158,10 +162,12 @@ GUIDE_DEFINITIONS: dict[str, tuple[str, ...]] = {
     "partnership_scorp_income_returns": (
         "Schedule E:32",
         "Number of returns with partnership/S-corp net income (less loss)",
+        "Number of returns with partnership/S-corporation net income (less loss)",
     ),
     "partnership_scorp_income_amount": (
         "Schedule E:32",
         "Partnership/S-corp net income (less loss) amount",
+        "Partnership/S-corporation net income (less loss) amount",
     ),
     "rental_royalty_income_returns": (
         "Schedule E:26",
@@ -405,7 +411,13 @@ GUIDE_DEFINITIONS: dict[str, tuple[str, ...]] = {
         "Schedule 1:16",
         "Self-employment retirement plans amount",
     ),
-    "ira_deduction_returns": ("Schedule 1:20", "Number of returns with IRA payments"),
+    # The TY2023 district guide spells the acronym out for N03150, on the same
+    # line and with the same A03150 description.
+    "ira_deduction_returns": (
+        "Schedule 1:20",
+        "Number of returns with IRA payments",
+        "Number of returns with Individual Retirement Account (IRA) payments",
+    ),
     "ira_deduction_amount": ("Schedule 1:20", "IRA payments amount"),
     "student_loan_interest_deduction_returns": (
         "Schedule 1:21",
@@ -982,20 +994,20 @@ DISTRICT_STATE_TWIN_COLUMNS = (
 )
 
 
-def test_district_state_twin_columns_share_the_state_identity():
+@pytest.mark.parametrize("year", [2022, 2023])
+def test_district_state_twin_columns_share_the_state_identity(year):
+    district_dir = f"congressional_district_{year}"
+    state_dir = f"historic_table_2_state_broad_{year}"
     identities: dict[tuple[str, str], set[tuple[str, str, str]]] = defaultdict(set)
     for read in _column_reads():
-        if read.package_dir in {
-            "congressional_district_2022",
-            "historic_table_2_state_broad_2022",
-        }:
+        if read.package_dir in {district_dir, state_dir}:
             identities[(read.package_dir, read.header)].add(
                 (read.measure_id, read.concept, read.label)
             )
 
     for column in DISTRICT_STATE_TWIN_COLUMNS:
-        district = identities[("congressional_district_2022", column)]
-        state = identities[("historic_table_2_state_broad_2022", column)]
+        district = identities[(district_dir, column)]
+        state = identities[(state_dir, column)]
         assert len(district) == 1, (column, district)
         assert district == state, (column, district, state)
 
@@ -1006,10 +1018,10 @@ def _facts(package_id: str, year: int) -> dict[str, Any]:
     return {fact.source_record_id: fact for fact in package.build_facts(year)}
 
 
-def _us_values(package_id: str, prefix: str) -> dict[str, float]:
+def _us_values(package_id: str, prefix: str, year: int = 2022) -> dict[str, float]:
     return {
         record_id.removeprefix(prefix): fact.value
-        for record_id, fact in _facts(package_id, 2022).items()
+        for record_id, fact in _facts(package_id, year).items()
         if record_id.startswith(prefix)
     }
 
@@ -1022,21 +1034,38 @@ HT2_TO_DISTRICT_IDS = {
 }
 
 
-def test_congressional_district_us_row_is_a_subset_of_historic_table_2():
-    """Differential check of the two TY2022 IRS tabulations of one population.
+# TY2023: 23incd.csv's A59660 ("Earned income credit amount") is, in every row,
+# the sum of A59661 to A59664, but A59664 is in dollars while the other three
+# are in thousands (both district packages read A59664 with value_scale 1). So
+# the district file's US EITC amount reads as about 236 times Historic Table
+# 2's. Reported for María's ruling (chronicle#449); the geography test pins
+# the sum.
+US_ROW_OUTLIERS = {2022: {}, 2023: {"eitc_amount": 235.7464}}
+
+
+@pytest.mark.parametrize(
+    ("year", "ht2_package"),
+    [(2022, "soi-historic-table-2"), (2023, "soi-historic-table-2-2023")],
+)
+def test_congressional_district_us_row_is_a_subset_of_historic_table_2(
+    year, ht2_package
+):
+    """Differential check of the two IRS tabulations of one population.
 
     The district file drops returns without a ZIP code that matches the state,
     and it suppresses small cells, so its US row should not exceed Historic
-    Table 2's. Every TY2022 ratio lies in [0.92, 0.99]. The columns the
-    district package used to read gave 2.04 (SALT amount), 0.72 (SALT returns),
-    0.87 and 0.26 (PTC returns and amount), and the district QBI deduction was
-    6.65 times what Historic Table 2's ``qbi_amount`` read.
+    Table 2's. Every TY2022 ratio lies in [0.92, 0.99], and every TY2023 ratio
+    in [0.94, 1.00] except the EITC amount (``US_ROW_OUTLIERS``). The columns
+    the TY2022 district package used to read gave 2.04 (SALT amount), 0.72
+    (SALT returns), 0.87 and 0.26 (PTC returns and amount), and the district
+    QBI deduction was 6.65 times what Historic Table 2's ``qbi_amount`` read.
     """
     district = _us_values(
-        "soi-congressional-district-2022",
-        "irs_soi.ty2022.congressional_district_2022.all_returns.us.",
+        f"soi-congressional-district-{year}",
+        f"irs_soi.ty{year}.congressional_district_{year}.all_returns.us.",
+        year,
     )
-    ht2 = _us_values("soi-historic-table-2", "irs_soi.ty2022.historic_table_2.us.all.")
+    ht2 = _us_values(ht2_package, f"irs_soi.ty{year}.historic_table_2.us.all.", year)
     pairs = {
         measure_id: (district[HT2_TO_DISTRICT_IDS.get(measure_id, measure_id)], value)
         for measure_id, value in ht2.items()
@@ -1069,7 +1098,7 @@ def test_congressional_district_us_row_is_a_subset_of_historic_table_2():
         measure_id: round(cd / ht2_value, 4)
         for measure_id, (cd, ht2_value) in pairs.items()
         if not 0.90 <= cd / ht2_value <= 1.0
-    } == {}
+    } == US_ROW_OUTLIERS[year]
 
 
 def test_district_interest_parts_match_table_2_1_lines_8a_and_10():
