@@ -117,12 +117,20 @@ AGI = "us:statutes/26/62#adjusted_gross_income"
 #: salary_sacrifice_threshold_position=all. chronicle#408 proposes twelve for
 #: the Market Value Survey 2024 packages, for the maintainer's review: eight
 #: by the rule, four value bands that two packages word one way each.
+#: chronicle#449 adds three for the B01001 female age bands the three
+#: census-b01001-female-age packages share, in the "Age ..." wording of the
+#: register's other age labels.
 CHOSEN_LABELS: dict[tuple[str, str], str] = {
     (AGI, "under_1"): "No adjusted gross income",
     (AGI, "all"): "All returns, total",
     ("age", "85_plus"): "Age 85 plus",
+    # The B01001 packages word these "Female 15 to 17 years", "Female 18 and
+    # 19 years" and "Female 22 to 24 years"; their sex is the sex=female filter.
+    ("age", "age_15_to_17"): "Age 15 to 17",
+    ("age", "age_18_to_19"): "Age 18 and 19",
     ("age", "age_20"): "Age 20",
     ("age", "age_21"): "Age 21",
+    ("age", "age_22_to_24"): "Age 22 to 24",
     ("age", "age_25_to_29"): "Age 25 to 29",
     ("age", "age_30_to_34"): "Age 30 to 34",
     ("age", "age_35_to_39"): "Age 35 to 39",

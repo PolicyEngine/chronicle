@@ -13,4 +13,7 @@ its predecessor's record set specs, concepts, rows, filters, constraints and
 labels. `census-stc-individual-income-tax` registers the FY2025 flat file
 (`FY2025-Flat-File.txt`) and builds its item T40 at 2025, 46 facts. The label
 register lists `age_15_to_17`, `age_18_to_19` and `age_22_to_24`, which the
-three B01001 packages now emit, in their one wording.
+three B01001 packages now emit, as "Age 15 to 17", "Age 18 and 19" and "Age 22
+to 24", the wording of the register's other age labels. Each B01001 fact keeps
+the package's "Female ..." wording in `package_dimension_value_labels`; no
+value id changes.
