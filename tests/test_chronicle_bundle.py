@@ -636,15 +636,21 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # the state-data file's four US totals and IRA Tables 5 and 6 (two
         # each). Measured with the IRS SOI packages at bundle year 2023: no new
         # geography, period or source-table key, duplicate key or warning.
-        # chronicle#449's later editions of other feed sources add 1,658 facts:
+        # chronicle#449's later editions of other feed sources add 1,217 facts:
         # Census PEP Vintage 2025 for 2025 (19 national, 918 state), SNAP FY2025
         # (216), TANF caseload FY2025 (58), the 2026 Trustees Report (1),
-        # LIHEAP FY2025 (1), and BEA's
-        # 2026-11-25 NIPA release (29: 3 wage facts for 2018, 2023 and 2024,
-        # and 26 personal income facts for 2023) and 2026-09-30 state personal
-        # income (416 for 2023). Measured with the packages that share their
-        # concepts: no new geography or period key.
-        "fact_count": 2350211,
+        # LIHEAP FY2025 (1) and SSI Monthly Statistics for December 2025 (4).
+        # Measured with the packages that share their concepts: no new
+        # geography key; SSI adds the period key month:2025-12. BEA's newer
+        # releases, SNAP's revised FY2024 workbook and the Z.1 release of
+        # 2026-06-11 replace their earlier editions in place and add no fact.
+        # chronicle#444 (merged into chronicle#449) adds 73,805 tax-unit
+        # facts: the TY2023 congressional district file (59,626, 118th
+        # Congress districts, with the record sets chronicle#447 gave TY2022 and
+        # without the file's EITC total), the TY2023 county file (6,286), the
+        # filing-season snapshots of weeks 21 and 30 for TY2024 and TY2025
+        # (7,888) and W-2 TY2023 (5).
+        "fact_count": 2423575,
         # The same change adds 82,064 geography keys: 46,363 Scottish 2022
         # output areas (UV404), 35,673 LSOA-level keys from the DESNZ LSOA
         # workbooks (Scotland's data zones already exist), the 26 Northern
@@ -660,7 +666,9 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # the districts too); and three scopes: HMRC's England, Wales and
         # Northern Ireland, EPC D3's England area unknown and the Market Value
         # Survey's England excluding London.
-        "geography_count": 102893,
+        # chronicle#444 adds 429: the TY2023 district file's 118th Congress
+        # districts.
+        "geography_count": 103322,
         # And 12 period keys: HBAI's FYE 1995 and FYE 1996 (fiscal_year 1994,
         # 1995) and gas_year 2015 to 2024, the period type chronicle#356 adds.
         # chronicle#381 adds 12 more: HMRC's betting and gaming receipts from
@@ -676,7 +684,8 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # income tax series (Table 4 of the Scottish outturn).
         # chronicle#442 adds nine financial years, 2032-33 to 2040-41: Table 28's
         # projections run further than any other package's.
-        "period_count": 619,
+        # chronicle#449's SSI December 2025 package adds month:2025-12.
+        "period_count": 620,
         # 467 before chronicle#292 moved the congressional-district and
         # state_2022 rows from their ty2023 restamp to TY2022. There the CD
         # file's state-total and US rows share semantic keys with the Historic
@@ -722,9 +731,11 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # semantic keys with Publication 1304's TY2023 Tables 1.4 (70), 1.1
         # (18) and 1.2 (2). Those tables publish totals for the same concepts
         # with different values, and Chronicle keeps both.
-        # chronicle#449's BEA editions add 445: each of their facts shares its
-        # semantic key with the same series and year in the earlier release.
-        "semantic_duplicate_key_count": 6364,
+        # chronicle#444's TY2023 district file adds 3,454: as the TY2022 file does,
+        # its state and US rows publish values under the concepts of Historic
+        # Table 2 TY2023 (state broad and state AGI), Publication 1304 and the
+        # state data. Chronicle keeps both publications' values.
+        "semantic_duplicate_key_count": 9373,
         # chronicle#310's six FSA portfolio packages (FY2026 files) and the
         # ACS 2024 S1501 state package have no 2023 artifact, so the 2023
         # bundle skips them (10 -> 17); no fact or key count moves.
@@ -737,9 +748,10 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # either (28 -> 36): B11001 for congressional districts, B19001 for
         # the nation, the states and the districts, and B19013 and S1701 for
         # the states and the districts.
-        # chronicle#449's ACS B01001 2024 and 2025 packages and the 2026 OEP
-        # package have no 2023 artifact (36 -> 39).
-        "skipped_source_count": 39,
+        # chronicle#449's ACS B01001 2024 and 2025 packages, the 2026 OEP
+        # package and CMS's 2025 annual effectuated enrollment package have no
+        # 2023 artifact (36 -> 40).
+        "skipped_source_count": 40,
         # chronicle#381 adds the Gambling Commission, and chronicle#420 item 13
         # Registers of Scotland.
         "source_count": 63,
@@ -773,10 +785,12 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # state broad and state EITC.
         # chronicle#296 adds three TY2023 IRS SOI packages: the state-data US
         # totals and IRA Tables 5 and 6.
-        # chronicle#449 adds eleven packages that build at 2023: two Census PEP
+        # chronicle#449 adds seven packages that build at 2023: two Census PEP
         # Vintage 2025, the 2026 Trustees Report, LIHEAP FY2025, SNAP FY2025,
-        # TANF caseload FY2025 and five BEA editions.
-        "source_package_count": 535,
+        # TANF caseload FY2025 and SSI Monthly Statistics December 2025.
+        # chronicle#444 adds seven: the TY2023 district and county files, four
+        # filing-season snapshots and W-2 TY2021 to TY2023.
+        "source_package_count": 538,
         # 1 semantic-duplicate warning, plus the publisher wording Chronicle
         # keeps as published: values two packages word differently, groupby
         # rows that drift inside one package (chronicle#265, #266), and the
@@ -828,15 +842,15 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         if row_count == 1:
             assert row["aggregate_fact_key"].startswith("ledger.aggregate_fact.v2:")
             assert row["semantic_fact_key"].startswith("ledger.semantic_fact.v2:")
-    assert row_count == 2350211
+    assert row_count == 2423575
     assert provenance_classes <= {
         "administrative",
         "census",
         "model_output",
         "survey_aggregate",
     }
-    assert source_packages["source_package_count"] == 535
-    assert source_packages["skipped_source_count"] == 39
+    assert source_packages["source_package_count"] == 538
+    assert source_packages["skipped_source_count"] == 40
     assert sorted(item["source"] for item in source_packages["skipped_sources"]) == [
         "census-acs-s0101-congressional-district-age-2024",
         "census-acs-s0101-national-age-2024",
@@ -864,6 +878,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "census-acs5-b19061-county-2024",
         "census-b01001-female-age-2024",
         "census-b01001-female-age-2025",
+        "cms-aca-annual-effectuated-enrollment-2025",
         "cms-aca-effectuated-enrollment-2022",
         "cms-aca-oep-state-level",
         "cms-aca-oep-state-level-2022",
@@ -878,9 +893,9 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "jct-obbba-revenue-estimates-2025",
         "jct-tax-expenditures-2024",
     ]
-    assert coverage["fact_count"] == 2350211
+    assert coverage["fact_count"] == 2423575
     assert coverage["counts"]["by_source"] == {
-        "bea": 891,
+        "bea": 446,
         "bfp_economic_outlook": 5,
         "cbo": 7,
         "census_acs": 468,
@@ -905,7 +920,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "hmrc": 40025,
         "ici": 12,
         "ird": 4362,
-        "irs_soi": 80027,
+        "irs_soi": 153832,
         "isc": 4,
         "jrc_euromod_be": 90,
         "kff": 52,
@@ -934,7 +949,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "slc": 343,
         "spf_finances_municipal_tax_rate": 565,
         "spf_finances_pit": 1,
-        "ssa": 619,
+        "ssa": 623,
         "statbel_fiscal_income": 565,
         "statbel_fiscal_income_distribution": 14600,
         "statbel_population_structure": 3991,
@@ -961,10 +976,15 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     # IRS SOI Table 1.3 adds one. chronicle#442 adds two, one per package: the
     # interim report's Table 28 and the final report's Tables 2 and 3.
     # chronicle#446 adds one: Family Spending workbook 1's Tables 3.1E and A6.
-    # chronicle#449 adds three: the 2026 Trustees Report's Table III.C3, the
-    # LIHEAP FY2025 national profile and TANF Caseload Data 2025. Its other
-    # editions keep their predecessors' table names.
-    assert len(table_counts) == 463
+    # chronicle#449 adds four: the 2026 Trustees Report's Table III.C3, the
+    # LIHEAP FY2025 national profile, TANF Caseload Data 2025 and SSI Monthly
+    # Statistics December 2025's Table 1. Its other editions keep their
+    # predecessors' table names; the in-place Z.1 package now names S1M.b
+    # instead of B.101.
+    # chronicle#444 adds three: the TY2023 district and county files and W-2
+    # TY2023. Its filing-season snapshots use the existing Filing Season
+    # Statistics Table 1.
+    assert len(table_counts) == 467
     assert (
         table_counts[
             "hmrc:Benefits in kind statistics: July 2026, Tables 1 to 4: company car "
@@ -1434,6 +1454,20 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     # item 2.3 adds 14,400: 30 columns without a state twin at 480 rows.
     assert table_counts["irs_soi:Congressional District Data 2022"] == 59982
     assert table_counts["irs_soi:IRS SOI County Data 2022"] == 6286
+    # chronicle#444: the TY2023 district file (118th Congress districts, with
+    # chronicle#447's record sets and without the file's EITC total), the
+    # TY2023 county file, the four filing-season snapshots beside the week 47
+    # snapshot already there (34), and W-2 TY2023.
+    assert table_counts["irs_soi:Congressional District Data 2023"] == 59626
+    assert table_counts["irs_soi:IRS SOI County Data 2023"] == 6286
+    assert table_counts["irs_soi:Filing Season Statistics Table 1"] == 7922
+    assert (
+        table_counts[
+            "irs_soi:Table 4.B. Summary of Items for Taxpayers with Form W-2, "
+            "by Return and Earner Type, Tax Year 2023"
+        ]
+        == 5
+    )
     assert table_counts["census_pep:Vintage 2024 County Population Totals"] == 3144
     assert (
         table_counts[
@@ -1449,6 +1483,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         == 2
     )
     assert table_counts["ssa:SSI Monthly Statistics, December 2024, Table 1"] == 4
+    assert table_counts["ssa:SSI Monthly Statistics, December 2025, Table 1"] == 4
     assert table_counts["irs_soi:Publication 1304 Table 1.1"] == 80
     assert (
         table_counts[
@@ -1456,9 +1491,9 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         ]
         == 464
     )
-    # chronicle#449's 2026-09-30 edition keeps this table name, so the table
-    # holds both editions' 416 facts for 2023.
-    assert table_counts["bea:BEA Regional annual state personal income CSV ZIP"] == 832
+    # chronicle#449 updates this package in place to BEA's 2026-09-30
+    # release: 416 facts for 2023, as before.
+    assert table_counts["bea:BEA Regional annual state personal income CSV ZIP"] == 416
     assert (
         table_counts["cbo:CBO budget and economic data, individual income tax receipts"]
         == 1
@@ -2351,13 +2386,21 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     expected_period_counts["tax_year:2023"] += 8
     # chronicle#449's later editions: Census PEP Vintage 2025 (937) and the
     # 2026 Trustees Report (1) for calendar 2025; LIHEAP FY2025 (1), SNAP
-    # FY2025 (216) and TANF caseload FY2025 (58); and BEA's releases, which
-    # repeat earlier years' series.
+    # FY2025 (216) and TANF caseload FY2025 (58); and SSI Monthly Statistics
+    # for December 2025 (4). BEA's in-place releases add no period count.
     expected_period_counts["calendar_year:2025"] += 938
     expected_period_counts["fiscal_year:2025"] += 275
-    expected_period_counts["calendar_year:2023"] += 443
-    expected_period_counts["calendar_year:2018"] += 1
-    expected_period_counts["calendar_year:2024"] += 1
+    expected_period_counts["month:2025-12"] = (
+        expected_period_counts.get("month:2025-12", 0) + 4
+    )
+    # chronicle#444: the TY2023 district file (59,626), the TY2023
+    # county file (6,286) and W-2 TY2023 (5); the filing-season snapshots of
+    # weeks 21 and 30 for TY2024 and TY2025 (3,944 each).
+    expected_period_counts["tax_year:2023"] += 65917
+    expected_period_counts["tax_year:2024"] += 3944
+    expected_period_counts["tax_year:2025"] = (
+        expected_period_counts.get("tax_year:2025", 0) + 3944
+    )
     # The congressional-district file's Schedule A line 8b, 8c and 9 columns:
     # six measures at its 480 rows.
     expected_period_counts["tax_year:2022"] += 2880
@@ -3069,10 +3112,11 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     # measures (chronicle#295).
     # chronicle#296 adds 8: the TY2023 state-data US totals (4) and IRA Tables
     # 5 and 6 (2 + 2).
-    # chronicle#449's later editions add 69: Census PEP national 19, SNAP 4,
-    # TANF 7, the Trustees Report 1, LIHEAP 1, BEA NIPA 29 and BEA state
-    # income 8.
-    assert coverage["counts"]["by_geography"]["country:0100000US"] == 3027
+    # chronicle#449's later editions add 36: Census PEP national 19, SNAP 4,
+    # TANF 7, the Trustees Report 1, LIHEAP 1 and SSI December 2025 4.
+    # chronicle#444 adds 7,999: the filing-season snapshots (7,888), W-2
+    # TY2023 (5) and the TY2023 district file's US row (106).
+    assert coverage["counts"]["by_geography"]["country:0100000US"] == 10993
     # 255, less Vintage 2024's state total (chronicle#397), + 16 Census Vintage
     # 2025 age groups (15 groups and the total), + 6 from SSA's Supplement
     # Tables 7.B3 (four California cells) and 7.B7 (two), + 8 Historic Table 2
@@ -3082,12 +3126,18 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     # + 30 district-file columns without a state twin (item 2.3), + 91 Historic
     # Table 2 TY2023 facts (chronicle#295): 61 state broad, 10 state EITC and
     # 20 taxable interest (ten AGI classes x two measures).
-    # chronicle#449's later editions add 31: Census PEP state 18, SNAP 4, TANF
-    # 1 and BEA state income 8.
-    assert coverage["counts"]["by_geography"]["state:0400000US06"] == 469
+    # chronicle#449's later editions add 23: Census PEP state 18, SNAP 4 and
+    # TANF 1. chronicle#444 adds 124 at California's rows in its TY2023
+    # files.
+    assert coverage["counts"]["by_geography"]["state:0400000US06"] == 585
     assert (
         coverage["counts"]["by_geography"]["congressional_district:5001700US0601"]
         == 125
+    )
+    # chronicle#444: California's district 1 of the 118th Congress (TY2023).
+    assert (
+        coverage["counts"]["by_geography"]["congressional_district:5001800US0601"]
+        == 124
     )
     # chronicle#357 adds HBAI's FYE 2003-2025 rows (92) and FYE 2025 bounds (8)
     # and the EFO sheet 3.7 SDLT lines (35), and moves table 4.9's DWP lines (84)
@@ -3145,7 +3195,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     # PolicyEngine/microcosm#1415 adds HMRC's overseas and unknown scope, and
     # PolicyEngine/uk-autumn-budget-dashboard-2026#316 its unknown recipient region.
     # chronicle#408 adds 275 (see geography_count).
-    assert len(coverage["counts"]["by_geography"]) == 102893
+    assert len(coverage["counts"]["by_geography"]) == 103322
     for region in (
         "auckland",
         "bay-of-plenty",
@@ -3221,21 +3271,22 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         "government": 14181,
         "household": 745946,
         "institutional_sector": 10118,
-        "pension_plan": 4,
-        "person": 736076,
+        "pension_plan": 2,
+        "person": 735637,
         "return": 16087,
         "social_protection_scheme": 36,
         # chronicle#447 adds 30,222 district-file tax units: 7,200 (item 2.2),
         # 8,622 (item 2.1) and 14,400 (item 2.3).
         # chronicle#295 adds 5,246 Historic Table 2 TY2023 tax units.
         # chronicle#296 adds 8 TY2023 tax units.
-        # chronicle#449's later editions add person 1,491 (Census PEP 937, SNAP
-        # 108, BEA 443, TANF 3), family 55 (TANF), government 55 (SNAP 54,
-        # Trustees 1), household 55 (SNAP 54, LIHEAP 1) and pension_plan 2 (BEA).
-        "tax_unit": 81332,
+        # chronicle#449's later editions add person 1,052 (Census PEP 937, SNAP
+        # 108, TANF 3, SSI 4), family 55 (TANF), government 55 (SNAP 54,
+        # Trustees 1) and household 55 (SNAP 54, LIHEAP 1).
+        # chronicle#444 adds 73,805 tax units.
+        "tax_unit": 155137,
     }
     assert not coverage["duplicates"]["aggregate_fact_keys"]
-    assert len(coverage["duplicates"]["semantic_fact_keys"]) == 6364
+    assert len(coverage["duplicates"]["semantic_fact_keys"]) == 9373
     assert Counter(warning["code"] for warning in summary["warnings"]) == {
         "conflicting_geography_name_across_packages": 91,
         "duplicate_semantic_fact_key": 1,
