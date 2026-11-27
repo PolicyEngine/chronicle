@@ -1443,42 +1443,9 @@ def test_source_package_path_builds_valid_soi_table_1_4_facts():
 
 
 def test_bea_nipa_total_wages_package_preserves_bea_concept():
+    # Reads NipaDataA.txt as BEA served it after its 2026-11-25 release; the
+    # package updated in place keeps its ids (chronicle#449).
     package = load_source_package("bea-nipa-total-wages-salaries")
-    rows = package.build_source_rows(2024)
-    cells = package.build_source_cells(2024, source_rows=rows)
-    records = package.build_source_records(2024, cells=cells, source_rows=rows)
-    facts = package.build_facts(2024, cells=cells, source_rows=rows)
-    records_by_id = {record.source_record_id: record for record in records}
-    facts_by_record = {fact.source_record_id: fact for fact in facts}
-
-    assert len(rows) == 559_069
-    assert validate_source_rows(rows).valid
-    assert validate_source_cells(cells).valid
-    assert validate_facts(facts).valid
-    assert len(cells) == 12
-    assert len(facts) == 3
-    assert all(fact.source_row_keys for fact in facts)
-    assert all(fact.source.source_name == "bea" for fact in facts)
-    assert all(fact.source.raw_r2_uri for fact in facts)
-
-    value_2018 = "bea_nipa.cy2018.total_wages_salaries.a034rc.wages_salaries_amount"
-    value_2024 = "bea_nipa.cy2024.total_wages_salaries.a034rc.wages_salaries_amount"
-    assert records_by_id[value_2018].source_cell_addresses == ("C2", "C1", "B2")
-    assert records_by_id[value_2024].source_cell_addresses == ("C4", "C1", "B4")
-    assert facts_by_record[value_2018].value == 8_899_824_000_000
-    assert facts_by_record[value_2024].value == 12_387_929_000_000
-    assert facts_by_record[value_2024].measure.concept == (
-        "bea_nipa.wages_and_salaries"
-    )
-    assert facts_by_record[value_2024].measure.source_concept == (
-        "bea_nipa.a034rc_wages_and_salaries"
-    )
-
-
-def test_bea_nipa_total_wages_2026_11_25_package_preserves_bea_concept():
-    # The next edition of bea-nipa-total-wages-salaries (chronicle#449): the
-    # same declarations over the 2026-11-25 NipaDataA.txt.
-    package = load_source_package("bea-nipa-total-wages-salaries-2026-11-25")
     rows = package.build_source_rows(2024)
     cells = package.build_source_cells(2024, source_rows=rows)
     records = package.build_source_records(2024, cells=cells, source_rows=rows)
@@ -1496,9 +1463,8 @@ def test_bea_nipa_total_wages_2026_11_25_package_preserves_bea_concept():
     assert all(fact.source.source_name == "bea" for fact in facts)
     assert all(fact.source.raw_r2_uri for fact in facts)
 
-    prefix = "bea_nipa.release_2026_11_25"
-    value_2018 = f"{prefix}.cy2018.total_wages_salaries.a034rc.wages_salaries_amount"
-    value_2024 = f"{prefix}.cy2024.total_wages_salaries.a034rc.wages_salaries_amount"
+    value_2018 = "bea_nipa.cy2018.total_wages_salaries.a034rc.wages_salaries_amount"
+    value_2024 = "bea_nipa.cy2024.total_wages_salaries.a034rc.wages_salaries_amount"
     assert records_by_id[value_2018].source_cell_addresses == ("C2", "C1", "B2")
     assert records_by_id[value_2024].source_cell_addresses == ("C4", "C1", "B4")
     assert facts_by_record[value_2018].value == 8_899_824_000_000
@@ -1524,37 +1490,13 @@ def test_bea_nipa_personal_income_components_keep_broad_concepts_namespaced():
         "bea_nipa.cy2024.personal_dividend_income.b703rc.amount"
     ]
 
-    assert proprietors.value == 2_023_080_000_000
-    assert proprietors.measure.concept == (
-        "bea_nipa.proprietors_income_with_inventory_valuation_and_capital_"
-        "consumption_adjustments"
-    )
-    assert proprietors.measure.concept != "self_employment_income"
-    assert interest.value == 1_926_644_000_000
-    assert interest.measure.concept == "bea_nipa.personal_interest_income"
-    assert dividends.value == 2_218_700_000_000
-    assert dividends.measure.concept == "bea_nipa.personal_dividend_income"
-
-
-def test_bea_nipa_personal_income_components_2026_11_25_keep_broad_concepts():
-    # The next edition of bea-nipa-personal-income-components (chronicle#449):
-    # the same declarations over the 2026-11-25 NipaDataA.txt.
-    package = load_source_package("bea-nipa-personal-income-components-2026-11-25")
-    facts = package.build_facts(2024)
-    facts_by_record = {fact.source_record_id: fact for fact in facts}
-    prefix = "bea_nipa.release_2026_11_25.cy2024"
-
-    assert len(facts) == 18
-    assert validate_facts(facts).valid
-    proprietors = facts_by_record[f"{prefix}.proprietors_income.a041rc.amount"]
-    interest = facts_by_record[f"{prefix}.personal_interest_income.a064rc.amount"]
-    dividends = facts_by_record[f"{prefix}.personal_dividend_income.b703rc.amount"]
-
+    # Values from the 2026-11-25 NipaDataA.txt (chronicle#449).
     assert proprietors.value == 1_915_959_000_000
     assert proprietors.measure.concept == (
         "bea_nipa.proprietors_income_with_inventory_valuation_and_capital_"
         "consumption_adjustments"
     )
+    assert proprietors.measure.concept != "self_employment_income"
     assert interest.value == 2_241_138_000_000
     assert interest.measure.concept == "bea_nipa.personal_interest_income"
     assert dividends.value == 2_134_929_000_000
@@ -1568,42 +1510,23 @@ def test_bea_nipa_personal_income_disposition_builds_amounts_and_rates():
 
     assert len(facts) == 6
     assert validate_facts(facts).valid
+    # Values from the 2026-11-25 NipaDataA.txt (chronicle#449).
     assert (
         facts_by_record["bea_nipa.cy2024.personal_income.a065rc.amount"].value
-        == 24_905_900_000_000
-    )
-    assert (
-        facts_by_record["bea_nipa.cy2024.personal_current_taxes.w055rc.amount"].value
-        == 2_988_243_000_000
-    )
-    saving_rate = facts_by_record["bea_nipa.cy2024.personal_saving_rate.a072rc.rate"]
-    assert saving_rate.value == 5.4
-    assert saving_rate.measure.unit == "percent"
-
-
-def test_bea_nipa_personal_income_disposition_2026_11_25_builds_amounts_and_rates():
-    # The next edition of bea-nipa-personal-income-disposition (chronicle#449).
-    package = load_source_package("bea-nipa-personal-income-disposition-2026-11-25")
-    facts = package.build_facts(2024)
-    facts_by_record = {fact.source_record_id: fact for fact in facts}
-    prefix = "bea_nipa.release_2026_11_25.cy2024"
-
-    assert len(facts) == 6
-    assert validate_facts(facts).valid
-    assert (
-        facts_by_record[f"{prefix}.personal_income.a065rc.amount"].value
         == 25_043_404_000_000
     )
     assert (
-        facts_by_record[f"{prefix}.personal_current_taxes.w055rc.amount"].value
+        facts_by_record["bea_nipa.cy2024.personal_current_taxes.w055rc.amount"].value
         == 2_997_932_000_000
     )
-    saving_rate = facts_by_record[f"{prefix}.personal_saving_rate.a072rc.rate"]
+    saving_rate = facts_by_record["bea_nipa.cy2024.personal_saving_rate.a072rc.rate"]
     assert saving_rate.value == 6.3
     assert saving_rate.measure.unit == "percent"
 
 
 def test_bea_regional_state_personal_income_components_build_2024_facts():
+    # Values from SAINC.zip of BEA's 2026-09-30 release; the package updated in
+    # place keeps its ids (chronicle#449).
     package = load_source_package("bea-regional-state-personal-income-components-2024")
     facts = package.build_facts(2024)
     facts_by_record = {fact.source_record_id: fact for fact in facts}
@@ -1613,7 +1536,7 @@ def test_bea_regional_state_personal_income_components_build_2024_facts():
     california_wages = facts_by_record[
         "bea_regional.cy2024.state_wages_salaries.ca.amount"
     ]
-    assert california_wages.value == 1_769_665_607_000
+    assert california_wages.value == 1_772_951_494_000
     assert california_wages.geography.id == "0400000US06"
     assert california_wages.measure.concept == "bea_regional.wages_and_salaries"
     assert {
@@ -1630,16 +1553,16 @@ def test_bea_regional_state_personal_income_components_build_2024_facts():
         facts_by_record[
             "bea_regional.cy2024.state_personal_current_transfer_receipts.us.amount"
         ].value
-        == 4_555_385_000_000
+        == 4_546_371_000_000
     )
     assert (
         facts_by_record["bea_regional.cy2024.state_proprietors_income.tx.amount"].value
-        == 273_877_560_000
+        == 268_624_761_000
     )
     california_contributions = facts_by_record[
         "bea_regional.cy2024.state_contributions_for_government_social_insurance.ca.amount"
     ]
-    assert california_contributions.value == 257_766_765_000
+    assert california_contributions.value == 255_561_889_000
     assert (
         california_contributions.measure.concept
         == "bea_regional.contributions_for_government_social_insurance"
@@ -1655,7 +1578,7 @@ def test_bea_regional_state_personal_income_components_build_2024_facts():
     california_residence_adjustment = facts_by_record[
         "bea_regional.cy2024.state_residence_adjustment.ca.amount"
     ]
-    assert california_residence_adjustment.value == -2_475_104_000
+    assert california_residence_adjustment.value == -2_450_365_000
     assert (
         california_residence_adjustment.measure.concept
         == "bea_regional.residence_adjustment"
@@ -1682,49 +1605,29 @@ def test_bea_regional_state_personal_income_components_read_the_requested_year()
     assert len(facts_2023) == len(facts_2025) == 416
     assert {fact.period.value for fact in facts_2023.values()} == {2023}
     us_income = facts_2023["bea_regional.cy2023.state_personal_income.us.amount"]
-    assert us_income.value == 23_577_208_000_000
+    assert us_income.value == 23_637_147_000_000
     assert us_income.layout.source_column_id == "2023"
     assert (
         facts_2023["bea_regional.cy2023.state_wages_salaries.ca.amount"].value
-        == 1_666_632_928_000
+        == 1_667_246_620_000
     )
     assert (
         facts_2023["bea_regional.cy2023.state_residence_adjustment.ca.amount"].value
-        == -2_381_165_000
+        == -2_381_766_000
     )
     assert (
         facts_2025["bea_regional.cy2025.state_personal_income.us.amount"].value
-        == 26_109_831_238_000
+        == 26_326_993_000_000
     )
     for year in (1997, 2026):
         with pytest.raises(ValueError, match=f"No source artifact for year {year}"):
             package.build_facts(year)
 
 
-def test_bea_regional_state_personal_income_components_validate_counts():
+@pytest.mark.parametrize("year", [2023, 2024])
+def test_bea_regional_state_personal_income_components_validate_counts(year):
     report = validate_source_package(
         "bea-regional-state-personal-income-components-2024",
-        year=2024,
-    )
-
-    assert report.valid
-    assert report.counts == {
-        "measure_count": 8,
-        "record_set_count": 8,
-        "row_count": 416,
-        "source_record_count": 416,
-        "source_region_count": 8,
-    }
-
-
-@pytest.mark.parametrize("year", [2023, 2024])
-def test_bea_regional_state_personal_income_components_2026_09_30_validate_counts(
-    year,
-):
-    # The next edition of bea-regional-state-personal-income-components-2024
-    # (chronicle#449): the same declarations over the 2026-09-30 SAINC.zip.
-    report = validate_source_package(
-        "bea-regional-state-personal-income-components-2026-09-30",
         year=year,
     )
 

@@ -38,9 +38,13 @@ PUBLISHED_MILLIONS = {2023: 923_195, 2024: 977_034, 2025: 1_027_929}
 YEAR_COLUMN = {2023: "CA", 2024: "CB", 2025: "CC"}
 LINE_17_ROW = 26
 HEADER_ROW = 8
-# The annual flat file the other bea_nipa packages pin carries the same series
-# at an earlier vintage (its manifest records the fetch on 11 May 2026).
-FLAT_FILE = (
+# The annual flat file the other bea_nipa packages read carries the same
+# series: BEA's 2026-11-25 file since chronicle#449. The earlier file they read
+# (its manifest records the fetch on 11 May 2026) stays as the record of what
+# R2 holds.
+FLAT_FILE_DIRECTORY = "data/bea/nipa_total_wages_salaries_2026_11_25"
+FLAT_FILE = REPO_ROOT / "db" / FLAT_FILE_DIRECTORY / "NipaDataA.txt"
+EARLIER_FLAT_FILE = (
     REPO_ROOT / "db" / "data" / "bea" / "nipa_total_wages_salaries" / "NipaDataA.txt"
 )
 
@@ -324,15 +328,32 @@ def test_the_guards_cover_the_table_identity():
     }
 
 
-def test_the_row_matches_the_earlier_pinned_flat_file_except_at_2024_and_2025():
-    """Differential: two BEA publications of series B4923C.
+@pytest.mark.parametrize(
+    ("flat_file", "last_year", "expected_differing"),
+    [
+        (FLAT_FILE, 2025, {}),
+        (
+            EARLIER_FLAT_FILE,
+            2024,
+            {2024: (1_002_920, 977_034), 2025: (None, 1_027_929)},
+        ),
+    ],
+    ids=["read-2026-11-25", "earlier-2026-05-11"],
+)
+def test_the_row_matches_the_flat_files(flat_file, last_year, expected_differing):
+    """Differential: BEA publications of series B4923C.
 
     The Section 7 workbook (data published 30 September 2026) and the annual
-    flat file the other ``bea_nipa`` packages pin (fetched 11 May 2026) carry
-    the same series. They agree for every year from 1948 to 2023. For 2024 the
-    flat file has $1,002.920 billion and the workbook $977.034 billion, and
-    only the workbook has 2025.
+    flat file the other ``bea_nipa`` packages read (BEA's 2026-11-25 file)
+    carry the same series and agree for every year from 1948 to 2025. The
+    earlier flat file (fetched 11 May 2026) agrees from 1948 to 2023. For 2024
+    it has $1,002.920 billion and the workbook $977.034 billion, and it has no
+    2025.
     """
+    assert (
+        load_source_package("bea-nipa-total-wages-salaries").artifact.resource_directory
+        == FLAT_FILE_DIRECTORY
+    )
     package = load_source_package(ALIAS)
     cells = {cell.address: cell for cell in package.build_source_cells(2025)}
     workbook = {}
@@ -343,16 +364,16 @@ def test_the_row_matches_the_earlier_pinned_flat_file_except_at_2024_and_2025():
     assert sorted(workbook) == list(range(1948, 2026))
     assert {year: workbook[year] for year in PUBLISHED_MILLIONS} == PUBLISHED_MILLIONS
 
-    flat_file = {}
-    for line in FLAT_FILE.read_text(encoding="utf-8").splitlines():
+    flat_file_values = {}
+    for line in flat_file.read_text(encoding="utf-8").splitlines():
         if line.startswith("B4923C,"):
             _code, year, value = line.split(",", 2)
-            flat_file[int(year)] = int(value.strip('"').replace(",", ""))
-    assert sorted(flat_file) == list(range(1948, 2025))
+            flat_file_values[int(year)] = int(value.strip('"').replace(",", ""))
+    assert sorted(flat_file_values) == list(range(1948, last_year + 1))
 
     differing = {
-        year: (flat_file.get(year), workbook[year])
+        year: (flat_file_values.get(year), workbook[year])
         for year in workbook
-        if flat_file.get(year) != workbook[year]
+        if flat_file_values.get(year) != workbook[year]
     }
-    assert differing == {2024: (1_002_920, 977_034), 2025: (None, 1_027_929)}
+    assert differing == expected_differing
