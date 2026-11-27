@@ -5,12 +5,12 @@ dimension_labels:
   'federal_reserve.z1_series_code': 'Z.1 series'
 artifact:
   source_name: federal_reserve
-  source_table: Z.1 B.101 Households and nonprofit organizations
+  source_table: Z.1 S1M.b Households and nonprofit organizations
   resource_package: db
   resource_directory: data/federal_reserve/z1_household_net_worth_2026
   manifest: manifest.yaml
-  vintage: z1_2026_03_19
-  extracted_at: '2026-05-11'
+  vintage: z1_2026_06_11
+  extracted_at: '2026-11-27'
   extraction_method: html table parse from official Federal Reserve Z.1 release
   parser: html_tables_and_text
   artifact_year: 2026
@@ -35,6 +35,9 @@ record_sets:
     domain: household_balance_sheet
     groupby_dimension: federal_reserve.z1_series_code
     rows:
+      # Line 40 of S1M.b in the release of 2026-06-11, as it was of B.101
+      # before. Releases from 2026-09-11 change the sector's coverage (hedge
+      # funds) and move net worth to line 42; they need their own review.
       - value_id: fl152090005
         label: Net worth (assets minus liabilities)
         ordinal: 0

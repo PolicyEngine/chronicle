@@ -2207,7 +2207,16 @@ def test_federal_reserve_z1_package_builds_net_worth_fact():
         "A41",
         "C41",
     )
-    assert values_by_record[record_id].value == 169_619_200_000_000
+    # S1M.b of the Z.1 release of 2026-06-11, line 40, the 2024 column. The
+    # release of 2026-03-19 (table B.101) printed 169,619.2 billion.
+    assert values_by_record[record_id].value == 169_760_700_000_000
+    assert values_by_record[record_id].source.source_table == (
+        "Z.1 S1M.b Households and nonprofit organizations"
+    )
+    assert values_by_record[record_id].source.vintage == "z1_2026_06_11"
+    assert values_by_record[record_id].source.source_file == (
+        "federal_reserve_z1_20260611_s1m_b.html"
+    )
     assert values_by_record[record_id].period.value == 2024
     assert values_by_record[record_id].geography.id == "0100000US"
     assert values_by_record[record_id].entity.name == "institutional_sector"
