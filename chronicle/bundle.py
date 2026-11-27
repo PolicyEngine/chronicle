@@ -348,6 +348,7 @@ UK_BUNDLE_SOURCES = (
     "ons-crpsf-ni-domestic-rates-fye2025",
     "ons-employee-workplace-pensions-summary-2024",
     "ons-families-households-2025",
+    "ons-family-spending-workbook1-fye2025",
     "ons-household-projections-2022-based",
     "ons-household-totals-country-region-2015-2025",
     "ons-households-by-type-country-2025",
