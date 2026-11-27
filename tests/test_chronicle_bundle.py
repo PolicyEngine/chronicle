@@ -641,13 +641,14 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # (216), TANF caseload FY2025 (58), the 2026 Trustees Report (1),
         # LIHEAP FY2025 (1) and SSI Monthly Statistics for December 2025 (4).
         # Measured with the packages that share their concepts: no new
-        # geography key; SSI adds the period key month:2025-12. BEA's newer
+        # geography or period key. BEA's newer
         # releases, SNAP's revised FY2024 workbook and the Z.1 release of
         # 2026-06-11 replace their earlier editions in place and add no fact.
         # chronicle#444 (merged into chronicle#449) adds 73,805 tax-unit
         # facts: the TY2023 congressional district file (59,626, 118th
-        # Congress districts, with the record sets chronicle#447 gave TY2022 and
-        # without the file's EITC total), the TY2023 county file (6,286), the
+        # Congress districts, with the record sets chronicle#448 gave TY2022
+        # for chronicle#447 items 2.1 to 2.3, and without the file's EITC
+        # total), the TY2023 county file (6,286), the
         # filing-season snapshots of weeks 21 and 30 for TY2024 and TY2025
         # (7,888) and W-2 TY2023 (5).
         "fact_count": 2423575,
@@ -684,8 +685,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # income tax series (Table 4 of the Scottish outturn).
         # chronicle#442 adds nine financial years, 2032-33 to 2040-41: Table 28's
         # projections run further than any other package's.
-        # chronicle#449's SSI December 2025 package adds month:2025-12.
-        "period_count": 620,
+        "period_count": 619,
         # 467 before chronicle#292 moved the congressional-district and
         # state_2022 rows from their ty2023 restamp to TY2022. There the CD
         # file's state-total and US rows share semantic keys with the Historic
@@ -734,7 +734,9 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
         # chronicle#444's TY2023 district file adds 3,454: as the TY2022 file does,
         # its state and US rows publish values under the concepts of Historic
         # Table 2 TY2023 (state broad and state AGI), Publication 1304 and the
-        # state data. Chronicle keeps both publications' values.
+        # state data. It also joins 12 keys that Historic Table 2 and
+        # Publication 1304 already share. Chronicle keeps every publication's
+        # values.
         "semantic_duplicate_key_count": 9373,
         # chronicle#310's six FSA portfolio packages (FY2026 files) and the
         # ACS 2024 S1501 state package have no 2023 artifact, so the 2023
@@ -1455,7 +1457,7 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     assert table_counts["irs_soi:Congressional District Data 2022"] == 59982
     assert table_counts["irs_soi:IRS SOI County Data 2022"] == 6286
     # chronicle#444: the TY2023 district file (118th Congress districts, with
-    # chronicle#447's record sets and without the file's EITC total), the
+    # chronicle#448's record sets and without the file's EITC total), the
     # TY2023 county file, the four filing-season snapshots beside the week 47
     # snapshot already there (34), and W-2 TY2023.
     assert table_counts["irs_soi:Congressional District Data 2023"] == 59626
@@ -2390,17 +2392,13 @@ def test_build_bundle_writes_merged_consumer_contract(tmp_path):
     # for December 2025 (4). BEA's in-place releases add no period count.
     expected_period_counts["calendar_year:2025"] += 938
     expected_period_counts["fiscal_year:2025"] += 275
-    expected_period_counts["month:2025-12"] = (
-        expected_period_counts.get("month:2025-12", 0) + 4
-    )
+    expected_period_counts["month:2025-12"] += 4
     # chronicle#444: the TY2023 district file (59,626), the TY2023
     # county file (6,286) and W-2 TY2023 (5); the filing-season snapshots of
     # weeks 21 and 30 for TY2024 and TY2025 (3,944 each).
     expected_period_counts["tax_year:2023"] += 65917
     expected_period_counts["tax_year:2024"] += 3944
-    expected_period_counts["tax_year:2025"] = (
-        expected_period_counts.get("tax_year:2025", 0) + 3944
-    )
+    expected_period_counts["tax_year:2025"] += 3944
     # The congressional-district file's Schedule A line 8b, 8c and 9 columns:
     # six measures at its 480 rows.
     expected_period_counts["tax_year:2022"] += 2880
