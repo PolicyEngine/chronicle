@@ -209,7 +209,8 @@ def test_ty2023_reads_the_columns_448_added_to_ty2022():
 
     Each reads the 23incd.csv column of the same IRS variable, which the
     TY2023 guide defines the same way (tests/test_chronicle_soi_doc_guide_columns.py).
-    Only the wage measure's legal vintage and evidence page name TY2023.
+    Only the wage measure's legal vintage and evidence page name TY2023. The
+    TY2023 package has every TY2022 measure, in order, but ``eitc_amount``.
     """
     old = _payload(2022)["record_sets"][0]["measures"]
     new = _payload(2023)["record_sets"][0]["measures"]
@@ -225,8 +226,13 @@ def test_ty2023_reads_the_columns_448_added_to_ty2022():
             text = chr(ord("A") + rem) + text
         return text
 
-    assert len(old) == len(new) == 107
-    for old_measure, new_measure in zip(old[62:], new[62:], strict=True):
+    assert [measure["measure_id"] for measure in new] == [
+        measure["measure_id"]
+        for measure in old
+        if measure["measure_id"] != "eitc_amount"
+    ]
+    assert len(new) == 106
+    for old_measure, new_measure in zip(old[62:], new[61:], strict=True):
         expected = deepcopy(old_measure)
         expected["column"] = letters(header.index(old_measure["source_column_id"]))
         if old_measure["measure_id"] == "wages_salaries_amount":
@@ -263,7 +269,7 @@ def test_ty2023_district_cells():
     assert not any(
         record.startswith(f"{PREFIX}.agi_") and ".us." in record for record in facts
     )
-    assert len(facts) == 107 * 481 + 2 * 9 * 480
+    assert len(facts) == 106 * 481 + 2 * 9 * 480
 
 
 EITC_AMOUNT_COLUMNS = ("A59660", "A59661", "A59662", "A59663", "A59664")
@@ -286,16 +292,17 @@ def _eitc_rows(year: int) -> list[dict[str, float]]:
 
 
 def test_ty2023_eitc_total_column_adds_a_dollar_column_to_thousands():
-    """23incd.csv's A59660 is not in thousands of dollars (chronicle#449).
+    """23incd.csv's A59660 is not in thousands of dollars, so it is left out.
 
     Both district files publish A59664 (three or more children) in dollars and
     the other EITC amounts in thousands; the packages read A59664 with
     value_scale 1. In 22incd.csv each all-class row's total A59660 is within
     1.3% of A59661 + A59662 + A59663 + A59664 / 1000. In every row of
     23incd.csv, A59660 equals the plain sum, so it adds dollars to thousands:
-    the package's US EITC amount reads as $15.3 trillion, against $65.0
-    billion in Historic Table 2. The package still reads the cell as
-    published; María rules on it.
+    read in thousands, the US total is $15.3 trillion, against $65.0 billion in
+    Historic Table 2. So soi-congressional-district-2023 reads no A59660 and
+    computes no total (chronicle#449). If the IRS corrects the file, the sum
+    check below fails: read A59660 again then.
     """
     rows_2022 = [row for row in _eitc_rows(2022) if row["agi_stub"] == 0]
     assert len(rows_2022) == 480
@@ -307,9 +314,31 @@ def test_ty2023_eitc_total_column_adds_a_dollar_column_to_thousands():
     for row in rows_2023:
         parts = row["A59661"] + row["A59662"] + row["A59663"] + row["A59664"]
         assert row["A59660"] == parts, row
+    (us_2023,) = [row for row in rows_2023 if row["A59660"] == 15_325_005_218]
+    assert us_2023["A59664"] == 15_275_346_253
+
+    reads = {
+        measure["source_column_id"]: measure
+        for record_set in _payload(2023)["record_sets"]
+        for measure in record_set["measures"]
+    }
+    assert "A59660" not in reads
+    assert not any(record.endswith(".eitc_amount") for record in _facts_2023())
+    # The four child amounts stay, as published.
+    assert {
+        column: reads[column].get("value_scale") for column in EITC_AMOUNT_COLUMNS[1:]
+    } == {
+        "A59661": 1000,
+        "A59662": 1000,
+        "A59663": 1000,
+        "A59664": 1,
+    }
     facts = _facts_2023()
-    us_total = facts[f"{PREFIX}.all_returns.us.eitc_amount"]
-    assert (us_total.value, us_total.layout.source_column_id) == (
-        15_325_005_218_000,
-        "A59660",
-    )
+    three_plus = facts[f"{PREFIX}.all_returns.us.eitc_three_or_more_children_amount"]
+    assert three_plus.value == 15_275_346_253
+    # In TY2022 the total stays: the file publishes it in thousands.
+    old_reads = {
+        measure["source_column_id"]: measure["measure_id"]
+        for measure in _payload(2022)["record_sets"][0]["measures"]
+    }
+    assert old_reads["A59660"] == "eitc_amount"

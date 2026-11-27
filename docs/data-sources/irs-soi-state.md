@@ -361,7 +361,8 @@ lineage. The state-grain packages are:
   into $500,000 under $1,000,000 and $1,000,000 or more; the district file's
   top class is the two together. The file's EITC total column (`A59660`)
   adds the three-or-more-children amount in dollars to the other amounts in
-  thousands, so its EITC amount is not comparable with Historic Table 2's
+  thousands, so the package leaves it out until the IRS corrects the file and
+  reads the four EITC amounts by number of children as published
   (`tests/test_chronicle_soi_geography_2023.py`).
 - `soi-county-2022`: county totals
 

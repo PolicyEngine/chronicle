@@ -3,6 +3,17 @@ package_id: soi-congressional-district-2023
 dataset: irs_soi_congressional_district_2023
 source_page: https://www.irs.gov/statistics/soi-tax-stats-data-by-congressional-district-2023
 table: Congressional District Data 2023
+notes: >-
+  The EITC total column A59660 ("Earned income credit amount") is not in thousands
+  of dollars in this file. In every row it is A59661 + A59662 + A59663 + A59664,
+  but A59664 (three or more qualifying children) is in dollars and the other three
+  are in thousands. US row: A59660 = 15,325,005,218, of which A59664 =
+  15,275,346,253 dollars and A59661 + A59662 + A59663 = 49,658,965 thousands. Read
+  in thousands, the total is $15.3 trillion; Historic Table 2 TY2023 has $65.0
+  billion. 22incd.csv's A59660 is right (1.0004 times the parts with A59664 /
+  1000). soi-congressional-district-2023 leaves A59660 out until the IRS corrects
+  the file and computes no total; it reads A59661 to A59664 as published
+  (chronicle#449).
 files:
   2023:
     filename: 23incd.csv
