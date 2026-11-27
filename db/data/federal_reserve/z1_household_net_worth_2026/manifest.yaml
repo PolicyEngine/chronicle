@@ -17,14 +17,19 @@ notes: >-
   line. The release PDF in the same folder
   (https://www.federalreserve.gov/releases/z1/20260611/z1.pdf, printed page 145)
   heads S1M.b "Billions of dollars; amounts outstanding end of period, not
-  seasonally adjusted", as the B.101 page did. This file replaces the B.101 page
-  of 2026-03-19 (federal_reserve_z1_20260319_b101.html, sha256
+  seasonally adjusted", as the B.101 page did. That PDF and the B.101 page are
+  registered raw-only, with their sha256, in
+  ../z1_household_net_worth_raw_only/manifest.yaml. This file replaces the B.101
+  page of 2026-03-19 (federal_reserve_z1_20260319_b101.html, sha256
   3bcdb1e0309537de21a427501fe930ae769b6c08fa8f38ec029e3c42a7bb42fa, 142683
-  bytes), which stays in R2 under the same package and year. Releases from
-  2026-09-11 change the sector's coverage (hedge funds and private credit), so
-  the package does not read them. The bytes were uploaded to storage.r2 on
-  2026-11-27 with chronicle publish-raw and checked there with chronicle
-  verify-raw.
+  bytes), which stays in R2 under the same package and year. From the release of
+  2026-09-11 the sector excludes domestic hedge funds from 2012:Q4 and holds
+  hedge fund and private debt fund shares instead, and net worth moves to line
+  42
+  (https://www.federalreserve.gov/releases/z1/20260911/introductory_text.htm),
+  so the package stays on the release of 2026-06-11. The bytes were uploaded to
+  storage.r2 on 2026-11-27 with chronicle publish-raw and checked there with
+  chronicle verify-raw.
 files:
   2026:
     filename: federal_reserve_z1_20260611_s1m_b.html

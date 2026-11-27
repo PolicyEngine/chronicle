@@ -177,3 +177,56 @@ def test_default_bundle_year_fact():
         "net_worth.fl152090005.amount_outstanding"
     )
     assert fact.value == 156_278_800_000_000
+
+
+RAW_ONLY = (
+    REPO_ROOT / "db" / "data" / "federal_reserve" / "z1_household_net_worth_raw_only"
+)
+RELEASE_PDF_SHA256 = "b68e85bb82ae784e4d91f4a5f757db54d09bd4791ddd6fb6048b0fe36f756497"
+B101_SHA256 = "3bcdb1e0309537de21a427501fe930ae769b6c08fa8f38ec029e3c42a7bb42fa"
+
+
+def test_the_release_pdf_and_the_b101_page_are_registered_raw_only():
+    """The package's unit rests on the release PDF, and the March page is the
+    edition it replaced; both are pinned by sha256 in R2 and no package reads
+    them."""
+    from chronicle.artifacts import build_r2_key
+
+    manifest = yaml.safe_load((RAW_ONLY / "manifest.yaml").read_text())
+    assert manifest["package_id"] == PACKAGE
+    assert manifest["registration_kind"] == "raw_only"
+    assert list(manifest["files"]) == [2026, "release_pdf"]
+    expected = {
+        2026: (
+            "federal_reserve_z1_20260319_b101.html",
+            "https://www.federalreserve.gov/releases/z1/20260319/html/b101.htm",
+            B101_SHA256,
+            142_683,
+        ),
+        "release_pdf": (
+            "z1.pdf",
+            "https://www.federalreserve.gov/releases/z1/20260611/z1.pdf",
+            RELEASE_PDF_SHA256,
+            7_374_211,
+        ),
+    }
+    for file_key, (filename, url, sha256, size) in expected.items():
+        entry = manifest["files"][file_key]
+        assert entry["filename"] == filename
+        assert entry["source_url"] == url
+        assert entry["sha256"] == sha256
+        assert entry["size_bytes"] == size
+        assert entry["storage"]["local"] is False
+        key = build_r2_key(
+            source_id="federal_reserve",
+            package_id=PACKAGE,
+            year=file_key,
+            sha256=sha256,
+            filename=filename,
+            package_path=RAW_ONLY / "manifest.yaml",
+        )
+        assert entry["storage"]["r2"]["key"] == key
+        assert entry["storage"]["r2"]["uri"] == f"r2://ledger-raw/{key}"
+    assert "Billions of dollars" in manifest["provenance_notes"]
+    # Only the manifest is committed; the bytes are in R2.
+    assert sorted(path.name for path in RAW_ONLY.iterdir()) == ["manifest.yaml"]
