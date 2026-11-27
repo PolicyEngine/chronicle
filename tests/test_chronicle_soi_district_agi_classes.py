@@ -45,6 +45,7 @@ import re
 from typing import Any
 
 import pytest
+import xlrd
 import yaml
 
 from chronicle.consumer_contract import build_semantic_fact_key
@@ -1151,6 +1152,72 @@ def test_publication_1304_gives_each_paired_us_line(district):
         2022: (0.8308, 0.9895),
         2023: (0.8307, 0.9859),
     }[year]
+
+
+@FILES
+def test_the_table_1_4_pair_is_schedule_1_line_16_on_both_sides(district):
+    """The Table 1.4 pair is tied to each publication's own words.
+
+    The ten Table 2.1 pairs share a measure id and a concept id, and the six
+    Table 2.5 pairs share a qualifying-children constraint. The Table 1.4 pair
+    shares none of these, and the size bound alone does not tell its line from
+    the next one of Table 1.4: the district file's cell is also 0.92 to 0.93
+    of Table 1.4's self-employed health insurance deduction. So this test
+    reads both publications. The district guide gives
+    ``A03300`` as the self-employment retirement plans amount of Schedule 1
+    line 16. Table 1.4's workbook calls that line "Payments to a Keogh plan",
+    and the paired fact is the cell under that heading and "Amount" in the
+    "All returns, total" row, in thousands of dollars.
+    """
+    year = district.year
+    measure_id = "self_employed_retirement_plans_amount"
+    package_id, record_id = _publication_1304_records(district)[measure_id]
+    assert package_id == "soi-table-1-4"
+    (paired,) = [
+        fact
+        for fact in _other_irs_facts(year)[package_id]
+        if fact.source_record_id == record_id
+    ]
+
+    all_returns = _record_sets(district)[f"{district.prefix}.all_returns"]
+    (measure,) = [
+        measure
+        for measure in all_returns["measures"]
+        if measure["measure_id"] == measure_id
+    ]
+    assert measure["source_column_id"] == "A03300"
+    guide = GUIDE_DIR / f"{year % 100}incddocguide.tsv"
+    with guide.open(encoding="utf-8", newline="") as handle:
+        guide_rows = {
+            row["variable"]: (row["description"], row["line_reference"])
+            for row in csv.DictReader(
+                (line for line in handle if not line.startswith("#")),
+                delimiter="\t",
+            )
+        }
+    assert guide_rows["A03300"] == (
+        "Self-employment retirement plans amount",
+        "Schedule 1:16",
+    )
+
+    workbook = REPO_ROOT / "db/data/irs_soi/table_1_4" / f"{year % 100}in14ar.xls"
+    sheet = xlrd.open_workbook(workbook).sheet_by_index(0)
+    headings = {
+        " ".join(str(sheet.cell_value(3, column)).split()): column
+        for column in range(sheet.ncols)
+        if sheet.cell_value(3, column) != ""
+    }
+    # The heading spans the returns column and the amount column after it.
+    amount = headings["Payments to a Keogh plan"] + 1
+    assert sheet.cell_value(3, amount) == ""
+    assert sheet.cell_value(5, amount) == "Amount"
+    (total_row,) = [
+        row
+        for row in range(sheet.nrows)
+        if sheet.cell_value(row, 0) == "All returns, total"
+    ]
+    assert paired.value == round(sheet.cell_value(total_row, amount) * 1000)
+    assert paired.value == {2022: 29_483_344_000, 2023: 30_130_848_000}[year]
 
 
 @FILES

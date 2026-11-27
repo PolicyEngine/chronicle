@@ -34,10 +34,14 @@ Historic Table 2's two top classes; the TY2023 package has no such row, so the
 TY2023 totals of that class stay. The district facts that existed before keep
 their ids, keys and values; their record set spec hash changes, because the
 record sets lost rows, and the kept totals also change their record set id and
-record set spec id. Three United States totals of each year (the standard
-deduction amount, and the self-employed health insurance deduction amount and
-returns) go because Publication 1304 Tables 1.2 and 1.4 give them; those
-packages build one tax year at a time, so their TY2022 values are in a build
-for 2022 and not in a bundle built for 2023. A consumer that scaled the
-districts of a state to the district file's own state row must use the Historic
-Table 2 state row instead.
+record set spec id. Fourteen of the removed United States totals of each year
+have their only twin in a Publication 1304 package that builds one tax year at
+a time (`soi-table-1-2`, `soi-table-1-4` and `soi-table-2-1`): the standard
+deduction amount, the self-employed health insurance deduction amount and
+returns, the self-employed retirement plans deduction amount and the ten
+Schedule A items. Their TY2022 values are in a build for 2022 and not in a
+bundle built for 2023, and their TY2023 values are not in a bundle built for
+2022. The six EITC totals have their twin at each build year, because the Table
+2.5 packages are pinned to their tax year. A consumer that scaled the districts
+of a state to the district file's own state row must use the Historic Table 2
+state row instead.
