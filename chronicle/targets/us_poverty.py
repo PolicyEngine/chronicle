@@ -180,6 +180,7 @@ US_POVERTY_NONFILER_TARGET_COVERAGE: tuple[TargetSourceCoverage, ...] = (
             "cms-aca-oep-state-level-2025",
             "cms-aca-oep-state-level-2026",
             "cms-aca-effectuated-enrollment-2022",
+            "cms-aca-annual-effectuated-enrollment-2025",
             "cms-medicare-trustees-report-2025-part-b-premium-income",
             "cms-medicare-trustees-report-2026-part-b-premium-income",
         ),
