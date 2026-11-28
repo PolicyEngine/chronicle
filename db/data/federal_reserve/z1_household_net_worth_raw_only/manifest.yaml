@@ -1,0 +1,42 @@
+source_id: federal_reserve
+package_id: federal-reserve-z1-household-net-worth
+dataset: federal_reserve_federal-reserve-z1-household-net-worth
+source_page: https://www.federalreserve.gov/releases/z1/
+table: Z.1 release of 2026-06-11 (PDF) and the B.101 page of 2026-03-19
+registration_kind: raw_only
+provenance_notes: >-
+  Raw-only records for federal-reserve-z1-household-net-worth; no package reads these files. release_pdf is the
+  Z.1 release of 2026-06-11 as a PDF, from the same dated folder as the S1M.b
+  page that the package reads. Its printed page 145 (PDF page 147) heads S1M.b
+  "Billions of dollars; amounts outstanding end of period, not seasonally
+  adjusted", the unit the package declares; the HTML page prints no unit line.
+  Its line 40, FL152090005, reads 156278.8, 169760.7 and 182866.8 for 2023 to
+  2025, as the HTML does. 2026 is the B.101 page of the release of 2026-03-19,
+  which the package read until chronicle#449.
+files:
+  2026:
+    filename: federal_reserve_z1_20260319_b101.html
+    source_url: https://www.federalreserve.gov/releases/z1/20260319/html/b101.htm
+    sha256: 3bcdb1e0309537de21a427501fe930ae769b6c08fa8f38ec029e3c42a7bb42fa
+    size_bytes: 142683
+    fetched_at: '2026-05-11T13:16:45+00:00'
+    storage:
+      local: false
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/federal_reserve/federal-reserve-z1-household-net-worth/2026/3bcdb1e0309537de21a427501fe930ae769b6c08fa8f38ec029e3c42a7bb42fa/federal_reserve_z1_20260319_b101.html
+        uri: r2://ledger-raw/raw/federal_reserve/federal-reserve-z1-household-net-worth/2026/3bcdb1e0309537de21a427501fe930ae769b6c08fa8f38ec029e3c42a7bb42fa/federal_reserve_z1_20260319_b101.html
+  release_pdf:
+    filename: z1.pdf
+    source_url: https://www.federalreserve.gov/releases/z1/20260611/z1.pdf
+    sha256: b68e85bb82ae784e4d91f4a5f757db54d09bd4791ddd6fb6048b0fe36f756497
+    size_bytes: 7374211
+    fetched_at: '2026-11-27T01:00:00+00:00'
+    storage:
+      local: false
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/federal_reserve/federal-reserve-z1-household-net-worth/release_pdf/b68e85bb82ae784e4d91f4a5f757db54d09bd4791ddd6fb6048b0fe36f756497/z1.pdf
+        uri: r2://ledger-raw/raw/federal_reserve/federal-reserve-z1-household-net-worth/release_pdf/b68e85bb82ae784e4d91f4a5f757db54d09bd4791ddd6fb6048b0fe36f756497/z1.pdf

@@ -1,0 +1,55 @@
+source_id: ssa
+package_id: ssa-ssi-monthly-statistics-2025-12
+dataset: ssa_ssi_monthly_statistics_2025_12
+source_page: https://www.ssa.gov/policy/docs/statcomps/ssi_monthly/2025-12/index.html
+table: 'SSI Monthly Statistics, December 2025, Table 1'
+files:
+  2025:
+    filename: ssi_monthly_2025_12_table01.csv
+    source_url: https://www.ssa.gov/policy/docs/statcomps/ssi_monthly/2025-12/table01.html
+    sha256: c1a80d0f568f8911c99451d47e2e7e379143d01fe30a8ee73be76c7e6b825e01
+    size_bytes: 475
+    fetched_at: '2026-11-27'
+    source_table: 'SSI Monthly Statistics, December 2025, Table 1'
+    notes: >-
+      Extracted the "Total with— Federal payment" row of SSA SSI Monthly
+      Statistics, December 2025, Table 1 (Number of recipients, total
+      payments, average monthly payment, and number of awards, by type of
+      payment, eligibility category, and age, December 2025) into long-form
+      age-group rows, in the layout of the December 2024 package's CSV: all
+      ages 7,264,734; under 18 1,015,006; 18-64 3,820,243; 65 or older
+      2,429,485. The publication is HTML-only; the companion file
+      ssi_monthly_2025_12_table01.html in this directory is the verbatim
+      capture of the published page these values were extracted from.
+      The bytes were uploaded to storage.r2 on 2026-11-27 with chronicle
+      publish-raw and checked there with chronicle verify-raw.
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/ssa/ssa-ssi-monthly-statistics-2025-12/2025/c1a80d0f568f8911c99451d47e2e7e379143d01fe30a8ee73be76c7e6b825e01/ssi_monthly_2025_12_table01.csv
+        uri: r2://ledger-raw/raw/ssa/ssa-ssi-monthly-statistics-2025-12/2025/c1a80d0f568f8911c99451d47e2e7e379143d01fe30a8ee73be76c7e6b825e01/ssi_monthly_2025_12_table01.csv
+  source_capture:
+    filename: ssi_monthly_2025_12_table01.html
+    source_url: https://www.ssa.gov/policy/docs/statcomps/ssi_monthly/2025-12/table01.html
+    sha256: 497bd7c68e59186e5c7dc24d38ea7b4d0274865e6c9106fa6c43e31e25de8b50
+    size_bytes: 17588
+    fetched_at: '2026-11-27'
+    notes: >-
+      Verbatim HTML capture of the published table page ("SSI Monthly
+      Statistics, December 2025 - Table 1"; DCTERMS dateCreated 2026-01,
+      dateCertified 2026-04-01). The maintainer saved it from a browser on
+      2026-11-27 because ssa.gov refuses automated downloads; the file is
+      unchanged. The three age-group counts (1,015,006 / 3,820,243 /
+      2,429,485) and the 7,264,734 all-ages total appear verbatim in the
+      "Total with— Federal payment" row. The page embeds per-request Akamai
+      mPulse analytics values inside an inline script block, so another
+      save can differ there; the recorded sha256 pins exactly this capture.
+      The bytes were uploaded to storage.r2 on 2026-11-27 with chronicle
+      publish-raw and checked there with chronicle verify-raw.
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/ssa/ssa-ssi-monthly-statistics-2025-12/source_capture/497bd7c68e59186e5c7dc24d38ea7b4d0274865e6c9106fa6c43e31e25de8b50/ssi_monthly_2025_12_table01.html
+        uri: r2://ledger-raw/raw/ssa/ssa-ssi-monthly-statistics-2025-12/source_capture/497bd7c68e59186e5c7dc24d38ea7b4d0274865e6c9106fa6c43e31e25de8b50/ssi_monthly_2025_12_table01.html

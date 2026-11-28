@@ -2,7 +2,7 @@ source_id: census_stc
 package_id: census-stc-individual-income-tax
 dataset: census_stc_individual_income_tax
 source_page: https://www.census.gov/programs-surveys/stc/data/datasets.html
-vintage: FY 2023-2024
+vintage: FY 2023-2025
 table: Annual Survey of State Government Tax Collections
 files:
   2023:
@@ -31,3 +31,19 @@ files:
         bucket: ledger-raw
         key: raw/census_stc/census-stc-individual-income-tax/2024/ffe44ad5bdf003c54d2d283fa15d12ba853b5a7d7fcd7278d320b900ef081b84/FY2024-Flat-File.txt
         uri: r2://ledger-raw/raw/census_stc/census-stc-individual-income-tax/2024/ffe44ad5bdf003c54d2d283fa15d12ba853b5a7d7fcd7278d320b900ef081b84/FY2024-Flat-File.txt
+  2025:
+    filename: FY2025-Flat-File.txt
+    source_url: https://www2.census.gov/programs-surveys/stc/datasets/2025/FY2025-Flat-File.txt
+    sha256: fff59c4d24c317dbd8c207f5d833fcd9c3239bfcccfec6a4aa4e7d0461fa2e0a
+    size_bytes: 7975
+    fetched_at: '2026-11-26T14:08:12+00:00'
+    source_table: FY2025 STC Flat File item T40 Individual Income Taxes
+    year: 2025
+    notes: Publisher bytes saved unchanged by chronicle fetch-artifact on 2026-11-26.
+      The bytes were uploaded to storage.r2 on 2026-11-26 with chronicle publish-raw and checked there with chronicle verify-raw.
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/census_stc/census-stc-individual-income-tax/2025/fff59c4d24c317dbd8c207f5d833fcd9c3239bfcccfec6a4aa4e7d0461fa2e0a/FY2025-Flat-File.txt
+        uri: r2://ledger-raw/raw/census_stc/census-stc-individual-income-tax/2025/fff59c4d24c317dbd8c207f5d833fcd9c3239bfcccfec6a4aa4e7d0461fa2e0a/FY2025-Flat-File.txt

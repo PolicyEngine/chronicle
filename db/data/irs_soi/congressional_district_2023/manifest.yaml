@@ -1,0 +1,37 @@
+source_id: irs_soi
+package_id: soi-congressional-district-2023
+dataset: irs_soi_congressional_district_2023
+source_page: https://www.irs.gov/statistics/soi-tax-stats-data-by-congressional-district-2023
+table: Congressional District Data 2023
+notes: >-
+  The EITC total column A59660 ("Earned income credit amount") is not in thousands
+  of dollars in this file. In every row it is A59661 + A59662 + A59663 + A59664,
+  but A59664 (three or more qualifying children) is in dollars and the other three
+  are in thousands. The guide says all money amounts are in thousands, but two
+  checks show that A59664 is in dollars: divided by 1,000, the file's state
+  A59664 is 0.977 to 1.000 of Historic Table 2 TY2023's state A59664 in all 51
+  states; and read in thousands, the mean credit per return would be above the
+  $7,430 maximum for three or more children in all 2,566 rows with such claims
+  (read in dollars, 2,565 are within it). US row: A59660 = 15,325,005,218, of
+  which A59664 = 15,275,346,253 dollars and A59661 + A59662 + A59663 =
+  49,658,965 thousands. Read in thousands, the total is $15.3 trillion;
+  Historic Table 2 TY2023 has $65.0
+  billion. 22incd.csv's A59660 is right (1.0004 times the parts with A59664 /
+  1000). soi-congressional-district-2023 leaves A59660 out until the IRS corrects
+  the file and computes no total; it reads A59661 to A59664 as published
+  (chronicle#449).
+files:
+  2023:
+    filename: 23incd.csv
+    source_url: https://www.irs.gov/pub/irs-soi/23incd.csv
+    sha256: 1db3058b4b07e50b4640d902843ace3c8b5a6d951a5b99c248f2e921bacf4c53
+    size_bytes: 7824799
+    fetched_at: '2026-11-18'
+    source_table: Congressional District Data 2023
+    year: 2023
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/irs_soi/soi-congressional-district-2023/2023/1db3058b4b07e50b4640d902843ace3c8b5a6d951a5b99c248f2e921bacf4c53/23incd.csv
+        uri: r2://ledger-raw/raw/irs_soi/soi-congressional-district-2023/2023/1db3058b4b07e50b4640d902843ace3c8b5a6d951a5b99c248f2e921bacf4c53/23incd.csv

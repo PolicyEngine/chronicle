@@ -30,7 +30,7 @@ _PACKAGES = Path(__file__).parents[1] / "packages"
 
 def _row(*, dimension_labels, groupby_label):
     layout = {
-        "record_set_id": "jct.tax_expenditures.cy2024",
+        "record_set_id": "jct.tax_expenditures.fy2024",
         "groupby_dimension": "jct.tax_expenditure",
         "groupby_value_id": "salt_deduction",
         "groupby_value_label": "State and local tax deduction",

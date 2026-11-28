@@ -5,13 +5,19 @@ dimension_labels:
   'hhs_acf_tanf.caseload_category': 'Caseload category'
   'hhs_acf_tanf.state': 'State'
 artifact:
+  # ACF's "FY2024 15 Months TANF Caseload" workbook, read in place since
+  # chronicle#449. ACF put it on the page in place of the earlier fiscal year
+  # 2024 workbook, and it revises fiscal year 2024. Its FYCY2024 sheets hold a
+  # calendar year 2024 block beside the fiscal-year block; the package reads
+  # the fiscal-year block (B:E families, B:D recipients) and guards its
+  # heading (B5) and its note (A64).
   source_name: hhs_acf_tanf
   source_table: TANF Caseload Data 2024
   resource_package: db
   resource_directory: data/hhs_acf/tanf_caseload_2024
   manifest: manifest.yaml
   vintage: fiscal_year_2024
-  extracted_at: "2026-05-11"
+  extracted_at: "2026-11-27"
   extraction_method: xlsx whole-workbook used-range cell parse
   parser: xlsx_used_range
   artifact_year: 2024
@@ -35,26 +41,34 @@ record_sets:
       - value_id: us_total
         label: United States total
         ordinal: 0
-        row_number: 6
-        expected_row_header_column: C
+        row_number: 7
+        expected_row_header_column: A
         expected_row_header: U.S. Totals
         guard_cells:
-          - column: C
+          - column: A
             row: start
             expected_value: U.S. Totals
             label: geography
-          - column: C
+          - column: A
             row: 3
-            expected_value: "AVERAGE MONTHLY NUMBER OF FAMILIES: Oct. 2023 - Sep. 2024"
+            expected_value: "AVERAGE MONTHLY NUMBER OF FAMILIES: Oct. 2023 - Dec. 2024"
             label: table title
+          - column: B
+            row: 5
+            expected_value: Fiscal Year 2024 (October - September)
+            label: fiscal year block
+          - column: A
+            row: 64
+            expected_value: Fiscal year average is based on data Oct. 2023 through Sep. 2024
+            label: fiscal year average note
         table_record_kind: total
     measures:
       - measure_id: total_families
         label: Total families
         ordinal: 0
-        column: D
+        column: B
         source_column_id: total_families
-        expected_column_header_row: 5
+        expected_column_header_row: 6
         expected_column_header: "Total\nFamilies"
         concept: hhs_acf_tanf.average_monthly_tanf_total_families
         source_concept: hhs_acf_tanf.average_monthly_tanf_total_families
@@ -66,9 +80,9 @@ record_sets:
       - measure_id: two_parent_families
         label: Two-parent families
         ordinal: 1
-        column: E
+        column: C
         source_column_id: two_parent_families
-        expected_column_header_row: 5
+        expected_column_header_row: 6
         expected_column_header: "Two\nParent\nFamilies"
         concept: hhs_acf_tanf.average_monthly_tanf_two_parent_families
         source_concept: hhs_acf_tanf.average_monthly_tanf_two_parent_families
@@ -80,9 +94,9 @@ record_sets:
       - measure_id: one_parent_families
         label: One-parent families
         ordinal: 2
-        column: F
+        column: D
         source_column_id: one_parent_families
-        expected_column_header_row: 5
+        expected_column_header_row: 6
         expected_column_header: "One \nParent \nFamilies"
         concept: hhs_acf_tanf.average_monthly_tanf_one_parent_families
         source_concept: hhs_acf_tanf.average_monthly_tanf_one_parent_families
@@ -94,9 +108,9 @@ record_sets:
       - measure_id: no_parent_families
         label: No-parent families
         ordinal: 3
-        column: G
+        column: E
         source_column_id: no_parent_families
-        expected_column_header_row: 5
+        expected_column_header_row: 6
         expected_column_header: "No \nParent \nFamilies"
         concept: hhs_acf_tanf.average_monthly_tanf_no_parent_families
         source_concept: hhs_acf_tanf.average_monthly_tanf_no_parent_families
@@ -124,571 +138,571 @@ record_sets:
       - value_id: al
         label: Alabama
         ordinal: 0
-        row_number: 7
+        row_number: 8
         geography_id: 0400000US01
         geography_level: state
         geography_name: Alabama
         geography_vintage: current
-        expected_row_header_column: C
+        expected_row_header_column: A
         expected_row_header: Alabama
         table_record_kind: total
       - value_id: ak
         label: Alaska
         ordinal: 1
-        row_number: 8
+        row_number: 9
         geography_id: 0400000US02
         geography_level: state
         geography_name: Alaska
         geography_vintage: current
-        expected_row_header_column: C
+        expected_row_header_column: A
         expected_row_header: Alaska
         table_record_kind: total
       - value_id: az
         label: Arizona
         ordinal: 2
-        row_number: 9
+        row_number: 10
         geography_id: 0400000US04
         geography_level: state
         geography_name: Arizona
         geography_vintage: current
-        expected_row_header_column: C
+        expected_row_header_column: A
         expected_row_header: Arizona
         table_record_kind: total
       - value_id: ar
         label: Arkansas
         ordinal: 3
-        row_number: 10
+        row_number: 11
         geography_id: 0400000US05
         geography_level: state
         geography_name: Arkansas
         geography_vintage: current
-        expected_row_header_column: C
+        expected_row_header_column: A
         expected_row_header: Arkansas
         table_record_kind: total
       - value_id: ca
         label: California
         ordinal: 4
-        row_number: 11
+        row_number: 12
         geography_id: 0400000US06
         geography_level: state
         geography_name: California
         geography_vintage: current
-        expected_row_header_column: C
+        expected_row_header_column: A
         expected_row_header: California
         table_record_kind: total
       - value_id: co
         label: Colorado
         ordinal: 5
-        row_number: 12
+        row_number: 13
         geography_id: 0400000US08
         geography_level: state
         geography_name: Colorado
         geography_vintage: current
-        expected_row_header_column: C
+        expected_row_header_column: A
         expected_row_header: Colorado
         table_record_kind: total
       - value_id: ct
         label: Connecticut
         ordinal: 6
-        row_number: 13
+        row_number: 14
         geography_id: 0400000US09
         geography_level: state
         geography_name: Connecticut
         geography_vintage: current
-        expected_row_header_column: C
+        expected_row_header_column: A
         expected_row_header: Connecticut
         table_record_kind: total
       - value_id: de
         label: Delaware
         ordinal: 7
-        row_number: 14
+        row_number: 15
         geography_id: 0400000US10
         geography_level: state
         geography_name: Delaware
         geography_vintage: current
-        expected_row_header_column: C
+        expected_row_header_column: A
         expected_row_header: Delaware
         table_record_kind: total
       - value_id: dc
         label: District of Columbia
         ordinal: 8
-        row_number: 15
+        row_number: 16
         geography_id: 0400000US11
         geography_level: state
         geography_name: District of Columbia
         geography_vintage: current
-        expected_row_header_column: C
+        expected_row_header_column: A
         expected_row_header: District of Columbia
         table_record_kind: total
       - value_id: fl
         label: Florida
         ordinal: 9
-        row_number: 16
+        row_number: 17
         geography_id: 0400000US12
         geography_level: state
         geography_name: Florida
         geography_vintage: current
-        expected_row_header_column: C
+        expected_row_header_column: A
         expected_row_header: Florida
         table_record_kind: total
       - value_id: ga
         label: Georgia
         ordinal: 10
-        row_number: 17
+        row_number: 18
         geography_id: 0400000US13
         geography_level: state
         geography_name: Georgia
         geography_vintage: current
-        expected_row_header_column: C
+        expected_row_header_column: A
         expected_row_header: Georgia
         table_record_kind: total
       - value_id: hi
         label: Hawaii
         ordinal: 11
-        row_number: 19
+        row_number: 20
         geography_id: 0400000US15
         geography_level: state
         geography_name: Hawaii
         geography_vintage: current
-        expected_row_header_column: C
+        expected_row_header_column: A
         expected_row_header: Hawaii
         table_record_kind: total
       - value_id: id
         label: Idaho
         ordinal: 12
-        row_number: 20
+        row_number: 21
         geography_id: 0400000US16
         geography_level: state
         geography_name: Idaho
         geography_vintage: current
-        expected_row_header_column: C
+        expected_row_header_column: A
         expected_row_header: Idaho
         table_record_kind: total
       - value_id: il
         label: Illinois
         ordinal: 13
-        row_number: 21
+        row_number: 22
         geography_id: 0400000US17
         geography_level: state
         geography_name: Illinois
         geography_vintage: current
-        expected_row_header_column: C
+        expected_row_header_column: A
         expected_row_header: Illinois
         table_record_kind: total
       - value_id: in
         label: Indiana
         ordinal: 14
-        row_number: 22
+        row_number: 23
         geography_id: 0400000US18
         geography_level: state
         geography_name: Indiana
         geography_vintage: current
-        expected_row_header_column: C
+        expected_row_header_column: A
         expected_row_header: Indiana
         table_record_kind: total
       - value_id: ia
         label: Iowa
         ordinal: 15
-        row_number: 23
+        row_number: 24
         geography_id: 0400000US19
         geography_level: state
         geography_name: Iowa
         geography_vintage: current
-        expected_row_header_column: C
+        expected_row_header_column: A
         expected_row_header: Iowa
         table_record_kind: total
       - value_id: ks
         label: Kansas
         ordinal: 16
-        row_number: 24
+        row_number: 25
         geography_id: 0400000US20
         geography_level: state
         geography_name: Kansas
         geography_vintage: current
-        expected_row_header_column: C
+        expected_row_header_column: A
         expected_row_header: Kansas
         table_record_kind: total
       - value_id: ky
         label: Kentucky
         ordinal: 17
-        row_number: 25
+        row_number: 26
         geography_id: 0400000US21
         geography_level: state
         geography_name: Kentucky
         geography_vintage: current
-        expected_row_header_column: C
+        expected_row_header_column: A
         expected_row_header: Kentucky
         table_record_kind: total
       - value_id: la
         label: Louisiana
         ordinal: 18
-        row_number: 26
+        row_number: 27
         geography_id: 0400000US22
         geography_level: state
         geography_name: Louisiana
         geography_vintage: current
-        expected_row_header_column: C
+        expected_row_header_column: A
         expected_row_header: Louisiana
         table_record_kind: total
       - value_id: me
         label: Maine
         ordinal: 19
-        row_number: 27
+        row_number: 28
         geography_id: 0400000US23
         geography_level: state
         geography_name: Maine
         geography_vintage: current
-        expected_row_header_column: C
+        expected_row_header_column: A
         expected_row_header: Maine
         table_record_kind: total
       - value_id: md
         label: Maryland
         ordinal: 20
-        row_number: 28
+        row_number: 29
         geography_id: 0400000US24
         geography_level: state
         geography_name: Maryland
         geography_vintage: current
-        expected_row_header_column: C
+        expected_row_header_column: A
         expected_row_header: Maryland
         table_record_kind: total
       - value_id: ma
         label: Massachusetts
         ordinal: 21
-        row_number: 29
+        row_number: 30
         geography_id: 0400000US25
         geography_level: state
         geography_name: Massachusetts
         geography_vintage: current
-        expected_row_header_column: C
+        expected_row_header_column: A
         expected_row_header: Massachusetts
         table_record_kind: total
       - value_id: mi
         label: Michigan
         ordinal: 22
-        row_number: 30
+        row_number: 31
         geography_id: 0400000US26
         geography_level: state
         geography_name: Michigan
         geography_vintage: current
-        expected_row_header_column: C
+        expected_row_header_column: A
         expected_row_header: Michigan
         table_record_kind: total
       - value_id: mn
         label: Minnesota
         ordinal: 23
-        row_number: 31
+        row_number: 32
         geography_id: 0400000US27
         geography_level: state
         geography_name: Minnesota
         geography_vintage: current
-        expected_row_header_column: C
+        expected_row_header_column: A
         expected_row_header: Minnesota
         table_record_kind: total
       - value_id: ms
         label: Mississippi
         ordinal: 24
-        row_number: 32
+        row_number: 33
         geography_id: 0400000US28
         geography_level: state
         geography_name: Mississippi
         geography_vintage: current
-        expected_row_header_column: C
+        expected_row_header_column: A
         expected_row_header: Mississippi
         table_record_kind: total
       - value_id: mo
         label: Missouri
         ordinal: 25
-        row_number: 33
+        row_number: 34
         geography_id: 0400000US29
         geography_level: state
         geography_name: Missouri
         geography_vintage: current
-        expected_row_header_column: C
+        expected_row_header_column: A
         expected_row_header: Missouri
         table_record_kind: total
       - value_id: mt
         label: Montana
         ordinal: 26
-        row_number: 34
+        row_number: 35
         geography_id: 0400000US30
         geography_level: state
         geography_name: Montana
         geography_vintage: current
-        expected_row_header_column: C
+        expected_row_header_column: A
         expected_row_header: Montana
         table_record_kind: total
       - value_id: ne
         label: Nebraska
         ordinal: 27
-        row_number: 35
+        row_number: 36
         geography_id: 0400000US31
         geography_level: state
         geography_name: Nebraska
         geography_vintage: current
-        expected_row_header_column: C
+        expected_row_header_column: A
         expected_row_header: Nebraska
         table_record_kind: total
       - value_id: nv
         label: Nevada
         ordinal: 28
-        row_number: 36
+        row_number: 37
         geography_id: 0400000US32
         geography_level: state
         geography_name: Nevada
         geography_vintage: current
-        expected_row_header_column: C
+        expected_row_header_column: A
         expected_row_header: Nevada
         table_record_kind: total
       - value_id: nh
         label: New Hampshire
         ordinal: 29
-        row_number: 37
+        row_number: 38
         geography_id: 0400000US33
         geography_level: state
         geography_name: New Hampshire
         geography_vintage: current
-        expected_row_header_column: C
+        expected_row_header_column: A
         expected_row_header: New Hampshire
         table_record_kind: total
       - value_id: nj
         label: New Jersey
         ordinal: 30
-        row_number: 38
+        row_number: 39
         geography_id: 0400000US34
         geography_level: state
         geography_name: New Jersey
         geography_vintage: current
-        expected_row_header_column: C
+        expected_row_header_column: A
         expected_row_header: New Jersey
         table_record_kind: total
       - value_id: nm
         label: New Mexico
         ordinal: 31
-        row_number: 39
+        row_number: 40
         geography_id: 0400000US35
         geography_level: state
         geography_name: New Mexico
         geography_vintage: current
-        expected_row_header_column: C
+        expected_row_header_column: A
         expected_row_header: New Mexico
         table_record_kind: total
       - value_id: ny
         label: New York
         ordinal: 32
-        row_number: 40
+        row_number: 41
         geography_id: 0400000US36
         geography_level: state
         geography_name: New York
         geography_vintage: current
-        expected_row_header_column: C
+        expected_row_header_column: A
         expected_row_header: New York
         table_record_kind: total
       - value_id: nc
         label: North Carolina
         ordinal: 33
-        row_number: 41
+        row_number: 42
         geography_id: 0400000US37
         geography_level: state
         geography_name: North Carolina
         geography_vintage: current
-        expected_row_header_column: C
+        expected_row_header_column: A
         expected_row_header: North Carolina
         table_record_kind: total
       - value_id: nd
         label: North Dakota
         ordinal: 34
-        row_number: 42
+        row_number: 43
         geography_id: 0400000US38
         geography_level: state
         geography_name: North Dakota
         geography_vintage: current
-        expected_row_header_column: C
+        expected_row_header_column: A
         expected_row_header: North Dakota
         table_record_kind: total
       - value_id: oh
         label: Ohio
         ordinal: 35
-        row_number: 43
+        row_number: 44
         geography_id: 0400000US39
         geography_level: state
         geography_name: Ohio
         geography_vintage: current
-        expected_row_header_column: C
+        expected_row_header_column: A
         expected_row_header: Ohio
         table_record_kind: total
       - value_id: ok
         label: Oklahoma
         ordinal: 36
-        row_number: 44
+        row_number: 45
         geography_id: 0400000US40
         geography_level: state
         geography_name: Oklahoma
         geography_vintage: current
-        expected_row_header_column: C
+        expected_row_header_column: A
         expected_row_header: Oklahoma
         table_record_kind: total
       - value_id: or
         label: Oregon
         ordinal: 37
-        row_number: 45
+        row_number: 46
         geography_id: 0400000US41
         geography_level: state
         geography_name: Oregon
         geography_vintage: current
-        expected_row_header_column: C
+        expected_row_header_column: A
         expected_row_header: Oregon
         table_record_kind: total
       - value_id: pa
         label: Pennsylvania
         ordinal: 38
-        row_number: 46
+        row_number: 47
         geography_id: 0400000US42
         geography_level: state
         geography_name: Pennsylvania
         geography_vintage: current
-        expected_row_header_column: C
+        expected_row_header_column: A
         expected_row_header: Pennsylvania
         table_record_kind: total
       - value_id: ri
         label: Rhode Island
         ordinal: 39
-        row_number: 48
+        row_number: 49
         geography_id: 0400000US44
         geography_level: state
         geography_name: Rhode Island
         geography_vintage: current
-        expected_row_header_column: C
+        expected_row_header_column: A
         expected_row_header: Rhode Island
         table_record_kind: total
       - value_id: sc
         label: South Carolina
         ordinal: 40
-        row_number: 49
+        row_number: 50
         geography_id: 0400000US45
         geography_level: state
         geography_name: South Carolina
         geography_vintage: current
-        expected_row_header_column: C
+        expected_row_header_column: A
         expected_row_header: South Carolina
         table_record_kind: total
       - value_id: sd
         label: South Dakota
         ordinal: 41
-        row_number: 50
+        row_number: 51
         geography_id: 0400000US46
         geography_level: state
         geography_name: South Dakota
         geography_vintage: current
-        expected_row_header_column: C
+        expected_row_header_column: A
         expected_row_header: South Dakota
         table_record_kind: total
       - value_id: tn
         label: Tennessee
         ordinal: 42
-        row_number: 51
+        row_number: 52
         geography_id: 0400000US47
         geography_level: state
         geography_name: Tennessee
         geography_vintage: current
-        expected_row_header_column: C
+        expected_row_header_column: A
         expected_row_header: Tennessee
         table_record_kind: total
       - value_id: tx
         label: Texas
         ordinal: 43
-        row_number: 52
+        row_number: 53
         geography_id: 0400000US48
         geography_level: state
         geography_name: Texas
         geography_vintage: current
-        expected_row_header_column: C
+        expected_row_header_column: A
         expected_row_header: Texas
         table_record_kind: total
       - value_id: ut
         label: Utah
         ordinal: 44
-        row_number: 53
+        row_number: 54
         geography_id: 0400000US49
         geography_level: state
         geography_name: Utah
         geography_vintage: current
-        expected_row_header_column: C
+        expected_row_header_column: A
         expected_row_header: Utah
         table_record_kind: total
       - value_id: vt
         label: Vermont
         ordinal: 45
-        row_number: 54
+        row_number: 55
         geography_id: 0400000US50
         geography_level: state
         geography_name: Vermont
         geography_vintage: current
-        expected_row_header_column: C
+        expected_row_header_column: A
         expected_row_header: Vermont
         table_record_kind: total
       - value_id: va
         label: Virginia
         ordinal: 46
-        row_number: 56
+        row_number: 57
         geography_id: 0400000US51
         geography_level: state
         geography_name: Virginia
         geography_vintage: current
-        expected_row_header_column: C
+        expected_row_header_column: A
         expected_row_header: Virginia
         table_record_kind: total
       - value_id: wa
         label: Washington
         ordinal: 47
-        row_number: 57
+        row_number: 58
         geography_id: 0400000US53
         geography_level: state
         geography_name: Washington
         geography_vintage: current
-        expected_row_header_column: C
+        expected_row_header_column: A
         expected_row_header: Washington
         table_record_kind: total
       - value_id: wv
         label: West Virginia
         ordinal: 48
-        row_number: 58
+        row_number: 59
         geography_id: 0400000US54
         geography_level: state
         geography_name: West Virginia
         geography_vintage: current
-        expected_row_header_column: C
+        expected_row_header_column: A
         expected_row_header: West Virginia
         table_record_kind: total
       - value_id: wi
         label: Wisconsin
         ordinal: 49
-        row_number: 59
+        row_number: 60
         geography_id: 0400000US55
         geography_level: state
         geography_name: Wisconsin
         geography_vintage: current
-        expected_row_header_column: C
+        expected_row_header_column: A
         expected_row_header: Wisconsin
         table_record_kind: total
       - value_id: wy
         label: Wyoming
         ordinal: 50
-        row_number: 60
+        row_number: 61
         geography_id: 0400000US56
         geography_level: state
         geography_name: Wyoming
         geography_vintage: current
-        expected_row_header_column: C
+        expected_row_header_column: A
         expected_row_header: Wyoming
         table_record_kind: total
     measures:
       - measure_id: total_families
         label: Total families
         ordinal: 0
-        column: D
+        column: B
         source_column_id: total_families
-        expected_column_header_row: 5
+        expected_column_header_row: 6
         expected_column_header: "Total\nFamilies"
         concept: hhs_acf_tanf.average_monthly_tanf_total_families
         source_concept: hhs_acf_tanf.average_monthly_tanf_total_families
@@ -716,26 +730,34 @@ record_sets:
       - value_id: us_total
         label: United States total
         ordinal: 0
-        row_number: 6
-        expected_row_header_column: C
+        row_number: 7
+        expected_row_header_column: A
         expected_row_header: U.S. Totals
         guard_cells:
-          - column: C
+          - column: A
             row: start
             expected_value: U.S. Totals
             label: geography
-          - column: C
+          - column: A
             row: 3
-            expected_value: "AVERAGE MONTHLY NUMBER OF RECIPIENTS, ADULTS, AND CHILDREN: Oct. 2023 - Sep. 2024"
+            expected_value: "AVERAGE MONTHLY NUMBER OF RECIPIENTS, ADULTS, AND CHILDREN: Oct. 2023 - Dec. 2024"
             label: table title
+          - column: B
+            row: 5
+            expected_value: Fiscal Year 2024 (October - September)
+            label: fiscal year block
+          - column: A
+            row: 64
+            expected_value: Fiscal year average is based on data Oct. 2023 through Sep. 2024
+            label: fiscal year average note
         table_record_kind: total
     measures:
       - measure_id: total_recipients
         label: Total recipients
         ordinal: 0
-        column: D
+        column: B
         source_column_id: total_recipients
-        expected_column_header_row: 5
+        expected_column_header_row: 6
         expected_column_header: "Total \nRecipients"
         concept: hhs_acf_tanf.average_monthly_tanf_total_recipients
         source_concept: hhs_acf_tanf.average_monthly_tanf_total_recipients
@@ -747,9 +769,9 @@ record_sets:
       - measure_id: adult_recipients
         label: Adult recipients
         ordinal: 1
-        column: E
+        column: C
         source_column_id: adult_recipients
-        expected_column_header_row: 5
+        expected_column_header_row: 6
         expected_column_header: Adults
         concept: hhs_acf_tanf.average_monthly_tanf_adult_recipients
         source_concept: hhs_acf_tanf.average_monthly_tanf_adult_recipients
@@ -761,9 +783,9 @@ record_sets:
       - measure_id: child_recipients
         label: Child recipients
         ordinal: 2
-        column: F
+        column: D
         source_column_id: child_recipients
-        expected_column_header_row: 5
+        expected_column_header_row: 6
         expected_column_header: Children
         concept: hhs_acf_tanf.average_monthly_tanf_child_recipients
         source_concept: hhs_acf_tanf.average_monthly_tanf_child_recipients

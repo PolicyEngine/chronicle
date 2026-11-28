@@ -1,0 +1,18 @@
+source_id: irs_soi
+package_id: soi-filing-season-week21-2025
+dataset: irs_soi_soi-filing-season-week21-2025
+source_page: https://www.irs.gov/statistics/filing-season-statistics
+table: Filing Season Statistics Table 1
+files:
+  2025:
+    filename: 26inweek21.xlsx
+    source_url: https://www.irs.gov/pub/irs-soi/26inweek21.xlsx
+    sha256: c2bb465f6c12eaa5d1eb8cfb9132b8c14b5619655d5e9c5810fb45b5d763312c
+    size_bytes: 51409
+    fetched_at: '2026-11-18T12:54:06+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/irs_soi/soi-filing-season-week21-2025/2025/c2bb465f6c12eaa5d1eb8cfb9132b8c14b5619655d5e9c5810fb45b5d763312c/26inweek21.xlsx
+        uri: r2://ledger-raw/raw/irs_soi/soi-filing-season-week21-2025/2025/c2bb465f6c12eaa5d1eb8cfb9132b8c14b5619655d5e9c5810fb45b5d763312c/26inweek21.xlsx

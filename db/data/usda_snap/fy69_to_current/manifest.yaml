@@ -1,18 +1,35 @@
 source_id: usda_snap
 package_id: usda-snap-fy69-to-current
 dataset: usda_snap_usda-snap-fy69-to-current
-source_page: https://www.fns.usda.gov/pd/supplemental-nutrition-assistance-program-snap
+source_page: https://www.fna.usda.gov/pd/supplemental-nutrition-assistance-program-snap
 table: SNAP Monthly State Participation and Benefit Summary FY69 to current
+notes: >-
+  The package reads member FY24.xlsx of the publisher zip
+  snap-zip-fy69tocurrent-11.zip. Its sheets are dated 11/13/2026 and hold fiscal
+  year 2024, October 2023 to September 2024, as USDA published it then. Until
+  chronicle#449 the package read FY24.xlsx of snap-zip-fy69tocurrent-6.zip
+  (sheets dated 06/13/2025, zip sha256
+  3eee091653335a00a80c6fe76b84904b309dddba0c8b63a256b7e079e4101abe). The two
+  members have the same sheets, labels and cell positions. USDA changed 495 of
+  their numbers, in 34 of the 64 Total rows among others. The zip bytes are the
+  bytes that ../fy69_to_current_fy2025/manifest.yaml registers, copied
+  unchanged. That file was fetched with chronicle fetch-artifact on 2026-11-26
+  from www.fna.usda.gov, to which www.fns.usda.gov answers with a 301 redirect.
+  The -6 zip stays in this directory because
+  usda-snap-fy2025-monthly-state-caseloads reads it
+  (manifest_fy2025_monthly_source_package.yaml). The bytes were uploaded to
+  storage.r2 on 2026-11-27 with chronicle publish-raw and checked there with
+  chronicle verify-raw.
 files:
   2024:
-    filename: snap-zip-fy69tocurrent-6.zip
-    source_url: https://www.fns.usda.gov/sites/default/files/resource-files/snap-zip-fy69tocurrent-6.zip
-    sha256: 3eee091653335a00a80c6fe76b84904b309dddba0c8b63a256b7e079e4101abe
-    size_bytes: 1581035
-    fetched_at: '2026-05-11T11:57:29+00:00'
+    filename: snap-zip-fy69tocurrent-11.zip
+    source_url: https://www.fna.usda.gov/sites/default/files/resource-files/snap-zip-fy69tocurrent-11.zip
+    sha256: 3feaab40ff04c232351fb5cd4f74378cd071c061f87c5e71e4c2e0b1f601a611
+    size_bytes: 1662747
+    fetched_at: '2026-11-26T14:04:23+00:00'
     storage:
       r2:
         provider: r2
         bucket: ledger-raw
-        key: raw/usda_snap/usda-snap-fy69-to-current/2024/3eee091653335a00a80c6fe76b84904b309dddba0c8b63a256b7e079e4101abe/snap-zip-fy69tocurrent-6.zip
-        uri: r2://ledger-raw/raw/usda_snap/usda-snap-fy69-to-current/2024/3eee091653335a00a80c6fe76b84904b309dddba0c8b63a256b7e079e4101abe/snap-zip-fy69tocurrent-6.zip
+        key: raw/usda_snap/usda-snap-fy69-to-current/2024/3feaab40ff04c232351fb5cd4f74378cd071c061f87c5e71e4c2e0b1f601a611/snap-zip-fy69tocurrent-11.zip
+        uri: r2://ledger-raw/raw/usda_snap/usda-snap-fy69-to-current/2024/3feaab40ff04c232351fb5cd4f74378cd071c061f87c5e71e4c2e0b1f601a611/snap-zip-fy69tocurrent-11.zip

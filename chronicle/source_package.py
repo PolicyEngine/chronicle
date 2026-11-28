@@ -1034,9 +1034,13 @@ SOURCE_PACKAGE_ALIASES = {
         "census/acs_s2201_district_2024"
     ),
     "census-b01001-female-age-2023": Path("census/b01001_female_15_44_2023"),
+    "census-b01001-female-age-2024": Path("census/b01001_female_15_44_2024"),
+    "census-b01001-female-age-2025": Path("census/b01001_female_15_44_2025"),
     "census-pep-county-population-2024": Path("census/pep_county_2024"),
     "census-pep-2024-national-age-sex": Path("census/pep_2024_national_age_sex"),
+    "census-pep-2025-national-age-sex": Path("census/pep_2025_national_age_sex"),
     "census-pep-2024-state-age-sex": Path("census/pep_2024_state_age_sex"),
+    "census-pep-2025-state-age-sex": Path("census/pep_2025_state_age_sex"),
     "census-pep-2025-state-age-bands": Path("census/pep_2025_state_age_bands"),
     "census-population-projections-2023": Path("census/population_projections_2023"),
     "census-stc-individual-income-tax": Path("census/stc_individual_income_tax"),
@@ -1049,9 +1053,16 @@ SOURCE_PACKAGE_ALIASES = {
     "cms-aca-oep-state-level": Path("cms_aca/oep_state_level"),
     "cms-aca-oep-state-level-2022": Path("cms_aca/oep_state_level_2022"),
     "cms-aca-oep-state-level-2025": Path("cms_aca/oep_state_level_2025"),
+    "cms-aca-oep-state-level-2026": Path("cms_aca/oep_state_level_2026"),
     "cms-aca-effectuated-enrollment-2022": Path("cms_aca/effectuated_enrollment_2022"),
+    "cms-aca-annual-effectuated-enrollment-2025": Path(
+        "cms_aca/annual_effectuated_enrollment_2025"
+    ),
     "cms-medicare-trustees-report-2025-part-b-premium-income": Path(
         "cms_medicare/medicare_trustees_report_2025"
+    ),
+    "cms-medicare-trustees-report-2026-part-b-premium-income": Path(
+        "cms_medicare/medicare_trustees_report_2026"
     ),
     "cms-nhe-historical-service-source": Path("cms_nhe/historical_service_source"),
     "cms-nhe-table-24": Path("cms_nhe/table_24"),
@@ -1064,8 +1075,12 @@ SOURCE_PACKAGE_ALIASES = {
     "hhs-acf-liheap-fy2024-national-profile": Path(
         "hhs_acf_liheap/fy2024_national_profile"
     ),
+    "hhs-acf-liheap-fy2025-national-profile": Path(
+        "hhs_acf_liheap/fy2025_national_profile"
+    ),
     "jct-obbba-revenue-estimates-2025": Path("jct/obbba_revenue_estimates_2025"),
     "jct-tax-expenditures-2024": Path("jct/tax_expenditures_2024"),
+    "jct-tax-expenditures-2025": Path("jct/tax_expenditures_2025"),
     "slc-student-loan-borrower-forecasts-england-2025": Path(
         "slc/student_loan_borrower_forecasts_england_2025"
     ),
@@ -1094,14 +1109,25 @@ SOURCE_PACKAGE_ALIASES = {
     "soi-table-2-5-eitc-agi-children-2023": Path(
         "irs_soi/table_2_5_eitc_agi_children_2023"
     ),
+    **{
+        f"soi-filing-season-week{week}-{year}": Path(
+            f"irs_soi/filing_season_week{week}_{year}"
+        )
+        for week in (21, 30)
+        for year in (2024, 2025)
+    },
     "soi-filing-season-week47-2024-eitc-total": Path(
         "irs_soi/filing_season_week47_2024"
     ),
     "soi-table-4-3": Path("irs_soi/table_4_3"),
     "soi-state-2022": Path("irs_soi/state_2022"),
+    "soi-state-2023": Path("irs_soi/state_2023"),
     "soi-county-2022": Path("irs_soi/county_2022"),
+    "soi-county-2023": Path("irs_soi/county_2023"),
     "soi-congressional-district-2022": Path("irs_soi/congressional_district_2022"),
+    "soi-congressional-district-2023": Path("irs_soi/congressional_district_2023"),
     "soi-historic-table-2": Path("irs_soi/historic_table_2"),
+    "soi-historic-table-2-2023": Path("irs_soi/historic_table_2_2023"),
     "soi-historic-table-2-state-agi-2022": Path(
         "irs_soi/historic_table_2_state_agi_2022"
     ),
@@ -1111,22 +1137,35 @@ SOURCE_PACKAGE_ALIASES = {
     "soi-historic-table-2-state-broad-2022": Path(
         "irs_soi/historic_table_2_state_broad_2022"
     ),
+    "soi-historic-table-2-state-broad-2023": Path(
+        "irs_soi/historic_table_2_state_broad_2023"
+    ),
     "soi-historic-table-2-state-eitc-2022": Path(
         "irs_soi/historic_table_2_state_eitc_2022"
     ),
+    "soi-historic-table-2-state-eitc-2023": Path(
+        "irs_soi/historic_table_2_state_eitc_2023"
+    ),
+    "soi-w2-statistics": Path("irs_soi/w2_statistics"),
     "soi-w2-statistics-2020": Path("irs_soi/w2_statistics_2020"),
     "soi-ira-traditional-contributions-2022": Path(
         "irs_soi/ira_traditional_contributions_2022"
     ),
+    "soi-ira-traditional-contributions-2023": Path(
+        "irs_soi/ira_traditional_contributions_2023"
+    ),
     "soi-ira-roth-contributions-2022": Path("irs_soi/ira_roth_contributions_2022"),
+    "soi-ira-roth-contributions-2023": Path("irs_soi/ira_roth_contributions_2023"),
     "ssa-annual-statistical-supplement-2025": Path(
         "ssa/annual_statistical_supplement_2025"
     ),
     "ssa-ssi-monthly-statistics-2024-12": Path("ssa/ssi_monthly_statistics_2024_12"),
+    "ssa-ssi-monthly-statistics-2025-12": Path("ssa/ssi_monthly_statistics_2025_12"),
     "ssa-ssi-table-7b1-2024": Path("ssa/ssi_table_7b1_2024"),
     "ssa-ssi-table-7b3-2024": Path("ssa/ssi_table_7b3_2024"),
     "ssa-ssi-table-7b7-2024": Path("ssa/ssi_table_7b7_2024"),
     "hhs-acf-tanf-caseload-2024": Path("hhs_acf/tanf_caseload_2024"),
+    "hhs-acf-tanf-caseload-2025": Path("hhs_acf/tanf_caseload_2025"),
     "hhs-acf-tanf-financial-2024": Path("hhs_acf/tanf_financial_2024"),
     "hmrc-vat-firm-targets-2024-25": Path("hmrc/vat_firm_targets_2024_25"),
     "hmrc-vat-firm-sector-targets-2024-25": Path(
@@ -1366,6 +1405,7 @@ SOURCE_PACKAGE_ALIASES = {
         "ons/uk_business_firm_sector_targets_2025"
     ),
     "usda-snap-fy69-to-current": Path("usda_snap/fy69_to_current"),
+    "usda-snap-fy69-to-current-fy2025": Path("usda_snap/fy69_to_current_fy2025"),
     "usda-snap-fy2025-monthly-state-caseloads": Path(
         "usda_snap/fy2025_monthly_state_caseloads"
     ),

@@ -1,0 +1,31 @@
+source_id: cms_aca
+package_id: cms-aca-annual-effectuated-enrollment-2025
+dataset: cms_health_insurance_exchanges_annual_effectuated_enrollment_2025
+source_page: https://data.cms.gov/summary-statistics-on-beneficiary-enrollment/health-insurance-marketplace/health-insurance-exchanges-annual-effectuated-enrollment
+reference_period: '2025'
+table: 'Health Insurance Exchanges Annual Effectuated Enrollment : 2025-01-01'
+notes: Publisher bytes copied unchanged from the 2026-11-27 fetch of the CSV that
+  the data.cms.gov data API lists for version 2025-01-01 (dataset 20d35ab0-0ed0-485d-bae0-12000f6ee842).
+  The catalog record gives the dataset as last modified on 2026-06-26. The file name
+  gives the data as of 2026-04-21, and the server gives the file as last modified on
+  2026-05-11. The file holds coverage years 2016 to 2025. Each year has three Total
+  rows (platforms All, HealthCare.gov and SBE) and one row for each of the 50 states
+  and DC. The package reads only the 2025 state rows. The data dictionary and the
+  methodology are at https://data.cms.gov/resources/health-insurance-exchanges-annual-effectuated-enrollment-data-dictionary
+  and https://data.cms.gov/resources/health-insurance-exchanges-annual-effectuated-enrollment-methodology.
+  The bytes were uploaded to storage.r2 on 2026-11-27 with chronicle publish-raw
+  and checked there with chronicle verify-raw.
+files:
+  2025:
+    filename: health_insurance_exchanges_annual_effectuated_enrollment_data_asof_20260421.csv
+    publisher_filename: Health Insurance Exchanges Annual Effectuated Enrollment Data_asof_20260421.csv
+    source_url: https://data.cms.gov/sites/default/files/2026-05/2836bf59-0829-49b6-8439-f4132a79c2ce/Health%20Insurance%20Exchanges%20Annual%20Effectuated%20Enrollment%20Data_asof_20260421.csv
+    sha256: cbeee9acdfc1cafa543b4c33889836906d788386f3b1ede638ec5df2c204f716
+    size_bytes: 39885
+    fetched_at: '2026-11-27T00:48:34+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/cms_aca/cms-aca-annual-effectuated-enrollment-2025/2025/cbeee9acdfc1cafa543b4c33889836906d788386f3b1ede638ec5df2c204f716/health_insurance_exchanges_annual_effectuated_enrollment_data_asof_20260421.csv
+        uri: r2://ledger-raw/raw/cms_aca/cms-aca-annual-effectuated-enrollment-2025/2025/cbeee9acdfc1cafa543b4c33889836906d788386f3b1ede638ec5df2c204f716/health_insurance_exchanges_annual_effectuated_enrollment_data_asof_20260421.csv

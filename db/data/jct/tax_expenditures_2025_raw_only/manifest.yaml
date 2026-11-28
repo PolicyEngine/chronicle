@@ -1,0 +1,33 @@
+source_id: jct
+package_id: jct-tax-expenditures-2025
+dataset: jct_tax_expenditures_2025
+source_page: https://www.jct.gov/publications/2025/jcx-45-25/
+table: Estimates of Federal Tax Expenditures for Fiscal Years 2025-2029 (JCX-45-25, publisher PDF)
+registration_kind: raw_only
+provenance_notes: >-
+  Raw-only record for jct-tax-expenditures-2025; no package reads this file.
+  It is the publisher PDF of JCX-45-25, "Estimates of Federal Tax Expenditures
+  for Fiscal Years 2025-2029", dated December 3, 2025 (52 pages), unchanged.
+  The maintainer downloaded it in a browser on 2026-11-27 because jct.gov
+  blocks automated requests; the browser saved it as x-45-25.pdf. Table 1
+  ("Tax Expenditure Estimates By Budget Function, Fiscal Years 2025 - 2029",
+  billions of dollars) is on printed pages 34 to 43, with a Corporations block
+  and an Individuals block of five fiscal years each; its footnotes run on to
+  printed page 44. The package reads a CSV
+  extract of 13 lines of the Individuals block's 2025 column;
+  tests/test_chronicle_449_jct_tax_expenditures.py checks the extract against
+  this file's text. The bytes were uploaded to storage.r2 on 2026-11-27 with
+  chronicle publish-raw and checked there with chronicle verify-raw.
+files:
+  report_pdf:
+    filename: x-45-25.pdf
+    source_url: https://www.jct.gov/publications/2025/jcx-45-25/
+    sha256: d1532ca4ee461292f206344f790a6869cf60b990d45c635e180a6a3c858c20ab
+    size_bytes: 699015
+    fetched_at: '2026-11-27T00:00:00+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/jct/jct-tax-expenditures-2025/report_pdf/d1532ca4ee461292f206344f790a6869cf60b990d45c635e180a6a3c858c20ab/x-45-25.pdf
+        uri: r2://ledger-raw/raw/jct/jct-tax-expenditures-2025/report_pdf/d1532ca4ee461292f206344f790a6869cf60b990d45c635e180a6a3c858c20ab/x-45-25.pdf

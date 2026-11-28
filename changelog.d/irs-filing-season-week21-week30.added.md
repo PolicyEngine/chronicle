@@ -1,0 +1,1 @@
+Add the IRS filing-season cycle 21 and 30 tables for tax years 2024 and 2025. Each snapshot includes 116 published counts and amounts for all returns and 16 adjusted gross income bands, with the processing cutoff and original workbook cells.

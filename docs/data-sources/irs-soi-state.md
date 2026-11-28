@@ -344,15 +344,34 @@ lineage. The state-grain packages are:
   returns and AGI by state and AGI band
 - `soi-historic-table-2-state-eitc-2022`: EITC claims and amounts by state and
   number of qualifying children
-- `soi-congressional-district-2022`: national, state and congressional district
-  (117th Congress) totals; the 15 columns whose state twin
+- `soi-congressional-district-2022`: facts for the 436 congressional districts
+  of the 117th Congress; the 15 columns whose state twin
   `soi-historic-table-2-state-broad-2022` reads, under the twin's measure ids;
-  30 more columns without a state twin (deductions, credits and taxes such as
-  the standard deduction, self-employment tax, the education credits and total
-  tax liability), which nest in the file's own state rows;
-  and returns and AGI in the nine AGI classes of
-  `soi-historic-table-2-state-agi-2022`, for every state and district row
-  (chronicle#447)
+  30 more columns (deductions, credits and taxes such as the standard
+  deduction, self-employment tax, the education credits and total tax
+  liability); and returns and AGI in the nine AGI classes of
+  `soi-historic-table-2-state-agi-2022` (chronicle#447). The file's United
+  States row and state total rows give a fact only where no other package has
+  a fact with the same semantic key for the tax year, no Historic Table 2
+  package reads the same IRS column, and no Publication 1304 package gives the
+  same tax-form line (chronicle#449; Historic Table 2's files hold every
+  column of the totals that stay, and Publication 1304 prints twelve of the
+  national lines, in columns that no package reads yet): the IRS guide says
+  that state totals within the congressional data may not be comparable to the
+  state totals SOI publishes elsewhere, and points to Historic Table 2 for
+  complete state totals. A jurisdiction with one district has one row in the
+  file; that row is its district (`<state>_00`)
+- `soi-congressional-district-2023`: the same columns and nine AGI classes
+  for tax year 2023 (chronicle#449). Its districts are those of the 118th
+  Congress, as the TY2023 documentation guide says, so the package is its own
+  series: `5001800US` GEOIDs, `118th_congress` vintage and its own
+  `record_set_spec_id`s. The TY2023 state AGI package splits the top class
+  into $500,000 under $1,000,000 and $1,000,000 or more; the district file's
+  top class is the two together. The file's EITC total column (`A59660`)
+  adds the three-or-more-children amount in dollars to the other amounts in
+  thousands, so the package leaves it out until the IRS corrects the file and
+  reads the four EITC amounts by number of children as published
+  (`tests/test_chronicle_soi_geography_2023.py`).
 - `soi-county-2022`: county totals
 
 The legacy `db/etl_soi_state.py`, `db/etl_soi_credits.py`,

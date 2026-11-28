@@ -51,7 +51,9 @@ of the 38 IRS variables the national package shares with the
 congressional-district file (24 of 36 for the state package); the capital-gains
 pair was 2 of the same 12 exceptions in both. Their TY2022 state and US rows therefore share semantic
 keys, which adds 104 semantic-duplicate keys to the default bundle (51 states
-and the US, returns and amount). The values differ: the IRS guide for the
+and the US, returns and amount). Since chronicle#449 the district packages give
+no fact for a state or US total that another package gives, so these 104 keys
+are single again. The values differ: the IRS guide for the
 congressional-district file says its state totals "may not be comparable to
 State totals published elsewhere by SOI because of disclosure protection
 procedures or the exclusion of returns that did not match based on the ZIP
@@ -176,8 +178,10 @@ state and local income taxes) as `taxable_state_local_income_tax_refunds_*`, and
 
 **Consumer effect.** Consumers that select by `measure_id` see no change from
 the rename. The district file's state-total rows and the new Historic Table 2
-state rows publish the same lines 8a and 14 for the same states, so they share
-semantic fact keys, as the other columns of the two files already do.
+state rows publish the same lines 8a and 14 for the same states, so they
+shared semantic fact keys, as the other columns of the two files did. Since
+chronicle#449 the district packages give no fact for those state totals, and
+the Historic Table 2 state rows are the only facts with those keys.
 
 **Pinned by** `tests/test_chronicle_soi_doc_guide_columns.py`:
 `test_schedule_a_lines_shared_across_grains_carry_table_2_1_ids` holds every

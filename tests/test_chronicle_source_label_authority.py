@@ -30,6 +30,7 @@ from policyengine_chronicle.schema import validate_consumer_fact_row
         ),
         ("census-b01001-female-age-2023", 2023, "census", 468, None),
         ("jct-tax-expenditures-2024", 2024, "jct", 11, None),
+        ("jct-tax-expenditures-2025", 2025, "jct", 13, None),
     ],
 )
 def test_source_label_facts_retain_publisher_authority_in_artifacts(

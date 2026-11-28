@@ -129,9 +129,11 @@ def test_the_chosen_labels_are_the_registers_labels():
     register = json.loads(_REGISTER.read_text(encoding="utf-8"))["labels"]
 
     # 47 chosen by 2026-10-26, chronicle#407's soc2020_major_group=3 (SOC 2020's
-    # own name for the group), and the twelve chronicle#408 proposes for the
-    # Market Value Survey 2024 packages.
-    assert len(script.CHOSEN_LABELS) == 60
+    # own name for the group), the twelve chronicle#408 proposes for the
+    # Market Value Survey 2024 packages, and chronicle#449's three B01001 female
+    # age bands (age_15_to_17, age_18_to_19, age_22_to_24) in the register's
+    # "Age ..." wording.
+    assert len(script.CHOSEN_LABELS) == 67
     for (dimension_id, value_id), label in script.CHOSEN_LABELS.items():
         assert register[dimension_id][value_id] == label
 
@@ -169,10 +171,14 @@ def test_the_register_records_what_it_was_built_from():
         "census-acs5-b19025-county-2024": 2024,
         "census-acs5-b19051-county-2024": 2024,
         "census-acs5-b19061-county-2024": 2024,
+        "census-b01001-female-age-2024": 2024,
+        "census-b01001-female-age-2025": 2025,
+        "cms-aca-annual-effectuated-enrollment-2025": 2025,
         "cms-aca-effectuated-enrollment-2022": 2022,
         "cms-aca-oep-state-level": 2024,
         "cms-aca-oep-state-level-2022": 2022,
         "cms-aca-oep-state-level-2025": 2025,
+        "cms-aca-oep-state-level-2026": 2026,
         "ed-fsa-dl-portfolio-by-repayment-plan-fy2026-q3": 2026,
         "ed-fsa-portfolio-by-age-fy2026-q2": 2026,
         "ed-fsa-portfolio-by-debt-size-fy2026-q2": 2026,
@@ -181,6 +187,7 @@ def test_the_register_records_what_it_was_built_from():
         "ed-fsa-portfolio-summary-fy2026-q3": 2026,
         "jct-obbba-revenue-estimates-2025": 2026,
         "jct-tax-expenditures-2024": 2024,
+        "jct-tax-expenditures-2025": 2025,
     }
     assert sorted(sources["chosen_labels"]) == sorted(
         f"{dimension_id}={value_id}"

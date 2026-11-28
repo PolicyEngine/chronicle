@@ -3,6 +3,10 @@ package_id: bea-nipa-total-wages-salaries
 dataset: bea_nipa_total_wages_salaries
 source_page: https://www.bea.gov/open-data
 table: NIPA Annual Data Flat File
+registration_kind: raw_only
+notes: No package reads this file since chronicle#449. The four bea_nipa packages
+  that read it now read BEA's 2026-11-25 file in data/bea/nipa_total_wages_salaries_2026_11_25.
+  The entry stays as the record of the 2026-04-30 file that R2 holds.
 files:
   2024:
     filename: NipaDataA.txt

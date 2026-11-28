@@ -1,0 +1,20 @@
+source_id: cms_medicare
+package_id: cms-medicare-trustees-report-2026-part-b-premium-income
+dataset: cms_medicare_trustees_report_2026_part_b_premium_income
+source_page: https://www.cms.gov/oact/tr/2026
+table: 2026 Medicare Trustees Report Table III.C3
+notes: Publisher bytes unchanged from the 2026-11-26 fetch; the source URL returns
+  the report PDF itself. The bytes were uploaded to storage.r2 on 2026-11-26 with chronicle publish-raw and checked there with chronicle verify-raw.
+files:
+  2026:
+    filename: cms_2026_medicare_trustees_report.pdf
+    source_url: https://www.cms.gov/oact/tr/2026
+    sha256: ffa56b9137006872300b0346149eae1613d09a172b6ba118aad48e66dfc48fa8
+    size_bytes: 2844621
+    fetched_at: '2026-11-26T14:04:35+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/cms_medicare/cms-medicare-trustees-report-2026-part-b-premium-income/2026/ffa56b9137006872300b0346149eae1613d09a172b6ba118aad48e66dfc48fa8/cms_2026_medicare_trustees_report.pdf
+        uri: r2://ledger-raw/raw/cms_medicare/cms-medicare-trustees-report-2026-part-b-premium-income/2026/ffa56b9137006872300b0346149eae1613d09a172b6ba118aad48e66dfc48fa8/cms_2026_medicare_trustees_report.pdf

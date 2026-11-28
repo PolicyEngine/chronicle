@@ -5,12 +5,12 @@ dimension_labels:
   'federal_reserve.z1_series_code': 'Z.1 series'
 artifact:
   source_name: federal_reserve
-  source_table: Z.1 B.101 Households and nonprofit organizations
+  source_table: Z.1 S1M.b Households and nonprofit organizations
   resource_package: db
   resource_directory: data/federal_reserve/z1_household_net_worth_2026
   manifest: manifest.yaml
-  vintage: z1_2026_03_19
-  extracted_at: '2026-05-11'
+  vintage: z1_2026_06_11
+  extracted_at: '2026-11-27'
   extraction_method: html table parse from official Federal Reserve Z.1 release
   parser: html_tables_and_text
   artifact_year: 2026
@@ -35,6 +35,12 @@ record_sets:
     domain: household_balance_sheet
     groupby_dimension: federal_reserve.z1_series_code
     rows:
+      # Line 40 of S1M.b in the release of 2026-06-11, as it was of B.101
+      # before. From the release of 2026-09-11 the sector excludes domestic
+      # hedge funds from 2012:Q4 and holds hedge fund and private debt fund
+      # shares instead, and net worth moves to line 42
+      # (https://www.federalreserve.gov/releases/z1/20260911/introductory_text.htm).
+      # Those releases need their own review.
       - value_id: fl152090005
         label: Net worth (assets minus liabilities)
         ordinal: 0
@@ -71,5 +77,9 @@ record_sets:
         concept_authority: ledger-us
         unit: usd
         aggregation: sum
+        # Billions of dollars: the S1M.b heading on printed page 145 of the
+        # release PDF of 2026-06-11, registered raw-only in
+        # db/data/federal_reserve/z1_household_net_worth_raw_only. The HTML
+        # page prints no unit line.
         value_scale: 1000000000
         expected_cell_type: number

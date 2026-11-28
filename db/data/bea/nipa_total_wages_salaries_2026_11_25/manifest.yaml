@@ -1,0 +1,27 @@
+source_id: bea
+package_id: bea-nipa-total-wages-salaries-2026-11-25
+dataset: bea_nipa_total_wages_salaries_2026_11_25
+source_page: https://www.bea.gov/open-data
+table: NIPA Annual Data Flat File
+notes: Publisher bytes copied unchanged from the 2026-11-26 fetch. The server dated
+  the file 25 Nov 2026 13:30:02 GMT (Last-Modified), the day of BEA's GDP second estimate
+  for the third quarter of 2026. Against the 2026-04-30 file, series A034RC differs
+  for 2021 to 2025, the years BEA's 2026-09-30 annual update revised; its 1929-2020
+  values are unchanged. The bytes were uploaded to storage.r2 on 2026-11-26 with chronicle publish-raw and checked there with chronicle verify-raw.
+  Since chronicle#449 bea-nipa-total-wages-salaries, bea-nipa-personal-income-components,
+  bea-nipa-personal-income-disposition and bea-nipa-pension-contributions read this
+  file in place. The package_id above is the owner segment of the R2 key, the id the
+  file was first registered under; no package has that id now.
+files:
+  2024:
+    filename: NipaDataA.txt
+    source_url: https://apps.bea.gov/national/Release/TXT/NipaDataA.txt
+    sha256: ee5f1db60c96fa17784a6efe7c728f57a993187318b2989bea2fd296fd7f5b3c
+    size_bytes: 12094214
+    fetched_at: '2026-11-26T14:07:03+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/bea/bea-nipa-total-wages-salaries-2026-11-25/2024/ee5f1db60c96fa17784a6efe7c728f57a993187318b2989bea2fd296fd7f5b3c/NipaDataA.txt
+        uri: r2://ledger-raw/raw/bea/bea-nipa-total-wages-salaries-2026-11-25/2024/ee5f1db60c96fa17784a6efe7c728f57a993187318b2989bea2fd296fd7f5b3c/NipaDataA.txt

@@ -80,7 +80,7 @@ record_sets:
         source_concept: cbo.adjusted_gross_income
         concept_relation: source_label
         concept_authority: cbo
-        concept_evidence_url: https://www.cbo.gov/system/files/2026-02/51138-2026-02-Revenue-Projections.xlsx
+        concept_evidence_url: https://www.cbo.gov/system/files/2026-02/51138-2026-02-Revenue.xlsx
         concept_evidence_notes: >-
           CBO Revenue Projections, by Category, February 2026, sheet
           3.Individual Income Tax Details. CBO's income-by-source row is kept as
@@ -129,7 +129,7 @@ record_sets:
         source_concept: cbo.wages_and_salaries
         concept_relation: source_label
         concept_authority: cbo
-        concept_evidence_url: https://www.cbo.gov/system/files/2026-02/51138-2026-02-Revenue-Projections.xlsx
+        concept_evidence_url: https://www.cbo.gov/system/files/2026-02/51138-2026-02-Revenue.xlsx
         concept_evidence_notes: >-
           CBO Revenue Projections, by Category, February 2026, sheet
           3.Individual Income Tax Details. This is a CBO tax-return projection
@@ -179,7 +179,7 @@ record_sets:
         source_concept: cbo.taxable_interest_and_ordinary_dividends_excluding_qualified_dividends
         concept_relation: source_label
         concept_authority: cbo
-        concept_evidence_url: https://www.cbo.gov/system/files/2026-02/51138-2026-02-Revenue-Projections.xlsx
+        concept_evidence_url: https://www.cbo.gov/system/files/2026-02/51138-2026-02-Revenue.xlsx
         concept_evidence_notes: >-
           CBO Revenue Projections, by Category, February 2026, sheet
           3.Individual Income Tax Details. This row excludes qualified
@@ -228,7 +228,7 @@ record_sets:
         source_concept: cbo.qualified_dividend_income
         concept_relation: source_label
         concept_authority: cbo
-        concept_evidence_url: https://www.cbo.gov/system/files/2026-02/51138-2026-02-Revenue-Projections.xlsx
+        concept_evidence_url: https://www.cbo.gov/system/files/2026-02/51138-2026-02-Revenue.xlsx
         concept_evidence_notes: >-
           CBO Revenue Projections, by Category, February 2026, sheet
           3.Individual Income Tax Details. Qualified dividend income is reported
@@ -276,7 +276,7 @@ record_sets:
         source_concept: cbo.net_capital_gain
         concept_relation: source_label
         concept_authority: cbo
-        concept_evidence_url: https://www.cbo.gov/system/files/2026-02/51138-2026-02-Revenue-Projections.xlsx
+        concept_evidence_url: https://www.cbo.gov/system/files/2026-02/51138-2026-02-Revenue.xlsx
         concept_evidence_notes: >-
           CBO Revenue Projections, by Category, February 2026, sheet
           3.Individual Income Tax Details. This tax-return projection concept is
@@ -327,7 +327,7 @@ record_sets:
         source_concept: cbo.net_business_income
         concept_relation: source_label
         concept_authority: cbo
-        concept_evidence_url: https://www.cbo.gov/system/files/2026-02/51138-2026-02-Revenue-Projections.xlsx
+        concept_evidence_url: https://www.cbo.gov/system/files/2026-02/51138-2026-02-Revenue.xlsx
         concept_evidence_notes: >-
           CBO Revenue Projections, by Category, February 2026, sheet
           3.Individual Income Tax Details. CBO net business income is broader

@@ -1,0 +1,25 @@
+source_id: census_acs
+package_id: census-b01001-female-age-2025
+dataset: census_acs_b01001_female_age_2025
+source_page: https://api.census.gov/data/2025/acs/acs1.html
+vintage: 2025 ACS 1-year detailed tables
+table: B01001 Sex by Age
+notes: Publisher bytes saved unchanged from the 2026-11-26 API response. It holds
+  52 rows, for the 50 states, DC and Puerto Rico (state 72). The request carried an
+  API key, which source_url omits. The bytes were uploaded to storage.r2 on 2026-11-26 with chronicle publish-raw and checked there with chronicle verify-raw.
+files:
+  2025:
+    filename: census_b01001_female_15_44_2025.json
+    source_url: https://api.census.gov/data/2025/acs/acs1?get=B01001_030E,B01001_031E,B01001_032E,B01001_033E,B01001_034E,B01001_035E,B01001_036E,B01001_037E,B01001_038E&for=state:*
+    sha256: 39b21206c45cf5b37ef0e4381d8cb17b8cb9dd6111bf7dd7667c4de07979a0a5
+    size_bytes: 4468
+    fetched_at: '2026-11-26'
+    source_table: ACS 2025 1-year detailed table B01001 female age bands 15-44 by
+      state
+    year: 2025
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/census_acs/census-b01001-female-age-2025/2025/39b21206c45cf5b37ef0e4381d8cb17b8cb9dd6111bf7dd7667c4de07979a0a5/census_b01001_female_15_44_2025.json
+        uri: r2://ledger-raw/raw/census_acs/census-b01001-female-age-2025/2025/39b21206c45cf5b37ef0e4381d8cb17b8cb9dd6111bf7dd7667c4de07979a0a5/census_b01001_female_15_44_2025.json

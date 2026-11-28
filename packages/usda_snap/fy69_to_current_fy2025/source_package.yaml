@@ -1,0 +1,4007 @@
+schema_version: ledger.source_package.v1
+package_id: usda-snap-fy69-to-current-fy2025
+label: USDA FNS SNAP FY69 to current archive FY25 national and state summary
+dimension_labels:
+  'usda_snap.state_or_territory': 'State or territory'
+  'usda_snap.summary_scope': 'SNAP summary scope'
+artifact:
+  source_name: usda_snap
+  source_table: SNAP Monthly State Participation and Benefit Summary FY69 to current
+  resource_package: db
+  resource_directory: data/usda_snap/fy69_to_current_fy2025
+  manifest: manifest.yaml
+  vintage: fiscal_year_2025
+  extracted_at: '2026-11-26'
+  extraction_method: ZIP archive XLSX member whole-workbook used-range cell parse
+  parser: zip_xlsx_used_range
+  archive_member: FY25.xlsx
+  artifact_year: 2025
+record_sets:
+- record_set_id: usda_snap.fy2025.national_average_monthly_households
+  provenance_class: administrative
+  record_set_spec_id: usda_snap.national_average_monthly_households.v1
+  source_record_id_prefix: usda_snap.fy2025.national_average_monthly_households
+  sheet_name: US Summary
+  period_type: fiscal_year
+  period: '2025'
+  geography_id: 0100000US
+  geography_level: country
+  geography_name: United States
+  geography_vintage: current
+  entity: household
+  entity_role: snap_household
+  domain: supplemental_nutrition_assistance_program
+  groupby_dimension: usda_snap.summary_scope
+  rows:
+  - value_id: national_total
+    label: US Summary total
+    ordinal: 0
+    row_number: 21
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 8
+      expected_value: US Summary
+      label: geography block
+    table_record_kind: total
+  measures:
+  - measure_id: average_monthly_households
+    label: Average monthly households
+    ordinal: 0
+    column: B
+    source_column_id: average_monthly_households
+    expected_column_header_row: 7
+    expected_column_header: Household
+    concept: usda_snap.average_monthly_households
+    unit: count
+    aggregation: mean
+    expected_cell_type: number
+- record_set_id: usda_snap.fy2025.national_average_monthly_persons
+  provenance_class: administrative
+  record_set_spec_id: usda_snap.national_average_monthly_persons.v1
+  source_record_id_prefix: usda_snap.fy2025.national_average_monthly_persons
+  sheet_name: US Summary
+  period_type: fiscal_year
+  period: '2025'
+  geography_id: 0100000US
+  geography_level: country
+  geography_name: United States
+  geography_vintage: current
+  entity: person
+  entity_role: snap_participant
+  domain: supplemental_nutrition_assistance_program
+  groupby_dimension: usda_snap.summary_scope
+  rows:
+  - value_id: national_total
+    label: US Summary total
+    ordinal: 0
+    row_number: 21
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 8
+      expected_value: US Summary
+      label: geography block
+    table_record_kind: total
+  measures:
+  - measure_id: average_monthly_persons
+    label: Average monthly persons
+    ordinal: 0
+    column: C
+    source_column_id: average_monthly_persons
+    expected_column_header_row: 7
+    expected_column_header: Persons
+    concept: usda_snap.average_monthly_persons
+    unit: count
+    aggregation: mean
+    expected_cell_type: number
+  - measure_id: average_monthly_benefit_per_person
+    label: Average monthly benefit per person
+    ordinal: 1
+    column: F
+    source_column_id: average_monthly_benefit_per_person
+    expected_column_header_row: 7
+    expected_column_header: Persons
+    concept: usda_snap.average_monthly_benefit_per_person
+    unit: usd_per_month
+    aggregation: mean
+    expected_cell_type: number
+- record_set_id: usda_snap.fy2025.national_benefits
+  provenance_class: administrative
+  record_set_spec_id: usda_snap.national_benefits.v1
+  source_record_id_prefix: usda_snap.fy2025.national_benefits
+  sheet_name: US Summary
+  period_type: fiscal_year
+  period: '2025'
+  geography_id: 0100000US
+  geography_level: country
+  geography_name: United States
+  geography_vintage: current
+  entity: government
+  entity_role: snap_program
+  domain: supplemental_nutrition_assistance_program
+  groupby_dimension: usda_snap.summary_scope
+  rows:
+  - value_id: national_total
+    label: US Summary total
+    ordinal: 0
+    row_number: 21
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 8
+      expected_value: US Summary
+      label: geography block
+    table_record_kind: total
+  measures:
+  - measure_id: total_benefits
+    label: Total benefits
+    ordinal: 0
+    column: D
+    source_column_id: total_benefits
+    expected_column_header_row: 6
+    expected_column_header: Cost
+    concept: usda_snap.total_benefits
+    unit: usd
+    aggregation: sum
+    expected_cell_type: number
+- record_set_id: usda_snap.fy2025.state_average_monthly_households.nero
+  provenance_class: administrative
+  record_set_spec_id: usda_snap.state_average_monthly_households.v1
+  source_record_id_prefix: usda_snap.fy2025.state_average_monthly_households.nero
+  sheet_name: NERO
+  period_type: fiscal_year
+  period: '2025'
+  geography_id: 0100000US
+  geography_level: country
+  geography_name: United States
+  geography_vintage: current
+  domain: supplemental_nutrition_assistance_program
+  groupby_dimension: usda_snap.state_or_territory
+  entity: household
+  entity_role: snap_household
+  rows:
+  - value_id: ct
+    label: Connecticut
+    ordinal: 0
+    row_number: 21
+    geography_id: 0400000US09
+    geography_level: state
+    geography_name: Connecticut
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 8
+      expected_value: Connecticut
+      label: geography block
+    table_record_kind: total
+  - value_id: me
+    label: Maine
+    ordinal: 1
+    row_number: 36
+    geography_id: 0400000US23
+    geography_level: state
+    geography_name: Maine
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 23
+      expected_value: Maine
+      label: geography block
+    table_record_kind: total
+  - value_id: ma
+    label: Massachusetts
+    ordinal: 2
+    row_number: 51
+    geography_id: 0400000US25
+    geography_level: state
+    geography_name: Massachusetts
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 38
+      expected_value: Massachusetts
+      label: geography block
+    table_record_kind: total
+  - value_id: nh
+    label: New Hampshire
+    ordinal: 3
+    row_number: 66
+    geography_id: 0400000US33
+    geography_level: state
+    geography_name: New Hampshire
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 53
+      expected_value: New Hampshire
+      label: geography block
+    table_record_kind: total
+  - value_id: ny
+    label: New York
+    ordinal: 4
+    row_number: 81
+    geography_id: 0400000US36
+    geography_level: state
+    geography_name: New York
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 68
+      expected_value: New York
+      label: geography block
+    table_record_kind: total
+  - value_id: ri
+    label: Rhode Island
+    ordinal: 5
+    row_number: 96
+    geography_id: 0400000US44
+    geography_level: state
+    geography_name: Rhode Island
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 83
+      expected_value: Rhode Island
+      label: geography block
+    table_record_kind: total
+  - value_id: vt
+    label: Vermont
+    ordinal: 6
+    row_number: 111
+    geography_id: 0400000US50
+    geography_level: state
+    geography_name: Vermont
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 98
+      expected_value: Vermont
+      label: geography block
+    table_record_kind: total
+  - value_id: vi
+    label: Virgin Islands
+    ordinal: 7
+    row_number: 126
+    geography_id: 0400000US78
+    geography_level: state
+    geography_name: Virgin Islands
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 113
+      expected_value: Virgin Islands
+      label: geography block
+    table_record_kind: total
+  measures:
+  - measure_id: average_monthly_households
+    label: Average monthly households
+    ordinal: 0
+    column: B
+    source_column_id: average_monthly_households
+    expected_column_header_row: 7
+    expected_column_header: Household
+    concept: usda_snap.average_monthly_households
+    unit: count
+    aggregation: mean
+    expected_cell_type: number
+- record_set_id: usda_snap.fy2025.state_average_monthly_persons.nero
+  provenance_class: administrative
+  record_set_spec_id: usda_snap.state_average_monthly_persons.v1
+  source_record_id_prefix: usda_snap.fy2025.state_average_monthly_persons.nero
+  sheet_name: NERO
+  period_type: fiscal_year
+  period: '2025'
+  geography_id: 0100000US
+  geography_level: country
+  geography_name: United States
+  geography_vintage: current
+  domain: supplemental_nutrition_assistance_program
+  groupby_dimension: usda_snap.state_or_territory
+  entity: person
+  entity_role: snap_participant
+  rows:
+  - value_id: ct
+    label: Connecticut
+    ordinal: 0
+    row_number: 21
+    geography_id: 0400000US09
+    geography_level: state
+    geography_name: Connecticut
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 8
+      expected_value: Connecticut
+      label: geography block
+    table_record_kind: total
+  - value_id: me
+    label: Maine
+    ordinal: 1
+    row_number: 36
+    geography_id: 0400000US23
+    geography_level: state
+    geography_name: Maine
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 23
+      expected_value: Maine
+      label: geography block
+    table_record_kind: total
+  - value_id: ma
+    label: Massachusetts
+    ordinal: 2
+    row_number: 51
+    geography_id: 0400000US25
+    geography_level: state
+    geography_name: Massachusetts
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 38
+      expected_value: Massachusetts
+      label: geography block
+    table_record_kind: total
+  - value_id: nh
+    label: New Hampshire
+    ordinal: 3
+    row_number: 66
+    geography_id: 0400000US33
+    geography_level: state
+    geography_name: New Hampshire
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 53
+      expected_value: New Hampshire
+      label: geography block
+    table_record_kind: total
+  - value_id: ny
+    label: New York
+    ordinal: 4
+    row_number: 81
+    geography_id: 0400000US36
+    geography_level: state
+    geography_name: New York
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 68
+      expected_value: New York
+      label: geography block
+    table_record_kind: total
+  - value_id: ri
+    label: Rhode Island
+    ordinal: 5
+    row_number: 96
+    geography_id: 0400000US44
+    geography_level: state
+    geography_name: Rhode Island
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 83
+      expected_value: Rhode Island
+      label: geography block
+    table_record_kind: total
+  - value_id: vt
+    label: Vermont
+    ordinal: 6
+    row_number: 111
+    geography_id: 0400000US50
+    geography_level: state
+    geography_name: Vermont
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 98
+      expected_value: Vermont
+      label: geography block
+    table_record_kind: total
+  - value_id: vi
+    label: Virgin Islands
+    ordinal: 7
+    row_number: 126
+    geography_id: 0400000US78
+    geography_level: state
+    geography_name: Virgin Islands
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 113
+      expected_value: Virgin Islands
+      label: geography block
+    table_record_kind: total
+  measures:
+  - measure_id: average_monthly_persons
+    label: Average monthly persons
+    ordinal: 0
+    column: C
+    source_column_id: average_monthly_persons
+    expected_column_header_row: 7
+    expected_column_header: Persons
+    concept: usda_snap.average_monthly_persons
+    unit: count
+    aggregation: mean
+    expected_cell_type: number
+  - measure_id: average_monthly_benefit_per_person
+    label: Average monthly benefit per person
+    ordinal: 1
+    column: F
+    source_column_id: average_monthly_benefit_per_person
+    expected_column_header_row: 7
+    expected_column_header: Persons
+    concept: usda_snap.average_monthly_benefit_per_person
+    unit: usd_per_month
+    aggregation: mean
+    expected_cell_type: number
+- record_set_id: usda_snap.fy2025.state_benefits.nero
+  provenance_class: administrative
+  record_set_spec_id: usda_snap.state_benefits.v1
+  source_record_id_prefix: usda_snap.fy2025.state_benefits.nero
+  sheet_name: NERO
+  period_type: fiscal_year
+  period: '2025'
+  geography_id: 0100000US
+  geography_level: country
+  geography_name: United States
+  geography_vintage: current
+  domain: supplemental_nutrition_assistance_program
+  groupby_dimension: usda_snap.state_or_territory
+  entity: government
+  entity_role: snap_program
+  rows:
+  - value_id: ct
+    label: Connecticut
+    ordinal: 0
+    row_number: 21
+    geography_id: 0400000US09
+    geography_level: state
+    geography_name: Connecticut
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 8
+      expected_value: Connecticut
+      label: geography block
+    table_record_kind: total
+  - value_id: me
+    label: Maine
+    ordinal: 1
+    row_number: 36
+    geography_id: 0400000US23
+    geography_level: state
+    geography_name: Maine
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 23
+      expected_value: Maine
+      label: geography block
+    table_record_kind: total
+  - value_id: ma
+    label: Massachusetts
+    ordinal: 2
+    row_number: 51
+    geography_id: 0400000US25
+    geography_level: state
+    geography_name: Massachusetts
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 38
+      expected_value: Massachusetts
+      label: geography block
+    table_record_kind: total
+  - value_id: nh
+    label: New Hampshire
+    ordinal: 3
+    row_number: 66
+    geography_id: 0400000US33
+    geography_level: state
+    geography_name: New Hampshire
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 53
+      expected_value: New Hampshire
+      label: geography block
+    table_record_kind: total
+  - value_id: ny
+    label: New York
+    ordinal: 4
+    row_number: 81
+    geography_id: 0400000US36
+    geography_level: state
+    geography_name: New York
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 68
+      expected_value: New York
+      label: geography block
+    table_record_kind: total
+  - value_id: ri
+    label: Rhode Island
+    ordinal: 5
+    row_number: 96
+    geography_id: 0400000US44
+    geography_level: state
+    geography_name: Rhode Island
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 83
+      expected_value: Rhode Island
+      label: geography block
+    table_record_kind: total
+  - value_id: vt
+    label: Vermont
+    ordinal: 6
+    row_number: 111
+    geography_id: 0400000US50
+    geography_level: state
+    geography_name: Vermont
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 98
+      expected_value: Vermont
+      label: geography block
+    table_record_kind: total
+  - value_id: vi
+    label: Virgin Islands
+    ordinal: 7
+    row_number: 126
+    geography_id: 0400000US78
+    geography_level: state
+    geography_name: Virgin Islands
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 113
+      expected_value: Virgin Islands
+      label: geography block
+    table_record_kind: total
+  measures:
+  - measure_id: total_benefits
+    label: Total benefits
+    ordinal: 0
+    column: D
+    source_column_id: total_benefits
+    expected_column_header_row: 6
+    expected_column_header: Cost
+    concept: usda_snap.total_benefits
+    unit: usd
+    aggregation: sum
+    expected_cell_type: number
+- record_set_id: usda_snap.fy2025.state_average_monthly_households.maro
+  provenance_class: administrative
+  record_set_spec_id: usda_snap.state_average_monthly_households.v1
+  source_record_id_prefix: usda_snap.fy2025.state_average_monthly_households.maro
+  sheet_name: MARO
+  period_type: fiscal_year
+  period: '2025'
+  geography_id: 0100000US
+  geography_level: country
+  geography_name: United States
+  geography_vintage: current
+  domain: supplemental_nutrition_assistance_program
+  groupby_dimension: usda_snap.state_or_territory
+  entity: household
+  entity_role: snap_household
+  rows:
+  - value_id: de
+    label: Delaware
+    ordinal: 0
+    row_number: 21
+    geography_id: 0400000US10
+    geography_level: state
+    geography_name: Delaware
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 8
+      expected_value: Delaware
+      label: geography block
+    table_record_kind: total
+  - value_id: dc
+    label: District of Columbia
+    ordinal: 1
+    row_number: 36
+    geography_id: 0400000US11
+    geography_level: state
+    geography_name: District of Columbia
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 23
+      expected_value: District of Columbia
+      label: geography block
+    table_record_kind: total
+  - value_id: md
+    label: Maryland
+    ordinal: 2
+    row_number: 51
+    geography_id: 0400000US24
+    geography_level: state
+    geography_name: Maryland
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 38
+      expected_value: Maryland
+      label: geography block
+    table_record_kind: total
+  - value_id: nj
+    label: New Jersey
+    ordinal: 3
+    row_number: 66
+    geography_id: 0400000US34
+    geography_level: state
+    geography_name: New Jersey
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 53
+      expected_value: New Jersey
+      label: geography block
+    table_record_kind: total
+  - value_id: pa
+    label: Pennsylvania
+    ordinal: 4
+    row_number: 81
+    geography_id: 0400000US42
+    geography_level: state
+    geography_name: Pennsylvania
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 68
+      expected_value: Pennsylvania
+      label: geography block
+    table_record_kind: total
+  - value_id: va
+    label: Virginia
+    ordinal: 5
+    row_number: 111
+    geography_id: 0400000US51
+    geography_level: state
+    geography_name: Virginia
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 98
+      expected_value: Virginia
+      label: geography block
+    table_record_kind: total
+  - value_id: wv
+    label: West Virginia
+    ordinal: 6
+    row_number: 126
+    geography_id: 0400000US54
+    geography_level: state
+    geography_name: West Virginia
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 113
+      expected_value: West Virginia
+      label: geography block
+    table_record_kind: total
+  measures:
+  - measure_id: average_monthly_households
+    label: Average monthly households
+    ordinal: 0
+    column: B
+    source_column_id: average_monthly_households
+    expected_column_header_row: 7
+    expected_column_header: Household
+    concept: usda_snap.average_monthly_households
+    unit: count
+    aggregation: mean
+    expected_cell_type: number
+- record_set_id: usda_snap.fy2025.state_average_monthly_persons.maro
+  provenance_class: administrative
+  record_set_spec_id: usda_snap.state_average_monthly_persons.v1
+  source_record_id_prefix: usda_snap.fy2025.state_average_monthly_persons.maro
+  sheet_name: MARO
+  period_type: fiscal_year
+  period: '2025'
+  geography_id: 0100000US
+  geography_level: country
+  geography_name: United States
+  geography_vintage: current
+  domain: supplemental_nutrition_assistance_program
+  groupby_dimension: usda_snap.state_or_territory
+  entity: person
+  entity_role: snap_participant
+  rows:
+  - value_id: de
+    label: Delaware
+    ordinal: 0
+    row_number: 21
+    geography_id: 0400000US10
+    geography_level: state
+    geography_name: Delaware
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 8
+      expected_value: Delaware
+      label: geography block
+    table_record_kind: total
+  - value_id: dc
+    label: District of Columbia
+    ordinal: 1
+    row_number: 36
+    geography_id: 0400000US11
+    geography_level: state
+    geography_name: District of Columbia
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 23
+      expected_value: District of Columbia
+      label: geography block
+    table_record_kind: total
+  - value_id: md
+    label: Maryland
+    ordinal: 2
+    row_number: 51
+    geography_id: 0400000US24
+    geography_level: state
+    geography_name: Maryland
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 38
+      expected_value: Maryland
+      label: geography block
+    table_record_kind: total
+  - value_id: nj
+    label: New Jersey
+    ordinal: 3
+    row_number: 66
+    geography_id: 0400000US34
+    geography_level: state
+    geography_name: New Jersey
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 53
+      expected_value: New Jersey
+      label: geography block
+    table_record_kind: total
+  - value_id: pa
+    label: Pennsylvania
+    ordinal: 4
+    row_number: 81
+    geography_id: 0400000US42
+    geography_level: state
+    geography_name: Pennsylvania
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 68
+      expected_value: Pennsylvania
+      label: geography block
+    table_record_kind: total
+  - value_id: va
+    label: Virginia
+    ordinal: 5
+    row_number: 111
+    geography_id: 0400000US51
+    geography_level: state
+    geography_name: Virginia
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 98
+      expected_value: Virginia
+      label: geography block
+    table_record_kind: total
+  - value_id: wv
+    label: West Virginia
+    ordinal: 6
+    row_number: 126
+    geography_id: 0400000US54
+    geography_level: state
+    geography_name: West Virginia
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 113
+      expected_value: West Virginia
+      label: geography block
+    table_record_kind: total
+  measures:
+  - measure_id: average_monthly_persons
+    label: Average monthly persons
+    ordinal: 0
+    column: C
+    source_column_id: average_monthly_persons
+    expected_column_header_row: 7
+    expected_column_header: Persons
+    concept: usda_snap.average_monthly_persons
+    unit: count
+    aggregation: mean
+    expected_cell_type: number
+  - measure_id: average_monthly_benefit_per_person
+    label: Average monthly benefit per person
+    ordinal: 1
+    column: F
+    source_column_id: average_monthly_benefit_per_person
+    expected_column_header_row: 7
+    expected_column_header: Persons
+    concept: usda_snap.average_monthly_benefit_per_person
+    unit: usd_per_month
+    aggregation: mean
+    expected_cell_type: number
+- record_set_id: usda_snap.fy2025.state_benefits.maro
+  provenance_class: administrative
+  record_set_spec_id: usda_snap.state_benefits.v1
+  source_record_id_prefix: usda_snap.fy2025.state_benefits.maro
+  sheet_name: MARO
+  period_type: fiscal_year
+  period: '2025'
+  geography_id: 0100000US
+  geography_level: country
+  geography_name: United States
+  geography_vintage: current
+  domain: supplemental_nutrition_assistance_program
+  groupby_dimension: usda_snap.state_or_territory
+  entity: government
+  entity_role: snap_program
+  rows:
+  - value_id: de
+    label: Delaware
+    ordinal: 0
+    row_number: 21
+    geography_id: 0400000US10
+    geography_level: state
+    geography_name: Delaware
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 8
+      expected_value: Delaware
+      label: geography block
+    table_record_kind: total
+  - value_id: dc
+    label: District of Columbia
+    ordinal: 1
+    row_number: 36
+    geography_id: 0400000US11
+    geography_level: state
+    geography_name: District of Columbia
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 23
+      expected_value: District of Columbia
+      label: geography block
+    table_record_kind: total
+  - value_id: md
+    label: Maryland
+    ordinal: 2
+    row_number: 51
+    geography_id: 0400000US24
+    geography_level: state
+    geography_name: Maryland
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 38
+      expected_value: Maryland
+      label: geography block
+    table_record_kind: total
+  - value_id: nj
+    label: New Jersey
+    ordinal: 3
+    row_number: 66
+    geography_id: 0400000US34
+    geography_level: state
+    geography_name: New Jersey
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 53
+      expected_value: New Jersey
+      label: geography block
+    table_record_kind: total
+  - value_id: pa
+    label: Pennsylvania
+    ordinal: 4
+    row_number: 81
+    geography_id: 0400000US42
+    geography_level: state
+    geography_name: Pennsylvania
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 68
+      expected_value: Pennsylvania
+      label: geography block
+    table_record_kind: total
+  - value_id: va
+    label: Virginia
+    ordinal: 5
+    row_number: 111
+    geography_id: 0400000US51
+    geography_level: state
+    geography_name: Virginia
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 98
+      expected_value: Virginia
+      label: geography block
+    table_record_kind: total
+  - value_id: wv
+    label: West Virginia
+    ordinal: 6
+    row_number: 126
+    geography_id: 0400000US54
+    geography_level: state
+    geography_name: West Virginia
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 113
+      expected_value: West Virginia
+      label: geography block
+    table_record_kind: total
+  measures:
+  - measure_id: total_benefits
+    label: Total benefits
+    ordinal: 0
+    column: D
+    source_column_id: total_benefits
+    expected_column_header_row: 6
+    expected_column_header: Cost
+    concept: usda_snap.total_benefits
+    unit: usd
+    aggregation: sum
+    expected_cell_type: number
+- record_set_id: usda_snap.fy2025.state_average_monthly_households.sero
+  provenance_class: administrative
+  record_set_spec_id: usda_snap.state_average_monthly_households.v1
+  source_record_id_prefix: usda_snap.fy2025.state_average_monthly_households.sero
+  sheet_name: SERO
+  period_type: fiscal_year
+  period: '2025'
+  geography_id: 0100000US
+  geography_level: country
+  geography_name: United States
+  geography_vintage: current
+  domain: supplemental_nutrition_assistance_program
+  groupby_dimension: usda_snap.state_or_territory
+  entity: household
+  entity_role: snap_household
+  rows:
+  - value_id: al
+    label: Alabama
+    ordinal: 0
+    row_number: 21
+    geography_id: 0400000US01
+    geography_level: state
+    geography_name: Alabama
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 8
+      expected_value: Alabama
+      label: geography block
+    table_record_kind: total
+  - value_id: fl
+    label: Florida
+    ordinal: 1
+    row_number: 36
+    geography_id: 0400000US12
+    geography_level: state
+    geography_name: Florida
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 23
+      expected_value: Florida
+      label: geography block
+    table_record_kind: total
+  - value_id: ga
+    label: Georgia
+    ordinal: 2
+    row_number: 51
+    geography_id: 0400000US13
+    geography_level: state
+    geography_name: Georgia
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 38
+      expected_value: Georgia
+      label: geography block
+    table_record_kind: total
+  - value_id: ky
+    label: Kentucky
+    ordinal: 3
+    row_number: 66
+    geography_id: 0400000US21
+    geography_level: state
+    geography_name: Kentucky
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 53
+      expected_value: Kentucky
+      label: geography block
+    table_record_kind: total
+  - value_id: ms
+    label: Mississippi
+    ordinal: 4
+    row_number: 81
+    geography_id: 0400000US28
+    geography_level: state
+    geography_name: Mississippi
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 68
+      expected_value: Mississippi
+      label: geography block
+    table_record_kind: total
+  - value_id: nc
+    label: North Carolina
+    ordinal: 5
+    row_number: 96
+    geography_id: 0400000US37
+    geography_level: state
+    geography_name: North Carolina
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 83
+      expected_value: North Carolina
+      label: geography block
+    table_record_kind: total
+  - value_id: sc
+    label: South Carolina
+    ordinal: 6
+    row_number: 111
+    geography_id: 0400000US45
+    geography_level: state
+    geography_name: South Carolina
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 98
+      expected_value: South Carolina
+      label: geography block
+    table_record_kind: total
+  - value_id: tn
+    label: Tennessee
+    ordinal: 7
+    row_number: 126
+    geography_id: 0400000US47
+    geography_level: state
+    geography_name: Tennessee
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 113
+      expected_value: Tennessee
+      label: geography block
+    table_record_kind: total
+  measures:
+  - measure_id: average_monthly_households
+    label: Average monthly households
+    ordinal: 0
+    column: B
+    source_column_id: average_monthly_households
+    expected_column_header_row: 7
+    expected_column_header: Household
+    concept: usda_snap.average_monthly_households
+    unit: count
+    aggregation: mean
+    expected_cell_type: number
+- record_set_id: usda_snap.fy2025.state_average_monthly_persons.sero
+  provenance_class: administrative
+  record_set_spec_id: usda_snap.state_average_monthly_persons.v1
+  source_record_id_prefix: usda_snap.fy2025.state_average_monthly_persons.sero
+  sheet_name: SERO
+  period_type: fiscal_year
+  period: '2025'
+  geography_id: 0100000US
+  geography_level: country
+  geography_name: United States
+  geography_vintage: current
+  domain: supplemental_nutrition_assistance_program
+  groupby_dimension: usda_snap.state_or_territory
+  entity: person
+  entity_role: snap_participant
+  rows:
+  - value_id: al
+    label: Alabama
+    ordinal: 0
+    row_number: 21
+    geography_id: 0400000US01
+    geography_level: state
+    geography_name: Alabama
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 8
+      expected_value: Alabama
+      label: geography block
+    table_record_kind: total
+  - value_id: fl
+    label: Florida
+    ordinal: 1
+    row_number: 36
+    geography_id: 0400000US12
+    geography_level: state
+    geography_name: Florida
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 23
+      expected_value: Florida
+      label: geography block
+    table_record_kind: total
+  - value_id: ga
+    label: Georgia
+    ordinal: 2
+    row_number: 51
+    geography_id: 0400000US13
+    geography_level: state
+    geography_name: Georgia
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 38
+      expected_value: Georgia
+      label: geography block
+    table_record_kind: total
+  - value_id: ky
+    label: Kentucky
+    ordinal: 3
+    row_number: 66
+    geography_id: 0400000US21
+    geography_level: state
+    geography_name: Kentucky
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 53
+      expected_value: Kentucky
+      label: geography block
+    table_record_kind: total
+  - value_id: ms
+    label: Mississippi
+    ordinal: 4
+    row_number: 81
+    geography_id: 0400000US28
+    geography_level: state
+    geography_name: Mississippi
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 68
+      expected_value: Mississippi
+      label: geography block
+    table_record_kind: total
+  - value_id: nc
+    label: North Carolina
+    ordinal: 5
+    row_number: 96
+    geography_id: 0400000US37
+    geography_level: state
+    geography_name: North Carolina
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 83
+      expected_value: North Carolina
+      label: geography block
+    table_record_kind: total
+  - value_id: sc
+    label: South Carolina
+    ordinal: 6
+    row_number: 111
+    geography_id: 0400000US45
+    geography_level: state
+    geography_name: South Carolina
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 98
+      expected_value: South Carolina
+      label: geography block
+    table_record_kind: total
+  - value_id: tn
+    label: Tennessee
+    ordinal: 7
+    row_number: 126
+    geography_id: 0400000US47
+    geography_level: state
+    geography_name: Tennessee
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 113
+      expected_value: Tennessee
+      label: geography block
+    table_record_kind: total
+  measures:
+  - measure_id: average_monthly_persons
+    label: Average monthly persons
+    ordinal: 0
+    column: C
+    source_column_id: average_monthly_persons
+    expected_column_header_row: 7
+    expected_column_header: Persons
+    concept: usda_snap.average_monthly_persons
+    unit: count
+    aggregation: mean
+    expected_cell_type: number
+  - measure_id: average_monthly_benefit_per_person
+    label: Average monthly benefit per person
+    ordinal: 1
+    column: F
+    source_column_id: average_monthly_benefit_per_person
+    expected_column_header_row: 7
+    expected_column_header: Persons
+    concept: usda_snap.average_monthly_benefit_per_person
+    unit: usd_per_month
+    aggregation: mean
+    expected_cell_type: number
+- record_set_id: usda_snap.fy2025.state_benefits.sero
+  provenance_class: administrative
+  record_set_spec_id: usda_snap.state_benefits.v1
+  source_record_id_prefix: usda_snap.fy2025.state_benefits.sero
+  sheet_name: SERO
+  period_type: fiscal_year
+  period: '2025'
+  geography_id: 0100000US
+  geography_level: country
+  geography_name: United States
+  geography_vintage: current
+  domain: supplemental_nutrition_assistance_program
+  groupby_dimension: usda_snap.state_or_territory
+  entity: government
+  entity_role: snap_program
+  rows:
+  - value_id: al
+    label: Alabama
+    ordinal: 0
+    row_number: 21
+    geography_id: 0400000US01
+    geography_level: state
+    geography_name: Alabama
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 8
+      expected_value: Alabama
+      label: geography block
+    table_record_kind: total
+  - value_id: fl
+    label: Florida
+    ordinal: 1
+    row_number: 36
+    geography_id: 0400000US12
+    geography_level: state
+    geography_name: Florida
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 23
+      expected_value: Florida
+      label: geography block
+    table_record_kind: total
+  - value_id: ga
+    label: Georgia
+    ordinal: 2
+    row_number: 51
+    geography_id: 0400000US13
+    geography_level: state
+    geography_name: Georgia
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 38
+      expected_value: Georgia
+      label: geography block
+    table_record_kind: total
+  - value_id: ky
+    label: Kentucky
+    ordinal: 3
+    row_number: 66
+    geography_id: 0400000US21
+    geography_level: state
+    geography_name: Kentucky
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 53
+      expected_value: Kentucky
+      label: geography block
+    table_record_kind: total
+  - value_id: ms
+    label: Mississippi
+    ordinal: 4
+    row_number: 81
+    geography_id: 0400000US28
+    geography_level: state
+    geography_name: Mississippi
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 68
+      expected_value: Mississippi
+      label: geography block
+    table_record_kind: total
+  - value_id: nc
+    label: North Carolina
+    ordinal: 5
+    row_number: 96
+    geography_id: 0400000US37
+    geography_level: state
+    geography_name: North Carolina
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 83
+      expected_value: North Carolina
+      label: geography block
+    table_record_kind: total
+  - value_id: sc
+    label: South Carolina
+    ordinal: 6
+    row_number: 111
+    geography_id: 0400000US45
+    geography_level: state
+    geography_name: South Carolina
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 98
+      expected_value: South Carolina
+      label: geography block
+    table_record_kind: total
+  - value_id: tn
+    label: Tennessee
+    ordinal: 7
+    row_number: 126
+    geography_id: 0400000US47
+    geography_level: state
+    geography_name: Tennessee
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 113
+      expected_value: Tennessee
+      label: geography block
+    table_record_kind: total
+  measures:
+  - measure_id: total_benefits
+    label: Total benefits
+    ordinal: 0
+    column: D
+    source_column_id: total_benefits
+    expected_column_header_row: 6
+    expected_column_header: Cost
+    concept: usda_snap.total_benefits
+    unit: usd
+    aggregation: sum
+    expected_cell_type: number
+- record_set_id: usda_snap.fy2025.state_average_monthly_households.mwro
+  provenance_class: administrative
+  record_set_spec_id: usda_snap.state_average_monthly_households.v1
+  source_record_id_prefix: usda_snap.fy2025.state_average_monthly_households.mwro
+  sheet_name: MWRO
+  period_type: fiscal_year
+  period: '2025'
+  geography_id: 0100000US
+  geography_level: country
+  geography_name: United States
+  geography_vintage: current
+  domain: supplemental_nutrition_assistance_program
+  groupby_dimension: usda_snap.state_or_territory
+  entity: household
+  entity_role: snap_household
+  rows:
+  - value_id: il
+    label: Illinois
+    ordinal: 0
+    row_number: 21
+    geography_id: 0400000US17
+    geography_level: state
+    geography_name: Illinois
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 8
+      expected_value: Illinois
+      label: geography block
+    table_record_kind: total
+  - value_id: in
+    label: Indiana
+    ordinal: 1
+    row_number: 36
+    geography_id: 0400000US18
+    geography_level: state
+    geography_name: Indiana
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 23
+      expected_value: Indiana
+      label: geography block
+    table_record_kind: total
+  - value_id: ia
+    label: Iowa
+    ordinal: 2
+    row_number: 51
+    geography_id: 0400000US19
+    geography_level: state
+    geography_name: Iowa
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 38
+      expected_value: Iowa
+      label: geography block
+    table_record_kind: total
+  - value_id: mi
+    label: Michigan
+    ordinal: 3
+    row_number: 66
+    geography_id: 0400000US26
+    geography_level: state
+    geography_name: Michigan
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 53
+      expected_value: Michigan
+      label: geography block
+    table_record_kind: total
+  - value_id: mn
+    label: Minnesota
+    ordinal: 4
+    row_number: 81
+    geography_id: 0400000US27
+    geography_level: state
+    geography_name: Minnesota
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 68
+      expected_value: Minnesota
+      label: geography block
+    table_record_kind: total
+  - value_id: oh
+    label: Ohio
+    ordinal: 5
+    row_number: 96
+    geography_id: 0400000US39
+    geography_level: state
+    geography_name: Ohio
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 83
+      expected_value: Ohio
+      label: geography block
+    table_record_kind: total
+  - value_id: wi
+    label: Wisconsin
+    ordinal: 6
+    row_number: 111
+    geography_id: 0400000US55
+    geography_level: state
+    geography_name: Wisconsin
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 98
+      expected_value: Wisconsin
+      label: geography block
+    table_record_kind: total
+  measures:
+  - measure_id: average_monthly_households
+    label: Average monthly households
+    ordinal: 0
+    column: B
+    source_column_id: average_monthly_households
+    expected_column_header_row: 7
+    expected_column_header: Household
+    concept: usda_snap.average_monthly_households
+    unit: count
+    aggregation: mean
+    expected_cell_type: number
+- record_set_id: usda_snap.fy2025.state_average_monthly_persons.mwro
+  provenance_class: administrative
+  record_set_spec_id: usda_snap.state_average_monthly_persons.v1
+  source_record_id_prefix: usda_snap.fy2025.state_average_monthly_persons.mwro
+  sheet_name: MWRO
+  period_type: fiscal_year
+  period: '2025'
+  geography_id: 0100000US
+  geography_level: country
+  geography_name: United States
+  geography_vintage: current
+  domain: supplemental_nutrition_assistance_program
+  groupby_dimension: usda_snap.state_or_territory
+  entity: person
+  entity_role: snap_participant
+  rows:
+  - value_id: il
+    label: Illinois
+    ordinal: 0
+    row_number: 21
+    geography_id: 0400000US17
+    geography_level: state
+    geography_name: Illinois
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 8
+      expected_value: Illinois
+      label: geography block
+    table_record_kind: total
+  - value_id: in
+    label: Indiana
+    ordinal: 1
+    row_number: 36
+    geography_id: 0400000US18
+    geography_level: state
+    geography_name: Indiana
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 23
+      expected_value: Indiana
+      label: geography block
+    table_record_kind: total
+  - value_id: ia
+    label: Iowa
+    ordinal: 2
+    row_number: 51
+    geography_id: 0400000US19
+    geography_level: state
+    geography_name: Iowa
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 38
+      expected_value: Iowa
+      label: geography block
+    table_record_kind: total
+  - value_id: mi
+    label: Michigan
+    ordinal: 3
+    row_number: 66
+    geography_id: 0400000US26
+    geography_level: state
+    geography_name: Michigan
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 53
+      expected_value: Michigan
+      label: geography block
+    table_record_kind: total
+  - value_id: mn
+    label: Minnesota
+    ordinal: 4
+    row_number: 81
+    geography_id: 0400000US27
+    geography_level: state
+    geography_name: Minnesota
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 68
+      expected_value: Minnesota
+      label: geography block
+    table_record_kind: total
+  - value_id: oh
+    label: Ohio
+    ordinal: 5
+    row_number: 96
+    geography_id: 0400000US39
+    geography_level: state
+    geography_name: Ohio
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 83
+      expected_value: Ohio
+      label: geography block
+    table_record_kind: total
+  - value_id: wi
+    label: Wisconsin
+    ordinal: 6
+    row_number: 111
+    geography_id: 0400000US55
+    geography_level: state
+    geography_name: Wisconsin
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 98
+      expected_value: Wisconsin
+      label: geography block
+    table_record_kind: total
+  measures:
+  - measure_id: average_monthly_persons
+    label: Average monthly persons
+    ordinal: 0
+    column: C
+    source_column_id: average_monthly_persons
+    expected_column_header_row: 7
+    expected_column_header: Persons
+    concept: usda_snap.average_monthly_persons
+    unit: count
+    aggregation: mean
+    expected_cell_type: number
+  - measure_id: average_monthly_benefit_per_person
+    label: Average monthly benefit per person
+    ordinal: 1
+    column: F
+    source_column_id: average_monthly_benefit_per_person
+    expected_column_header_row: 7
+    expected_column_header: Persons
+    concept: usda_snap.average_monthly_benefit_per_person
+    unit: usd_per_month
+    aggregation: mean
+    expected_cell_type: number
+- record_set_id: usda_snap.fy2025.state_benefits.mwro
+  provenance_class: administrative
+  record_set_spec_id: usda_snap.state_benefits.v1
+  source_record_id_prefix: usda_snap.fy2025.state_benefits.mwro
+  sheet_name: MWRO
+  period_type: fiscal_year
+  period: '2025'
+  geography_id: 0100000US
+  geography_level: country
+  geography_name: United States
+  geography_vintage: current
+  domain: supplemental_nutrition_assistance_program
+  groupby_dimension: usda_snap.state_or_territory
+  entity: government
+  entity_role: snap_program
+  rows:
+  - value_id: il
+    label: Illinois
+    ordinal: 0
+    row_number: 21
+    geography_id: 0400000US17
+    geography_level: state
+    geography_name: Illinois
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 8
+      expected_value: Illinois
+      label: geography block
+    table_record_kind: total
+  - value_id: in
+    label: Indiana
+    ordinal: 1
+    row_number: 36
+    geography_id: 0400000US18
+    geography_level: state
+    geography_name: Indiana
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 23
+      expected_value: Indiana
+      label: geography block
+    table_record_kind: total
+  - value_id: ia
+    label: Iowa
+    ordinal: 2
+    row_number: 51
+    geography_id: 0400000US19
+    geography_level: state
+    geography_name: Iowa
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 38
+      expected_value: Iowa
+      label: geography block
+    table_record_kind: total
+  - value_id: mi
+    label: Michigan
+    ordinal: 3
+    row_number: 66
+    geography_id: 0400000US26
+    geography_level: state
+    geography_name: Michigan
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 53
+      expected_value: Michigan
+      label: geography block
+    table_record_kind: total
+  - value_id: mn
+    label: Minnesota
+    ordinal: 4
+    row_number: 81
+    geography_id: 0400000US27
+    geography_level: state
+    geography_name: Minnesota
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 68
+      expected_value: Minnesota
+      label: geography block
+    table_record_kind: total
+  - value_id: oh
+    label: Ohio
+    ordinal: 5
+    row_number: 96
+    geography_id: 0400000US39
+    geography_level: state
+    geography_name: Ohio
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 83
+      expected_value: Ohio
+      label: geography block
+    table_record_kind: total
+  - value_id: wi
+    label: Wisconsin
+    ordinal: 6
+    row_number: 111
+    geography_id: 0400000US55
+    geography_level: state
+    geography_name: Wisconsin
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 98
+      expected_value: Wisconsin
+      label: geography block
+    table_record_kind: total
+  measures:
+  - measure_id: total_benefits
+    label: Total benefits
+    ordinal: 0
+    column: D
+    source_column_id: total_benefits
+    expected_column_header_row: 6
+    expected_column_header: Cost
+    concept: usda_snap.total_benefits
+    unit: usd
+    aggregation: sum
+    expected_cell_type: number
+- record_set_id: usda_snap.fy2025.state_average_monthly_households.swro
+  provenance_class: administrative
+  record_set_spec_id: usda_snap.state_average_monthly_households.v1
+  source_record_id_prefix: usda_snap.fy2025.state_average_monthly_households.swro
+  sheet_name: SWRO
+  period_type: fiscal_year
+  period: '2025'
+  geography_id: 0100000US
+  geography_level: country
+  geography_name: United States
+  geography_vintage: current
+  domain: supplemental_nutrition_assistance_program
+  groupby_dimension: usda_snap.state_or_territory
+  entity: household
+  entity_role: snap_household
+  rows:
+  - value_id: az
+    label: Arizona
+    ordinal: 0
+    row_number: 21
+    geography_id: 0400000US04
+    geography_level: state
+    geography_name: Arizona
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 8
+      expected_value: Arizona
+      label: geography block
+    table_record_kind: total
+  - value_id: ar
+    label: Arkansas
+    ordinal: 1
+    row_number: 36
+    geography_id: 0400000US05
+    geography_level: state
+    geography_name: Arkansas
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 23
+      expected_value: Arkansas
+      label: geography block
+    table_record_kind: total
+  - value_id: la
+    label: Louisiana
+    ordinal: 2
+    row_number: 51
+    geography_id: 0400000US22
+    geography_level: state
+    geography_name: Louisiana
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 38
+      expected_value: Louisiana
+      label: geography block
+    table_record_kind: total
+  - value_id: nm
+    label: New Mexico
+    ordinal: 3
+    row_number: 66
+    geography_id: 0400000US35
+    geography_level: state
+    geography_name: New Mexico
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 53
+      expected_value: New Mexico
+      label: geography block
+    table_record_kind: total
+  - value_id: ok
+    label: Oklahoma
+    ordinal: 4
+    row_number: 81
+    geography_id: 0400000US40
+    geography_level: state
+    geography_name: Oklahoma
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 68
+      expected_value: Oklahoma
+      label: geography block
+    table_record_kind: total
+  - value_id: tx
+    label: Texas
+    ordinal: 5
+    row_number: 96
+    geography_id: 0400000US48
+    geography_level: state
+    geography_name: Texas
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 83
+      expected_value: Texas
+      label: geography block
+    table_record_kind: total
+  - value_id: ut
+    label: Utah
+    ordinal: 6
+    row_number: 111
+    geography_id: 0400000US49
+    geography_level: state
+    geography_name: Utah
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 98
+      expected_value: Utah
+      label: geography block
+    table_record_kind: total
+  measures:
+  - measure_id: average_monthly_households
+    label: Average monthly households
+    ordinal: 0
+    column: B
+    source_column_id: average_monthly_households
+    expected_column_header_row: 7
+    expected_column_header: Household
+    concept: usda_snap.average_monthly_households
+    unit: count
+    aggregation: mean
+    expected_cell_type: number
+- record_set_id: usda_snap.fy2025.state_average_monthly_persons.swro
+  provenance_class: administrative
+  record_set_spec_id: usda_snap.state_average_monthly_persons.v1
+  source_record_id_prefix: usda_snap.fy2025.state_average_monthly_persons.swro
+  sheet_name: SWRO
+  period_type: fiscal_year
+  period: '2025'
+  geography_id: 0100000US
+  geography_level: country
+  geography_name: United States
+  geography_vintage: current
+  domain: supplemental_nutrition_assistance_program
+  groupby_dimension: usda_snap.state_or_territory
+  entity: person
+  entity_role: snap_participant
+  rows:
+  - value_id: az
+    label: Arizona
+    ordinal: 0
+    row_number: 21
+    geography_id: 0400000US04
+    geography_level: state
+    geography_name: Arizona
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 8
+      expected_value: Arizona
+      label: geography block
+    table_record_kind: total
+  - value_id: ar
+    label: Arkansas
+    ordinal: 1
+    row_number: 36
+    geography_id: 0400000US05
+    geography_level: state
+    geography_name: Arkansas
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 23
+      expected_value: Arkansas
+      label: geography block
+    table_record_kind: total
+  - value_id: la
+    label: Louisiana
+    ordinal: 2
+    row_number: 51
+    geography_id: 0400000US22
+    geography_level: state
+    geography_name: Louisiana
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 38
+      expected_value: Louisiana
+      label: geography block
+    table_record_kind: total
+  - value_id: nm
+    label: New Mexico
+    ordinal: 3
+    row_number: 66
+    geography_id: 0400000US35
+    geography_level: state
+    geography_name: New Mexico
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 53
+      expected_value: New Mexico
+      label: geography block
+    table_record_kind: total
+  - value_id: ok
+    label: Oklahoma
+    ordinal: 4
+    row_number: 81
+    geography_id: 0400000US40
+    geography_level: state
+    geography_name: Oklahoma
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 68
+      expected_value: Oklahoma
+      label: geography block
+    table_record_kind: total
+  - value_id: tx
+    label: Texas
+    ordinal: 5
+    row_number: 96
+    geography_id: 0400000US48
+    geography_level: state
+    geography_name: Texas
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 83
+      expected_value: Texas
+      label: geography block
+    table_record_kind: total
+  - value_id: ut
+    label: Utah
+    ordinal: 6
+    row_number: 111
+    geography_id: 0400000US49
+    geography_level: state
+    geography_name: Utah
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 98
+      expected_value: Utah
+      label: geography block
+    table_record_kind: total
+  measures:
+  - measure_id: average_monthly_persons
+    label: Average monthly persons
+    ordinal: 0
+    column: C
+    source_column_id: average_monthly_persons
+    expected_column_header_row: 7
+    expected_column_header: Persons
+    concept: usda_snap.average_monthly_persons
+    unit: count
+    aggregation: mean
+    expected_cell_type: number
+  - measure_id: average_monthly_benefit_per_person
+    label: Average monthly benefit per person
+    ordinal: 1
+    column: F
+    source_column_id: average_monthly_benefit_per_person
+    expected_column_header_row: 7
+    expected_column_header: Persons
+    concept: usda_snap.average_monthly_benefit_per_person
+    unit: usd_per_month
+    aggregation: mean
+    expected_cell_type: number
+- record_set_id: usda_snap.fy2025.state_benefits.swro
+  provenance_class: administrative
+  record_set_spec_id: usda_snap.state_benefits.v1
+  source_record_id_prefix: usda_snap.fy2025.state_benefits.swro
+  sheet_name: SWRO
+  period_type: fiscal_year
+  period: '2025'
+  geography_id: 0100000US
+  geography_level: country
+  geography_name: United States
+  geography_vintage: current
+  domain: supplemental_nutrition_assistance_program
+  groupby_dimension: usda_snap.state_or_territory
+  entity: government
+  entity_role: snap_program
+  rows:
+  - value_id: az
+    label: Arizona
+    ordinal: 0
+    row_number: 21
+    geography_id: 0400000US04
+    geography_level: state
+    geography_name: Arizona
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 8
+      expected_value: Arizona
+      label: geography block
+    table_record_kind: total
+  - value_id: ar
+    label: Arkansas
+    ordinal: 1
+    row_number: 36
+    geography_id: 0400000US05
+    geography_level: state
+    geography_name: Arkansas
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 23
+      expected_value: Arkansas
+      label: geography block
+    table_record_kind: total
+  - value_id: la
+    label: Louisiana
+    ordinal: 2
+    row_number: 51
+    geography_id: 0400000US22
+    geography_level: state
+    geography_name: Louisiana
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 38
+      expected_value: Louisiana
+      label: geography block
+    table_record_kind: total
+  - value_id: nm
+    label: New Mexico
+    ordinal: 3
+    row_number: 66
+    geography_id: 0400000US35
+    geography_level: state
+    geography_name: New Mexico
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 53
+      expected_value: New Mexico
+      label: geography block
+    table_record_kind: total
+  - value_id: ok
+    label: Oklahoma
+    ordinal: 4
+    row_number: 81
+    geography_id: 0400000US40
+    geography_level: state
+    geography_name: Oklahoma
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 68
+      expected_value: Oklahoma
+      label: geography block
+    table_record_kind: total
+  - value_id: tx
+    label: Texas
+    ordinal: 5
+    row_number: 96
+    geography_id: 0400000US48
+    geography_level: state
+    geography_name: Texas
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 83
+      expected_value: Texas
+      label: geography block
+    table_record_kind: total
+  - value_id: ut
+    label: Utah
+    ordinal: 6
+    row_number: 111
+    geography_id: 0400000US49
+    geography_level: state
+    geography_name: Utah
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 98
+      expected_value: Utah
+      label: geography block
+    table_record_kind: total
+  measures:
+  - measure_id: total_benefits
+    label: Total benefits
+    ordinal: 0
+    column: D
+    source_column_id: total_benefits
+    expected_column_header_row: 6
+    expected_column_header: Cost
+    concept: usda_snap.total_benefits
+    unit: usd
+    aggregation: sum
+    expected_cell_type: number
+- record_set_id: usda_snap.fy2025.state_average_monthly_households.mpro
+  provenance_class: administrative
+  record_set_spec_id: usda_snap.state_average_monthly_households.v1
+  source_record_id_prefix: usda_snap.fy2025.state_average_monthly_households.mpro
+  sheet_name: MPRO
+  period_type: fiscal_year
+  period: '2025'
+  geography_id: 0100000US
+  geography_level: country
+  geography_name: United States
+  geography_vintage: current
+  domain: supplemental_nutrition_assistance_program
+  groupby_dimension: usda_snap.state_or_territory
+  entity: household
+  entity_role: snap_household
+  rows:
+  - value_id: co
+    label: Colorado
+    ordinal: 0
+    row_number: 21
+    geography_id: 0400000US08
+    geography_level: state
+    geography_name: Colorado
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 8
+      expected_value: Colorado
+      label: geography block
+    table_record_kind: total
+  - value_id: ks
+    label: Kansas
+    ordinal: 1
+    row_number: 36
+    geography_id: 0400000US20
+    geography_level: state
+    geography_name: Kansas
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 23
+      expected_value: Kansas
+      label: geography block
+    table_record_kind: total
+  - value_id: mo
+    label: Missouri
+    ordinal: 2
+    row_number: 51
+    geography_id: 0400000US29
+    geography_level: state
+    geography_name: Missouri
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 38
+      expected_value: Missouri
+      label: geography block
+    table_record_kind: total
+  - value_id: mt
+    label: Montana
+    ordinal: 3
+    row_number: 66
+    geography_id: 0400000US30
+    geography_level: state
+    geography_name: Montana
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 53
+      expected_value: Montana
+      label: geography block
+    table_record_kind: total
+  - value_id: ne
+    label: Nebraska
+    ordinal: 4
+    row_number: 81
+    geography_id: 0400000US31
+    geography_level: state
+    geography_name: Nebraska
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 68
+      expected_value: Nebraska
+      label: geography block
+    table_record_kind: total
+  - value_id: nd
+    label: North Dakota
+    ordinal: 5
+    row_number: 96
+    geography_id: 0400000US38
+    geography_level: state
+    geography_name: North Dakota
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 83
+      expected_value: North Dakota
+      label: geography block
+    table_record_kind: total
+  - value_id: sd
+    label: South Dakota
+    ordinal: 6
+    row_number: 111
+    geography_id: 0400000US46
+    geography_level: state
+    geography_name: South Dakota
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 98
+      expected_value: South Dakota
+      label: geography block
+    table_record_kind: total
+  - value_id: wy
+    label: Wyoming
+    ordinal: 7
+    row_number: 126
+    geography_id: 0400000US56
+    geography_level: state
+    geography_name: Wyoming
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 113
+      expected_value: Wyoming
+      label: geography block
+    table_record_kind: total
+  measures:
+  - measure_id: average_monthly_households
+    label: Average monthly households
+    ordinal: 0
+    column: B
+    source_column_id: average_monthly_households
+    expected_column_header_row: 7
+    expected_column_header: Household
+    concept: usda_snap.average_monthly_households
+    unit: count
+    aggregation: mean
+    expected_cell_type: number
+- record_set_id: usda_snap.fy2025.state_average_monthly_persons.mpro
+  provenance_class: administrative
+  record_set_spec_id: usda_snap.state_average_monthly_persons.v1
+  source_record_id_prefix: usda_snap.fy2025.state_average_monthly_persons.mpro
+  sheet_name: MPRO
+  period_type: fiscal_year
+  period: '2025'
+  geography_id: 0100000US
+  geography_level: country
+  geography_name: United States
+  geography_vintage: current
+  domain: supplemental_nutrition_assistance_program
+  groupby_dimension: usda_snap.state_or_territory
+  entity: person
+  entity_role: snap_participant
+  rows:
+  - value_id: co
+    label: Colorado
+    ordinal: 0
+    row_number: 21
+    geography_id: 0400000US08
+    geography_level: state
+    geography_name: Colorado
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 8
+      expected_value: Colorado
+      label: geography block
+    table_record_kind: total
+  - value_id: ks
+    label: Kansas
+    ordinal: 1
+    row_number: 36
+    geography_id: 0400000US20
+    geography_level: state
+    geography_name: Kansas
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 23
+      expected_value: Kansas
+      label: geography block
+    table_record_kind: total
+  - value_id: mo
+    label: Missouri
+    ordinal: 2
+    row_number: 51
+    geography_id: 0400000US29
+    geography_level: state
+    geography_name: Missouri
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 38
+      expected_value: Missouri
+      label: geography block
+    table_record_kind: total
+  - value_id: mt
+    label: Montana
+    ordinal: 3
+    row_number: 66
+    geography_id: 0400000US30
+    geography_level: state
+    geography_name: Montana
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 53
+      expected_value: Montana
+      label: geography block
+    table_record_kind: total
+  - value_id: ne
+    label: Nebraska
+    ordinal: 4
+    row_number: 81
+    geography_id: 0400000US31
+    geography_level: state
+    geography_name: Nebraska
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 68
+      expected_value: Nebraska
+      label: geography block
+    table_record_kind: total
+  - value_id: nd
+    label: North Dakota
+    ordinal: 5
+    row_number: 96
+    geography_id: 0400000US38
+    geography_level: state
+    geography_name: North Dakota
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 83
+      expected_value: North Dakota
+      label: geography block
+    table_record_kind: total
+  - value_id: sd
+    label: South Dakota
+    ordinal: 6
+    row_number: 111
+    geography_id: 0400000US46
+    geography_level: state
+    geography_name: South Dakota
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 98
+      expected_value: South Dakota
+      label: geography block
+    table_record_kind: total
+  - value_id: wy
+    label: Wyoming
+    ordinal: 7
+    row_number: 126
+    geography_id: 0400000US56
+    geography_level: state
+    geography_name: Wyoming
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 113
+      expected_value: Wyoming
+      label: geography block
+    table_record_kind: total
+  measures:
+  - measure_id: average_monthly_persons
+    label: Average monthly persons
+    ordinal: 0
+    column: C
+    source_column_id: average_monthly_persons
+    expected_column_header_row: 7
+    expected_column_header: Persons
+    concept: usda_snap.average_monthly_persons
+    unit: count
+    aggregation: mean
+    expected_cell_type: number
+  - measure_id: average_monthly_benefit_per_person
+    label: Average monthly benefit per person
+    ordinal: 1
+    column: F
+    source_column_id: average_monthly_benefit_per_person
+    expected_column_header_row: 7
+    expected_column_header: Persons
+    concept: usda_snap.average_monthly_benefit_per_person
+    unit: usd_per_month
+    aggregation: mean
+    expected_cell_type: number
+- record_set_id: usda_snap.fy2025.state_benefits.mpro
+  provenance_class: administrative
+  record_set_spec_id: usda_snap.state_benefits.v1
+  source_record_id_prefix: usda_snap.fy2025.state_benefits.mpro
+  sheet_name: MPRO
+  period_type: fiscal_year
+  period: '2025'
+  geography_id: 0100000US
+  geography_level: country
+  geography_name: United States
+  geography_vintage: current
+  domain: supplemental_nutrition_assistance_program
+  groupby_dimension: usda_snap.state_or_territory
+  entity: government
+  entity_role: snap_program
+  rows:
+  - value_id: co
+    label: Colorado
+    ordinal: 0
+    row_number: 21
+    geography_id: 0400000US08
+    geography_level: state
+    geography_name: Colorado
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 8
+      expected_value: Colorado
+      label: geography block
+    table_record_kind: total
+  - value_id: ks
+    label: Kansas
+    ordinal: 1
+    row_number: 36
+    geography_id: 0400000US20
+    geography_level: state
+    geography_name: Kansas
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 23
+      expected_value: Kansas
+      label: geography block
+    table_record_kind: total
+  - value_id: mo
+    label: Missouri
+    ordinal: 2
+    row_number: 51
+    geography_id: 0400000US29
+    geography_level: state
+    geography_name: Missouri
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 38
+      expected_value: Missouri
+      label: geography block
+    table_record_kind: total
+  - value_id: mt
+    label: Montana
+    ordinal: 3
+    row_number: 66
+    geography_id: 0400000US30
+    geography_level: state
+    geography_name: Montana
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 53
+      expected_value: Montana
+      label: geography block
+    table_record_kind: total
+  - value_id: ne
+    label: Nebraska
+    ordinal: 4
+    row_number: 81
+    geography_id: 0400000US31
+    geography_level: state
+    geography_name: Nebraska
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 68
+      expected_value: Nebraska
+      label: geography block
+    table_record_kind: total
+  - value_id: nd
+    label: North Dakota
+    ordinal: 5
+    row_number: 96
+    geography_id: 0400000US38
+    geography_level: state
+    geography_name: North Dakota
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 83
+      expected_value: North Dakota
+      label: geography block
+    table_record_kind: total
+  - value_id: sd
+    label: South Dakota
+    ordinal: 6
+    row_number: 111
+    geography_id: 0400000US46
+    geography_level: state
+    geography_name: South Dakota
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 98
+      expected_value: South Dakota
+      label: geography block
+    table_record_kind: total
+  - value_id: wy
+    label: Wyoming
+    ordinal: 7
+    row_number: 126
+    geography_id: 0400000US56
+    geography_level: state
+    geography_name: Wyoming
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 113
+      expected_value: Wyoming
+      label: geography block
+    table_record_kind: total
+  measures:
+  - measure_id: total_benefits
+    label: Total benefits
+    ordinal: 0
+    column: D
+    source_column_id: total_benefits
+    expected_column_header_row: 6
+    expected_column_header: Cost
+    concept: usda_snap.total_benefits
+    unit: usd
+    aggregation: sum
+    expected_cell_type: number
+- record_set_id: usda_snap.fy2025.state_average_monthly_households.wro
+  provenance_class: administrative
+  record_set_spec_id: usda_snap.state_average_monthly_households.v1
+  source_record_id_prefix: usda_snap.fy2025.state_average_monthly_households.wro
+  sheet_name: WRO
+  period_type: fiscal_year
+  period: '2025'
+  geography_id: 0100000US
+  geography_level: country
+  geography_name: United States
+  geography_vintage: current
+  domain: supplemental_nutrition_assistance_program
+  groupby_dimension: usda_snap.state_or_territory
+  entity: household
+  entity_role: snap_household
+  rows:
+  - value_id: ak
+    label: Alaska
+    ordinal: 0
+    row_number: 21
+    geography_id: 0400000US02
+    geography_level: state
+    geography_name: Alaska
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 8
+      expected_value: Alaska
+      label: geography block
+    table_record_kind: total
+  - value_id: ca
+    label: California
+    ordinal: 1
+    row_number: 51
+    geography_id: 0400000US06
+    geography_level: state
+    geography_name: California
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 38
+      expected_value: California
+      label: geography block
+    table_record_kind: total
+  - value_id: gu
+    label: Guam
+    ordinal: 2
+    row_number: 66
+    geography_id: 0400000US66
+    geography_level: state
+    geography_name: Guam
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 53
+      expected_value: Guam
+      label: geography block
+    table_record_kind: total
+  - value_id: hi
+    label: Hawaii
+    ordinal: 3
+    row_number: 81
+    geography_id: 0400000US15
+    geography_level: state
+    geography_name: Hawaii
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 68
+      expected_value: Hawaii
+      label: geography block
+    table_record_kind: total
+  - value_id: id
+    label: Idaho
+    ordinal: 4
+    row_number: 96
+    geography_id: 0400000US16
+    geography_level: state
+    geography_name: Idaho
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 83
+      expected_value: Idaho
+      label: geography block
+    table_record_kind: total
+  - value_id: nv
+    label: Nevada
+    ordinal: 5
+    row_number: 111
+    geography_id: 0400000US32
+    geography_level: state
+    geography_name: Nevada
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 98
+      expected_value: Nevada
+      label: geography block
+    table_record_kind: total
+  - value_id: or
+    label: Oregon
+    ordinal: 6
+    row_number: 126
+    geography_id: 0400000US41
+    geography_level: state
+    geography_name: Oregon
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 113
+      expected_value: Oregon
+      label: geography block
+    table_record_kind: total
+  - value_id: wa
+    label: Washington
+    ordinal: 7
+    row_number: 141
+    geography_id: 0400000US53
+    geography_level: state
+    geography_name: Washington
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 128
+      expected_value: Washington
+      label: geography block
+    table_record_kind: total
+  measures:
+  - measure_id: average_monthly_households
+    label: Average monthly households
+    ordinal: 0
+    column: B
+    source_column_id: average_monthly_households
+    expected_column_header_row: 7
+    expected_column_header: Household
+    concept: usda_snap.average_monthly_households
+    unit: count
+    aggregation: mean
+    expected_cell_type: number
+- record_set_id: usda_snap.fy2025.state_average_monthly_persons.wro
+  provenance_class: administrative
+  record_set_spec_id: usda_snap.state_average_monthly_persons.v1
+  source_record_id_prefix: usda_snap.fy2025.state_average_monthly_persons.wro
+  sheet_name: WRO
+  period_type: fiscal_year
+  period: '2025'
+  geography_id: 0100000US
+  geography_level: country
+  geography_name: United States
+  geography_vintage: current
+  domain: supplemental_nutrition_assistance_program
+  groupby_dimension: usda_snap.state_or_territory
+  entity: person
+  entity_role: snap_participant
+  rows:
+  - value_id: ak
+    label: Alaska
+    ordinal: 0
+    row_number: 21
+    geography_id: 0400000US02
+    geography_level: state
+    geography_name: Alaska
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 8
+      expected_value: Alaska
+      label: geography block
+    table_record_kind: total
+  - value_id: ca
+    label: California
+    ordinal: 1
+    row_number: 51
+    geography_id: 0400000US06
+    geography_level: state
+    geography_name: California
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 38
+      expected_value: California
+      label: geography block
+    table_record_kind: total
+  - value_id: gu
+    label: Guam
+    ordinal: 2
+    row_number: 66
+    geography_id: 0400000US66
+    geography_level: state
+    geography_name: Guam
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 53
+      expected_value: Guam
+      label: geography block
+    table_record_kind: total
+  - value_id: hi
+    label: Hawaii
+    ordinal: 3
+    row_number: 81
+    geography_id: 0400000US15
+    geography_level: state
+    geography_name: Hawaii
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 68
+      expected_value: Hawaii
+      label: geography block
+    table_record_kind: total
+  - value_id: id
+    label: Idaho
+    ordinal: 4
+    row_number: 96
+    geography_id: 0400000US16
+    geography_level: state
+    geography_name: Idaho
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 83
+      expected_value: Idaho
+      label: geography block
+    table_record_kind: total
+  - value_id: nv
+    label: Nevada
+    ordinal: 5
+    row_number: 111
+    geography_id: 0400000US32
+    geography_level: state
+    geography_name: Nevada
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 98
+      expected_value: Nevada
+      label: geography block
+    table_record_kind: total
+  - value_id: or
+    label: Oregon
+    ordinal: 6
+    row_number: 126
+    geography_id: 0400000US41
+    geography_level: state
+    geography_name: Oregon
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 113
+      expected_value: Oregon
+      label: geography block
+    table_record_kind: total
+  - value_id: wa
+    label: Washington
+    ordinal: 7
+    row_number: 141
+    geography_id: 0400000US53
+    geography_level: state
+    geography_name: Washington
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 128
+      expected_value: Washington
+      label: geography block
+    table_record_kind: total
+  measures:
+  - measure_id: average_monthly_persons
+    label: Average monthly persons
+    ordinal: 0
+    column: C
+    source_column_id: average_monthly_persons
+    expected_column_header_row: 7
+    expected_column_header: Persons
+    concept: usda_snap.average_monthly_persons
+    unit: count
+    aggregation: mean
+    expected_cell_type: number
+  - measure_id: average_monthly_benefit_per_person
+    label: Average monthly benefit per person
+    ordinal: 1
+    column: F
+    source_column_id: average_monthly_benefit_per_person
+    expected_column_header_row: 7
+    expected_column_header: Persons
+    concept: usda_snap.average_monthly_benefit_per_person
+    unit: usd_per_month
+    aggregation: mean
+    expected_cell_type: number
+- record_set_id: usda_snap.fy2025.state_benefits.wro
+  provenance_class: administrative
+  record_set_spec_id: usda_snap.state_benefits.v1
+  source_record_id_prefix: usda_snap.fy2025.state_benefits.wro
+  sheet_name: WRO
+  period_type: fiscal_year
+  period: '2025'
+  geography_id: 0100000US
+  geography_level: country
+  geography_name: United States
+  geography_vintage: current
+  domain: supplemental_nutrition_assistance_program
+  groupby_dimension: usda_snap.state_or_territory
+  entity: government
+  entity_role: snap_program
+  rows:
+  - value_id: ak
+    label: Alaska
+    ordinal: 0
+    row_number: 21
+    geography_id: 0400000US02
+    geography_level: state
+    geography_name: Alaska
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 8
+      expected_value: Alaska
+      label: geography block
+    table_record_kind: total
+  - value_id: ca
+    label: California
+    ordinal: 1
+    row_number: 51
+    geography_id: 0400000US06
+    geography_level: state
+    geography_name: California
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 38
+      expected_value: California
+      label: geography block
+    table_record_kind: total
+  - value_id: gu
+    label: Guam
+    ordinal: 2
+    row_number: 66
+    geography_id: 0400000US66
+    geography_level: state
+    geography_name: Guam
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 53
+      expected_value: Guam
+      label: geography block
+    table_record_kind: total
+  - value_id: hi
+    label: Hawaii
+    ordinal: 3
+    row_number: 81
+    geography_id: 0400000US15
+    geography_level: state
+    geography_name: Hawaii
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 68
+      expected_value: Hawaii
+      label: geography block
+    table_record_kind: total
+  - value_id: id
+    label: Idaho
+    ordinal: 4
+    row_number: 96
+    geography_id: 0400000US16
+    geography_level: state
+    geography_name: Idaho
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 83
+      expected_value: Idaho
+      label: geography block
+    table_record_kind: total
+  - value_id: nv
+    label: Nevada
+    ordinal: 5
+    row_number: 111
+    geography_id: 0400000US32
+    geography_level: state
+    geography_name: Nevada
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 98
+      expected_value: Nevada
+      label: geography block
+    table_record_kind: total
+  - value_id: or
+    label: Oregon
+    ordinal: 6
+    row_number: 126
+    geography_id: 0400000US41
+    geography_level: state
+    geography_name: Oregon
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 113
+      expected_value: Oregon
+      label: geography block
+    table_record_kind: total
+  - value_id: wa
+    label: Washington
+    ordinal: 7
+    row_number: 141
+    geography_id: 0400000US53
+    geography_level: state
+    geography_name: Washington
+    geography_vintage: current
+    expected_row_header_column: A
+    expected_row_header: Total
+    guard_cells:
+    - column: A
+      row: 2
+      expected_value: SNAP Monthly State Participation and Benefit Summary P-EBT/Other Excluded - Public Data, Fiscal Year 2025
+      label: table title
+    - column: A
+      row: 128
+      expected_value: Washington
+      label: geography block
+    table_record_kind: total
+  measures:
+  - measure_id: total_benefits
+    label: Total benefits
+    ordinal: 0
+    column: D
+    source_column_id: total_benefits
+    expected_column_header_row: 6
+    expected_column_header: Cost
+    concept: usda_snap.total_benefits
+    unit: usd
+    aggregation: sum
+    expected_cell_type: number

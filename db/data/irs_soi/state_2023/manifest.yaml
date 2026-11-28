@@ -1,0 +1,18 @@
+source_id: irs_soi
+package_id: soi-state-2023
+dataset: irs_soi_state_2023
+source_page: https://www.irs.gov/statistics/soi-tax-stats-historic-table-2
+table: IRS SOI State Data 2023
+files:
+  2023:
+    filename: 23in54us.xlsx
+    source_url: https://www.irs.gov/pub/irs-soi/23in54us.xlsx
+    sha256: 4bc45f2586fb924c1e0e7818773096bdcf71223b6407120ca058efaed728607a
+    size_bytes: 265549
+    fetched_at: '2026-09-27T05:55:34+00:00'
+    storage:
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/irs_soi/soi-state-2023/2023/4bc45f2586fb924c1e0e7818773096bdcf71223b6407120ca058efaed728607a/23in54us.xlsx
+        uri: r2://ledger-raw/raw/irs_soi/soi-state-2023/2023/4bc45f2586fb924c1e0e7818773096bdcf71223b6407120ca058efaed728607a/23in54us.xlsx

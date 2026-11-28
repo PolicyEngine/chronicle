@@ -1,0 +1,80 @@
+schema_version: ledger.source_package.v1
+package_id: hhs-acf-liheap-fy2025-national-profile
+label: HHS ACF LIHEAP FY2025 National Profile
+dimension_value_labels:
+  'administering_entity':
+    'state_programs': 'State programs'
+  'program':
+    'liheap': 'LIHEAP'
+artifact:
+  source_name: hhs_acf_liheap
+  source_table: LIHEAP FY2025 National Profile (All States)
+  resource_package: db
+  resource_directory: data/hhs_acf_liheap/fy2025_national_profile
+  manifest: manifest.yaml
+  vintage: fiscal_year_2025
+  extracted_at: "2026-11-26"
+  extraction_method: pypdf text-line number extraction from full publisher PDF
+  parser: pdf_text_numbers
+  artifact_year: 2025
+record_sets:
+  - record_set_id: hhs_acf_liheap.fy2025.national_profile
+    provenance_class: administrative
+    record_set_spec_id: hhs_acf_liheap.national_profile.v1
+    source_record_id_prefix: hhs_acf_liheap.fy2025.national_profile
+    sheet_name: document_numbers
+    period_type: fiscal_year
+    period: 2025
+    geography_id: 0100000US
+    geography_level: country
+    geography_name: United States
+    geography_vintage: 2020_census
+    entity: household
+    entity_role: recipient_household
+    domain: liheap_state_programs
+    groupby_dimension: program
+    rows:
+      - value_id: state_programs
+        label: State programs
+        ordinal: 0
+        row_number: 5
+        expected_row_header_column: C
+        expected_row_header: "5,703,340"
+        filters:
+          program: liheap
+          administering_entity: state_programs
+        constraints:
+          - variable: program
+            operator: "=="
+            value: liheap
+            label: LIHEAP
+          - variable: administering_entity
+            operator: "=="
+            value: state_programs
+            label: State programs
+        guard_cells:
+          - column: A
+            expected_value: 1
+            label: PDF page number
+          - column: B
+            expected_value: 10
+            label: PDF extracted line number
+          - column: D
+            expected_value: "5,703,340"
+            label: source number text
+          - column: F
+            expected_value: Total Households Served by State Programs 5,703,340 State Maximum Income Eligibility Requirements for
+            label: nearby PDF text context
+        table_record_kind: total
+    measures:
+      - measure_id: households_served
+        label: Total households served by state programs
+        ordinal: 0
+        column: E
+        source_column_id: numeric_value
+        expected_column_header_row: 1
+        expected_column_header: numeric_value
+        concept: hhs_acf_liheap.households_served_by_state_programs
+        unit: count
+        aggregation: sum
+        expected_cell_type: number

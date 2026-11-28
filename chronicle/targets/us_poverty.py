@@ -42,7 +42,9 @@ US_POVERTY_NONFILER_TARGET_COVERAGE: tuple[TargetSourceCoverage, ...] = (
         source_scope="Census population estimates and ACS demographics",
         package_aliases=(
             "census-pep-2024-national-age-sex",
+            "census-pep-2025-national-age-sex",
             "census-pep-2024-state-age-sex",
+            "census-pep-2025-state-age-sex",
             "census-acs-s0101-national-age-2024",
             "census-acs-s0101-state-age-2024",
             "census-acs-s0101-congressional-district-age-2024",
@@ -104,11 +106,15 @@ US_POVERTY_NONFILER_TARGET_COVERAGE: tuple[TargetSourceCoverage, ...] = (
             "soi-filing-season-week47-2024-eitc-total",
             "soi-table-4-3",
             "soi-state-2022",
+            "soi-state-2023",
             "soi-historic-table-2",
+            "soi-historic-table-2-2023",
             "soi-historic-table-2-state-agi-2022",
             "soi-historic-table-2-state-agi-2023",
             "soi-historic-table-2-state-broad-2022",
+            "soi-historic-table-2-state-broad-2023",
             "soi-historic-table-2-state-eitc-2022",
+            "soi-historic-table-2-state-eitc-2023",
             "soi-w2-statistics-2020",
         ),
         notes=(
@@ -133,7 +139,10 @@ US_POVERTY_NONFILER_TARGET_COVERAGE: tuple[TargetSourceCoverage, ...] = (
         label="SNAP participation and benefit cost",
         role="hard_target",
         source_scope="USDA FNS administrative totals",
-        package_aliases=("usda-snap-fy69-to-current",),
+        package_aliases=(
+            "usda-snap-fy69-to-current",
+            "usda-snap-fy69-to-current-fy2025",
+        ),
     ),
     TargetSourceCoverage(
         family_id="tanf_admin",
@@ -142,6 +151,7 @@ US_POVERTY_NONFILER_TARGET_COVERAGE: tuple[TargetSourceCoverage, ...] = (
         source_scope="HHS ACF administrative totals",
         package_aliases=(
             "hhs-acf-tanf-caseload-2024",
+            "hhs-acf-tanf-caseload-2025",
             "hhs-acf-tanf-financial-2024",
         ),
     ),
@@ -153,6 +163,7 @@ US_POVERTY_NONFILER_TARGET_COVERAGE: tuple[TargetSourceCoverage, ...] = (
         package_aliases=(
             "hhs-acf-liheap-fy2023-national-profile",
             "hhs-acf-liheap-fy2024-national-profile",
+            "hhs-acf-liheap-fy2025-national-profile",
         ),
     ),
     TargetSourceCoverage(
@@ -167,8 +178,11 @@ US_POVERTY_NONFILER_TARGET_COVERAGE: tuple[TargetSourceCoverage, ...] = (
             "cms-aca-oep-state-level",
             "cms-aca-oep-state-level-2022",
             "cms-aca-oep-state-level-2025",
+            "cms-aca-oep-state-level-2026",
             "cms-aca-effectuated-enrollment-2022",
+            "cms-aca-annual-effectuated-enrollment-2025",
             "cms-medicare-trustees-report-2025-part-b-premium-income",
+            "cms-medicare-trustees-report-2026-part-b-premium-income",
         ),
         notes=(
             "Health coverage and public health spending affect SPM resources "

@@ -1,0 +1,28 @@
+source: HHS ACF Office of Family Assistance
+dataset: TANF Caseload Data 2024
+vintage: FY 2024
+source_page: https://acf.gov/ofa/data/tanf-caseload-data-2024
+registration_kind: raw_only
+provenance_notes: >-
+  Raw-only record for hhs-acf-tanf-caseload-2024; no package reads this file.
+  It is the fiscal year 2024 workbook (October 2023 to September 2024, sheets
+  dated 2025-01-30) that the package read until chronicle#449, copied on
+  2026-05-11 from the PolicyEngine US data raw-input cache. ACF then replaced
+  it on the page with the "FY2024 15 Months TANF Caseload" workbook, which the
+  package reads now (../tanf_caseload_2024/manifest.yaml).
+files:
+  2024:
+    filename: tanf_caseload_2024.xlsx
+    sha256: 6a9c86ad056ac256d409b48c23731d158d6e94d6dae6b5bd888c42a6021db27c
+    source_url: https://acf.gov/ofa/data/tanf-caseload-data-2024
+    source_table: TANF Caseload Data 2024
+    size_bytes: 220896
+    storage:
+      local: false
+      r2:
+        provider: r2
+        bucket: ledger-raw
+        key: raw/hhs_acf_tanf/hhs-acf-tanf-caseload-2024/2024/6a9c86ad056ac256d409b48c23731d158d6e94d6dae6b5bd888c42a6021db27c/tanf_caseload_2024.xlsx
+        uri: r2://ledger-raw/raw/hhs_acf_tanf/hhs-acf-tanf-caseload-2024/2024/6a9c86ad056ac256d409b48c23731d158d6e94d6dae6b5bd888c42a6021db27c/tanf_caseload_2024.xlsx
+source_id: hhs_acf_tanf
+package_id: hhs-acf-tanf-caseload-2024
